@@ -25,6 +25,7 @@ We thank all for the nice work.
 - requirejs ( requirejs.org/ )
 - AMD css! plugin curl.js ( https://github.com/cujojs/curl )
 - animate.css ( http://daneden.me/animate/ )
+- unsemantic ( http://unsemantic.com/ )
 
 - QUIQQER Font: http://fontfabric.com/multicolore-free-fonts/
 

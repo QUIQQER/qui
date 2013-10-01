@@ -8,14 +8,14 @@ Für eine genaue Übersicht aller Methoden und Eigenschaften einer Klasse sollte
 
 Diese findest du auf doc.quiqqer.com.
 
-QUI ist in 3 Teilbereiche aufgegliedert, Klasse, Controls und Utils.
+QUI ist in 3 Teilbereiche aufgegliedert, Klassen, Controls und Utils.
 
-*Klassen* beinhalten Funktionalität, sie bieten keine Schnittstelle zur Oberfläche sondern bieten reine Funktionalität an.
+*Klassen* beinhalten Funktionalität, sie bieten keine DOMElement und können somit nicht in Oberfläche integriert werden.
 
-*Controls* bieten immer ein DOM-Element. Sie können somit in die Oberfläche integriert werden.
+*Controls* bieten immer ein DOM-Element. Sie können in die Oberfläche integriert werden und biten somit eine interaktion mit dem Benutzer.
 
 *Utils* sind kleine Hilfsobjekte die nicht initialisiert werden. Es sind schon bestehende Objekte ohne Klassen Grundlage.
-Utils bieten Funktionalität an die nur global verfügbar sein muss.
+Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine Funktionalität / Hilfsfunktionen).
 
 <?php
 

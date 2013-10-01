@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   <meta name="viewport" content="width=device-width" />
 
-  <title>Examples</title>
+  <title>QUI Documentation</title>
 
   <!-- Flatdoc -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

@@ -65,25 +65,25 @@ define('qui/utils/Encoding', function()
 
             i = c = c1 = c2 = 0;
 
-            while (i < utftext.length)
+            while ( i < utftext.length )
             {
-                c = utftext.charCodeAt(i);
+                c = utftext.charCodeAt( i );
 
-                if (c < 128)
+                if ( c < 128 )
                 {
-                    plaintext += String.fromCharCode(c);
+                    plaintext += String.fromCharCode( c );
                     i++;
-                } else if ((c > 191) && (c < 224))
+                } else if ( ( c > 191 ) && ( c < 224 ) )
                 {
-                    c2 = utftext.charCodeAt(i+1);
-                    plaintext += String.fromCharCode(((c&31)<<6) | (c2&63));
+                    c2 = utftext.charCodeAt( i+1 );
+                    plaintext += String.fromCharCode( ((c&31)<<6) | (c2&63) );
                     i+=2;
                 } else
                 {
-                    c2 = utftext.charCodeAt(i+1);
-                    c3 = utftext.charCodeAt(i+2);
+                    c2 = utftext.charCodeAt( i+1 );
+                    c3 = utftext.charCodeAt( i+2 );
 
-                    plaintext += String.fromCharCode(((c&15)<<12) | ((c2&63)<<6) | (c3&63));
+                    plaintext += String.fromCharCode( ((c&15)<<12) | ((c2&63)<<6) | (c3&63) );
                     i+=3;
                 }
             }

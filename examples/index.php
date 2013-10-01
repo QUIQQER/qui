@@ -13,11 +13,62 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <title>QUI - Desktop example</title>
+    <title>QUI - Examples</title>
+
+    <style type="text/css">
+
+    body {
+        background: #F3F6FB;
+        color: #505050;
+        font-family: Helvetica Neue,Open Sans,sans-serif;
+        font-size: 13px;
+    }
+
+    pre {
+        background: #FFFFFF;
+        margin: 0px;
+    }
+
+    code {
+        float: left;
+        margin: 10px;
+    }
+
+    </style>
+
+    <?php
+
+        $example_code = '';
+
+        if ( isset( $_GET['file'] ) && !empty( $_GET['file'] ) )
+        {
+            $dir  = dirname( __FILE__ );
+            $file = $dir .'/'. $_GET['file'] .'.js';
+            $file = str_replace( array('../', '..') , '', $file );
+
+            if ( file_exists( $file ) ) {
+                $example_code = file_get_contents( $file );
+            }
+        }
+    ?>
 </head>
 <body>
 
+    <h1>QUI Examples</h1>
+    <p>This examples are extended examples. The examples shows, how QUI can work.</p>
+    <p>If you want a first introduction, please visit the <a href="../doc/index.php">QUI Documentation</a></p>
+
+    <h2 style="margin-top: 40px;">
+        Examples
+    </h2>
     <div id="container"></div>
+
+    <div style="clear:both;"></div>
+
+    <h3 style="margin-top: 40px;">
+        The complete example Code
+    </h3>
+    <pre style="height: 300px; overflow: auto; border: 1px solid #DDDDDD;"><code><?php echo $example_code; ?></code></pre>
 
     <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
 
@@ -51,20 +102,7 @@
         {
             "use strict";
 
-            <?php
-
-            if ( isset( $_GET['file'] ) && !empty( $_GET['file'] ) )
-            {
-                $dir  = dirname( __FILE__ );
-                $file = $dir .'/'. $_GET['file'] .'.js';
-                $file = str_replace( array('../', '..') , '', $file );
-
-                if ( file_exists( $file ) ) {
-                    echo file_get_contents( $file );
-                }
-            }
-
-            ?>
+            <?php echo $example_code; ?>
         });
     </script>
 

@@ -1,0 +1,196 @@
+
+/* Button Styles
+
+   inspiration from: http://www.webdesignerwall.com/demo/css-buttons.html
+ ========================================================================== */
+
+a.button,
+a.button:hover {
+    text-decoration: none;
+}
+
+.button {
+    cursor : pointer;
+    float: left;
+
+        border-radius: 5px;
+   -moz-border-radius: 5px;
+ -khtml-border-radius: 5px;
+-webkit-border-radius: 5px;
+}
+
+.button span {
+    padding:5px  10px;
+    display: block;
+}
+
+.button:hover {
+            box-shadow: 0 0 3px #999 !important;
+       -moz-box-shadow: 0 0 3px #999 !important;
+    -webkit-box-shadow: 0 0 3px #999 !important;
+}
+
+/* black */
+.btn-black {
+    color: #d7d7d7 !important;
+    border: solid 1px #333 !important;
+    background: #333 !important;
+}
+
+.btn-black:hover {
+    background: #000 !important;
+}
+
+.btn-black:active {
+    color: #666 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#444)) !important;
+    background: -moz-linear-gradient(top,  #000,  #444) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666') !important;
+}
+
+/* gray */
+.btn-grey {
+    color: #e9e9e9 !important;
+    border: solid 1px #555 !important;
+    background: #6e6e6e !important;
+}
+
+.btn-grey:hover {
+    background: #616161 !important;
+}
+
+.btn-grey:active {
+    color: #afafaf !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#575757), to(#888)) !important;
+    background: -moz-linear-gradient(top,  #575757,  #888) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#575757', endColorstr='#888888') !important;
+}
+
+/* white */
+.btn-white {
+    color: #606060 !important;
+    border: solid 1px #b7b7b7 !important;
+    background: #fff !important;
+}
+
+.btn-white:hover {
+    background: #ededed !important;
+}
+
+.btn-white:active {
+    color: #999 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff)) !important;
+    background: -moz-linear-gradient(top,  #ededed,  #fff) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff') !important;
+}
+
+/* orange */
+.btn-orange {
+    color: #fef4e9 !important;
+    border: solid 1px #da7c0c !important;
+    background: #f78d1d !important;
+}
+
+.btn-orange:hover {
+    background: #f47c20 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015)) !important;
+    background: -moz-linear-gradient(top,  #f88e11,  #f06015) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015') !important;
+}
+
+.btn-orange:active {
+    color: #fcd3a5 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a)) !important;
+    background: -moz-linear-gradient(top,  #f47a20,  #faa51a) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a') !important;
+}
+
+/* red */
+.btn-red {
+    color: #faddde !important;
+    border: solid 1px #980c10 !important;
+    background: #d81b21 !important;
+}
+
+.btn-red:hover {
+    background: #b61318 !important;
+}
+
+.btn-red:active {
+    color: #de898c !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24)) !important;
+    background: -moz-linear-gradient(top,  #aa1317,  #ed1c24) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24') !important;
+}
+
+/* blue */
+.btn-blue {
+    color: #d9eef7 !important;
+    border: solid 1px #0076a3 !important;
+    background: #0095cd !important;
+}
+
+.btn-blue:hover {
+    background: #007ead !important;
+}
+
+.btn-blue:active {
+    color: #80bed6 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee)) !important;
+    background: -moz-linear-gradient(top,  #0078a5,  #00adee) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee') !important;
+}
+
+/* rosy */
+.btn-rosy {
+    color: #fae7e9 !important;
+    border: solid 1px #b73948 !important;
+    background: #da5867 !important;
+}
+
+.btn-rosy:hover {
+    background: #ba4b58 !important;
+}
+
+.btn-rosy:active {
+    color: #dca4ab !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#bf404f), to(#f16c7c)) !important;
+    background: -moz-linear-gradient(top,  #bf404f,  #f16c7c) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bf404f', endColorstr='#f16c7c') !important;
+}
+
+/* green */
+.btn-green {
+    color: #e8f0de !important;
+    border: 1px solid #538312 !important;
+    background: #64991e !important;
+}
+
+.btn-green:hover {
+    background: #538018 !important;
+}
+
+.btn-green:active {
+    color: #a9c08c !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f)) !important;
+    background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f') !important;
+}
+
+/* pink */
+.btn-pink {
+    color: #feeef5 !important;
+    border: solid 1px #d2729e !important;
+    background: #f895c2 !important;
+}
+
+.btn-pink:hover {
+    background: #d57ea5 !important;
+}
+
+.btn-pink:active {
+    color: #f3c3d9 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f171ab), to(#feb1d3)) !important;
+    background: -moz-linear-gradient(top,  #f171ab,  #feb1d3) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f171ab', endColorstr='#feb1d3') !important;
+}

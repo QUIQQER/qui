@@ -3,19 +3,21 @@
  *
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
+ * @requires qui/controls/Control
+ * @requires qui/utils/NoSelect
  *
  * @module controls/buttons/Button
  * @package com.pcsg.qui.js.controls.buttons
- * @namespace QUI.controls.buttons
  */
 
 define('qui/controls/buttons/Button', [
 
     'qui/controls/Control',
+    'qui/utils/NoSelect',
+
     'css!qui/controls/buttons/Button.css'
 
-], function(Control)
+], function(Control, NoSelect)
 {
     "use strict";
 
@@ -282,11 +284,9 @@ define('qui/controls/buttons/Button', [
                 );
             }
 
-            this.fireEvent('create', [this]);
+            this.fireEvent( 'create', [ this ] );
 
-            if ( typeof MooNoSelect !== 'undefined' ) {
-                new MooNoSelect( Elm );
-            }
+            NoSelect.disable( Elm );
 
             return this.$Elm;
         },
