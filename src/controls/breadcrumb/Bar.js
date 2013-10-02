@@ -3,10 +3,9 @@
  *
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- * @requires controls/breadcrumb/Item
+ * @requires qui/controls/Control
  *
- * @module controls/breadcrumb/Bar
+ * @module qui/controls/breadcrumb/Bar
  * @class qui/controls/breadcrumb/Bar
  * @package com.pcsg.qui.js.controls.breadcrumb
  */
@@ -34,7 +33,10 @@ define('qui/controls/breadcrumb/Bar', [
         Type    : 'qui/controls/breadcrumb/Bar',
 
         options : {
-            width : false
+            width       : false,  // with of the bar
+            itemClasses : false,  // if the items should get some extra css classes
+                                  // can be an array or string
+            'cssclass'  : false   // extra css classes for the bar
         },
 
         initialize : function(options)
@@ -60,6 +62,10 @@ define('qui/controls/breadcrumb/Bar', [
                 this.$Elm.setStyle( 'width', this.getAttribute( 'width' ) );
             }
 
+            if ( this.getAttribute( 'cssclass' ) ) {
+                this.$Elm.addClass( this.getAttribute( 'cssclass' ) );
+            }
+
             return this.$Elm;
         },
 
@@ -67,7 +73,6 @@ define('qui/controls/breadcrumb/Bar', [
          * append a child to the end of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#appendChild
-         *
          * @param {qui/controls/breadcrumb/Item} Item - breadcrumb item
          * @return {this}
          */
@@ -81,6 +86,16 @@ define('qui/controls/breadcrumb/Bar', [
 
             Item.inject( this.getElm() );
 
+            if ( this.getAttribute( 'itemClasses' ) )
+            {
+                var cssclass = this.getAttribute( 'itemClasses' );
+
+                if ( typeOf( cssclass ) == 'array' ) {
+                    cssclass = cssclass.join( ' ' );
+                }
+
+                Item.getElm().addClass( cssclass );
+            }
 
             return this;
         },
@@ -93,8 +108,8 @@ define('qui/controls/breadcrumb/Bar', [
          */
         firstChild : function()
         {
-            if ( typeof this.$items[0] !== 'undefined' ) {
-                return this.$items[0];
+            if ( typeof this.$items[ 0 ] !== 'undefined' ) {
+                return this.$items[ 0 ];
             }
 
             return false;

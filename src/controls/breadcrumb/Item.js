@@ -15,7 +15,7 @@
 define('qui/controls/breadcrumb/Item', [
 
     'qui/controls/Control',
-    'css!controls/breadcrumb/Item.css'
+    'css!qui/controls/breadcrumb/Item.css'
 
 ], function(Control)
 {
@@ -51,15 +51,18 @@ define('qui/controls/breadcrumb/Item', [
          */
         create : function()
         {
-            var self = this;
+            var self = this,
+                icon = this.getAttribute( 'icon' );
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-breadcrumb-item box smooth radius5',
-                html         : '<span>'+ this.getAttribute( 'text' ) +'</span>',
+                'class'      : 'qui-breadcrumb-item box smooth',
+                html         : '<span class="qui-breadcrumb-item-text">'+
+                                   this.getAttribute( 'text' ) +
+                               '</span>',
                 alt          : this.getAttribute( 'text' ),
                 title        : this.getAttribute( 'text' ),
                 'data-quiid' : this.getId(),
-                events  :
+                events :
                 {
                     click : function(event) {
                         self.fireEvent( 'click', [ self, event ] );
@@ -67,12 +70,30 @@ define('qui/controls/breadcrumb/Item', [
                 }
             });
 
-            if ( this.getAttribute( 'icon' ) )
+            if ( icon )
             {
-                this.$Elm.getElement( 'span' ).setStyles({
-                    backgroundImage : 'url('+ this.getAttribute('icon') +')',
-                    paddingLeft     : 20
-                });
+                var Icon = this.$Elm.getElement( '.qui-breadcrumb-item-icon' );
+
+                if ( !Icon )
+                {
+                    Icon = new Element('span', {
+                        'class' : 'qui-breadcrumb-item-icon'
+                    }).inject(
+                        this.$Elm, 'top'
+                    );
+                }
+
+                // font awesome
+                if ( icon.match( /icon-/ ) && !icon.match( /\./ ) )
+                {
+                    Icon.addClass( icon );
+                } else
+                {
+                    Icon.setStyles({
+                        backgroundImage : 'url('+ this.getAttribute( 'icon' ) +')',
+                        paddingLeft     : 20
+                    });
+                }
             }
 
             return this.$Elm;

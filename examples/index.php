@@ -15,6 +15,10 @@
 
     <title>QUI - Examples</title>
 
+    <link href="../extend/classes.css" rel="stylesheet" />
+    <link href="../extend/animate.min.css" rel="stylesheet" />
+    <link href="../extend/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
     <style type="text/css">
 
     body {
@@ -66,7 +70,7 @@
     <div style="clear:both;"></div>
 
     <h3 style="margin-top: 40px;">
-        The complete example Code
+        The complete example code
     </h3>
     <pre style="height: 300px; overflow: auto; border: 1px solid #DDDDDD;"><code><?php echo $example_code; ?></code></pre>
 

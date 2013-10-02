@@ -1,25 +1,27 @@
 
 .qui-breadcrumb-item {
-	float: left;
-	padding: 0 20px 0 5px;
-	cursor: pointer;
-
-	background-repeat: no-repeat;
-	background-position: right center;
-	background-image : url('images/arrow-right.gif');
+    background-image : url('images/arrow-right.gif');
+    background-repeat: no-repeat;
+    background-position: right center;
+    cursor: pointer;
+    float: left;
+    padding: 0 20px 0 5px;
 }
 
 .qui-breadcrumb-item:hover {
-	background-color: #6C98D9;
-	color: #fff;
-	background-image : url('images/arrow-right-white.gif');
+    background-color: #6C98D9;
+    background-image : url('images/arrow-right-white.gif');
+    color: #fff;
 }
 
-.qui-breadcrumb-item span {
-	background-repeat: no-repeat;
-	background-position: left center;
+.qui-breadcrumb-item-text {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+}
 
-	float: left;
-	height: 30px;
-	line-height: 30px;
+.qui-breadcrumb-item-icon {
+    float: left;
+    line-height: 30px;
+    margin-right: 5px;
 }
