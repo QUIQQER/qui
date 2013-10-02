@@ -21,5 +21,4 @@ require([
     new Loader().inject(
         document.id( 'container' )
     ).show( 'loading ...' );
-
 });

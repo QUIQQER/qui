@@ -34,7 +34,7 @@ Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine 
     {
         $entry = str_replace( array('./', '.md'), '', $entry );
 
-        echo '## '. $entry ."\n";
+        echo '## qui/'. $entry ."\n";
         echo '['. $entry .'](index.php?file='. $entry .')'."\n";
     }
 

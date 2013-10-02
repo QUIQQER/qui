@@ -15,9 +15,10 @@
 
 define('qui/controls/Control', [
 
+    'qui/QUI',
     'qui/classes/DOM'
 
-], function(DOM)
+], function(QUI, DOM)
 {
     "use strict";
 
@@ -40,7 +41,7 @@ define('qui/controls/Control', [
 
         /**
          * Init function for inherited classes
-         * If a Class inherit from qui/controls/Control, please use init()
+         * If a Class inherit from qui/controls/Control, please use this.parent()
          * so the control are registered in QUI.Controls
          * and you can get the control with QUI.Controls.get()
          *
@@ -51,12 +52,7 @@ define('qui/controls/Control', [
         {
             this.parent( options );
 
-            if ( typeof QUI !== 'undefined' &&
-                 typeof QUI.Controls !== 'undefined' )
-
-            {
-                QUI.Controls.add( this );
-            }
+            QUI.Controls.add( this );
         },
 
         /**
@@ -94,7 +90,7 @@ define('qui/controls/Control', [
 
             if ( typeof QUI !== 'undefined' &&
                  typeof QUI.Controls !== 'undefined' &&
-                 QUI.controls.Utils.isControl( Parent ) )
+                 QUI.Controls.isControl( Parent ) )
             {
                 // QUI Control insertion
                 Parent.appendChild( this );
@@ -156,11 +152,7 @@ define('qui/controls/Control', [
             this.$Elm = null;
 
             // destroy it from the controls
-            if ( typeof QUI !== 'undefined' &&
-                 typeof QUI.Controls !== 'undefined' )
-            {
-                QUI.Controls.destroy( this );
-            }
+            QUI.Controls.destroy( this );
         },
 
         /**

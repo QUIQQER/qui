@@ -102,11 +102,11 @@ define('qui/controls/buttons/Button', [
         {
             if ( options.onclick )
             {
-                if ( typeOf(options.onclick) === 'string' )
+                if ( typeOf( options.onclick ) === 'string' )
                 {
                     options.onclick = function(p) {
                         eval(p +'(this);');
-                    }.bind(this, [options.onclick]);
+                    }.bind(this, [ options.onclick ]);
                 }
 
                 this.addEvent( 'onClick', options.onclick );
@@ -481,7 +481,7 @@ define('qui/controls/buttons/Button', [
          *
          * @method qui/controls/buttons/Button#appendChild
          *
-         * @param {QUI.controls.contextmenu.Item} Itm
+         * @param {qui/controls/contextmenu/Item} Itm
          * @return {this}
          */
         appendChild : function(Itm)
@@ -534,44 +534,53 @@ define('qui/controls/buttons/Button', [
          * Create the Context Menu if not exist
          *
          * @method qui/controls/buttons/Button#getContextMenu
-         * @return {QUI.controls.contextmenu.Menu}
+         *
+         * @param {Function} callback - callback function( {qui/controls/contextmenu/Menu} )
+         * @return {this}
          */
-        getContextMenu : function()
+        getContextMenu : function(callback)
         {
-            if ( this.$Menu ) {
-                return this.$Menu;
+            if ( this.$Menu )
+            {
+                callback( this.$Menu );
+                return this;
             }
 
-            this.$Menu = new QUI.controls.contextmenu.Menu({
-                name : this.getAttribute('name') +'-menu'
-            });
+            var self = this;
 
-            this.$Menu.inject( document.body );
+            require(['qui/controls/contextmenu/Menu'], function(Menu)
+            {
+                self.$Menu = new Menu({
+                    name : self.getAttribute('name') +'-menu'
+                });
 
-            this.addEvents({
-                onClick : function()
-                {
-                    if ( this.isDisabled() ) {
-                        return;
+                self.$Menu.inject( document.body );
+
+                self.addEvents({
+                    onClick : function()
+                    {
+                        if ( self.isDisabled() ) {
+                            return;
+                        }
+
+                        var pos = self.$Elm.getPosition();
+
+                        self.$Menu.setPosition( pos.x, pos.y+20 );
+                        self.$Menu.show();
+
+                        self.$Elm.focus();
+                    },
+
+                    onBlur : function()
+                    {
+                        self.$Menu.hide();
                     }
+                });
 
-                    var pos = this.$Elm.getPosition();
+                self.$Menu.setParent( self );
 
-                    this.$Menu.setPosition( pos.x, pos.y+20 );
-                    this.$Menu.show();
-
-                    this.$Elm.focus();
-                }.bind( this ),
-
-                onBlur : function()
-                {
-                    this.$Menu.hide();
-                }
+                callback( this.$Menu );
             });
-
-            this.$Menu.setParent( this );
-
-            return this.$Menu;
         },
 
         /**

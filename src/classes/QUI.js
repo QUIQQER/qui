@@ -8,9 +8,10 @@
 define('qui/classes/QUI', [
 
     'require',
-    'qui/classes/DOM'
+    'qui/classes/DOM',
+    'qui/classes/Controls'
 
-], function(require, DOM)
+], function(require, DOM, Controls)
 {
     "use strict";
 
@@ -50,13 +51,15 @@ define('qui/classes/QUI', [
 
                 window.onerror = this.trigger.bind( this );
             }
+
+            this.Controls = new Controls();
         },
 
         /**
          * Creates Namespaces
          * based on YAHOO code - nice solution!!
          *
-         * @method QUI.classes.QUIQQER#namespace
+         * @method qui/classes/QUI#namespace
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
          */
         namespace : function()
@@ -93,7 +96,7 @@ define('qui/classes/QUI', [
         /**
          * Fire the Error Event
          *
-         * @method QUI.classes.QUIQQER#triggerError
+         * @method qui/classes/QUI#triggerError
          *
          * @param {QUI.classes.messages.Message|Exception} Exception - Exception Objekt
          * @param {Object} params    - Weitere Paramater (optional)
@@ -110,7 +113,7 @@ define('qui/classes/QUI', [
         /**
          * trigger some messages to the console
          *
-         * @method QUI.classes.QUIQQER#trigger
+         * @method qui/classes/QUI#trigger
          *
          * @param {String} msg
          * @param {String} url
