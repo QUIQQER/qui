@@ -15,6 +15,7 @@
 
 define('qui/controls/contextmenu/Item', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/classes/utils/DragDrop',
     'qui/controls/contextmenu/Menu',
@@ -23,7 +24,7 @@ define('qui/controls/contextmenu/Item', [
 
     'css!qui/controls/contextmenu/Item.css'
 
-], function(Control, DragDrop, ContextMenu, ContextMenuItem, ContextMenuSeperator)
+], function(QUI, Control, DragDrop, ContextMenu, ContextMenuItem, ContextMenuSeperator)
 {
     "use strict";
 
@@ -118,6 +119,7 @@ define('qui/controls/contextmenu/Item', [
 
             this.$Elm = new Element('div.qui-contextitem', {
                 html   : '<div class="qui-contextitem-container">' +
+                            '<span class="qui-contextitem-icon"></span>' +
                             '<span class="qui-contextitem-text"></span>' +
                          '</div>',
 
@@ -137,16 +139,24 @@ define('qui/controls/contextmenu/Item', [
 
             if ( this.getAttribute( 'icon' ) && this.getAttribute( 'icon' ) !== '' )
             {
-                this.$Elm
-                    .getElement( '.qui-contextitem-container' )
-                    .setStyle( 'background-image', 'url('+ this.getAttribute( 'icon' ) +')' );
+                var Icon = this.$Elm.getElement( '.qui-contextitem-icon' ),
+                    icon = this.getAttribute( 'icon' );
+
+                // font awesome
+                if ( icon.match( /icon-/ ) && !icon.match( /\./ ) )
+                {
+                    Icon.addClass( icon );
+                } else
+                {
+                    Icon.setStyle( 'background-image', 'url('+ icon +')' );
+                }
             }
 
             if ( this.getAttribute( 'text' ) && this.getAttribute( 'text' ) !== '' )
             {
-                this.$Elm
-                    .getElement( '.qui-contextitem-text' )
-                    .set( 'html', this.getAttribute( 'text' ) );
+                var Text = this.$Elm.getElement( '.qui-contextitem-text' );
+
+                Text.set( 'html', this.getAttribute( 'text' ) );
             }
 
             // drag drop for the item

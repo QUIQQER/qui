@@ -30,12 +30,15 @@ Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine 
 
     sort( $result );
 
+
+    // echo '## qui'."\n";
+
     foreach ( $result as $entry )
     {
-        $entry = str_replace( array('./', '.md'), '', $entry );
+        $entry   = str_replace( array('./', '.md'), '', $entry );
 
-        echo '## qui/'. $entry ."\n";
-        echo '['. $entry .'](index.php?file='. $entry .')'."\n";
+        echo '### qui/'. $entry ."\n";
+        echo '[ qui/'. $entry .'](index.php?file='. $entry .')'."\n";
     }
 
 ?>
