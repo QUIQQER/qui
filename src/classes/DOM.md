@@ -5,6 +5,9 @@ Einem qui/classes/DOM Objekt können Attribute, Methoden und Events zugewiesen w
 Die qui/classes/DOM Klasse kann als Elternklasse aller Klassen verwendet werden.
 Sie bietet Grundfunktionalität an, wie Event- und Attribute Handling.
 
+Erbt von Options und Events.
+
+
 ## Die wichtigsten Methoden
 
 + getId
@@ -12,8 +15,11 @@ Sie bietet Grundfunktionalität an, wie Event- und Attribute Handling.
 + setAttribute
 + setAttributes
 + getAttribute
++ getAttributes
++ existAttribute
 + addEvent
 + getEvent
++ getEvents
 
 
 ## Initialisierung / Konstruktor

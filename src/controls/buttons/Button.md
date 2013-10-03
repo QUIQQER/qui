@@ -4,14 +4,14 @@ Mit dem Button Control können Buttons erstellt und auf Ihre Events reagiert wer
 
 [Beispiele](../examples/index.php?file=controls/buttons/buttons)
 
-## Die wichtigsten Methoden
+## Eigenschaften
 
-+ click()
-+ setActive()
-+ isActive()
-+ disable()
-+ enable()
-
++ text
++ textimage
++ title
++ icon
++ style
++ class
 
 ## Einen Button erstellen
 
@@ -31,3 +31,11 @@ require(['qui/controls/buttons/Button'], function(Button)
     }).inject( document.id( 'container' ) );
 });
 ```
+
+## Die wichtigsten Methoden
+
++ click()
++ setActive()
++ isActive()
++ disable()
++ enable()

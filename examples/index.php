@@ -40,6 +40,9 @@
 
     </style>
 
+    <!-- Prism highlighter -->
+    <link rel="stylesheet" href="prism.css" data-noprefix />
+
     <?php
 
         $example_code = '';
@@ -72,7 +75,7 @@
     <h3 style="margin-top: 40px;">
         The complete example code
     </h3>
-    <pre style="height: 300px; overflow: auto; border: 1px solid #DDDDDD;"><code><?php echo $example_code; ?></code></pre>
+    <pre style="height: 300px; overflow: auto; border: 1px solid #DDDDDD;"><code class="language-javascript"><?php echo $example_code; ?></code></pre>
 
     <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
 
@@ -109,6 +112,8 @@
             <?php echo $example_code; ?>
         });
     </script>
+
+    <script src="prism.js"></script>
 
 </body>
 </html>

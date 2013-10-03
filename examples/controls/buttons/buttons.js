@@ -25,6 +25,16 @@ require([
         document.id( 'container' )
     );
 
+    var ContextMenuButtons = new Element('div', {
+        styles : {
+            clear     : 'both',
+            'float'   : 'left',
+            marginTop : 30
+        }
+    }).inject(
+        document.id( 'container' )
+    );
+
 
     /**
      * Standard buttons
@@ -65,6 +75,49 @@ require([
         }
     }).inject( StandardButtons );
 
+
+    /**
+     * Button with contextmenu
+     */
+    require(['qui/controls/contextmenu/Item'], function(Item)
+    {
+        var ContextMenuButton = new Button({
+            text    : 'Contextmenu Button',
+            'class' : 'btn-green'
+        }).inject( ContextMenuButtons );
+
+        ContextMenuButton.appendChild(
+            new Item({
+                'text' : 'Menu entry 1',
+                events :
+                {
+                    click : function(Item) {
+                        console.log( Item.getAttribute( 'text' ) );
+                    }
+                }
+            })
+        ).appendChild(
+            new Item({
+                'text' : 'Menu entry 2',
+                events :
+                {
+                    click : function(Item) {
+                        console.log( Item.getAttribute( 'text' ) );
+                    }
+                }
+            })
+        ).appendChild(
+            new Item({
+                'text' : 'Menu entry 3',
+                events :
+                {
+                    click : function(Item) {
+                        console.log( Item.getAttribute( 'text' ) );
+                    }
+                }
+            })
+        );
+    });
 
 
     /**
@@ -162,6 +215,9 @@ require([
         new Button({
             text    : 'Colored Buttons',
             'class' : 'btn-pink',
+            styles  : {
+                padding : 10
+            },
             events  :
             {
                 onClick : function() {
@@ -170,5 +226,4 @@ require([
             }
         }).inject( ColorButtons );
     });
-
 });

@@ -488,19 +488,25 @@ define('qui/controls/buttons/Button', [
         {
             this.$items.push( Itm );
 
-            Itm.setAttribute('Button', this);
+            Itm.setAttribute( 'Button', this );
 
-            if ( this.$Elm )
+            if ( !this.$Elm ) {
+                return this;
+            }
+
+            var self = this;
+
+            this.getContextMenu(function(Menu)
             {
-                this.getContextMenu().appendChild( Itm );
+                Menu.appendChild( Itm );
 
-                if ( !this.$Drop )
+                if ( !self.$Drop )
                 {
-                    this.$Drop = new Element('div.qui-btn2-drop').inject(
-                        this.$Elm
+                    self.$Drop = new Element('div.qui-btn2-drop').inject(
+                        self.$Elm
                     );
                 }
-            }
+            });
 
             return this;
         },
@@ -540,13 +546,25 @@ define('qui/controls/buttons/Button', [
          */
         getContextMenu : function(callback)
         {
-            if ( this.$Menu )
+            if ( this.$Menu && typeof this.$createContextMenu === 'undefined' )
             {
                 callback( this.$Menu );
                 return this;
             }
 
             var self = this;
+
+            if ( typeof this.$createContextMenu !== 'undefined' )
+            {
+                (function() {
+                    self.getContextMenu( callback );
+                }).delay( 10 );
+
+                return this;
+            }
+
+
+            this.$createContextMenu = true;
 
             require(['qui/controls/contextmenu/Menu'], function(Menu)
             {
@@ -579,7 +597,9 @@ define('qui/controls/buttons/Button', [
 
                 self.$Menu.setParent( self );
 
-                callback( this.$Menu );
+                delete self.$createContextMenu;
+
+                callback( self.$Menu );
             });
         },
 

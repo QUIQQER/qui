@@ -36,7 +36,7 @@ define('qui/controls/breadcrumb/Bar', [
             width       : false,  // with of the bar
             itemClasses : false,  // if the items should get some extra css classes
                                   // can be an array or string
-            'cssclass'  : false   // extra css classes for the bar
+            cssclass    : false   // extra css classes for the bar
         },
 
         initialize : function(options)

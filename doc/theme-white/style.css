@@ -130,6 +130,7 @@ a:hover {
 /* ----------------------------------------------------------------------------
  * Content styling
  */
+
 .content p,
 .content ul,
 .content ol,
@@ -267,7 +268,6 @@ a:hover {
 }
 .content h1,
 .content h2 {
-  text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 1.5em;
 }
@@ -747,7 +747,6 @@ a.big.button:hover:visited {
 }
 .menu a.level-1 {
   font-family: montserrat, sans-serif;
-  text-transform: uppercase;
   font-size: 0.9em;
   font-weight: bold;
 }
