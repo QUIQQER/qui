@@ -28,7 +28,7 @@ define('qui/classes/Locale', [
         /**
          * Current lang, use getCurrent() to get the lang
          */
-        current : false,
+        current : 'en',
 
         /**
          * Available langs

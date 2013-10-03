@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+.qui-window-popup {
+    background : #FFFFFF;
+    overflow: hidden;
+    padding : 20px 10px 20px 20px;
+    position : fixed;
+    top : 50px;
+    z-index : 100000;
+}
+
+.qui-window-popup-content,
+.qui-window-popup-sheet-content {
+    clear: both;
+    float: left;
+    overflow: auto;
+    outline: none;
+    padding-right: 10px;
+    width: 100%;
+    z-index: 1;
+}
+
+.qui-window-popup-buttons,
+.qui-window-popup-sheet-buttons {
+    clear: both;
+    height : 50px;
+    padding-top: 10px;
+    width: 100%;
+    z-index: 1;
+}
+
+.qui-window-popup-sheet {
+    background: #FFFFFF;
+    height: 100%;
+    left: 0;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.qui-window-popupsheet-buttons .back {
+    float: right;
+    text-align: center;
+}
