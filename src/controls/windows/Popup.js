@@ -18,6 +18,7 @@ define('qui/controls/windows/Popup', [
     'qui/controls/utils/Background',
     'qui/controls/loader/Loader',
     'qui/Locale',
+    'qui/utils/Controls',
 
     'qui/lib/moofx',
     'qui/controls/windows/locale/de',
@@ -27,23 +28,29 @@ define('qui/controls/windows/Popup', [
     'css!extend/buttons.css',
     'css!extend/classes.css'
 
-], function(Control, Background, Loader, Locale)
+], function(Control, Background, Loader, Locale, Utils)
 {
     "use strict";
-
-    console.log( Locale.get( 'qui/controls/windows/Popup', 'btn.close' ) );
 
     return new Class({
 
         Extends : Control,
         Type    : 'classes/box/Popup',
 
+        Binds : [
+            'resize',
+            'cancel'
+        ],
+
         options : {
-            maxWidth  : 900,
-            maxHeight : 600,
-            content   : false,
-            buttons   : true,
-            closeButtonText : Locale.get( 'qui/controls/windows/Popup', 'btn.close' )
+            maxWidth  : 900,	// {integer} [optional]max width of the window
+            maxHeight : 600,	// {integer} [optional]max height of the window
+            content   : false,	// {string} [optional] content of the window
+            buttons   : true,	// {bool} [optional] show the bottom button line
+            closeButtonText : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
+            icon      : false,	// {false|string} [optional] icon of the window
+            title     : false,	// {false|string} [optional] title of the window
+            'class'   : false
         },
 
         initialize : function(options)
@@ -56,9 +63,7 @@ define('qui/controls/windows/Popup', [
             this.$Background = new Background();
             this.$Loader     = new Loader();
 
-            this.bindEventResize = this.resize.bind( this );
-
-            window.addEvent( 'resize', this.bindEventResize );
+            window.addEvent( 'resize', this.resize );
         },
 
         /**
@@ -70,21 +75,52 @@ define('qui/controls/windows/Popup', [
         {
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
-                html    : '<div class="qui-window-popup-content box"></div>'+
+                html    : '<div class="qui-window-popup-title box">'+
+                              '<div class="qui-window-popup-title-icon"></div>' +
+                              '<div class="qui-window-popup-title-text"></div>' +
+                          '</div>' +
+                          '<div class="qui-window-popup-content box"></div>'+
                           '<div class="qui-window-popup-buttons box"></div>'
             });
 
-            this.$Content = this.$Elm.getElement( '.qui-window-popup-content' );
+            this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
+            this.$Icon      = this.$Elm.getElement( '.qui-window-popup-title-icon' );
+            this.$TitleText = this.$Elm.getElement( '.qui-window-popup-title-text' );
+            this.$Content   = this.$Elm.getElement( '.qui-window-popup-content' );
+            this.$Buttons   = this.$Elm.getElement( '.qui-window-popup-buttons' );
 
+            // icon
+            var path = this.getAttribute( 'icon' );
+
+            if ( path && Utils.isFontAwesomeClass( path )  )
+            {
+                this.$Icon.addClass( path );
+
+            } else if ( path  )
+            {
+                new Element('img', {
+                    src : path
+                }).inject( this.$Icon );
+            }
+
+            // title
+            if ( this.getAttribute( 'title' ) ) {
+                this.$TitleText.set( 'html', this.getAttribute( 'title' ) );
+            }
+
+            if ( !this.getAttribute( 'title' ) && !this.getAttribute( 'icon' ) ) {
+                this.$Title.setStyle( 'display', 'none' );
+            }
+
+
+            // bottom buttons
             if ( this.getAttribute( 'buttons' ) )
             {
-                this.$Buttons = this.$Elm.getElement( '.qui-window-popup-buttons' );
-
                 var Submit = new Element('div', {
                     html    : '<span>'+ this.getAttribute( 'closeButtonText' ) +'</span>',
                     'class' : 'button btn-red',
                     events  : {
-                        click : this.cancel.bind( this )
+                        click : this.cancel
                     },
                     styles : {
                         marginRight : 20,
@@ -106,6 +142,10 @@ define('qui/controls/windows/Popup', [
                 this.setContent( this.getAttribute( 'content' ) );
             }
 
+            if ( this.getAttribute( 'class' ) ) {
+                this.$Elm.addClass( this.getAttribute( 'class' ) );
+            }
+
             this.$Loader.inject( this.$Elm );
 
             this.fireEvent( 'create', [ this ] );
@@ -122,7 +162,7 @@ define('qui/controls/windows/Popup', [
 
             this.$Background.getElm().addEvent(
                 'click',
-                this.cancel.bind( this )
+                this.cancel
             );
 
             this.$Background.show();
@@ -170,12 +210,16 @@ define('qui/controls/windows/Popup', [
                 top      : ( doc_size.y - height ) / 2
             });
 
+            var content_height = height -
+                                 this.$Buttons.getSize().y -
+                                 this.$Title.getSize().y;
+
+            this.$Content.setStyles({
+                height : content_height
+            });
+
             if ( this.$Buttons )
             {
-                this.$Content.setStyles({
-                    height : height - this.$Buttons.getSize().y - 30
-                });
-
                 // button zentrieren
                 var list   = this.$Buttons.getChildren(),
                     bwidth = 0;
@@ -218,27 +262,29 @@ define('qui/controls/windows/Popup', [
          */
         close : function()
         {
-            window.removeEvent( 'resize', this.bindEventResize );
+            window.removeEvent( 'resize', this.resize );
 
             if ( !this.$Elm ) {
                 return;
             }
 
-            moofx( this.$Elm ).animate({
+            var self = this;
+
+            moofx( self.$Elm ).animate({
                 left : document.getSize().x * -1
             }, {
                 callback : function()
                 {
-                    this.fireEvent( 'close', [ this ] );
+                    self.fireEvent( 'close', [ self ] );
 
-                    this.$Elm.destroy();
-                    this.$Background.destroy();
+                    self.$Elm.destroy();
+                    self.$Background.destroy();
 
                     if ( !document.body.getElement( 'cls-background' ) ) {
                         document.body.removeClass( 'noscroll' );
                     }
 
-                }.bind( this )
+                }
             });
         },
 
@@ -305,7 +351,7 @@ define('qui/controls/windows/Popup', [
         },
 
         /**
-         * create and show a new sheet
+         * create and open a new sheet
          *
          * @param {Function} onfinish - callback function
          */

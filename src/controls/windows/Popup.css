@@ -3,10 +3,27 @@
 .qui-window-popup {
     background : #FFFFFF;
     overflow: hidden;
-    padding : 20px 10px 20px 20px;
     position : fixed;
     top : 50px;
     z-index : 100000;
+}
+
+.qui-window-popup-title {
+    background: #DDDDDD;
+    clear: both;
+    float: left;
+    padding : 10px;
+    width: 100%;
+}
+
+.qui-window-popup-title-icon,
+.qui-window-popup-title-text {
+    float: left;
+    line-height: 20px;
+}
+
+.qui-window-popup-title-icon {
+    margin-right: 10px;
 }
 
 .qui-window-popup-content,
@@ -15,7 +32,7 @@
     float: left;
     overflow: auto;
     outline: none;
-    padding-right: 10px;
+    padding : 20px;
     width: 100%;
     z-index: 1;
 }

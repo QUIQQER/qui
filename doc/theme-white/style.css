@@ -740,10 +740,11 @@ a.big.button:hover:visited {
 }
 .menu a,
 .menu a:visited {
-  color: #2badad;
+  color: #3A89A3;
 }
 .menu a:hover {
   color: #228a8a;
+  text-decoration: underline;
 }
 .menu a.level-1 {
   font-family: montserrat, sans-serif;

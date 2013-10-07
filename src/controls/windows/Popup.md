@@ -9,15 +9,6 @@ Ein Fenster / Window Layer erstellen.
 [Beispiele](../examples/index.php?file=controls/windows/popup)
 
 
-## Eigenschaften
-
-+ maxWidth
-+ maxHeight
-+ content
-+ buttons
-+ closeButtonText
-
-
 ## Ein Popup erstellen
 
 ```javascript
@@ -32,6 +23,66 @@ require(['qui/controls/windows/Popup'], function(Popup)
 });
 
 ```
+
+## Eigenschaften
+
++ maxWidth
++ maxHeight
++ content
++ buttons
++ closeButtonText
++ icon
++ title
++ class
+
+### maxWidth
+
+Optional
+Gibt die maximale Breite des Popups an.
+Falls die maximale Breite grösser ist als die verfügbare Displaybreite, passt sich das Popup an.
+
+### maxHeight
+
+Optional
+Gibt die maximale Höhe des Popups an.
+Falls die maximale Höhe grösser ist als die verfügbare Displayhöhe, passt sich das Popup an.
+
+### content
+
+Optional
+Inhalt des Popup. Das Popup kann aber auch asynchron mit Inhalt befüllt werden.
+
+Zum Beispiel mit
+
+```javascript
+Popup.setContent()
+```
+
+### buttons
+
+Optional, Standard = true
+Sollen die unteren Buttons des Fensters angezeigt werden oder nicht.
+
+
+### closeButtonText
+
+Optional
+Text für den Schließen-Button
+
+### icon
+
+Optional
+Bild für die Titelleiste. Es kann eine Font-Awesome CSS Klasse sein oder ein Pfad zu einem Bild.
+
+### title
+
+Optional
+Text für die Titelleiste
+
+### class
+
+Extra CSS Klasse(n) für das Popup
+
 
 ## Die wichtigsten Methoden
 

@@ -19,7 +19,9 @@ define('qui/controls/windows/Alert', [
         ],
 
         options : {
-            maxHeight : 300
+            maxHeight : 300,
+            icon      : 'icon-bell',
+            title     : 'Alert'
         },
 
         initialize : function(params)
