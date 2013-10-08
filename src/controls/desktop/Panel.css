@@ -18,15 +18,28 @@
 }
 
 .qui-panel-title {
-    line-height: 30px;
-    padding-left: 20px;
-    float: left;
-
+    color: #333;
     display: inline-block;
+    float: left;
     font-size: 12px;
+    line-height: 30px;
     margin: 0;
     overflow: hidden;
-    color: #333;
+}
+
+.qui-panel-icon {
+    float: left;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+}
+
+.qui-panel-footer {
+    border-bottom: 1px solid #D3D3D3;
+    clear: both;
+    float: left;
+    height: 30px;
+    width: 100%;
 }
 
 .qui-panel-expand,

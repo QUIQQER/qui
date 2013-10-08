@@ -57,7 +57,7 @@ define('qui/classes/utils/DragDrop', [
 
         initialize : function(Element, options)
         {
-            this.init( options );
+            this.parent( options );
 
             this.$Drag    = null;
             this.$Element = Element;

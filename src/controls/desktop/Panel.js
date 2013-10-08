@@ -19,6 +19,7 @@
 
 define('qui/controls/desktop/Panel', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/loader/Loader',
     'qui/controls/toolbar/Bar',
@@ -26,10 +27,11 @@ define('qui/controls/desktop/Panel', [
     'qui/controls/buttons/Button',
     'qui/controls/desktop/panels/Sheet',
     'qui/controls/breadcrumb/Bar',
+    'qui/utils/Controls',
 
     'css!qui/controls/desktop/Panel.css'
 
-], function(Control, Loader, ToolBar, Seperator, Button, PanelSheet, BreadcrumbBar)
+], function(QUI, Control, Loader, Toolbar, Seperator, Button, PanelSheet, BreadcrumbBar, Utils)
 {
     "use strict";
 
@@ -43,8 +45,7 @@ define('qui/controls/desktop/Panel', [
         Extends : Control,
         Type    : 'qui/controls/desktop/Panel',
 
-        options :
-        {
+        options : {
             name    : 'qui-desktop-panel',
             content : false,
 
@@ -57,10 +58,9 @@ define('qui/controls/desktop/Panel', [
             footer : false,     // true to create a panel footer when panel is created
 
             // Style options:
-            height     : 125,        // the desired height of the panel
-            cssClass   : '',         // css class to add to the main panel div
+            height     : '100%',      // the desired height of the panel, if false, it use the parent height
+            'class'    : '',         // css class to add to the main panel div
             scrollbars : true,       // true to allow scrollbars to be shown
-            padding    : 8,          // default padding for the panel
 
             // Other:
             collapsible    : true,   // can the panel be collapsed
@@ -75,7 +75,7 @@ define('qui/controls/desktop/Panel', [
         initialize: function(options)
         {
             this.$uid = String.uniqueID();
-            this.init( options );
+            this.parent( options );
 
             this.Loader = new Loader();
 
@@ -129,6 +129,8 @@ define('qui/controls/desktop/Panel', [
                 return this.$Elm;
             }
 
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
                 'class'      : 'qui-panel',
@@ -178,10 +180,9 @@ define('qui/controls/desktop/Panel', [
 
                 this.$Header.setStyle( 'cursor', 'pointer' );
 
-                this.$Header.addEvent('click', function()
-                {
-                    this.toggle();
-                }.bind( this ));
+                this.$Header.addEvent('click', function() {
+                    self.toggle();
+                });
             }
 
             // drag & drop
@@ -189,43 +190,48 @@ define('qui/controls/desktop/Panel', [
             {
                 this.$Header.setStyle( 'cursor', 'move' );
 
-                new QUI.classes.utils.DragDrop(this.$Header, {
-                    dropables : '.qui-panel-drop',
-                    cssClass  : 'radius5',
-                    styles    : {
-                        width  : 300,
-                        height : 100
-                    },
-                    events    :
-                    {
-                        onEnter : function(Element, Droppable) {
-                            QUI.controls.Utils.highlight( Droppable );
+                require(['qui/classes/utils/DragDrop'], function(DragDrop)
+                {
+                    new DragDrop(self.$Header, {
+                        dropables : '.qui-panel-drop',
+                        cssClass  : 'radius5',
+                        styles    : {
+                            width  : 100,
+                            height : 150
                         },
-
-                        onLeave : function(Element, Droppable) {
-                            QUI.controls.Utils.normalize( Droppable );
-                        },
-
-                        onDrop : function(Element, Droppable, event)
+                        events :
                         {
-                            if ( !Droppable ) {
-                                return;
+                            onEnter : function(Element, Droppable)
+                            {
+                                Droppable.highlight();
+                                // QUI.controls.Utils.highlight( Droppable );
+                            },
+
+                            onLeave : function(Element, Droppable) {
+                                Droppable.highlight();
+                                //QUI.controls.Utils.normalize( Droppable );
+                            },
+
+                            onDrop : function(Element, Droppable, event)
+                            {
+                                if ( !Droppable ) {
+                                    return;
+                                }
+
+                                var quiid = Droppable.get( 'data-quiid' );
+
+                                if ( !quiid ) {
+                                    return;
+                                }
+
+                                var Parent = QUI.Controls.getById( quiid );
+
+                                Parent.normalize();
+                                Parent.appendChild( self );
                             }
-                            var quiid = Droppable.get( 'data-quiid' );
-
-                            if ( !quiid ) {
-                                return;
-                            }
-
-                            var Parent = QUI.Controls.getById( quiid );
-
-                            Parent.normalize();
-                            Parent.appendChild( this );
-
-                        }.bind( this )
-                    }
+                        }
+                    });
                 });
-
             }
 
             // content params
@@ -261,6 +267,10 @@ define('qui/controls/desktop/Panel', [
         {
             if ( !this.$Title )
             {
+                this.$Icon = new Element( 'span.qui-panel-icon' ).inject(
+                    this.$Header
+                );
+
                 this.$Title = new Element( 'h2.qui-panel-title' ).inject(
                     this.$Header
                 );
@@ -272,10 +282,18 @@ define('qui/controls/desktop/Panel', [
 
             if ( this.getAttribute( 'icon' ) )
             {
-                this.$Title.setStyles({
-                    background  : 'url('+ this.getAttribute('icon') +') no-repeat 25px center',
-                    paddingLeft : 50
-                });
+                var path = this.getAttribute( 'icon' );
+
+                if ( Utils.isFontAwesomeClass( path )  )
+                {
+                    this.$Icon.addClass( path );
+
+                } else
+                {
+                    new Element('img', {
+                        src : path
+                    }).inject( this.$Icon );
+                }
             }
         },
 
@@ -308,6 +326,7 @@ define('qui/controls/desktop/Panel', [
                 this.fireEvent( 'resize', [ this ] );
                 return this;
             }
+
 
             if ( this.getAttribute( 'styles' ) &&
                  this.getAttribute( 'styles' ).height )
@@ -346,6 +365,10 @@ define('qui/controls/desktop/Panel', [
             if ( this.$Categories.getSize().x ) {
                 content_width = content_width - this.$Categories.getSize().x;
             }
+
+            content_height = content_height -
+                             this.$Footer.getSize().y -
+                             this.$Header.getSize().y;
 
 
             if ( this.getAttribute( 'scrollbars' ) === false ) {
@@ -507,7 +530,7 @@ define('qui/controls/desktop/Panel', [
          * This is a button top of the panel
          *
          * @method qui/controls/desktop/Panel#addButton
-         * @param {QUI.controls.buttons.Button|QUI.controls.buttons.Seperator|Object} Btn
+         * @param {qui/controls/buttons/Buttons|qui/controls/buttons/Seperator|Object} Btn
          * @return {this}
          */
         addButton : function(Btn)
@@ -515,12 +538,12 @@ define('qui/controls/desktop/Panel', [
             if ( typeof Btn.getType === 'undefined' )
             {
                 if ( Btn.type == 'seperator' ||
-                     Btn.type == 'QUI.controls.buttons.Seperator' )
+                     Btn.type == 'qui/controls/buttons/Seperator' )
                 {
-                    Btn = new QUI.controls.buttons.Seperator( Btn );
+                    Btn = new Seperator( Btn );
                 } else
                 {
-                    Btn = new QUI.controls.buttons.Button( Btn );
+                    Btn = new Button( Btn );
                 }
             }
 
@@ -550,7 +573,7 @@ define('qui/controls/desktop/Panel', [
          * Return the button bar of the pannel
          *
          * @method qui/controls/desktop/Panel#getButtonBar
-         * @return {QUI.controls.toolbar.Bar}
+         * @return {qui/controls/toolbar/Bar}
          */
         getButtonBar : function()
         {
@@ -558,7 +581,7 @@ define('qui/controls/desktop/Panel', [
             {
                 this.$Buttons.setStyle( 'display', null );
 
-                this.$ButtonBar = new QUI.controls.toolbar.Bar({
+                this.$ButtonBar = new Toolbar({
                     width : this.$Buttons.getSize().x,
                     slide : false,
                     type  : 'buttons',
@@ -574,13 +597,13 @@ define('qui/controls/desktop/Panel', [
          * This is a button left of the panel
          *
          * @method qui/controls/desktop/Panel#addCategory
-         * @param {QUI.controls.buttons.Button|Object} Btn
+         * @param {qui/controls/buttons/Buttons|Object} Btn
          * @return {this} self
          */
         addCategory : function(Btn)
         {
             if ( typeof Btn.getType === 'undefined' )   {
-                Btn = new QUI.controls.buttons.Button( Btn );
+                Btn = new Button( Btn );
             }
 
             Btn.addEvents({
@@ -632,7 +655,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Category bar object
          *
          * @method qui/controls/desktop/Panel#getCategoryBar
-         * @return {QUI:controls.toolbar.Bar}
+         * @return {qui/controls/toolbar/Bar}
          */
         getCategoryBar : function()
         {
@@ -640,7 +663,7 @@ define('qui/controls/desktop/Panel', [
             {
                 this.$Categories.setStyle( 'display', null );
 
-                this.$CategoryBar = new QUI.controls.toolbar.Bar({
+                this.$CategoryBar = new Toolbar({
                     width : 190,
                     slide : false,
                     type  : 'buttons',
@@ -662,7 +685,7 @@ define('qui/controls/desktop/Panel', [
          * Return the active category
          *
          * @method qui/controls/desktop/Panel#getActiveCategory
-         * @return {QUI.controls.buttons.Button}
+         * @return {qui/controls/buttons/Buttons}
          */
         getActiveCategory : function()
         {
@@ -673,13 +696,13 @@ define('qui/controls/desktop/Panel', [
          * Return the Breacrumb bar object
          *
          * @method qui/controls/desktop/Panel#getBreadcrumb
-         * @return {QUI:controls.breadcrumb.Bar}
+         * @return {qui/controls.breadcrumb.Bar}
          */
         getBreadcrumb : function()
         {
             if ( !this.$BreadcrumbBar )
             {
-                this.$BreadcrumbBar = new QUI.controls.breadcrumb.Bar({
+                this.$BreadcrumbBar = new BreadcrumbBar({
                     name : 'panel-breadcrumb-' + this.getId()
                 }).inject( this.$Breadcrumb );
             }
@@ -691,7 +714,7 @@ define('qui/controls/desktop/Panel', [
          * Return the panel contextmenu
          *
          * @method qui/controls/desktop/Panel#getContextMenu
-         * @return {QUI:controls.contextmenu.Menu}
+         * @return {qui/controls/contextmenu/Menu}
          */
         getContextMenu : function()
         {
@@ -700,8 +723,8 @@ define('qui/controls/desktop/Panel', [
             }
 
             // context menu
-            this.$ContextMenu = new QUI.controls.contextmenu.Menu({
-                title  : this.options.title,
+            this.$ContextMenu = new ContextMenu({
+                title  : this.getAttribute( 'title' ),
                 events :
                 {
                     blur : function(Menu) {
@@ -719,7 +742,7 @@ define('qui/controls/desktop/Panel', [
          * Create a sheet in the panel and open it
          *
          * @method qui/controls/desktop/Panel#createSheet
-         * @return {QUI.controls.panels.Sheet}
+         * @return {qui/controls/panels/Sheet}
          */
         createSheet : function()
         {
