@@ -3,10 +3,12 @@
  *
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- *
- * @module controls/buttons/Seperator
+ * @requires qui/controls/Control
+ * @module qui/controls/buttons/Seperator
  * @package com.pcsg.qui.js.controls.buttons
+ *
+ * @event onResize [this]
+ * @event onCreate [this]
  */
 
 define('qui/controls/buttons/Seperator', [
@@ -18,13 +20,9 @@ define('qui/controls/buttons/Seperator', [
     "use strict";
 
     /**
-     * @class QUI.controls.buttons.Seperator
+     * @class qui/controls/buttons/Seperator
      *
      * @param {Object} options
-     *
-     * @event onResize [this]
-     * @event onCreate [this]
-     *
      * @memberof! <global>
      */
     return new Class({

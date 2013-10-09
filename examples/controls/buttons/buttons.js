@@ -76,6 +76,39 @@ require([
     }).inject( StandardButtons );
 
 
+    var Disabled = new Button({
+        text : 'disabled',
+        styles : {
+            width : 100
+        },
+        events :
+        {
+            onClick : function()
+            {
+                alert( 'click not working' );
+            }
+        }
+    }).inject( StandardButtons );
+
+    Disabled.disable();
+
+
+    var Active = new Button({
+        text : 'active',
+        styles : {
+            width : 100
+        },
+        events :
+        {
+            onClick : function()
+            {
+                alert( 'click not working' );
+            }
+        }
+    }).inject( StandardButtons );
+
+    Active.setActive();
+
     /**
      * Button with contextmenu
      */

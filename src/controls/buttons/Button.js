@@ -80,7 +80,7 @@ define('qui/controls/buttons/Button', [
             }
 
             this.setAttributes(
-                this.initV2(options)
+                this.initV2( options )
             );
 
             this.addEvent('onSetAttribute', this.onSetAttribute);
@@ -133,7 +133,8 @@ define('qui/controls/buttons/Button', [
             var i, len;
 
             var self = this;
-            var Elm  = new Element('button.qui-btn2', {
+
+            var Elm = new Element('button.qui-button', {
                 'type' : this.getAttribute('type'),
                 'data-status' : 0,
                 'data-quiid'  : this.getId()
@@ -175,13 +176,8 @@ define('qui/controls/buttons/Button', [
                         return;
                     }
 
-                    if ( !self.isActive() )
-                    {
-                        self.getElm().className = 'qui-btn2-over';
-
-                        if ( self.getAttribute('class') ) {
-                            self.getElm().addClass( self.getAttribute('class') );
-                        }
+                    if ( !self.isActive() ) {
+                        self.getElm().addClass( 'qui-button-over' );
                     }
 
                     self.fireEvent( 'enter', [ self ] );
@@ -193,13 +189,8 @@ define('qui/controls/buttons/Button', [
                         return;
                     }
 
-                    if ( !self.isActive() )
-                    {
-                        self.getElm().className = 'qui-btn2';
-
-                        if ( self.getAttribute('class') ) {
-                            self.getElm().addClass( self.getAttribute('class') );
-                        }
+                    if ( !self.isActive() ) {
+                        self.getElm().removeClass( 'qui-button-over' );
                     }
 
                     self.fireEvent( 'leave', [ self ] );
@@ -279,7 +270,7 @@ define('qui/controls/buttons/Button', [
                     Menu.appendChild( this.$items[i] );
                 }
 
-                this.$Drop = new Element('div.qui-btn2-drop').inject(
+                this.$Drop = new Element('div.qui-button-drop').inject(
                     this.$Elm
                 );
             }
@@ -331,14 +322,10 @@ define('qui/controls/buttons/Button', [
                 return;
             }
 
-            Elm.className = 'qui-btn2-active';
-            Elm.set('data-status', 1);
+            Elm.addClass( 'qui-button-active' );
+            Elm.set( 'data-status', 1 );
 
-            if ( this.getAttribute('class') ) {
-                Elm.addClass( this.getAttribute('class') );
-            }
-
-            this.fireEvent('active', [this]);
+            this.fireEvent( 'active', [ this ] );
         },
 
         /**
@@ -353,7 +340,7 @@ define('qui/controls/buttons/Button', [
                 return false;
             }
 
-            if ( this.getElm().get('data-status') == 1 ) {
+            if ( this.getElm().get( 'data-status' ) == 1 ) {
                 return true;
             }
 
@@ -375,14 +362,12 @@ define('qui/controls/buttons/Button', [
                 return;
             }
 
-            Elm.className = 'qui-btn2-disable';
-            Elm.set('data-status', -1);
+            Elm.set({
+                'data-status' : -1,
+                'disabled'    : 'disabled'
+            });
 
-            if ( this.getAttribute('class') ) {
-                Elm.addClass( this.getAttribute('class') );
-            }
-
-            this.fireEvent('disable', [this]);
+            this.fireEvent( 'disable', [ this ] );
 
             return this;
         },
@@ -428,7 +413,11 @@ define('qui/controls/buttons/Button', [
                 return false;
             }
 
-            this.getElm().set('data-status', 0);
+            this.getElm().set({
+                'data-status' : 0,
+                'disabled'    : null
+            });
+
             this.setNormal();
 
             return this;
@@ -464,14 +453,14 @@ define('qui/controls/buttons/Button', [
 
             var Elm = this.getElm();
 
-            Elm.className = 'qui-btn2';
-            Elm.set('data-status', 0);
+            Elm.set({
+                'data-status' : 0,
+                'disabled'    : null
+            });
 
-            if ( this.getAttribute('class') ) {
-                Elm.addClass( this.getAttribute('class') );
-            }
+            Elm.removeClass( 'qui-button-active' );
 
-            this.fireEvent('normal', [this]);
+            this.fireEvent( 'normal', [ this ] );
 
             return this;
         },
@@ -502,7 +491,7 @@ define('qui/controls/buttons/Button', [
 
                 if ( !self.$Drop )
                 {
-                    self.$Drop = new Element('div.qui-btn2-drop').inject(
+                    self.$Drop = new Element('div.qui-button-drop').inject(
                         self.$Elm
                     );
                 }
@@ -650,9 +639,9 @@ define('qui/controls/buttons/Button', [
                     }).inject( Elm );
                 }
 
-                if ( !Elm.getElement('.qui-btn2-image') )
+                if ( !Elm.getElement('.qui-button-image') )
                 {
-                    new Element('img.qui-btn2-image', {
+                    new Element('img.qui-button-image', {
                         src    : value,
                         styles : {
                             'display' : 'block' // only image, fix
@@ -662,7 +651,7 @@ define('qui/controls/buttons/Button', [
                     return;
                 }
 
-                Elm.getElement('.qui-btn2-image').set( 'src', value );
+                Elm.getElement('.qui-button-image').set( 'src', value );
                 return;
             }
 
@@ -686,14 +675,14 @@ define('qui/controls/buttons/Button', [
             }
 
             // Text + Text Image
-            if ( !Elm.getElement('.qui-btn2-text') )
+            if ( !Elm.getElement('.qui-button-text') )
             {
-                new Element('div.qui-btn2-text', {
+                new Element('div.qui-button-text', {
                     html : '<span></span>'
                 }).inject( Elm );
             }
 
-            var Txt  = Elm.getElement('.qui-btn2-text'),
+            var Txt  = Elm.getElement('.qui-button-text'),
                 Span = Txt.getElement('span'),
                 Img  = Txt.getElement('img');
 
@@ -704,16 +693,16 @@ define('qui/controls/buttons/Button', [
 
             if ( k === 'textimage' )
             {
-                if ( !Elm.getElement('.qui-btn2-text-image') )
+                if ( !Elm.getElement('.qui-button-text-image') )
                 {
-                    new Element('img.qui-btn2-text-image', {
+                    new Element('img.qui-button-text-image', {
                         styles : {
                             'margin-right': 0
                         }
                     }).inject( Span, 'before' );
                 }
 
-                Img = Elm.getElement('.qui-btn2-text-image');
+                Img = Elm.getElement('.qui-button-text-image');
                 Img.set( 'src', value );
 
                 if ( this.getAttribute('text') ) {

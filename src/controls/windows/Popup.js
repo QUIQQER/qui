@@ -25,6 +25,7 @@ define('qui/controls/windows/Popup', [
     'qui/controls/windows/locale/en',
 
     'css!qui/controls/windows/Popup.css',
+    'css!qui/controls/buttons/Button.css',
     'css!extend/buttons.css',
     'css!extend/classes.css'
 
@@ -118,7 +119,7 @@ define('qui/controls/windows/Popup', [
             {
                 var Submit = new Element('div', {
                     html    : '<span>'+ this.getAttribute( 'closeButtonText' ) +'</span>',
-                    'class' : 'button btn-red',
+                    'class' : 'qui-button btn-red',
                     events  : {
                         click : this.cancel
                     },
@@ -210,14 +211,6 @@ define('qui/controls/windows/Popup', [
                 top      : ( doc_size.y - height ) / 2
             });
 
-            var content_height = height -
-                                 this.$Buttons.getSize().y -
-                                 this.$Title.getSize().y;
-
-            this.$Content.setStyles({
-                height : content_height
-            });
-
             if ( this.$Buttons )
             {
                 // button zentrieren
@@ -236,6 +229,20 @@ define('qui/controls/windows/Popup', [
                     margin : '0 auto'
                 });
             }
+
+            this.$Buttons.setStyle( 'float', 'left' );
+
+            // content height
+            var content_height = height -
+                                 this.$Buttons.getSize().y -
+                                 this.$Title.getSize().y;
+
+            this.$Content.setStyles({
+                height : content_height
+            });
+
+            this.$Buttons.setStyle( 'float', null );
+
 
             var left = ( doc_size.x - width ) / 2;
 
