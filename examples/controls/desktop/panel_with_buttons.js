@@ -1,9 +1,10 @@
 
 require([
 
-    'qui/controls/desktop/Panel'
+    'qui/controls/desktop/Panel',
+    'qui/controls/buttons/Button'
 
-], function(Panel)
+], function(Panel, Button)
 {
     "use strict";
 
@@ -28,5 +29,11 @@ require([
     MyPanel.setContent(
         '<h1>Some Content</h1>' +
         '<p>Here is some content stuff</p>'
+    );
+
+    MyPanel.addButton(
+        new Button({
+            text : 'action'
+        })
     );
 });

@@ -1,35 +1,41 @@
 
 .qui-panel {
-    float: left;
-    clear: both;
-    width: 100%;
-    position: relative;
     background: #F2F2F2;
+    border: 1px solid #D3D3D3;
+    clear: both;
+    float: left;
+    position: relative;
+    width: 100%;
 }
 
 .qui-panel-header {
-    position: relative;
-    background: #f1f1f1 url(images/bg-panel-header.gif) repeat-x;
-    height: 30px;
-    border-bottom: 1px solid #D3D3D3;
+    border-bottom: 1px solid #2F8FC6;
+    background: #2F8FC6;
+    color: #FFFFFF;
+    font-size: 12px;
+    height: 40px;
+    line-height: 40px;
     overflow: hidden;
     overflow-x: hidden;
     overflow-y: hidden;
+    position: relative;
 }
 
 .qui-panel-title {
-    color: #333;
+    color: #FFFFFF;
     display: inline-block;
     float: left;
     font-size: 12px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     margin: 0;
     overflow: hidden;
 }
 
 .qui-panel-icon {
     float: left;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
     width: 30px;
 }
@@ -44,17 +50,18 @@
 
 .qui-panel-expand,
 .qui-panel-collapse {
-    background: url(images/collapse-expand.gif) left top no-repeat;
-    padding-right: 5px;
-    float: right;
-    width: 16px;
-    height: 16px;
-    margin-top: 7px;
+    /*background: url(images/collapse-expand.gif) left top no-repeat;*/
     cursor: pointer;
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 5px;
+    text-align: center;
+    width: 40px;
 }
 
 .qui-panel-expand {
-    background: url(images/collapse-expand.gif) left -16px no-repeat;
+    /*background: url(images/collapse-expand.gif) left -16px no-repeat;*/
 }
 
 .qui-panel-content {
@@ -86,10 +93,11 @@
  ================================================================= */
 
 .qui-panel-buttons {
-    height: 33px;
-    width: 100%;
     background: #dedede;
-    padding-left: 20px;
+    height: 50px;
+    width: 100%;
+    padding-top: 2px;
+    position: relative;
 }
 
 .qui-panel-buttons .qui-btn2-text {
@@ -102,9 +110,7 @@
     height: 3px;
     display: block;
     position: relative;
-    left: -20px;         /* FF Fix */
-    padding-right: 20px; /* FF Fix */
-    top: 0px;
+    top: -2px;
 
     background-color: transparent;
     background-image: -moz-linear-gradient(center top , rgba(0, 0, 0, 0.2), transparent);
@@ -121,9 +127,7 @@
     height: 3px;
     display: block;
     position: relative;
-    left: -20px;         /* FF Fix */
-    padding-right: 20px; /* FF Fix */
-    top: 27px;
+    top: 43px;
 
     background-color: transparent;
     background-image: -moz-linear-gradient(center bottom , rgba(0, 0, 0, 0.2), transparent);

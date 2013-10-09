@@ -123,11 +123,11 @@ define('qui/classes/QUI', [
          */
         trigger : function(msg, url, linenumber)
         {
-            console.error({
-                message    : msg,
-                url        : url,
-                linenummer : linenumber || ''
-            });
+            var message = msg +"\n"+
+                          "File: "+ url +"\n"+
+                          "Linenumber: "+ linenumber;
+
+            console.error( message );
 
             return this;
         }

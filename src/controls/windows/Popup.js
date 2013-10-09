@@ -3,7 +3,6 @@
  * A popup window
  *
  * @author www.pcsg.de (Henning Leutz)
- * @copyright NameRobot (Henning Leutz)
  *
  * @event onOpen [ self ]
  * @event onClose [ self ]

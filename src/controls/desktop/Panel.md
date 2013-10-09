@@ -10,7 +10,10 @@ In Kombination mit qui/controls/desktop/Workspace und qui/controls/desktop/Colum
 können komplizierte Applikationen schnell und einfach erstellt werden.
 
 
-[Beispiele](../examples/index.php?file=controls/desktop/panel)
+## Beispiele
+
++ [Einfaches Panel](../examples/index.php?file=controls/desktop/panel)
++ [Panel mit Buttons](../examples/index.php?file=controls/desktop/panel_with_buttons)
 
 ## Eigenschaften
 

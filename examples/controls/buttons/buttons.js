@@ -246,7 +246,7 @@ require([
 
 
         new Button({
-            text    : 'Colored Buttons',
+            text    : 'Customized Buttons',
             'class' : 'btn-pink',
             styles  : {
                 padding : 10
