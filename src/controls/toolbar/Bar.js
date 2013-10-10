@@ -753,8 +753,7 @@ define('qui/controls/toolbar/Bar', [
                     cwidth = cwidth - 50;
                 }
 
-            } else if ( this.getAttribute( 'width' ) &&
-                        this.getAttribute( 'width' ).toString().match('%') )
+            } else
             {
                 cwidth = '100%';
             }

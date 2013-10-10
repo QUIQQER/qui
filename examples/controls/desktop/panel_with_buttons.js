@@ -33,7 +33,15 @@ require([
 
     MyPanel.addButton(
         new Button({
-            text : 'action'
+            text      : 'action',
+            textimage : 'icon-coffee',
+            events    :
+            {
+                onClick : function()
+                {
+                    alert( 'action click' );
+                }
+            }
         })
     );
 });

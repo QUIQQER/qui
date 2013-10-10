@@ -133,16 +133,16 @@ define('qui/controls/desktop/Panel', [
 
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
-                'class'      : 'qui-panel',
+                'class'      : 'qui-panel box',
                 styles       : {
                     height : this.getAttribute('height')
                 },
 
-                html : '<div class="qui-panel-header"></div>' +
+                html : '<div class="qui-panel-header box"></div>' +
                        '<div class="qui-panel-buttons box"></div>' +
                        '<div class="qui-panel-categories box"></div>' +
                        '<div class="qui-panel-content box"></div>' +
-                       '<div class="qui-panel-footer"></div>'
+                       '<div class="qui-panel-footer box"></div>'
             });
 
             this.Loader.inject( this.$Elm );
@@ -349,15 +349,14 @@ define('qui/controls/desktop/Panel', [
                 content_height = Parent.getSize().y * ( content_height / 100 );
             }
 
-            content_height = content_height - 31;
+            content_height = content_height;
 
             if ( this.getAttribute( 'breadcrumb' ) ) {
-                content_height = content_height - 40;
+                content_height = content_height;
             }
 
-            if ( this.$Categories.getSize().x ) {
-                content_width = content_width - this.$Categories.getSize().x;
-            }
+
+            content_width = content_width - this.$Categories.getSize().x;
 
             content_height = content_height -
                              this.$Buttons.getSize().y -
@@ -371,14 +370,12 @@ define('qui/controls/desktop/Panel', [
             this.$Content.setStyles({
                 overflow : overflow,
                 height   : content_height,
-                width    : content_width
+                width    : content_width - 2 // -2 for the border
             });
 
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
 
-            if ( this.$ButtonBar )
-            {
-                this.$ButtonBar.setAttribute( 'width', '98%' );
+            if ( this.$ButtonBar ) {
                 this.$ButtonBar.resize();
             }
 
@@ -620,7 +617,6 @@ define('qui/controls/desktop/Panel', [
                 this.$Buttons.setStyle( 'display', null );
 
                 this.$ButtonBar = new Toolbar({
-                    width : this.$Buttons.getSize().x,
                     slide : false,
                     type  : 'buttons',
                     'menu-button' : false

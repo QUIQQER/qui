@@ -45,7 +45,7 @@
 
 .qui-button-text-image {
     float: left;
-    margin-right: 5px;
+    line-height: 28px;
 }
 
 .qui-button-image { margin: 0; }

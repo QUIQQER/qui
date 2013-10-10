@@ -41,7 +41,7 @@
 }
 
 .qui-panel-footer {
-    border-bottom: 1px solid #D3D3D3;
+    border-top: 1px solid #D3D3D3;
     clear: both;
     float: left;
     height: 30px;
@@ -65,10 +65,11 @@
 }
 
 .qui-panel-content {
-    position: relative;
+    background: #FFFFFF;
     float: left;
-    width: 100%;
     padding: 20px;
+    position: relative;
+    width: 100%;
 }
 
 .qui-panel-highlight {
@@ -95,15 +96,42 @@
 .qui-panel-buttons {
     background: #dedede;
     height: 50px;
-    width: 100%;
-    padding-top: 2px;
     position: relative;
+    width: 100%;
+}
+
+.qui-panel-buttons .qui-toolbar {
+    border-bottom: 1px solid #999999;
+    height: 100%;
+    width: 100%;
+
+}
+
+.qui-panel-buttons button {
+    color: #505050;
+    background: transparent;
+    border-radius: 0;
+    border-width: 0 1px 0 0;
+    border-color: #999999;
+    border-style: solid;
+    height: 50px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.qui-panel-buttons button:hover {
+    background: #f6f8fa;
+}
+
+.qui-panel-buttons .qui-button-text-image {
+    line-height: 50px;
 }
 
 .qui-panel-buttons .qui-btn2-text {
     white-space: nowrap;
 }
-
+/*
 .qui-panel-buttons:before {
     content: "";
     width: 100%;
@@ -137,7 +165,7 @@
     background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
     background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
 }
-
+*/
 .qui-panel-buttons .qui-btn-seperator {
     border-left: 1px solid #999;
     margin: 5px 4px 2px 7px;

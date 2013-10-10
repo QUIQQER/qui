@@ -83,8 +83,7 @@ require([
         },
         events :
         {
-            onClick : function()
-            {
+            onClick : function() {
                 alert( 'click not working' );
             }
         }
@@ -100,14 +99,28 @@ require([
         },
         events :
         {
-            onClick : function()
-            {
-                alert( 'click not working' );
+            onClick : function() {
+                alert( 'click working' );
             }
         }
     }).inject( StandardButtons );
 
     Active.setActive();
+
+
+    new Button({
+        text      : 'with text icon',
+        textimage : 'icon-coffee'
+    }).inject( StandardButtons );
+
+    new Button({
+        text : 'with icon',
+        icon : 'icon-coffee'
+    }).inject( StandardButtons );
+
+    new Button({
+        icon : 'icon-bar-chart'
+    }).inject( StandardButtons );
 
     /**
      * Button with contextmenu

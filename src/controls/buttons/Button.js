@@ -13,11 +13,12 @@
 define('qui/controls/buttons/Button', [
 
     'qui/controls/Control',
+    'qui/utils/Controls',
     'qui/utils/NoSelect',
 
     'css!qui/controls/buttons/Button.css'
 
-], function(Control, NoSelect)
+], function(Control, Utils, NoSelect)
 {
     "use strict";
 
@@ -639,19 +640,25 @@ define('qui/controls/buttons/Button', [
                     }).inject( Elm );
                 }
 
-                if ( !Elm.getElement('.qui-button-image') )
+                var Image = Elm.getElement('.image-container');
+
+                Image.set( 'html', '' );
+
+                if ( Utils.isFontAwesomeClass( value ) )
+                {
+                    new Element('span', {
+                        'class' : value
+                    }).inject( Image );
+                } else
                 {
                     new Element('img.qui-button-image', {
                         src    : value,
                         styles : {
                             'display' : 'block' // only image, fix
                         }
-                    }).inject( Elm.getElement('.image-container') );
-
-                    return;
+                    }).inject( Image );
                 }
 
-                Elm.getElement('.qui-button-image').set( 'src', value );
                 return;
             }
 
@@ -675,38 +682,46 @@ define('qui/controls/buttons/Button', [
             }
 
             // Text + Text Image
-            if ( !Elm.getElement('.qui-button-text') )
-            {
-                new Element('div.qui-button-text', {
-                    html : '<span></span>'
-                }).inject( Elm );
+            if ( !Elm.getElement('.qui-button-text') ) {
+                new Element('span.qui-button-text').inject( Elm );
             }
 
-            var Txt  = Elm.getElement('.qui-button-text'),
-                Span = Txt.getElement('span'),
-                Img  = Txt.getElement('img');
+            var Txt = Elm.getElement('.qui-button-text');
 
             // Text
             if ( k === 'text' ) {
-                Span.set('html', value);
+                Txt.set( 'html', value );
             }
 
             if ( k === 'textimage' )
             {
-                if ( !Elm.getElement('.qui-button-text-image') )
+                var Img;
+
+                if ( Elm.getElement('.qui-button-text-image') ) {
+                    Elm.getElement('.qui-button-text-image').destroy();
+                }
+
+                if ( Utils.isFontAwesomeClass( value ) )
                 {
-                    new Element('img.qui-button-text-image', {
+                    Img = new Element('span', {
+                        'class'  : 'qui-button-text-image '+ value,
                         styles : {
                             'margin-right': 0
                         }
-                    }).inject( Span, 'before' );
+                    }).inject( Txt, 'before' );
+                } else
+                {
+                    Img = new Element('img', {
+                        'class' : 'qui-button-text-image',
+                        src     : value,
+                        styles  : {
+                            'margin-right': 0
+                        }
+                    }).inject( Txt, 'before' );
                 }
 
-                Img = Elm.getElement('.qui-button-text-image');
-                Img.set( 'src', value );
-
                 if ( this.getAttribute('text') ) {
-                    Img.setStyle( 'margin-right', 5 );
+                    Img.setStyle( 'margin-right', null );
                 }
             }
         }
