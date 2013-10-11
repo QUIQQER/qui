@@ -55,18 +55,22 @@ define('qui/classes/utils/DragDrop', [
             }
         },
 
-        initialize : function(Element, options)
+        initialize : function(Elm, options)
         {
             this.parent( options );
 
             this.$Drag    = null;
-            this.$Element = Element;
+            this.$Element = Elm;
 
 
-            Element.addEvents({
+            Elm.addEvents({
 
                 mousedown : function(event)
                 {
+                    if ( !this.$enable ) {
+                        return;
+                    }
+
                     this.setAttribute( '_stopdrag', false );
 
                     this.$timer = this.$start.delay(
@@ -101,6 +105,22 @@ define('qui/classes/utils/DragDrop', [
         },
 
         /**
+         * Enable the DragDrop
+         */
+        enable : function()
+        {
+            this.$enable = true;
+        },
+
+        /**
+         * Disable the DragDrop
+         */
+        disable : function()
+        {
+            this.$enable = false;
+        },
+
+        /**
          * Starts the draging by onmousedown
          *
          * @method qui/classes/utils/DragDrop#$start
@@ -108,6 +128,10 @@ define('qui/classes/utils/DragDrop', [
          */
         $start : function(event)
         {
+            if ( !this.$enable ) {
+                return;
+            }
+
             if ( event.rightClick ) {
                 return;
             }

@@ -45,6 +45,11 @@ define('qui/controls/desktop/Panel', [
         Extends : Control,
         Type    : 'qui/controls/desktop/Panel',
 
+        Binds : [
+             '$onDestroy',
+            '$onSetAttribute'
+        ],
+
         options : {
             name    : 'qui-desktop-panel',
             content : false,
@@ -94,27 +99,12 @@ define('qui/controls/desktop/Panel', [
             this.$CategoryBar   = null;
             this.$BreadcrumbBar = null;
             this.$ActiveCat     = null;
+            this.$Dropable      = null;
 
-            this.addEvent( 'onDestroy', this.$onDestroy );
-        },
-
-        /**
-         * destroy the panel
-         *
-         * @method qui/controls/desktop/Panel#destroy
-         */
-        destroy : function()
-        {
-            this.fireEvent( 'destroy', [ this ] );
-
-            if ( typeof this.$Elm !== 'undefined' && this.$Elm ) {
-                this.$Elm.destroy();
-            }
-
-            this.$Elm = null;
-
-            // destroy it from the controls
-            QUI.Controls.destroy( this );
+            this.addEvents({
+                onDestroy      : this.$onDestroy,
+                onSetAttribute : this.$onSetAttribute
+            });
         },
 
         /**
@@ -190,48 +180,6 @@ define('qui/controls/desktop/Panel', [
             {
                 this.$Header.setStyle( 'cursor', 'move' );
 
-                require(['qui/classes/utils/DragDrop'], function(DragDrop)
-                {
-                    new DragDrop(self.$Header, {
-                        dropables : '.qui-panel-drop',
-                        cssClass  : 'radius5',
-                        styles    : {
-                            width  : 100,
-                            height : 150
-                        },
-                        events :
-                        {
-                            onEnter : function(Element, Droppable)
-                            {
-                                Droppable.highlight();
-                                // QUI.controls.Utils.highlight( Droppable );
-                            },
-
-                            onLeave : function(Element, Droppable) {
-                                Droppable.highlight();
-                                //QUI.controls.Utils.normalize( Droppable );
-                            },
-
-                            onDrop : function(Element, Droppable, event)
-                            {
-                                if ( !Droppable ) {
-                                    return;
-                                }
-
-                                var quiid = Droppable.get( 'data-quiid' );
-
-                                if ( !quiid ) {
-                                    return;
-                                }
-
-                                var Parent = QUI.Controls.getById( quiid );
-
-                                Parent.normalize();
-                                Parent.appendChild( self );
-                            }
-                        }
-                    });
-                });
             }
 
             // content params
@@ -804,6 +752,97 @@ define('qui/controls/desktop/Panel', [
             );
 
             return Sheet;
+        },
+
+        /**
+         * Return the Dragable Object
+         *
+         * @param {Function} callback - Callback function( {DragDrop} )
+         */
+        $getDragable : function(callback)
+        {
+            var self = this;
+
+            if ( self.$Dropable )
+            {
+                callback( self.$Dropable );
+                return;
+            }
+
+            require(['qui/classes/utils/DragDrop'], function(DragDrop)
+            {
+                self.$Dropable = new DragDrop(self.$Header, {
+                    dropables : '.qui-panel-drop',
+                    cssClass  : 'radius5',
+                    styles    : {
+                        width  : 100,
+                        height : 150
+                    },
+                    events :
+                    {
+                        onEnter : function(Element, Droppable)
+                        {
+                            Droppable.highlight();
+                            // QUI.controls.Utils.highlight( Droppable );
+                        },
+
+                        onLeave : function(Element, Droppable) {
+                            Droppable.highlight();
+                            //QUI.controls.Utils.normalize( Droppable );
+                        },
+
+                        onDrop : function(Element, Droppable, event)
+                        {
+                            if ( !Droppable ) {
+                                return;
+                            }
+
+                            var quiid = Droppable.get( 'data-quiid' );
+
+                            if ( !quiid ) {
+                                return;
+                            }
+
+                            var Parent = QUI.Controls.getById( quiid );
+
+                            Parent.normalize();
+                            Parent.appendChild( self );
+                        }
+                    }
+                });
+
+                callback( self.$Dropable );
+            });
+        },
+
+        /**
+         * event : on setAttribute
+         *
+         * @param {String} attr - Attribute name
+         * @param {unknown} value . Value of the Attribute
+         */
+        $onSetAttribute : function(attr, value)
+        {
+            if ( attr == 'dragable' )
+            {
+                var self = this;
+
+                self.$getDragable(function(Dragable)
+                {
+                    if ( self.getAttribute( 'dragable' ) )
+                    {
+                        Dragable.enable();
+                        self.$Header.setStyle( 'cursor', 'move' );
+
+                        return;
+                    }
+
+                    Dragable.disable();
+                    self.$Header.setStyle( 'cursor', 'default' );
+                });
+
+                return;
+            }
         },
 
         /**

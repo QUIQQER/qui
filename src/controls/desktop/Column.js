@@ -248,7 +248,7 @@ define('qui/controls/desktop/Column', [
                 colheight = this.$Elm.getSize().y,
                 Parent    = Panel.getParent();
 
-            // depend from another parent, if the panel have a parent
+            // depend from another parent, if the panel has a parent
             if ( Panel && typeof Parent.dependChild !== 'undefined' ) {
                 Parent.dependChild( Panel );
             }
@@ -274,6 +274,15 @@ define('qui/controls/desktop/Column', [
             if ( !Panel.getAttribute( 'height' ) || !this.count() ) {
                 Panel.setAttribute( 'height', this.$Elm.getSize().y - 2 );
             }
+
+            if ( this.getAttribute( 'sortable' ) )
+            {
+                Panel.setAttribute( 'dragable', true );
+            } else
+            {
+                Panel.setAttribute( 'dragable', false );
+            }
+
 
             // if some panels insight, resize the other panels
             if ( this.count() )
@@ -626,7 +635,6 @@ define('qui/controls/desktop/Column', [
             return QUI.Controls.getById( Next.get( 'data-quiid' ) );
         },
 
-
         /**
          * return the next panel sibling
          *
@@ -751,7 +759,6 @@ define('qui/controls/desktop/Column', [
                 panel_title_height = Panel.getHeader().getSize().y,
                 next_height        = Next.getElm().getComputedSize().totalHeight;
 
-            // -2 => border width
             Next.setAttribute( 'height', next_height + panel_height - panel_title_height );
             Next.resize();
         },
