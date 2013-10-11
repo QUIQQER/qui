@@ -396,12 +396,6 @@ define('qui/controls/desktop/Panel', [
         open : function()
         {
             this.$Content.setStyle( 'display', null );
-            this.$Footer.setStyle( 'display', null );
-
-            if ( this.getButtonBar().count() ) {
-                this.$Buttons.setStyle( 'display', null );
-            }
-
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
 
             if ( this.$Collaps )
@@ -414,6 +408,7 @@ define('qui/controls/desktop/Panel', [
             }
 
             this.fireEvent( 'open', [ this ] );
+            this.resize();
 
             return this;
         },

@@ -37,7 +37,7 @@ define('qui/controls/desktop/Column', [
             '$onContextMenu',
 
             '$onPanelOpen',
-            '$onPanelClose',
+            '$onPanelMinimize',
             '$onPanelDestroy',
 
             '$clickAddPanelToColumn',
@@ -315,7 +315,7 @@ define('qui/controls/desktop/Column', [
             Panel.resize();
 
             Panel.addEvents({
-                onMinimize : this.$onPanelClose,
+                onMinimize : this.$onPanelMinimize,
                 onOpen     : this.$onPanelOpen,
                 onDestroy  : this.$onPanelDestroy
             });
@@ -340,7 +340,7 @@ define('qui/controls/desktop/Column', [
 
             // destroy the panel events
             Panel.removeEvents({
-                onMinimize : this.$onPanelClose,
+                onMinimize : this.$onPanelMinimize,
                 onOpen     : this.$onPanelOpen,
                 onDestroy  : this.$onPanelDestroy
             });
@@ -729,11 +729,11 @@ define('qui/controls/desktop/Column', [
         /**
          * Panel close event
          *
-         * @method qui/controls/desktop/Column#$onPanelClose
+         * @method qui/controls/desktop/Column#$onPanelMinimize
          * @param {qui/controls/desktop/Panel} Panel
          * @ignore
          */
-        $onPanelClose : function(Panel)
+        $onPanelMinimize : function(Panel)
         {
             var Next = this.getNextOpenedPanel( Panel );
 
@@ -747,16 +747,12 @@ define('qui/controls/desktop/Column', [
                 return;
             }
 
-            var Elm    = Panel.getElm(),
-                height = Elm.getSize().y;
+            var panel_height       = Panel.getAttribute('height'),
+                panel_title_height = Panel.getHeader().getSize().y,
+                next_height        = Next.getElm().getComputedSize().totalHeight;
 
-            height = Panel.getAttribute( 'height' ) - height;
-
-            Next.setAttribute(
-                'height',
-                Next.getAttribute( 'height' ) + height
-            );
-
+            // -2 => border width
+            Next.setAttribute( 'height', next_height + panel_height - panel_title_height );
             Next.resize();
         },
 
@@ -779,9 +775,13 @@ define('qui/controls/desktop/Column', [
                 return;
             }
 
+            var panel_height       = Panel.getElm().getComputedSize().totalHeight,
+                panel_title_height = Panel.getHeader().getSize().y,
+                prev_height        = Prev.getElm().getComputedSize().totalHeight;
+
             Prev.setAttribute(
                 'height',
-                Prev.getAttribute( 'height' ) - Panel.getBody().getSize().y
+                prev_height - (panel_height - panel_title_height)
             );
 
             Prev.resize();
