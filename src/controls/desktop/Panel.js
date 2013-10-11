@@ -321,6 +321,15 @@ define('qui/controls/desktop/Panel', [
                 this.$Footer.setStyle( 'display', null );
             }
 
+            if ( this.getButtonBar().count() )
+            {
+                this.$Buttons.setStyle( 'display', null );
+            } else
+            {
+                this.$Buttons.setStyle( 'display', 'none' );
+            }
+
+
             if ( this.isOpen() === false )
             {
                 this.fireEvent( 'resize', [ this ] );
@@ -359,8 +368,6 @@ define('qui/controls/desktop/Panel', [
                              this.$Footer.getSize().y - 1 -
                              this.$Header.getSize().y;
 
-            console.log( this.$Footer.getSize().y );
-
             if ( this.getAttribute( 'scrollbars' ) === false ) {
                 overflow = 'hidden';
             }
@@ -391,7 +398,7 @@ define('qui/controls/desktop/Panel', [
             this.$Content.setStyle( 'display', null );
             this.$Footer.setStyle( 'display', null );
 
-            if ( this.$Buttons ) {
+            if ( this.getButtonBar().count() ) {
                 this.$Buttons.setStyle( 'display', null );
             }
 
@@ -421,10 +428,7 @@ define('qui/controls/desktop/Panel', [
         {
             this.$Content.setStyle( 'display', 'none' );
             this.$Footer.setStyle( 'display', 'none' );
-
-            if ( this.$Buttons ) {
-                this.$Buttons.setStyle( 'display', 'none' );
-            }
+            this.$Buttons.setStyle( 'display', 'none' );
 
             this.$Elm.setStyle( 'height', this.$Header.getSize().y );
 

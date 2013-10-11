@@ -1020,6 +1020,10 @@ define('qui/controls/desktop/Column', [
          */
         $onContextMenu : function(event)
         {
+            if ( !this.getParent() ) {
+                return;
+            }
+
             event.stop();
 
             var i, len, Panel, AddPanels, RemovePanels;
