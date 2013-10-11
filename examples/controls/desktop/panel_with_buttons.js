@@ -31,6 +31,8 @@ require([
         '<p>Here is some content stuff</p>'
     );
 
+    MyPanel.setFooter( 'Content of the Panelfooter' );
+
     MyPanel.addButton(
         new Button({
             text      : 'action',

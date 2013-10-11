@@ -338,7 +338,6 @@ define('qui/controls/desktop/Panel', [
             }
 
             var content_height = this.getAttribute( 'height' ),
-                content_width  = this.$Elm.getSize().x,
                 overflow       = 'auto';
 
             if ( content_height.toString().match( '%' ) )
@@ -355,13 +354,12 @@ define('qui/controls/desktop/Panel', [
                 content_height = content_height;
             }
 
-
-            content_width = content_width - this.$Categories.getSize().x;
-
             content_height = content_height -
-                             this.$Buttons.getSize().y -
-                             this.$Footer.getSize().y -
+                             this.$Buttons.getSize().y - 2 -
+                             this.$Footer.getSize().y - 1 -
                              this.$Header.getSize().y;
+
+            console.log( this.$Footer.getSize().y );
 
             if ( this.getAttribute( 'scrollbars' ) === false ) {
                 overflow = 'hidden';
@@ -369,8 +367,7 @@ define('qui/controls/desktop/Panel', [
 
             this.$Content.setStyles({
                 overflow : overflow,
-                height   : content_height,
-                width    : content_width - 2 // -2 for the border
+                height   : content_height
             });
 
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
@@ -524,7 +521,6 @@ define('qui/controls/desktop/Panel', [
          *
          * @method qui/controls/desktop/Panel#getBody
          * @return {null|DOMNode}
-         * @depricated
          */
         getContent : function()
         {
@@ -540,6 +536,30 @@ define('qui/controls/desktop/Panel', [
         setContent : function(content)
         {
             this.$Content.set( 'html', content );
+
+            return this;
+        },
+
+        /**
+         * Return the Footer DOMNode Element
+         *
+         * @method qui/controls/desktop/Panel#getFooter
+         * @return {null|DOMNode}
+         */
+        getFooter : function()
+        {
+            return this.$Footer;
+        },
+
+        /**
+         * Set the Footer
+         *
+         * @param {String} content - HTML String
+         * @return {this}
+         */
+        setFooter : function(content)
+        {
+            this.$Footer.set( 'html', content );
 
             return this;
         },
