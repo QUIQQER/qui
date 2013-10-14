@@ -2,9 +2,10 @@
 require([
 
     'qui/controls/desktop/Column',
-    'qui/controls/desktop/Panel'
+    'qui/controls/desktop/Panel',
+    'qui/controls/buttons/Button'
 
-], function(Column, Panel)
+], function(Column, Panel, Button)
 {
     "use strict";
 
@@ -38,5 +39,27 @@ require([
             content : content_placeholder
         })
     );
+
+
+
+    // extras, its not for the column creation
+    // its an api demonstration
+    var BtnContainer = new Element('div', {
+        styles : {
+            clear   : 'both',
+            'float' : 'left',
+            margin  : '30px 0 0 0'
+        }
+    }).inject( document.id( 'container' ) );
+
+    new Button({
+        text : 'column serialize',
+        events :
+        {
+            onClick : function() {
+                alert( JSON.encode( MyColumn.serialize() ) );
+            }
+        }
+    }).inject( BtnContainer );
 
 });

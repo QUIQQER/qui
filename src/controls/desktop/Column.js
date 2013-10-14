@@ -44,7 +44,9 @@ define('qui/controls/desktop/Column', [
 
             '$onEnterRemovePanel',
             '$onLeaveRemovePanel',
-            '$onClickRemovePanel'
+            '$onClickRemovePanel',
+
+            '$onDragDropStart'
         ],
 
         options : {
@@ -182,7 +184,7 @@ define('qui/controls/desktop/Column', [
                 return;
             }
 
-            var req = [];
+            var req = ['MessageHandler'];
 
             for ( i = 0, len = children.length; i < len; i++ )
             {
@@ -193,7 +195,7 @@ define('qui/controls/desktop/Column', [
                 req.push( child_modul );
             }
 
-            require(req, function()
+            require(req, function(MessageHandler)
             {
                 var i, len, attr, height, Child, Control;
 
@@ -215,20 +217,9 @@ define('qui/controls/desktop/Column', [
 
                     } catch ( Exception )
                     {
-                        require(['MessageHandler'], function(MH) {
-                            MH.addException( Exception );
-                        });
+                        MH.addException( Exception );
                     }
-                    // on append child we set the height by calculation
-                    // but we need the old height
-                    /*
-                    if ( height )
-                    {
-                        Control.setAttribute( 'height', height );
-                        Control.resize();
-                    }*/
                 }
-
             });
         },
 
@@ -282,6 +273,14 @@ define('qui/controls/desktop/Column', [
             {
                 Panel.setAttribute( 'dragable', false );
             }
+
+            // calc the drag drop arrows
+            Panel.addEvent( 'onDragDropStart', this.$onDragDropStart );
+
+            Panel.addEvent('onDrag', function(DragDrop, event)
+            {
+                // console.log( event.page.x +' : '+ event.page.x );
+            });
 
 
             // if some panels insight, resize the other panels
@@ -1150,6 +1149,69 @@ define('qui/controls/desktop/Column', [
         $onClickRemovePanel : function(Item)
         {
             Item.getAttribute( 'Panel' ).destroy();
+        },
+
+        /**
+         * DragDrop event handling
+         */
+
+        /**
+         * event : drag drop start
+         * calculates the position of the drag drop arrows
+         * and create the drag drop arrows
+         *
+         * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
+         * @param {DOMNode} DragElement - DragDrop DOMNode Element
+         */
+        $onDragDropStart : function(DragDrop, DragElement)
+        {
+            var i, y, len;
+
+            this.$ddArrowPositions = {};
+
+            var Elm    = this.getElm(),
+                elmPos = Elm.getPosition(),
+                list   = Elm.getElements( '.qui-column-hor-handle' ),
+                xPos   = elmPos.x;
+
+            this.$ddArrowPositions[ elmPos.y ] = new Element('div', {
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                styles  : {
+                    top  : elmPos.y,
+                    left : xPos
+                }
+            }).inject( document.body );
+
+            this.$ddArrowPositions[ elmPos.y + Elm.getSize().y ] = new Element('div', {
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                styles  : {
+                    top  : elmPos.y + Elm.getSize().y - 20,
+                    left : xPos
+                }
+            }).inject( document.body );
+
+            for ( i = 0, len = list.length; i < len; i++ )
+            {
+                y = list[ i ].getPosition().y;
+
+                this.$ddArrowPositions[ y ] = new Element('div', {
+                    'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                    styles  : {
+                        top  : y - 20,
+                        left : xPos
+                    }
+                }).inject( document.body );
+            }
+
+            //console.log( this.$ddArrowPositions );
+        },
+
+
+        $onDragDropStop : function()
+        {
+
         }
+
+
     });
 });

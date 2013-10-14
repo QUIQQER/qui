@@ -15,6 +15,8 @@
  * @event onMinimize [this]
  * @event onRefresh [this]
  * @event onResize [this]
+ * @event onDragDropStart [this]
+ * @event onDrag [ this, event, Element ]
  */
 
 define('qui/controls/desktop/Panel', [
@@ -46,7 +48,7 @@ define('qui/controls/desktop/Panel', [
         Type    : 'qui/controls/desktop/Panel',
 
         Binds : [
-             '$onDestroy',
+            '$onDestroy',
             '$onSetAttribute'
         ],
 
@@ -780,24 +782,36 @@ define('qui/controls/desktop/Panel', [
                     },
                     events :
                     {
-                        onEnter : function(Element, Droppable)
+                        onStart : function(Dragable, Element)
                         {
-                            Droppable.highlight();
+                            self.fireEvent(
+                                'dragDropStart',
+                                [ self, Element ]
+                            );
+                        },
+
+                        onDrag : function(Dragable, Element, event) {
+                            self.fireEvent( 'drag', [ self, event ] );
+                        },
+
+                        onEnter : function(Dragable, Element, Dropable)
+                        {
+                            Dropable.highlight();
                             // QUI.controls.Utils.highlight( Droppable );
                         },
 
-                        onLeave : function(Element, Droppable) {
-                            Droppable.highlight();
+                        onLeave : function(Dragable, Element, Dropable) {
+                            Dropable.highlight();
                             //QUI.controls.Utils.normalize( Droppable );
                         },
 
-                        onDrop : function(Element, Droppable, event)
+                        onDrop : function(Dragable, Element, Dropable, event)
                         {
-                            if ( !Droppable ) {
+                            if ( !Dropable ) {
                                 return;
                             }
 
-                            var quiid = Droppable.get( 'data-quiid' );
+                            var quiid = Dropable.get( 'data-quiid' );
 
                             if ( !quiid ) {
                                 return;

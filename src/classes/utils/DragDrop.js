@@ -9,11 +9,12 @@
  * @module qui/classes/utils/DragDrop
  * @package com.pcsg.qui.js.classes.utils
  *
- * @event onStart [Dragable, event]
- * @event onDrop [Element, Droppable, event]
- * @event onLeave [Element, Droppable]
- * @event onEnter [Element, Droppable]
- * @event onComplete [this, event]
+ * @event onStart [ this, Dragable ]
+ * @event onDrag [ this, Element, Droppable, event ]
+ * @event onDrop [ this, Element, Droppable, event ]
+ * @event onLeave [ this, Element, Droppable ]
+ * @event onEnter [ this, Element, Droppable ]
+ * @event onComplete [ this, event ]
  */
 
 define('qui/classes/utils/DragDrop', [
@@ -37,6 +38,7 @@ define('qui/classes/utils/DragDrop', [
 
         Binds : [
              '$complete',
+             '$onDrag',
              '$onDrop',
              '$onLeave',
              '$onEnter'
@@ -194,7 +196,7 @@ define('qui/classes/utils/DragDrop', [
             // document.body.addEvent( 'mouseup', this.$stop.bind( this ) );
 
             this.$Drag.focus();
-            this.fireEvent( 'start', [ this.$Drag, this ] );
+            this.fireEvent( 'start', [ this, this.$Drag ] );
 
             // if no limit exist, set it to the body
             if ( !limit.x ) {
@@ -220,6 +222,7 @@ define('qui/classes/utils/DragDrop', [
                 onDrop     : this.$onDrop,
                 onEnter    : this.$onEnter,
                 onLeave    : this.$onLeave,
+                onDrag     : this.$onDrag,
 
                 limit : limit
 
@@ -274,40 +277,52 @@ define('qui/classes/utils/DragDrop', [
         },
 
         /**
+         * event: fired on every drag step
+         *
+         * @method qui/classes/utils/DragDrop#$onDrag
+         * @param {DOMNode} Element
+         * @param {DOMEvent} event
+         */
+        $onDrag : function(Element, event)
+        {
+            this.fireEvent( 'drag', [ this, Element, event ] );
+        },
+
+        /**
          * event: if the drag drop would be droped to a dopable
          *
          * @method qui/classes/utils/DragDrop#$onDrop
          * @param {DOMNode} Element
-         * @param {DOMNode} Droppable
+         * @param {DOMNode} Dropable
          * @param {DOMEvent} event
          */
-        $onDrop : function(Element, Droppable, event)
+        $onDrop : function(Element, Dropable, event)
         {
-            this.fireEvent( 'drop', [ Element, Droppable, event ] );
+            this.fireEvent( 'drop', [ this, Element, Dropable, event ] );
         },
 
         /**
          * If the drag drop enters a dropable
          *
          * @method qui/classes/utils/DragDrop#$onDrop
-         * @param {DOMNode} element
-         * @param {DOMNode} Droppable
+         * @param {DOMNode} Element
+         * @param {DOMNode} Dropable
          */
-        $onEnter : function(element, Droppable)
+        $onEnter : function(Element, Dropable)
         {
-            this.fireEvent( 'enter', [ element, Droppable ] );
+            this.fireEvent( 'enter', [ this, Element, Dropable ] );
         },
 
         /**
          * If the drag drop leaves a dropable
          *
          * @method qui/classes/utils/DragDrop#$onLeave
-         * @param {DOMNode} element
-         * @param {DOMNode} Droppable
+         * @param {DOMNode} Element
+         * @param {DOMNode} Dropable
          */
-        $onLeave : function(element, Droppable)
+        $onLeave : function(Element, Dropable)
         {
-            this.fireEvent( 'leave', [ element, Droppable ] );
+            this.fireEvent( 'leave', [ this, Element, Dropable ] );
         }
     });
 });

@@ -43,6 +43,16 @@
     border-color: #C3C3C3;
 }
 
+.qui-column-drag-arrow {
+    color: red;
+    font-size: 18px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    width: 20px;
+}
+
 .qui-column-hightlight {
     position: absolute;
     top: 0px;
