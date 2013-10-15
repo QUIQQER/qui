@@ -9,7 +9,7 @@
  * @module qui/classes/utils/DragDrop
  * @package com.pcsg.qui.js.classes.utils
  *
- * @event onStart [ this, Dragable ]
+ * @event onStart [ this, Dragable, event ]
  * @event onDrag [ this, Element, Droppable, event ]
  * @event onDrop [ this, Element, Droppable, event ]
  * @event onLeave [ this, Element, Droppable ]
@@ -196,7 +196,7 @@ define('qui/classes/utils/DragDrop', [
             // document.body.addEvent( 'mouseup', this.$stop.bind( this ) );
 
             this.$Drag.focus();
-            this.fireEvent( 'start', [ this, this.$Drag ] );
+            this.fireEvent( 'start', [ this, this.$Drag, event ] );
 
             // if no limit exist, set it to the body
             if ( !limit.x ) {

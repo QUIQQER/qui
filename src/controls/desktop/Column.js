@@ -35,18 +35,16 @@ define('qui/controls/desktop/Column', [
 
         Binds : [
             '$onContextMenu',
-
             '$onPanelOpen',
             '$onPanelMinimize',
             '$onPanelDestroy',
-
             '$clickAddPanelToColumn',
-
             '$onEnterRemovePanel',
             '$onLeaveRemovePanel',
             '$onClickRemovePanel',
-
-            '$onDragDropStart'
+            '$onDragDropStart',
+            '$onDragDropStop',
+            '$onDrag'
         ],
 
         options : {
@@ -275,7 +273,11 @@ define('qui/controls/desktop/Column', [
             }
 
             // calc the drag drop arrows
-            Panel.addEvent( 'onDragDropStart', this.$onDragDropStart );
+            Panel.addEvents({
+                onDragDropStart    : this.$onDragDropStart,
+                onDragDropComplete : this.$onDragDropStop,
+                onDrag             : this.$onDrag
+            });
 
             Panel.addEvent('onDrag', function(DragDrop, event)
             {
@@ -1162,10 +1164,11 @@ define('qui/controls/desktop/Column', [
          *
          * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
          * @param {DOMNode} DragElement - DragDrop DOMNode Element
+         * @param {DOMEvent} event - DOM event
          */
-        $onDragDropStart : function(DragDrop, DragElement)
+        $onDragDropStart : function(DragDrop, DragElement, event)
         {
-            var i, y, len;
+            var i, y, len, closest, distance;
 
             this.$ddArrowPositions = {};
 
@@ -1177,16 +1180,18 @@ define('qui/controls/desktop/Column', [
             this.$ddArrowPositions[ elmPos.y ] = new Element('div', {
                 'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
-                    top  : elmPos.y,
-                    left : xPos
+                    top     : elmPos.y,
+                    left    : xPos,
+                    display : 'none'
                 }
             }).inject( document.body );
 
             this.$ddArrowPositions[ elmPos.y + Elm.getSize().y ] = new Element('div', {
                 'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
-                    top  : elmPos.y + Elm.getSize().y - 20,
-                    left : xPos
+                    top     : elmPos.y + Elm.getSize().y - 20,
+                    left    : xPos,
+                    display : 'none'
                 }
             }).inject( document.body );
 
@@ -1197,21 +1202,63 @@ define('qui/controls/desktop/Column', [
                 this.$ddArrowPositions[ y ] = new Element('div', {
                     'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                     styles  : {
-                        top  : y - 20,
-                        left : xPos
+                        top     : y - 20,
+                        left    : xPos,
+                        display : 'none'
                     }
                 }).inject( document.body );
             }
 
-            //console.log( this.$ddArrowPositions );
+            // calc the nearest
+            y        = event.page.y;
+            closest  = null;
+            distance = false;
+
+            for ( i in this.$ddArrowPositions )
+            {
+                distance = y-i;
+
+                if ( distance < 0 ) {
+                    distance = distance * -1;
+                }
+
+                if ( !closest || closest > distance )
+                {
+                    this.$ddArrow = this.$ddArrowPositions[ i ];
+                    closest = distance;
+                }
+            }
+
+            this.$ddArrow.setStyle( 'display', null );
         },
 
-
+        /**
+         * event : drag drop complete
+         * destroy all drag drop arrows
+         */
         $onDragDropStop : function()
         {
+            for ( var i in this.$ddArrowPositions ) {
+                this.$ddArrowPositions[ i ].destroy();
+            }
 
+            this.$ddArrowPositions = {};
+        },
+
+        /**
+         * event : drag
+         */
+        $onDrag : function(DragDrop, event)
+        {
+            var y = event.page.y;
+
+            if ( this.$ddArrowPositions[ y ] )
+            {
+                this.$ddArrow.setStyle( 'display', 'none' );
+                this.$ddArrowPositions[ y ].setStyle( 'display', null );
+
+                this.$ddArrow = this.$ddArrowPositions[ y ];
+            }
         }
-
-
     });
 });

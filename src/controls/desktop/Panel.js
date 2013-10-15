@@ -6,16 +6,14 @@
  *
  * @module controls/desktop/Panel
  * @package com.pcsg.qui.js.controls.desktop
- * @namespace QUI.controls.desktop
  *
- * @todo create footer
- *
- * @event onCreate [this]
- * @event onOpen [this]
- * @event onMinimize [this]
- * @event onRefresh [this]
- * @event onResize [this]
- * @event onDragDropStart [this]
+ * @event onCreate [ this ]
+ * @event onOpen [ this ]
+ * @event onMinimize [ this ]
+ * @event onRefresh [ this ]
+ * @event onResize [ this ]
+ * @event onDragDropStart [ this ]
+ * @event dragDropComplete [ this ]
  * @event onDrag [ this, event, Element ]
  */
 
@@ -782,11 +780,19 @@ define('qui/controls/desktop/Panel', [
                     },
                     events :
                     {
-                        onStart : function(Dragable, Element)
+                        onStart : function(Dragable, Element, event)
                         {
                             self.fireEvent(
                                 'dragDropStart',
-                                [ self, Element ]
+                                [ self, Element, event ]
+                            );
+                        },
+
+                        onComplete : function()
+                        {
+                            self.fireEvent(
+                                'dragDropComplete',
+                                [ self ]
                             );
                         },
 
