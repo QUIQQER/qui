@@ -1247,6 +1247,9 @@ define('qui/controls/desktop/Column', [
 
         /**
          * event : drag
+         *
+         * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
+         * @param {DOMEvent} event - DOM event
          */
         $onDrag : function(DragDrop, event)
         {
