@@ -63,6 +63,7 @@ define('qui/classes/utils/DragDrop', [
 
             this.$Drag    = null;
             this.$Element = Elm;
+            this.$enable  = true;
 
 
             Elm.addEvents({

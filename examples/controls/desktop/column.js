@@ -26,7 +26,7 @@ require([
 
     MyColumn.appendChild(
         new Panel({
-            title   : 'My Panel',
+            title   : 'My Panel 1',
             icon    : 'icon-heart',
             content : content_placeholder
         })
@@ -36,6 +36,14 @@ require([
         new Panel({
             title   : 'My Panel 2',
             icon    : 'icon-coffee',
+            content : content_placeholder
+        })
+    );
+
+    MyColumn.appendChild(
+        new Panel({
+            title   : 'My Panel 3',
+            icon    : 'icon-bug',
             content : content_placeholder
         })
     );
