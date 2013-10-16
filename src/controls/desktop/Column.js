@@ -1,5 +1,5 @@
 /**
- * Column for panels and apppanels
+ * Column for panels
  *
  * @author www.pcsg.de (Henning Leutz)
  *
@@ -34,6 +34,7 @@ define('qui/controls/desktop/Column', [
         Type    : 'qui/controls/desktop/Column',
 
         Binds : [
+            '$onDestroy',
             '$onContextMenu',
             '$onPanelOpen',
             '$onPanelMinimize',
@@ -44,7 +45,8 @@ define('qui/controls/desktop/Column', [
             '$onClickRemovePanel',
             '$onDragDropStart',
             '$onDragDropStop',
-            '$onDrag'
+            '$onDrag',
+            '$onDrop'
         ],
 
         options : {
@@ -66,21 +68,28 @@ define('qui/controls/desktop/Column', [
             this.$Content     = null;
             this.$panels      = {};
 
-            this.addEvent('onDestroy', function()
-            {
-                if ( this.$ContextMenu ) {
-                    this.$ContextMenu.destroy();
-                }
+            this.addEvents({
+                onDestroy : this.$onDestroy,
+                onDrop    : this.$onDrop
+            });
+        },
 
-                if ( this.$Content ) {
-                    this.$Content.destroy();
-                }
+        /**
+         * event : destroy the column
+         */
+        $onDestroy : function()
+        {
+            if ( this.$ContextMenu ) {
+                this.$ContextMenu.destroy();
+            }
 
-                if ( this.$Elm ) {
-                    this.$Elm.destroy();
-                }
+            if ( this.$Content ) {
+                this.$Content.destroy();
+            }
 
-            }.bind( this ));
+            if ( this.$Elm ) {
+                this.$Elm.destroy();
+            }
         },
 
         /**
@@ -226,9 +235,10 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#appendChild
          * @param {qui/controls/desktop/Panel|qui/controls/desktop/Tasks} Panel
+         * @param {Integer} pos - [optional] Position where to insert
          * @return {this}
          */
-        appendChild : function(Panel)
+        appendChild : function(Panel, pos)
         {
             var Prev;
 
@@ -238,7 +248,7 @@ define('qui/controls/desktop/Column', [
                 Parent    = Panel.getParent();
 
             // depend from another parent, if the panel has a parent
-            if ( Panel && typeof Parent.dependChild !== 'undefined' ) {
+            if ( typeOf( Parent ) == 'qui/controls/desktop/Column' ) {
                 Parent.dependChild( Panel );
             }
 
@@ -247,14 +257,38 @@ define('qui/controls/desktop/Column', [
             {
                 Handler = new Element('div', {
                     'class' : 'qui-column-hor-handle'
-                }).inject( this.$Content );
+                });
 
                 this.$addHorResize( Handler );
 
                 Panel.setAttribute( '_Handler', Handler );
             }
 
-            Panel.inject( this.$Content );
+            var handlelist = this.getElm().getElements(
+                '.qui-column-hor-handle'
+            );
+
+            // insert the panel
+            if ( typeof pos === 'undefined' )
+            {
+                // first panel have no handler
+                if ( Handler ) {
+                    Handler.inject( this.$Content );
+                }
+
+                Panel.inject( this.$Content );
+
+            } else if ( (pos).toInt() === 0 || !handlelist.length )
+            {
+                Handler.inject( this.$Content, 'top' );
+                Panel.inject( this.$Content, 'top' );
+            } else
+            {
+
+                console.warn( handlelist );
+
+            }
+
             Panel.setParent( this );
 
             // if no height
@@ -271,18 +305,6 @@ define('qui/controls/desktop/Column', [
             {
                 Panel.setAttribute( 'dragable', false );
             }
-
-            // calc the drag drop arrows
-            Panel.addEvents({
-                onDragDropStart    : this.$onDragDropStart,
-                onDragDropComplete : this.$onDragDropStop,
-                onDrag             : this.$onDrag
-            });
-
-            Panel.addEvent('onDrag', function(DragDrop, event)
-            {
-                // console.log( event.page.x +' : '+ event.page.x );
-            });
 
 
             // if some panels insight, resize the other panels
@@ -327,7 +349,12 @@ define('qui/controls/desktop/Column', [
             Panel.addEvents({
                 onMinimize : this.$onPanelMinimize,
                 onOpen     : this.$onPanelOpen,
-                onDestroy  : this.$onPanelDestroy
+                onDestroy  : this.$onPanelDestroy,
+
+                // drag drop events
+                onDragDropStart    : this.$onDragDropStart,
+                onDragDropComplete : this.$onDragDropStop,
+                onDrag             : this.$onDrag
             });
 
             this.$panels[ Panel.getId() ] = Panel;
@@ -360,6 +387,10 @@ define('qui/controls/desktop/Column', [
                 Parent  = false;
 
             Handler = Panel.getAttribute( '_Handler' );
+
+//            console.log( '--  dependChild --' );
+//            console.log( Handler );
+//            console.log( '//' );
 
             if ( Handler ) {
                 Parent = Handler.getParent( '[data-quiid="'+ this.getId() +'"]' );
@@ -1168,7 +1199,7 @@ define('qui/controls/desktop/Column', [
          */
         $onDragDropStart : function(DragDrop, DragElement, event)
         {
-            var i, y, len, closest, distance;
+            var i, y, len, closest, distance, Handler;
 
             this.$ddArrowPositions = {};
 
@@ -1177,27 +1208,24 @@ define('qui/controls/desktop/Column', [
                 list   = Elm.getElements( '.qui-column-hor-handle' ),
                 xPos   = elmPos.x;
 
+            // first arrow
             this.$ddArrowPositions[ elmPos.y ] = new Element('div', {
                 'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
                     top     : elmPos.y,
                     left    : xPos,
                     display : 'none'
-                }
+                },
+                'data-arrowno' : 0
             }).inject( document.body );
 
-            this.$ddArrowPositions[ elmPos.y + Elm.getSize().y ] = new Element('div', {
-                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
-                styles  : {
-                    top     : elmPos.y + Elm.getSize().y - 20,
-                    left    : xPos,
-                    display : 'none'
-                }
-            }).inject( document.body );
-
+            // arrows between
             for ( i = 0, len = list.length; i < len; i++ )
             {
-                y = list[ i ].getPosition().y;
+                Handler = list[ i ];
+                Handler.set( 'data-arrowid', String.uniqueID() );
+
+                y = Handler.getPosition().y;
 
                 this.$ddArrowPositions[ y ] = new Element('div', {
                     'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
@@ -1205,9 +1233,23 @@ define('qui/controls/desktop/Column', [
                         top     : y - 20,
                         left    : xPos,
                         display : 'none'
-                    }
+                    },
+                    'data-arrowid' : Handler.get( 'data-arrowid' ),
+                    'data-arrowno' : i + 1
                 }).inject( document.body );
             }
+
+
+            // last arrow
+            this.$ddArrowPositions[ elmPos.y + Elm.getSize().y ] = new Element('div', {
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                styles  : {
+                    top     : elmPos.y + Elm.getSize().y - 20,
+                    left    : xPos,
+                    display : 'none'
+                },
+                'data-arrowno' : i + 1
+            }).inject( document.body );
 
             // calc the nearest
             y        = event.page.y;
@@ -1238,11 +1280,20 @@ define('qui/controls/desktop/Column', [
          */
         $onDragDropStop : function()
         {
-            for ( var i in this.$ddArrowPositions ) {
+            var i, len, list;
+
+            for ( i in this.$ddArrowPositions ) {
                 this.$ddArrowPositions[ i ].destroy();
             }
 
             this.$ddArrowPositions = {};
+
+            // clean handler ids
+            list = this.getElm().getElements( '.qui-column-hor-handle' );
+
+            for ( i = 0, len = list.length; i < len; i++ ) {
+                list[ i ].set( 'data-arrowid', null );
+            }
         },
 
         /**
@@ -1262,6 +1313,22 @@ define('qui/controls/desktop/Column', [
 
                 this.$ddArrow = this.$ddArrowPositions[ y ];
             }
+        },
+
+        /**
+         * event : a control droped on the column
+         *
+         * @param {qui/controls/Control} Control - QUI Control
+         */
+        $onDrop : function(Control)
+        {
+            if ( !this.$ddArrow )
+            {
+                this.appendChild( Control );
+                return;
+            }
+
+            this.appendChild( Control, this.$ddArrow.get( 'data-arrowno' ) );
         }
     });
 });

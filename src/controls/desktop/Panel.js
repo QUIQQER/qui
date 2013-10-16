@@ -825,8 +825,16 @@ define('qui/controls/desktop/Panel', [
 
                             var Parent = QUI.Controls.getById( quiid );
 
+                            Parent.fireEvent( 'onDrop', [ self ] );
+
+                            /*
+
+                            var Parent = QUI.Controls.getById( quiid );
+
                             Parent.normalize();
                             Parent.appendChild( self );
+
+                            */
                         }
                     }
                 });
