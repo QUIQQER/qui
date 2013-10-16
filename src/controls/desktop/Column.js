@@ -698,7 +698,7 @@ define('qui/controls/desktop/Column', [
             for ( i = 0, len = list.length; i < len; i++ )
             {
                 Control = QUI.Controls.getById(
-                    list.get( 'data-quiid' )
+                    list[ i ].get( 'data-quiid' )
                 );
 
                 if ( Control && Control.isOpen() ) {
