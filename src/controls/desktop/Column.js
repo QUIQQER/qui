@@ -252,6 +252,9 @@ define('qui/controls/desktop/Column', [
                 Parent.dependChild( Panel );
             }
 
+            Panel.setParent( this );
+
+
             // create a new handler
             if ( this.count() )
             {
@@ -288,8 +291,6 @@ define('qui/controls/desktop/Column', [
                 console.warn( handlelist );
 
             }
-
-            Panel.setParent( this );
 
             // if no height
             // or no second panel exist
@@ -388,16 +389,8 @@ define('qui/controls/desktop/Column', [
 
             Handler = Panel.getAttribute( '_Handler' );
 
-//            console.log( '--  dependChild --' );
-//            console.log( Handler );
-//            console.log( '//' );
-
-            if ( Handler ) {
-                Parent = Handler.getParent( '[data-quiid="'+ this.getId() +'"]' );
-            }
-
-            if ( Parent ) {
-                this.$onPanelDestroy( Panel );
+            if ( Panel.getParent() ) {
+                Panel.getParent().$onPanelDestroy( Panel );
             }
 
             return this;
@@ -858,6 +851,32 @@ define('qui/controls/desktop/Column', [
                 {
                     Sibling = QUI.Controls.getById(
                         Next.get( 'data-quiid' )
+                    );
+
+                    height = Handler.getSize().y +
+                             Sibling.getAttribute( 'height' ) +
+                             Panel.getAttribute( 'height' );
+
+                    Sibling.setAttribute( 'height', height );
+                    Sibling.setAttribute( '_Handler', false );
+                    Sibling.resize();
+                }
+
+                Handler.destroy();
+                return;
+            }
+
+            // if the panel is the last panel
+            // so the next previous handler must be destroyed
+            if ( !Handler && !Elm.getNext() && Elm.getPrevious() )
+            {
+                Handler = Elm.getPrevious();
+                Prev    = Handler.getPrevious();
+
+                if ( Prev && Prev.get( 'data-quiid' ) )
+                {
+                    Sibling = QUI.Controls.getById(
+                        Prev.get( 'data-quiid' )
                     );
 
                     height = Handler.getSize().y +
