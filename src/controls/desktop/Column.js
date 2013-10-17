@@ -245,11 +245,18 @@ define('qui/controls/desktop/Column', [
             var Handler   = false,
                 height    = false,
                 colheight = this.$Elm.getSize().y,
-                Parent    = Panel.getParent();
+                Parent    = Panel.getParent(),
+
+                old_panel_is_me = false;
 
             // depend from another parent, if the panel has a parent
-            if ( typeOf( Parent ) == 'qui/controls/desktop/Column' ) {
+            if ( typeOf( Parent ) == 'qui/controls/desktop/Column' )
+            {
                 Parent.dependChild( Panel );
+
+                if ( Parent == this ) {
+                    old_panel_is_me = true;
+                }
             }
 
             Panel.setParent( this );
@@ -271,8 +278,24 @@ define('qui/controls/desktop/Column', [
                 '.qui-column-hor-handle'
             );
 
+//            console.log( 'handlelist' );
+//            console.log( handlelist );
+//
+//            console.log( 'pos' );
+//            console.log( pos );
+
+            // if the old panel was me, so we only make a new order
+            // there is a less column, because the panel column was destroyed
+            if ( typeof pos !== 'undefined' &&
+                 old_panel_is_me &&
+                 (pos).toInt() !== 0 )
+            {
+                pos = pos - 1;
+            }
+
+
             // insert the panel
-            if ( typeof pos === 'undefined' )
+            if ( typeof pos === 'undefined' || handlelist.length < (pos).toInt() )
             {
                 // first panel have no handler
                 if ( Handler ) {
@@ -285,11 +308,11 @@ define('qui/controls/desktop/Column', [
             {
                 Handler.inject( this.$Content, 'top' );
                 Panel.inject( this.$Content, 'top' );
-            } else
+
+            } else if ( typeof handlelist[ pos - 1 ] !== 'undefined' )
             {
-
-                console.warn( handlelist );
-
+                Handler.inject( handlelist[ pos - 1 ], 'after' );
+                Panel.inject( handlelist[ pos - 1 ], 'after' );
             }
 
             // if no height
@@ -385,11 +408,11 @@ define('qui/controls/desktop/Column', [
 
             // if the panel is from this column
             var Handler = false,
-                Parent  = false;
+                Parent  = Panel.getParent();
 
             Handler = Panel.getAttribute( '_Handler' );
 
-            if ( Panel.getParent() ) {
+            if ( Parent ) {
                 Panel.getParent().$onPanelDestroy( Panel );
             }
 
