@@ -304,8 +304,6 @@ define('qui/controls/desktop/Column', [
 
             } else if ( typeof handlelist[ pos - 1 ] !== 'undefined' )
             {
-                console.log( 11 );
-
                 Handler.inject( handlelist[ pos - 1 ], 'after' );
                 Panel.inject( handlelist[ pos - 1 ], 'after' );
             }
