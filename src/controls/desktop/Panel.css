@@ -4,6 +4,7 @@
     border: 1px solid #D3D3D3;
     clear: both;
     float: left;
+    overflow: hidden;
     position: relative;
     width: 100%;
 }

@@ -278,12 +278,6 @@ define('qui/controls/desktop/Column', [
                 '.qui-column-hor-handle'
             );
 
-//            console.log( 'handlelist' );
-//            console.log( handlelist );
-//
-//            console.log( 'pos' );
-//            console.log( pos );
-
             // if the old panel was me, so we only make a new order
             // there is a less column, because the panel column was destroyed
             if ( typeof pos !== 'undefined' &&
@@ -292,7 +286,6 @@ define('qui/controls/desktop/Column', [
             {
                 pos = pos - 1;
             }
-
 
             // insert the panel
             if ( typeof pos === 'undefined' || handlelist.length < (pos).toInt() )
@@ -311,6 +304,8 @@ define('qui/controls/desktop/Column', [
 
             } else if ( typeof handlelist[ pos - 1 ] !== 'undefined' )
             {
+                console.log( 11 );
+
                 Handler.inject( handlelist[ pos - 1 ], 'after' );
                 Panel.inject( handlelist[ pos - 1 ], 'after' );
             }
@@ -840,6 +835,45 @@ define('qui/controls/desktop/Column', [
             );
 
             Prev.resize();
+
+            // check if the panel content have a scroll bar
+            var elm_size   = this.$Content.getSize().y,
+                elm_scroll = this.$Content.getScrollSize().y;
+
+            if ( elm_size >= elm_scroll ) {
+                return;
+            }
+
+            // we must recalc our panels
+            // we have no space :-/ or to many space
+            var len    = Object.getLength( this.$panels ),
+                height = Math.ceil( elm_size / len );
+
+            for ( var quiid in this.$panels )
+            {
+                Panel = this.$panels[ quiid ];
+
+                if ( !Panel.isOpen() ) {
+                    continue;
+                }
+
+                Panel.setAttribute( 'height', height );
+                Panel.resize();
+            }
+
+            // look at the last
+            var i;
+            var childheight = 0,
+                children    = this.$Content.getChildren();
+
+            for ( i = 0, len = children.length; i < len; i++ ) {
+                childheight = childheight + children[ i ].getSize().y;
+            }
+
+            Panel.setAttribute(
+                'height',
+                Panel.getAttribute( 'height' ) - ( childheight - elm_size )
+            );
         },
 
         /**
