@@ -786,8 +786,12 @@ define('qui/controls/desktop/Column', [
         {
             var Next = this.getNextOpenedPanel( Panel );
 
-            if ( !Next ) {
+            Panel.setAttribute( 'columnCloseDirection', 'next' );
+
+            if ( !Next )
+            {
                 Next = this.getPreviousOpenedPanel( Panel );
+                Panel.setAttribute( 'columnCloseDirection', 'prev' );
             }
 
             if ( !Next )
@@ -813,7 +817,21 @@ define('qui/controls/desktop/Column', [
          */
         $onPanelOpen : function(Panel)
         {
-            var Prev = this.getPreviousOpenedPanel( Panel );
+            // find the sibling
+            var Prev      = false,
+                direction = Panel.getAttribute( 'columnCloseDirection' );
+
+            if ( direction && direction == 'next' ) {
+                Prev = this.getNextOpenedPanel( Panel );
+            }
+
+            if ( direction && direction == 'prev' ) {
+                Prev = this.getPreviousOpenedPanel( Panel );
+            }
+
+            if ( !Prev ) {
+                Prev = this.getPreviousOpenedPanel( Panel );
+            }
 
             if ( !Prev ) {
                 Prev = this.getNextOpenedPanel( Panel );
@@ -822,6 +840,7 @@ define('qui/controls/desktop/Column', [
             if ( !Prev ) {
                 return;
             }
+
 
             var panel_height       = Panel.getElm().getComputedSize().totalHeight,
                 panel_title_height = Panel.getHeader().getSize().y,
