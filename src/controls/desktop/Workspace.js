@@ -47,6 +47,10 @@ define('qui/controls/desktop/Workspace', [
             '$onHandlerContextMenuClick'
         ],
 
+        options : {
+            limit : {}
+        },
+
         initialize : function(Parent, options)
         {
             this.parent( options );
@@ -65,6 +69,8 @@ define('qui/controls/desktop/Workspace', [
          *
          * @method qui/controls/desktop.Workspace#load
          * @return {this}
+         *
+         * @todo controls müssen über require gehohlt werden
          */
         load : function()
         {
@@ -72,8 +78,12 @@ define('qui/controls/desktop/Workspace', [
 
             this.$Loader.show();
 
+            var self = this;
+
             require([
+
                 "qui/controls/desktop/Panel"
+
             ], function(QUIPanel)
             {
                 var workspace = QUIStorage.get( 'qui.workspace' );
@@ -106,16 +116,11 @@ define('qui/controls/desktop/Workspace', [
 
                     // resize columns width %
                     this.resize( workspace );
-
-                } else
-                {
-                    this.defaultSpace();
                 }
 
-                this.fireEvent( 'load' );
-                this.$Loader.hide();
-
-            }.bind( this ));
+                self.fireEvent( 'load' );
+                self.$Loader.hide();
+            });
 
             return this;
         },
@@ -253,13 +258,11 @@ define('qui/controls/desktop/Workspace', [
         /**
          * Add a column to the workspace
          *
-         * @param {qui/controls/desktop.Column|Params} Column
+         * @param {qui/controls/desktop/Column|Params} Column
          * @return {this}
          */
         appendChild : function(Column)
         {
-            console.log( typeOf( Column ) );
-
             if ( typeOf( Column ) !== 'qui/controls/desktop/Column' ) {
                 Column = new QUIColumn( Column );
             }
@@ -282,6 +285,7 @@ define('qui/controls/desktop/Workspace', [
             if ( this.count() )
             {
                 var Handler = new Element('div', {
+                    html    : '&nbps;',
                     'class' : 'qui-column-handle',
                     styles  : {
                         width       : 4,
@@ -322,13 +326,13 @@ define('qui/controls/desktop/Workspace', [
          * it looks for an panel with the name content-panel, if that not exist
          * then it took the panel to a column
          *
-         * @param {QUI.controls.dekstop.Panel} Panel
+         * @param {qui/controls/dekstop/Panel} Panel
          */
         appendPanel : function(Panel)
         {
-            if ( QUI.Controls.getByType( 'qui/controls/desktop.Tasks' ).length )
+            if ( QUI.Controls.getByType( 'qui/controls/desktop/Tasks' ).length )
             {
-                QUI.Controls.getByType( 'qui/controls/desktop.Tasks' )[ 0 ].appendChild(
+                QUI.Controls.getByType( 'qui/controls/desktop/Tasks' )[ 0 ].appendChild(
                     Panel
                 );
 
@@ -372,7 +376,7 @@ define('qui/controls/desktop/Workspace', [
         /**
          * Return the first column
          *
-         * @return {qui/controls/desktop.Column|false}
+         * @return {qui/controls/desktop/Column|false}
          */
         firstChild : function()
         {
@@ -623,7 +627,7 @@ define('qui/controls/desktop/Workspace', [
                 },
                 events :
                 {
-                    onStart : function(Dragable, DragDrop)
+                    onStart : function(DragDrop, Dragable)
                     {
                         var pos   = Handler.getPosition(),
                             limit = DragDrop.getAttribute( 'limit' );
@@ -640,18 +644,18 @@ define('qui/controls/desktop/Workspace', [
                         });
                     },
 
-                    onStop : function(Dragable, DragDrop)
+                    onStop : function(DragDrop, Dragable)
                     {
-                        if ( this.isOpen() === false ) {
-                            this.open();
+                        if ( Column.isOpen() === false ) {
+                            Column.open();
                         }
 
                         var change, next_width, this_width;
 
                         var pos  = Dragable.getPosition(),
                             hpos = Handler.getPosition(),
-                            Prev = this.getPrevious(),
-                            Next = this.getNext();
+                            Prev = Column.getPrevious(),
+                            Next = Column.getNext();
 
 
                         change = pos.x - hpos.x - Handler.getSize().x;
@@ -669,23 +673,23 @@ define('qui/controls/desktop/Workspace', [
                             placement = 'right';
                         }
 
-                        this_width = this.getAttribute( 'width' );
+                        this_width = Column.getAttribute( 'width' );
                         next_width = Sibling.getAttribute( 'width' );
 
                         if ( placement == 'left' )
                         {
-                            this.setAttribute( 'width', this_width + change );
+                            Column.setAttribute( 'width', this_width + change );
                             Sibling.setAttribute( 'width', next_width - change );
 
                         } else if ( placement == 'right' )
                         {
-                            this.setAttribute( 'width', this_width - change );
+                            Column.setAttribute( 'width', this_width - change );
                             Sibling.setAttribute( 'width', next_width + change );
                         }
 
                         Sibling.resize();
-                        this.resize();
-                    }.bind( Column )
+                        Column.resize();
+                    }
                 }
             });
         },

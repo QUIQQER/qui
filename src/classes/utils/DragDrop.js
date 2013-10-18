@@ -10,6 +10,7 @@
  * @package com.pcsg.qui.js.classes.utils
  *
  * @event onStart [ this, Dragable, event ]
+ * @event onStop [ this, Dragable ]
  * @event onDrag [ this, Element, Droppable, event ]
  * @event onDrop [ this, Element, Droppable, event ]
  * @event onLeave [ this, Element, Droppable ]
@@ -258,7 +259,7 @@ define('qui/classes/utils/DragDrop', [
 
             if ( typeof this.$Drag !== 'undefined' || this.$Drag )
             {
-                this.fireEvent( 'stop', [ this.$Drag, this ] );
+                this.fireEvent( 'stop', [ this, this.$Drag ] );
 
                 this.$Drag.destroy();
                 this.$Drag = null;

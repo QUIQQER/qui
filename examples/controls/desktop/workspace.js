@@ -10,6 +10,8 @@ require([
 {
     "use strict";
 
+    document.id( 'container' ).setStyle('height', 400);
+
     var content_placeholder = 'Minions ipsum ti aamoo! Tatata bala tu gelatooo uuuhhh la bodaaa. ' +
                               'Para tú potatoooo underweaaar aaaaaah. La bodaaa baboiii hahaha hahaha ' +
                               'butt jiji jiji chasy poulet tikka masala tulaliloo tulaliloo. ' +
@@ -28,16 +30,12 @@ require([
 
     // Columns
     var Column1 = new Column({
-        title  : 'My Column 1',
-        height : 600,
-        width  : 500
+        title  : 'My Column 1'
     });
 
 
     var Column2 = new Column({
-        title  : 'My Column 2',
-        height : 600,
-        width  : 500
+        title  : 'My Column 2'
     });
 
     MyWorkspace.appendChild( Column1 );
@@ -68,5 +66,27 @@ require([
         })
     );
 
+    Column2.appendChild(
+        new Panel({
+            title   : 'My Panel 1',
+            icon    : 'icon-heart',
+            content : content_placeholder
+        })
+    );
 
+    Column2.appendChild(
+        new Panel({
+            title   : 'My Panel 2',
+            icon    : 'icon-coffee',
+            content : content_placeholder
+        })
+    );
+
+    Column2.appendChild(
+        new Panel({
+            title   : 'My Panel 3',
+            icon    : 'icon-bug',
+            content : content_placeholder
+        })
+    );
 });
