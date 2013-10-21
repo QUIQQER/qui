@@ -17,6 +17,7 @@
 
     <link href="../extend/classes.css" rel="stylesheet" />
     <link href="../extend/animate.min.css" rel="stylesheet" />
+    <link href="../extend/buttons.css" rel="stylesheet" />
     <link href="../extend/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <!-- <link href="../src/themes/pink.css" rel="stylesheet" /> -->
     <!-- <link href="../src/themes/blue.css" rel="stylesheet" /> -->

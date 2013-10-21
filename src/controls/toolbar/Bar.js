@@ -207,11 +207,11 @@ define('qui/controls/toolbar/Bar', [
             // left / right
             this.BtnLeft = new Button({
                 name    : 'toLeft',
-                text    : '<div class="qui-toolbar-left"></div>',
+                'class' : 'qui-toolbar-button icon-chevron-left',
                 events  :
                 {
                     onClick : function(Btn) {
-                        Btn.getAttribute('Toolbar').toLeft();
+                        Btn.getAttribute( 'Toolbar' ).toLeft();
                     }
                 },
                 Toolbar : this
@@ -219,11 +219,11 @@ define('qui/controls/toolbar/Bar', [
 
             this.BtnRight = new Button({
                 name    : 'toRight',
-                text    : '<div class="qui-toolbar-right"></div>',
+                'class' : 'qui-toolbar-button icon-chevron-right',
                 events  :
                 {
                     onClick : function(Btn) {
-                        Btn.getAttribute('Toolbar').toRight();
+                        Btn.getAttribute( 'Toolbar' ).toRight();
                     }
                 },
                 Toolbar : this
@@ -231,8 +231,7 @@ define('qui/controls/toolbar/Bar', [
 
             // create the left context menu
             this.Menu = new Button({
-                name : '_tab',
-                text : '<div class="qui-toolbar-dropdown"></div>'
+                'class' : 'qui-toolbar-button icon-chevron-down'
             });
 
             this.Menu.setParent( this );
@@ -745,12 +744,15 @@ define('qui/controls/toolbar/Bar', [
             {
                 cwidth = ( this.getAttribute( 'width' ) ).toInt();
 
-                if ( this.getAttribute( 'slide' ) ) {
-                    cwidth = cwidth - 60;
+                if ( this.getAttribute( 'slide' ) )
+                {
+                    cwidth = cwidth -
+                             this.BtnLeft.getElm().getComputedSize().totalWidth -
+                             this.BtnRight.getElm().getComputedSize().totalWidth;
                 }
 
                 if ( this.getAttribute( 'menu-button' ) ) {
-                    cwidth = cwidth - 50;
+                    cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
                 }
 
             } else

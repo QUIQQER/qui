@@ -11,19 +11,10 @@
     overflow: hidden;
 }
 
-.qui-toolbar-left {
-    width: 5px;
-    height: 10px;
-    background: url('images/left.png') no-repeat center center;
-}
-
-.qui-toolbar-right {
-    width: 5px;
-    height: 10px;
-    background: url('images/right.png') no-repeat center center;
-}
-
-.qui-toolbar-dropdown {
-    height: 10px;
-    width: 10px;
+.qui-toolbar-button {
+    border-bottom-width: 2px !important;
+    float: left;
+    line-height: 32px !important;
+    margin: 0 2px !important;
+    padding: 0 10px !important;
 }

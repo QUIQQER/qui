@@ -1049,7 +1049,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$horResizeStop
          */
-        $horResizeStop : function(Dragable, DragDrop)
+        $horResizeStop : function(DragDrop, Dragable)
         {
             var i, len, change;
 

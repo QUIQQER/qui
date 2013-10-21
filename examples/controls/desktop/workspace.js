@@ -30,12 +30,13 @@ require([
 
     // Columns
     var Column1 = new Column({
-        title  : 'My Column 1'
+        title : 'My Column 1'
     });
 
 
     var Column2 = new Column({
-        title  : 'My Column 2'
+        title : 'My Column 2',
+        width : document.body.getSize().x * 0.8
     });
 
     MyWorkspace.appendChild( Column1 );
