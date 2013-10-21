@@ -13,11 +13,11 @@ require([
     /**
      * Create a tabbar
      */
-    new Tabbar({
+    var MyTabbar = new Tabbar({
         width : 300
-    }).inject(
-        Container
-    ).appendChild(
+    }).inject( Container );
+
+    MyTabbar.appendChild(
         new Tab({
             text : 'Tab 1',
             icon : 'icon-heart'
@@ -33,4 +33,8 @@ require([
             icon : 'icon-coffee'
         })
     );
+
+    console.log( MyTabbar.firstChild() );
+
+    MyTabbar.firstChild().activate();
 });

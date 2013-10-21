@@ -18,3 +18,7 @@
     margin: 0 2px !important;
     padding: 0 10px !important;
 }
+
+.qui-toolbar-button .qui-button-drop {
+    display: none;
+}

@@ -128,26 +128,11 @@ define('qui/controls/toolbar/Tab', [
          *
          * @method qui/controls/toolbar/Tab#setActive
          * @return {this}
+         * @depricated
          */
         setActive : function()
         {
-            if ( this.$disabled === true ) {
-                return this;
-            }
-
-            if ( this.$active === true ) {
-                return this;
-            }
-
-            this.$active = true;
-
-            this.getElm().addClass( 'qui-toolbar-active' );
-
-            if ( this.getParent() ) {
-                this.getParent().setItemActive( this );
-            }
-
-            return this;
+            return this.actvate();
         },
 
         /**
@@ -240,6 +225,33 @@ define('qui/controls/toolbar/Tab', [
             this.$active = false;
             this.getElm().removeClass( 'qui-toolbar-active' );
             this.fireEvent( 'leave', [ this ] );
+
+            return this;
+        },
+
+        /**
+         * Set the tab active
+         *
+         * @method qui/controls/toolbar/Tab#activate
+         * @return {this}
+         */
+        activate : function()
+        {
+            if ( this.$disabled === true ) {
+                return this;
+            }
+
+            if ( this.$active === true ) {
+                return this;
+            }
+
+            this.$active = true;
+
+            this.getElm().addClass( 'qui-toolbar-active' );
+
+            if ( this.getParent() ) {
+                this.getParent().setItemActive( this );
+            }
 
             return this;
         },
