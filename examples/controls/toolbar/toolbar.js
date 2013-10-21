@@ -34,7 +34,5 @@ require([
         })
     );
 
-    console.log( MyTabbar.firstChild() );
-
     MyTabbar.firstChild().activate();
 });

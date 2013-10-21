@@ -13,11 +13,12 @@
 define('qui/controls/toolbar/Tab', [
 
     'qui/controls/Control',
+    'qui/utils/Controls',
     'qui/utils/NoSelect',
 
     'css!qui/controls/toolbar/Tab.css'
 
-], function(Control, NoSelect)
+], function(Control, Utils, NoSelect)
 {
     "use strict";
 
@@ -52,6 +53,7 @@ define('qui/controls/toolbar/Tab', [
 
             this.$Elm  = null;
             this.$Text = null;
+            this.$Icon = null;
             this.$Menu = null;
 
             this.parent( options );
@@ -95,11 +97,42 @@ define('qui/controls/toolbar/Tab', [
                 this.$Elm.addClass( this.getAttribute( 'class' ) );
             }
 
+
+            if ( this.getAttribute( 'icon' ) )
+            {
+                var value = this.getAttribute( 'icon' );
+
+                this.$Icon = new Element('span', {
+                    'class' : 'qui-toolbar-tab-icon'
+                }).inject( this.$Elm );
+
+                if ( Utils.isFontAwesomeClass( value ) )
+                {
+                    this.$Icon.addClass( value );
+
+                } else
+                {
+                    new Element('img.qui-button-image', {
+                        src    : value,
+                        styles : {
+                            'display' : 'block' // only image, fix
+                        }
+                    }).inject( this.$Icon );
+                }
+            }
+
+
             this.$Text = new Element('span', {
-                text : this.getAttribute('text')
+                'class' : 'qui-toolbar-tab-text',
+                text    : this.getAttribute('text')
             });
 
             this.$Text.inject( this.$Elm );
+
+            if ( this.$Icon ) {
+                this.$Text.setStyle( 'marginLeft', 0 );
+            }
+
 
             NoSelect.disable( this.$Elm );
 
@@ -132,7 +165,7 @@ define('qui/controls/toolbar/Tab', [
          */
         setActive : function()
         {
-            return this.actvate();
+            return this.activate();
         },
 
         /**
@@ -295,7 +328,7 @@ define('qui/controls/toolbar/Tab', [
          */
         click : function()
         {
-            this.setActive();
+            this.activate();
 
             if ( this.$Menu ) {
                 this.$Menu.show();

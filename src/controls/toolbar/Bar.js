@@ -609,9 +609,10 @@ define('qui/controls/toolbar/Bar', [
                 return this;
             }
 
-            var type = Itm.getType();
+            var self = this,
+                type = Itm.getType();
 
-            switch ( Itm.getType() )
+            switch ( type )
             {
                 case 'qui/controls/buttons/Button':
                 case 'qui/controls/buttons/Select':
@@ -625,6 +626,15 @@ define('qui/controls/toolbar/Bar', [
             }
 
             Itm.setParent( this );
+
+            if ( type == 'qui/controls/toolbar/Tab' )
+            {
+                Itm.addEvent('click', function(Item) {
+                    self.toTab( Item );
+                });
+            }
+
+
             this.fireEvent( 'appendChild', [ this, Itm ] );
 
             // Falls Toolbar eine Tabbar ist, Buttons an vorletzter Stelle
@@ -655,8 +665,8 @@ define('qui/controls/toolbar/Bar', [
 
             Itm.inject( this.Tabs );
 
-             if ( this.Menu )
-             {
+            if ( this.Menu )
+            {
                 this.Menu.appendChild(
                     this.$addContextMenuItm( Itm )
                 );

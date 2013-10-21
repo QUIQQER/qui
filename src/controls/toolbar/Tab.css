@@ -33,11 +33,6 @@
     */
 }
 
-.qui-toolbar-tab span {
-    margin: 0 20px;
-    white-space: nowrap;
-}
-
 .qui-toolbar-active {
     background: #FFFFFF !important;
     border-color: #DDDDDD;
@@ -67,3 +62,21 @@
     background: -webkit-gradient(linear, center bottom, center top, from(#ebe7dc), to(#d7d4cb));
     */
 }
+
+.qui-toolbar-tab-text {
+    margin: 0 20px;
+    white-space: nowrap;
+}
+
+.qui-toolbar-tab-icon {
+    float: left;
+    line-height: 32px;
+    margin: 0 10px 0 20px;
+}
+
+
+
+
+
+
+
