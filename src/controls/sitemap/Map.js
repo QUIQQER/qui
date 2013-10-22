@@ -398,19 +398,22 @@ define('qui/controls/sitemap/Map', [
         {
             search = search || '';
 
-            var i, len, qid, Item;
+            var i, len, qid, Item, Node;
 
             var list     = this.$Elm.getElements('.qui-sitemap-entry-text'),
                 result   = [],
                 Controls = QUI.Controls,
-
                 regex    = new RegExp(search, "gi");
 
             for ( i = 0, len = list.length; i < len; i++ )
             {
-                if ( list[i].get('text').match( regex ) )
+                Node = list[ i ];
+
+                if ( Node.get('text').match( regex ) )
                 {
-                    qid  = list[i].getParent().get('data-quiid');
+                    qid  = Node.getParent( '.qui-sitemap-entry' )
+                               .get('data-quiid');
+
                     Item = Controls.getById( qid );
 
                     if ( Item ) {

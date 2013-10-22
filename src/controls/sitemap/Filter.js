@@ -6,40 +6,37 @@
  *
  * @module controls/sitemap/Filter
  * @package com.pcsg.qui.js.controls.sitemap
- * @namespace QUI.controls.project
  *
  * @event onFocus [this]
  * @event onResultNotViewable [this, Item] <-- delete
  * @event onFilter  [this, results]
  */
 
-define('controls/sitemap/Filter', [
+define('qui/controls/sitemap/Filter', [
 
-    'controls/Control',
-    'controls/buttons/Button',
+    'qui/controls/Control',
+    'qui/controls/buttons/Button',
 
-    'css!controls/sitemap/Filter.css'
+    'css!qui/controls/sitemap/Filter.css'
 
-], function(QUI_Control)
+], function(Control, Button)
 {
     "use strict";
-
-    QUI.namespace( 'controls.sitemap' );
 
     /**
      * A project sitemap
      *
-     * @class QUI.controls.projects.Filter
+     * @class qui/controls/sitemap/Filter
      *
-     * @param {QUI.controls.sitemap.Map}
+     * @param {qui/controls/sitemap/Map}
      * @param {Object} options
      *
      * @memberof! <global>
      */
-    QUI.controls.sitemap.Filter = new Class({
+    return new Class({
 
-        Extends : QUI_Control,
-        Type    : 'QUI.controls.sitemap.Filter',
+        Extends : Control,
+        Type    : 'qui/controls/sitemap/Filter',
 
         Binds : [
             'filter',
@@ -54,7 +51,7 @@ define('controls/sitemap/Filter', [
 
         initialize : function(Sitemap, options)
         {
-            this.init( options );
+            this.parent( options );
 
             this.$Elm   = null;
             this.$Input = null;
@@ -68,11 +65,13 @@ define('controls/sitemap/Filter', [
         /**
          * Create the DOMNode of the sitemap filter
          *
-         * @method QUI.controls.sitemap.Filter#create
+         * @method qui/controls/sitemap/Filter#create
          * @return {DOMNode} DOM-Element
          */
         create : function()
         {
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class' : 'qui-sitemap-filter box',
                 html    : '<input type="text" placeholder="'+ this.getAttribute('placeholder') +'" />'
@@ -86,47 +85,46 @@ define('controls/sitemap/Filter', [
                 {
                     if ( event.key == 'enter' )
                     {
-                        this.filter( this.getInput().value );
+                        self.filter( self.getInput().value );
                         return;
                     }
 
-                    if ( this.$timeoutID ) {
-                        clearTimeout( this.$timeoutID );
+                    if ( self.$timeoutID ) {
+                        clearTimeout( self.$timeoutID );
                     }
 
-                    this.$timeoutID = function()
+                    self.$timeoutID = function()
                     {
-                        this.filter( this.getInput().value );
-                        this.$timeoutID = false;
+                        self.filter( self.getInput().value );
+                        self.$timeoutID = false;
 
-                    }.delay( 250, this );
+                    }.delay( 250 );
 
-                }.bind( this ),
+                },
 
                 focus : function(event)
                 {
-                    this.fireEvent( 'focus', [ this ] );
-                }.bind( this ),
+                    self.fireEvent( 'focus', [ self ] );
+                },
 
                 blur : function()
                 {
-                    if ( this.getInput().value === '' ) {
-                        this.filter();
+                    if ( self.getInput().value === '' ) {
+                        self.filter();
                     }
-
-                }.bind( this )
+                }
             });
 
 
             if ( this.getAttribute( 'withbutton' ) )
             {
-                this.$Search = new QUI.controls.buttons.Button({
+                this.$Search = new Button({
                     image  : URL_BIN_DIR +'16x16/search.png',
                     events :
                     {
                         onClick : function() {
-                            this.filter( this.getInput().value );
-                        }.bind( this )
+                            self.filter( self.getInput().value );
+                        }
                     }
                 }).inject( this.$Elm );
             }
@@ -143,8 +141,8 @@ define('controls/sitemap/Filter', [
          * Sets the sitemap which is to be searched
          * Older Sitemap binds persist
          *
-         * @method QUI.controls.sitemap.Filter#bindSitemap
-         * @param {QUI.controls.sitemap.Map} Sitemap
+         * @method qui/controls/sitemap/Filter#bindSitemap
+         * @param {qui/controls/sitemap/Map} Sitemap
          * @return {this} self
          */
         bindSitemap : function(Sitemap)
@@ -161,7 +159,7 @@ define('controls/sitemap/Filter', [
         /**
          * all binds would be resolved
          *
-         * @method QUI.controls.sitemap.Filter#clearBinds
+         * @method qui/controls/sitemap/Filter#clearBinds
          * @return {this} self
          */
         clearBinds : function()
@@ -174,7 +172,7 @@ define('controls/sitemap/Filter', [
         /**
          * Return the filter input DOMNode Element
          *
-         * @method QUI.controls.sitemap.Filter#getInput
+         * @method qui/controls/sitemap/Filter#getInput
          * @return {DOMNode}
          */
         getInput : function()
@@ -185,7 +183,7 @@ define('controls/sitemap/Filter', [
         /**
          * Filter the Sitemaps
          *
-         * @method QUI.controls.sitemap.Filter#filter
+         * @method qui/controls/sitemap/Filter#filter
          * @param {String} str - the filter value
          * @return {this}
          */
@@ -203,8 +201,8 @@ define('controls/sitemap/Filter', [
         /**
          * Helper Function for the filter
          *
-         * @method QUI.controls.sitemap.Filter#$filter
-         * @param {QUI.controls.sitemap.Map} Map - the Sitemap
+         * @method qui/controls/sitemap/Filter#$filter
+         * @param {qui/controls/sitemap/Map} Map - the Sitemap
          * @param {String} str - the filter value
          */
         $filter : function(Map, str)
@@ -241,6 +239,4 @@ define('controls/sitemap/Filter', [
             this.fireEvent( 'filter', [ this, result ] );
         }
     });
-
-    return QUI.controls.sitemap.Filter;
 });
