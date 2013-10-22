@@ -49,11 +49,8 @@ define('qui/controls/sitemap/Map', [
             {
                 Child.addEvents({
 
-                    onClick : function(Item, event)
-                    {
+                    onClick : function(Item, event) {
                         self.fireEvent( 'childClick', [ Item, self ] );
-                        Item.select();
-
                     },
 
                     onSelect : function(Item, event)

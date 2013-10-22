@@ -62,13 +62,17 @@
     line-height: 30px;
 }
 
-.qui-sitemap-entry-container:hover,
-.qui-sitemap-entry .select {
-    background-color: #6C98D9;
-    color: #FFF;
+.qui-sitemap-entry-container:hover {
+    background-color: #2F8FC6;
+    color: #FFFFFF;
 }
 
-.qui-sitemap-entry .holdBack {
+.qui-sitemap-entry-select {
+    background-color: #0069B4;
+    color: #FFFFFF;
+}
+
+.qui-sitemap-entry-holdBack {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
         filter: alpha(opacity=20);
 

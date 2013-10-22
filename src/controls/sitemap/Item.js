@@ -144,10 +144,11 @@ define('qui/controls/sitemap/Item', [
                 }
             });
 
-            this.$Opener   = this.$Elm.getElement('.qui-sitemap-entry-opener');
-            this.$Icons    = this.$Elm.getElement('.qui-sitemap-entry-icon');
-            this.$Text     = this.$Elm.getElement('.qui-sitemap-entry-text');
-            this.$Children = this.$Elm.getElement('.qui-sitemap-entry-children');
+            this.$Opener    = this.$Elm.getElement('.qui-sitemap-entry-opener');
+            this.$Icons     = this.$Elm.getElement('.qui-sitemap-entry-icon');
+            this.$Text      = this.$Elm.getElement('.qui-sitemap-entry-text');
+            this.$Children  = this.$Elm.getElement('.qui-sitemap-entry-children');
+            this.$Container = this.$Elm.getElement('.qui-sitemap-entry-container');
 
             // events
             this.$Opener.addEvents({
@@ -435,14 +436,15 @@ define('qui/controls/sitemap/Item', [
          * Select the Item
          *
          * @method qui/controls/sitemap/Item#select
+         * @param {DOMEvent} event - [optional]
          * @return {this} self
          */
-        select : function()
+        select : function(event)
         {
-            this.fireEvent( 'select', [ this ] );
+            this.fireEvent( 'select', [ this, event ] );
 
-            if ( this.$Text ) {
-                this.$Text.addClass( 'select' );
+            if ( this.$Container ) {
+                this.$Container.addClass( 'qui-sitemap-entry-select' );
             }
 
             return this;
@@ -458,8 +460,8 @@ define('qui/controls/sitemap/Item', [
         {
             this.fireEvent( 'deSelect', [ this ] );
 
-            if ( this.$Text ) {
-                this.$Text.removeClass( 'select' );
+            if ( this.$Container ) {
+                this.$Container.removeClass( 'qui-sitemap-entry-select' );
             }
 
             return this;
@@ -473,18 +475,14 @@ define('qui/controls/sitemap/Item', [
          */
         normalize : function()
         {
-            if ( this.$Text )
+            if ( this.$Container )
             {
-                this.$Text.removeClass( 'select' );
-                this.$Text.removeClass( 'holdBack' );
+                this.$Container.removeClass( 'qui-sitemap-entry-select' );
+                this.$Container.removeClass( 'qui-sitemap-entry-holdBack' );
             }
 
             if ( this.$Opener ) {
-                this.$Opener.removeClass( 'holdBack' );
-            }
-
-            if ( this.$Icons ) {
-                this.$Icons.removeClass( 'holdBack' );
+                this.$Opener.removeClass( 'qui-sitemap-entry-holdBack' );
             }
 
             return this;
@@ -498,16 +496,12 @@ define('qui/controls/sitemap/Item', [
          */
         holdBack : function()
         {
-            if ( this.$Text ) {
-                this.$Text.addClass( 'holdBack' );
+            if ( this.$Container ) {
+                this.$Container.addClass( 'qui-sitemap-entry-holdBack' );
             }
 
             if ( this.$Opener ) {
-                this.$Opener.addClass( 'holdBack' );
-            }
-
-            if ( this.$Icons ) {
-                this.$Icons.addClass( 'holdBack' );
+                this.$Opener.addClass( 'qui-sitemap-entry-holdBack' );
             }
         },
 
@@ -519,8 +513,8 @@ define('qui/controls/sitemap/Item', [
          */
         click : function(event)
         {
-            this.select();
-            this.fireEvent( 'click', [this, event] );
+            this.select( event );
+            this.fireEvent( 'click', [ this, event ] );
         },
 
         /**
