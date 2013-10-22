@@ -11,7 +11,7 @@ require([
     var Container = document.id( 'container' );
 
     /**
-     * Create a tabbar
+     * Create a sitemap
      */
 
     var SubItem;
