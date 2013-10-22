@@ -14,16 +14,28 @@ require([
      * Create a tabbar
      */
 
+    var SubItem;
     var MyMap = new SiteMap().inject( Container );
 
 
     MyMap.appendChild(
         new SitemapItem({
-            text : 'sitemap item 1'
+            text : 'sitemap item 1',
+            icon : 'icon-home'
         })
     );
 
-    console.log( MyMap );
+    for ( var i = 0; i < 10; i++ )
+    {
+        SubItem = new SitemapItem({
+            text : 'sub sitemap item '+ i,
+            icon : 'icon-coffee'
+        }).inject( MyMap.firstChild() );
 
+        new SitemapItem({
+            text : 'sub sub item '+ i,
+            icon : 'icon-heart'
+        }).inject( SubItem );
+    }
 
 });

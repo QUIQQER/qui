@@ -15,12 +15,13 @@ define('qui/controls/sitemap/Item', [
 
     'qui/QUI',
     'qui/controls/Control',
+    'qui/utils/Controls',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
 
     'css!qui/controls/sitemap/Item.css'
 
-], function(QUI, QUI_Control, QUI_ContextMenu, QUI_ContextMenuItem)
+], function(QUI, QUI_Control, Utils, QUI_ContextMenu, QUI_ContextMenuItem)
 {
     "use strict";
 
@@ -58,10 +59,7 @@ define('qui/controls/sitemap/Item', [
             alt   : '',
             title : '',
 
-            hasChildren : false,
-
-            icon_opener_plus  : '', // QUI.config('dir') +'controls/sitemap/images/plus.png',
-            icon_opener_minus : '', // QUI.config('dir') +'controls/sitemap/images/minus.png'
+            hasChildren : false
         },
 
         $Elm   : null,
@@ -119,26 +117,30 @@ define('qui/controls/sitemap/Item', [
         create : function(Parent)
         {
             var i, len;
+            var self = this;
 
-            this.$Elm = new Element('div.qui-sitemap-entry', {
+            this.$Elm = new Element('div', {
+                'class' : 'qui-sitemap-entry box',
                 alt   : this.getAttribute('alt'),
                 title : this.getAttribute('title'),
                 'data-value' : this.getAttribute('value'),
                 'data-quiid' : this.getId(),
                 html  : '<div class="qui-sitemap-entry-opener"></div>' +
-                        '<div class="qui-sitemap-entry-icon"></div>' +
-                        '<div class="qui-sitemap-entry-text">###</div>' +
+                        '<div class="qui-sitemap-entry-container">' +
+                            '<div class="qui-sitemap-entry-icon"></div>' +
+                            '<div class="qui-sitemap-entry-text">###</div>' +
+                        '</div>' +
                         '<div class="qui-sitemap-entry-children"></div>',
                 events :
                 {
                     contextmenu : function(event)
                     {
-                        if ( this.getMap() ) {
-                            this.getMap().childContextMenu( this, event );
+                        if ( self.getMap() ) {
+                            self.getMap().childContextMenu( self, event );
                         }
 
-                        this.fireEvent( 'contextMenu', [ this, event ] );
-                    }.bind(this)
+                        self.fireEvent( 'contextMenu', [ self, event ] );
+                    }
                 }
             });
 
@@ -160,12 +162,8 @@ define('qui/controls/sitemap/Item', [
             this.$Children.setStyle( 'display', 'none' );
 
 
-            if ( this.getAttribute( 'icon' ) )
-            {
-                this.$Icons.setStyle(
-                    'background-image',
-                    'url('+ this.getAttribute( 'icon' ) +')'
-                );
+            if ( this.getAttribute( 'icon' ) ) {
+                this.addIcon( this.getAttribute( 'icon' ) );
             }
 
             if ( this.getAttribute( 'text' ) ) {
@@ -220,15 +218,19 @@ define('qui/controls/sitemap/Item', [
                 return this;
             }
 
-            new Element('img', {
-                src    : icon_url,
-                styles : {
-                    position : 'absolute',
-                    left     : 0,
-                    top      : 0,
-                    zIndex   : 10
-                }
-            }).inject( this.$Icons );
+            if ( Utils.isFontAwesomeClass( icon_url ) )
+            {
+                new Element('i', {
+                    'class' : 'qui-sitemap-entry-icon-itm '+ icon_url
+                }).inject( this.$Icons );
+
+            } else
+            {
+                new Element('img', {
+                    src     : icon_url,
+                    'class' : 'qui-sitemap-entry-icon-itm'
+                }).inject( this.$Icons );
+            }
 
             return this;
         },
@@ -666,22 +668,21 @@ define('qui/controls/sitemap/Item', [
 
             if ( this.hasChildren() === false )
             {
-                this.$Opener.setStyle( 'background-image', '' );
+                this.$Opener.removeClass( 'qui-sitemap-entry-opener-open' );
+                this.$Opener.removeClass( 'qui-sitemap-entry-opener-close' );
+
                 return;
             }
 
             if ( this.isOpen() )
             {
-                this.$Opener.setStyle(
-                    'background-image',
-                    'url('+ this.getAttribute('icon_opener_minus') +')'
-                );
+                this.$Opener.removeClass( 'qui-sitemap-entry-opener-open' );
+                this.$Opener.addClass( 'qui-sitemap-entry-opener-close' );
+
             } else
             {
-                this.$Opener.setStyle(
-                    'background-image',
-                    'url('+ this.getAttribute('icon_opener_plus') +')'
-                );
+                this.$Opener.addClass( 'qui-sitemap-entry-opener-open' );
+                this.$Opener.removeClass( 'qui-sitemap-entry-opener-close' );
             }
         },
 
