@@ -1,7 +1,7 @@
 # QUI Documentation
 
 QUI (QUIQQER User Interface) ist ein modulares kompononenten framework.
-QUI bietet verschiedene Controls, basierend auf [requirejs](http://requirejs.org/) und [MooTools](http://mootools.net/).
+QUI bietet verschiedene Controls, basierend auf [requirejs - AMD](http://requirejs.org/) und [MooTools](http://mootools.net/).
 
 Diese Dokumentation bietet dir einen ersten Überblick über die wichtigstens Eigenschaften der vorhandenen Klassen.
 Für eine genaue Übersicht aller Methoden und Eigenschaften einer Klasse solltest du die generierte API Dokumenatation verwenden.
@@ -52,7 +52,13 @@ require.config({
         }
     }
 });
+</script>
+```
 
+QUI und die QUI Komponenten können nun wie jedes AMD Modul genutzt werden.
+
+```html
+<script>
 // now we can use QUI
 require(['qui/QUI'], function(QUI)
 {
@@ -66,7 +72,6 @@ require(['qui/buttons/Button'], function(Button)
     "use strict";
 
 });
-
 </script>
 ```
 
