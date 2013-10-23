@@ -103,7 +103,7 @@
             },
             map: {
                 '*': {
-                    'css': path +'src/lib/css'
+                    'css': path +'src/lib/css.js'
                 }
             }
         });
