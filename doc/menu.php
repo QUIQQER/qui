@@ -23,6 +23,7 @@ Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine 
 
 QUI besitzt einige Abhängigkeiten. Alle Abhängigkeiten sind im Build enthalten, damit das Einbinden einfacher ist.
 
+
 ### QUI in eine Webseiten einbinden
 
 Folgende Abhängigkeiten bestehen:
@@ -108,6 +109,19 @@ QUI achtet stark darauf diese Koexistenz nicht zu zerstören und verzichtet unte
 Falls doch Probleme mit jQuery auftauchen darfst du dich gerne an uns wenden.
 Schreib uns eine E-Mail oder melde dich auf den bekannten Kanälen.
 
+
+## Empfehlungen für QUI
+
+QUI arbeitet mit anderen Frameworks / Erweiterungen zusammen.
+QUI versucht andere Frameworks nicht zu zerstören sondern diese zu nutzen.
+
+Unter anderem haben viele der Komponenten eine [FontAwesome](http://fontawesome.io/) Kompatiblität.
+Es können schnell und einfach FontAwesome Klassen als Icons verwendet werden.
+
+Auch mit dem Responsive CSS Framework [unsemantic](http://unsemantic.com/) arbeitet QUI gut zusammen.
+
+Animations Bibliotheken wie [Animate.css](https://daneden.me/animate/) können natürlich genutzt werden.
+An der Integration solcher Bibliotheken für die Windows wird noch gearbeitet.
 
 
 ## Liste der QUI Komponenten
