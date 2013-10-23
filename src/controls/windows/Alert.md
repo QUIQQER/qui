@@ -11,7 +11,7 @@ Die Alter Box erbt von qui/controls/windows/Popup und besitzt somit auch dessen 
 
 ```javascript
 
-require(['qui/controls/windows/Alert'], function(Popup)
+require(['qui/controls/windows/Alert'], function(Alert)
 {
     "use strict";
 

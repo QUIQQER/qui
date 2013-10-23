@@ -13,9 +13,12 @@
 define('qui/controls/windows/Prompt', [
 
     'qui/controls/windows/Popup',
-    'qui/controls/buttons/Button'
+    'qui/controls/buttons/Button',
+    'qui/utils/Controls',
 
-], function(Popup, Button)
+    'css!qui/controls/windows/Prompt.css'
+
+], function(Popup, Button, Utils)
 {
     "use strict";
 
@@ -35,20 +38,15 @@ define('qui/controls/windows/Prompt', [
         Type    : 'qui/controls/windows/Prompt',
 
         options: {
-            'name'  : false,
-            'title' : '',
+            'maxHeight' : 300,
 
-            'width'  : false,
-            'height' : false,
-            'icon'   : 'icon-remove',
-            'check'  : false, // function to check the input
+            'check'     : false, // function to check the input
             'autoclose' : true,
 
-            'footerHeight' : false,
-
-            'text'        : false,
-            'texticon'    : false,
             'information' : false,
+            'title'       : '...',
+            'titleicon'   : 'icon-remove',
+            'icon'        : 'icon-remove',
 
             cancel_button : {
                 text      : 'Cancel',
@@ -92,46 +90,62 @@ define('qui/controls/windows/Prompt', [
         /**
          * oncreate event, create the prompt box
          */
-        $onCreate : function(Win)
+        $onCreate : function()
         {
-            this.$Win = Win;
-
             var self    = this,
-                Content = this.getContent(),
-                html    = '';
+                Content = this.getContent();
 
-            if ( this.getAttribute( 'texticon' ) ) {
-                html = html +'<img src="'+ this.getAttribute( 'texticon' ) +'" class="texticon" />';
+            Content.set(
+                'html',
+
+                '<div class="qui-windows-prompt">' +
+                    '<div class="qui-windows-prompt-icon"></div>' +
+                    '<div class="qui-windows-prompt-text"></div>' +
+                    '<div class="qui-windows-prompt-information"></div>' +
+                '</div>' +
+                '<div class="qui-windows-prompt-input">'+
+                    '<input type="text" value="" class="box" />' +
+                '</div>'
+            );
+
+            this.$Icon = Content.getElement( '.qui-windows-prompt-icon' );
+            this.$Text = Content.getElement( '.qui-windows-prompt-text' );
+            this.$Info = Content.getElement( '.qui-windows-prompt-information' );
+
+            this.$Container = Content.getElement( '.qui-windows-prompt' );
+            this.$Input     = Content.getElement( 'input' );
+
+
+            if ( this.getAttribute( 'titleicon' ) )
+            {
+                var value = this.getAttribute( 'titleicon' );
+
+                if ( Utils.isFontAwesomeClass( value ) )
+                {
+                    new Element('span', {
+                        'class' : value
+                    }).inject( this.$Icon );
+                } else
+                {
+                    new Element('img.qui-windows-prompt-image', {
+                        src    : value,
+                        styles : {
+                            'display' : 'block' // only image, fix
+                        }
+                    }).inject( this.$Icon );
+                }
             }
 
-            html = html +'<div class="textbody">';
-
-            if ( this.getAttribute( 'text' ) ) {
-                html = html +'<h2>'+ this.getAttribute( 'text' ) +'</h2>';
+            if ( this.getAttribute( 'title' ) ) {
+                this.$Text.set( 'html', this.getAttribute( 'title' ) );
             }
-
-            html = html +'<input type="text" value="" />';
 
             if ( this.getAttribute( 'information' ) ) {
-                html = html +'<div class="information">'+ this.getAttribute( 'information' ) +'</div>';
+                this.$Info.set( 'html', this.getAttribute( 'information' ) );
             }
 
-            html = html +'</div>';
-
-            this.$Body = new Element('div.submit-body', {
-                html   : html,
-                styles : {
-                    margin: 10
-                }
-            });
-
-            this.$Input = this.$Body.getElement( 'input' );
-
-            this.$Input.setStyles({
-                width   : 250,
-                margin  : '10px auto',
-                display : 'block'
-            });
+            // input events
+            this.$Input = Content.getElement( 'input' );
 
             this.$Input.addEvent('keyup', function(event)
             {
@@ -142,28 +156,34 @@ define('qui/controls/windows/Prompt', [
                 }
             });
 
-            this.$Body.inject( Content );
+            this.$Container.setStyle(
+                'height',
+                this.getAttribute( 'maxHeight' ) - 190
+            );
 
 
             // ondraw end
-            if ( this.getAttribute( 'texticon' ) )
-            {
-                // damit das bild geladen wird und die proportionen da sind
-                Asset.image(this.getAttribute('texticon'),
-                {
-                    onLoad: function()
-                    {
-                        var Texticon = self.$Body.getElement( '.texticon' ),
-                            Textbody = self.$Body.getElement( '.textbody' );
-
-                        Textbody.setStyle(
-                            'width',
-                            self.$Body.getSize().x - Texticon.getSize().x -20
-                        );
-
-                    }
-                });
-            }
+//            if ( this.getAttribute( 'texticon' ) )
+//            {
+//                this.getAttribute('texticon')
+//
+//
+//                // damit das bild geladen wird und die proportionen da sind
+//                Asset.image(this.getAttribute('texticon'),
+//                {
+//                    onLoad: function()
+//                    {
+//                        var Texticon = self.$Body.getElement( '.texticon' ),
+//                            Textbody = self.$Body.getElement( '.textbody' );
+//
+//                        Textbody.setStyle(
+//                            'width',
+//                            self.$Body.getSize().x - Texticon.getSize().x -20
+//                        );
+//
+//                    }
+//                });
+//            }
 
             this.$Buttons.set( 'html', '' );
 

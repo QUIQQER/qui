@@ -219,7 +219,7 @@ define('qui/controls/windows/Popup', [
                 for ( var i = 0, len = list.length; i < len; i++ )
                 {
                     bwidth = bwidth + list[ i ].getComputedSize({
-                        styles : ['padding', 'border', 'margin']
+                        styles : [ 'border', 'margin' ]
                     }).totalWidth;
                 }
 
