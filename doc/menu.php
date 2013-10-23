@@ -10,12 +10,12 @@ Diese findest du auf doc.quiqqer.com.
 
 QUI ist in 3 Teilbereiche gegliedert, Klassen, Controls und Utils.
 
-*Klassen* beinhalten Funktionalität, sie bieten keine DOMElement und können somit nicht in Oberfläche integriert werden.
+*Klassen* beinhalten Funktionalität, sie bieten keine DOMElement und besitzen somit keine Interaktion mit dem Benutzer.
 
-*Controls* bieten immer ein DOM-Element. Sie können in die Oberfläche integriert werden und biten somit eine interaktion mit dem Benutzer.
+*Controls* bieten immer ein DOM-Element. Sie können in die Oberfläche integriert werden und bieten somit eine Interaktion mit dem Benutzer.
 
 *Utils* sind kleine Hilfsobjekte die nicht initialisiert werden. Es sind schon bestehende Objekte ohne Klassen Grundlage.
-Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine Funktionalität / Hilfsfunktionen).
+Utils bieten Funktionalität an, die nur global verfügbar sein muss (allgemeine Funktionalität / Hilfsfunktionen).
 
 [QUI Download](../build/QUI.zip)
 
