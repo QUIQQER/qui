@@ -17,6 +17,8 @@ QUI ist in 3 Teilbereiche aufgegliedert, Klassen, Controls und Utils.
 *Utils* sind kleine Hilfsobjekte die nicht initialisiert werden. Es sind schon bestehende Objekte ohne Klassen Grundlage.
 Utils bieten Funktionalität an die nur global verfügbar sein muss (allgemeine Funktionalität / Hilfsfunktionen).
 
+[QUI Download](../build/QUI.zip)
+
 <?php
 
     // read subdirs

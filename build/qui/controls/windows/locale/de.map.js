@@ -1,0 +1,1 @@
+{"version":3,"file":"/var/www/git/quiqqer/qui/build/qui/controls/windows/locale/de.js","sources":["/var/www/git/quiqqer/qui/src/controls/windows/locale/de.js"],"names":["define","Locale","set","btn.close","btn.back"],"mappings":"AACAA,OAAO,kCAAmC,cAAe,SAASC,QAE9D,YAEAA,QAAOC,IAAI,KAAM,8BACbC,YAAc,YACdC,WAAc,UAGlB,OAAOH"}

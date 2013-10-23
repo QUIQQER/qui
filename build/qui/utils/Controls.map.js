@@ -1,0 +1,1 @@
+{"version":3,"file":"/var/www/git/quiqqer/qui/build/qui/utils/Controls.js","sources":["/var/www/git/quiqqer/qui/src/utils/Controls.js"],"names":["define","isFontAwesomeClass","icon","match"],"mappings":"AAQAA,OAAO,qBAAsB,WAEzB,YAEA,QAQIC,mBAAqB,SAASC,MAE1B,GAAKA,KAAKC,MAAO,WAAcD,KAAKC,MAAO,MAAS,CAChD,MAAO,MAGX,MAAO"}

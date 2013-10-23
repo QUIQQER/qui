@@ -1,0 +1,2 @@
+define("qui/utils/Object",function(){"use strict";return{combine:function(first,second){first=first||{};second=second||{};return Object.append(first,second)}}});
+//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/utils/Object.map.js

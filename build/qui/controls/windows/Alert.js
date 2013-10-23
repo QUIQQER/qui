@@ -1,0 +1,2 @@
+define("qui/controls/windows/Alert",["qui/controls/windows/Popup","css!qui/controls/windows/Alert.css"],function(Popup){"use strict";return new Class({Extends:Popup,Type:"qui/controls/windows/Alert",Binds:["$onCreate"],options:{maxHeight:300,icon:"icon-bell",title:"Alert"},initialize:function(params){this.parent(params);this.addEvent("onCreate",this.$onCreate)},$onCreate:function(){this.getElm().addClass("qui-windows-alert")}})});
+//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/controls/windows/Alert.map.js

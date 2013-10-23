@@ -1,0 +1,2 @@
+define("qui/utils/Controls",function(){"use strict";return{isFontAwesomeClass:function(icon){if(icon.match(/icon-/)&&!icon.match(/\./)){return true}return false}}});
+//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/utils/Controls.map.js
