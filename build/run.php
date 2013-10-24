@@ -4,10 +4,14 @@ $dir    = dirname( __FILE__ );
 $quiDir = str_replace( '/build', '', $dir );
 
 $src  = $quiDir .'/src/';
-$find = 'find '. $src .' -type f -name \*.js';
+$find_js  = 'find '. $src .' -type f -name \*.js';
+$find_css = 'find '. $src .' -type f -name \*.css';
 
-$result = shell_exec( $find );
-$files  = explode( "\n", $result );
+$js_result  = shell_exec( $find_js );
+$css_result = shell_exec( $find_css );
+
+$js_files   = explode( "\n", $js_result );
+$css_files  = explode( "\n", $css_result );
 
 if ( file_exists( $dir .'/QUI.zip' ) ) {
     unlink( $dir .'/QUI.zip' );
@@ -21,7 +25,7 @@ if ( is_dir( $dir .'/qui' ) ) {
 // uglifyjs sourceFile --output=outputFile --source-map=sourceMapFile
 
 // execute the build
-foreach ( $files as $file )
+foreach ( $js_files as $file )
 {
     if ( empty( $file ) ) {
         continue;
@@ -41,6 +45,29 @@ foreach ( $files as $file )
 
     echo "\n". $file;
     shell_exec( $uglify );
+    echo "... done\n";
+}
+
+// css files
+foreach ( $css_files as $file )
+{
+    if ( empty( $file ) ) {
+        continue;
+    }
+
+    $dir = str_replace('/src/', '/build/qui/', dirname( $file ) );
+
+    $build_file = str_replace('/src/', '/build/qui/', $file );
+
+    // create the dir if not exist
+    if ( !is_dir( $dir ) ) {
+        mkdir( $dir, 0700, true );
+    }
+
+    $uglifycss = "uglifycss $file > $build_file";
+
+    echo "\n". $file;
+    shell_exec( $uglifycss );
     echo "... done\n";
 }
 
