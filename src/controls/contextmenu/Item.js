@@ -21,12 +21,15 @@ define('qui/controls/contextmenu/Item', [
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
     'qui/controls/contextmenu/Seperator',
+    'qui/utils/Controls',
 
     'css!qui/controls/contextmenu/Item.css'
 
-], function(QUI, Control, DragDrop, ContextMenu, ContextMenuItem, ContextMenuSeperator)
+], function(QUI, Control, DragDrop, ContextMenu, ContextMenuItem, ContextMenuSeperator, Utils)
 {
     "use strict";
+
+    console.warn( ContextMenu );
 
     /**
      * @class qui/controls/contextmenu/Item
@@ -143,7 +146,7 @@ define('qui/controls/contextmenu/Item', [
                     icon = this.getAttribute( 'icon' );
 
                 // font awesome
-                if ( icon.match( /icon-/ ) && !icon.match( /\./ ) )
+                if ( Utils.isFontAwesomeClass( icon ) )
                 {
                     Icon.addClass( icon );
                 } else
@@ -401,6 +404,8 @@ define('qui/controls/contextmenu/Item', [
                 return this.$Menu;
             }
 
+            console.log( ContextMenu );
+
             this.$Menu = new ContextMenu({
                 name   : this.getAttribute( 'name' ) +'-menu',
                 events :
@@ -448,8 +453,20 @@ define('qui/controls/contextmenu/Item', [
 
             if ( key == 'icon' )
             {
-                this.$Elm.getElement( '.qui-contextitem-container' )
-                         .setStyle( 'background-image', 'url('+ value +')' );
+                var Icon = this.$Elm.getElement( '.qui-contextitem-icon' );
+
+                Icon.className = 'qui-contextitem-icon';
+                Icon.setStyle( 'background-image', null );
+
+                if ( Utils.isFontAwesomeClass( value ) )
+                {
+                    Icon.addClass( value );
+                } else
+                {
+                    this.$Elm.getElement( '.qui-contextitem-container' )
+                             .setStyle( 'background-image', 'url('+ value +')' );
+
+                }
 
                 return;
             }

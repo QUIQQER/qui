@@ -9,7 +9,6 @@
  *
  * @module controls/contextmenu/Menu
  * @package com.pcsg.qui.js.controls.contextmenu
- * @namespace QUI.controls.contextmenu
  */
 
 define('qui/controls/contextmenu/Menu', [
@@ -23,7 +22,7 @@ define('qui/controls/contextmenu/Menu', [
 ], function(Control, ContextMenuItem, ContextMenuSeperator)
 {
     "use strict";
-
+console.warn('menu');
     /**
      * @class qui/controls/contextmenu/Menu
      *

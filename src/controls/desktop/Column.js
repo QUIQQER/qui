@@ -19,7 +19,7 @@ define('qui/controls/desktop/Column', [
 
     'css!qui/controls/desktop/Column.css'
 
-], function(QUI, Control, ContextMenu, ContextMenuItem, Panel, Loader, QuiDragDrop)
+], function(QUI, Control, Contextmenu, ContextmenuItem, Panel, Loader, QuiDragDrop)
 {
     "use strict";
 
@@ -119,7 +119,7 @@ define('qui/controls/desktop/Column', [
             }).inject( this.$Elm );
 
             // contextmenu
-            this.$ContextMenu = new ContextMenu({
+            this.$ContextMenu = new Contextmenu({
                 events :
                 {
                     onBlur : function(Menu) {
@@ -1178,7 +1178,7 @@ define('qui/controls/desktop/Column', [
             for ( i = 0, len = panels.length; i < len; i++ )
             {
                 AddPanels.appendChild(
-                    new ContextMenuItem({
+                    new ContextmenuItem({
                         text   : panels[ i ].text,
                         icon   : panels[ i ].icon,
                         name   : 'add_panels_to_column',
@@ -1191,7 +1191,7 @@ define('qui/controls/desktop/Column', [
             }
 
             // remove panels
-            RemovePanels = new ContextMenuItem({
+            RemovePanels = new ContextmenuItem({
                 text : 'Panel löschen',
                 name : 'remove_panel_of_column'
             });
@@ -1203,7 +1203,7 @@ define('qui/controls/desktop/Column', [
                 Panel = this.$panels[ i ];
 
                 RemovePanels.appendChild(
-                    new ContextMenuItem({
+                    new ContextmenuItem({
                         text   : Panel.getAttribute( 'title' ),
                         icon   : Panel.getAttribute( 'icon' ),
                         name   : Panel.getAttribute( 'name' ),

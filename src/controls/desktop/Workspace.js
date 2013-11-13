@@ -701,60 +701,72 @@ define('qui/controls/desktop/Workspace', [
          */
         $onHandlerContextMenu : function(event)
         {
+            var self = this;
+
             event.stop();
 
-            var Menu = new QUI.controls.contextmenu.Menu({
-                events :
-                {
-                    onBlur : function(Menu) {
-                        Menu.destroy();
-                    }
-                }
-            });
+            require([
+                'qui/controls/contextmenu/Menu',
+                'qui/controls/contextmenu/Item'
+            ], function(Contextmenu, ContextmenuItem)
+            {
 
-            var Target = event.target,
-                Left   = Target.getPrevious( '.qui-column' ),
-                Next   = Target.getNext( '.qui-column' ),
-
-                LeftColumn  = QUI.Controls.getById( Left.get('data-quiid') ),
-                RightColumn = QUI.Controls.getById( Next.get('data-quiid') );
-
-
-            Menu.hide();
-            Menu.appendChild(
-                new QUI.controls.contextmenu.Item({
-                    text    : 'Bearbeitungspalte links löschen.',
-                    Column  : LeftColumn,
-                    Handler : Target,
-                    events  :
-                    {
-                        onMouseDown : this.$onHandlerContextMenuClick,
-                        onActive    : this.$onHandlerContextMenuHighlight,
-                        onNormal    : this.$onHandlerContextMenuNormalize
-                    }
-                })
-            );
-
-            Menu.appendChild(
-                new QUI.controls.contextmenu.Item({
-                    text   : 'Bearbeitungspalte rechts löschen.',
-                    target : event.target,
-                    Column : RightColumn,
+                var Menu = new Contextmenu({
                     events :
                     {
-                        onMouseDown : this.$onHandlerContextMenuClick,
-                        onActive    : this.$onHandlerContextMenuHighlight,
-                        onNormal    : this.$onHandlerContextMenuNormalize
+                        onBlur : function(Menu) {
+                            Menu.destroy();
+                        }
                     }
-                })
-            );
+                });
 
-            Menu.inject( document.body );
+                var Target = event.target,
+                    Left   = Target.getPrevious( '.qui-column' ),
+                    Next   = Target.getNext( '.qui-column' ),
 
-            Menu.setPosition(
-                event.page.x,
-                event.page.y
-            ).show().focus();
+                    LeftColumn  = QUI.Controls.getById( Left.get('data-quiid') ),
+                    RightColumn = QUI.Controls.getById( Next.get('data-quiid') );
+
+
+                Menu.hide();
+                Menu.appendChild(
+                    new ContextmenuItem({
+                        icon    : 'icon-arrow-left',
+                        text    : 'Bearbeitungspalte links löschen.',
+                        Column  : LeftColumn,
+                        Handler : Target,
+                        events  :
+                        {
+                            onMouseDown : self.$onHandlerContextMenuClick,
+                            onActive    : self.$onHandlerContextMenuHighlight,
+                            onNormal    : self.$onHandlerContextMenuNormalize
+                        }
+                    })
+                );
+
+                Menu.appendChild(
+                    new ContextmenuItem({
+                        icon   : 'icon-arrow-right',
+                        text   : 'Bearbeitungspalte rechts löschen.',
+                        target : event.target,
+                        Column : RightColumn,
+                        events :
+                        {
+                            onMouseDown : self.$onHandlerContextMenuClick,
+                            onActive    : self.$onHandlerContextMenuHighlight,
+                            onNormal    : self.$onHandlerContextMenuNormalize
+                        }
+                    })
+                );
+
+                Menu.inject( document.body );
+
+                Menu.setPosition(
+                    event.page.x,
+                    event.page.y
+                ).show().focus();
+            });
+
         },
 
         /**
