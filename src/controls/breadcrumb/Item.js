@@ -15,9 +15,10 @@
 define('qui/controls/breadcrumb/Item', [
 
     'qui/controls/Control',
+    'qui/utils/Controls',
     'css!qui/controls/breadcrumb/Item.css'
 
-], function(Control)
+], function(Control, Utils)
 {
     "use strict";
 
@@ -84,7 +85,7 @@ define('qui/controls/breadcrumb/Item', [
                 }
 
                 // font awesome
-                if ( icon.match( /icon-/ ) && !icon.match( /\./ ) )
+                if ( Utils.isFontAwesomeClass( icon ) )
                 {
                     Icon.addClass( icon );
                 } else

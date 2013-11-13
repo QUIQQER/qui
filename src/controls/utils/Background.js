@@ -9,7 +9,7 @@ define('qui/controls/utils/Background', [
 
     'qui/controls/Control'
 
-],function(Control)
+], function(Control)
 {
     "use strict";
 
