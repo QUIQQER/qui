@@ -6,7 +6,11 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define('qui/utils/Controls', function()
+define('qui/utils/Controls', [
+
+    'qui/QUI'
+
+], function(QUI)
 {
     "use strict";
 
@@ -26,6 +30,49 @@ define('qui/utils/Controls', function()
             }
 
             return false;
+        },
+
+        /**
+         * Highlights a control
+         *
+         * @method QUI.lib.Controls#highlight
+         * @param {DOMNode} Element
+         */
+        highlight : function(Element)
+        {
+            if ( !Element ) {
+                return;
+            }
+
+            var quiid = Element.get( 'data-quiid' );
+
+            if ( !quiid ) {
+                return;
+            }
+
+            QUI.Controls.getById( quiid ).highlight();
+        },
+
+        /**
+         * Normalize a control, if it is was highlighted
+         *
+         * @method QUI.lib.Controls#normalize
+         * @param {DOMNode} Element
+         */
+        normalize : function(Element)
+        {
+            if ( !Element ) {
+                return;
+            }
+
+            var quiid = Element.get( 'data-quiid' );
+
+            if ( !quiid ) {
+                return;
+            }
+
+            QUI.Controls.getById( quiid ).normalize();
         }
+
     };
 });
