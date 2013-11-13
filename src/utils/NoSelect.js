@@ -4,7 +4,7 @@
  *
  * Makes an object unselectable or selectable
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  */
 
 define('qui/utils/NoSelect', function()

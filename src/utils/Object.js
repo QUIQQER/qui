@@ -3,7 +3,7 @@
  * Utils for objects
  * Helps with objects -> {}
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  */
 
 define('qui/utils/Object', function()

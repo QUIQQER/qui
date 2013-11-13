@@ -2,7 +2,7 @@
  * DragDrop Helper with movable Element
  * no ie8
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @requires qui/classes/DOM
  *

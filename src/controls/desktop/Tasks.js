@@ -4,7 +4,7 @@
  * A Tasks panel can managed several Panels, Desktop's and other Controls.
  * In a Tasks panel you can insert several controls and you can switch between the Controls
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @event onResize [this]
  * @event onRefresh [this]

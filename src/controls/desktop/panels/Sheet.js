@@ -1,7 +1,7 @@
 /**
  * A panel Sheet
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @module controls/desktop/panels/Sheet
  * @package com.pcsg.qui.js.controls.desktop.panels

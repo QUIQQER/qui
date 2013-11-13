@@ -3,7 +3,7 @@
  * Utils for the controls
  * Helps the controls
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  */
 
 define('qui/utils/Controls', [

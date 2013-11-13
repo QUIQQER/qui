@@ -1,7 +1,7 @@
 /**
  * Menu bar
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @module qui/controls/contextmenu/Bar
  * @package com.pcsg.quiqqer.controls.contextmenu

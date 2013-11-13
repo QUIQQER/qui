@@ -4,7 +4,7 @@
  * @fires onSubmit
  * @fires onCancel
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @class qui/controls/windows/Submit
  * @package com.pcsg.qui.js.controls.windows

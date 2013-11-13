@@ -4,7 +4,7 @@
  *
  * create window.QUI
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  */
 define('qui/QUI', ['qui/classes/QUI'], function(QUIClass)
 {

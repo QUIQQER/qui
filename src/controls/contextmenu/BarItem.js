@@ -1,7 +1,7 @@
 /**
  * Context Menu Bar Item
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @requires controls/contextmenu/BarItem
  *

@@ -3,7 +3,7 @@
  * string helper
  * Helps with string opartions
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  */
 
 define('qui/utils/String', function()

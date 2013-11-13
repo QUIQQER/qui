@@ -1,7 +1,7 @@
 /**
  * A Toolbar Tab
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @requires controls/Control
  *

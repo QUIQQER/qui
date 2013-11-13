@@ -1,7 +1,7 @@
 /**
  * A task bar
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @module qui/controls/taskbar/Bar
  * @package com.pcsg.qui.js.controls.taskbar

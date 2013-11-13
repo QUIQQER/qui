@@ -1,7 +1,7 @@
 /**
  * Sitemap Map
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @module controls/sitemap/Map
  * @package com.pcsg.qui.js.controls.sitemap

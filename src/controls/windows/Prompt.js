@@ -1,7 +1,7 @@
 /**
  * Submit Fenster
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  * @class QUI.controls.Windows.Prompt
  * @package com.pcsg.qui.js.controls.windows
  *

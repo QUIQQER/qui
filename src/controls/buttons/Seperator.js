@@ -1,7 +1,7 @@
 /**
  * Button Seperator
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @requires qui/controls/Control
  * @module qui/controls/buttons/Seperator

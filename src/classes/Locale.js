@@ -1,7 +1,7 @@
 /**
  * Locale translation class
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @module qui/classes/Locale
  * @package com.pcsg.qui.js.classes

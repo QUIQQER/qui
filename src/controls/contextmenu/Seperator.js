@@ -1,7 +1,7 @@
 /**
  * Context Menu Seperator
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  * @package com.pcsg.qui.js.controls.contextmenu
  * @class qui/controls/contextmenu/Seperator
  */

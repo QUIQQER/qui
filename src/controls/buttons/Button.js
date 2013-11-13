@@ -1,7 +1,7 @@
 /**
  * QUI Control - Button
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author www.namerobot.com (Henning Leutz)
  *
  * @requires qui/controls/Control
  * @requires qui/utils/NoSelect
