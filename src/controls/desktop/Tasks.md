@@ -5,3 +5,4 @@ Durch eine Taskbar kann zwischen den Panels gewechsel werden.
 
 ## Beispiele
 
++ [Workspace Beispiel](../examples/index.php?file=controls/desktop/workspace_tasks)
