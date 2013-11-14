@@ -29,8 +29,6 @@ define('qui/controls/contextmenu/Item', [
 {
     "use strict";
 
-    console.warn( ContextMenu );
-
     /**
      * @class qui/controls/contextmenu/Item
      *

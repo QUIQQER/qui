@@ -7,7 +7,7 @@
     white-space: nowrap;
     cursor: pointer;
     font-size: 11px;
-    padding: 2px 10px 2px 5px;
+    padding: 2px 5px;
     margin: 0 0 0 4px;
     min-width: 120px;
 
@@ -52,10 +52,14 @@
 .qui-task-close {
     float: right;
     height: 20px;
-    width: 20px;
+    line-height: 20px;
+    margin-left: 10px;
     overflow: hidden;
+    text-align: center;
+    width: 20px;
 }
 
-.qui-task-close span {
-    display: none;
+.qui-task-close:hover {
+    background: #94928C;
+    color: #FFFFFF;
 }

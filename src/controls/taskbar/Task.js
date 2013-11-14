@@ -249,7 +249,7 @@ define('qui/controls/taskbar/Task', [
             {
                 new Element('div', {
                     'class' : 'qui-task-close',
-                    'html'  : '<span class="icon-close"></span>',
+                    'html'  : '<span class="icon-remove"></span>',
                     events  : {
                         click : this.close
                     }

@@ -22,7 +22,7 @@ define('qui/controls/contextmenu/Menu', [
 ], function(Control, ContextMenuItem, ContextMenuSeperator)
 {
     "use strict";
-console.warn('menu');
+
     /**
      * @class qui/controls/contextmenu/Menu
      *

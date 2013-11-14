@@ -571,9 +571,10 @@ define('qui/controls/buttons/Button', [
                             return;
                         }
 
-                        var pos = self.$Elm.getPosition();
+                        var pos  = self.$Elm.getPosition(),
+                            size = self.$Elm.getSize();
 
-                        self.$Menu.setPosition( pos.x, pos.y+20 );
+                        self.$Menu.setPosition( pos.x, (pos.y + size.y) );
                         self.$Menu.show();
 
                         self.$Elm.focus();

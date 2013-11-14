@@ -22,12 +22,21 @@
 }
 
 .qui-taskbar-button {
+    background: none;
     border-bottom-width: 0px !important;
     border-radius: 0px !important;
+    border-right: 1px solid #AAAAAA;
+    color: #AAAAAA;
     float: left;
     line-height: 32px !important;
     margin: 0 2px !important;
     padding: 0 10px !important;
+
+}
+
+.qui-taskbar-button:hover {
+    background: #AAAAAA;
+    color: #FFFFFF;
 }
 
 .qui-taskbar-button .qui-button-drop {
