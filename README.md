@@ -6,12 +6,54 @@ Copyright NameRobot GmbH
 www.namerobot.com
 www.quiqqer.com
 
+Licence LGPL v3
+
 ## About QUIQQER
 
 QUIQQER-UI is a modular user interface component framework written in JavaScript from NameRobot GmbH
 
 If you search a documentation, please look at http://doc.quiqqer.com/qui/doc/.
 QUIQQER-UI or QUI are mainly used at QUIQQER
+
+## Usage
+
+``` html
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+<script src="/qui/lib/mootools-more.js"></script>
+<script src="/qui/lib/moofx.js"></script>
+<script src="/qui/lib/requirejs.js"></script>
+
+<script>
+// requirejs must know where it can be find quiqqer
+require.config({
+    paths : {
+        "qui" : '/PATH_TO_THE_QUI_FOLDER'
+    },
+    map: {
+        '*': {
+            'css': '/PATH_TO_THE_QUI_FOLDER/lib/css.js'
+        }
+    }
+});
+</script>
+
+<script>
+// now we can use QUI
+require(['qui/QUI'], function(QUI)
+{
+    "use strict";
+
+});
+
+// ein button control
+require(['qui/buttons/Button'], function(Button)
+{
+    "use strict";
+
+});
+</script>
+
+```
 
 ## Thanks
 
