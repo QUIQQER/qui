@@ -72,7 +72,8 @@ foreach ( $css_files as $file )
 }
 
 // copy readme.md
-system( 'cp '. $quiDir .'/README.md '. $dir .'/qui/README.md' );
+system( 'cp '. $quiDir .'/README.md '. dirname( __FILE__ ) .'/qui/README.md' );
+system( 'cp '. $quiDir .'/LICENCE '. dirname( __FILE__ ) .'/qui/LICENCE' );
 
 // zip the qui folder
 system( 'zip -r QUI.zip qui/' );
