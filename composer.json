@@ -1,0 +1,24 @@
+{
+    "name" : "quiqqer/qui",
+    "type" : "library",
+    "description" : "QUI - Controls",
+    "version" : "dev-master",
+    "license" : "GPL-3.0+",
+
+    "authors" : [{
+        "name": "Henning Leutz",
+        "email": "leutz@pcsg.de",
+        "homepage": "http://www.pcsg.de",
+        "role": "Developer"
+    }],
+
+    "support" : {
+        "email": "support@pcsg.de",
+        "url": "http://www.pcsg.de"
+    },
+
+    "repositories": [{
+        "type": "composer",
+        "url": "http://update.quiqqer.com"
+    }]
+}
