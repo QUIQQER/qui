@@ -1,6 +1,6 @@
 {
     "name" : "quiqqer/qui",
-    "type" : "library",
+    "type" : "component",
     "description" : "QUI - Controls",
     "version" : "dev-master",
     "license" : "GPL-3.0+",
@@ -20,5 +20,10 @@
     "repositories": [{
         "type": "composer",
         "url": "http://update.quiqqer.com"
-    }]
+    }],
+
+    "require": {
+        "php": ">=5.3.2",
+        "robloach/component-installer" : "dev-master"
+    }
 }
