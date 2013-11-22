@@ -23,6 +23,9 @@
 
     "extra": {
         "component": {
+            "scripts": [
+                "init.js"
+            ],
             "files": [
                 "*"
             ]
