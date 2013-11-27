@@ -9,6 +9,10 @@
     width: 100%;
 }
 
+.qui-panel:hover .qui-panel-content {
+    background: #FFFFFF;
+}
+
 .qui-panel-header {
     border-bottom: 1px solid #2F8FC6;
     background: #2F8FC6;
@@ -68,7 +72,8 @@
 }
 
 .qui-panel-content {
-    background: #FFFFFF;
+    /*background: #FFFFFF;*/
+   background: #F2F2F2;
     float: left;
     padding: 20px;
     position: relative;
