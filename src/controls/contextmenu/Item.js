@@ -9,7 +9,6 @@
  * @requires qui/controls/contextmenu/Item
  * @requires qui/controls/contextmenu/Seperator
  *
- * @module controls/contextmenu/Item
  * @package com.pcsg.qui.js.controls.contextmenu
  */
 
@@ -19,13 +18,11 @@ define('qui/controls/contextmenu/Item', [
     'qui/controls/Control',
     'qui/classes/utils/DragDrop',
     'qui/controls/contextmenu/Menu',
-    'qui/controls/contextmenu/Item',
-    'qui/controls/contextmenu/Seperator',
     'qui/utils/Controls',
 
     'css!qui/controls/contextmenu/Item.css'
 
-], function(QUI, Control, DragDrop, ContextMenu, ContextMenuItem, ContextMenuSeperator, Utils)
+], function(QUI, Control, DragDrop, ContextMenu, Utils)
 {
     "use strict";
 
@@ -247,25 +244,35 @@ define('qui/controls/contextmenu/Item', [
          */
         insert : function(list)
         {
-            for ( var i = 0, len = list.length; i < len; i++)
+            var self = this;
+
+            require([
+
+                 'qui/controls/contextmenu/Menu',
+                 'qui/controls/contextmenu/Seperator'
+
+            ], function(ContextMenuItem, ContextMenuSeperator)
             {
-                if ( this.getAttribute( 'dragable' ) ) {
-                    list[ i ].dragable = true;
-                }
-
-                if ( list[ i ].type == 'Controls_Contextmenu_Seperator' )
+                for ( var i = 0, len = list.length; i < len; i++)
                 {
-                    this.appendChild(
-                        new ContextMenuSeperator( list[ i ] )
+                    if ( self.getAttribute( 'dragable' ) ) {
+                        list[ i ].dragable = true;
+                    }
+
+                    if ( list[ i ].type == 'qui/controls/contextmenu/Seperator' )
+                    {
+                        self.appendChild(
+                            new ContextMenuSeperator( list[ i ] )
+                        );
+
+                        continue;
+                    }
+
+                    self.appendChild(
+                        new ContextMenuItem( list[i] )
                     );
-
-                    continue;
                 }
-
-                this.appendChild(
-                    new ContextMenuItem( list[i] )
-                );
-            }
+            });
 
             return this;
         },
@@ -293,6 +300,7 @@ define('qui/controls/contextmenu/Item', [
             this.$items.push( Child );
 
             Child.setParent( this );
+
 
             if ( this.$Elm )
             {
@@ -402,10 +410,9 @@ define('qui/controls/contextmenu/Item', [
                 return this.$Menu;
             }
 
-            console.log( ContextMenu );
-
             this.$Menu = new ContextMenu({
                 name   : this.getAttribute( 'name' ) +'-menu',
+                corner : 'left',
                 events :
                 {
                     onShow : function(Menu)
@@ -421,6 +428,8 @@ define('qui/controls/contextmenu/Item', [
 
             this.$Menu.inject( this.$Elm );
             this.$Menu.hide();
+
+            this.$Menu.setPosition( 20, 0 );
             this.$Menu.setParent( this.getParent() );
 
             return this.$Menu;
@@ -569,4 +578,6 @@ define('qui/controls/contextmenu/Item', [
             event.stop();
         }
     });
+
+    return ContextMenuitem;
 });

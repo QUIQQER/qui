@@ -1,27 +1,68 @@
 
 .qui-contextmenu {
-	position: absolute;
-	z-index: 1000;
-
-	border: 1px solid #C9C8C5;
-	background: #FFFFFF url(images/bg-dropdown.gif) repeat-y left top;
+    background: #434a54;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1000;
 }
 
 .qui-contextmenu-title {
-	float: left;
-	width: 100%;
-	padding: 2px 5px;
+    float: left;
+    width: 100%;
+    padding: 2px 5px;
 
-	color: #555555;
-	background: #BEBEBE;
+    color: #555555;
+    background: #BEBEBE;
 
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-		    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .qui-contextmenu-shadow {
-	-webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
-	   -moz-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
-		    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+/** corners
+ * ====================================================== */
+
+.qui-context-corner-top.qui-contextmenu:after,
+.qui-context-corner-bottom.qui-contextmenu:after,
+.qui-context-corner-left.qui-contextmenu:after,
+.qui-context-corner-right.qui-contextmenu:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: #434a54;
+    position: absolute;
+    z-index: -1;
+
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+
+.qui-context-corner-top.qui-contextmenu:after {
+    top: -5px;
+    left: 30px;
+}
+
+.qui-context-corner-bottom.qui-contextmenu:after {
+    bottom: -5px;
+    left: 30px;
+}
+
+.qui-context-corner-right.qui-contextmenu:after {
+    top: 30px;
+    right: -5px;
+}
+
+.qui-context-corner-left.qui-contextmenu:after {
+    top: 30px;
+    left: -5px;
 }

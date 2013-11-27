@@ -1,17 +1,15 @@
 
 .qui-contextitem,
 .qui-contextitem-container {
-    width: 100%;
-    float: left;
-    clear: both;
-    float: left;
-    cursor: pointer;
-    font-size: 12px;
-    line-height: 20px;
-    position: relative;
-
     background-repeat: no-repeat;
-    background-position: 7px center;
+    background-position: center center;
+    clear: both;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    line-height: 40px;
+    position: relative;
+    width: 100%;
 
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
@@ -29,26 +27,28 @@
 }
 
 .qui-contextitem-icon {
+    background-repeat: no-repeat;
+    background-position: center center;
     float: left;
-    height: 28px;
-    line-height: 28px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
     width: 30px;
 }
 
 .qui-contextitem-text {
+    color: #FFFFFF;
     float: left;
     margin-left: 10px;
-    padding: 5px 0;
     text-align: left;
 }
 
 .qui-contextitem-active {
-    background-color: #6C98D9;
-    color: #FFF;
+    background-color: #393f48;
+    color: #FFFFFF;
 }
 
 .qui-contextitem.qui-contextitem-active.haschildren {
     background: #6C98D9 url(images/arrow-right.gif) no-repeat right center !important;
-    color: #FFF;
+    color: #FFFFFF;
 }

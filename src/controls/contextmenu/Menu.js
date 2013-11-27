@@ -4,8 +4,6 @@
  * @author www.namerobot.com (Henning Leutz)
  *
  * @requires controls/Control
- * @requires controls/contextmenu/Item
- * @requires controls/contextmenu/Seperator
  *
  * @module controls/contextmenu/Menu
  * @package com.pcsg.qui.js.controls.contextmenu
@@ -14,12 +12,10 @@
 define('qui/controls/contextmenu/Menu', [
 
     'qui/controls/Control',
-    'qui/controls/contextmenu/Item',
-    'qui/controls/contextmenu/Seperator',
 
     'css!qui/controls/contextmenu/Menu.css'
 
-], function(Control, ContextMenuItem, ContextMenuSeperator)
+], function(Control)
 {
     "use strict";
 
@@ -47,6 +43,7 @@ define('qui/controls/contextmenu/Menu', [
             width  : 200,    // menü width
             title  : false,  // title of the menu (optional) : String
             shadow : true,   // menü with shadow (true) or not (false)
+            corner : false,  // corner for the menü
 
             dragable : false
         },
@@ -123,6 +120,33 @@ define('qui/controls/contextmenu/Menu', [
 
             var Parent = this.$Elm.getParent(),
                 Elm    = this.$Elm;
+
+            if ( this.getAttribute( 'corner' ) )
+            {
+                Elm.removeClass( 'qui-context-corner-top' );
+                Elm.removeClass( 'qui-context-corner-bottom' );
+                Elm.removeClass( 'qui-context-corner-left' );
+                Elm.removeClass( 'qui-context-corner-left' );
+            }
+
+            switch ( this.getAttribute( 'corner' ) )
+            {
+                case 'top':
+                    Elm.addClass( 'qui-context-corner-top' );
+                break;
+
+                case 'bottom':
+                    Elm.addClass( 'qui-context-corner-bottom' );
+                break;
+
+                case 'left':
+                    Elm.addClass( 'qui-context-corner-left' );
+                break;
+
+                case 'right':
+                    Elm.addClass( 'qui-context-corner-right' );
+                break;
+            }
 
             Elm.setStyle( 'display', '' );
 

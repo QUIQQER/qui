@@ -77,7 +77,7 @@ define('qui/controls/contextmenu/Bar', [
         /**
          * Import children from a php callback
          *
-         * @param {Array} list - new Controls_Contextmenu_Bar()->toArray()
+         * @param {Array} list - new QUI\Controls\Contextmenu\Bar()->toArray()
          * @return {this}
          */
         insert : function(list)
@@ -211,8 +211,8 @@ define('qui/controls/contextmenu/Bar', [
          * Return the next children / item of the item
          *
          * @method qui/controls/contextmenu/Bar#getNext
-         * @param {QUI.controls.contextmenu.Item} Item
-         * @return {QUI.controls.contextmenu.Item|false}
+         * @param {qui/controls/contextmenu/Item} Item
+         * @return {qui/controls/contextmenu/Item|false}
          */
         getNext : function(Item)
         {

@@ -13,10 +13,15 @@
     background: #FFFFFF;
 }
 
+.qui-panel:hover .qui-panel-header,
+.qui-panel:hover .qui-panel-title {
+    color: #FFFFFF;
+}
+
 .qui-panel-header {
     border-bottom: 1px solid #2F8FC6;
     background: #2F8FC6;
-    color: #FFFFFF;
+    color: #8BC6E2;
     font-size: 12px;
     height: 40px;
     line-height: 40px;
@@ -27,7 +32,7 @@
 }
 
 .qui-panel-title {
-    color: #FFFFFF;
+    color: #8BC6E2;
     display: inline-block;
     float: left;
     font-size: 12px;

@@ -3,11 +3,8 @@
  *
  * @author www.namerobot.com (Henning Leutz)
  *
- * @requires controls/contextmenu/BarItem
- *
- * @module controls/contextmenu/BarItem
+ * @module qui/controls/contextmenu/BarItem
  * @package com.pcsg.qui.js.controls.contextmenu
- * @namespace QUI.controls.contextmenu
  *
  * @event onClick [ {this}, {DOMEvent} ]
  * @event onFocus [ {this} ]
@@ -30,7 +27,7 @@ define('qui/controls/contextmenu/BarItem', [
     "use strict";
 
     /**
-     * @class QUI.controls.contextmenu.BarItem
+     * @class qui/controls/contextmenu/BarItem
      *
      * @event onClick [this, event]
      * @event onMouseDown [this, event]
@@ -85,7 +82,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Create the DOMNode for the Element
          *
-         * @method QUI.controls.contextmenu.BarItem#create
+         * @method qui/controls/contextmenu/BarItem#create
          * @return {DOMNode}
          */
         create : function()
@@ -94,7 +91,7 @@ define('qui/controls/contextmenu/BarItem', [
 
             this.$Elm = new Element('div', {
                 'class'      : 'qui-contextmenu-baritem smooth',
-                html         : '<span class="qui-contextmenu-baritem-text radius10 smooth"></span>',
+                html         : '<span class="qui-contextmenu-baritem-text smooth"></span>',
                 'data-quiid' : this.getId(),
                 tabindex     : -1,
 
@@ -153,7 +150,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Focus the item
          *
-         * @method QUI.controls.contextmenu.BarItem#focus
+         * @method qui/controls/contextmenu/BarItem#focus
          * @return {this}
          */
         focus : function()
@@ -170,7 +167,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Blur the item
          *
-         * @method QUI.controls.contextmenu.BarItem#blur
+         * @method qui/controls/contextmenu/BarItem#blur
          * @return {this}
          */
         blur : function()
@@ -187,7 +184,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Import children
          * from a php callback or an array
          *
-         * @method QUI.controls.contextmenu.BarItem#insert
+         * @method qui/controls/contextmenu/BarItem#insert
          * @param {Array} list
          * @return {this}
          */
@@ -199,7 +196,7 @@ define('qui/controls/contextmenu/BarItem', [
                     list[ i ].dragable = true;
                 }
 
-                if ( list[ i ].type == 'Controls_Contextmenu_Seperator' )
+                if ( list[ i ].type == 'qui/controls/contextmenu/Seperator' )
                 {
                     this.appendChild(
                         new ContextMenuSeperator( list[ i ] )
@@ -219,7 +216,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Opens the submenu
          *
-         * @method QUI.controls.contextmenu.BarItem#show
+         * @method qui/controls/contextmenu/BarItem#show
          * @return {this}
          */
         show : function()
@@ -244,7 +241,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Close the submenu
          *
-         * @method QUI.controls.contextmenu.BarItem#hide
+         * @method qui/controls/contextmenu/BarItem#hide
          */
         hide : function()
         {
@@ -255,9 +252,9 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Add a Child to the Item
          *
-         * @method QUI.controls.contextmenu.Item#appendChild
+         * @method qui/controls/contextmenu/BarItem#appendChild
          *
-         * @param {QUI.controls.contextmenu.Item] Child
+         * @param {qui/controls/contextmenu/Item} Child
          * @return {this}
          */
         appendChild : function(Child)
@@ -275,7 +272,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * All Context Menu Items
          *
-         * @method QUI.controls.contextmenu.Item#getChildren
+         * @method qui/controls/contextmenu/BarItem#getChildren
          * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array}
          */
@@ -291,7 +288,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Clear the Context Menu Items
          *
-         * @method QUI.controls.contextmenu.Item#clear
+         * @method qui/controls/contextmenu/BarItem#clear
          * @return {this}
          */
         clear : function()
@@ -304,8 +301,8 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Create the Context Menu if not exist
          *
-         * @method QUI.controls.contextmenu.Item#getContextMenu
-         * @return {QUI.controls.contextmenu.Menu}
+         * @method qui/controls/contextmenu/BarItem#getContextMenu
+         * @return {qui/controls/contextmenu/Menu}
          */
         getContextMenu : function()
         {
@@ -313,14 +310,15 @@ define('qui/controls/contextmenu/BarItem', [
             {
                 this.$Menu = new ContextMenu({
                     name   : this.getAttribute( 'name' ) +'-menu',
-                    shadow : false,
+                    shadow : true,
+                    corner : 'top',
                     events :
                     {
                         onShow : function(Menu)
                         {
                             var children = Menu.getChildren();
 
-                            for (var i = 0, len = children.length; i < len; i++) {
+                            for ( var i = 0, len = children.length; i < len; i++ ) {
                                 children[ i ].setNormal();
                             }
                         }
@@ -332,7 +330,7 @@ define('qui/controls/contextmenu/BarItem', [
             {
                 this.$Menu.inject( this.$Elm );
                 this.$Menu.hide();
-                this.$Menu.setPosition( 0, this.$Elm.getSize().y );
+                this.$Menu.setPosition( 0, this.$Elm.getSize().y + 20 );
             }
 
             if ( this.getAttribute( 'dragable' ) ) {
@@ -345,7 +343,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Set the Item active
          *
-         * @method QUI.controls.contextmenu.BarItem#setActive
+         * @method qui/controls/contextmenu/BarItem#setActive
          * @return {this}
          */
         setActive : function()
@@ -363,7 +361,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Is the Item active?
          *
-         * @method QUI.controls.contextmenu.BarItem#isActive
+         * @method qui/controls/contextmenu/BarItem#isActive
          * @return {Boolean}
          */
         isActive : function()
@@ -378,7 +376,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * Set the Item active
          *
-         * @method QUI.controls.contextmenu.BarItem#setNormal
+         * @method qui/controls/contextmenu/BarItem#setNormal
          */
         setNormal : function()
         {
@@ -392,7 +390,7 @@ define('qui/controls/contextmenu/BarItem', [
          * onSetAttribute Event
          * Set the attribute to the DOMElement if setAttribute is execute
          *
-         * @method QUI.controls.contextmenu.BarItem#$onSetAttribute
+         * @method qui/controls/contextmenu/BarItem#$onSetAttribute
          *
          * @param {String} key
          * @param {unknown_type} value
@@ -423,7 +421,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * event : onclick
          *
-         * @method QUI.controls.contextmenu.BarItem#$onClick
+         * @method qui/controls/contextmenu/BarItem#$onClick
          */
         $onClick : function(event)
         {
@@ -434,7 +432,7 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * event : on mouse enter
          *
-         * @method QUI.controls.contextmenu.BarItem#$onMouseEnter
+         * @method qui/controls/contextmenu/BarItem#$onMouseEnter
          */
         $onMouseEnter : function()
         {
@@ -444,13 +442,11 @@ define('qui/controls/contextmenu/BarItem', [
         /**
          * event : on mouse leave
          *
-         * @method QUI.controls.contextmenu.BarItem#$onMouseLeave
+         * @method qui/controls/contextmenu/BarItem#$onMouseLeave
          */
         $onMouseLeave : function()
         {
             this.fireEvent( 'mouseLeave', [ this ] );
         }
     });
-
-    return QUI.controls.contextmenu.BarItem;
 });

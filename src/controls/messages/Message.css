@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+.messages-message {
+    border: 1px solid #555;
+    clear: both;
+    float: left;
+    font: 12px/16px 'Droid Sans',sans-serif;
+    margin: 3px 0 0;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.messages-message:hover {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.messages-message-header {
+    clear: both;
+    float: left;
+    margin: 0 0 5px 0;
+    width: 100%;
+}
+
+.messages-message-destroy {
+    cursor: pointer;
+    float: right;
+    font-size: 12px;
+}
+
+/* Message colors
+ ================================================================= */
+
+.message-error {
+    background: #F2D4CE;
+    border-color: #AE432E;
+}
+
+.message-attention {
+    background: #FAF6D4;
+    border-color: #E6C26E;
+}
+
+.message-success {
+    background: #D9E6C3;
+    border-color: #77AB13;
+}
+
+.message-information {
+    background: #CEE6F2;
+    border-color: #058DC7;
+}
