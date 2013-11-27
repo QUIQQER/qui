@@ -182,6 +182,12 @@ define('qui/controls/desktop/Workspace', [
             var old_max   = 0,
                 max_width = this.$Elm.getSize().x;
 
+            if ( this.$Elm.getParent() )
+            {
+                var psize = this.$Elm.getParent().getSize();
+                max_width = psize.x;
+            }
+
             for ( i = 0, len = wlist.length; i < len; i++ ) {
                 old_max = old_max + wlist[ i ];
             }
