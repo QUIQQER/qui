@@ -520,7 +520,10 @@ define('qui/controls/buttons/Button', [
          */
         clear : function()
         {
-            this.getContextMenu().clearChildren();
+            this.getContextMenu(function(Menu) {
+                Menu.clearChildren();
+            });
+
             this.$items = [];
 
             return this;
@@ -559,7 +562,8 @@ define('qui/controls/buttons/Button', [
             require(['qui/controls/contextmenu/Menu'], function(Menu)
             {
                 self.$Menu = new Menu({
-                    name : self.getAttribute('name') +'-menu'
+                    name   : self.getAttribute('name') +'-menu',
+                    corner : 'top'
                 });
 
                 self.$Menu.inject( document.body );
@@ -574,9 +578,12 @@ define('qui/controls/buttons/Button', [
                         var pos  = self.$Elm.getPosition(),
                             size = self.$Elm.getSize();
 
-                        self.$Menu.setPosition( pos.x, (pos.y + size.y) );
-                        self.$Menu.show();
+                        self.$Menu.setPosition(
+                            pos.x - 20,
+                            pos.y + size.y + 10
+                        );
 
+                        self.$Menu.show();
                         self.$Elm.focus();
                     },
 
