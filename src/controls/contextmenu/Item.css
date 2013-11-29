@@ -40,7 +40,9 @@
 .qui-contextitem-text {
     color: #FFFFFF;
     float: left;
+    line-height: 20px;
     margin-left: 10px;
+    padding: 10px 0;
     text-align: left;
 }
 

@@ -63,11 +63,11 @@
 }
 
 .qui-context-corner-right.qui-contextmenu:after {
-    top: 20px;
+    top: 15px;
     right: -5px;
 }
 
 .qui-context-corner-left.qui-contextmenu:after {
-    top: 20px;
+    top: 15px;
     left: 10px;
 }

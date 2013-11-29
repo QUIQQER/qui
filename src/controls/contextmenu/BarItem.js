@@ -69,6 +69,7 @@ define('qui/controls/contextmenu/BarItem', [
 
             this.$Elm   = null;
             this.$Menu  = null;
+            this.$show  = false;
 
             this.addEvents({
                 'onSetAttribute' : this.$onSetAttribute
@@ -89,6 +90,8 @@ define('qui/controls/contextmenu/BarItem', [
         {
             var i, len;
 
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class'      : 'qui-contextmenu-baritem smooth',
                 html         : '<span class="qui-contextmenu-baritem-text smooth"></span>',
@@ -102,16 +105,18 @@ define('qui/controls/contextmenu/BarItem', [
                 events :
                 {
                     click : this.$onClick,
+
                     blur  : function()
                     {
-                        this.blur();
+                        self.blur();
                         return true;
-                    }.bind( this ),
+                    },
+
                     focus : function(event)
                     {
-                        this.focus();
+                        self.focus();
                         return true;
-                    }.bind( this ),
+                    },
 
                     mouseenter : this.$onMouseEnter,
                     mouseleave : this.$onMouseLeave,
@@ -157,6 +162,10 @@ define('qui/controls/contextmenu/BarItem', [
          */
         focus : function()
         {
+            if ( this.$show ) {
+                return this;
+            }
+
             this.$Elm.focus();
             this.fireEvent( 'focus', [ this ] );
 
@@ -227,6 +236,12 @@ define('qui/controls/contextmenu/BarItem', [
                 return this;
             }
 
+            if ( this.$show ) {
+                return this;
+            }
+
+            this.$show = true;
+
             if ( this.getContextMenu().count() )
             {
                 if ( this.getContextMenu().$Active ) {
@@ -247,6 +262,8 @@ define('qui/controls/contextmenu/BarItem', [
          */
         hide : function()
         {
+            this.$show = false;
+
             this.getElm().removeClass( 'bar-menu' );
             this.getContextMenu().hide();
         },

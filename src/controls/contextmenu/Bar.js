@@ -265,6 +265,10 @@ define('qui/controls/contextmenu/Bar', [
                 return;
             }
 
+            if ( this.$Active == Item ) {
+                return;
+            }
+
             if ( this.$Active ) {
                 this.$Active.blur();
             }

@@ -132,7 +132,12 @@ define('qui/controls/contextmenu/Item', [
             {
                 var Text = this.$Elm.getElement( '.qui-contextitem-text' );
 
-                Text.set( 'html', this.getAttribute( 'text' ) );
+                Text.set({
+                    html   : this.getAttribute( 'text' ),
+                    styles : {
+                        width : this.$Elm.getComputedSize().width
+                    }
+                });
             }
 
             // drag drop for the item
