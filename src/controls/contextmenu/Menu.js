@@ -66,6 +66,7 @@ define('qui/controls/contextmenu/Menu', [
         create : function()
         {
             this.$Elm = new Element('div.qui-contextmenu', {
+                html     : '<div class="qui-contextmenu-container"></div>',
                 tabindex : -1,
                 styles   : {
                     display : 'none',
@@ -83,6 +84,8 @@ define('qui/controls/contextmenu/Menu', [
                 'data-quiid' : this.getId()
             });
 
+            this.$Container = this.$Elm.getElement( '.qui-contextmenu-container' );
+
             if ( this.getAttribute( 'width' ) ) {
                 this.$Elm.setStyle( 'width', this.getAttribute( 'width' ) );
             }
@@ -96,11 +99,11 @@ define('qui/controls/contextmenu/Menu', [
             }
 
             if ( this.getAttribute( 'shadow' ) ) {
-                this.$Elm.addClass( 'qui-contextmenu-shadow' );
+                this.$Container.addClass( 'qui-contextmenu-shadow' );
             }
 
             for ( var i = 0, len = this.$items.length; i < len; i++ ) {
-                this.$items[ i ].inject( this.$Elm );
+                this.$items[ i ].inject( this.$Container );
             }
 
             return this.$Elm;
@@ -150,14 +153,17 @@ define('qui/controls/contextmenu/Menu', [
 
             Elm.setStyle( 'display', '' );
 
+            var elm_size = Elm.getSize();
+
+            this.$Container.setStyle( 'height', elm_size.y );
+
             // if parent is the body element
             // context menu don't get out of the body
             this.setAttribute( 'menuPosLeft', false );
 
             if ( Parent.nodeName === 'BODY' )
             {
-                var elm_size  = Elm.getSize(),
-                    elm_pos   = Elm.getPosition(),
+                var elm_pos   = Elm.getPosition(),
                     body_size = Parent.getSize();
 
                 if ( elm_pos.x + elm_size.x > body_size.x ) {
@@ -239,10 +245,10 @@ define('qui/controls/contextmenu/Menu', [
          */
         setTitle : function(text)
         {
-            if ( this.$Elm && !this.$Title )
+            if ( this.$Container && !this.$Title )
             {
                 this.$Title = new Element('div.qui-contextmenu-title');
-                this.$Title.inject( this.$Elm, 'top' );
+                this.$Title.inject( this.$Container, 'top' );
             }
 
             if ( this.$Title ) {
@@ -328,6 +334,7 @@ define('qui/controls/contextmenu/Menu', [
             }
 
             // children events
+            /*
             Child.addEvent( 'onClick', function(Item, event)
             {
                 this.hide();
@@ -351,9 +358,10 @@ define('qui/controls/contextmenu/Menu', [
 
                 this.$Active = Item;
             }.bind( this ));
+            */
 
-            if ( this.$Elm ) {
-                Child.inject( this.$Elm );
+            if ( this.$Container ) {
+                Child.inject( this.$Container );
             }
 
             return this;

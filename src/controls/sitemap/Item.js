@@ -205,7 +205,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @method qui/controls/sitemap/Item#addIcon
          * @param {String} icon_url - URL of the Image
-         * @return {this}
+         * @return {DOMNode} Element
          */
         addIcon : function(icon_url)
         {
@@ -221,19 +221,15 @@ define('qui/controls/sitemap/Item', [
 
             if ( Utils.isFontAwesomeClass( icon_url ) )
             {
-                new Element('i', {
+                return new Element('i', {
                     'class' : 'qui-sitemap-entry-icon-itm '+ icon_url
-                }).inject( this.$Icons );
-
-            } else
-            {
-                new Element('img', {
-                    src     : icon_url,
-                    'class' : 'qui-sitemap-entry-icon-itm'
                 }).inject( this.$Icons );
             }
 
-            return this;
+            return new Element('img', {
+                src     : icon_url,
+                'class' : 'qui-sitemap-entry-icon-itm'
+            }).inject( this.$Icons );
         },
 
         /**
@@ -266,9 +262,7 @@ define('qui/controls/sitemap/Item', [
          */
         activate : function()
         {
-            this.removeIcon(
-                QUI.config('dir') + 'controls/sitemap/images/inactive.png'
-            );
+            this.removeIcon( 'icon-remove' );
 
             return this;
         },
@@ -281,9 +275,11 @@ define('qui/controls/sitemap/Item', [
          */
         deactivate : function()
         {
-            this.addIcon(
-                QUI.config('dir') + 'controls/sitemap/images/inactive.png'
-            );
+            var Icon = this.addIcon( 'icon-remove' );
+
+            Icon.setStyles({
+                color : 'red'
+            });
 
             return this;
         },

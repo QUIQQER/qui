@@ -14,9 +14,11 @@
 define('qui/classes/request/Ajax', [
 
     'qui/classes/DOM',
-    'qui/controls/messages/Handler'
+    'qui/controls/messages/Handler',
+    'qui/controls/messages/Error',
+    'Locale'
 
-], function(DOM)
+], function(DOM, MessageHandler, MessageError, Locale)
 {
     "use strict";
 
@@ -30,7 +32,7 @@ define('qui/classes/request/Ajax', [
      * @fires onProgress [this]
      * @fires onCancel [this]
      * @fires onDestroy [this]
-     * @fires onError [QUI.classes.exceptions.Exception, this]
+     * @fires onError [qui/controls/messages/Error, this]
      *
      * @param {Object} options
      *
@@ -69,42 +71,41 @@ define('qui/classes/request/Ajax', [
          */
         send : function(params)
         {
-            params = this.parseParams( params || {} );
+            var self = this;
 
-            this.setAttribute( 'params', params );
+            params = self.parseParams( params || {} );
 
-            this.$Request = new Request({
-                url    : this.getAttribute('url'),
-                method : this.getAttribute('method'),
-                async  : this.getAttribute('async'),
+            self.setAttribute( 'params', params );
 
-                onProgress : function(event, xhr)
-                {
-                    this.fireEvent( 'progress', [ this ] );
-                }.bind( this ),
+            self.$Request = new Request({
+                url    : self.getAttribute('url'),
+                method : self.getAttribute('method'),
+                async  : self.getAttribute('async'),
 
-                onComplete : function()
-                {
-                    this.fireEvent( 'complete', [ this ] );
-                }.bind( this ),
+                onProgress : function(event, xhr) {
+                    self.fireEvent( 'progress', [ self ] );
+                },
 
-                onSuccess : this.$parseResult,
+                onComplete : function() {
+                    self.fireEvent( 'complete', [ self ] );
+                },
 
-                onCancel : function()
-                {
-                    this.fireEvent( 'cancel', [ this ] );
-                }.bind( this )
+                onSuccess : self.$parseResult,
+
+                onCancel : function() {
+                    self.fireEvent( 'cancel', [ self ] );
+                }
             });
 
-            this.$Request.send( Object.toQueryString( params ) );
+            self.$Request.send( Object.toQueryString( params ) );
 
-            return this.$Request;
+            return self.$Request;
         },
 
         /**
          * Cancel the Request
          *
-         * @method QUI.classes.Ajax#cancel
+         * @method qui/classes/request/Ajax#cancel
          */
         cancel : function()
         {
@@ -114,7 +115,7 @@ define('qui/classes/request/Ajax', [
         /**
          * Fires the onDestroy Event
          *
-         * @method QUI.classes.Ajax#destroy
+         * @method qui/classes/request/Ajax#destroy
          * @fires onDestroy
          */
         destroy : function()
@@ -125,7 +126,7 @@ define('qui/classes/request/Ajax', [
         /**
          * If the Request is synchron, with getResult you can get the result from the request
          *
-         * @method QUI.classes.Ajax#getResult
+         * @method qui/classes/request/Ajax#getResult
          *
          * @return {unknown_type} result
          *
@@ -142,7 +143,7 @@ define('qui/classes/request/Ajax', [
          * Parse Params for the request
          * It filters undefined, objects and so on
          *
-         * @method QUI.classes.Ajax#parseParams
+         * @method qui/classes/request/Ajax#parseParams
          *
          * @param {Object} params - params that will be send
          * @return {Object} Param list
@@ -155,9 +156,9 @@ define('qui/classes/request/Ajax', [
                 value  = '';
 
             if ( typeof params.lang === 'undefined' &&
-                 typeof QUI.Locale !== 'undefined' )
+                 typeof Locale !== 'undefined' )
             {
-                params.lang = QUI.Locale.getCurrent();
+                params.lang = Locale.getCurrent();
             }
 
             for ( k in params )
@@ -203,7 +204,7 @@ define('qui/classes/request/Ajax', [
         /**
          * Parse the result and fire the Events
          *
-         * @method QUI.classes.Ajax#$parseResult
+         * @method qui/classes/request/Ajax#$parseResult
          * @param {String} responseText - request result
          * @param {String} responseXML
          *
@@ -223,7 +224,7 @@ define('qui/classes/request/Ajax', [
             if ( !str.match('<quiqqer>') || !str.match('</quiqqer>') )
             {
                 return this.fireEvent('error', [
-                    new QUI.classes.exceptions.Exception({
+                    new MessageError({
                         message : 'No QUIQQER XML',
                         code    : 500
                     }),
@@ -235,7 +236,7 @@ define('qui/classes/request/Ajax', [
                  str.substring(end, len) != '</quiqqer>' )
             {
                 return this.fireEvent('error', [
-                    new QUI.classes.exceptions.Exception({
+                    new MessageError({
                         message : 'No QUIQQER XML',
                         code    :  500
                     }),
@@ -254,16 +255,15 @@ define('qui/classes/request/Ajax', [
 
             // exist messages?
             if ( result.message_handler &&
-                 result.message_handler.length &&
-                 typeof QUI.MH !== 'undefined' )
+                 result.message_handler.length )
             {
                 var messages = result.message_handler;
 
                 for ( i = 0, len = messages.length; i < len; i++ )
                 {
-                    QUI.MH.add(
-                        QUI.MH.parse( messages[ i ] )
-                    );
+                    MessageHandler.parse( messages[ i ], function(Message) {
+                        MessageHandler.add( Message );
+                    });
                 }
             }
 
@@ -271,7 +271,7 @@ define('qui/classes/request/Ajax', [
             if ( result.Exception )
             {
                 return this.fireEvent('error', [
-                    new QUI.classes.exceptions.Exception({
+                    new MessageError({
                         message : result.Exception.message || '',
                         code    : result.Exception.code || 0,
                         type    : result.Exception.type || 'Exception'
@@ -295,7 +295,7 @@ define('qui/classes/request/Ajax', [
                 if ( res.Exception )
                 {
                     this.fireEvent('error', [
-                        new QUI.classes.exceptions.Exception({
+                        new MessageError({
                             message : res.Exception.message || '',
                             code    : res.Exception.code || 0,
                             type    : res.Exception.type || 'Exception'

@@ -99,7 +99,8 @@ define('qui/controls/contextmenu/BarItem', [
                     outline : 0
                 },
 
-                events : {
+                events :
+                {
                     click : this.$onClick,
                     blur  : function()
                     {
@@ -111,6 +112,7 @@ define('qui/controls/contextmenu/BarItem', [
                         this.focus();
                         return true;
                     }.bind( this ),
+
                     mouseenter : this.$onMouseEnter,
                     mouseleave : this.$onMouseLeave,
 

@@ -171,6 +171,10 @@ define('qui/controls/sitemap/Map', [
          */
         getChildren : function(selector)
         {
+            if ( !this.$Elm ) {
+                return [];
+            }
+
             selector = selector || '.qui-sitemap-entry';
 
             var i, len, quiid, Child;

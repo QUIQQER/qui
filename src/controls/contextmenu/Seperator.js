@@ -17,7 +17,7 @@ define('qui/controls/contextmenu/Seperator', [
     "use strict";
 
     /**
-     * @class QUI.controls.contextmenu.Item
+     * @class qui/controls/contextmenu/Seperator
      *
      * @fires onClick [this]
      * @fires onMouseDown [this]
@@ -66,18 +66,12 @@ define('qui/controls/contextmenu/Seperator', [
          * if the seperator is in a baritem
          * @ignore
          */
-        setNormal : function()
-        {
-
-        },
+        setNormal : function() { },
 
         /**
          * if the seperator is in a baritem
          * @ignore
          */
-        setActive : function()
-        {
-
-        }
+        setActive : function() { }
     });
 });

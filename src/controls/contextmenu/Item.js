@@ -65,11 +65,8 @@ define('qui/controls/contextmenu/Item', [
 
         initialize : function(options)
         {
-            var items  = options.items || [],
-                events = options.events || false;
-
+            var items = options.items || [];
             delete options.items;
-            delete options.events;
 
             this.parent( options );
 
@@ -82,25 +79,6 @@ define('qui/controls/contextmenu/Item', [
 
             if ( items.length ) {
                 this.insert( items );
-            }
-
-            if ( !events ) {
-                return;
-            }
-
-            for ( var event in events )
-            {
-                if ( typeof events[ event ] === 'string' )
-                {
-                    this.addEvent(event, this.$stringEvent.bind(
-                        this,
-                        events[ event ]
-                    ));
-
-                    continue;
-                }
-
-                this.addEvent( event, events[ event ] );
             }
         },
 
@@ -248,7 +226,7 @@ define('qui/controls/contextmenu/Item', [
 
             require([
 
-                 'qui/controls/contextmenu/Menu',
+                 'qui/controls/contextmenu/Item',
                  'qui/controls/contextmenu/Seperator'
 
             ], function(ContextMenuItem, ContextMenuSeperator)
@@ -417,11 +395,14 @@ define('qui/controls/contextmenu/Item', [
                 {
                     onShow : function(Menu)
                     {
-                        var children = Menu.getChildren();
+                        var children = Menu.getChildren(),
+                            Elm      = Menu.getElm();
 
                         for ( var i = 0, len = children.length; i < len; i++ ) {
-                            children[i].setNormal();
+                            children[ i ].setNormal();
                         }
+
+                        //Menu.setPosition( Elm.getSize().x + 10, 0 );
                     }
                 }
             });
@@ -429,7 +410,6 @@ define('qui/controls/contextmenu/Item', [
             this.$Menu.inject( this.$Elm );
             this.$Menu.hide();
 
-            this.$Menu.setPosition( 20, 0 );
             this.$Menu.setParent( this.getParent() );
 
             return this.$Menu;
@@ -578,6 +558,4 @@ define('qui/controls/contextmenu/Item', [
             event.stop();
         }
     });
-
-    return ContextMenuitem;
 });

@@ -372,6 +372,55 @@ define('qui/controls/messages/Handler', [
         },
 
         /**
+         * Parse an array / object to their message type
+         * The Array are often from the php message handler
+         *
+         * @param {Object} params
+         * @param {Function} callback function
+         */
+        parse : function(params, callback)
+        {
+            require([
+                 'qui/controls/messages/Attention',
+                 'qui/controls/messages/Error',
+                 'qui/controls/messages/Information',
+                 'qui/controls/messages/Success'
+            ], function(Attention, Error, Information, Success)
+            {
+                var data, Message;
+
+                data = {
+                    message  : params.message,
+                    time     : params.time
+                };
+
+                switch ( params.mtype )
+                {
+                    case 'QUI\\Messages\\Attention':
+                        Message = new Attention( data );
+                    break;
+
+                    case 'QUI\\Messages\\Error':
+                        Message = new Error( data );
+                    break;
+
+                    case 'QUI\\Messages\\Information':
+                        Message = new Information( data );
+                    break;
+
+                    case 'QUI\\Messages\\Success':
+                        Message = new Success( data );
+                    break;
+
+                    default:
+                        return;
+                }
+
+                callback( Message );
+            });
+        },
+
+        /**
          * Close the message handler
          */
         close : function()

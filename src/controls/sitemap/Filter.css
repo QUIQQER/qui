@@ -8,8 +8,11 @@
 .qui-sitemap-filter input {
     float: left;
     margin: 5px;
+    padding: 5px;
 }
 
 .qui-sitemap-filter button {
-    margin: 7px;
+    line-height: 26px !important;
+    margin: 5px 0 0 0 !important;
+    padding: 0 10px !important;
 }
