@@ -10,6 +10,8 @@
  * @requires qui/controls/contextmenu/Seperator
  *
  * @package com.pcsg.qui.js.controls.contextmenu
+ *
+ * @event onAppend [{self}, {qui/controls/contextmenu/Item}]
  */
 
 define('qui/controls/contextmenu/Item', [
@@ -65,7 +67,9 @@ define('qui/controls/contextmenu/Item', [
 
         initialize : function(options)
         {
-            var items = options.items || [];
+            var self  = this,
+                items = options.items || [];
+
             delete options.items;
 
             this.parent( options );
@@ -79,6 +83,22 @@ define('qui/controls/contextmenu/Item', [
 
             if ( items.length ) {
                 this.insert( items );
+            }
+
+            // string onClick
+            if ( this.getAttribute( 'onClick' ) )
+            {
+                this.addEvent('onClick', function()
+                {
+                    try
+                    {
+                        eval( self.getAttribute( 'onClick' ) +'( self )' );
+
+                    } catch ( e )
+                    {
+                        console.error( e );
+                    }
+                });
             }
         },
 
@@ -104,14 +124,18 @@ define('qui/controls/contextmenu/Item', [
 
                 events :
                 {
-                    click : this.$onClick,
-
-                    mousedown  : this.$onMouseDown,
-                    mouseup    : this.$onMouseUp,
                     mouseenter : this.$onMouseEnter,
                     mouseleave : this.$onMouseLeave
                 }
             });
+
+            // click events on the text
+            this.$Elm.getElement( '.qui-contextitem-container' ).addEvents({
+                click      : this.$onClick,
+                mousedown  : this.$onMouseDown,
+                mouseup    : this.$onMouseUp
+            });
+
 
             if ( this.getAttribute( 'icon' ) && this.getAttribute( 'icon' ) !== '' )
             {
@@ -290,6 +314,8 @@ define('qui/controls/contextmenu/Item', [
                 this.$Elm.addClass( 'haschildren' );
                 Child.inject( this.getContextMenu() );
             }
+
+            this.fireEvent( 'append', [ this, Child ] );
 
             return this;
         },

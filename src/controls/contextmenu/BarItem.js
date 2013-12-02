@@ -11,6 +11,7 @@
  * @event onBlur [ {this} ]
  * @event onMouseLeave [ {this} ]
  * @event onMouseEnter [ {this} ]
+ * @event onAppend [ {this}, {qui/controls/contextmenu/Item} ]
  */
 
 define('qui/controls/contextmenu/BarItem', [
@@ -284,6 +285,8 @@ define('qui/controls/contextmenu/BarItem', [
 
             this.getContextMenu().appendChild( Child );
             Child.setParent( this );
+
+            this.fireEvent( 'append', [ this, Child ] );
 
             return this;
         },

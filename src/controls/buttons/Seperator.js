@@ -27,7 +27,7 @@ define('qui/controls/buttons/Seperator', [
      */
     return new Class({
 
-        Extebds : Control,
+        Extends : Control,
         Type    : 'qui/controls/buttons/Seperator',
 
         options : {

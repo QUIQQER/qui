@@ -6,6 +6,8 @@
  * @module qui/controls/contextmenu/Bar
  * @package com.pcsg.quiqqer.controls.contextmenu
  * @namespace QUI.controls.contextmenu
+ *
+ * @event onChildClick
  */
 
 define('qui/controls/contextmenu/Bar', [
@@ -173,8 +175,8 @@ define('qui/controls/contextmenu/Bar', [
             Child.addEvents({
                 onMouseEnter : this.$onItemEnter,
                 onMouseLeave : this.$onItemLeave,
-                onClick      : this.$onItemClick,
-                onBlur       : this.$onItemBlur
+                onBlur       : this.$onItemBlur,
+                onClick      : this.$onItemClick
             });
 
             if ( this.$Elm ) {

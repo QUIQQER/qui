@@ -16,6 +16,6 @@
 
 .qui-contextmenu-baritem-active .qui-contextmenu-baritem-text,
 .qui-contextmenu-baritem-text:hover {
-    background-color: #2F8FC6;
-    color: #FFFFFF;
+    background-color: #d1d4da;
+    color: #555;
 }

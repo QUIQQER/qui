@@ -10,6 +10,7 @@
  * @package pcsg.qui.js.controls.desktop.workspace
  *
  * @event onLoad - if the workspace is loaded
+ * @event onSave [{this}, {Object Data}]
  */
 
 define('qui/controls/desktop/Workspace', [
@@ -256,7 +257,9 @@ define('qui/controls/desktop/Workspace', [
                 result.push( Column.serialize() );
             }
 
-            QUI.Storage.set( 'qui.workspace', JSON.encode( result ) );
+            // QUI.Storage.set( 'qui.workspace', JSON.encode( result ) );
+
+            this.fireEvent( 'save', [ this, JSON.encode( result ) ] );
 
             return true;
         },
@@ -292,7 +295,7 @@ define('qui/controls/desktop/Workspace', [
             {
                 var Handler = new Element('div', {
                     html    : '&nbps;',
-                    'class' : 'qui-column-handle',
+                    'class' : 'qui-column-handle smooth',
                     styles  : {
                         width       : 4,
                         borderWidth : '0 1px'

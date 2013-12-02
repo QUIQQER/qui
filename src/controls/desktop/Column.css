@@ -1,46 +1,55 @@
 
 .qui-column {
-    border: 1px solid #DDDDDD;
+    /*border: 1px solid #DDDDDD;*/
     height: 100%;
     float: left;
     position: relative;
 }
 
 .qui-column-content {
-    height: 100%;
-    width: 100%;
     float: left;
+    height: 100%;
     overflow: auto;
+    padding: 10px 5px;
+    width: 100%;
 }
 
 .qui-column-handle {
-    cursor : e-resize;
-    height: 100%;
-    float: left;
-    overflow: hidden;
-    background: #C3C3C3 url(images/handle-icon.gif) center center no-repeat;
-
+    background: transparent;
     border-width: 1px;
     border-top: 0;
     border-bottom: 0;
     border-style: solid;
+    border-color: transparent;
+    color: transparent;
+    cursor : e-resize;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+}
+
+.qui-column-handle:hover {
+    background: #C3C3C3 url(images/handle-icon.gif) center center no-repeat;
     border-color: #909090;
-    color: #C3C3C3;
 }
 
 .qui-column-hor-handle {
-    cursor : n-resize;
-    height: 4px;
-    line-height: 1px;
-    font-size: 1px;
-    overflow: hidden;
-    background: #EEE url(images/handle-icon-horizontal.gif) center center no-repeat;
-    clear: both;
-
+    background: transparent;
     border-width: 1px;
     border-left: 0;
     border-right: 0;
     border-style: solid;
+    border-color: transparent;
+    clear: both;
+    cursor : n-resize;
+    font-size: 1px;
+    height: 4px;
+    line-height: 1px;
+    overflow: hidden;
+}
+
+.qui-column-hor-handle:hover {
+    background: #EEE url(images/handle-icon-horizontal.gif) center center no-repeat;
     border-color: #C3C3C3;
 }
 
@@ -69,11 +78,4 @@
     -moz-opacity: 0.5;
     -khtml-opacity: 0.5;
     opacity: 0.5;
-}
-
-/** panels
- * ============================================ */
-
-.qui-column-content .qui-panel {
-    border: 0px;
 }

@@ -24,9 +24,9 @@ define('qui/controls/windows/Popup', [
     'qui/controls/windows/locale/en',
 
     'css!qui/controls/windows/Popup.css',
-    'css!qui/controls/buttons/Button.css',
-    'css!extend/buttons.css',
-    'css!extend/classes.css'
+    'css!qui/controls/buttons/Button.css'
+//    'css!extend/buttons.css',
+//    'css!extend/classes.css'
 
 ], function(Control, Background, Loader, Locale, Utils)
 {
@@ -60,8 +60,9 @@ define('qui/controls/windows/Popup', [
             this.$Elm        = null;
             this.$Content    = null;
             this.$Buttons    = null;
-            this.$Background = new Background();
-            this.$Loader     = new Loader();
+
+            this.Background = new Background();
+            this.Loader     = new Loader();
 
             window.addEvent( 'resize', this.resize );
         },
@@ -80,7 +81,8 @@ define('qui/controls/windows/Popup', [
                               '<div class="qui-window-popup-title-text"></div>' +
                           '</div>' +
                           '<div class="qui-window-popup-content box"></div>'+
-                          '<div class="qui-window-popup-buttons box"></div>'
+                          '<div class="qui-window-popup-buttons box"></div>',
+                tabindex : -1
             });
 
             this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
@@ -146,7 +148,7 @@ define('qui/controls/windows/Popup', [
                 this.$Elm.addClass( this.getAttribute( 'class' ) );
             }
 
-            this.$Loader.inject( this.$Elm );
+            this.Loader.inject( this.$Elm );
 
             this.fireEvent( 'create', [ this ] );
 
@@ -158,19 +160,20 @@ define('qui/controls/windows/Popup', [
          */
         open : function()
         {
-            this.$Background.create();
+            this.Background.create();
 
-            this.$Background.getElm().addEvent(
+            this.Background.getElm().addEvent(
                 'click',
                 this.cancel
             );
 
-            this.$Background.show();
+            this.Background.show();
 
 
             this.inject( document.body );
 
             document.body.addClass( 'noscroll' );
+
 
             this.resize( true );
             this.fireEvent( 'open', [ this ] );
@@ -257,7 +260,9 @@ define('qui/controls/windows/Popup', [
             moofx( this.$Elm ).animate({
                 left : left
             }, {
-                callback : function() {
+                callback : function()
+                {
+                    self.$Elm.focus();
                     self.fireEvent( 'resize', [ self ] );
                 }
             });
@@ -284,7 +289,7 @@ define('qui/controls/windows/Popup', [
                     self.fireEvent( 'close', [ self ] );
 
                     self.$Elm.destroy();
-                    self.$Background.destroy();
+                    self.Background.destroy();
 
                     if ( !document.body.getElement( 'cls-background' ) ) {
                         document.body.removeClass( 'noscroll' );

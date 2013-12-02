@@ -240,14 +240,19 @@ define('qui/controls/desktop/Column', [
          */
         appendChild : function(Panel, pos)
         {
-            var Prev;
+            var Prev, colheight;
 
             var Handler   = false,
                 height    = false,
-                colheight = this.$Elm.getSize().y,
                 Parent    = Panel.getParent(),
 
+                computedSize    = this.$Content.getComputedSize(),
                 old_panel_is_me = false;
+
+
+            colheight = computedSize.height -
+                        computedSize['padding-top'] -
+                        computedSize['padding-bottom'];
 
             // depend from another parent, if the panel has a parent
             if ( typeOf( Parent ) == 'qui/controls/desktop/Column' )
@@ -266,7 +271,7 @@ define('qui/controls/desktop/Column', [
             if ( this.count() )
             {
                 Handler = new Element('div', {
-                    'class' : 'qui-column-hor-handle'
+                    'class' : 'qui-column-hor-handle smooth'
                 });
 
                 this.$addHorResize( Handler );
@@ -312,7 +317,7 @@ define('qui/controls/desktop/Column', [
             // or no second panel exist
             // use the column height
             if ( !Panel.getAttribute( 'height' ) || !this.count() ) {
-                Panel.setAttribute( 'height', this.$Elm.getSize().y - 2 );
+                Panel.setAttribute( 'height', colheight - 2 );
             }
 
             if ( this.getAttribute( 'sortable' ) )
@@ -340,7 +345,7 @@ define('qui/controls/desktop/Column', [
 
 
                 if ( height > colheight || height.toString().match( '%' ) ) {
-                    height = colheight / 2;
+                    height = (colheight / 2).round();
                 }
 
                 var max         = Prev.getAttribute( 'height' ),
@@ -416,11 +421,26 @@ define('qui/controls/desktop/Column', [
          * Return the column children
          *
          * @method qui/controls/desktop/Column#getChildren
+         * @param {String} name - [optional]
          * @return {Object}
          */
-        getChildren : function()
+        getChildren : function(name)
         {
-            return this.$panels;
+            if ( typeof name === 'undefined' ) {
+                return this.$panels;
+            }
+
+            var i;
+            var items = this.$panels;
+
+            for ( i in items )
+            {
+                if ( items[ i ].getAttribute( 'name' ) == name ) {
+                    return items[ i ];
+                }
+            }
+
+            return false;
         },
 
         /**
@@ -1051,13 +1071,20 @@ define('qui/controls/desktop/Column', [
          */
         $horResizeStop : function(DragDrop, Dragable)
         {
-            var i, len, change;
+            var i, len, size, change;
 
             var Handle   = DragDrop.getAttribute('Handle'),
                 pos      = Dragable.getPosition(),
                 hpos     = Handle.getPosition(),
-                size     = this.$Content.getSize(),
-                children = this.$Content.getChildren();
+                children = this.$Content.getChildren(),
+
+                computedSize = this.$Content.getComputedSize();
+
+            size = computedSize.height -
+                        computedSize['padding-top'] -
+                        computedSize['padding-bottom'];
+
+            console.log( size );
 
             change = pos.y - hpos.y;
 

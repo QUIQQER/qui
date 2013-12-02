@@ -21,3 +21,22 @@
 .qui-taskpanel .qui-taskgroup {
     margin: 2px;
 }
+
+.qui-taskpanel .qui-taskbar {
+    background: #DEDEDE;
+}
+
+.qui-taskpanel .qui-task {
+    background: #a4a9ae;
+    color: #FFFFFF;
+}
+
+.qui-taskpanel .qui-task.active {
+    background: #434a54;
+    border-color: #434a54;
+    color: #FFFFFF;
+}
+
+.qui-taskpanel .qui-task-text {
+    color: #FFFFFF;
+}
