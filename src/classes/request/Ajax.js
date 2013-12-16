@@ -13,12 +13,12 @@
 
 define('qui/classes/request/Ajax', [
 
+    'qui/QUI',
     'qui/classes/DOM',
-    'qui/controls/messages/Handler',
     'qui/controls/messages/Error',
     'Locale'
 
-], function(DOM, MessageHandler, MessageError, Locale)
+], function(QUI, DOM, MessageError, Locale)
 {
     "use strict";
 
@@ -259,12 +259,17 @@ define('qui/classes/request/Ajax', [
             {
                 var messages = result.message_handler;
 
-                for ( i = 0, len = messages.length; i < len; i++ )
+                QUI.getMessageHandler(function(MH)
                 {
-                    MessageHandler.parse( messages[ i ], function(Message) {
-                        MessageHandler.add( Message );
-                    });
-                }
+                    var i, len;
+
+                    for ( i = 0, len = messages.length; i < len; i++ )
+                    {
+                        MH.parse( messages[ i ], function(Message) {
+                            MH.add( Message );
+                        });
+                    }
+                });
             }
 
             // exist a main exception?

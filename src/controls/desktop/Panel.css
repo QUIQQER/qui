@@ -144,6 +144,8 @@
 .qui-panel-buttons .qui-btn2-text {
     white-space: nowrap;
 }
+
+
 /*
 .qui-panel-buttons:before {
     content: "";
@@ -179,9 +181,11 @@
     background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
 }
 */
-.qui-panel-buttons .qui-btn-seperator {
-    border-left: 1px solid #999;
+.qui-panel-buttons .qui-buttons-seperator {
+    border-left: 2px solid #cccfd5;
+    float: left;
     margin: 5px 4px 2px 7px;
+    height: 40px;
 }
 
 /* Panel breadcrumb

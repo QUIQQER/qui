@@ -251,6 +251,13 @@ define('qui/controls/sitemap/Item', [
                 Img.destroy();
             }
 
+            Img = this.$Icons.getElement( '.'+ icon_url );
+
+            if ( Img ) {
+                Img.destroy();
+            }
+
+
             return this;
         },
 
@@ -692,7 +699,9 @@ define('qui/controls/sitemap/Item', [
 
             if ( key == 'icon' )
             {
-                this.$Icons.setStyle('background-image', 'url('+ value +')');
+            	this.addIcon( value );
+
+                // this.$Icons.setStyle('background-image', 'url('+ value +')');
                 return;
             }
 

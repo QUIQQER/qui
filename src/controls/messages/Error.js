@@ -15,6 +15,7 @@ define('qui/controls/messages/Error', [
     "use strict";
 
     return new Class({
+
         Extends : Message,
         Type    : 'qui/controls/messages/Error',
 

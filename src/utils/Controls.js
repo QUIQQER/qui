@@ -10,7 +10,7 @@ define('qui/utils/Controls', [
 
     'qui/QUI'
 
-], function(QUI)
+], function(QUI, Panel)
 {
     "use strict";
 

@@ -9,7 +9,7 @@ define('qui/classes/QUI', [
 
     'require',
     'qui/classes/DOM',
-    'qui/classes/Controls'
+    'qui/classes/Controls',
 
 ], function(require, DOM, Controls)
 {
@@ -52,7 +52,8 @@ define('qui/classes/QUI', [
                 window.onerror = this.trigger.bind( this );
             }
 
-            this.Controls = new Controls();
+            this.Controls       = new Controls();
+            this.MessageHandler = null;
         },
 
         /**
@@ -61,6 +62,7 @@ define('qui/classes/QUI', [
          *
          * @method qui/classes/QUI#namespace
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
+         * @depricated
          */
         namespace : function()
         {
@@ -130,6 +132,45 @@ define('qui/classes/QUI', [
             console.error( message );
 
             return this;
+        },
+
+        /**
+         * Return the message handler
+         *
+         * @param {Function} callback
+         */
+        getMessageHandler : function(callback)
+        {
+            if ( this.MessageHandler )
+            {
+                callback( this.MessageHandler );
+                return;
+            }
+
+            var self = this;
+
+            require(['qui/controls/messages/Handler'], function(Handler)
+            {
+                self.MessageHandler = new Handler();
+
+                callback( self.MessageHandler );
+            });
+        },
+
+        /**
+         * Return the message handler
+         *
+         * @param {Function} callback
+         */
+        getControls : function(callback)
+        {
+            if ( this.Controls )
+            {
+                callback( this.Controls );
+                return;
+            }
+
+
         }
     });
 });

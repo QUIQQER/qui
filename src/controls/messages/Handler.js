@@ -98,8 +98,9 @@ define('qui/controls/messages/Handler', [
                      'qui/controls/messages/Attention',
                      'qui/controls/messages/Error',
                      'qui/controls/messages/Information',
-                     'qui/controls/messages/Success'
-                ], function(Attention, Error, Information, Success)
+                     'qui/controls/messages/Success',
+                     'qui/controls/messages/Message'
+                ], function(Attention, Error, Information, Success, StandardMessage)
                 {
                     var i, len, type, Data, Message;
 
@@ -126,6 +127,10 @@ define('qui/controls/messages/Handler', [
 
                             case 'qui/controls/messages/Success':
                                 Message = new Success( Data );
+                            break;
+
+                            default:
+                                Message = new StandardMessage( Data );
                             break;
                         }
 
@@ -155,7 +160,7 @@ define('qui/controls/messages/Handler', [
          */
         load : function()
         {
-            if ( !User ) {
+            if ( typeof User === 'undefined' || !User ) {
                 return;
             }
 
@@ -384,8 +389,9 @@ define('qui/controls/messages/Handler', [
                  'qui/controls/messages/Attention',
                  'qui/controls/messages/Error',
                  'qui/controls/messages/Information',
-                 'qui/controls/messages/Success'
-            ], function(Attention, Error, Information, Success)
+                 'qui/controls/messages/Success',
+                 'qui/controls/messages/Message'
+            ], function(Attention, Error, Information, Success, StandardMessage)
             {
                 var data, Message;
 
@@ -413,7 +419,8 @@ define('qui/controls/messages/Handler', [
                     break;
 
                     default:
-                        return;
+                        Message = new StandardMessage( data );
+                    break;
                 }
 
                 callback( Message );

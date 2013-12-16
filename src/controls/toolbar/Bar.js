@@ -610,7 +610,9 @@ define('qui/controls/toolbar/Bar', [
             }
 
             var self = this,
-                type = Itm.getType();
+                type = typeOf( Itm );
+
+            console.log( type );
 
             switch ( type )
             {
@@ -619,6 +621,11 @@ define('qui/controls/toolbar/Bar', [
                 case 'qui/controls/buttons/Seperator':
                 case 'qui/controls/toolbar/Tab':
                     // nothing
+                break;
+
+                case 'element':
+                    Itm.inject( this.Tabs );
+                    return this;
                 break;
 
                 default:

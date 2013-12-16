@@ -37,6 +37,11 @@
     opacity: 0.6;
 }
 
+.qui-button[disabled]:hover {
+    background: none;
+}
+
+
 .qui-button-text {
     margin: 0px 5px;
     text-align: center;
@@ -48,13 +53,16 @@
     line-height: 28px;
 }
 
-.qui-button-image { margin: 0; }
+.qui-button-image {
+    margin: 0;
+}
 
 .qui-button-drop {
-    background: url('images/drop.png') no-repeat 0px 8px;
-    bottom: -5px;
+    bottom: 0px;
+    font-size: 10px;
     height: 20px;
     left: 0px;
+    line-height: 20px;
     position: absolute;
     width: 20px;
 }

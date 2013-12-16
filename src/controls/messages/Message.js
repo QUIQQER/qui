@@ -25,6 +25,7 @@ define('qui/controls/messages/Message', [
 
         options: {
             message  : '',
+            code     : 0,
             time     : false,
             cssclass : false,
             styles   : false
@@ -69,6 +70,28 @@ define('qui/controls/messages/Message', [
             );
 
             return this.$Elm;
+        },
+
+        /**
+         * Return the message
+         * -> getAttribute('message')
+         *
+         * @return {String}
+         */
+        getMessage : function()
+        {
+            return this.getAttribute( 'message' );
+        },
+
+        /**
+         * Return the message code
+         * -> getAttribute('code')
+         *
+         * @return {Integer}
+         */
+        getCode : function()
+        {
+            return this.getAttribute( 'code' );
         },
 
         /**

@@ -326,7 +326,38 @@ define('qui/controls/desktop/Tasks', [
          */
         $destroyTask : function(Task)
         {
-            if ( !Task.getInstance() ) {
+            var self = this;
+
+            var selectTask  = function()
+            {
+                var tid = Task.getId();
+
+                if ( self.$LastTask && self.$LastTask.getId() != tid )
+                {
+                    self.$LastTask.click();
+                    return;
+                }
+
+                var LastTask = self.lastChild();
+
+                if ( LastTask.getInstance() && LastTask.getId() != tid )
+                {
+                    LastTask.click();
+                    return;
+                }
+
+                var FirstTask = self.firstChild();
+
+                if ( FirstTask.getInstance() && FirstTask.getId() != tid )
+                {
+                    FirstTask.click();
+                    return;
+                }
+            };
+
+            if ( !Task.getInstance() )
+            {
+                selectTask();
                 return;
             }
 
@@ -343,34 +374,8 @@ define('qui/controls/desktop/Tasks', [
                         Instance.destroy();
                     }).delay( 100 );
 
-
-                    if ( this.$LastTask &&
-                         this.$LastTask.getId() != Task.getId() &&
-                         this.$LastTask.getInstance() )
-                    {
-                        this.$LastTask.click();
-                        return;
-                    }
-
-                    var LastTask = this.lastChild();
-
-                    if ( LastTask.getInstance() &&
-                         LastTask.getInstance().getId() != Instance.getId() )
-                    {
-                        LastTask.click();
-                        return;
-                    }
-
-                    var FirstTask = this.firstChild();
-
-                    if ( FirstTask.getInstance() &&
-                         FirstTask.getInstance().getId() != Instance.getId() )
-                    {
-                        FirstTask.click();
-                        return;
-                    }
-
-                }.bind( this, Elm )
+                    selectTask();
+                }
             });
         },
 

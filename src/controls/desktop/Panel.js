@@ -234,6 +234,10 @@ define('qui/controls/desktop/Panel', [
 
                 if ( Utils.isFontAwesomeClass( path )  )
                 {
+                    var css = this.$Icon.className;
+                        css = css.replace(/\bicon-\S+/g, '');
+
+                    this.$Icon.className = css;
                     this.$Icon.addClass( path );
 
                 } else
@@ -295,8 +299,10 @@ define('qui/controls/desktop/Panel', [
             }
 
             var content_height = this.getAttribute( 'height' ),
+                content_width  = this.$Elm.getSize().x,
                 overflow       = 'auto';
 
+            // height calc
             if ( content_height.toString().match( '%' ) )
             {
                 var Parent = this.$Elm.getParent() || document.body;
@@ -320,9 +326,15 @@ define('qui/controls/desktop/Panel', [
                 overflow = 'hidden';
             }
 
+            // width calc
+            content_width = content_width - this.$Categories.getSize().y;
+
+
+            // set proportions
             this.$Content.setStyles({
                 overflow : overflow,
-                height   : content_height
+                height   : content_height,
+                width    : content_width
             });
 
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
@@ -880,44 +892,24 @@ define('qui/controls/desktop/Panel', [
          */
         $onDestroy : function()
         {
-            if ( this.$Elm ) {
-                this.$Header.destroy();
-            }
+            var destroy = [
+                this.$Header,
+                this.$Title,
+                this.$Footer,
+                this.$Content,
+                this.$Buttons,
+                this.$ButtonBar,
+                this.$CategoryBar,
+                this.$ActiveCat,
+                this.$BreadcrumbBar,
+                this.$ContextMenu
+            ];
 
-            if ( this.$Title ) {
-                this.$Title.destroy();
-            }
-
-            if ( this.$Footer ) {
-                this.$Footer.destroy();
-            }
-
-            if ( this.$Content ) {
-                this.$Content.destroy();
-            }
-
-            if ( this.$Buttons ) {
-                this.$Buttons.destroy();
-            }
-
-            if ( this.$ButtonBar ) {
-                this.$ButtonBar.destroy();
-            }
-
-            if ( this.$CategoryBar ) {
-                this.$CategoryBar.destroy();
-            }
-
-            if ( this.$ActiveCat ) {
-                this.$ActiveCat.destroy();
-            }
-
-            if ( this.$BreadcrumbBar ) {
-                this.$BreadcrumbBar.destroy();
-            }
-
-            if ( this.$ContextMenu ) {
-                this.$ContextMenu.destroy();
+            for ( var i = 0, len = destroy.length; i < len; i++ )
+            {
+                if ( destroy[ i ] && "destroy" in destroy[ i ] ) {
+                    destroy[ i ].destroy();
+                }
             }
         }
     });

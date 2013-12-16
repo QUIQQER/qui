@@ -265,15 +265,16 @@ define('qui/controls/buttons/Button', [
 
             if ( len )
             {
-                var Menu = this.getContextMenu();
+                this.getContextMenu(function(Menu)
+                {
+                    for ( i = 0; i < len; i++ ) {
+                        Menu.appendChild( self.$items[i] );
+                    }
 
-                for ( i = 0; i < len; i++ ) {
-                    Menu.appendChild( this.$items[i] );
-                }
-
-                this.$Drop = new Element('div.qui-button-drop').inject(
-                    this.$Elm
-                );
+                    self.$Drop = new Element('div', {
+                        'class' : 'qui-button-drop icon-chevron-down'
+                    }).inject( self.$Elm );
+                });
             }
 
             this.fireEvent( 'create', [ this ] );
@@ -492,9 +493,9 @@ define('qui/controls/buttons/Button', [
 
                 if ( !self.$Drop )
                 {
-                    self.$Drop = new Element('div.qui-button-drop').inject(
-                        self.$Elm
-                    );
+                    self.$Drop = new Element('div', {
+                        'class' : 'qui-button-drop icon-chevron-down'
+                    }).inject( self.$Elm );
                 }
             });
 

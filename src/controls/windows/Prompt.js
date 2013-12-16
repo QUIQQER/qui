@@ -59,7 +59,8 @@ define('qui/controls/windows/Prompt', [
         },
 
         Binds : [
-            '$onCreate'
+            '$onCreate',
+            '$onOpen'
         ],
 
         initialize : function(options)
@@ -83,7 +84,8 @@ define('qui/controls/windows/Prompt', [
             this.$Body  = null;
 
             this.addEvents({
-                onCreate : this.$onCreate
+                onCreate : this.$onCreate,
+                onOpen   : this.$onOpen
             });
         },
 
@@ -224,11 +226,17 @@ define('qui/controls/windows/Prompt', [
                     }
                 }).create()
             );
+        },
 
-            // focus after 200 miliseconds
+        /**
+         * event : on open
+         */
+        $onOpen : function()
+        {
+            // focus after 500 miliseconds
             (function() {
                 this.$Input.focus();
-            }).delay(200, this);
+            }).delay( 700, this );
         },
 
         /**
