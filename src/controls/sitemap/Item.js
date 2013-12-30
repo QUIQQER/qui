@@ -77,6 +77,7 @@ define('qui/controls/sitemap/Item', [
 
             this.$Children    = null;
             this.$ContextMenu = null;
+            this.$disable     = false;
 
             this.$items = [];
 
@@ -269,6 +270,10 @@ define('qui/controls/sitemap/Item', [
          */
         activate : function()
         {
+            if ( this.$disable ) {
+                return this;
+            }
+
             this.removeIcon( 'icon-remove' );
 
             return this;
@@ -282,6 +287,10 @@ define('qui/controls/sitemap/Item', [
          */
         deactivate : function()
         {
+            if ( this.$disable ) {
+                return this;
+            }
+
             var Icon = this.addIcon( 'icon-remove' );
 
             Icon.setStyles({
@@ -429,7 +438,9 @@ define('qui/controls/sitemap/Item', [
 
             this.$items = items;
 
-            this.setAttribute( 'hasChildren', this.$items.length ? true : false );
+            // dont delete it, because ajax
+            //this.setAttribute( 'hasChildren', this.$items.length ? true : false );
+
             this.$setOpener();
 
             return this;
@@ -444,6 +455,10 @@ define('qui/controls/sitemap/Item', [
          */
         select : function(event)
         {
+            if ( this.$disable ) {
+                return this;
+            }
+
             this.fireEvent( 'select', [ this, event ] );
 
             if ( this.$Container ) {
@@ -478,6 +493,8 @@ define('qui/controls/sitemap/Item', [
          */
         normalize : function()
         {
+            this.enable();
+
             if ( this.$Container )
             {
                 this.$Container.removeClass( 'qui-sitemap-entry-select' );
@@ -486,6 +503,38 @@ define('qui/controls/sitemap/Item', [
 
             if ( this.$Opener ) {
                 this.$Opener.removeClass( 'qui-sitemap-entry-holdBack' );
+            }
+
+            return this;
+        },
+
+        /**
+         * Disable the item
+         *
+         * @return {this} self
+         */
+        disable : function()
+        {
+            this.$disable = true;
+
+            if ( this.$Container ) {
+                this.$Container.addClass( 'qui-sitemap-entry-disabled' );
+            }
+
+            return this;
+        },
+
+        /**
+         * Enable the item if the item was disabled
+         *
+         * @return {this} self
+         */
+        enable : function()
+        {
+            this.$disable = false;
+
+            if ( this.$Container ) {
+                this.$Container.removeClass( 'qui-sitemap-entry-disabled' );
             }
 
             return this;
@@ -699,7 +748,7 @@ define('qui/controls/sitemap/Item', [
 
             if ( key == 'icon' )
             {
-            	this.addIcon( value );
+                this.addIcon( value );
 
                 // this.$Icons.setStyle('background-image', 'url('+ value +')');
                 return;

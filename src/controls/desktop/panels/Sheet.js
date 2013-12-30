@@ -157,19 +157,22 @@ define('qui/controls/desktop/panels/Sheet', [
                 'float' : 'left'
             });
 
-            this.addButton(
-                new Button({
-                    text      : 'schließen / abbrechen',
-                    textimage : URL_BIN_DIR +'16x16/cancel.png',
-                    styles    : {
-                        margin : '6px auto 0',
-                        width  : 200
-                    },
-                    events : {
-                        onClick : this.hide.bind( this )
-                    }
-                })
-            );
+            var CloseButton = new Button({
+                text : 'schließen / abbrechen',
+                textimage : 'icon-remove',
+                buttonCSSClass : false,
+                styles : {
+                    width : 200
+                },
+                events : {
+                    onClick : this.hide.bind( this )
+                }
+            });
+
+            this.addButton( CloseButton );
+
+            CloseButton.getElm().addClass( 'button' );
+            CloseButton.getElm().addClass( 'btn-black' );
 
             this.$FX.animate({
                 left : 0

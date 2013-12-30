@@ -1084,8 +1084,6 @@ define('qui/controls/desktop/Column', [
                         computedSize['padding-top'] -
                         computedSize['padding-bottom'];
 
-            console.log( size );
-
             change = pos.y - hpos.y;
 
             var Next = Handle.getNext(),

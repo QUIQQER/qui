@@ -54,7 +54,8 @@ define('qui/controls/messages/Handler', [
 
             this.parent( params );
 
-            this.Favico = null;
+            this.Favico  = null;
+            this.$Parent = null;
 
             // ie 9 and lower can't change the favicon
             if ( !Browser.ie || ( Browser.ie && Browser.version > 9 ) )
@@ -155,6 +156,16 @@ define('qui/controls/messages/Handler', [
             }
         },
 
+        bindParent : function(Parent)
+        {
+            this.$Parent = Parent;
+        },
+
+        unbindParent : function()
+        {
+            this.$Parent = null;
+        },
+
         /**
          * Load the messages from the database
          */
@@ -252,14 +263,19 @@ define('qui/controls/messages/Handler', [
 
             this.$newMessages = 0;
 
+            var Parent = this.$Parent;
+
+            if ( !this.$Parent ) {
+                Parent = document.body;
+            }
 
             var self = this,
-                size = document.body.getSize();
+                size = Parent.getSize();
 
             var Container = new Element('div', {
                 'class' : 'message-handler-container',
                 html    : '<div class="message-handler-container-title">'+
-                              Locale.get( 'namerobot/global', 'msg-handler-title' ) +
+                              'Nachrichten' +
                           '</div>' +
                           '<div class="message-handler-container-buttons">' +
                               '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
@@ -270,13 +286,27 @@ define('qui/controls/messages/Handler', [
                           '</div>' +
                           '<div class="message-handler-container-messages"></div>' +
                           '<div class="message-handler-container-close"></div>'
-            }).inject( document.body );
+            }).inject( Parent );
 
             // trash
             Container.getElement( '.icon-trash' ).addEvent(
                 'click',
                 this.clear.bind( this )
             );
+
+            if ( Parent != document.body )
+            {
+                Container.setStyles({
+                    border   : 'none',
+                    position : 'relative'
+                });
+
+                Container.getElement( '.message-handler-container-title' )
+                         .destroy();
+
+                Container.getElement( '.message-handler-container-close' )
+                         .setStyle( 'display', 'none' );
+            }
 
             // filter
             var buttons = Container.getElements(
@@ -368,7 +398,9 @@ define('qui/controls/messages/Handler', [
                         );
                     }
 
-                    Container.addClass( 'shadow' );
+                    if ( Parent == document.body ) {
+                        Container.addClass( 'shadow' );
+                    }
 
                     self.refreshFavicon();
                     self.save();
@@ -863,8 +895,13 @@ define('qui/controls/messages/Handler', [
             }
 
             var height;
+            var Parent = this.$Parent;
 
-            var size = document.body.getSize(),
+            if ( !Parent ) {
+                Parent = document.body;
+            }
+
+            var size = Parent.getSize(),
 
                 Title = Container.getElement(
                     '.message-handler-container-title'

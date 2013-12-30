@@ -612,8 +612,6 @@ define('qui/controls/toolbar/Bar', [
             var self = this,
                 type = typeOf( Itm );
 
-            console.log( type );
-
             switch ( type )
             {
                 case 'qui/controls/buttons/Button':

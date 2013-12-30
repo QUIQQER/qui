@@ -181,11 +181,12 @@ define('qui/controls/desktop/Workspace', [
 
             // resize columns width %
             var old_max   = 0,
-                max_width = this.$Elm.getSize().x;
+                max_width = this.$Elm.getSize().x,
+                Parent    = this.$Elm.getParent();
 
-            if ( this.$Elm.getParent() )
+            if ( Parent )
             {
-                var psize = this.$Elm.getParent().getSize();
+                var psize = Parent.getSize();
                 max_width = psize.x;
             }
 

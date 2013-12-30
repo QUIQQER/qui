@@ -264,6 +264,20 @@ define('qui/controls/Control', [
         {
             this.fireEvent( 'normalize', [ this ] );
             return this;
+        },
+
+        /**
+         * Focus the DOMNode Element
+         *
+         * @return {this}
+         */
+        focus : function()
+        {
+            if ( this.$Elm ) {
+                this.$Elm.focus();
+            }
+
+            return this;
         }
     });
 });

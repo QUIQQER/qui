@@ -45,14 +45,6 @@
 
 }
 
-.qui-dropdown {
-    border-top: 1px solid #fff;
-
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-}
-
 .qui-select-disable {
     cursor: default !important;
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);

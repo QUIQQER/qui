@@ -2,15 +2,14 @@
 
 .qui-button {
     border: none;
-    border-bottom: 5px solid #0069B4;
-    border-radius: 5px;
-    background: #2F8FC6;
-    color: #FFFFFF;
+    border-radius: 3px;
+    background: #ededed;
+    color: #606060;
     cursor: pointer;
     float: left;
     line-height: 30px;
     margin: 0 5px;
-    padding: 5px 10px 0 10px;
+    padding: 0 10px;
     position: relative;
 
     -webkit-transition: all 0.2s ease;
@@ -18,12 +17,21 @@
         -ms-transition: all 0.2s ease;
          -o-transition: all 0.2s ease;
             transition: all 0.2s ease;
+
+            box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+    -webkit-box-shadow: 0 0 2px #999;
 }
 
 .qui-button-active,
 .qui-button:active,
 .qui-button:hover {
     background: #0069B4;
+    color: #FFFFFF;
+
+            box-shadow: none;
+       -moz-box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 .qui-button::-moz-focus-inner {

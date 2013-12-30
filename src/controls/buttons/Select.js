@@ -257,7 +257,7 @@ define('qui/controls/buttons/Select', [
             this.getElm().addClass( 'qui-select-open' );
 
             this.$Menu.setPosition(
-                pos.x + 2,
+                pos.x - 20,
                 pos.y + size.y
             );
 

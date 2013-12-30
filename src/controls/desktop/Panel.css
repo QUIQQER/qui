@@ -23,11 +23,24 @@
     position: relative;
 }
 
-.qui-panel-header .qui-button {
+.qui-panel-header button {
+    background: transparent;
     border: none;
     border-radius: 0;
+    color: #FFFFFF;
     height: 40px;
     margin: 0;
+
+            box-shadow: none;
+       -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.qui-panel-header .qui-buttons-seperator {
+    border-left: 1px solid #FFFFFF;
+    float: left;
+    height: 28px;
+    margin: 6px 0;
 }
 
 .qui-panel-title {
@@ -131,6 +144,7 @@
     line-height: 50px;
     margin: 0;
     padding: 0 10px;
+    box-shadow: none;
 }
 
 .qui-panel-buttons button:hover {
@@ -141,10 +155,13 @@
     line-height: 50px;
 }
 
-.qui-panel-buttons .qui-btn2-text {
+.qui-panel-buttons .qui-button-text {
     white-space: nowrap;
 }
 
+.qui-panel-buttons .qui-select {
+    margin: 10px;
+}
 
 /*
 .qui-panel-buttons:before {
@@ -235,11 +252,11 @@
 }
 
 .qui-panel-categories .qui-button-over {
-    background: #6C98D9 !important;
+    background: #2F8FC6 !important;
     color: #fff;
     border-width: 0 0 1px 0 !important;
     border-style: solid !important;
-    border-color: #6C98D9 !important;
+    border-color: #2F8FC6 !important;
     border-radius: 0px !important;
     box-shadow: none !important;
 }

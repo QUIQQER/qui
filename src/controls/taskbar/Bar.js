@@ -165,6 +165,7 @@ define('qui/controls/taskbar/Bar', [
                 name    : 'qui-taskbar-btn-'+ this.getId(),
                 'class' : 'qui-taskbar-button',
                 icon    : 'icon-chevron-up',
+                menuCorner : this.getAttribute('position'),
                 styles  : {
                     width  : 30,
                     height : 30

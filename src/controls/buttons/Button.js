@@ -15,10 +15,11 @@ define('qui/controls/buttons/Button', [
     'qui/controls/Control',
     'qui/utils/Controls',
     'qui/utils/NoSelect',
+    'qui/utils/Elements',
 
     'css!qui/controls/buttons/Button.css'
 
-], function(Control, Utils, NoSelect)
+], function(Control, Utils, NoSelect, ElementUtils)
 {
     "use strict";
 
@@ -62,7 +63,9 @@ define('qui/controls/buttons/Button', [
             'textimage' : false,   // Image left from text
             'text'      : false,   // Button text
             'title'     : false,
-            'class'     : false    // extra CSS Class
+            'class'     : false,    // extra CSS Class
+            'buttonCSSClass' : true, // should have the button the qui-button css class?
+            'menuCorner'     : 'top'
         },
 
         params : {},
@@ -135,11 +138,15 @@ define('qui/controls/buttons/Button', [
 
             var self = this;
 
-            var Elm = new Element('button.qui-button', {
+            var Elm = new Element('button', {
                 'type' : this.getAttribute('type'),
                 'data-status' : 0,
                 'data-quiid'  : this.getId()
             });
+
+            if ( this.getAttribute( 'buttonCSSClass' ) ) {
+                Elm.addClass( 'qui-button' );
+            }
 
             if ( this.getAttribute( 'width' ) ) {
                 Elm.setStyle( 'width', this.getAttribute( 'width' ) );
@@ -564,7 +571,7 @@ define('qui/controls/buttons/Button', [
             {
                 self.$Menu = new Menu({
                     name   : self.getAttribute('name') +'-menu',
-                    corner : 'top'
+                    corner : self.getAttribute('menuCorner')
                 });
 
                 self.$Menu.inject( document.body );

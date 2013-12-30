@@ -123,9 +123,14 @@ define('qui/controls/desktop/Panel', [
 
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
-                'class'      : 'qui-panel box',
-                styles       : {
-                    height : this.getAttribute('height')
+                'class' : 'qui-panel box',
+                tabindex : -1,
+
+                styles : {
+                    height : this.getAttribute('height'),
+                    outline : 'none',
+                    '-moz-outline': 'none'
+
                 },
 
                 html : '<div class="qui-panel-header box"></div>' +
@@ -327,8 +332,7 @@ define('qui/controls/desktop/Panel', [
             }
 
             // width calc
-            content_width = content_width - this.$Categories.getSize().y;
-
+            content_width = content_width - this.$Categories.getSize().x;
 
             // set proportions
             this.$Content.setStyles({
@@ -547,7 +551,7 @@ define('qui/controls/desktop/Panel', [
             if ( !QUI.Controls.isControl( Btn ) )
             {
                 if ( Btn.type == 'seperator' ||
-                     Btn.type == 'qui/controls/buttons/Seperator' )
+                     Btn.type == 'QUI\\Controls\\Buttons\\Seperator' )
                 {
                     Btn = new Seperator( Btn );
                 } else
@@ -619,26 +623,27 @@ define('qui/controls/desktop/Panel', [
                 Btn = new Button( Btn );
             }
 
+            var self = this;
+
             Btn.addEvents({
 
                 onClick : function(Btn)
                 {
-                    if ( this.$ActiveCat && this.$ActiveCat == Btn ) {
+                    if ( self.$ActiveCat && self.$ActiveCat == Btn ) {
                         return;
                     }
 
                     Btn.setActive();
-                }.bind( this ),
+                },
 
                 onActive : function(Btn)
                 {
-                    if ( this.$ActiveCat ) {
-                        this.$ActiveCat.setNormal();
+                    if ( self.$ActiveCat ) {
+                        self.$ActiveCat.setNormal();
                     }
 
-                    this.$ActiveCat = Btn;
-
-                }.bind( this )
+                    self.$ActiveCat = Btn;
+                }
 
             });
 

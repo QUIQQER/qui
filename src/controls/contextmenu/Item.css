@@ -2,7 +2,7 @@
 .qui-contextitem,
 .qui-contextitem-container {
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: 8px center;
     clear: both;
     cursor: pointer;
     float: left;
