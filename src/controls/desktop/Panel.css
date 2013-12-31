@@ -23,6 +23,12 @@
     position: relative;
 }
 
+.qui-panel-close {
+    background: #DEDEDE;
+    border-bottom: 2px solid #8F9399;
+    color: #8F9399;
+}
+
 .qui-panel-header button {
     background: transparent;
     border: none;
@@ -54,6 +60,9 @@
     overflow: hidden;
 }
 
+.qui-panel-close .qui-panel-title {
+    color: #8F9399;
+}
 
 .qui-panel-icon {
     float: left;

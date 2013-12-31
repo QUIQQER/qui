@@ -468,6 +468,7 @@ define('qui/controls/buttons/Button', [
             });
 
             Elm.removeClass( 'qui-button-active' );
+            Elm.removeClass( 'qui-button-over' );
 
             this.fireEvent( 'normal', [ this ] );
 

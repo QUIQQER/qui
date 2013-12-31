@@ -161,9 +161,6 @@ define('qui/controls/desktop/panels/Sheet', [
                 text : 'schließen / abbrechen',
                 textimage : 'icon-remove',
                 buttonCSSClass : false,
-                styles : {
-                    width : 200
-                },
                 events : {
                     onClick : this.hide.bind( this )
                 }

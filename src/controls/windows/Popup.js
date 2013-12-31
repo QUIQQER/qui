@@ -74,6 +74,10 @@ define('qui/controls/windows/Popup', [
          */
         create : function()
         {
+            if ( this.$Elm ) {
+                return this.$Elm;
+            }
+
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">'+
@@ -125,8 +129,8 @@ define('qui/controls/windows/Popup', [
                         click : this.cancel
                     },
                     styles : {
-                        marginRight : 20,
-                        width       : 200,
+                        //marginRight : 20,
+                        width       : 150,
                         textAlign   : 'center',
                         'float'     : 'left'
                     }
@@ -222,7 +226,7 @@ define('qui/controls/windows/Popup', [
                 for ( var i = 0, len = list.length; i < len; i++ )
                 {
                     bwidth = bwidth + list[ i ].getComputedSize({
-                        styles : [ 'border', 'margin' ]
+                        styles : [ 'border', 'margin', 'padding' ]
                     }).totalWidth;
                 }
 
@@ -294,7 +298,6 @@ define('qui/controls/windows/Popup', [
                     if ( !document.body.getElement( 'cls-background' ) ) {
                         document.body.removeClass( 'noscroll' );
                     }
-
                 }
             });
         },

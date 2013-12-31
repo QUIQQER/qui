@@ -27,11 +27,12 @@ define('qui/controls/desktop/Panel', [
     'qui/controls/buttons/Button',
     'qui/controls/desktop/panels/Sheet',
     'qui/controls/breadcrumb/Bar',
+    'qui/controls/contextmenu/Menu',
     'qui/utils/Controls',
 
     'css!qui/controls/desktop/Panel.css'
 
-], function(QUI, Control, Loader, Toolbar, Seperator, Button, PanelSheet, BreadcrumbBar, Utils)
+], function(QUI, Control, Loader, Toolbar, Seperator, Button, PanelSheet, BreadcrumbBar, QUIContextmenu, Utils)
 {
     "use strict";
 
@@ -361,6 +362,7 @@ define('qui/controls/desktop/Panel', [
         {
             this.$Content.setStyle( 'display', null );
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
+            this.$Header.removeClass( 'qui-panel-close' );
 
             if ( this.$Collaps )
             {
@@ -396,6 +398,8 @@ define('qui/controls/desktop/Panel', [
 
             this.$Collaps.addClass( 'qui-panel-expand' );
             this.$Collaps.addClass( 'icon-chevron-right' );
+
+            this.$Header.addClass( 'qui-panel-close' );
 
             this.fireEvent( 'minimize', [ this ] );
 
@@ -741,7 +745,7 @@ define('qui/controls/desktop/Panel', [
             }
 
             // context menu
-            this.$ContextMenu = new ContextMenu({
+            this.$ContextMenu = new QUIContextmenu({
                 title  : this.getAttribute( 'title' ),
                 events :
                 {

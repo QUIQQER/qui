@@ -15,14 +15,15 @@ define('qui/controls/windows/Confirm', [
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',
     'qui/utils/Controls',
+
     'css!qui/controls/windows/Confirm.css'
 
-], function(Popup, Button, Utils)
+], function(QUIPopup, QUIButton, Utils)
 {
     "use strict";
 
     /**
-     * @class QUI.controls.windows.Submit
+     * @class qui/controls/windows/Confirm
      *
      * @fires onDrawEnd
      * @fires onClose
@@ -33,7 +34,7 @@ define('qui/controls/windows/Confirm', [
      */
     return new Class({
 
-        Extends : Popup,
+        Extends : QUIPopup,
         Type    : 'qui/controls/windows/Confirm',
 
         Binds : [
@@ -141,7 +142,7 @@ define('qui/controls/windows/Confirm', [
             });
 
 
-            this.addEvent( 'onOpen', this.$onOpen );
+            //this.addEvent( 'onOpen', this.$onOpen );
 
             this.$Body    = null;
             this.$Win     = null;
@@ -151,14 +152,17 @@ define('qui/controls/windows/Confirm', [
         /**
          * Create the body for the submit window
          *
-         * @method QUI.controls.windows.Submit#onCreate
-         * @ignore
+         * @method qui/controls/windows/Confirm#open
          */
-        $onOpen : function()
+        open : function()
         {
+            this.create();
+
+
             var Body;
 
-            var Content = this.getContent(),
+            var self    = this,
+                Content = this.getContent(),
                 html    = '';
 
             Content.setStyles({
@@ -191,10 +195,9 @@ define('qui/controls/windows/Confirm', [
             }
 
             this.addButton(
-                new Button({
+                new QUIButton({
                     text      : this.getAttribute( 'ok_button' ).text,
                     textimage : this.getAttribute( 'ok_button' ).textimage,
-                    Win       : this,
                     styles    : {
                         'float' : 'right',
                         width   : 150
@@ -202,17 +205,19 @@ define('qui/controls/windows/Confirm', [
                     events :
                     {
                         onClick : function(Btn) {
-                            Btn.getAttribute( 'Win' ).submit();
+                            self.submit();
                         }
                     }
                 })
             );
+
+            this.parent();
         },
 
         /**
          * Submit the window
          *
-         * @method QUI.controls.windows.Submit#submit
+         * @method qui/controls/windows/Confirm#submit
          */
         submit : function()
         {

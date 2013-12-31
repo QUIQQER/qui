@@ -36,3 +36,7 @@
 .qui-panel-sheet-buttons .qui-button-text-image {
     line-height: 20px;
 }
+
+.qui-panel-sheet-buttons .qui-button-text-image {
+    padding: 5px 0 0 0;
+}
