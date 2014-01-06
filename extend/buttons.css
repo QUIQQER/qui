@@ -10,17 +10,39 @@ a.button:hover {
 }
 
 .button {
+    border: none;
     cursor : pointer;
     float: left;
 
-        border-radius: 5px;
-   -moz-border-radius: 5px;
- -khtml-border-radius: 5px;
--webkit-border-radius: 5px;
+        border-radius: 3px;
+   -moz-border-radius: 3px;
+ -khtml-border-radius: 3px;
+-webkit-border-radius: 3px;
+
+            box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+    -webkit-box-shadow: 0 0 2px #999;
+
+    -webkit-transition: all 0.2s ease;
+       -moz-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+         -o-transition: all 0.2s ease;
+            transition: all 0.2s ease;
 }
 
 .button span {
-    padding:5px  10px;
+    float: left;
+    display: block;
+    padding: 5px 0;
+}
+
+img.qui-button-text-image {
+    padding: 5px 0 5px 5px;
+    display: block;
+}
+
+span.qui-button-text-image {
+    padding: 0px 0 0 10px;
     display: block;
 }
 
@@ -78,6 +100,24 @@ a.button:hover {
 }
 
 .btn-white:active {
+    color: #999;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+    background: -moz-linear-gradient(top,  #ededed,  #fff);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
+}
+
+/* white */
+.btn-silver {
+    color: #606060;
+    border-color: #b7b7b7;
+    background: #ededed;
+}
+
+.btn-silver:hover {
+    background: #FFFFFF;
+}
+
+.btn-silver:active {
     color: #999;
     background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
     background: -moz-linear-gradient(top,  #ededed,  #fff);
