@@ -120,8 +120,10 @@ define('qui/controls/loader/Loader', [
             }
 
             this.$Elm.setStyle( 'display', '' );
-            this.$Elm.getParent().addClass( 'qui-loader-parent' );
 
+            if ( !this.$Elm.getParent().hasClass( 'qui-window-popup' ) ) {
+                this.$Elm.getParent().addClass( 'qui-loader-parent' );
+            }
 
             if ( !this.getAttribute( 'closetime' ) ) {
                 return;
