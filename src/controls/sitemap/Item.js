@@ -220,6 +220,12 @@ define('qui/controls/sitemap/Item', [
                 return this;
             }
 
+            Img = this.$Icons.getElement( '.'+ icon_url );
+
+            if ( Img ) {
+                return this;
+            }
+
             if ( Utils.isFontAwesomeClass( icon_url ) )
             {
                 return new Element('i', {
