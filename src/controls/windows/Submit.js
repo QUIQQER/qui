@@ -32,8 +32,8 @@ define('qui/controls/windows/Submit', [
      */
     return new Class({
 
-        Implements : Popup,
-        Type       : 'qui/controls/windows/Submit',
+        Extends : Popup,
+        Type    : 'qui/controls/windows/Submit',
 
         options: {
             'maxHeight' : 300,
