@@ -41,7 +41,32 @@ define('qui/utils/Elements', function()
 
 
             return false;
-        }
+        },
 
+        /**
+         * Return the z-index of an Element
+         *
+         * @return {Integer}
+         */
+        getComputedZIndex : function(Elm)
+        {
+            var i, z, len, max = 0;
+            var parents = Elm.getParents();
+
+            for ( i = 0, len = parents.length; i < len; i++)
+            {
+                z = parents[ i ].getStyle( 'zIndex' );
+
+                if ( z == 'auto' ) {
+                    continue;
+                }
+
+                if ( z > max ) {
+                     max = z;
+                }
+            }
+
+            return max;
+        }
     };
 });

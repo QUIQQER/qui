@@ -20,7 +20,7 @@ _style_ ist ein MooTools Style Anweisung.
 
 ```javascript
 new Select({
-    style : {
+    styles : {
         border : '1px solid red'
     }
 });

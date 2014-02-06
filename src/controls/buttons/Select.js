@@ -19,10 +19,11 @@ define('qui/controls/buttons/Select', [
     'qui/utils/Controls',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
+    'qui/utils/Elements',
 
     'css!qui/controls/buttons/Select.css'
 
-], function(Control, Utils, QUIMenu, QUIMenuItem)
+], function(Control, Utils, QUIMenu, QUIMenuItem, QUIElementUtils)
 {
     "use strict";
 
@@ -260,6 +261,12 @@ define('qui/controls/buttons/Select', [
                 pos.x - 20,
                 pos.y + size.y
             );
+
+            this.$Menu.getElm().setStyle(
+                'zIndex',
+                QUIElementUtils.getComputedZIndex( this.getElm() ) + 1
+            );
+
 
             this.$Menu.show();
 
