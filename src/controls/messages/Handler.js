@@ -775,6 +775,31 @@ define('qui/controls/messages/Handler', [
         },
 
         /**
+         * Add an exception
+         *
+         * @param {Exception|QUI\Exception} Exception
+         * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
+         * @return {this}
+         */
+        addException : function(Exception, Parent)
+        {
+            var self = this;
+
+            require(['qui/controls/messages/Error'], function(Error)
+            {
+                var Message = new Error({
+                    message : Exception.getMessage(),
+                    code    : Exception.getCode()
+                });
+
+                self.add( Message, Parent );
+                self.fireEvent( 'addError', [ this, Message ] );
+            });
+
+            return this;
+        },
+
+        /**
          * Add an information message
          *
          * @param {String} str - Message text
