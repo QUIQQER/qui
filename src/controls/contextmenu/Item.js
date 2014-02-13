@@ -509,6 +509,14 @@ define('qui/controls/contextmenu/Item', [
         $onClick : function(event)
         {
             this.fireEvent( 'click', [ this, event ] );
+
+            var Parent = this.getParent();
+
+            if ( !Parent ) {
+                return;
+            }
+
+            this.getParent().hide();
         },
 
         /**
