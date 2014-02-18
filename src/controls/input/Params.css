@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+.qui-control-input-param {
+    float: left;
+}
+
+.qui-control-input-param-list {
+    background: #FFFFFF;
+    border: 2px solid #DEDEDE;
+    border-radius: 3px;
+    cursor: pointer;
+    float: left;
+    padding: 7px;
+}
+
+.qui-control-input-param-list:hover {
+    background: #2F8FC6;
+    border: 2px solid #2F8FC6;
+    color: #FFFFFF;
+}
+
+
+.qui-control-input-param-entry {
+    float: left;
+    margin-right: 10px;
+}
+
+.qui-control-input-param-window h2 {
+    font-size: 16px;
+}
+
+.qui-control-input-param-window label {
+    clear: both;
+    display: block;
+    margin: 0 auto;
+    max-width : 300px;
+    width: 100%;
+}
+
+.qui-control-input-param-window input {
+    clear: both;
+    display: block;
+    margin: 0 auto;
+    max-width : 300px;
+    width: 100%;
+}
