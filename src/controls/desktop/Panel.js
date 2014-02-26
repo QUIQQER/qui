@@ -333,7 +333,13 @@ define('qui/controls/desktop/Panel', [
             }
 
             // width calc
-            content_width = content_width - this.$Categories.getSize().x;
+            if ( this.$Categories.getSize().x )
+            {
+                content_width = content_width - this.$Categories.getSize().x;
+            } else
+            {
+                content_width = '100%';
+            }
 
             // set proportions
             this.$Content.setStyles({

@@ -156,6 +156,11 @@
     box-shadow: none;
 }
 
+.qui-panel-buttons button.qui-button-active {
+    background: #C3C3C3 !important;
+    color: #222;
+}
+
 .qui-panel-buttons button:hover {
     background: #d1d4da;
 }
