@@ -24,8 +24,13 @@ define('qui/utils/Controls', [
          */
         isFontAwesomeClass : function(icon)
         {
+            if ( !icon ) {
+                return false;
+            }
+
             if ( ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) &&
-                 !icon.match( /\./ ) ) {
+                 !icon.match( /\./ ) )
+            {
                 return true;
             }
 
