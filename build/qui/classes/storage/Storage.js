@@ -1,2 +1,0 @@
-var needle=["qui/classes/DOM"];if(typeof window.localStorage==="undefined"||typeof window.sessionStorage==="undefined"){needle.push("qui/classes/storage/")}define("qui/classes/storage/Storage",needle,function(QDOM,Polyfill){"use strict";return new Class({Extends:QDOM,Type:"qui/classes/storage/Storage",set:function(key,value){window.localStorage.setItem(key,value)},get:function(key){return window.localStorage.getItem(key)}})});
-//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/classes/storage/Storage.map.js

@@ -1,2 +1,0 @@
-define("qui/utils/String",function(){"use strict";return{getUrlParams:function(str){str=str.split("?");if(typeof str[1]==="undefined"){return{}}str=str[1].split("&");var i,len,sp;var r={};for(i=0,len=str.length;i<len;i++){sp=str[i].split("=");r[sp[0]]=sp[1]}return r}}});
-//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/utils/String.map.js

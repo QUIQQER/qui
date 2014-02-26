@@ -1,1 +1,0 @@
-{"version":3,"file":"/var/www/git/quiqqer/qui/build/qui/Locale.js","sources":["/var/www/git/quiqqer/qui/src/Locale.js"],"names":["define","QUILocale","window"],"mappings":"AAMAA,OAAO,cAAe,sBAAuB,SAASC,WAElD,YAEA,UAAYC,QAAOD,YAAc,YAAc,CAC3CC,OAAOD,UAAY,GAAIA,WAG3B,MAAOC,QAAOD"}

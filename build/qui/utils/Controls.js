@@ -1,2 +1,0 @@
-define("qui/utils/Controls",["qui/QUI"],function(QUI){"use strict";return{isFontAwesomeClass:function(icon){if((icon.match(/icon-/)||icon.match(/fa-/))&&!icon.match(/\./)){return true}return false},highlight:function(Element){if(!Element){return}var quiid=Element.get("data-quiid");if(!quiid){return}QUI.Controls.getById(quiid).highlight()},normalize:function(Element){if(!Element){return}var quiid=Element.get("data-quiid");if(!quiid){return}QUI.Controls.getById(quiid).normalize()}}});
-//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/utils/Controls.map.js

@@ -1,2 +1,0 @@
-define("qui/QUI",["qui/classes/QUI"],function(QUIClass){"use strict";if(typeof window.QUI==="undefined"){window.QUI=new QUIClass}return window.QUI});
-//# sourceMappingURL=/var/www/git/quiqqer/qui/build/qui/QUI.map.js

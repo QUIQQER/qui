@@ -1,1 +1,0 @@
-{"version":3,"file":"/var/www/git/quiqqer/qui/build/qui/utils/Object.js","sources":["/var/www/git/quiqqer/qui/src/utils/Object.js"],"names":["define","combine","first","second","Object","append"],"mappings":"AAQAA,OAAO,mBAAoB,WAEvB,YAEA,QAWIC,QAAU,SAASC,MAAOC,QAEtBD,MAASA,SACTC,QAASA,UAET,OAAOC,QAAOC,OAAOH,MAAOC"}
