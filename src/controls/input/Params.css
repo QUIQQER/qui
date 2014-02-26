@@ -8,22 +8,40 @@
     background: #FFFFFF;
     border: 2px solid #DEDEDE;
     border-radius: 3px;
-    cursor: pointer;
+    clear: both;
     float: left;
-    padding: 7px;
+    height: 100px;
+    overflow: auto;
+    padding: 0;
+    width: 230px;
 }
-
+/*
 .qui-control-input-param-list:hover {
     background: #2F8FC6;
     border: 2px solid #2F8FC6;
     color: #FFFFFF;
 }
-
+*/
 
 .qui-control-input-param-entry {
+    border-bottom: 1px solid #DEDEDE;
+    clear: both;
+    cursor: pointer;
     float: left;
     margin-right: 10px;
+    overflow: hidden;
+    padding: 5px;
+    width: 100%;
 }
+
+.qui-control-input-param-entry:hover {
+    background: #2F8FC6;
+    color: #FFFFFF;
+}
+
+
+/** Param Window
+ * =========================================================== */
 
 .qui-control-input-param-window h2 {
     font-size: 16px;

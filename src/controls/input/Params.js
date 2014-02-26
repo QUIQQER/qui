@@ -20,13 +20,17 @@ define('qui/controls/input/Params', [
         Type    : 'qui/controls/input/Params',
 
         Binds : [
+            '$setValue',
             'openAddParamWindow'
         ],
 
         options : {
             name : '',
-            windowMaxHeight : 250, // optional -> the add window max height
-            windowMaxWidth  : 400 // optional -> the add window max width
+            styles : false,         // optional -> style parameter
+            allowedParams  : false, // optional -> set which param names are allowed
+            allowDuplicate : false, // optional -> allow duplicate param entries
+            windowMaxHeight : 250,  // optional -> the add window max height
+            windowMaxWidth  : 400   // optional -> the add window max width
         },
 
         initialize : function(Input, options)
@@ -49,8 +53,14 @@ define('qui/controls/input/Params', [
          */
         bindElement : function(Input)
         {
+            var self = this;
+
             this.$Input = Input;
             this.$Input.type = 'hidden';
+
+            this.$Input.addEvent('change', function() {
+                self.$setValue( this.value );
+            });
 
             return this;
         },
@@ -60,8 +70,7 @@ define('qui/controls/input/Params', [
          */
         create : function()
         {
-            var i, len;
-
+            var self = this;
 
             this.$Elm = new Element('div', {
                 'class' : 'qui-control-input-param box'
@@ -72,10 +81,15 @@ define('qui/controls/input/Params', [
             });
 
             this.$AddButton = new QUIButton({
-                icon   : 'icon-plus',
-                title  : 'Parameter hinzufügen',
+                textimage : 'icon-plus',
+                text : 'Parameter hinzufügen',
                 events : {
                     onClick : this.openAddParamWindow
+                },
+                styles : {
+                    clear : 'both',
+                    margin: 0,
+                    width: 230
                 }
             });
 
@@ -92,18 +106,35 @@ define('qui/controls/input/Params', [
                 this.$Elm.wraps( this.$Input );
             }
 
-            var styles = this.$Input.getStyles('width', 'height', 'padding'),
-                value  = this.$Input.value;
-
             this.$Input.type = 'hidden';
-            this.$ParamList.setStyles( styles );
+            this.$Input.addEvent('change', function() {
+                self.$setValue( this.value );
+            });
 
+            if ( this.getAttribute( 'styles' ) ) {
+                this.$ParamList.setStyles( this.getAttribute( 'styles' ) );
+            }
 
+            this.$AddButton.inject( this.$Elm );
             this.$ParamList.inject( this.$Elm );
-            this.$AddButton.inject( this.$Elm )
 
             // display params
-            value = JSON.encode( value );
+            this.$setValue( this.$Input.value );
+
+            return this.$Elm;
+        },
+
+        /**
+         * Set the value to the control
+         * on Change event at the input field
+         *
+         * @param {String} value - JSON srray string
+         */
+        $setValue : function(value)
+        {
+            var i, len;
+
+            value = JSON.decode( value );
 
             if ( typeOf( value ) != 'array' ) {
                 value = [];
@@ -111,11 +142,11 @@ define('qui/controls/input/Params', [
 
             for ( i = 0, len = value.length; i < len; i++ )
             {
-                if ( !value[ i ].name ) {
+                if ( typeof value[ i ].name === 'undefined' ) {
                     continue;
                 }
 
-                if ( !value[ i ].value ) {
+                if ( typeof value[ i ].value === 'undefined' ) {
                     continue;
                 }
 
@@ -124,8 +155,6 @@ define('qui/controls/input/Params', [
                     value[ i ].value
                 );
             }
-
-            return this.$Elm;
         },
 
         /**
@@ -150,9 +179,6 @@ define('qui/controls/input/Params', [
                 });
             }
 
-            console.log( 'getValue' );
-            console.log( data );
-
             return data;
         },
 
@@ -165,20 +191,45 @@ define('qui/controls/input/Params', [
          */
         addParam : function(name, value)
         {
-            new Element('div', {
+            var self = this;
+
+            var Elm = new Element('div', {
                 'class'      : 'qui-control-input-param-entry box',
                 html         : name +' : '+ value,
                 "data-name"  : name,
-                "data-value" : value
+                "data-value" : value,
+                events :
+                {
+                    dblclick : function() {
+                        self.openAddParamWindow( this );
+                    }
+                }
             }).inject( this.$ParamList );
+
+            new QUIButton({
+                icon : 'icon-remove',
+                styles : {
+                    'float' : 'right',
+                    lineHeight : 20,
+                    margin : 0
+                },
+                events :
+                {
+                    onClick : function() {
+                        Elm.destroy();
+                    }
+                }
+            }).inject( Elm );
 
             return this;
         },
 
         /**
          * Open the add parameter sub window
+         *
+         * @param {DOMNode} Param - [optional] edit a param (.qui-control-input-param-entry)
          */
-        openAddParamWindow : function()
+        openAddParamWindow : function(Param)
         {
             var self = this;
 
@@ -209,7 +260,30 @@ define('qui/controls/input/Params', [
                         var Content    = Confirm.getContent(),
                             ParamName  = Content.getElement( '[name="paramName"]' );
 
-                        ParamName.focus();
+
+                        Content.getElements('input').addEvents({
+                            keyup : function(event)
+                            {
+                                if ( event.key === 'enter' ) {
+                                    Confirm.submit();
+                                }
+                            }
+                        });
+
+                        if ( typeOf( Param ) === 'element' )
+                        {
+                            Content.getElement(
+                                '[name="paramName"]'
+                            ).value = Param.get( 'data-name' );
+
+                            Content.getElement(
+                                '[name="paramValue"]'
+                            ).value = Param.get( 'data-value' );
+                        }
+
+                        (function() {
+                            ParamName.focus();
+                        }).delay( 800 );
                     },
 
                     onSubmit : function(Confirm)
@@ -218,19 +292,60 @@ define('qui/controls/input/Params', [
                             ParamName  = Content.getElement( '[name="paramName"]' ),
                             ParamValue = Content.getElement( '[name="paramValue"]' );
 
-
-                        if ( ParamName.value == '' ) {
+                        if ( ParamName.value == '' )
+                        {
+                            ParamName.focus();
                             return;
                         }
 
-                        if ( ParamValue.value == '' ) {
+                        if ( ParamValue.value == '' )
+                        {
+                            ParamValue.focus();
                             return;
                         }
 
-                        self.addParam(
-                            ParamName.value,
-                            ParamValue.value
-                        );
+                        // if no duplicate params allowed, then check it
+                        if ( !this.getAttribute( 'allowDuplicate' ) )
+                        {
+                            var result = self.$ParamList.getElements(
+                                '[data-name="'+ ParamName.value +'"]'
+                            );
+
+                            if ( result.length )
+                            {
+                                QUI.getMessageHandler(function(MH)
+                                {
+                                    ParamName.focus();
+
+                                    MH.addError(
+                                        'Doppelte Parameter sind nicht erlaubt',
+                                        ParamName
+                                    );
+                                });
+
+                                return;
+                            }
+                        }
+
+                        if ( typeOf( Param ) === 'element' )
+                        {
+                            // update param
+                            Param.set( 'data-name', ParamName.value );
+                            Param.set( 'data-value', ParamValue.value );
+
+                            Param.set(
+                                'html',
+                                ParamName.value +' : '+ ParamValue.value
+                            );
+
+                        } else
+                        {
+                            // create param
+                            self.addParam(
+                                ParamName.value,
+                                ParamValue.value
+                            );
+                        }
 
                         Confirm.close();
                     }
