@@ -135,7 +135,7 @@ define('qui/controls/messages/Message', [
             var Destroy = Elm.getElement( '.messages-message-destroy' );
 
             Destroy.set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-close-msg' )
+                title : Locale.get( 'qui/controls/messages', 'message.close' )
             });
 
             Destroy.addEvent('click', function() {

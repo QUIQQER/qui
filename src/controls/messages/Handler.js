@@ -10,6 +10,7 @@
  * @event onAddInformation [ {this}, {qui/controls/messages/Information} ]
  * @event onAddSuccess [ {this}, {qui/controls/messages/Success} ]
  *
+ * @event onClear [ {this} ]
  * @event onLoad [ {this} ]
  */
 
@@ -241,7 +242,7 @@ define('qui/controls/messages/Handler', [
                 'class' : 'message-handler-control',
                 html    : '<span class="icon-info"></span>' +
                           '<span class="message-handler-count"></span>',
-                title   : Locale.get( 'namerobot/global', 'msg-handler-open' ),
+                title   : Locale.get( 'qui/controls/messages', 'handler.open' ),
                 events  : {
                     click : this.open.bind( this )
                 }
@@ -321,23 +322,23 @@ define('qui/controls/messages/Handler', [
 
             // titles
             Container.getElement( '.trash' ).set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-clear' )
+                title : Locale.get( 'qui/controls/messages', 'handler.button.clear' )
             });
 
             Container.getElement( '.success' ).set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-toggle-success' )
+                title : Locale.get( 'qui/controls/messages', 'handler.button.success' )
             });
 
             Container.getElement( '.information' ).set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-toggle-information' )
+                title : Locale.get( 'qui/controls/messages', 'handler.button.information' )
             });
 
             Container.getElement( '.attention' ).set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-toggle-attention' )
+                title : Locale.get( 'qui/controls/messages', 'handler.button.attention' )
             });
 
             Container.getElement( '.error' ).set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-toggle-error' )
+                title : Locale.get( 'qui/controls/messages', 'handler.button.error' )
             });
 
 
@@ -353,7 +354,7 @@ define('qui/controls/messages/Handler', [
 
             new Element('div', {
                 'class' : 'button message-handler-container-close-btn',
-                html    : Locale.get( 'namerobot/global', 'msg-handler-close' ),
+                html    : Locale.get( 'qui/controls/messages', 'handler.button.close' ),
                 events  :
                 {
                     click : function() {
@@ -393,7 +394,7 @@ define('qui/controls/messages/Handler', [
                         Messages.set(
                             'html',
                             '<p style="text-align: center;">'+
-                                Locale.get( 'namerobot/global', 'msg-handler-no-messages' ) +
+                                Locale.get( 'qui/controls/messages', 'handler.no.messages' ) +
                             '</p>'
                         );
                     }
@@ -494,10 +495,12 @@ define('qui/controls/messages/Handler', [
                 Container.set(
                     'html',
                     '<p style="text-align: center;">'+
-                        Locale.get( 'namerobot/global', 'msg-handler-no-messages' ) +
+                        Locale.get( 'qui/controls/messages', 'handler.no.messages' ) +
                     '</p>'
                 );
             }
+
+            this.fireEvent( 'clear', [ this ] );
 
             if ( this.getAttribute( 'autosave' ) ) {
                 this.save();
@@ -600,6 +603,16 @@ define('qui/controls/messages/Handler', [
         getNewMessages : function()
         {
             return this.$newMessages;
+        },
+
+        /**
+         * Return the messages array
+         *
+         * @return {Array}
+         */
+        getMessages : function()
+        {
+            return this.$messages;
         },
 
         /**
