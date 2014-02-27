@@ -27,6 +27,8 @@ define('qui/controls/buttons/Select', [
 {
     "use strict";
 
+    document.body.set('tabindex', -1);
+
     /**
      * @class qui/controls/buttons/Select
      *
@@ -376,6 +378,8 @@ define('qui/controls/buttons/Select', [
                     );
                 }
             }
+
+            document.body.focus();
 
             this.fireEvent( 'change', [ this.$value, this ] );
         },
