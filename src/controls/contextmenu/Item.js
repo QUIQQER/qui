@@ -112,6 +112,7 @@ define('qui/controls/contextmenu/Item', [
         create : function()
         {
             var i, len;
+            var self = this;
 
             this.$Elm = new Element('div.qui-contextitem', {
                 html   : '<div class="qui-contextitem-container">' +
@@ -156,12 +157,26 @@ define('qui/controls/contextmenu/Item', [
             {
                 var Text = this.$Elm.getElement( '.qui-contextitem-text' );
 
-                Text.set({
-                    html   : this.getAttribute( 'text' ),
-                    styles : {
-                        width : this.$Elm.getComputedSize().width
-                    }
-                });
+                if ( this.$Elm.getComputedSize().width )
+                {
+                    Text.set({
+                        html   : this.getAttribute( 'text' ),
+                        styles : {
+                            width : this.$Elm.getComputedSize().width
+                        }
+                    });
+                } else
+                {
+                    (function()
+                    {
+                        Text.set({
+                            html   : self.getAttribute( 'text' ),
+                            styles : {
+                                width : self.$Elm.getComputedSize().width
+                            }
+                        });
+                    }).delay( 500 );
+                }
             }
 
             // drag drop for the item

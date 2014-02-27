@@ -129,6 +129,18 @@ define('qui/controls/buttons/Select', [
                     width    : width - 50,
                     overflow : 'hidden'
                 });
+
+            } else
+            {
+                (function()
+                {
+                    var width = self.$Elm.getStyle( 'width' ).toInt();
+
+                    self.$Elm.getElement( '.text' ).setStyles({
+                        width    : width - 50,
+                        overflow : 'hidden'
+                    });
+                }).delay( 300 );
             }
 
             return this.$Elm;
