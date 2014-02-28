@@ -47,6 +47,7 @@
 
 .qui-button[disabled]:hover {
     background: none;
+    color: #606060;
 }
 
 
@@ -57,8 +58,7 @@
 }
 
 .qui-button-text-image {
-    float: left;
-    line-height: 28px;
+    vertical-align: middle;
 }
 
 .qui-button-image {
