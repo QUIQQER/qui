@@ -236,6 +236,22 @@ define('qui/classes/DOM', function()
         },
 
         /**
+         * Return the attributes which stored into the QUI Storage
+         *
+         * @return {Object}
+         */
+        getStorageAttributes : function()
+        {
+            var oid = Slick.uidOf( this );
+
+            if ( oid in window.$quistorage  ) {
+                return window.$quistorage[ oid ];
+            }
+
+            return {};
+        },
+
+        /**
          * Return true if a attribute exist
          *
          * @method qui/classes/DOM#existAttribute
