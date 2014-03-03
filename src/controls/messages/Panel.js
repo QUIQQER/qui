@@ -1,6 +1,10 @@
 
 /**
+ * Message-Manager Panel
  *
+ * The panel displays the messages
+ *
+ * @author www.namerobot.com (Henning Leutz)
  */
 
 define('qui/controls/messages/Panel', [

@@ -500,6 +500,10 @@ define('qui/controls/messages/Handler', [
                 );
             }
 
+            if ( this.Favico ) {
+                this.Favico.reset();
+            }
+
             this.fireEvent( 'clear', [ this ] );
 
             if ( this.getAttribute( 'autosave' ) ) {
