@@ -46,11 +46,15 @@ define('qui/controls/windows/Popup', [
             maxWidth  : 900,	// {integer} [optional]max width of the window
             maxHeight : 600,	// {integer} [optional]max height of the window
             content   : false,	// {string} [optional] content of the window
-            buttons   : true,	// {bool} [optional] show the bottom button line
-            closeButtonText : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
             icon      : false,	// {false|string} [optional] icon of the window
             title     : false,	// {false|string} [optional] title of the window
-            'class'   : false
+            'class'   : false,
+
+            // buttons
+            buttons   : true,	    // {bool} [optional] show the bottom button line
+            closeButton     : true, // {bool} show the close button
+            closeButtonText : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
+            titleCloseButton : true // {bool} show the title close button
         },
 
         initialize : function(options)
@@ -78,6 +82,8 @@ define('qui/controls/windows/Popup', [
                 return this.$Elm;
             }
 
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">'+
@@ -94,6 +100,25 @@ define('qui/controls/windows/Popup', [
             this.$TitleText = this.$Elm.getElement( '.qui-window-popup-title-text' );
             this.$Content   = this.$Elm.getElement( '.qui-window-popup-content' );
             this.$Buttons   = this.$Elm.getElement( '.qui-window-popup-buttons' );
+
+            if ( this.getAttribute( 'titleCloseButton' ) )
+            {
+                new Element('div', {
+                    'class' : 'icon-remove',
+                    styles  : {
+                        cursor : 'pointer',
+                        'float' : 'right',
+                        lineHeight: 17,
+                        width : 17
+                    },
+                    events :
+                    {
+                        click : function() {
+                            self.close();
+                        }
+                    }
+                }).inject( this.$Title );
+            }
 
             // icon
             var path = this.getAttribute( 'icon' );
@@ -120,7 +145,7 @@ define('qui/controls/windows/Popup', [
 
 
             // bottom buttons
-            if ( this.getAttribute( 'buttons' ) )
+            if ( this.getAttribute( 'buttons' ) && this.getAttribute('closeButton') )
             {
                 var Submit = new Element('div', {
                     html    : '<span>'+ this.getAttribute( 'closeButtonText' ) +'</span>',
@@ -134,9 +159,8 @@ define('qui/controls/windows/Popup', [
                         textAlign   : 'center',
                         'float'     : 'left'
                     }
-                }).inject(
-                    this.$Buttons
-                );
+                }).inject( this.$Buttons );
+
 
                 this.$Buttons.setStyles({
                     width  : Submit.getSize().x,

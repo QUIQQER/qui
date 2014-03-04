@@ -29,25 +29,28 @@ require(['qui/controls/windows/Popup'], function(Popup)
 + maxWidth
 + maxHeight
 + content
-+ buttons
-+ closeButtonText
 + icon
 + title
 + class
 
-### maxWidth
++ buttons
++ closeButton
++ closeButtonText
++ titleCloseButton
+
+### maxWidth {integer}
 
 Optional
 Gibt die maximale Breite des Popups an.
 Falls die maximale Breite grösser ist als die verfügbare Displaybreite, passt sich das Popup an.
 
-### maxHeight
+### maxHeight {integer}
 
 Optional
 Gibt die maximale Höhe des Popups an.
 Falls die maximale Höhe grösser ist als die verfügbare Displayhöhe, passt sich das Popup an.
 
-### content
+### content {string}
 
 Optional
 Inhalt des Popup. Das Popup kann aber auch asynchron mit Inhalt befüllt werden.
@@ -58,28 +61,37 @@ Zum Beispiel mit
 Popup.setContent()
 ```
 
-### buttons
+### buttons {bool}
 
 Optional, Standard = true
 Sollen die unteren Buttons des Fensters angezeigt werden oder nicht.
 
+### closeButton {bool}
 
-### closeButtonText
+Optional
+Den schließen Button anzeigen oder nicht anzeigen
+
+### closeButtonText {bool}
 
 Optional
 Text für den Schließen-Button
 
-### icon
+### icon {string}
 
 Optional
 Bild für die Titelleiste. Es kann eine Font-Awesome CSS Klasse sein oder ein Pfad zu einem Bild.
 
-### title
+### title {string}
 
 Optional
 Text für die Titelleiste
 
-### class
+### titleCloseButton {bool}
+
+Optional
+Schließen Button oben rechts in der Titel-Leiste anzeigen -> ja / nein
+
+### class {string}
 
 Extra CSS Klasse(n) für das Popup
 
