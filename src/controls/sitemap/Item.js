@@ -217,13 +217,13 @@ define('qui/controls/sitemap/Item', [
             var Img = this.$Icons.getElement( '[src="'+ icon_url +'"]' );
 
             if ( Img ) {
-                return this;
+                return Img;
             }
 
             Img = this.$Icons.getElement( '.'+ icon_url );
 
             if ( Img ) {
-                return this;
+                return Img;
             }
 
             if ( Utils.isFontAwesomeClass( icon_url ) )
