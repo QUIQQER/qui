@@ -2,6 +2,8 @@
  * A Background
  * Creates a black background layer
  *
+ * @event onClick [{self}]
+ *
  * @author www.namerobot.com (Henning Leutz)
  */
 
@@ -31,6 +33,8 @@ define('qui/controls/utils/Background', [
          */
         create : function()
         {
+            var self = this;
+
             if ( this.$Elm ) {
                 return this.$Elm;
             }
@@ -47,6 +51,12 @@ define('qui/controls/utils/Background', [
                     zIndex   : 1000,
                     opacity  : 0.6,
                     display  : 'none'
+                },
+                events :
+                {
+                    click : function() {
+                        self.fireEvent( 'click', [ self ] );
+                    }
                 }
             });
 
