@@ -65,8 +65,11 @@ define('qui/controls/messages/Handler', [
                     animation : 'fade'
                 });
 
-                window.addEvent('unload', function() {
-                    self.Favico.badge( 0 );
+                window.addEvent('unload', function()
+                {
+                    if ( self.Favico )  {
+                        self.Favico.badge( 0 );
+                    }
                 });
             }
 
