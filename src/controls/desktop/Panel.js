@@ -770,11 +770,12 @@ define('qui/controls/desktop/Panel', [
          * Create a sheet in the panel and open it
          *
          * @method qui/controls/desktop/Panel#createSheet
+         * @param {Object} options - [optional] Sheet options
          * @return {qui/controls/panels/Sheet}
          */
-        createSheet : function()
+        createSheet : function(options)
         {
-            var Sheet = new PanelSheet().inject(
+            var Sheet = new PanelSheet( options ).inject(
                 this.$Elm
             );
 

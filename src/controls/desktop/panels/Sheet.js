@@ -15,7 +15,6 @@ define('qui/controls/desktop/panels/Sheet', [
     'qui/controls/Control',
     'qui/controls/buttons/Button',
 
-    'qui/lib/moofx',
     'css!qui/controls/desktop/panels/Sheet.css'
 
 ], function(Control, Button)
@@ -43,6 +42,7 @@ define('qui/controls/desktop/panels/Sheet', [
             this.parent( options );
 
             this.$Elm     = null;
+            this.$Header  = null;
             this.$Body    = null;
             this.$Buttons = null;
             this.$FX      = null;
@@ -58,8 +58,9 @@ define('qui/controls/desktop/panels/Sheet', [
             this.$Elm = new Element('div.qui-panel-sheet', {
                 'data-quiid' : this.getId(),
 
-                html : '<div class="qui-panel-sheet-body"></div>' +
-                       '<div class="qui-panel-sheet-btn-container">' +
+                html : '<div class="qui-panel-sheet-header box"></div>' +
+                       '<div class="qui-panel-sheet-body box"></div>' +
+                       '<div class="qui-panel-sheet-btn-container box">' +
                             '<div class="qui-panel-sheet-buttons"></div>' +
                        '</div>',
 
@@ -73,8 +74,11 @@ define('qui/controls/desktop/panels/Sheet', [
                 this.$Elm.setStyles( this.getAttribute('styles') );
             }
 
-            this.$Body    = this.$Elm.getElement('.qui-panel-sheet-body');
-            this.$Buttons = this.$Elm.getElement('.qui-panel-sheet-btn-container');
+            this.$Header  = this.$Elm.getElement( '.qui-panel-sheet-header' );
+            this.$Body    = this.$Elm.getElement( '.qui-panel-sheet-body' );
+            this.$Buttons = this.$Elm.getElement( '.qui-panel-sheet-btn-container' );
+
+            this.$Header.set( 'html', this.getAttribute( 'title' ) );
 
             this.$FX = moofx( this.$Elm );
 
@@ -82,13 +86,23 @@ define('qui/controls/desktop/panels/Sheet', [
         },
 
         /**
-         * Return the panel body
+         * Return the panel content
+         *
+         * @return {DOMNode|null}
+         */
+        getContent : function()
+        {
+            return this.$Body;
+        },
+
+        /**
+         * Return the panel content
          *
          * @return {DOMNode|null}
          */
         getBody : function()
         {
-            return this.$Body;
+            return this.getContent();
         },
 
         /**
@@ -149,10 +163,11 @@ define('qui/controls/desktop/panels/Sheet', [
             Elm.setStyle( 'display', null );
 
 
-            var button_size = this.getButtons().getSize();
+            var button_size = this.getButtons().getSize(),
+                header_size = this.$Header.getSize();
 
             this.getBody().setStyles({
-                height  : size.y - button_size.y,
+                height  : size.y - button_size.y - header_size.y,
                 width   : '100%',
                 'float' : 'left'
             });
@@ -165,6 +180,16 @@ define('qui/controls/desktop/panels/Sheet', [
                     onClick : this.hide.bind( this )
                 }
             });
+
+            new Button({
+                icon : 'icon-remove',
+                styles : {
+                    'float' : 'right'
+                },
+                events : {
+                    onClick : this.hide.bind( this )
+                }
+            }).inject( this.$Header );
 
             this.addButton( CloseButton );
 
