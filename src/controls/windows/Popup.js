@@ -196,12 +196,9 @@ define('qui/controls/windows/Popup', [
             );
 
             this.Background.show();
-
-
             this.inject( document.body );
 
             document.body.addClass( 'noscroll' );
-
 
             this.resize( true );
             this.fireEvent( 'open', [ this ] );
@@ -223,8 +220,8 @@ define('qui/controls/windows/Popup', [
 
             var self     = this,
                 doc_size = document.body.getSize(),
-                width    = doc_size.x.toInt(),
-                height   = doc_size.y;
+                width    = Math.max( document.documentElement.clientWidth, window.innerWidth || 0 ),
+                height   = Math.max( document.documentElement.clientHeight, window.innerHeight || 0 );
 
             if ( width > this.getAttribute( 'maxWidth' ) ) {
                 width = this.getAttribute( 'maxWidth' );
@@ -234,11 +231,22 @@ define('qui/controls/windows/Popup', [
                 height = this.getAttribute( 'maxHeight' );
             }
 
+            var top  = ( doc_size.y - height ) / 2,
+                left = doc_size.x * -1;
+
+            if ( top < 0 ) {
+                top = 0;
+            }
+
+            if ( left < 0 ) {
+                left = 0;
+            }
+
             this.$Elm.setStyles({
                 height   : height,
                 width    : width,
-                left     : doc_size.x * -1,
-                top      : ( doc_size.y - height ) / 2
+                left     : left,
+                top      : top
             });
 
             if ( this.$Buttons )
