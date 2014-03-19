@@ -3,6 +3,8 @@
  *
  * @author www.namerobot.com (Henning Leutz)
  * @module qui/controls/bookmarks/Panel
+ *
+ * @event appendChild [ {self}, {Object} Child ]
  */
 
 define('qui/controls/bookmarks/Panel', [
@@ -150,29 +152,31 @@ define('qui/controls/bookmarks/Panel', [
                 return this;
             }
 
+            var Child;
+
             // parse qui/controls/contextmenu/Item to an Bookmark
             if ( Item.getType() == 'qui/controls/contextmenu/Item' )
             {
                 var path = Item.getPath();
 
-                this.$bookmarks.push(
-                    this.$createEntry({
-                        text : Item.getAttribute( 'text' ),
-                        icon : Item.getAttribute( 'icon' ),
-                        path : path
-                    }).inject( this.$Container )
-                );
+                Child = this.$createEntry({
+                    text : Item.getAttribute( 'text' ),
+                    icon : Item.getAttribute( 'icon' ),
+                    path : path
+                }).inject( this.$Container );
 
-                return this;
-            }
-
-            this.$bookmarks.push(
-                this.$createEntry({
+            } else
+            {
+                Child = this.$createEntry({
                     text  : Item.getAttribute( 'text' ),
                     icon  : Item.getAttribute( 'icon' ),
                     click : Item.getAttribute( 'bookmark' )
-                }).inject( this.$Container )
-            );
+                }).inject( this.$Container );
+            }
+
+            this.$bookmarks.push( Child );
+
+            this.fireEvent( 'appendChild', [ this, Child ] );
 
             return this;
         },
