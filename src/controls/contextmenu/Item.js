@@ -62,7 +62,7 @@ define('qui/controls/contextmenu/Item', [
             icon   : '',
             styles : null,
 
-            dragable : false
+            dragable : false // parent class .qui-contextitem-dropable
         },
 
         initialize : function(options)
@@ -184,9 +184,9 @@ define('qui/controls/contextmenu/Item', [
             {
                 new DragDrop( this.$Elm, {
                     dropables : '.qui-contextitem-dropable',
-                    events   :
+                    events :
                     {
-                        onEnter : function(Element, Droppable)
+                        onEnter : function(Element, Dragable, Droppable)
                         {
                             if ( !Droppable ) {
                                 return;
@@ -201,7 +201,7 @@ define('qui/controls/contextmenu/Item', [
                             QUI.Controls.getById( quiid ).highlight();
                         },
 
-                        onLeave : function(Element, Droppable)
+                        onLeave : function(Element, Dragable, Droppable)
                         {
                             if ( !Droppable ) {
                                 return;
@@ -216,7 +216,7 @@ define('qui/controls/contextmenu/Item', [
                             QUI.Controls.getById( quiid ).normalize();
                         },
 
-                        onDrop : function(Element, Droppable, event)
+                        onDrop : function(Element, Dragable, Droppable, event)
                         {
                             if ( !Droppable ) {
                                 return;
@@ -230,9 +230,9 @@ define('qui/controls/contextmenu/Item', [
                             var Bar = QUI.Controls.getById( quiid );
 
                             Bar.normalize();
-                            Bar.appendChild( this );
+                            Bar.appendChild( self );
 
-                        }.bind( this )
+                        }
                     }
                 });
             }
@@ -598,6 +598,7 @@ define('qui/controls/contextmenu/Item', [
         $onMouseUp : function(event)
         {
             this.fireEvent( 'mouseUp', [ this, event ] );
+
             event.stop();
         },
 
@@ -609,7 +610,10 @@ define('qui/controls/contextmenu/Item', [
         $onMouseDown : function(event)
         {
             this.fireEvent( 'mouseDown', [ this, event ] );
-            event.stop();
+
+            if ( this.getAttribute( 'dragable' ) === false ) {
+                event.stop();
+            }
         }
     });
 });
