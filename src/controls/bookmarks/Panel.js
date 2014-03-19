@@ -5,6 +5,7 @@
  * @module qui/controls/bookmarks/Panel
  *
  * @event appendChild [ {self}, {Object} Child ]
+ * @event removeChild [ {self} ]
  */
 
 define('qui/controls/bookmarks/Panel', [
@@ -356,6 +357,8 @@ define('qui/controls/bookmarks/Panel', [
             }
 
             this.$bookmarks = list;
+
+            this.addEvent( 'removeChild', [ this ] );
         },
 
         /**
