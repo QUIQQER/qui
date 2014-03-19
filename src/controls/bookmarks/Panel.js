@@ -55,16 +55,31 @@ define('qui/controls/bookmarks/Panel', [
          */
         serialize : function()
         {
-            var i, len, Bookmark;
+            var i, len, icon, clsName, Icon, Bookmark;
             var bookmarks = [];
 
             for ( i = 0, len = this.$bookmarks.length; i < len; i++ )
             {
                 Bookmark = this.$bookmarks[ i ];
+                Icon     = Bookmark.getElement( '.qui-bookmark-icon' );
+                icon     = '';
+
+                if ( Icon.getElement( 'img' ) )
+                {
+                    icon = Icon.getElement( 'img' ).src;
+                } else
+                {
+                    clsName = Icon.className.replace( 'qui-bookmark-icon', '' );
+                    clsName = clsName.trim();
+
+                    if ( clsName ) {
+                        icon = clsName;
+                    }
+                }
 
                 bookmarks.push({
                     text  : Bookmark.getElement( '.qui-bookmark-text' ).get( 'text' ),
-                    icon  : Bookmark.getStyle( 'backgroundImage' ),
+                    icon  : icon,
                     click : Bookmark.get( 'data-click' ),
                     path  : Bookmark.get( 'data-path' )
                 });
@@ -272,7 +287,7 @@ define('qui/controls/bookmarks/Panel', [
                         styles : {
                             'display' : 'block' // only image, fix
                         }
-                    }).inject( Image );
+                    }).inject( Icon );
                 }
             }
 

@@ -9,7 +9,7 @@
     font-size: 13px;
     line-height: 40px;
     margin: 0;
-    padding: 0 0 0 10px;
+    padding: 0;
     width: 100%;
 }
 
@@ -21,14 +21,29 @@
 .qui-bookmark-button {
     border: none !important;
     cursor: pointer !important;
+    height: 40px;
     margin: 0 !important;
     padding: 0 !important;
     text-align: center !important;
 }
 
+.qui-bookmark-button .image-container {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.qui-bookmark-icon,
 .qui-bookmark-button span {
     float: left;
+    height: 40px;
     line-height: 40px;
     text-align: center;
     width: 40px;
+}
+
+.qui-bookmark-icon img {
+    display: block;
+    margin: 10px auto 0;
+    max-width: 90%;
 }
