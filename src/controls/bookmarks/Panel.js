@@ -358,7 +358,7 @@ define('qui/controls/bookmarks/Panel', [
 
             this.$bookmarks = list;
 
-            this.addEvent( 'removeChild', [ this ] );
+            this.fireEvent( 'removeChild', [ this ] );
         },
 
         /**
