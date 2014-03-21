@@ -50,7 +50,7 @@ define('qui/classes/utils/DragDrop', [
             dropables : [ document.body ],
             styles    : false,
             cssClass  : false,
-            delay     : 250,     // when trigger the dragdrop, after miliseconds
+            delay     : 500,     // when trigger the dragdrop, after miliseconds
 
             limit : {
                 x : false, // [min, max]
@@ -60,6 +60,8 @@ define('qui/classes/utils/DragDrop', [
 
         initialize : function(Elm, options)
         {
+            var self = this;
+
             this.parent( options );
 
             this.$Drag    = null;
@@ -71,29 +73,29 @@ define('qui/classes/utils/DragDrop', [
 
                 mousedown : function(event)
                 {
-                    if ( !this.$enable ) {
+                    if ( !self.$enable ) {
                         return;
                     }
 
-                    this.setAttribute( '_stopdrag', false );
+                    self.setAttribute( '_stopdrag', false );
 
-                    this.$timer = this.$start.delay(
-                        this.getAttribute('delay'),
-                        this,
+                    self.$timer = self.$start.delay(
+                        self.getAttribute('delay'),
+                        self,
                         event
                     );
 
                     event.stop();
-                }.bind( this ),
+                },
 
                 mouseup : function(event)
                 {
-                    if ( typeof this.$timer !== 'undefined' ) {
-                        clearTimeout( this.$timer );
+                    if ( typeof self.$timer !== 'undefined' ) {
+                        clearTimeout( self.$timer );
                     }
 
-                    this.$stop( event );
-                }.bind( this )
+                    self.$stop( event );
+                }
             });
         },
 

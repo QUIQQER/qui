@@ -12,6 +12,8 @@ define('qui/controls/messages/Attention', [
 
 ], function(Message)
 {
+    "use strict";
+
     return new Class({
         Extends : Message,
         Type    : 'qui/controls/messages/Attention',
