@@ -231,7 +231,6 @@ define('qui/controls/contextmenu/Item', [
 
                             Bar.normalize();
                             Bar.appendChild( self );
-
                         }
                     }
                 });
@@ -599,7 +598,9 @@ define('qui/controls/contextmenu/Item', [
         {
             this.fireEvent( 'mouseUp', [ this, event ] );
 
-            event.stop();
+            if ( this.getAttribute( 'dragable' ) === false ) {
+                event.stop();
+            }
         },
 
         /**
