@@ -5,7 +5,7 @@ input,
 textarea {
     border-radius: 3px;
     border: 2px solid #DEDEDE;
-    cursor: pointer;
+    cursor: text;
     margin: 0 5px;
     padding: 7px;
 
@@ -17,6 +17,10 @@ textarea {
        -moz-transition: all 0.2s ease;
         -ms-transition: all 0.2s ease;
          -o-transition: all 0.2s ease;
+}
+
+select {
+    cursor: pointer;
 }
 
 select:focus,
