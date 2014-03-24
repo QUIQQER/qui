@@ -118,11 +118,15 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Add a button to the Sheet
          *
-         * @param {QUI.controls.button.Button}
+         * @param {qui/controls/buttons/Button|Object} Btn - QUI Button or QUI Button options
          * @return {this}
          */
         addButton : function(Btn)
         {
+            if ( typeOf( Btn ) !== 'qui/controls/buttons/Button' ) {
+                Btn = new Button( Btn );
+            }
+
             var i, len, list;
 
             var Container = this.getButtons().getElement( '.qui-panel-sheet-buttons' ),
@@ -131,13 +135,14 @@ define('qui/controls/desktop/panels/Sheet', [
 
             styles.margin = '12px 5px';
 
+
             Btn.setAttribute( 'styles', styles );
             Btn.inject( Container );
 
             list = Container.getElements( 'button' );
 
             for ( i = 0, len = list.length; i < len; i++ ) {
-                width = width + list[ i ].getSize().x + 10;
+                width = width + list[ i ].getComputedSize().totalWidth;
             }
 
             Container.setStyle( 'width', width );
@@ -175,7 +180,6 @@ define('qui/controls/desktop/panels/Sheet', [
             var CloseButton = new Button({
                 text : 'schließen / abbrechen',
                 textimage : 'icon-remove',
-                buttonCSSClass : false,
                 events : {
                     onClick : this.hide.bind( this )
                 }
@@ -193,8 +197,6 @@ define('qui/controls/desktop/panels/Sheet', [
 
             this.addButton( CloseButton );
 
-            CloseButton.getElm().addClass( 'button' );
-            CloseButton.getElm().addClass( 'btn-black' );
 
             this.$FX.animate({
                 left : 0
