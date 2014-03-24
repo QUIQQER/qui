@@ -35,8 +35,8 @@ textarea:hover {
 select:disabled,
 input:disabled,
 textarea:disabled {
-    background: #FFFFFF;
-    border: 2px solid #DEDEDE;
+    background: transparent;
+    border: 2px solid transparent;
     color: #8F9399;
     cursor: default;
 }
