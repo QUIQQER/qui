@@ -10,13 +10,14 @@
 
 define('qui/controls/bookmarks/Panel', [
 
+    'qui/QUI',
     'qui/controls/desktop/Panel',
     'qui/controls/buttons/Button',
     'qui/utils/Controls',
 
     'css!qui/controls/bookmarks/Panel.css'
 
-], function(QUIPanel, QUIButton, Utils)
+], function(QUI, QUIPanel, QUIButton, Utils)
 {
     "use strict";
 
@@ -303,21 +304,18 @@ define('qui/controls/bookmarks/Panel', [
          */
         $clickMenuItem : function(path)
         {
+            path = path.replace(/^\/|\/$/g, '');
+
             var i, len;
-            var parts = path.split( '/' );
 
-            if ( parts[ 0 ] === '' )
-            {
-                 delete parts[ 0 ];
+            var parts  = path.split( '/' ),
+                Parent = QUI.Controls.get( parts[ 0 ] );
 
-                 parts = parts.clean();
-            }
-
-            if ( parts[ 0 ] != 'QUI.Menu' ) {
+            if ( !Parent || !Parent.length ) {
                 return;
             }
 
-            var Parent = QUI.Menu.Bar;
+            Parent = Parent[ 0 ];
 
             for ( i = 1, len = parts.length; i < len; i++ )
             {
