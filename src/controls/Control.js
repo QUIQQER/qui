@@ -39,6 +39,10 @@ define('qui/controls/Control', [
 
         $Parent : null,
 
+        options : {
+            name : ''
+        },
+
         /**
          * Init function for inherited classes
          * If a Class inherit from qui/controls/Control, please use this.parent()
