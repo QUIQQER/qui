@@ -20,6 +20,10 @@ define('qui/controls/utils/Background', [
         Extends : Control,
         Type    : 'qui/controls/utils/Background',
 
+        options : {
+            styles : false
+        },
+
         initialize : function(params)
         {
             this.parent( params );
@@ -61,6 +65,10 @@ define('qui/controls/utils/Background', [
             });
 
             document.body.appendChild( this.$Elm );
+
+            if ( this.getAttribute( 'styles' ) ) {
+                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            }
 
             return this.$Elm;
         }
