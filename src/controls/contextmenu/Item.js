@@ -74,10 +74,15 @@ define('qui/controls/contextmenu/Item', [
 
             this.parent( options );
 
-            this.$items = [];
-            this.$Elm   = null;
-            this.$Menu  = null;
-            this.$path  = '';
+            this.$items    = [];
+            this.$Elm      = null;
+            this.$Menu     = null;
+            this.$path     = '';
+            this.$disabled = false;
+
+            if ( typeof options.disabled !== 'undefined' && options.disabled ) {
+                this.$disabled = true;
+            }
 
             this.addEvent( 'onSetAttribute', this.$onSetAttribute );
 
@@ -253,6 +258,11 @@ define('qui/controls/contextmenu/Item', [
                 }
             }
 
+            // set the disable css class
+            if ( this.isDisabled() ) {
+                this.disable();
+            }
+
             return this.$Elm;
         },
 
@@ -268,10 +278,8 @@ define('qui/controls/contextmenu/Item', [
             var self = this;
 
             require([
-
-                 'qui/controls/contextmenu/Item',
-                 'qui/controls/contextmenu/Seperator'
-
+                'qui/controls/contextmenu/Item',
+                'qui/controls/contextmenu/Seperator'
             ], function(ContextMenuItem, ContextMenuSeperator)
             {
                 for ( var i = 0, len = list.length; i < len; i++)
@@ -331,6 +339,50 @@ define('qui/controls/contextmenu/Item', [
 
             this.fireEvent( 'append', [ this, Child ] );
 
+            return this;
+        },
+
+        /**
+         * disable the item
+         *
+         * @return {self}
+         */
+        disable : function()
+        {
+            this.$disabled = true;
+
+            if ( !this.$Elm ) {
+                return this;
+            }
+
+            this.$Elm.addClass( 'qui-contextitem-disabled' );
+            return this;
+        },
+
+        /**
+         * Return if the item is disabled or not
+         *
+         * @return {Bool}
+         */
+        isDisabled : function()
+        {
+            return this.$disabled;
+        },
+
+        /**
+         * enable the item if the item was disabled
+         *
+         * @return {self}
+         */
+        enable : function()
+        {
+            this.$disabled = false;
+
+            if ( !this.$Elm ) {
+                return this;
+            }
+
+            this.$Elm.removeClass( 'qui-contextitem-disabled' );
             return this;
         },
 
@@ -540,6 +592,10 @@ define('qui/controls/contextmenu/Item', [
          */
         $onMouseEnter : function(event)
         {
+            if ( this.$disabled ) {
+                return;
+            }
+
             if ( this.$Menu )
             {
                 var size   = this.$Elm.getSize(),
@@ -578,6 +634,10 @@ define('qui/controls/contextmenu/Item', [
          */
         $onMouseLeave : function(event)
         {
+            if ( this.$disabled ) {
+                return;
+            }
+
             if ( this.$Menu ) {
                 this.$Menu.hide();
             }

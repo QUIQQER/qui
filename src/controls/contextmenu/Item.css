@@ -51,6 +51,16 @@
     color: #FFFFFF;
 }
 
+.qui-contextitem-disabled,
+.qui-contextitem-disabled .qui-contextitem-container {
+    cursor: default;
+}
+
+.qui-contextitem-disabled .qui-contextitem-text,
+.qui-contextitem-disabled .qui-contextitem-icon {
+    color: #999;
+}
+
 .qui-contextitem.qui-contextitem-active.haschildren {
     background: #6C98D9 url(images/arrow-right.gif) no-repeat right center !important;
     color: #FFFFFF;
