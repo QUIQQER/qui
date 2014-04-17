@@ -452,7 +452,12 @@ define('qui/controls/contextmenu/Item', [
          */
         getChildren : function(name)
         {
-            if ( typeof name !== 'undefined' ) {
+            if ( typeof name !== 'undefined' )
+            {
+                if ( name == this.getAttribute( 'name' ) +'-menu' ) {
+                    return this.getContextMenu();
+                }
+
                 return this.getContextMenu().getChildren( name );
             }
 
@@ -507,7 +512,7 @@ define('qui/controls/contextmenu/Item', [
             this.$Menu.inject( this.$Elm );
             this.$Menu.hide();
 
-            this.$Menu.setParent( this.getParent() );
+            this.$Menu.setParent( this );
 
             return this.$Menu;
         },
