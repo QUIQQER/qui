@@ -99,17 +99,6 @@ define('qui/utils/Form', function()
             {
                 Elm = elements[i];
 
-                if ( Elm.type === 'text' ||
-                     Elm.type === 'textarea' ||
-                     Elm.type === 'select' ||
-                     Elm.type === 'select-one' ||
-                     Elm.type === 'select-multiple' ||
-                     Elm.type === 'hidden' )
-                {
-                    result[ Elm.name ] = Elm.value;
-                    continue;
-                }
-
                 if ( Elm.type === 'checkbox' )
                 {
                     result[ Elm.name ] = Elm.checked ? true : false;
@@ -125,7 +114,7 @@ define('qui/utils/Form', function()
                     continue;
                 }
 
-                if ( Elm.length )
+                if ( Elm.type === 'radio' && Elm.length )
                 {
                     for ( i = 0, len = Elm.length; i < len; i++ )
                     {
@@ -138,10 +127,12 @@ define('qui/utils/Form', function()
                         if ( Elm[i].checked )
                         {
                             result[ Elm[i].name ] = Elm[i].value;
-                            break;
+                            continue;
                         }
                     }
                 }
+
+                result[ Elm.name ] = Elm.value;
             }
 
             return result;
