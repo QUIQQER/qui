@@ -36,6 +36,11 @@ textarea:hover {
     border: 2px solid #a4a9ae;
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+}
+
 select:disabled,
 input:disabled,
 textarea:disabled {
