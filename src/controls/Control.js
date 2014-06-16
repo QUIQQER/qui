@@ -6,17 +6,19 @@
  * @author www.namerobot.com (Henning Leutz)
  *
  * @module qui/controls/Control
- * @package com.pcsg.qui.js.controls.Control
  *
  * @event onInject [ this ]
  * @event onHighlight [ this ]
  * @event onNormalize [ this ]
+ * @event onResize [ this ]
  */
 
 define('qui/controls/Control', [
 
     'qui/QUI',
-    'qui/classes/DOM'
+    'qui/classes/DOM',
+
+    'css!qui/controls/Control.css'
 
 ], function(QUI, DOM)
 {
@@ -282,6 +284,14 @@ define('qui/controls/Control', [
             }
 
             return this;
+        },
+
+        /**
+         * Resize the control
+         */
+        resize : function()
+        {
+            this.fireEvent( 'resize', [ this ] );
         }
     });
 });
