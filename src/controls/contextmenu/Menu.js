@@ -156,10 +156,7 @@ define('qui/controls/contextmenu/Menu', [
             var elm_size = Elm.getSize(),
                 computed = this.$Container.getComputedSize();
 
-            this.$Container.setStyle(
-                'height',
-                elm_size.y - computed['padding-top'] - computed['padding-bottom']
-            );
+            this.$Container.setStyle( 'height', elm_size.y + 5 );
 
             // if parent is the body element
             // context menu don't get out of the body
