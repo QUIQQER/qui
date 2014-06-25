@@ -141,7 +141,8 @@ define('qui/controls/windows/Submit', [
         {
             var Body;
 
-            var Content = this.$Win.el.content,
+            var self    = this,
+                Content = this.$Win.el.content,
                 Footer  = this.$Win.el.footer,
                 html    = '';
 
@@ -178,18 +179,12 @@ define('qui/controls/windows/Submit', [
             new Button({
                 text      : this.getAttribute( 'cancel_button' ).text,
                 textimage : this.getAttribute( 'cancel_button' ).textimage,
-                Win       : this,
-                styles    : {
-                    'float' : 'right'
-                },
                 events :
                 {
                     onClick : function(Btn)
                     {
-                        var Win = Btn.getAttribute('Win');
-
-                        Win.fireEvent( 'cancel', [ Win ] );
-                        Win.close();
+                        self.fireEvent( 'cancel', [ self ] );
+                        self.close();
                     }
                 }
             }).inject( Footer );
@@ -197,14 +192,10 @@ define('qui/controls/windows/Submit', [
             new Button({
                 text      : this.getAttribute( 'ok_button' ).text,
                 textimage : this.getAttribute( 'ok_button' ).textimage,
-                Win       : this,
-                styles    : {
-                    'float' : 'right'
-                },
                 events :
                 {
                     onClick : function(Btn) {
-                        Btn.getAttribute( 'Win' ).submit();
+                        self.submit();
                     }
                 }
             }).inject( Footer, 'top' );

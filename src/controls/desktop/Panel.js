@@ -15,6 +15,8 @@
  * @event onDragDropStart [ this ]
  * @event dragDropComplete [ this ]
  * @event onDrag [ this, event, Element ]
+ * @event onCategoryEnter [ this, Category ]
+ * @event onCategoryLeave [ this, Category ]
  */
 
 define('qui/controls/desktop/Panel', [
@@ -643,6 +645,8 @@ define('qui/controls/desktop/Panel', [
                         return;
                     }
 
+                    self.fireEvent( 'categoryLeave', [ self, self.$ActiveCat ] );
+
                     Btn.setActive();
                 },
 
@@ -653,6 +657,7 @@ define('qui/controls/desktop/Panel', [
                     }
 
                     self.$ActiveCat = Btn;
+                    self.fireEvent( 'categoryEnter', [ self, Btn ] );
                 }
 
             });

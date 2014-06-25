@@ -194,13 +194,21 @@ define('qui/controls/windows/Confirm', [
                 this.setAttribute( 'information', this.getAttribute( 'information' ) );
             }
 
+            if ( !this.getAttribute( 'texticon' ) &&
+                 !this.getAttribute( 'text' ) &&
+                 !this.getAttribute( 'information' ) )
+            {
+                this.$Body.destroy();
+            }
+
+
             this.addButton(
                 new QUIButton({
                     text      : this.getAttribute( 'ok_button' ).text,
                     textimage : this.getAttribute( 'ok_button' ).textimage,
                     styles    : {
-                        'float' : 'right',
-                        width   : 150
+                        width : 150,
+                        'float' : 'none'
                     },
                     events :
                     {

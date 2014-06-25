@@ -19,14 +19,11 @@ define('qui/controls/windows/Popup', [
     'qui/Locale',
     'qui/utils/Controls',
 
-    'qui/lib/moofx',
     'qui/controls/windows/locale/de',
     'qui/controls/windows/locale/en',
 
     'css!qui/controls/windows/Popup.css',
     'css!qui/controls/buttons/Button.css'
-//    'css!extend/buttons.css',
-//    'css!extend/classes.css'
 
 ], function(Control, Background, Loader, Locale, Utils)
 {
@@ -51,10 +48,10 @@ define('qui/controls/windows/Popup', [
             'class'   : false,
 
             // buttons
-            buttons   : true,	    // {bool} [optional] show the bottom button line
-            closeButton     : true, // {bool} show the close button
-            closeButtonText : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
-            titleCloseButton : true // {bool} show the title close button
+            buttons          : true, // {bool} [optional] show the bottom button line
+            closeButton      : true, // {bool} show the close button
+            closeButtonText  : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
+            titleCloseButton : true  // {bool} show the title close button
         },
 
         initialize : function(options)
@@ -147,24 +144,26 @@ define('qui/controls/windows/Popup', [
             // bottom buttons
             if ( this.getAttribute( 'buttons' ) && this.getAttribute('closeButton') )
             {
-                var Submit = new Element('div', {
+                var Submit = new Element('button', {
                     html    : '<span>'+ this.getAttribute( 'closeButtonText' ) +'</span>',
                     'class' : 'qui-button btn-red',
                     events  : {
                         click : this.cancel
                     },
                     styles : {
-                        //marginRight : 20,
+                        display     : 'inline',
+                        'float'     : 'none',
                         width       : 150,
-                        textAlign   : 'center',
-                        'float'     : 'left'
+                        textAlign   : 'center'
                     }
                 }).inject( this.$Buttons );
 
 
                 this.$Buttons.setStyles({
-                    width  : Submit.getSize().x,
-                    margin : '0 auto'
+                    'float'   : 'left',
+                    margin    : '0 auto',
+                    textAlign : 'center',
+                    width     : '100%'
                 });
             }
 
@@ -252,23 +251,16 @@ define('qui/controls/windows/Popup', [
             if ( this.$Buttons )
             {
                 // button zentrieren
-                var list   = this.$Buttons.getChildren(),
-                    bwidth = 0;
+                var list = this.$Buttons.getChildren();
 
-                for ( var i = 0, len = list.length; i < len; i++ )
-                {
-                    bwidth = bwidth + list[ i ].getComputedSize({
-                        styles : [ 'border', 'margin', 'padding' ]
-                    }).totalWidth;
+                for ( var i = 0, len = list.length-1; i < len; i++ ) {
+                    list[ i ].setStyle( 'marginRight', 10 );
                 }
 
                 this.$Buttons.setStyles({
-                    width  : bwidth,
-                    margin : '0 auto'
+                    height : list[ 0 ].getComputedSize().totalHeight + 20
                 });
             }
-
-            this.$Buttons.setStyle( 'float', 'left' );
 
             // content height
             var content_height = height -
@@ -278,8 +270,6 @@ define('qui/controls/windows/Popup', [
             this.$Content.setStyles({
                 height : content_height
             });
-
-            this.$Buttons.setStyle( 'float', null );
 
 
             var left = ( doc_size.x - width ) / 2;
@@ -317,7 +307,7 @@ define('qui/controls/windows/Popup', [
 
             var self = this;
 
-            moofx( self.$Elm ).animate({
+            moofx( this.$Elm ).animate({
                 left : document.getSize().x * -1
             }, {
                 callback : function()
@@ -372,28 +362,57 @@ define('qui/controls/windows/Popup', [
         addButton : function(Elm)
         {
             if ( !this.$Buttons ) {
-                return;
+                return this;
             }
 
-            Elm.inject( this.$Buttons );
+            var Node = Elm;
 
-            // button zentrieren
-            var list  = this.$Buttons.getChildren(),
-                width = 0;
+            Elm.inject( this.$Buttons, 'top' );
 
-            for ( var i = 0, len = list.length; i < len; i++ )
-            {
-                width = width + list[ i ].getComputedSize({
-                    styles : ['padding','border', 'margin']
-                }).totalWidth;
+            if ( typeOf( Elm ) != 'element' ) {
+                Node = Elm.getElm();
             }
 
-            this.$Buttons.setStyles({
-                width  : width,
-                margin : '0 auto'
+            Node.setStyles({
+                display : 'inline',
+                'float' : 'none'
             });
 
+            this.$Buttons.setStyles({
+                height  : Node.getComputedSize().totalHeight
+            });
+
+            this.resize();
+
             return this;
+        },
+
+        /**
+         * hide the button line
+         *
+         * @return {this}
+         */
+        hideButtons : function()
+        {
+            if ( !this.$Buttons ) {
+                return this;
+            }
+
+            this.$Buttons.setStyle( 'display', 'none' );
+        },
+
+        /**
+         * show the button line
+         *
+         * @return {this}
+         */
+        showButtons : function()
+        {
+            if ( !this.$Buttons ) {
+                return this;
+            }
+
+            this.$Buttons.setStyle( 'display', '' );
         },
 
         /**

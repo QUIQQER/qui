@@ -32,7 +32,17 @@ können komplizierte Applikationen schnell und einfach erstellt werden.
 + dragable
 + breadcrumb
 
+## Events
 
++ onCreate [ this ]
++ onOpen [ this ]
++ onMinimize [ this ]
++ onRefresh [ this ]
++ onResize [ this ]
++ onDragDropStart [ this ]
++ dragDropComplete [ this ]
++ onDrag [ this, event, Element ]
++ onCategoryEnter [ this, Category ]
 
 ## Ein Panel erstellen
 

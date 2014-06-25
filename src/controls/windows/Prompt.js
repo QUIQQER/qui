@@ -191,12 +191,10 @@ define('qui/controls/windows/Prompt', [
 
             this.addButton(
                 new Button({
-                    'class'   : 'btn-red',
                     text      : this.getAttribute( 'cancel_button' ).text,
                     textimage : this.getAttribute( 'cancel_button' ).textimage,
                     styles    : {
-                        'float' : 'right',
-                        width   : 150
+                        width : 150
                     },
                     events :
                     {
@@ -211,12 +209,10 @@ define('qui/controls/windows/Prompt', [
 
             this.addButton(
                 new Button({
-                    'class'   : 'btn-green',
                     text      : this.getAttribute( 'ok_button' ).text,
                     textimage : this.getAttribute( 'ok_button' ).textimage,
                     styles    : {
-                        'float' : 'right',
-                        width   : 150
+                        width : 150
                     },
                     events :
                     {
