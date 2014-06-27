@@ -151,11 +151,21 @@ define('qui/controls/contextmenu/Menu', [
                 break;
             }
 
-            Elm.setStyle( 'display', '' );
+            Elm.setStyles({
+                display       : '',
+                paddingBottom : null
+            });
 
             var elm_size = Elm.getSize();
 
-            this.$Container.setStyle( 'height', elm_size.y + 5 );
+            this.$Container.setStyles({
+                height : elm_size.y
+            });
+
+            Elm.setStyles({
+                paddingBottom : 5
+            });
+
 
             // if parent is the body element
             // context menu don't get out of the body
@@ -192,7 +202,11 @@ define('qui/controls/contextmenu/Menu', [
          */
         hide : function()
         {
-            this.getElm().setStyle( 'display', 'none' );
+            this.getElm().setStyles({
+                display       : 'none',
+                paddingBottom : null
+            });
+
             this.fireEvent( 'hide', [ this ] );
 
             return this;
