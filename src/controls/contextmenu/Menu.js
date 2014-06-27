@@ -152,18 +152,13 @@ define('qui/controls/contextmenu/Menu', [
             }
 
             Elm.setStyles({
-                display       : '',
-                paddingBottom : null
+                display : ''
             });
 
             var elm_size = Elm.getSize();
 
             this.$Container.setStyles({
                 height : elm_size.y
-            });
-
-            Elm.setStyles({
-                paddingBottom : 5
             });
 
 
@@ -203,8 +198,7 @@ define('qui/controls/contextmenu/Menu', [
         hide : function()
         {
             this.getElm().setStyles({
-                display       : 'none',
-                paddingBottom : null
+                display : 'none'
             });
 
             this.fireEvent( 'hide', [ this ] );
