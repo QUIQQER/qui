@@ -99,7 +99,7 @@
         require.config({
             baseUrl : path,
             paths : {
-                "qui" : path +'src'
+                "qui" : path +'qui'
             },
             map: {
                 '*': {

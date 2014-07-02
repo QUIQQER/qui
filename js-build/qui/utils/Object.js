@@ -1,0 +1,2 @@
+define("qui/utils/Object",[],function(){"use strict";return{combine:function(e,n){return e=e||{},n=n||{},Object.append(e,n)},existsValue:function(e,n){for(var t=e.split("."),r=0,i=t.length;i>r;++r){if("undefined"==typeof n[t[r]])return!1;n=n[t[r]]}return!0},getValue:function(e,n){for(var t=e.split("."),r=0,i=t.length;i>r;++r){if("undefined"==typeof n[t[r]])return void 0;n=n[t[r]]}return n},namespace:function(e,n){var t,r,i=e.split("."),u=n;for(t=i.length,r=0;t>r;r++)"undefined"==typeof u[i[r]]&&(u[i[r]]={}),u=u[i[r]];return u}}});
+//# sourceMappingURL=Object.js.map

@@ -1,0 +1,2 @@
+define("qui/utils/String",[],function(){"use strict";return{getUrlParams:function(t){if(t=t.split("?"),"undefined"==typeof t[1])return{};t=t[1].split("&");var i,n,r,e={};for(i=0,n=t.length;n>i;i++)r=t[i].split("="),e[r[0]]=r[1];return e}}});
+//# sourceMappingURL=String.js.map
