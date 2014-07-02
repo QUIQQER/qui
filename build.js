@@ -1,7 +1,7 @@
 ({
     appDir: ".",
     baseUrl : ".",
-    dir     : "./js-build",
+    dir     : "./build",
     useStrict : true,
 
     mainConfigFile: './build-config.js',
