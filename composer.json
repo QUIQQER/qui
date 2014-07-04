@@ -28,7 +28,7 @@
             ],
 
             "config": {
-                "path": {
+                "paths": {
                     "qui" : "qui/build/qui"
                 }
             },
