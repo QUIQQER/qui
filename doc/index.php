@@ -31,7 +31,7 @@
         $src = implode( '/', $src ) .'/qui/';
 
         if ( file_exists( $src . $_GET['file'] .'.md' ) ) {
-            $md_file = '../src/'.$_GET['file'] .'.md';
+            $md_file = '../qui/'.$_GET['file'] .'.md';
         }
     }
 
