@@ -47,6 +47,10 @@ QUI kann über composer installiert werden
 
 ```
 
+
+**Composer installation**
+
+
 ```bash
 php composer.phar install
 ```
