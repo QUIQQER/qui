@@ -162,7 +162,7 @@ An der Integration solcher Bibliotheken für die Windows wird noch gearbeitet.
     $dir = dirname( __FILE__ );
     $src = explode( '/', $dir );
     array_pop( $src );
-    $src = implode( '/', $src ) .'/src/';
+    $src = implode( '/', $src ) .'/qui/';
 
     chdir( $src );
     exec('find -iname \'*.md\'', $result);
