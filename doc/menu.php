@@ -22,38 +22,58 @@ Utils bieten Funktionalität an, die nur global verfügbar sein muss (allgemeine
 
 ## Los gehts
 
-QUI besitzt einige Abhängigkeiten. Alle Abhängigkeiten sind im Build enthalten, damit das Einbinden einfacher ist.
+QUI besitzt einige Abhängigkeiten.
+Alle Abhängigkeiten sind im Build enthalten, damit das Einbinden einfacher ist.
+
+
+## Installation
+
+QUI kann über composer installiert werden
+
+*composer.json*
+
+```javascript
+
+{
+    "require" : {
+        "quiqqer/qui" : "dev-dev"
+    },
+
+    "repositories": [{
+        "type": "composer",
+        "url": "http://update.quiqqer.com/"
+    }]
+}
+
+```
+
+```bash
+php composer.phar install
+```
 
 
 ### QUI in eine Webseiten einbinden
 
 Folgende Abhängigkeiten bestehen:
 
-+ //ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"
-+ /qui/lib/mootools-more.js
-+ /qui/lib/moofx.js
-+ /qui/lib/requirejs.js
++ MooTools 1.4.5 or 1.5
++ MooTools More
++ moofx
++ requirejs / AMD loader
 
 ```html
-<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
-<script src="/qui/lib/mootools-more.js"></script>
-<script src="/qui/lib/moofx.js"></script>
-<script src="/qui/lib/requirejs.js"></script>
 
-<script>
-// requirejs must know where it can be find quiqqer
-// requirejs muss wissen wo quiqqer zu finden ist
-require.config({
-    paths : {
-        "qui" : '/PFAD_ZUM_QUIQQER_ORDNER'
-    },
-    map: {
-        '*': {
-            'css': '/PFAD_ZUM_QUIQQER_ORDNER/lib/css.js'
-        }
-    }
-});
-</script>
+<!-- mootools -->
+<script src="components/qui/build/qui/lib/mootools-core.js"></script>
+<script src="components/qui/build/qui/lib/mootools-more.js"></script>
+<script src="components/qui/build/qui/lib/moofx.js"></script>
+
+<-- include components -->
+<script src="components/require-built.js"></script>
+
+<-- include qui -->
+<script src="components/qui/your_start_script.js" data-main="load.js"></script>
+
 ```
 
 QUI und die QUI Komponenten können nun wie jedes AMD Modul genutzt werden.
