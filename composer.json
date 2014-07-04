@@ -29,7 +29,7 @@
 
             "config": {
                 "path": {
-                    'qui' : 'qui/build'
+                    "qui" : "qui/build"
                 }
             }
         }
