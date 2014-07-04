@@ -29,7 +29,17 @@
 
             "config": {
                 "path": {
-                    "qui" : "qui/build"
+                    "qui" : "qui/build/qui"
+                }
+            },
+
+            "paths" : {
+                "qui" : "qui/build/qui"
+            },
+
+            "map" : {
+                "*" : {
+                    "css" : "components/qui/build/qui/lib/css.js"
                 }
             }
         }
