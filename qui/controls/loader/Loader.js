@@ -3,7 +3,11 @@
  * A loader control
  * Creates a div with a loader animation
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require qui/Locale
+ * @require css!qui/controls/loader/Loader.css
  */
 
 define('qui/controls/loader/Loader', [
@@ -137,7 +141,7 @@ define('qui/controls/loader/Loader', [
             this.$delay = (function()
             {
                 this.showCloseButton();
-            }).delay( this.options.closetime , this );
+            }).delay( this.getAttribute( 'closetime' ) , this );
         },
 
         /**

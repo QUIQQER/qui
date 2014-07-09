@@ -1,8 +1,7 @@
 /**
  * The main message class
  *
- * @author www.namerobot.de (Henning Leutz)
- * @copyright NameRobot
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @event onClick [this]
  */

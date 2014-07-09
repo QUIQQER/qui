@@ -2,12 +2,32 @@
  * QUI Control - Button
  *
  * @author www.namerobot.com (Henning Leutz)
+ * @module qui/controls/buttons/Button
  *
- * @requires qui/controls/Control
- * @requires qui/utils/NoSelect
+ * @require qui/controls/Control
+ * @require qui/utils/Controls
+ * @require qui/utils/NoSelect
+ * @require qui/utils/Elements
  *
- * @module controls/buttons/Button
- * @package com.pcsg.qui.js.controls.buttons
+ * @require css!qui/controls/buttons/Button.css
+ *
+ * @event onClick
+ * @event onCreate
+ * @event onDrawBegin
+ * @event onDrawEnd
+ * @event onSetNormal
+ * @event onSetDisable
+ * @event onSetActive
+ *
+ * @event onEnter     - event triggerd if button is not disabled
+ * @event onLeave     - event triggerd if button is not disabled
+ * @event onMousedown - event triggerd if button is not disabled
+ * @event onMouseUp   - event triggerd if button is not disabled
+ * @event onFocus
+ * @event onBlur
+ * @event onActive
+ * @event onDisable
+ * @event onEnable
  */
 
 define('qui/controls/buttons/Button', [

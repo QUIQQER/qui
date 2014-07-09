@@ -82,9 +82,9 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
 
-    <script src="../src/lib/mootools-more.js"></script>
-    <script src="../src/lib/moofx.js"></script>
-    <script src="../src/lib/requirejs.js"></script>
+    <script src="../qui/build/qui/lib/mootools-more.js"></script>
+    <script src="../qui/build/qui/lib/moofx.js"></script>
+    <script src="../qui/build/qui/lib/requirejs.js"></script>
 
     <!-- QUI -->
     <script>

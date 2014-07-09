@@ -2,7 +2,7 @@
 /**
  * Message Handler
  *
- * @author www.namerobot.de (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @event onAdd [ {this}, {qui/controls/messages/Message} ]
  * @event onAddAttention [ {this}, {qui/controls/messages/Attention} ]

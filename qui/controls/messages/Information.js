@@ -1,8 +1,7 @@
 /**
  * Information
  *
- * @author www.namerobot.de (Henning Leutz)
- * @copyright NameRobot
+ * @author www.pcsg.de (Henning Leutz)
  */
 
 define('qui/controls/messages/Information', [
