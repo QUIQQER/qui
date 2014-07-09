@@ -103,7 +103,7 @@
             },
             map: {
                 '*': {
-                    'css': path +'src/lib/css.js'
+                    'css': path +'build/qui/lib/css.js'
                 }
             }
         });
