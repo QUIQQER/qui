@@ -89,9 +89,11 @@
     border-right: 1px solid #0069B4;
     border-top: 5px solid #2F8FC6;
     cursor: pointer;
+    float: left;
     font-size: 20px;
     line-height: 35px;
     text-align: center;
+    width: 20%;
 }
 
 .message-handler-container-button:last-child {

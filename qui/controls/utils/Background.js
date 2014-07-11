@@ -4,7 +4,7 @@
  *
  * @event onClick [{self}]
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  */
 
 define('qui/controls/utils/Background', [

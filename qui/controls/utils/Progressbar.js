@@ -5,8 +5,8 @@
  * http://davidwalsh.name/progress-bar-animated-mootools
  *
  * @author www.pcsg.de (Henning Leutz)
- * @class qui/controls/utils/Progressbar
- * @package com.pcsg.qui.js.controls.progressbar
+ *
+ * @event complete [ {this} ]
  */
 
 define('qui/controls/utils/Progressbar', [

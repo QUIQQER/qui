@@ -61,9 +61,14 @@ define('qui/controls/messages/Handler', [
             // ie 9 and lower can't change the favicon
             if ( !Browser.ie || ( Browser.ie && Browser.version > 9 ) )
             {
-                this.Favico = new Favico({
-                    animation : 'fade'
-                });
+                try
+                {
+                    this.Favico = new Favico({
+                        animation : 'fade'
+                    });
+                } catch ( e ) {
+                    // nothing
+                }
 
                 window.addEvent('unload', function()
                 {
@@ -172,6 +177,7 @@ define('qui/controls/messages/Handler', [
 
         /**
          * Load the messages from the database
+         * @depricated
          */
         load : function()
         {
