@@ -3,7 +3,7 @@
  *
  * Communication between server and client
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires qui/classes/DOM
  * @requires qui/controls/messages/Handler

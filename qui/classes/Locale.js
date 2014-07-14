@@ -1,11 +1,9 @@
 /**
  * Locale translation class
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcg.de (Henning Leutz)
  *
- * @module qui/classes/Locale
- * @package com.pcsg.qui.js.classes
- *
+ * @module qui/classes/Locale *
  * @event onError [ {String}, {this} ]
  */
 

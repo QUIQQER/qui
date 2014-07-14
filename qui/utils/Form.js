@@ -2,7 +2,7 @@
 /**
  * Helper for <form> nodes
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  */
 
 define('qui/utils/Form', function()

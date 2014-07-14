@@ -1,7 +1,7 @@
 /**
  * A Tool / Tabbar
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires controls/Control
  * @requires controls/contextmenu/Item

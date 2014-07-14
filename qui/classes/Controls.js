@@ -1,10 +1,9 @@
 /**
- * QUI.Controls
+ * qui/classes/Controls
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
- * @module Controls
- * @package com.pcsg.qui.js.controls
+ * @module qui/classes/Controls
  */
 
 define('qui/classes/Controls', [

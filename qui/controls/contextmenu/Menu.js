@@ -1,12 +1,11 @@
 /**
  * A Context Menu
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires controls/Control
  *
  * @module controls/contextmenu/Menu
- * @package com.pcsg.qui.js.controls.contextmenu
  */
 
 define('qui/controls/contextmenu/Menu', [

@@ -1,7 +1,7 @@
 /**
  * The Main Class for the Main QUI Object
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  * @event onError : if there is an error
  */
 

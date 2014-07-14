@@ -1,7 +1,7 @@
 /**
  * QUI Control - Select Box DropDown
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires controls/Control
  * @requires controls/contextmenu/Menu

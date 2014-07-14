@@ -58,7 +58,7 @@ define('qui/controls/messages/Message', [
             var Destroy = this.$Elm.getElement( '.messages-message-destroy' );
 
             Destroy.set({
-                title : Locale.get( 'namerobot/global', 'msg-handler-close-msg' )
+                title : Locale.get( 'quiqqer/qui', 'msg-handler-close-msg' )
             });
 
             Destroy.removeEvents( 'click' );

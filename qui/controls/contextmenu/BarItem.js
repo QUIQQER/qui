@@ -1,7 +1,7 @@
 /**
  * Context Menu Bar Item
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module qui/controls/contextmenu/BarItem
  * @package com.pcsg.qui.js.controls.contextmenu

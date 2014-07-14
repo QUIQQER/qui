@@ -3,7 +3,7 @@
  * Control standard parent class
  * All controls should inherit {qui/controls/Control}
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module qui/controls/Control
  *

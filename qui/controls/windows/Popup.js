@@ -2,7 +2,7 @@
 /**
  * A popup window
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @event onOpen [ self ]
  * @event onClose [ self ]

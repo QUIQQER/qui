@@ -2,7 +2,7 @@
  * Sitemap Search Control
  * The control searches a Sitemap Control
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module controls/sitemap/Filter
  * @package com.pcsg.qui.js.controls.sitemap

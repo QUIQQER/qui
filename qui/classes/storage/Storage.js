@@ -2,7 +2,7 @@
  * Use Local storage,
  * if local storage not exist, it loads the polyfill
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module qui/classes/storage/Storage
  * @package com.pcsg.qui.js.classes.users.storage

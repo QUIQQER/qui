@@ -4,7 +4,7 @@
  * You can append the Workspace with columns and panels
  * Save the Workspace and load the workspace
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module controls/desktop/Workspace
  * @package pcsg.qui.js.controls.desktop.workspace

@@ -1,7 +1,7 @@
 /**
  * Context Menu Item
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires qui/controls/Control
  * @requires qui/classes/utils/DragDrop

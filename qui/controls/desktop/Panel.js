@@ -2,7 +2,7 @@
  * A Panel
  * A Panel is like a container for apps.
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module controls/desktop/Panel
  * @package com.pcsg.qui.js.controls.desktop

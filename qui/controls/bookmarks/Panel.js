@@ -1,7 +1,7 @@
 /**
  * A panel where you can set bookmarks
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/bookmarks/Panel
  *
  * @event appendChild [ {self}, {Object} Child ]

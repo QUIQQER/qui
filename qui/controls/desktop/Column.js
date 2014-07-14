@@ -1,7 +1,7 @@
 /**
  * Column for panels
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module qui/controls/desktop/Column
  * @package com.pcsg.qui.js.controls.desktop

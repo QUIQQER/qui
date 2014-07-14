@@ -1,7 +1,7 @@
 /**
  * A breadcrumb bar
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @requires qui/controls/Control
  *

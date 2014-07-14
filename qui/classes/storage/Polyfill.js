@@ -2,7 +2,7 @@
  * Polifill for the localStorage and sessionStorage
  * Based on Remy Sharp's  Storage polyfill - thanks
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @module qui/classes/storage/Polyfill
  * @package com.pcsg.qui.js.lib.polyfills

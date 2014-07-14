@@ -2,7 +2,7 @@
 /**
  * The QUI Locale Object
  *
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  */
 define('qui/Locale', ['qui/classes/Locale'], function(QUILocale)
 {
