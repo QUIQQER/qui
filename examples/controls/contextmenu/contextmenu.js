@@ -24,9 +24,9 @@ require([
 
     Menu.appendChild(
         new QUIMenuItem({
-            name : 'first',
-            text : 'First item',
-            icon : 'icon-home',
+            name   : 'first',
+            text   : 'First item',
+            icon   : 'icon-home',
             events :
             {
                 onClick : function(Item) {
