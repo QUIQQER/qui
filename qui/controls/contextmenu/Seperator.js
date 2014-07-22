@@ -2,8 +2,7 @@
  * Context Menu Seperator
  *
  * @author www.pcsg.de (Henning Leutz)
- * @package com.pcsg.qui.js.controls.contextmenu
- * @class qui/controls/contextmenu/Seperator
+ * @module qui/controls/contextmenu/Seperator
  */
 
 define('qui/controls/contextmenu/Seperator', [

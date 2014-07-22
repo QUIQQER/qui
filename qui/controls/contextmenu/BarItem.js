@@ -2,9 +2,7 @@
  * Context Menu Bar Item
  *
  * @author www.pcsg.de (Henning Leutz)
- *
  * @module qui/controls/contextmenu/BarItem
- * @package com.pcsg.qui.js.controls.contextmenu
  *
  * @event onClick [ {this}, {DOMEvent} ]
  * @event onFocus [ {this} ]

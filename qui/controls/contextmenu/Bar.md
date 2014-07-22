@@ -1,4 +1,4 @@
-# qui/controls/contextmenu/Menu
+# qui/controls/contextmenu/Bar
 
 Diese Leiste baut eine Menüleiste auf.
 
@@ -15,16 +15,6 @@ Diese Leiste baut eine Menüleiste auf.
 ## Ein Context Menu erstellen
 
 ```javascript
-
-require([
-
-    'qui/controls/contextmenu/Bar',
-    'qui/controls/contextmenu/BarItem'
-
-], function(QUIMenuBar, QUIMenuBarItem)
-{
-    "use strict";
-
 
 require([
 
@@ -105,4 +95,15 @@ require([
 
 });
 ```
+
+## Die wichtigsten Methoden
+
++ getChildren()
++ firstChild()
++ count()
++ appendChild( qui/controls/contextmenu/BarItem )
++ clearChildren()
++ getNext( qui/controls/contextmenu/Item )
++ getPrevious( qui/controls/contextmenu/Item )
+
 
