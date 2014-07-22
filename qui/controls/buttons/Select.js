@@ -27,7 +27,7 @@ define('qui/controls/buttons/Select', [
 {
     "use strict";
 
-    document.body.set('tabindex', -1);
+    document.id( document.body ).set('tabindex', -1);
 
     /**
      * @class qui/controls/buttons/Select
