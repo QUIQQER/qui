@@ -87,11 +87,7 @@ define([
 
             var self = this;
 
-            require([
-
-                "qui/controls/desktop/Panel"
-
-            ], function(QUIPanel)
+            require(["qui/controls/desktop/Panel"], function(QUIPanel)
             {
                 var workspace = QUIStorage.get( 'qui.workspace' );
 
@@ -318,10 +314,10 @@ define([
 
                 // get prev column
                 var Sibling       = this.lastChild(),
-                    sibling_width = max_width - col_width - 6;
+                    sibling_width = max_width - col_width - 20;
 
                 if ( max_width > Sibling.getAttribute( 'width' ) ) {
-                    sibling_width = Sibling.getAttribute( 'width' ) - col_width - 6;
+                    sibling_width = Sibling.getAttribute( 'width' ) - col_width - 20;
                 }
 
                 Sibling.setAttribute( 'width', sibling_width );
