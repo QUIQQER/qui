@@ -1,16 +1,20 @@
 /**
  * Menu bar
  *
+ * @module qui/controls/contextmenu/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/contextmenu/Bar
- * @package com.pcsg.quiqqer.controls.contextmenu
- * @namespace QUI.controls.contextmenu
+ * @require qui/controls/Control
+ * @require qui/controls/contextmenu/BarItem
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/controls/contextmenu/Seperator
+ * @require css!qui/controls/contextmenu/Bar.css
  *
  * @event onChildClick
  */
 
-define('qui/controls/contextmenu/Bar', [
+define([
 
     'qui/controls/Control',
     'qui/controls/contextmenu/BarItem',

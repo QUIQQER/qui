@@ -1,14 +1,13 @@
+
 /**
  * Polifill for the localStorage and sessionStorage
  * Based on Remy Sharp's  Storage polyfill - thanks
  *
- * @author www.pcsg.de (Henning Leutz)
- *
  * @module qui/classes/storage/Polyfill
- * @package com.pcsg.qui.js.lib.polyfills
+ * @author www.pcsg.de (Henning Leutz)
  */
 
-define('qui/classes/storage/Polyfill', function()
+define(function()
 {
     "use strict";
 

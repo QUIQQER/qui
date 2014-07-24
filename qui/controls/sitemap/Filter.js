@@ -1,18 +1,21 @@
+
 /**
  * Sitemap Search Control
  * The control searches a Sitemap Control
  *
+ * @module qui/controls/sitemap/Filter
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module controls/sitemap/Filter
- * @package com.pcsg.qui.js.controls.sitemap
+ * @require qui/controls/Control
+ * @require qui/controls/buttons/Button
+ * @require css!qui/controls/sitemap/Filter.css
  *
  * @event onFocus [this]
  * @event onResultNotViewable [this, Item] <-- delete
  * @event onFilter  [this, results]
  */
 
-define('qui/controls/sitemap/Filter', [
+define([
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',

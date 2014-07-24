@@ -1,16 +1,21 @@
+
 /**
  * Submit Fenster
  *
+ * @module qui/controls/windows/Prompt
  * @author www.pcsg.de (Henning Leutz)
- * @class QUI.controls.Windows.Prompt
- * @package com.pcsg.qui.js.controls.windows
+ *
+ * @require qui/controls/windows/Popup
+ * @require qui/controls/buttons/Button
+ * @require qui/utils/Controls
+ * @require css!qui/controls/windows/Prompt.css
  *
  * @event onSubmit [ value, this ]
  * @event onEnter [ value, this ]
  * @event onCancel [ this ]
  */
 
-define('qui/controls/windows/Prompt', [
+define([
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',

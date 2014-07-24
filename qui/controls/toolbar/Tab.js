@@ -1,16 +1,17 @@
+
 /**
  * A Toolbar Tab
  *
+ * @module qui/controls/toolbar/Tab
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- *
- * @module controls/toolbar/Tab
- * @class qui/controls/toolbar/Tab
- * @package com.pcsg.qui.js.controls.toolbar
+ * @require qui/controls/Control
+ * @require qui/utils/Controls
+ * @require qui/utils/NoSelect
+ * @require css!qui/controls/toolbar/Tab.css
  */
 
-define('qui/controls/toolbar/Tab', [
+define([
 
     'qui/controls/Control',
     'qui/utils/Controls',

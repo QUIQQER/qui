@@ -2,10 +2,20 @@
  * A Panel
  * A Panel is like a container for apps.
  *
+ * @module qui/controls/desktop/Panel
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module controls/desktop/Panel
- * @package com.pcsg.qui.js.controls.desktop
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/loader/Loader
+ * @require qui/controls/toolbar/Bar
+ * @require qui/controls/buttons/Seperator
+ * @require qui/controls/buttons/Button
+ * @require qui/controls/desktop/panels/Sheet
+ * @require qui/controls/breadcrumb/Bar
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/utils/Controls
+ * @require css!qui/controls/desktop/Panel.css
  *
  * @event onCreate [ this ]
  * @event onOpen [ this ]
@@ -19,7 +29,7 @@
  * @event onCategoryLeave [ this, Category ]
  */
 
-define('qui/controls/desktop/Panel', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

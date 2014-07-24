@@ -1,8 +1,11 @@
 /**
  * Context Menu Seperator
  *
- * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/contextmenu/Seperator
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require css!qui/controls/contextmenu/Seperator.css
  */
 
 define('qui/controls/contextmenu/Seperator', [

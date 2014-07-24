@@ -1,15 +1,20 @@
+
 /**
  * Submit Fenster
  *
- * @fires onSubmit
- * @fires onCancel
- *
+ * @module qui/controls/windows/Confirm
  * @author www.pcsg.de (Henning Leutz)
  *
- * @class qui/controls/windows/Confirm
+ * @require qui/controls/windows/Popup
+ * @require qui/controls/buttons/Button
+ * @require qui/utils/Controls
+ * @require css!qui/controls/windows/Confirm.css
+ *
+ * @event onSubmit
+ * @event onCancel
  */
 
-define('qui/controls/windows/Confirm', [
+define([
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',

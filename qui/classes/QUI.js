@@ -1,15 +1,21 @@
 /**
  * The Main Class for the Main QUI Object
  *
+ * @module qui/classes/QUI
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require require
+ * @require qui/classes/DOM
+ * @require qui/classes/Controls
+ *
  * @event onError : if there is an error
  */
 
-define('qui/classes/QUI', [
+define([
 
     'require',
     'qui/classes/DOM',
-    'qui/classes/Controls',
+    'qui/classes/Controls'
 
 ], function(require, DOM, Controls)
 {

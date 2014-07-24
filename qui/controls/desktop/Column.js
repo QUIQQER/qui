@@ -1,13 +1,20 @@
 /**
  * Column for panels
  *
+ * @module qui/controls/desktop/Column
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/desktop/Column
- * @package com.pcsg.qui.js.controls.desktop
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/controls/desktop/Panel
+ * @require qui/controls/loader/Loader
+ * @require qui/classes/utils/DragDrop
+ * @require css!qui/controls/desktop/Column.css
  */
 
-define('qui/controls/desktop/Column', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

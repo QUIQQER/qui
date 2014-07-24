@@ -1,17 +1,15 @@
 /**
  * Locale translation class
  *
+ * @module qui/classes/Locale
  * @author www.pcg.de (Henning Leutz)
  *
- * @module qui/classes/Locale *
+ * @require qui/classes/DOM
+ *
  * @event onError [ {String}, {this} ]
  */
 
-define('qui/classes/Locale', [
-
-    'qui/classes/DOM'
-
-], function(DOM)
+define(['qui/classes/DOM'], function(DOM)
 {
     "use strict";
 

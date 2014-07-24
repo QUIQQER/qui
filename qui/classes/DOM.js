@@ -5,16 +5,14 @@
  * Its easy to use and most classes inherit from {qui/classes/DOM}
  * All objects that inherited from {qui/classes/DOM} can easily extend with Attributes.
  *
+ * @module qui/classes/DOM
  * @author www.quiqqer.com (Henning Leutz)
  *
  * @event onDestroy [this]
  * @event onSetAttribute [key, value]
- *
- * @module classes/DOM
- * @package com.pcsg.qui.js.classes
  */
 
-define('qui/classes/DOM', function()
+define(function()
 {
     "use strict";
 

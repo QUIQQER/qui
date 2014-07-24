@@ -2,9 +2,13 @@
 /**
  * The QUI Locale Object
  *
+ * @module qui/Locale
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/classes/Locale
  */
-define('qui/Locale', ['qui/classes/Locale'], function(QUILocale)
+
+define(['qui/classes/Locale'], function(QUILocale)
 {
     "use strict";
 

@@ -2,14 +2,13 @@
 /**
  * Success Message
  *
+ * @module qui/controls/messages/Success
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/messages/Message
  */
 
-define('qui/controls/messages/Success', [
-
-    'qui/controls/messages/Message'
-
-], function(Message)
+define(['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 

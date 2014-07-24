@@ -1,14 +1,14 @@
 /**
  * A Context Menu
  *
+ * @module qui/controls/contextmenu/Menu
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- *
- * @module controls/contextmenu/Menu
+ * @require qui/controls/Control
+ * @require css!qui/controls/contextmenu/Menu.css
  */
 
-define('qui/controls/contextmenu/Menu', [
+define([
 
     'qui/controls/Control',
 

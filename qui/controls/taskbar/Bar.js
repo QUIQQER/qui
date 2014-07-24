@@ -1,22 +1,28 @@
+
 /**
  * A task bar
  *
+ * @module qui/controls/taskbar/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/taskbar/Bar
- * @package com.pcsg.qui.js.controls.taskbar
+ * @require qui/controls/Control
+ * @require qui/controls/taskbar/Task
+ * @require qui/controls/taskbar/Group
+ * @require qui/controls/buttons/Button
+ * @require qui/controls/contextmenu/Item
+ * @require css!qui/controls/taskbar/Bar.css
  *
  * @event onAppendChild [
- *      {qui/controls/taskbar/Bar},
- *      {qui/controls/taskbar/Task}
+ *     {qui/controls/taskbar/Bar},
+ *     {qui/controls/taskbar/Task}
  * ]
  * @event onAppendChildBegin [
- *      {qui/controls/taskbar/Bar},
- *      {qui/controls/taskbar/Task}
+ *     {qui/controls/taskbar/Bar},
+ *     {qui/controls/taskbar/Task}
  * ]
  */
 
-define('qui/controls/taskbar/Bar', [
+define([
 
     'qui/controls/Control',
     'qui/controls/taskbar/Task',
@@ -67,6 +73,7 @@ define('qui/controls/taskbar/Bar', [
         /**
          * Return the save date, eq for the workspace
          *
+         * @method qui/controls/taskbar/Bar#serialize
          * @return {Object}
          */
         serialize : function()

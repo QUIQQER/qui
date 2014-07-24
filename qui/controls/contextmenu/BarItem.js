@@ -1,8 +1,14 @@
 /**
  * Context Menu Bar Item
  *
- * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/contextmenu/BarItem
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/controls/contextmenu/Seperator
+ * @require css!qui/controls/contextmenu/BarItem.css
  *
  * @event onClick [ {this}, {DOMEvent} ]
  * @event onFocus [ {this} ]
@@ -12,7 +18,7 @@
  * @event onAppend [ {this}, {qui/controls/contextmenu/Item} ]
  */
 
-define('qui/controls/contextmenu/BarItem', [
+define([
 
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',

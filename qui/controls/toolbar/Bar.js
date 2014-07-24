@@ -1,27 +1,26 @@
+
 /**
  * A Tool / Tabbar
  *
+ * @module qui/controls/toolbar/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- * @requires controls/contextmenu/Item
- * @requires controls/buttons/Button
- *
- * @module controls/toolbar/Bar
- * @class qui/controls/toolbar/Bar
- * @package com.pcsg.qui.js.controls.toolbar
+ * @require qui/controls/Control
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/controls/buttons/Button
+ * @require css!qui/controls/toolbar/Bar.css
  *
  * @event onClear [ this ]
  * @event onAppendChild [ this, Itm ]
  */
 
-define('qui/controls/toolbar/Bar', [
+define([
 
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
     'qui/controls/buttons/Button',
-    'qui/lib/moofx',
 
     'css!qui/controls/toolbar/Bar.css'
 

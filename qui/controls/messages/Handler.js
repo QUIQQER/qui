@@ -2,7 +2,15 @@
 /**
  * Message Handler
  *
+ * @module qui/controls/messages/Handler
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require require
+ * @require qui/controls/Control',
+ * @require qui/controls/messages/Favico',
+ * @require qui/Locale',
+ * @require qui/classes/storage/Storage',
+ * @require css!qui/controls/messages/Handler'
  *
  * @event onAdd [ {this}, {qui/controls/messages/Message} ]
  * @event onAddAttention [ {this}, {qui/controls/messages/Attention} ]
@@ -14,7 +22,7 @@
  * @event onLoad [ {this} ]
  */
 
-define('qui/controls/messages/Handler', [
+define([
 
     'require',
     'qui/controls/Control',

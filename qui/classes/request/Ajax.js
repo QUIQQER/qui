@@ -1,14 +1,16 @@
+
 /**
  * QUI Ajax Class
  *
  * Communication between server and client
  *
+ * @module qui/classes/request/Ajax
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/classes/DOM
- * @requires qui/controls/messages/Handler
- *
- * @module qui/classes/request/Ajax
+ * @require qui/QUI
+ * @require qui/classes/DOM
+ * @require qui/controls/messages/Error
+ * @require qui/Locale
  */
 
 define('qui/classes/request/Ajax', [

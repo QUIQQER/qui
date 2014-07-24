@@ -1,13 +1,18 @@
 
 /**
  * Message-Manager Panel
- *
  * The panel displays the messages
  *
+ * @module qui/controls/messages/Panel
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/QUI
+ * @require qui/controls/desktop/Panel
+ * @require qui/Locale
+ * @require css!qui/controls/messages/Panel.css
  */
 
-define('qui/controls/messages/Panel', [
+define([
 
     'qui/QUI',
     'qui/controls/desktop/Panel',

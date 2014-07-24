@@ -1,19 +1,22 @@
+
 /**
  * QUI Control - Select Box DropDown
  *
+ * @module controls/buttons/Button
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires controls/Control
- * @requires controls/contextmenu/Menu
- *
- * @module controls/buttons/Button
- * @package com.pcsg.qui.js.controls.buttons
+ * @require qui/controls/Control
+ * @require qui/utils/Controls
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/utils/Element
+ * @require css!qui/controls/buttons/Select.css
  *
  * @event onChange [value, this]
  * @event onClick [this, event]
  */
 
-define('qui/controls/buttons/Select', [
+define([
 
     'qui/controls/Control',
     'qui/utils/Controls',
@@ -27,7 +30,7 @@ define('qui/controls/buttons/Select', [
 {
     "use strict";
 
-    document.id( document.body ).set('tabindex', -1);
+    document.id( document.body ).set( 'tabindex', -1 );
 
     /**
      * @class qui/controls/buttons/Select
@@ -80,11 +83,9 @@ define('qui/controls/buttons/Select', [
             var self = this;
 
             this.$Elm = new Element('div.qui-select', {
-
                 html : '<div class="icon"></div>' +
                        '<div class="text"></div>' +
                        '<div class="drop-icon"></div>',
-
                 tabindex : -1,
                 styles   : {
                     outline : 0,
@@ -92,6 +93,13 @@ define('qui/controls/buttons/Select', [
                 },
 
                 'data-quiid' : this.getId()
+            });
+
+            // ie8 / 9 fix
+            this.$Elm.getElements('div').addEvents({
+                click : function() {
+                    self.$Elm.focus();
+                }
             });
 
             if ( this.getAttribute( 'styles' ) ) {

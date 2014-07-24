@@ -1,15 +1,20 @@
+
 /**
  * QUIQQER Progress Bar
  *
  * based on dwProgressBar
  * http://davidwalsh.name/progress-bar-animated-mootools
  *
+ * @module qui/controls/utils/Progressbar
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require css!qui/controls/utils/Progressbar.css
  *
  * @event complete [ {this} ]
  */
 
-define('qui/controls/utils/Progressbar', [
+define([
 
     'qui/controls/Control',
 

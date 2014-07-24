@@ -1,10 +1,17 @@
+
 /**
  * A task for the taskbar
  *
+ * @module qui/controls/taskbar/Group
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/taskbar/Group
- * @package com.pcsg.qui.js.controls.taskbar
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/contextmenu/Menu
+ * @require qui/controls/contextmenu/Item
+ * @require qui/classes/utils/DragDrop
+ * @require qui/controls/taskbar/Task
+ * @require css!qui/controls/taskbar/Group.css
  *
  * @event onNormalize [this]
  * @event onHighlight [this]
@@ -18,15 +25,9 @@
  *      {QUI.controls.taskbar.Bar},
  *      {QUI.controls.taskbar.Task}
  * ]
- *
- * @require qui/controls/Control
- * @require qui/controls/taskbar/Task
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require qui/classes/utils/DragDrop
  */
 
-define('qui/controls/taskbar/Group', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

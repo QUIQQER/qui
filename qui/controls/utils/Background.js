@@ -2,16 +2,15 @@
  * A Background
  * Creates a black background layer
  *
- * @event onClick [{self}]
- *
+ * @module qui/controls/utils/Background
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ *
+ * @event onClick [{self}]
  */
 
-define('qui/controls/utils/Background', [
-
-    'qui/controls/Control'
-
-], function(Control)
+define(['qui/controls/Control'], function(Control)
 {
     "use strict";
 

@@ -1,13 +1,13 @@
+
 /**
  * A breadcrumb bar item
  *
+ * @module qui/controls/breadcrumb/Item
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/controls/Control
- *
- * @module qui/controls/breadcrumb/Item
- * @class qui/controls/breadcrumb/Item
- * @package com.pcsg.qui.js.controls.breadcrumb
+ * @require qui/controls/Control
+ * @require qui/utils/Controls
+ * @require css!qui/controls/breadcrumb/Item.css
  *
  * @event onClick [this, event]
  */
@@ -16,6 +16,7 @@ define('qui/controls/breadcrumb/Item', [
 
     'qui/controls/Control',
     'qui/utils/Controls',
+
     'css!qui/controls/breadcrumb/Item.css'
 
 ], function(Control, Utils)

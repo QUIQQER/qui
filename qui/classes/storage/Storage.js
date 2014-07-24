@@ -1,11 +1,13 @@
+
 /**
  * Use Local storage,
  * if local storage not exist, it loads the polyfill
  *
+ * @module qui/classes/storage/Storage
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/classes/storage/Storage
- * @package com.pcsg.qui.js.classes.users.storage
+ * @require qui/classes/DOM
+ * @require [optional] qui/classes/storage/Polyfill
  */
 
 var needle = ['qui/classes/DOM'];
@@ -13,10 +15,10 @@ var needle = ['qui/classes/DOM'];
 if ( typeof window.localStorage === 'undefined' ||
      typeof window.sessionStorage === 'undefined')
 {
-    needle.push( 'qui/classes/storage/' );
+    needle.push( 'qui/classes/storage/Polyfill' );
 }
 
-define('qui/classes/storage/Storage', needle, function(QDOM, Polyfill)
+define(needle, function(QDOM, Polyfill)
 {
     "use strict";
 

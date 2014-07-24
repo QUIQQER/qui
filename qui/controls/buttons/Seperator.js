@@ -1,17 +1,17 @@
+
 /**
  * Button Seperator
  *
+ * @module qui/controls/buttons/Seperator
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/controls/Control
- * @module qui/controls/buttons/Seperator
- * @package com.pcsg.qui.js.controls.buttons
+ * @require qui/controls/Control
  *
  * @event onResize [this]
  * @event onCreate [this]
  */
 
-define('qui/controls/buttons/Seperator', [
+define([
 
     'qui/controls/Control'
 

@@ -3,14 +3,13 @@
  * Utils for the controls
  * Helps the controls
  *
+ * @module qui/utils/Controls
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/QUI
  */
 
-define('qui/utils/Controls', [
-
-    'qui/QUI'
-
-], function(QUI, Panel)
+define(['qui/QUI'], function(QUI, Panel)
 {
     "use strict";
 

@@ -4,13 +4,21 @@
  * A Tasks panel can managed several Panels, Desktop's and other Controls.
  * In a Tasks panel you can insert several controls and you can switch between the Controls
  *
+ * @module qui/controls/desktop/Tasks
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/loader/Loader
+ * @require qui/controls/taskbar/Bar
+ * @require qui/controls/taskbar/Task
+ * @require css!qui/controls/desktop/Tasks.css
  *
  * @event onResize [this]
  * @event onRefresh [this]
  */
 
-define('qui/controls/desktop/Tasks', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

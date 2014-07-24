@@ -1,16 +1,15 @@
+
 /**
  * A breadcrumb bar
  *
+ * @module qui/controls/breadcrumb/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/controls/Control
- *
- * @module qui/controls/breadcrumb/Bar
- * @class qui/controls/breadcrumb/Bar
- * @package com.pcsg.qui.js.controls.breadcrumb
+ * @require qui/controls/Control
+ * @require css!qui/controls/breadcrumb/Bar.css
  */
 
-define('qui/controls/breadcrumb/Bar', [
+define([
 
     'qui/controls/Control',
 

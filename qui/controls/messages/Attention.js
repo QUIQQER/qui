@@ -2,6 +2,7 @@
 /**
  * Attention
  *
+ * @module qui/controls/messages/Attention
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/controls/messages/Message

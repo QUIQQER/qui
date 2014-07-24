@@ -1,13 +1,17 @@
+
 /**
  * Sitemap Map
  *
+ * @module qui/controls/sitemap/Map
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module controls/sitemap/Map
- * @package com.pcsg.qui.js.controls.sitemap
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/sitemap/Item
+ * @require css!qui/controls/sitemap/Map.css
  */
 
-define('qui/controls/sitemap/Map', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

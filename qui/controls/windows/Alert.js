@@ -1,5 +1,15 @@
 
-define('qui/controls/windows/Alert', [
+/**
+ * Alert Box
+ *
+ * @module qui/controls/windows/Alert
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/windows/Popup
+ * @require css!qui/controls/windows/Alert.css
+ */
+
+define([
 
     'qui/controls/windows/Popup',
 

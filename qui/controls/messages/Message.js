@@ -1,12 +1,17 @@
 /**
  * The main message class
  *
+ * @module qui/controls/messages/Message
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require qui/Locale
+ * @require css!qui/controls/messages/Message.css
  *
  * @event onClick [this]
  */
 
-define('qui/controls/messages/Message', [
+define([
 
     'qui/controls/Control',
     'qui/Locale',

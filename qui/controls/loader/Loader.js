@@ -3,6 +3,7 @@
  * A loader control
  * Creates a div with a loader animation
  *
+ * @module qui/controls/loader/Loader
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/controls/Control
@@ -10,7 +11,7 @@
  * @require css!qui/controls/loader/Loader.css
  */
 
-define('qui/controls/loader/Loader', [
+define([
 
     'qui/controls/Control',
     'qui/Locale',

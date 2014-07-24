@@ -1,19 +1,23 @@
+
 /**
  * Submit Fenster
  *
- * @fires onSubmit
- * @fires onCancel
- *
+ * @module qui/controls/windows/Submit
  * @author www.pcsg.de (Henning Leutz)
  *
- * @class qui/controls/windows/Submit
- * @package com.pcsg.qui.js.controls.windows
+ * @require qui/controls/windows/Popup
+ * @require qui/controls/buttons/Button
+ * @require css!qui/controls/windows/Submit.css
+ *
+ * @fires onSubmit
+ * @fires onCancel
  */
 
-define('qui/controls/windows/Submit', [
+define([
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',
+
     'css!qui/controls/windows/Submit.css'
 
 ], function(Popup, Button)

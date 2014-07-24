@@ -1,8 +1,9 @@
+
 /**
  * QUI Control - Button
  *
- * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/buttons/Button
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/controls/Control
  * @require qui/utils/Controls
@@ -30,7 +31,7 @@
  * @event onEnable
  */
 
-define('qui/controls/buttons/Button', [
+define([
 
     'qui/controls/Control',
     'qui/utils/Controls',

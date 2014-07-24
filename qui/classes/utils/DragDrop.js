@@ -2,12 +2,10 @@
  * DragDrop Helper with movable Element
  * no ie8
  *
+ * @module qui/classes/utils/DragDrop
  * @author www.pcsg.de (Henning Leutz)
  *
  * @requires qui/classes/DOM
- *
- * @module qui/classes/utils/DragDrop
- * @package com.pcsg.qui.js.classes.utils
  *
  * @event onStart [ this, Dragable, event ]
  * @event onStop [ this, Dragable ]
@@ -18,11 +16,7 @@
  * @event onComplete [ this, event ]
  */
 
-define('qui/classes/utils/DragDrop', [
-
-    'qui/classes/DOM'
-
-], function(DOM)
+define(['qui/classes/DOM'], function(DOM)
 {
     "use strict";
 

@@ -1,10 +1,15 @@
+
 /**
  * A task for the taskbar
  *
+ * @module qui/controls/taskbar/Task
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/taskbar/Task
- * @package com.pcsg.qui.js.controls.taskbar
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/classes/utils/DragDrop
+ * @require qui/utils/Controls
+ * @require css!qui/controls/taskbar/Task.css
  *
  * @event onClick [this, DOMEvent]
  * @event onActivate [this]
@@ -16,12 +21,9 @@
  * @event onContextMenu [this, DOMEvent]
  * @event onHighlight [this]
  * @event onSelect [this]
- *
- * @require classes/utils/DragDrop
- * @require controls/Control
  */
 
-define('qui/controls/taskbar/Task', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

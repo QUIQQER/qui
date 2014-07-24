@@ -3,9 +3,12 @@
  * Control standard parent class
  * All controls should inherit {qui/controls/Control}
  *
+ * @module qui/controls/Control
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module qui/controls/Control
+ * @require qui/QUI
+ * @require qui/classes/DOM
+ * @require css!qui/controls/Control.css
  *
  * @event onInject [ this ]
  * @event onHighlight [ this ]
@@ -13,7 +16,7 @@
  * @event onResize [ this ]
  */
 
-define('qui/controls/Control', [
+define([
 
     'qui/QUI',
     'qui/classes/DOM',

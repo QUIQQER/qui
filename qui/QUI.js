@@ -1,12 +1,13 @@
 
 /**
  * The Main QUI Object
- *
  * create window.QUI
  *
+ * @module qui/QUI
  * @author www.pcsg.de (Henning Leutz)
  */
-define('qui/QUI', ['qui/classes/QUI'], function(QUIClass)
+
+define(['qui/classes/QUI'], function(QUIClass)
 {
     "use strict";
 

@@ -1,12 +1,14 @@
 /**
- * qui/classes/Controls
- *
- * @author www.pcsg.de (Henning Leutz)
+ * QUI control Manager
  *
  * @module qui/classes/Controls
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require require
+ * @require qui/classes/DOM
  */
 
-define('qui/classes/Controls', [
+define([
 
     'require',
     'qui/classes/DOM'

@@ -2,169 +2,165 @@
 /**
  * Helper for <form> nodes
  *
+ * @module qui/utils/Form
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define('qui/utils/Form', function()
-{
-    "use strict";
+define({
 
-    return {
+    /**
+     * Set an object to an formular DOMNode
+     * goes through all object attributes and set it to the appropriate form elements
+     *
+     * @method qui/utils/Form#setDataToForm
+     *
+     * @param {Object} data
+     * @param {DOMNode} form - Formular
+     */
+    setDataToForm : function(data, form)
+    {
+        if ( typeof form === 'undefined' || form.nodeName !== 'FORM' ) {
+            return;
+        }
 
-        /**
-         * Set an object to an formular DOMNode
-         * goes through all object attributes and set it to the appropriate form elements
-         *
-         * @method QUI.lib.Utils#setDataToForm
-         *
-         * @param {Object} data
-         * @param {DOMNode} form - Formular
-         */
-        setDataToForm : function(data, form)
+        var i, k, len, Elm;
+
+        data = data || {};
+
+        for ( k in data )
         {
-            if ( typeof form === 'undefined' || form.nodeName !== 'FORM' ) {
-                return;
+            if ( !form.elements[ k ] ) {
+                continue;
             }
 
-            var i, k, len, Elm;
+            Elm = form.elements[ k ];
 
-            data = data || {};
-
-            for ( k in data )
+            if ( Elm.type === 'checkbox' )
             {
-                if ( !form.elements[ k ] ) {
+                if ( data[k] === false || data[k] === true )
+                {
+                    Elm.checked = data[k];
                     continue;
                 }
 
-                Elm = form.elements[ k ];
+                Elm.checked = ( (data[k]).toInt() ? true : false );
+                continue;
+            }
 
-                if ( Elm.type === 'checkbox' )
+            if ( Elm.type === 'text' ||
+                 Elm.type === 'textarea' ||
+                 Elm.type === 'select' ||
+                 Elm.type === 'hidden' )
+            {
+                Elm.value = data[k];
+                continue;
+            }
+
+            if ( Elm.length )
+            {
+                for ( i = 0, len = Elm.length; i < len; i++ )
                 {
-                    if ( data[k] === false || data[k] === true )
-                    {
-                        Elm.checked = data[k];
+                    if ( Elm[i].type !== 'radio' ) {
                         continue;
                     }
 
-                    Elm.checked = ( (data[k]).toInt() ? true : false );
-                    continue;
-                }
-
-                if ( Elm.type === 'text' ||
-                     Elm.type === 'textarea' ||
-                     Elm.type === 'select' ||
-                     Elm.type === 'hidden' )
-                {
-                    Elm.value = data[k];
-                    continue;
-                }
-
-                if ( Elm.length )
-                {
-                    for ( i = 0, len = Elm.length; i < len; i++ )
-                    {
-                        if ( Elm[i].type !== 'radio' ) {
-                            continue;
-                        }
-
-                        if ( Elm[i].value == data[k] ) {
-                            Elm[i].checked = true;
-                        }
-                    }
-
-                    continue;
-                }
-            }
-        },
-
-        /**
-         * Get all Data from a Formular
-         *
-         * @method QUI.lib.Utils#getFormData
-         *
-         * @param {DOMNode} form - DOMNode Formular
-         * @return {Object}
-         */
-        getFormData : function(form)
-        {
-            if ( typeof form === 'undefined' || !form ) {
-                return {};
-            }
-
-            var i, len, Elm;
-            var result   = {},
-                elements = form.elements;
-
-            for ( i = 0, len = elements.length; i < len; i++ )
-            {
-                Elm = elements[i];
-
-                if ( Elm.type === 'checkbox' )
-                {
-                    result[ Elm.name ] = Elm.checked ? true : false;
-                    continue;
-                }
-
-                if ( Elm.type === 'radio' && !Elm.length )
-                {
-                    if ( Elm.checked ) {
-                        result[ Elm.name ] = Elm.value;
-                    }
-
-                    continue;
-                }
-
-                if ( Elm.type === 'radio' && Elm.length )
-                {
-                    for ( i = 0, len = Elm.length; i < len; i++ )
-                    {
-                        if ( Elm[i].type !== 'radio' ) {
-                            continue;
-                        }
-
-                        result[ Elm[i].name ] = '';
-
-                        if ( Elm[i].checked )
-                        {
-                            result[ Elm[i].name ] = Elm[i].value;
-                            continue;
-                        }
+                    if ( Elm[i].value == data[k] ) {
+                        Elm[i].checked = true;
                     }
                 }
 
-                result[ Elm.name ] = Elm.value;
-            }
-
-            return result;
-        },
-
-        /**
-         * Set text to the cursorposition of an textarea / input
-         *
-         * @param {DOMNode} el
-         * @param {String} text
-         */
-        insertTextAtCursor : function(el, text)
-        {
-            var val = el.value, endIndex, range;
-
-            if ( typeof el.selectionStart != "undefined" &&
-                 typeof el.selectionEnd != "undefined")
-            {
-                endIndex = el.selectionEnd;
-                el.value = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
-                el.selectionStart = el.selectionEnd = endIndex + text.length;
-
-            } else if ( typeof document.selection != "undefined" &&
-                        typeof document.selection.createRange != "undefined")
-            {
-                el.focus();
-
-                range = document.selection.createRange();
-                range.collapse( false );
-                range.text = text;
-                range.select();
+                continue;
             }
         }
-    };
+    },
+
+    /**
+     * Get all Data from a Formular
+     *
+     * @method qui/utils/Form#getFormData
+     *
+     * @param {DOMNode} form - DOMNode Formular
+     * @return {Object}
+     */
+    getFormData : function(form)
+    {
+        if ( typeof form === 'undefined' || !form ) {
+            return {};
+        }
+
+        var i, len, Elm;
+        var result   = {},
+            elements = form.elements;
+
+        for ( i = 0, len = elements.length; i < len; i++ )
+        {
+            Elm = elements[i];
+
+            if ( Elm.type === 'checkbox' )
+            {
+                result[ Elm.name ] = Elm.checked ? true : false;
+                continue;
+            }
+
+            if ( Elm.type === 'radio' && !Elm.length )
+            {
+                if ( Elm.checked ) {
+                    result[ Elm.name ] = Elm.value;
+                }
+
+                continue;
+            }
+
+            if ( Elm.type === 'radio' && Elm.length )
+            {
+                for ( i = 0, len = Elm.length; i < len; i++ )
+                {
+                    if ( Elm[i].type !== 'radio' ) {
+                        continue;
+                    }
+
+                    result[ Elm[i].name ] = '';
+
+                    if ( Elm[i].checked )
+                    {
+                        result[ Elm[i].name ] = Elm[i].value;
+                        continue;
+                    }
+                }
+            }
+
+            result[ Elm.name ] = Elm.value;
+        }
+
+        return result;
+    },
+
+    /**
+     * Set text to the cursorposition of an textarea / input
+     *
+     * @param {DOMNode} el
+     * @param {String} text
+     */
+    insertTextAtCursor : function(el, text)
+    {
+        var val = el.value, endIndex, range;
+
+        if ( typeof el.selectionStart != "undefined" &&
+             typeof el.selectionEnd != "undefined")
+        {
+            endIndex = el.selectionEnd;
+            el.value = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
+            el.selectionStart = el.selectionEnd = endIndex + text.length;
+
+        } else if ( typeof document.selection != "undefined" &&
+                    typeof document.selection.createRange != "undefined")
+        {
+            el.focus();
+
+            range = document.selection.createRange();
+            range.collapse( false );
+            range.text = text;
+            range.select();
+        }
+    }
 });

@@ -1,8 +1,16 @@
 /**
  * Param input field
+ *
+ * @module qui/controls/input/Params
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/Control
+ * @require qui/controls/buttons/Button',
+ * @require qui/controls/windows/Confirm',
+ * @require css!qui/controls/input/Params.css'
  */
 
-define('qui/controls/input/Params', [
+define([
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',

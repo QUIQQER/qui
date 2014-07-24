@@ -4,16 +4,22 @@
  * You can append the Workspace with columns and panels
  * Save the Workspace and load the workspace
  *
+ * @module qui/controls/desktop/Workspace
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module controls/desktop/Workspace
- * @package pcsg.qui.js.controls.desktop.workspace
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/loader/Loader
+ * @require qui/controls/desktop/Column
+ * @require qui/classes/storage/Storage
+ * @require qui/utils/Math
+ * @require qui/classes/utils/DragDrop
  *
  * @event onLoad - if the workspace is loaded
  * @event onSave [{this}, {Object Data}]
  */
 
-define('qui/controls/desktop/Workspace', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

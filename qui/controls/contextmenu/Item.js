@@ -1,20 +1,20 @@
 /**
  * Context Menu Item
  *
+ * @module qui/controls/contextmenu/Item
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/controls/Control
- * @requires qui/classes/utils/DragDrop
- * @requires qui/controls/contextmenu/Menu
- * @requires qui/controls/contextmenu/Item
- * @requires qui/controls/contextmenu/Seperator
- *
- * @package com.pcsg.qui.js.controls.contextmenu
+ * @require qui/QUI
+ * @require qui/controls/Control',
+ * @require qui/classes/utils/DragDrop',
+ * @require qui/controls/contextmenu/Menu',
+ * @require qui/utils/Controls',
+ * @require css!qui/controls/contextmenu/Item.css'
  *
  * @event onAppend [{self}, {qui/controls/contextmenu/Item}]
  */
 
-define('qui/controls/contextmenu/Item', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',

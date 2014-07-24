@@ -2,14 +2,13 @@
 /**
  * Error
  *
+ * @module qui/controls/messages/Error
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/controls/messages/Message'
  */
 
-define('qui/controls/messages/Error', [
-
-    'qui/controls/messages/Message'
-
-], function(Message)
+define(['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 

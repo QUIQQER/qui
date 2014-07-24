@@ -4,11 +4,17 @@
  * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/bookmarks/Panel
  *
+ * @require qui/QUI
+ * @require qui/controls/desktop/Panel
+ * @require qui/controls/buttons/Button
+ * @require qui/utils/Controls
+ * @require css!qui/controls/bookmarks/Panel.css
+ *
  * @event appendChild [ {self}, {Object} Child ]
  * @event removeChild [ {self} ]
  */
 
-define('qui/controls/bookmarks/Panel', [
+define([
 
     'qui/QUI',
     'qui/controls/desktop/Panel',
