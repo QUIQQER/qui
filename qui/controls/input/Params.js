@@ -1,3 +1,4 @@
+
 /**
  * Param input field
  *
@@ -22,6 +23,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/input/Params
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : QUIControl,

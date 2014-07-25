@@ -790,7 +790,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 
@@ -833,7 +832,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 qui/controls/buttons/Seperator.js
@@ -1011,7 +1009,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 qui/controls/buttons/Seperator.js
@@ -1051,7 +1048,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 qui/controls/buttons/Seperator.js
@@ -1088,7 +1084,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 qui/controls/buttons/Seperator.js
@@ -1223,7 +1218,6 @@ qui/utils/NoSelect.js
 qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
-qui/lib/moofx.js
 qui/lib/require-css/css!qui/controls/toolbar/Bar
 qui/controls/toolbar/Bar.js
 qui/controls/buttons/Seperator.js

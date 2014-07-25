@@ -28,7 +28,7 @@ define([
     "use strict";
 
     /**
-     * @class QUI.controls.windows.Prompt
+     * @class qui/controls/windows/Prompt
      *
      * @fires onDrawEnd
      * @fires onClose

@@ -25,7 +25,7 @@ define([
     "use strict";
 
     /**
-     * @class QUI.controls.windows.Submit
+     * @class qui/controls/windows/Submit
      *
      * @fires onDrawEnd
      * @fires onClose

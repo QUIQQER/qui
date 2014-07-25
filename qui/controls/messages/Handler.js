@@ -36,6 +36,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/messages/Handler
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Control,

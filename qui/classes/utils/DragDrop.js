@@ -1,3 +1,4 @@
+
 /**
  * DragDrop Helper with movable Element
  * no ie8
@@ -25,6 +26,8 @@ define(['qui/classes/DOM'], function(DOM)
      *
      * @param {DOMNode} Element - Which Element is dragable
      * @param {Object} options  - QDOM params
+     *
+     * @memberof! <global>
      */
     return new Class({
 

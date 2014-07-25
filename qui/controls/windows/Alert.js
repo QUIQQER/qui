@@ -19,6 +19,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/windows/Alert
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Popup,

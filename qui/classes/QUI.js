@@ -1,3 +1,4 @@
+
 /**
  * The Main Class for the Main QUI Object
  *
@@ -25,6 +26,7 @@ define([
      * The QUIQQER main object
      *
      * @class QUI
+     *
      * @memberof! <global>
      */
     return new Class({

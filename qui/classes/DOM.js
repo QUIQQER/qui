@@ -1,3 +1,4 @@
+
 /**
  * The DOM class emulate similar methods
  * like a DOMNode to a normal Object
@@ -26,6 +27,8 @@ define(function()
      *
      * @param {Object} options -
      *         With options you can set attributes or extend the Object width methods and events
+     *
+     * @memberof! <global>
      */
     return new Class({
 

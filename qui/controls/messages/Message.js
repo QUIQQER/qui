@@ -1,3 +1,4 @@
+
 /**
  * The main message class
  *
@@ -22,6 +23,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/messages/Information
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Control,

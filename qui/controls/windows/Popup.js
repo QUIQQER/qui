@@ -40,6 +40,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/windows/Popup
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Control,

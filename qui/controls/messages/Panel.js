@@ -24,6 +24,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/controls/messages/Panel
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : QUIPanel,

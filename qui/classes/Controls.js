@@ -1,3 +1,4 @@
+
 /**
  * QUI control Manager
  *
@@ -17,6 +18,11 @@ define([
 {
     "use strict";
 
+    /**
+     * @class qui/classes/Controls
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : DOM,

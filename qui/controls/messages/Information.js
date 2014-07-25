@@ -1,3 +1,4 @@
+
 /**
  * Information
  *
@@ -11,6 +12,11 @@ define(['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 
+    /**
+     * @class qui/controls/messages/Information
+     *
+     * @memberof! <global>
+     */
     return new Class({
         Extends : Message,
         Type    : 'qui/controls/messages/Information',

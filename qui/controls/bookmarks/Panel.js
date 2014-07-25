@@ -1,3 +1,4 @@
+
 /**
  * A panel where you can set bookmarks
  *
@@ -29,6 +30,8 @@ define([
 
     /**
      * @class qui/controls/bookmarks/Panel
+     *
+     * @memberof! <global>
      */
     return new Class({
 

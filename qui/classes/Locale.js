@@ -1,3 +1,4 @@
+
 /**
  * Locale translation class
  *
@@ -15,6 +16,8 @@ define(['qui/classes/DOM'], function(DOM)
 
     /**
      * @class qui/classes/Locale
+     *
+     * @memberof! <global>
      */
     return new Class({
 

@@ -1,6 +1,6 @@
 # qui/controls/sitemap/Map
 
-Mit dem Button Control können Buttons erstellt und auf Ihre Events reagiert werden.
+Mit den Sitemap Controls können Sie Navigationsbäume erstellen. Die Kinder können auf und zugeklappt werden.
 
 [Standard Beispiel](../examples/index.php?file=controls/sitemap/sitemap),
 [Standard multible](../examples/index.php?file=controls/sitemap/sitemap_multible)

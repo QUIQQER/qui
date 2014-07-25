@@ -12,6 +12,11 @@ define(['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 
+    /**
+     * @class qui/controls/messages/Error
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Message,

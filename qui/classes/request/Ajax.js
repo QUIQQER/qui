@@ -1,7 +1,6 @@
 
 /**
  * QUI Ajax Class
- *
  * Communication between server and client
  *
  * @module qui/classes/request/Ajax

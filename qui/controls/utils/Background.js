@@ -14,6 +14,11 @@ define(['qui/controls/Control'], function(Control)
 {
     "use strict";
 
+    /**
+     * @class qui/controls/utils/Background
+     *
+     * @memberof! <global>
+     */
     return new Class({
 
         Extends : Control,
