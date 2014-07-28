@@ -22,7 +22,7 @@ define([
     "use strict";
 
     /**
-     * @class controls/loader/Loader
+     * @class qui/controls/loader/Loader
      *
      * @memberof! <global>
      */

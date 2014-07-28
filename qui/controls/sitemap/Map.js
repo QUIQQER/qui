@@ -100,7 +100,7 @@ define([
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Map#firstChild
-         * @return {qui/controls/sitemap/Item || false}
+         * @return {qui/controls/sitemap/Item|false}
          */
         firstChild : function()
         {

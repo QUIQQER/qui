@@ -356,7 +356,7 @@ define([
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Item#firstChild
-         * @return {qui/controls/sitemap/Item || false}
+         * @return {qui/controls/sitemap/Item|false}
          */
         firstChild : function()
         {
@@ -368,7 +368,7 @@ define([
          * Observed the hasChildren Attribute
          *
          * @method qui/controls/sitemap/Item#hasChildren
-         * @return Bool
+         * @return {Bool}
          */
         hasChildren : function()
         {

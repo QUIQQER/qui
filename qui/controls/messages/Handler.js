@@ -846,7 +846,7 @@ define([
          * Add an exception
          *
          * @method qui/controls/messages/Handler#addException
-         * @param {Exception|QUI\Exception} Exception
+         * @param {Exception} Exception
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
          */

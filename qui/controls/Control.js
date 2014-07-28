@@ -30,8 +30,8 @@ define([
     /**
      * @class qui/controls/Control
      *
-     * @fires onDrawBegin - if inject() is used, the Event will be triggered
-     * @fires onDrawEnd   - if inject() is used, the Event will be triggered
+     * @event onDrawBegin - if inject() is used, the Event will be triggered
+     * @event onDrawEnd   - if inject() is used, the Event will be triggered
      *
      * @param {Object} options
      *
