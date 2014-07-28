@@ -55,6 +55,7 @@ define([
         /**
          * Create the DOMNode Element of the loader
          *
+         * @method controls/loader/Loader#create
          * @return {DOMNode}
          */
         create : function()
@@ -91,6 +92,8 @@ define([
 
         /**
          * Shows the loader
+         *
+         * @method controls/loader/Loader#show
          */
         show : function(str)
         {
@@ -147,6 +150,8 @@ define([
 
         /**
          * Hide the loader
+         *
+         * @method controls/loader/Loader#hide
          */
         hide : function()
         {
@@ -164,6 +169,8 @@ define([
         /**
          * Shows the closing text in the loader
          * if the timeout is triggered
+         *
+         * @method controls/loader/Loader#showCloseButton
          */
         showCloseButton : function()
         {

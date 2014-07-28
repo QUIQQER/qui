@@ -58,6 +58,8 @@ define([
 
         /**
          * creates the box and percentage elements
+         *
+         * @method qui/controls/utils/Progressbar#create
          */
         create : function()
         {
@@ -97,6 +99,9 @@ define([
 
         /**
          * calculates width in pixels from percentage
+         *
+         * @method qui/controls/utils/Progressbar#calculate
+         * @param {Integer} percentage - 0 - 100
          */
         calculate : function(percentage)
         {
@@ -109,6 +114,9 @@ define([
 
         /**
          * animates the change in percentage
+         *
+         * @method qui/controls/utils/Progressbar#animate
+         * @param {Integer} to - 0 - 100
          */
         animate : function(to)
         {
@@ -142,6 +150,9 @@ define([
 
         /**
          * sets the percentage from its current state to desired percentage
+         *
+         * @method qui/controls/utils/Progressbar#set
+         * @param {Integer} to - 0 - 100
          */
         set : function(to)
         {
@@ -149,6 +160,11 @@ define([
             this.animate( this.to );
         },
 
+        /**
+         * @method qui/controls/utils/Progressbar#get
+         *
+         * @return {Integer}
+         */
         get: function()
         {
             return this.to;

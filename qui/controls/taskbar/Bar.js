@@ -193,6 +193,8 @@ define([
 
         /**
          * refresh?
+         *
+         * @method qui/controls/taskbar/Bar#refresh
          */
         refresh : function()
         {

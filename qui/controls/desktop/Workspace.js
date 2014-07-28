@@ -132,6 +132,7 @@ define([
         /**
          * Workspace resize
          *
+         * @method qui/controls/desktop.Workspace#resize
          * @param {Array} workspace - [optional] json decoded serialized workspace
          */
         resize : function(workspace)
@@ -214,6 +215,7 @@ define([
         /**
          * Create the DOMNode
          *
+         * @method qui/controls/desktop.Workspace#create
          * @return {DOMNode}
          */
         create : function()
@@ -242,6 +244,7 @@ define([
         /**
          * Save the Workspace to the localstorage
          *
+         * @method qui/controls/desktop.Workspace#save
          * @return {Bool}
          */
         save : function()
@@ -271,6 +274,7 @@ define([
         /**
          * Add a column to the workspace
          *
+         * @method qui/controls/desktop.Workspace#appendChild
          * @param {qui/controls/desktop/Column|Params} Column
          * @return {this}
          */
@@ -339,6 +343,7 @@ define([
          * it looks for an panel with the name content-panel, if that not exist
          * then it took the panel to a column
          *
+         * @method qui/controls/desktop.Workspace#appendPanel
          * @param {qui/controls/dekstop/Panel} Panel
          */
         appendPanel : function(Panel)
@@ -379,6 +384,7 @@ define([
         /**
          * Return the last column
          *
+         * @method qui/controls/desktop.Workspace#lastChild
          * @return {qui/controls/desktop.Column|false}
          */
         lastChild : function()
@@ -389,6 +395,7 @@ define([
         /**
          * Return the first column
          *
+         * @method qui/controls/desktop.Workspace#firstChild
          * @return {qui/controls/desktop/Column|false}
          */
         firstChild : function()
@@ -399,6 +406,7 @@ define([
         /**
          * Return the number of columns in the workspace
          *
+         * @method qui/controls/desktop.Workspace#count
          * @return {Integer}
          */
         count : function()
@@ -409,6 +417,7 @@ define([
         /**
          * Add a available panel
          *
+         * @method qui/controls/desktop.Workspace#addAvailablePanel
          * @param {Object} params - parameter {
          *     require : '',
          *     text    : '',
@@ -444,6 +453,7 @@ define([
         /**
          * Return all available Panels for that Workbench
          *
+         * @method qui/controls/desktop.Workspace#getAvailablePanel
          * @return {Array}
          */
         getAvailablePanel : function()
@@ -461,154 +471,155 @@ define([
         /**
          * load the default workspace
          */
-        defaultSpace : function()
-        {
-            var content_width = this.$Parent.getSize().x,
-                control_width = content_width / 3;
-
-            if ( control_width > 300 ) {
-                control_width = 300;
-            }
-
-            /**
-             * left column
-             */
-            new QUIColumn({
-                name        : 'control-colum',
-                placement   : 'left',
-                width       : control_width,
-                resizeLimit : [100, 300],
-                closable    : true,
-                events      :
-                {
-                    onCreate : function(Column)
-                    {
-                        require([
-                            'controls/projects/Panel',
-                            'controls/desktop/panels/Bookmarks'
-                        ],
-
-                        function(QUI_ProjectsPanel, QUI_Bookmark)
-                        {
-                            Column.appendChild(
-                                new QUI_ProjectsPanel()
-                            );
-
-                            // favourite start
-                            var Bookmars = new QUI_Bookmark({
-                                title  : 'Lesezeichen',
-                                header : true,
-                                height : 300
-                            });
-
-                            Column.appendChild( Bookmars );
-
-
-                            Bookmars.appendChild(
-                                new QUI.controls.contextmenu.Item({
-                                    text     : 'Zu den Benutzern',
-                                    icon     : URL_BIN_DIR +'16x16/user.png',
-                                    bookmark : 'QUI.Bookmarks.openUsers'
-                                })
-                            ).appendChild(
-                                new QUI.controls.contextmenu.Item({
-                                    text     : 'Zu den Gruppen',
-                                    icon     : URL_BIN_DIR +'16x16/groups.png',
-                                    bookmark : 'QUI.Bookmarks.openGroups'
-                                })
-                            ).appendChild(
-                                new QUI.controls.contextmenu.Item({
-                                    text     : 'Zum Mülleimer',
-                                    icon     : URL_BIN_DIR +'16x16/trashcan_empty.png',
-                                    bookmark : 'QUI.Bookmarks.openTrash'
-                                })
-                            );
-
-                        });
-                    }
-                }
-            }).inject( this.$Elm );
-
-            /**
-             * middle column
-             */
-            var ContentColumn = new QUIColumn({
-                name        : 'content-colum',
-                width       : content_width - control_width - 250,
-                resizeLimit : [200, content_width - 210],
-                placement   : 'main'
-            }).inject( this.$Elm );
-
-            require(['controls/desktop/Tasks'], function(Taskpanel)
-            {
-                ContentColumn.appendChild(
-                    new Taskpanel({
-                        name : 'content-panel'
-                    })
-                );
-
-                // create the desktop
-                require(['controls/desktop/panels/Desktop'], function(QUI_Desktop)
-                {
-                    var panels = QUI.Controls.get( 'content-panel' );
-
-                    if ( !panels.length ) {
-                        return;
-                    }
-
-                    panels[ 0 ].appendChild(
-                        new QUI_Desktop({
-                            closeable : false
-                        })
-                    );
-
-                    panels[ 0 ].firstChild().click();
-                });
-
-            }.bind( ContentColumn ));
-
-            /**
-             * Right column
-             */
-            var RightColumn = new QUIColumn({
-                name        : 'right-colum',
-                placement   : 'right',
-                width       : 250,
-                resizeLimit : [200, content_width],
-                closable    : true
-            }).inject( this.$Elm );
-
-            RightColumn.appendChild(
-                new QUI.controls.desktop.Panel({
-                    name   : 'error-console',
-                    title  : 'Meldungen',
-                    header : true,
-                    height : 300,
-                    events :
-                    {
-                        onCreate : function(Panel)
-                        {
-                            Panel.getBody().addClass('box-sizing');
-                            Panel.getBody().setStyles({
-                                padding : 0,
-                                width   : '100%'
-                            });
-                        }
-                    }
-                })
-            );
-
-            RightColumn.appendChild(
-                new QUI.controls.desktop.Panel({
-                    name   : 'help',
-                    title  : 'Hilfe'
-                })
-            );
-        },
+//        defaultSpace : function()
+//        {
+//            var content_width = this.$Parent.getSize().x,
+//                control_width = content_width / 3;
+//
+//            if ( control_width > 300 ) {
+//                control_width = 300;
+//            }
+//
+//            /**
+//             * left column
+//             */
+//            new QUIColumn({
+//                name        : 'control-colum',
+//                placement   : 'left',
+//                width       : control_width,
+//                resizeLimit : [100, 300],
+//                closable    : true,
+//                events      :
+//                {
+//                    onCreate : function(Column)
+//                    {
+//                        require([
+//                            'controls/projects/Panel',
+//                            'controls/desktop/panels/Bookmarks'
+//                        ],
+//
+//                        function(QUI_ProjectsPanel, QUI_Bookmark)
+//                        {
+//                            Column.appendChild(
+//                                new QUI_ProjectsPanel()
+//                            );
+//
+//                            // favourite start
+//                            var Bookmars = new QUI_Bookmark({
+//                                title  : 'Lesezeichen',
+//                                header : true,
+//                                height : 300
+//                            });
+//
+//                            Column.appendChild( Bookmars );
+//
+//
+//                            Bookmars.appendChild(
+//                                new QUI.controls.contextmenu.Item({
+//                                    text     : 'Zu den Benutzern',
+//                                    icon     : URL_BIN_DIR +'16x16/user.png',
+//                                    bookmark : 'QUI.Bookmarks.openUsers'
+//                                })
+//                            ).appendChild(
+//                                new QUI.controls.contextmenu.Item({
+//                                    text     : 'Zu den Gruppen',
+//                                    icon     : URL_BIN_DIR +'16x16/groups.png',
+//                                    bookmark : 'QUI.Bookmarks.openGroups'
+//                                })
+//                            ).appendChild(
+//                                new QUI.controls.contextmenu.Item({
+//                                    text     : 'Zum Mülleimer',
+//                                    icon     : URL_BIN_DIR +'16x16/trashcan_empty.png',
+//                                    bookmark : 'QUI.Bookmarks.openTrash'
+//                                })
+//                            );
+//
+//                        });
+//                    }
+//                }
+//            }).inject( this.$Elm );
+//
+//            /**
+//             * middle column
+//             */
+//            var ContentColumn = new QUIColumn({
+//                name        : 'content-colum',
+//                width       : content_width - control_width - 250,
+//                resizeLimit : [200, content_width - 210],
+//                placement   : 'main'
+//            }).inject( this.$Elm );
+//
+//            require(['controls/desktop/Tasks'], function(Taskpanel)
+//            {
+//                ContentColumn.appendChild(
+//                    new Taskpanel({
+//                        name : 'content-panel'
+//                    })
+//                );
+//
+//                // create the desktop
+//                require(['controls/desktop/panels/Desktop'], function(QUI_Desktop)
+//                {
+//                    var panels = QUI.Controls.get( 'content-panel' );
+//
+//                    if ( !panels.length ) {
+//                        return;
+//                    }
+//
+//                    panels[ 0 ].appendChild(
+//                        new QUI_Desktop({
+//                            closeable : false
+//                        })
+//                    );
+//
+//                    panels[ 0 ].firstChild().click();
+//                });
+//
+//            }.bind( ContentColumn ));
+//
+//            /**
+//             * Right column
+//             */
+//            var RightColumn = new QUIColumn({
+//                name        : 'right-colum',
+//                placement   : 'right',
+//                width       : 250,
+//                resizeLimit : [200, content_width],
+//                closable    : true
+//            }).inject( this.$Elm );
+//
+//            RightColumn.appendChild(
+//                new QUI.controls.desktop.Panel({
+//                    name   : 'error-console',
+//                    title  : 'Meldungen',
+//                    header : true,
+//                    height : 300,
+//                    events :
+//                    {
+//                        onCreate : function(Panel)
+//                        {
+//                            Panel.getBody().addClass('box-sizing');
+//                            Panel.getBody().setStyles({
+//                                padding : 0,
+//                                width   : '100%'
+//                            });
+//                        }
+//                    }
+//                })
+//            );
+//
+//            RightColumn.appendChild(
+//                new QUI.controls.desktop.Panel({
+//                    name   : 'help',
+//                    title  : 'Hilfe'
+//                })
+//            );
+//        },
 
         /**
          * Add the vertical resizing events to the column
          *
+         * @method qui/controls/desktop.Workspace#$bindResizeToColumn
          * @param {DOMNode} Handler
          * @param {qui/controls/desktop.Column} Column
          */
@@ -710,6 +721,7 @@ define([
         /**
          * Resize handler context menu
          *
+         * @method qui/controls/desktop.Workspace#$onHandlerContextMenu
          * @param {DOMEvent} event
          */
         $onHandlerContextMenu : function(event)
@@ -785,7 +797,8 @@ define([
         /**
          * event : mouseclick on a contextmenu item on the handler slider
          *
-         * @param {QUI.controls.contextmenu.Item} Item
+         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuClick
+         * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuClick : function(Item)
         {
@@ -796,7 +809,8 @@ define([
         /**
          * event : mouseenter on a contextmenu item on the handler slider
          *
-         * @param {QUI.controls.contextmenu.Item} Item
+         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuHighlight
+         * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuHighlight : function(Item)
         {
@@ -806,7 +820,8 @@ define([
         /**
          * event : mouseleave on a contextmenu item on the handler slider
          *
-         * @param {QUI.controls.contextmenu.Item} Item
+         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuNormalize
+         * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuNormalize : function(Item)
         {

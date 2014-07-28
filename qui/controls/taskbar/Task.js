@@ -39,7 +39,7 @@ define([
     /**
      * @class qui/controls/taskbar/Task
      *
-     * @param {QUI.controls.Control} Instance - Control for the task
+     * @param {qui/controls/Control} Instance - Control for the task
      * @param {Object} options                - QDOM params
      *
      * @memberof! <global>
@@ -141,7 +141,7 @@ define([
         /**
          * Return the DOM-Node
          *
-         * @method QUI.controls.buttons.Button#getElm
+         * @method qui/controls/buttons/Button#getElm
          * @return {DOMNode} DOM-Node Element
          */
         create : function()
@@ -350,7 +350,7 @@ define([
          * Return the binded instance to the task
          *
          * @method qui/controls/taskbar/Task#getInstance
-         * @return {QUI.controls.Control}
+         * @return {qui/controls/Control}
          */
         getInstance : function()
         {
@@ -360,7 +360,8 @@ define([
         /**
          * Set / Bind an instance to the task
          *
-         * @param {QUI.controls.Control} Instance
+         * @method qui/controls/taskbar/Task#setInstance
+         * @param {qui/controls/Control} Instance
          */
         setInstance : function(Instance)
         {
@@ -371,7 +372,7 @@ define([
          * Return the Taskbar object
          *
          * @method qui/controls/taskbar/Task#getTaskbar
-         * @return {QUI
+         * @return {qui/controls/taskbar/Taskbar}
          */
         getTaskbar : function()
         {

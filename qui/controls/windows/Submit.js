@@ -138,7 +138,7 @@ define([
         /**
          * Create the body for the submit window
          *
-         * @method QUI.controls.windows.Submit#onCreate
+         * @method qui/controls/windows/Submit#onCreate
          * @ignore
          */
         onCreate : function()
@@ -208,7 +208,7 @@ define([
         /**
          * Submit the window
          *
-         * @method QUI.controls.windows.Submit#submit
+         * @method qui/controls/windows/Submit#submit
          */
         submit : function()
         {

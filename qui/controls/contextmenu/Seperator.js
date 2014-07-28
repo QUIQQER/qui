@@ -49,7 +49,6 @@ define('qui/controls/contextmenu/Seperator', [
          * Create the DOMNode for the Element
          *
          * @method qui/controls/contextmenu/Seperator#create
-         *
          * @return {DOMNode}
          */
         create : function()
@@ -67,12 +66,16 @@ define('qui/controls/contextmenu/Seperator', [
 
         /**
          * if the seperator is in a baritem
+         *
+         * @method qui/controls/contextmenu/Seperator#setNormal
          * @ignore
          */
         setNormal : function() { },
 
         /**
          * if the seperator is in a baritem
+         *
+         * @method qui/controls/contextmenu/Seperator#setActive
          * @ignore
          */
         setActive : function() { }

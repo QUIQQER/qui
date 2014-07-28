@@ -169,7 +169,6 @@ define([
          * Get specific children
          *
          * @method qui/controls/sitemap/Map#getChildren
-         *
          * @param {String} selector
          * @return {Array} List of children
          */
@@ -220,7 +219,6 @@ define([
          * Get specific children by value
          *
          * @method qui/controls/sitemap/Map#getChildren
-         *
          * @param {String|Integer} value
          * @return {Array}
          */
@@ -247,7 +245,7 @@ define([
         },
 
         /**
-         * Execute a {QUI.controls.sitemap.Item} contextMenu
+         * Execute a {qui/controls/sitemap/Item} contextMenu
          *
          * @method qui/controls/sitemap/Map#childContextMenu
          * @fires onChildContextMenu {qui/controls/sitemap/Item}
@@ -340,7 +338,6 @@ define([
          * Remove the child from the list
          *
          * @method qui/controls/sitemap/Item#countChildren
-         *
          * @param {qui/controls/sitemap/Item} Child
          * @return {this} self
          */
@@ -379,7 +376,6 @@ define([
          * Remove an selected Item from the sels list
          *
          * @method qui/controls/sitemap/Map#$removeSelected
-         *
          * @param {qui/controls/sitemap/Item}
          * @return {this}
          * @ignore

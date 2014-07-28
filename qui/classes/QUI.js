@@ -108,7 +108,7 @@ define([
          *
          * @method qui/classes/QUI#triggerError
          *
-         * @param {QUI.classes.messages.Message|Exception} Exception - Exception Objekt
+         * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
          * @param {Object} params    - Weitere Paramater (optional)
          * @return {this} self
          */
@@ -145,6 +145,7 @@ define([
         /**
          * Return the message handler
          *
+         * @method qui/classes/QUI#getMessageHandler
          * @param {Function} callback
          */
         getMessageHandler : function(callback)
@@ -168,6 +169,7 @@ define([
         /**
          * Return the message handler
          *
+         * @method qui/classes/QUI#getControls
          * @param {Function} callback
          */
         getControls : function(callback)
@@ -177,8 +179,6 @@ define([
                 callback( this.Controls );
                 return;
             }
-
-
         }
     });
 });

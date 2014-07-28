@@ -66,6 +66,7 @@ define([
         /**
          * Create the DOMNode Element
          *
+         * @method qui/controls/contextmenu/Bar#create
          * @return {DOMNode}
          */
         create : function()
@@ -84,6 +85,7 @@ define([
         /**
          * Import children from a php callback
          *
+         * @method qui/controls/contextmenu/Bar#insert
          * @param {Array} list - new QUI\Controls\Contextmenu\Bar()->toArray()
          * @return {this}
          */
@@ -107,9 +109,8 @@ define([
          * Get an Child Element
          *
          * @method qui/controls/contextmenu/Bar#getChildren
-         *
          * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array|false|QUI.controls.contextmenu.Item}
+         * @return {Array|false|qui/controls/contextmenu/Item}
          */
         getChildren : function(name)
         {
@@ -135,7 +136,7 @@ define([
          * Return the first child Element
          *
          * @method qui/controls/contextmenu/Bar#firstChild
-         * @return {false|QUI.controls.contextmenu.Item}
+         * @return {false|qui/controls/contextmenu/Item}
          */
         firstChild : function()
         {
@@ -161,7 +162,6 @@ define([
          * Add the Child to the Menü
          *
          * @method qui/controls/contextmenu/Bar#appendChild
-         *
          * @param {qui/controls/contextmenu/BarItem} Child
          * @return {this}
          */
@@ -197,7 +197,6 @@ define([
          * Destroy all children items
          *
          * @method qui/controls/contextmenu/Bar#clearChildren
-         *
          * @return {this}
          */
         clearChildren : function()
@@ -264,6 +263,8 @@ define([
 
         /**
          * event: on item enter
+         *
+         * @method qui/controls/contextmenu/Bar#$onItemEnter
          * @param {qui/controls/contextmenu/BarItem} Item
          */
         $onItemEnter : function(Item)
@@ -290,6 +291,8 @@ define([
 
         /**
          * event: on item enter
+         *
+         * @method qui/controls/contextmenu/Bar#$onItemLeave
          * @param {qui/controls/contextmenu/BarItem} Item
          */
         $onItemLeave : function(Item)
@@ -299,6 +302,8 @@ define([
 
         /**
          * event: on item enter
+         *
+         * @method qui/controls/contextmenu/Bar#$onItemClick
          * @param {qui/controls/contextmenu/BarItem} Item
          */
         $onItemClick : function(Item)
@@ -308,6 +313,8 @@ define([
 
         /**
          * event: on item blur
+         *
+         * @method qui/controls/contextmenu/Bar#$onItemBlur
          */
         $onItemBlur : function()
         {

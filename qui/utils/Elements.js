@@ -11,6 +11,7 @@ define({
     /**
      * checks if the element is in the viewport
      *
+     * @method qui/utils/Elements#isInViewport
      * @param {DOMNode} el
      */
     isInViewport : function(el)
@@ -45,6 +46,7 @@ define({
     /**
      * Return the z-index of an Element
      *
+     * @method qui/utils/Elements#getComputedZIndex
      * @return {Integer}
      */
     getComputedZIndex : function(Elm)

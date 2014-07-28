@@ -38,6 +38,7 @@ define([
         /**
          * Return all controls with tha name
          *
+         * @method qui/classes/Controls#get
          * @param {String} n - Name of the Control
          * @return {Array} All Controls with the needle name
          */
@@ -53,6 +54,7 @@ define([
         /**
          * Get the Controls by its unique id
          *
+         * @method qui/classes/Controls#getById
          * @param {String|Integer} id - ID of the wanted Control
          * @return {qui/controls/Control|false} a QUI control, based on qui/controls/Control or false
          */
@@ -68,6 +70,7 @@ define([
         /**
          * Return all controls from a type
          *
+         * @method qui/classes/Controls#getByType
          * @return {Array}
          */
         getByType : function(type)
@@ -82,10 +85,11 @@ define([
         /**
          * Load a control by a control type
          *
+         * @method qui/classes/Controls#loadType
          * @param {String} type
          * @param {Function} onload
          *
-         * @example QUI.Controls.loadType('controls/taskbar/Task', function(Modul) { })
+         * @example QUI.Controls.loadType('qui/controls/taskbar/Task', function(Modul) { })
          */
         loadType : function(type, onload)
         {
@@ -118,6 +122,7 @@ define([
         /**
          * Add a Control to the list
          *
+         * @method qui/controls/Control#add
          * @param {qui/controls/Control} Control
          */
         add : function(Control)
@@ -146,6 +151,7 @@ define([
         /**
          * Destroy a Control
          *
+         * @method qui/controls/Control#destroy
          * @param {qui/controls/Control} Control
          */
         destroy : function(Control)

@@ -169,7 +169,7 @@ define([
          * Add a bookmarks
          *
          * @method qui/controls/bookmarks/Panel#appendChild
-         * @param {QUI.controls.Control} Item - A QUI control
+         * @param {qui/controls/Control} Item - A QUI control
          * @return {this}
          */
         appendChild : function(Item)
@@ -210,7 +210,7 @@ define([
         /**
          * Remove a bookmarks
          *
-         * @method QUI.controls.desktop.panels.Bookmarks#remove
+         * @method qui/controls/desktop/panels/Bookmarks#remove
          */
         remove : function()
         {
@@ -342,7 +342,7 @@ define([
          * event : click at the remove button
          *
          * @method qui/controls/bookmarks/Panel#$clickRemoveButton
-         * @param {QUI.controls.buttons.Button} Btn
+         * @param {qui/controls/buttons/Button} Btn
          */
         $clickRemoveButton : function(Btn)
         {

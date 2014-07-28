@@ -1,16 +1,17 @@
 /**
  * A panel Sheet
  *
+ * @module qui/controls/desktop/panels/Sheet
  * @author www.pcsg.de (Henning Leutz)
  *
- * @module controls/desktop/panels/Sheet
- * @package com.pcsg.qui.js.controls.desktop.panels
+ * @require qui/controls/Control
+ * @require qui/controls/buttons/Button
  *
  * @event onOpen [this]
  * @event onClose [this]
  */
 
-define('qui/controls/desktop/panels/Sheet', [
+define([
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',
@@ -23,6 +24,8 @@ define('qui/controls/desktop/panels/Sheet', [
 
     /**
      * @class qui/controls/desktop/panels/Sheet
+     *
+     * @memberof! <global>
      */
     return new Class({
 
@@ -51,6 +54,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Create the DOMNode Element of the Sheet
          *
+         * @method qui/controls/desktop/panels/Sheet#create
          * @return {DOMNode}
          */
         create : function()
@@ -88,6 +92,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Return the panel content
          *
+         * @method qui/controls/desktop/panels/Sheet#getContent
          * @return {DOMNode|null}
          */
         getContent : function()
@@ -98,6 +103,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Return the panel content
          *
+         * @method qui/controls/desktop/panels/Sheet#getBody
          * @return {DOMNode|null}
          */
         getBody : function()
@@ -108,6 +114,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Return the button container
          *
+         * @method qui/controls/desktop/panels/Sheet#getButtons
          * @return {DOMNode|null}
          */
         getButtons : function()
@@ -118,6 +125,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Add a button to the Sheet
          *
+         * @method qui/controls/desktop/panels/Sheet#addButton
          * @param {qui/controls/buttons/Button|Object} Btn - QUI Button or QUI Button options
          * @return {this}
          */
@@ -151,6 +159,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Show the panel sheet
          *
+         * @method qui/controls/desktop/panels/Sheet#show
          * @return {this}
          */
         show : function()
@@ -210,6 +219,7 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * Hide the panel sheet
          *
+         * @method qui/controls/desktop/panels/Sheet#hide
          * @return {this}
          */
         hide : function()
@@ -230,6 +240,8 @@ define('qui/controls/desktop/panels/Sheet', [
         /**
          * fx complete action
          * if panel is closed or opened
+         *
+         * @method qui/controls/desktop/panels/Sheet#$fxComplete
          */
         $fxComplete : function(Sheet)
         {

@@ -191,6 +191,7 @@ define([
         /**
          * Return the text DOMNode
          *
+         * @method qui/controls/sitemap/Item#getTextElm
          * @return {DOMNode|null}
          */
         getTextElm : function()
@@ -428,7 +429,6 @@ define([
          * Remove the child from the list
          *
          * @method qui/controls/sitemap/Item#countChildren
-         *
          * @param {qui/controls/sitemap/Item} Child
          * @return {this} self
          * @ignore
@@ -497,6 +497,7 @@ define([
          * Normalite the item
          * no selection or highlighting
          *
+         * @method qui/controls/sitemap/Item#normalize
          * @return {this} self
          */
         normalize : function()
@@ -519,6 +520,7 @@ define([
         /**
          * Disable the item
          *
+         * @method qui/controls/sitemap/Item#disable
          * @return {this} self
          */
         disable : function()
@@ -535,6 +537,7 @@ define([
         /**
          * Enable the item if the item was disabled
          *
+         * @method qui/controls/sitemap/Item#enable
          * @return {this} self
          */
         enable : function()
@@ -700,7 +703,6 @@ define([
          * Set the map parent
          *
          * @method qui/controls/sitemap/Item#getMap
-         *
          * @param {qui/controls/sitemap/Map} Map
          * @return {this}
          */

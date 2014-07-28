@@ -29,6 +29,7 @@ define({
     /**
      * Exists the namespace/ entries / values in the object?
      *
+     * @method qui/utils/Object#existsValue
      * @example Object.existsValue('my.sub.vars');
      *
      * @param {Sring} namespace
@@ -54,6 +55,7 @@ define({
     /**
      * Return the value of a namespace/ entry / value in the object
      *
+     * @method qui/utils/Object#getValue
      * @example Object.getValue('my.sub.vars');
      *
      * @param {Sring} namespace
@@ -79,6 +81,7 @@ define({
     /**
      * Create a namespace in or extend a object
      *
+     * @method qui/utils/Object#namespace
      * @param {String} namespace
      * @param {Object} obj
      *

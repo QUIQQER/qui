@@ -109,6 +109,8 @@ define(['qui/classes/DOM'], function(DOM)
 
         /**
          * Enable the DragDrop
+         *
+         * @method qui/classes/utils/DragDrop#enable
          */
         enable : function()
         {
@@ -117,6 +119,8 @@ define(['qui/classes/DOM'], function(DOM)
 
         /**
          * Disable the DragDrop
+         *
+         * @method qui/classes/utils/DragDrop#disable
          */
         disable : function()
         {

@@ -125,6 +125,7 @@ define([
         /**
          * Refresh the panel
          *
+         * @method qui/controls/desktop/Tasks#refresh
          * @return {this}
          */
         refresh : function()
@@ -137,6 +138,7 @@ define([
         /**
          * Resize the panel
          *
+         * @method qui/controls/desktop/Tasks#resize
          * @return {this}
          */
         resize : function()
@@ -176,6 +178,7 @@ define([
         /**
          * Create DOMNode Element for the Tasks
          *
+         * @method qui/controls/desktop/Tasks#create
          * @return {DOMNode}
          */
         create : function()
@@ -223,6 +226,7 @@ define([
         /**
          * Highlight the column
          *
+         * @method qui/controls/desktop/Tasks#highlight
          * @return {this}
          */
         highlight : function()
@@ -237,6 +241,7 @@ define([
         /**
          * Dehighlight the column
          *
+         * @method qui/controls/desktop/Tasks#normalize
          * @return {this}
          */
         normalize : function()
@@ -251,7 +256,8 @@ define([
         /**
          * Insert a control in the Taskpanel
          *
-         * @param {QUI.controls.Control} Instance - A QUI Control
+         * @method qui/controls/desktop/Tasks#appendChild
+         * @param {qui/controls/Control} Instance - A QUI Control
          */
         appendChild : function(Instance)
         {
@@ -265,7 +271,8 @@ define([
         /**
          * Insert a control in the Taskpanel
          *
-         * @param {QUI.controls.taskbar.Task|QUI.controls.taskbar.group} Task - A QUI task
+         * @method qui/controls/desktop/Tasks#appendTask
+         * @param {qui/controls/taskbar/Task|qui/controls/taskbar/Group} Task - A QUI task
          */
         appendTask : function(Task)
         {
@@ -279,7 +286,8 @@ define([
          * Activasion Tab event
          * Shows the instance from the tab
          *
-         * @param {QUI.controls.taskbar.Task|QUI.controls.taskbar.Group} Task
+         * @method qui/controls/desktop/Tasks#$activateTask
+         * @param {qui/controls/taskbar/Task|qui/controls/taskbar/Group} Task
          */
         $activateTask : function(Task)
         {
@@ -288,7 +296,7 @@ define([
             }
 
             if ( this.$Active &&
-                 this.$Active.getType() != 'QUI.controls.taskbar.Group' )
+                 this.$Active.getType() != 'qui/controls/taskbar/Group' )
             {
                 var _Tmp = this.$Active;
                 this.$Active = Task;
@@ -331,7 +339,8 @@ define([
          * Destroy Tab event
          * Hide the instance from the tab and destroy it
          *
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/desktop/Tasks#$destroyTask
+         * @param {qui/controls/taskbar/Task} Task
          */
         $destroyTask : function(Task)
         {
@@ -394,7 +403,8 @@ define([
          * Activasion Tab event
          * Hide the instance from the tab
          *
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/desktop/Tasks#$normalizeTask
+         * @param {qui/controls/taskbar/Task} Task
          */
         $normalizeTask : function(Task)
         {
@@ -423,7 +433,8 @@ define([
         /**
          * Return the first task children
          *
-         * @return {QUI.controls.taskbar.Task|QUI.controls.taskbar.Group|false}
+         * @method qui/controls/desktop/Tasks#firstChild
+         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
          */
         firstChild : function()
         {
@@ -433,7 +444,8 @@ define([
         /**
          * Return the last task children
          *
-         * @return {QUI.controls.taskbar.Task|QUI.controls.taskbar.Group|false}
+         * @method qui/controls/desktop/Tasks#lastChild
+         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
          */
         lastChild : function()
         {
@@ -443,7 +455,8 @@ define([
         /**
          * Return the taskbar object
          *
-         * @return {QUI.controls.taskbar.Bar|null}
+         * @method qui/controls/desktop/Tasks#getTaskbar
+         * @return {qui/controls/taskbar/Bar|null}
          */
         getTaskbar : function()
         {
@@ -453,8 +466,9 @@ define([
         /**
          * Create a Task for the Control
          *
-         * @param {QUI.controls.Control} Instance - Instance of a QUI control
-         * @return {QUI.controls.tasksbar.Task}
+         * @method qui/controls/desktop/Tasks#instanceToTask
+         * @param {qui/controls/Control} Instance - Instance of a QUI control
+         * @return {qui/controls/tasksbar/Task}
          */
         instanceToTask : function(Instance)
         {
@@ -498,8 +512,9 @@ define([
         /**
          * event on taskbar append child or taskbar group
          *
-         * @param {QUI.controls.taskbar.Bar|QUI.controls.taskbar.Group} Bar
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/desktop/Tasks#$onTaskbarAppendChild
+         * @param {qui/controls/taskbar/Bar|qui/controls/taskbar/Group} Bar
+         * @param {qui/controls/taskbar/Task} Task
          */
         $onTaskbarAppendChild : function(Bar, Task)
         {
@@ -598,7 +613,8 @@ define([
         /**
          * Remove a task from the tasks panel and remove all binded events
          *
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/desktop/Tasks#$removeTask
+         * @param {qui/controls/taskbar/Task} Task
          */
         $removeTask : function(Task)
         {
@@ -631,6 +647,8 @@ define([
 
         /**
          * if the instance have been destroyed
+         *
+         * @method qui/controls/desktop/Tasks#$onInstanceDestroy
          */
         $onInstanceDestroy : function(Instance)
         {
@@ -642,6 +660,5 @@ define([
                 Task.destroy();
             }
         }
-
     });
 });

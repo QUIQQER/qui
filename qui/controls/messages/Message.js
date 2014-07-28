@@ -24,7 +24,7 @@ define([
     "use strict";
 
     /**
-     * @class qui/controls/messages/Information
+     * @class qui/controls/messages/Message
      *
      * @memberof! <global>
      */
@@ -60,6 +60,7 @@ define([
         /**
          * Return the DOMNode of the message
          *
+         * @method qui/controls/messages/Message#create
          * @return {DOMNode}
          */
         create : function()
@@ -86,6 +87,7 @@ define([
          * Return the message
          * -> getAttribute('message')
          *
+         * @method qui/controls/messages/Message#getMessage
          * @return {String}
          */
         getMessage : function()
@@ -97,6 +99,7 @@ define([
          * Return the message code
          * -> getAttribute('code')
          *
+         * @method qui/controls/messages/Message#getCode
          * @return {Integer}
          */
         getCode : function()
@@ -107,6 +110,7 @@ define([
         /**
          * Create a DOMNode Element from the message attributes
          *
+         * @method qui/controls/messages/Message#createMessageElement
          * @return {DOMNode}
          */
         createMessageElement : function()

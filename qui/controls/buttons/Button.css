@@ -79,6 +79,7 @@
     width: 20px;
 }
 
-.qui-button .image-container {
-    margin: 10px auto 10px auto;
+.qui-button .image-container img {
+    margin: 10px auto;
 }
+

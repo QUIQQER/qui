@@ -63,6 +63,7 @@ define([
         /**
          * Bind an input element to the control
          *
+         * @method qui/controls/input/Params#bindElement
          * @param {DOMNode} Input - Input Element
          */
         bindElement : function(Input)
@@ -81,6 +82,8 @@ define([
 
         /**
          * Create the DOMNode
+         *
+         * @method qui/controls/input/Params#create
          */
         create : function()
         {
@@ -142,6 +145,7 @@ define([
          * Set the value to the control
          * on Change event at the input field
          *
+         * @method qui/controls/input/Params#$setValue
          * @param {String} value - JSON srray string
          */
         $setValue : function(value)
@@ -174,6 +178,7 @@ define([
         /**
          * Return the values
          *
+         * @method qui/controls/input/Params#getValue
          * @return {Array}
          */
         getValue : function()
@@ -199,6 +204,7 @@ define([
         /**
          * Add a parameter to the list
          *
+         * @method qui/controls/input/Params#addParam
          * @param {String} name - Name of the parameter
          * @param {String} value - Value of the parameter
          * @return {self}
@@ -241,6 +247,7 @@ define([
         /**
          * Open the add parameter sub window
          *
+         * @method qui/controls/input/Params#openAddParamWindow
          * @param {DOMNode} Param - [optional] edit a param (.qui-control-input-param-entry)
          */
         openAddParamWindow : function(Param)

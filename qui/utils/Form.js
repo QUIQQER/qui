@@ -138,6 +138,8 @@ define({
     /**
      * Set text to the cursorposition of an textarea / input
      *
+     * @method qui/utils/Form#insertTextAtCursor
+     *
      * @param {DOMNode} el
      * @param {String} text
      */

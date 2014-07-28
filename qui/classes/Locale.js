@@ -54,6 +54,7 @@ define(['qui/classes/DOM'], function(DOM)
         /**
          * Set the current lang
          *
+         * @method qui/classes/Locale#setCurrent
          * @param {String} lang
          */
         setCurrent : function(lang)
@@ -63,6 +64,8 @@ define(['qui/classes/DOM'], function(DOM)
 
         /**
          * Return the current Lang
+         *
+         * @method qui/classes/Locale#getCurrent
          * @return {String}
          */
         getCurrent : function()
@@ -72,6 +75,8 @@ define(['qui/classes/DOM'], function(DOM)
 
         /**
          * Set a translation for a translation group
+         *
+         * @method qui/classes/Locale#set
          *
          * @param {String} lang - language, which is translated
          * @param {String} group - group, which is translated
@@ -109,6 +114,8 @@ define(['qui/classes/DOM'], function(DOM)
         /**
          * Retrurn the translation of a translation group
          *
+         * @method qui/classes/Locale#get
+         *
          * @param {String} group - Group of the translation
          * @param {String} value - Translation value / name
          * @param {Object} repl  - Assoziative Array of replacements
@@ -136,6 +143,8 @@ define(['qui/classes/DOM'], function(DOM)
 
         /**
          * Helper for get translation
+         *
+         * @method qui/classes/Locale#$get
          *
          * @param {String} key   - Group / Key of the translation
          * @param {String} value - Translation value / name

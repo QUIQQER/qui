@@ -76,7 +76,7 @@ define([
                 return this.$Elm;
             }
 
-            this.$Elm = new Element( 'div.QUI-control' );
+            this.$Elm = new Element( 'div.qui-control' );
 
             return this.$Elm;
         },
@@ -121,6 +121,7 @@ define([
          * The save method returns all needed attributes for saving the control to the workspace
          * You can overwrite the method in sub classes to save specific attributes
          *
+         * @method qui/controls/Control#serialize
          * @return {Object}
          */
         serialize : function()
@@ -135,6 +136,7 @@ define([
          * import the saved attributes and the data
          * You can overwrite the method in sub classes to import specific attributes
          *
+         * @method qui/controls/Control#unserialize
          * @param {Object} data
          */
         unserialize : function(data)
@@ -207,6 +209,7 @@ define([
         /**
          * Return a path string from the parent names
          *
+         * @method qui/controls/Control#getPath
          * @return {String}
          */
         getPath : function()
@@ -278,6 +281,7 @@ define([
         /**
          * Focus the DOMNode Element
          *
+         * @method qui/controls/Control#focus
          * @return {this}
          */
         focus : function()
@@ -291,6 +295,8 @@ define([
 
         /**
          * Resize the control
+         *
+         * @method qui/controls/Control#resize
          */
         resize : function()
         {

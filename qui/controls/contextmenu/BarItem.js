@@ -278,7 +278,6 @@ define([
          * Add a Child to the Item
          *
          * @method qui/controls/contextmenu/BarItem#appendChild
-         *
          * @param {qui/controls/contextmenu/Item} Child
          * @return {this}
          */
@@ -418,10 +417,8 @@ define([
          * Set the attribute to the DOMElement if setAttribute is execute
          *
          * @method qui/controls/contextmenu/BarItem#$onSetAttribute
-         *
          * @param {String} key
          * @param {unknown_type} value
-         *
          * @ignore
          */
         $onSetAttribute : function(key, value)

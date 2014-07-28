@@ -47,6 +47,8 @@ define([
 
         /**
          * event : oncreate
+         *
+         * @method qui/controls/windows/Alert#$onCreate
          */
         $onCreate : function()
         {

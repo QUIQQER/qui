@@ -96,6 +96,8 @@ define([
 
         /**
          * oncreate event, create the prompt box
+         *
+         * @method qui/controls/windows/Prompt#$onCreate
          */
         $onCreate : function()
         {
@@ -231,6 +233,8 @@ define([
 
         /**
          * event : on open
+         *
+         * @method qui/controls/windows/Prompt#$onOpen
          */
         $onOpen : function()
         {
@@ -242,6 +246,8 @@ define([
 
         /**
          * Return the DOMNode input field of the prompt
+         *
+         * @method qui/controls/windows/Prompt#getInput
          * @returns {DOMNode}
          */
         getInput : function()
@@ -251,6 +257,8 @@ define([
 
         /**
          * Return the value
+         *
+         * @method qui/controls/windows/Prompt#getValue
          * @return {String}
          */
         getValue : function()
@@ -265,6 +273,7 @@ define([
         /**
          * Set the value of the prompt
          *
+         * @method qui/controls/windows/Prompt#setValue
          * @param value
          * @return {this}
          */
@@ -282,6 +291,7 @@ define([
         /**
          * Checks if a submit can be triggered
          *
+         * @method qui/controls/windows/Prompt#check
          * @return {Boolean}
          */
         check : function()
@@ -300,6 +310,7 @@ define([
         /**
          * Submit the prompt window
          *
+         * @method qui/controls/windows/Prompt#submit
          * @return {Boolean}
          */
         submit : function()

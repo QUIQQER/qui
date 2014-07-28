@@ -178,11 +178,18 @@ define([
             }
         },
 
+        /**
+         * @method qui/controls/messages/Handler#bindeParent
+         * @param {DOMNode} Parent
+         */
         bindParent : function(Parent)
         {
             this.$Parent = Parent;
         },
 
+        /**
+         * @method qui/controls/messages/Handler#unbindParent
+         */
         unbindParent : function()
         {
             this.$Parent = null;
@@ -190,6 +197,8 @@ define([
 
         /**
          * Load the messages from the database
+         *
+         * @method qui/controls/messages/Handler#load
          * @depricated
          */
         load : function()
@@ -256,6 +265,7 @@ define([
          *
          * If you want to open the message handler, use .open();
          *
+         * @method qui/controls/messages/Handler#create
          * @return {DOMNode}
          */
         create : function()
@@ -277,6 +287,8 @@ define([
 
         /**
          * Opens the message handler
+         *
+         * @method qui/controls/messages/Handler#open
          */
         open : function()
         {
@@ -435,6 +447,7 @@ define([
          * Parse an array / object to their message type
          * The Array are often from the php message handler
          *
+         * @method qui/controls/messages/Handler#parse
          * @param {Object} params
          * @param {Function} callback function
          */
@@ -484,6 +497,8 @@ define([
 
         /**
          * Close the message handler
+         *
+         * @method qui/controls/messages/Handler#close
          */
         close : function()
         {
@@ -505,6 +520,8 @@ define([
 
         /**
          * delete all messages
+         *
+         * @method qui/controls/messages/Handler#clear
          */
         clear : function()
         {
@@ -536,6 +553,7 @@ define([
         /**
          * Return the number of the messages
          *
+         * @method qui/controls/messages/Handler#count
          * @return {Integer}
          */
         count : function()
@@ -545,6 +563,8 @@ define([
 
         /**
          * Save the message handler to the storage
+         *
+         * @method qui/controls/messages/Handler#save
          */
         save : function()
         {
@@ -575,6 +595,8 @@ define([
 
         /**
          * Refresh the display and filter the messages
+         *
+         * @method qui/controls/messages/Handler#filter
          */
         filter : function()
         {
@@ -624,6 +646,7 @@ define([
         /**
          * Returns the count of the new messages
          *
+         * @method qui/controls/messages/Handler#getNewMessages
          * @return {Integer}
          */
         getNewMessages : function()
@@ -634,6 +657,7 @@ define([
         /**
          * Return the messages array
          *
+         * @method qui/controls/messages/Handler#getMessages
          * @return {Array}
          */
         getMessages : function()
@@ -643,6 +667,8 @@ define([
 
         /**
          * refresh the favicon and the counter
+         *
+         * @method qui/controls/messages/Handler#refreshFavicon
          */
         refreshFavicon : function()
         {
@@ -671,6 +697,7 @@ define([
         /**
          * Add a message to the Handler
          *
+         * @method qui/controls/messages/Handler#add
          * @param {qui/controls/messages/Message} Message
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -768,6 +795,7 @@ define([
         /**
          * Add an attention
          *
+         * @method qui/controls/messages/Handler#addAttention
          * @param {String} str - Message text
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -792,6 +820,7 @@ define([
         /**
          * Add an error
          *
+         * @method qui/controls/messages/Handler#addError
          * @param {String} str - Message text
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -816,6 +845,7 @@ define([
         /**
          * Add an exception
          *
+         * @method qui/controls/messages/Handler#addException
          * @param {Exception|QUI\Exception} Exception
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -841,6 +871,7 @@ define([
         /**
          * Add an information message
          *
+         * @method qui/controls/messages/Handler#addInformation
          * @param {String} str - Message text
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -865,6 +896,7 @@ define([
         /**
          * Add a success message
          *
+         * @method qui/controls/messages/Handler#addSuccess
          * @param {String} str - Message text
          * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
          * @return {this}
@@ -889,6 +921,7 @@ define([
         /**
          * Switch a filter status by its click event
          *
+         * @method qui/controls/messages/Handler#$switchFilterStatus
          * @param {DOMEvent} event
          */
         $switchFilterStatus : function(event)
@@ -929,6 +962,7 @@ define([
         /**
          * event : on message destroy
          *
+         * @method qui/controls/messages/Handler#$onMessageDestroy
          * @param {qui/controls/messages/Message} Message
          */
         $onMessageDestroy : function(Message)
@@ -949,6 +983,8 @@ define([
 
         /**
          * Calc the dimensions for the message handler display
+         *
+         * @method qui/controls/messages/Handler#$onResize
          */
         $onResize : function()
         {

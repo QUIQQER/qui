@@ -62,6 +62,8 @@ define([
 
         /**
          * event : on creat
+         *
+         * @method qui/controls/messages/Panel#$onCreate
          */
         $onCreate : function()
         {
@@ -160,6 +162,8 @@ define([
 
         /**
          * Refresh the messages display
+         *
+         * @method qui/controls/messages/Panel#refreshMessages
          */
         refreshMessages : function()
         {
@@ -188,6 +192,7 @@ define([
         /**
          * event on add message to the message-handler
          *
+         * @method qui/controls/messages/Panel#$onMessageHandlerAdd
          * @param {qui/controls/messages/Handler} MessageHandler
          * @param {qui/controls/messages/Message} Message
          * @param {Bool} animate - [optional] animate the message or not; default = true
@@ -238,6 +243,8 @@ define([
 
         /**
          * event : on Message-Handler clearing
+         *
+         * @method qui/controls/messages/Panel#$onMessageHandlerClear
          */
         $onMessageHandlerClear : function()
         {
@@ -247,6 +254,7 @@ define([
         /**
          * Toggle the button status
          *
+         * @method qui/controls/messages/Panel#$toggleButton
          * @param {qui/controls/buttons/Button} Btn
          */
         $toggleButton : function(Btn)

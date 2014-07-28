@@ -112,7 +112,6 @@ define([
          * Create the DOMNode for the Element
          *
          * @method qui/controls/contextmenu/Item#create
-         *
          * @return {DOMNode}
          */
         create : function()
@@ -271,6 +270,7 @@ define([
          * Import children
          * from a php callback or an array
          *
+         * @method qui/controls/contextmenu/Item#insert
          * @param {Array} list
          * @return {this}
          */
@@ -321,7 +321,6 @@ define([
          * Add a Child to the Item
          *
          * @method qui/controls/contextmenu/Item#appendChild
-         *
          * @param {qui/controls/contextmenu/Item} Child
          * @return {this} self
          */
@@ -346,6 +345,7 @@ define([
         /**
          * disable the item
          *
+         * @method qui/controls/contextmenu/Item#disable
          * @return {self}
          */
         disable : function()
@@ -363,6 +363,7 @@ define([
         /**
          * Return if the item is disabled or not
          *
+         * @method qui/controls/contextmenu/Item#isDisable
          * @return {Bool}
          */
         isDisabled : function()
@@ -373,6 +374,7 @@ define([
         /**
          * enable the item if the item was disabled
          *
+         * @method qui/controls/contextmenu/Item#enable
          * @return {self}
          */
         enable : function()
@@ -483,7 +485,7 @@ define([
          * Create the Context Menu if not exist
          *
          * @method qui/controls/contextmenu/Item#getContextMenu
-         * @return {QUI.controls.contextmenu.Menu}
+         * @return {qui/controls/contextmenu/Menu}
          */
         getContextMenu : function()
         {
@@ -522,6 +524,7 @@ define([
          * onSetAttribute Event
          * Set the attribute to the DOMElement if setAttribute is execute
          *
+         * @method qui/controls/contextmenu/Item#$onSetAttribute
          * @param {String} key
          * @param {unknown_type} value
          *
@@ -565,6 +568,7 @@ define([
         /**
          * interpret a string event
          *
+         * @method qui/controls/contextmenu/Item#$stringEvent
          * @param {String} event
          */
         $stringEvent : function(event)
@@ -575,6 +579,7 @@ define([
         /**
          * event : onclick
          *
+         * @method qui/controls/contextmenu/Item#$onClick
          * @param {DOMEvent} event
          * @ignore
          */
@@ -594,6 +599,7 @@ define([
         /**
          * event: mouse enter
          *
+         * @method qui/controls/contextmenu/Item#$onMouseEnter
          * @param {DOMEvent} event - optional
          */
         $onMouseEnter : function(event)
@@ -636,6 +642,7 @@ define([
         /**
          * event: mouse leave
          *
+         * @method qui/controls/contextmenu/Item#$onMouseLeave
          * @param {DOMEvent} event - optional
          */
         $onMouseLeave : function(event)
@@ -658,6 +665,7 @@ define([
         /**
          * event: mouse up
          *
+         * @method qui/controls/contextmenu/Item#$onMouseUp
          * @param {DOMEvent} event - optional
          */
         $onMouseUp : function(event)
@@ -672,6 +680,7 @@ define([
         /**
          * event: mouse down
          *
+         * @method qui/controls/contextmenu/Item#$onMouseDown
          * @param {DOMEvent} event - optional
          */
         $onMouseDown : function(event)

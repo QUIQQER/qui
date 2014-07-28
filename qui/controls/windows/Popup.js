@@ -48,7 +48,7 @@ define([
     return new Class({
 
         Extends : Control,
-        Type    : 'classes/box/Popup',
+        Type    : 'qui/controls/windows/Popup',
 
         Binds : [
             'resize',
@@ -87,6 +87,7 @@ define([
         /**
          * Create the DOMNode Element
          *
+         * @method qui/controls/windows/Popup#create
          * @return {DOMNode}
          */
         create : function()
@@ -200,6 +201,8 @@ define([
 
         /**
          * Open the popup
+         *
+         * @method qui/controls/windows/Popup#open
          */
         open : function()
         {
@@ -221,6 +224,8 @@ define([
 
         /**
          * Resize the popup
+         *
+         * @method qui/controls/windows/Popup#resize
          */
         resize : function(withfx)
         {
@@ -312,6 +317,8 @@ define([
 
         /**
          * Close the popup
+         *
+         * @method qui/controls/windows/Popup#close
          */
         close : function()
         {
@@ -342,6 +349,8 @@ define([
 
         /**
          * Close the popup and fire the cancel event
+         *
+         * @method qui/controls/windows/Popup#cancel
          */
         cancel : function()
         {
@@ -352,6 +361,7 @@ define([
         /**
          * Return the content DOMNode
          *
+         * @method qui/controls/windows/Popup#getContent
          * @return {DOMNode} DIV
          */
         getContent : function()
@@ -362,6 +372,7 @@ define([
         /**
          * set the content of the popup
          *
+         * @method qui/controls/windows/Popup#setContent
          * @return {String} html
          */
         setContent : function(html)
@@ -372,6 +383,7 @@ define([
         /**
          * Add a Element to the button bar
          *
+         * @method qui/controls/windows/Popup#addButton
          * @param {DOMNode} Elm
          * @return {this}
          */
@@ -406,6 +418,7 @@ define([
         /**
          * hide the button line
          *
+         * @method qui/controls/windows/Popup#hideButtons
          * @return {this}
          */
         hideButtons : function()
@@ -420,6 +433,7 @@ define([
         /**
          * show the button line
          *
+         * @method qui/controls/windows/Popup#showButtons
          * @return {this}
          */
         showButtons : function()
@@ -434,6 +448,7 @@ define([
         /**
          * create and open a new sheet
          *
+         * @method qui/controls/windows/Popup#openSheet
          * @param {Function} onfinish - callback function
          */
         openSheet : function(onfinish)

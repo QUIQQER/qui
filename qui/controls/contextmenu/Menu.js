@@ -313,6 +313,7 @@ define([
         /**
          * Return the number of children
          *
+         * @method qui/controls/contextmenu/Menu#count
          * @return {Integer} count of children
          */
         count : function()

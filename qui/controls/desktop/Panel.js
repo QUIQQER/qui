@@ -463,6 +463,7 @@ define([
         /**
          * Highlight the column
          *
+         * @method qui/controls/desktop/Panel#highlight
          * @return {this} self
          */
         highlight : function()
@@ -481,6 +482,7 @@ define([
         /**
          * Dehighlight the column
          *
+         * @method qui/controls/desktop/Panel#normalize
          * @return {this} self
          */
         normalize : function()
@@ -496,6 +498,7 @@ define([
 
         /**
          * @depricated
+         * @method qui/controls/desktop/Panel#getBody
          */
         getBody : function()
         {
@@ -516,6 +519,7 @@ define([
         /**
          * Set the Content
          *
+         * @method qui/controls/desktop/Panel#setContent
          * @param {String} content - HTML String
          * @return {this}
          */
@@ -540,6 +544,7 @@ define([
         /**
          * Set the Footer
          *
+         * @method qui/controls/desktop/Panel#setFooter
          * @param {String} content - HTML String
          * @return {this}
          */
@@ -801,6 +806,7 @@ define([
         /**
          * Return the Dragable Object
          *
+         * @method qui/controls/desktop/Panel#$getDragable
          * @param {Function} callback - Callback function( {DragDrop} )
          */
         $getDragable : function(callback)
@@ -890,6 +896,7 @@ define([
         /**
          * event : on setAttribute
          *
+         * @method qui/controls/desktop/Panel#$onSetAttribute
          * @param {String} attr - Attribute name
          * @param {unknown} value . Value of the Attribute
          */

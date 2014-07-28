@@ -385,7 +385,6 @@ define([
          * Scroll to a specific tab
          *
          * @method qui/controls/toolbar/Bar#toTab
-         *
          * @param {qui/controls/toolbar/Tab} Tab
          * @return {this}
          */
@@ -469,7 +468,6 @@ define([
          * Return all children
          *
          * @method qui/controls/toolbar/Bar#getChildren
-         *
          * @param {String} name - [optional] name of the wanted Element
          *                        if no name given, all children will be return
          * @return {Array}
@@ -529,7 +527,6 @@ define([
          * Move an child to another position
          *
          * @method qui/controls/toolbar/Bar#moveChildToPos
-         *
          * @param {qui/controls/Control} Child - Item in the toolbar
          * @param {Integer} pos   - New position
          *
@@ -569,7 +566,6 @@ define([
          * Get an Element by name
          *
          * @method qui/controls/toolbar/Bar#getElement
-         *
          * @param {String} name - name of the wanted Element
          * @return {null|qui/controls/Control}
          */
@@ -594,7 +590,6 @@ define([
          * Add an Child to the toolbar
          *
          * @method qui/controls/toolbar/Bar#appendChild
-         *
          * @param {
          *         qui/controls/buttons/Button|
          *         qui/controls/buttons/Seperator|

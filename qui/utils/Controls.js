@@ -18,6 +18,7 @@ define(['qui/QUI'], function(QUI, Panel)
         /**
          * Checks if the string is a fontawesome css class
          *
+         * @method qui/utils/Controls#isFontAwesomeClass
          * @param {String} str - FontAweomse icon-class or an image path
          * @returns {Bool}
          */
@@ -39,7 +40,7 @@ define(['qui/QUI'], function(QUI, Panel)
         /**
          * Highlights a control
          *
-         * @method QUI.lib.Controls#highlight
+         * @method qui/utils/Controls#highlight
          * @param {DOMNode} Element
          */
         highlight : function(Element)
@@ -60,7 +61,7 @@ define(['qui/QUI'], function(QUI, Panel)
         /**
          * Normalize a control, if it is was highlighted
          *
-         * @method QUI.lib.Controls#normalize
+         * @method qui/utils/Controls#normalize
          * @param {DOMNode} Element
          */
         normalize : function(Element)

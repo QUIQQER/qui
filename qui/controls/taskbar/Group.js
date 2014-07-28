@@ -20,10 +20,10 @@
  * @event onFocus [this]
  * @event onBlur [this]
  * @event onContextMenu [this, event]
- * @event onAppendChild [this, {QUI.controls.taskbar.Task}]
+ * @event onAppendChild [this, {qui/controls/taskbar/Task}]
  * @event onAppendChildBegin [
- *      {QUI.controls.taskbar.Bar},
- *      {QUI.controls.taskbar.Task}
+ *      {qui/controls/taskbar/Bar},
+ *      {qui/controls/taskbar/Task}
  * ]
  */
 
@@ -103,7 +103,7 @@ define([
         /**
          * Return the DOMNode
          *
-         * @method QUI.controls.buttons.Button#getElm
+         * @method qui/controls/taskbar/Group#getElm
          * @return {DOMNode}
          */
         create : function()
@@ -255,7 +255,8 @@ define([
         /**
          * Return the binded instance of the active task
          *
-         * @return {QUI.controls.Control|null}
+         * @method qui/controls/taskbar/Group#getInstance
+         * @return {qui/controls/Control|null}
          */
         getInstance : function()
         {
@@ -269,6 +270,7 @@ define([
         /**
          * Return the instance icon
          *
+         * @method qui/controls/taskbar/Group#getIcon
          * @return {String|false}
          */
         getIcon : function()
@@ -285,6 +287,7 @@ define([
         /**
          * Return the instance title
          *
+         * @method qui/controls/taskbar/Group#getTitle
          * @return {String|false}
          */
         getTitle : function()
@@ -301,7 +304,8 @@ define([
         /**
          * Return the the parent
          *
-         * @return {QUI.controls.taskbar.Bar}
+         * @method qui/controls/taskbar/Group#getTaskbar
+         * @return {qui/controls/taskbar/Bar}
          */
         getTaskbar : function()
         {
@@ -311,7 +315,8 @@ define([
         /**
          * Refresh the group display
          *
-         * @param {QUI.controls.taskbar.Task} Task - [optional]
+         * @method qui/controls/taskbar/Group#refresh
+         * @param {qui/controls/taskbar/Task} Task - [optional]
          */
         refresh : function(Task)
         {
@@ -338,6 +343,7 @@ define([
         /**
          * Execute a click event
          *
+         * @method qui/controls/taskbar/Group#click
          * @return {this}
          */
         click : function()
@@ -363,6 +369,7 @@ define([
         /**
          * Set the focus to the group DOMNode element
          *
+         * @method qui/controls/taskbar/Group#focus
          * @return {this}
          */
         focus : function()
@@ -377,6 +384,7 @@ define([
         /**
          * Highlight the group
          *
+         * @method qui/controls/taskbar/Group#highlight
          * @return {this}
          */
         highlight : function()
@@ -394,6 +402,7 @@ define([
          * Normalize the group
          * no highlight
          *
+         * @method qui/controls/taskbar/Group#normalize
          * @return {this}
          */
         normalize : function()
@@ -412,6 +421,7 @@ define([
         /**
          * Set the group active
          *
+         * @method qui/controls/taskbar/Group#activate
          * @return {this}
          */
         activate : function()
@@ -437,6 +447,8 @@ define([
 
         /**
          * Close / Destroy the group and destroy all tasks in it
+         *
+         * @method qui/controls/taskbar/Group#close
          */
         close : function()
         {
@@ -455,6 +467,8 @@ define([
         /**
          * Close the group but not the tasks
          * The Tasks would be insert to the parent of the group
+         *
+         * @method qui/controls/taskbar/Group#dissolve
          */
         dissolve : function()
         {
@@ -479,6 +493,7 @@ define([
         /**
          * Return true if the group is active
          *
+         * @method qui/controls/taskbar/Group#isActive
          * @return {Bool}
          */
         isActive : function()
@@ -493,7 +508,8 @@ define([
         /**
          * Add a Task to the group
          *
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/taskbar/Group#appendChild
+         * @param {qui/controls/taskbar/Task} Task
          */
         appendChild : function(Task)
         {
@@ -535,6 +551,7 @@ define([
         /**
          * Return all tasks in the group
          *
+         * @method qui/controls/taskbar/Group#getTasks
          * @return {Array}
          */
         getTasks : function()
@@ -551,7 +568,8 @@ define([
         /**
          * Return the first Task
          *
-         * @return {QUI.controls.taskbar.Task|null}
+         * @method qui/controls/taskbar/Group#firstTask
+         * @return {qui/controls/taskbar/Task|null}
          */
         firstTask : function()
         {
@@ -565,6 +583,7 @@ define([
         /**
          * Return the tasks number in the group
          *
+         * @method qui/controls/taskbar/Group#count
          * @return {Integer}
          */
         count : function()
@@ -582,7 +601,8 @@ define([
         /**
          * Return the context menu
          *
-         * @return {QUI.controls.contextmenu.Menu}
+         * @method qui/controls/taskbar/Group#$getContextMenu
+         * @return {qui/controls/contextmenu/Menu}
          */
         $getContextMenu : function()
         {
@@ -626,7 +646,8 @@ define([
         /**
          * event: on task refresh
          *
-         * @param {QUI.controls.taskbar.Task} Task
+         * @method qui/controls/taskbar/Group#$onTaskRefresh
+         * @param {qui/controls/taskbar/Task} Task
          */
         $onTaskRefresh : function(Task)
         {
@@ -647,7 +668,8 @@ define([
         /**
          * event: on task selection / menu click
          *
-         * @param {QUI.controls.contextmenu.Item} Item
+         * @method qui/controls/taskbar/Group#$onMenuClick
+         * @param {qui/controls/contextmenu/Item} Item
          * @param {DOMEvent} event - [optional]
          */
         $onMenuClick : function(Item, event)

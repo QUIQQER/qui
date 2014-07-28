@@ -11,6 +11,7 @@ define({
     /**
      * Enable the selection for an Element
      *
+     * @method qui/utils/NoSelect#enable
      * @param {DOMNode} Elm - Element in which the mark / highlight is to be enabled
      */
     enable : function(Elm)
@@ -39,6 +40,7 @@ define({
     /**
      * Disable the selection for an Element
      *
+     * @method qui/utils/NoSelect#disable
      * @param {DOMNode} Elm - Element in which the mark / highlight is to be prevented
      */
     disable : function(Elm)
@@ -67,6 +69,7 @@ define({
     /**
      * Stop selection for IE Browser
      *
+     * @method qui/utils/NoSelect#stopSelection
      * @param {DOMEvent}
      */
     stopSelection : function(event)

@@ -84,6 +84,8 @@ define([
 
         /**
          * event : destroy the column
+         *
+         * @method qui/controls/desktop/Column#$onDestroy
          */
         $onDestroy : function()
         {
@@ -1319,6 +1321,7 @@ define([
          * calculates the position of the drag drop arrows
          * and create the drag drop arrows
          *
+         * @method qui/controls/desktop/Column#$onDragDropStart
          * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
          * @param {DOMNode} DragElement - DragDrop DOMNode Element
          * @param {DOMEvent} event - DOM event
@@ -1403,6 +1406,8 @@ define([
         /**
          * event : drag drop complete
          * destroy all drag drop arrows
+         *
+         * @method qui/controls/desktop/Column#$onDragDropStop
          */
         $onDragDropStop : function()
         {
@@ -1425,6 +1430,7 @@ define([
         /**
          * event : drag
          *
+         * @method qui/controls/desktop/Column#$onDrag
          * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
          * @param {DOMEvent} event - DOM event
          */
@@ -1444,6 +1450,7 @@ define([
         /**
          * event : a control droped on the column
          *
+         * @method qui/controls/desktop/Column#$onDrop
          * @param {qui/controls/Control} Control - QUI Control
          */
         $onDrop : function(Control)
