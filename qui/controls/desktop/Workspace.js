@@ -35,7 +35,7 @@ define([
     "use strict";
 
     /**
-     * @class qui/controls/desktop.Workspace
+     * @class qui/controls/desktop/Workspace
      *
      * @param {DOMNode} Parent - Parent node
      * @param {Object} options . QDOM params
@@ -75,7 +75,7 @@ define([
         /**
          * Load the Workspace
          *
-         * @method qui/controls/desktop.Workspace#load
+         * @method qui/controls/desktop/Workspace#load
          * @return {this}
          *
          * @todo controls müssen über require gehohlt werden
@@ -132,7 +132,7 @@ define([
         /**
          * Workspace resize
          *
-         * @method qui/controls/desktop.Workspace#resize
+         * @method qui/controls/desktop/Workspace#resize
          * @param {Array} workspace - [optional] json decoded serialized workspace
          */
         resize : function(workspace)
@@ -215,7 +215,7 @@ define([
         /**
          * Create the DOMNode
          *
-         * @method qui/controls/desktop.Workspace#create
+         * @method qui/controls/desktop/Workspace#create
          * @return {DOMNode}
          */
         create : function()
@@ -244,7 +244,7 @@ define([
         /**
          * Save the Workspace to the localstorage
          *
-         * @method qui/controls/desktop.Workspace#save
+         * @method qui/controls/desktop/Workspace#save
          * @return {Bool}
          */
         save : function()
@@ -274,7 +274,7 @@ define([
         /**
          * Add a column to the workspace
          *
-         * @method qui/controls/desktop.Workspace#appendChild
+         * @method qui/controls/desktop/Workspace#appendChild
          * @param {qui/controls/desktop/Column|Params} Column
          * @return {this}
          */
@@ -343,7 +343,7 @@ define([
          * it looks for an panel with the name content-panel, if that not exist
          * then it took the panel to a column
          *
-         * @method qui/controls/desktop.Workspace#appendPanel
+         * @method qui/controls/desktop/Workspace#appendPanel
          * @param {qui/controls/dekstop/Panel} Panel
          */
         appendPanel : function(Panel)
@@ -384,8 +384,8 @@ define([
         /**
          * Return the last column
          *
-         * @method qui/controls/desktop.Workspace#lastChild
-         * @return {qui/controls/desktop.Column|false}
+         * @method qui/controls/desktop/Workspace#lastChild
+         * @return {qui/controls/desktop/Column|false}
          */
         lastChild : function()
         {
@@ -395,7 +395,7 @@ define([
         /**
          * Return the first column
          *
-         * @method qui/controls/desktop.Workspace#firstChild
+         * @method qui/controls/desktop/Workspace#firstChild
          * @return {qui/controls/desktop/Column|false}
          */
         firstChild : function()
@@ -406,7 +406,7 @@ define([
         /**
          * Return the number of columns in the workspace
          *
-         * @method qui/controls/desktop.Workspace#count
+         * @method qui/controls/desktop/Workspace#count
          * @return {Integer}
          */
         count : function()
@@ -417,7 +417,7 @@ define([
         /**
          * Add a available panel
          *
-         * @method qui/controls/desktop.Workspace#addAvailablePanel
+         * @method qui/controls/desktop/Workspace#addAvailablePanel
          * @param {Object} params - parameter {
          *     require : '',
          *     text    : '',
@@ -453,7 +453,7 @@ define([
         /**
          * Return all available Panels for that Workbench
          *
-         * @method qui/controls/desktop.Workspace#getAvailablePanel
+         * @method qui/controls/desktop/Workspace#getAvailablePanel
          * @return {Array}
          */
         getAvailablePanel : function()
@@ -619,9 +619,9 @@ define([
         /**
          * Add the vertical resizing events to the column
          *
-         * @method qui/controls/desktop.Workspace#$bindResizeToColumn
+         * @method qui/controls/desktop/Workspace#$bindResizeToColumn
          * @param {DOMNode} Handler
-         * @param {qui/controls/desktop.Column} Column
+         * @param {qui/controls/desktop/Column} Column
          */
         $bindResizeToColumn : function(Handler, Column)
         {
@@ -721,7 +721,7 @@ define([
         /**
          * Resize handler context menu
          *
-         * @method qui/controls/desktop.Workspace#$onHandlerContextMenu
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenu
          * @param {DOMEvent} event
          */
         $onHandlerContextMenu : function(event)
@@ -797,7 +797,7 @@ define([
         /**
          * event : mouseclick on a contextmenu item on the handler slider
          *
-         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuClick
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenuClick
          * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuClick : function(Item)
@@ -809,7 +809,7 @@ define([
         /**
          * event : mouseenter on a contextmenu item on the handler slider
          *
-         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuHighlight
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenuHighlight
          * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuHighlight : function(Item)
@@ -820,7 +820,7 @@ define([
         /**
          * event : mouseleave on a contextmenu item on the handler slider
          *
-         * @method qui/controls/desktop.Workspace#$onHandlerContextMenuNormalize
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenuNormalize
          * @param {qui/controls/contextmenu/Item} Item
          */
         $onHandlerContextMenuNormalize : function(Item)
