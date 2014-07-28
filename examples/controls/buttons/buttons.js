@@ -271,5 +271,16 @@ require([
                 }
             }
         }).inject( ColorButtons );
+
+        // image button
+        new Button({
+            image : 'http://24.media.tumblr.com/tumblr_lg2i0ydRHa1qzfa5ao1_250.gif',
+            events  :
+            {
+                onClick : function() {
+                    console.log('button click');
+                }
+            }
+        }).inject( ColorButtons );
     });
 });
