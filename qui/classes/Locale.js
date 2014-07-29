@@ -7,7 +7,7 @@
  *
  * @require qui/classes/DOM
  *
- * @event onError [ {String}, {this} ]
+ * @event onError [ {String}, {this} ] - triggered if no_translation === false and no translation exist
  */
 
 define(['qui/classes/DOM'], function(DOM)
