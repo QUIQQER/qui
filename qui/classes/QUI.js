@@ -114,7 +114,6 @@ define([
          */
         triggerError : function(Exception, params)
         {
-            this.fireEvent( 'onError', [ Exception, params ] );
             this.trigger( Exception.getMessage() );
 
             return this;
@@ -137,7 +136,7 @@ define([
                           "File: "+ url +"\n"+
                           "Linenumber: "+ linenumber;
 
-            console.error( message );
+            this.fireEvent( 'error', [ msg, url, linenumber ] );
 
             return this;
         },
