@@ -68,6 +68,7 @@ define([
 
             this.$Input = Input;
             this.$Input.addEvent( 'keyup', this.$keyup );
+            this.checkSecurity();
         },
 
         /**
@@ -83,7 +84,7 @@ define([
 
             this.$Elm.setStyles({
                 width : 200
-            })
+            });
 
             if ( this.getAttribute( 'styles' ) ) {
                 this.$Elm.setStyles( this.getAttribute( 'styles' ) );
