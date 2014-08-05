@@ -17,5 +17,9 @@ define(['qui/classes/QUI'], function(QUIClass)
 
     document.fireEvent( 'qui-loaded' );
 
+    document.addEvent('domready', function() {
+        QUI.parse( document.body );
+    });
+
     return window.QUI;
 });

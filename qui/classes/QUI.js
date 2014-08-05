@@ -104,6 +104,53 @@ define([
         },
 
         /**
+         * parse qui controls
+         *
+         * @param {DOMNode} Parent - [optional], if no parent given, document.body would be use
+         * @param {Function} callback - [optional]
+         */
+        parse : function(Parent, callback)
+        {
+            if ( typeof Parent === 'undefined' ) {
+                Parent = document.body;
+            }
+
+            // parse all qui controls
+            var nodes = Parent.getElements( '[data-qui]' ),
+                list  = nodes.map(function(Elm) {
+                    return Elm.get( 'data-qui' );
+                });
+
+            require(list, function()
+            {
+                var i, len, Cls, Elm;
+
+                for ( i = 0, len = list.length; i < len; i++ )
+                {
+                    Cls = arguments[ i ];
+                    Elm = nodes[ i ];
+
+                    // already initialized
+                    if ( Elm.get( 'data-quiid' ) ) {
+                        continue;
+                    }
+
+                    if ( Elm.get( 'html' ).trim() !== '' )
+                    {
+                        new Cls().import( Elm );
+                    } else
+                    {
+                        new Cls().replaces( Elm );
+                    }
+                }
+
+                if ( typeof callback !== 'undefined' ) {
+                    callback();
+                }
+            });
+        },
+
+        /**
          * Fire the Error Event
          *
          * @method qui/classes/QUI#triggerError
