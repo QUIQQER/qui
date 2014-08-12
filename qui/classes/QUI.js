@@ -196,6 +196,15 @@ define([
          */
         getMessageHandler : function(callback)
         {
+            if ( typeof this.$execGetMessageHandler !== 'undefined' && !this.MessageHandler )
+            {
+                this.getMessageHandler( callback );
+                return;
+            }
+
+            this.$execGetMessageHandler = true;
+
+
             if ( this.MessageHandler )
             {
                 callback( this.MessageHandler );
