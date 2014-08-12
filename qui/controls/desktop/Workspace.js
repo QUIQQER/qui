@@ -322,7 +322,7 @@ define([
                     sibling_width = max_width - col_width - 20;
 
                 if ( max_width > Sibling.getAttribute( 'width' ) ) {
-                    sibling_width = Sibling.getAttribute( 'width' ) - col_width - 20;
+                    sibling_width = Sibling.getAttribute( 'width' ) - col_width - 22; // 22 --> wegen firefox scrollbar bug
                 }
 
                 Sibling.setAttribute( 'width', sibling_width );
