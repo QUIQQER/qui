@@ -128,7 +128,7 @@ define([
                     events :
                     {
                         click : function() {
-                            self.close();
+                            self.cancel();
                         }
                     }
                 }).inject( this.$Title );
