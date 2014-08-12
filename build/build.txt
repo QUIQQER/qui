@@ -151,6 +151,22 @@ extend/unsemantic/unsemantic-grid-tablet.css
 ----------------
 extend/unsemantic/unsemantic-grid-tablet.css
 
+jsdoc/styles/bootstrap.min.css
+----------------
+jsdoc/styles/bootstrap.min.css
+
+jsdoc/styles/jaguar.css
+----------------
+jsdoc/styles/jaguar.css
+
+jsdoc/styles/prettify-jsdoc.css
+----------------
+jsdoc/styles/prettify-jsdoc.css
+
+jsdoc/styles/prettify-tomorrow.css
+----------------
+jsdoc/styles/prettify-tomorrow.css
+
 qui/controls/Control.css
 ----------------
 qui/controls/Control.css
@@ -270,6 +286,10 @@ qui/controls/toolbar/Bar.css
 qui/controls/toolbar/Tab.css
 ----------------
 qui/controls/toolbar/Tab.css
+
+qui/controls/utils/PasswordSecurity.css
+----------------
+qui/controls/utils/PasswordSecurity.css
 
 qui/controls/utils/Progressbar.css
 ----------------

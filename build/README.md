@@ -55,8 +55,7 @@ If you use no MooTools, please place MooTools and moofx before requirejs:
 <script src="components/require-built.js"></script>
 
 <-- include qui -->
-<script src="components/qui/your_start_script.js" data-main="load.js"></script>
-
+<script src="components/qui/init.js" data-main="your_start_script.js"></script>
 
 ```
 
