@@ -274,13 +274,21 @@ define([
                 // button zentrieren
                 var list = this.$Buttons.getChildren();
 
-                for ( var i = 0, len = list.length-1; i < len; i++ ) {
+                for ( var i = 0, len = list.length-1; i < len; i++ )
+                {
+                    if ( typeof list[ i ] === 'undefined' ) {
+                        continue;
+                    }
+
                     list[ i ].setStyle( 'marginRight', 10 );
                 }
 
-                this.$Buttons.setStyles({
-                    height : list[ 0 ].getComputedSize().totalHeight + 20
-                });
+                if ( list.length )
+                {
+                    this.$Buttons.setStyles({
+                        height : list[ 0 ].getComputedSize().totalHeight + 20
+                    });
+                }
             }
 
             // content height
