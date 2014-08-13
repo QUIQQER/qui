@@ -37,7 +37,9 @@ define([
         ],
 
         options : {
-            styles : false
+            styles  : false,
+            header  : true,
+            buttons : true
         },
 
         initialize: function(options)
@@ -81,6 +83,14 @@ define([
             this.$Header  = this.$Elm.getElement( '.qui-panel-sheet-header' );
             this.$Body    = this.$Elm.getElement( '.qui-panel-sheet-body' );
             this.$Buttons = this.$Elm.getElement( '.qui-panel-sheet-btn-container' );
+
+            if ( !this.getAttribute( 'buttons' ) ) {
+                this.$Buttons.setStyle( 'display', 'none' );
+            }
+
+            if ( !this.getAttribute( 'header' ) ) {
+                this.$Header.setStyle( 'display', 'none' );
+            }
 
             this.$Header.set( 'html', this.getAttribute( 'title' ) );
 
@@ -175,6 +185,14 @@ define([
             });
 
             Elm.setStyle( 'display', null );
+
+            if ( !this.getAttribute( 'buttons' ) ) {
+                this.$Buttons.setStyle( 'display', 'none' );
+            }
+
+            if ( !this.getAttribute( 'header' ) ) {
+                this.$Header.setStyle( 'display', 'none' );
+            }
 
 
             var button_size = this.getButtons().getSize(),
