@@ -60,8 +60,7 @@ define([
         Type    : 'qui/controls/desktop/Panel',
 
         Binds : [
-            '$onDestroy',
-            '$onSetAttribute'
+            '$onDestroy'
         ],
 
         options : {
@@ -116,8 +115,7 @@ define([
             this.$Dropable      = null;
 
             this.addEvents({
-                onDestroy      : this.$onDestroy,
-                onSetAttribute : this.$onSetAttribute
+                onDestroy : this.$onDestroy
             });
         },
 
@@ -195,10 +193,8 @@ define([
             }
 
             // drag & drop
-            if ( this.getAttribute('dragable') )
-            {
-                this.$Header.setStyle( 'cursor', 'move' );
-
+            if ( this.getAttribute('dragable') ) {
+                this.enableDragDrop();
             }
 
             // content params
@@ -796,11 +792,39 @@ define([
          */
         createSheet : function(options)
         {
-            var Sheet = new PanelSheet( options ).inject(
-                this.$Elm
-            );
+            return new PanelSheet( options ).inject( this.$Elm );
+        },
 
-            return Sheet;
+        /**
+         * Enable the dragdrop
+         */
+        enableDragDrop : function()
+        {
+            this.setAttribute( 'dragable', true );
+
+            if ( this.$Header ) {
+                this.$Header.setStyle( 'cursor', 'move' );
+            }
+
+            if ( self.$Dropable ) {
+                self.$Dropable.enable();
+            };
+        },
+
+        /**
+         * Enable the dragdrop
+         */
+        disableDragDrop : function()
+        {
+            this.setAttribute( 'dragable', false );
+
+            if ( this.$Header ) {
+                this.$Header.setStyle( 'cursor', 'default' );
+            }
+
+            if ( self.$Dropable ) {
+                self.$Dropable.disable();
+            };
         },
 
         /**
@@ -891,37 +915,6 @@ define([
 
                 callback( self.$Dropable );
             });
-        },
-
-        /**
-         * event : on setAttribute
-         *
-         * @method qui/controls/desktop/Panel#$onSetAttribute
-         * @param {String} attr - Attribute name
-         * @param {unknown} value . Value of the Attribute
-         */
-        $onSetAttribute : function(attr, value)
-        {
-            if ( attr == 'dragable' )
-            {
-                var self = this;
-
-                self.$getDragable(function(Dragable)
-                {
-                    if ( self.getAttribute( 'dragable' ) )
-                    {
-                        Dragable.enable();
-                        self.$Header.setStyle( 'cursor', 'move' );
-
-                        return;
-                    }
-
-                    Dragable.disable();
-                    self.$Header.setStyle( 'cursor', 'default' );
-                });
-
-                return;
-            }
         },
 
         /**

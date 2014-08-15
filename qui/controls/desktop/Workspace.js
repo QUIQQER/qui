@@ -16,8 +16,8 @@
  * @require qui/utils/Math
  * @require qui/classes/utils/DragDrop
  *
- * @event onLoad - if the workspace is loaded
- * @event onSave [{this}, {Object Data}]
+ * @event onLoaded - if the workspace is loaded
+ * @event onSave [{this}, {JSON ObjectString}]
  */
 
 define([
@@ -64,69 +64,62 @@ define([
             this.parent( options );
 
             this.$Parent = Parent;
-            this.$Loader = null;
+            this.Loader = null;
 
             this.$available_panels = {};
             this.$columns = [];
+            this.$fixed   = false;
+
+            this.$dragDrops = {};
 
             window.addEvent( 'resize', this.resize );
         },
 
         /**
-         * Load the Workspace
+         * Load saved wrokspace into the workspace
          *
          * @method qui/controls/desktop/Workspace#load
-         * @return {this}
-         *
-         * @todo controls müssen über require gehohlt werden
+         * @param {JSONString} workspace - JSON object string -> from save()
          */
-        load : function()
+        load : function(workspace)
         {
-            this.inject( this.$Parent );
+            var self      = this,
+                workspace = JSON.decode( workspace );
 
-            this.$Loader.show();
-
-            var self = this;
+            if ( !workspace.length )
+            {
+                self.fireEvent( 'loaded' );
+                return;
+            }
 
             require(["qui/controls/desktop/Panel"], function(QUIPanel)
             {
-                var workspace = QUIStorage.get( 'qui.workspace' );
-
-                if ( workspace ) {
-                    workspace = JSON.decode( workspace );
-                }
-
-                if ( !workspace ) {
-                    workspace = [];
-                }
-
-                if ( workspace.length )
+                if ( !workspace.length )
                 {
-                    var i, len, Column;
+                    self.fireEvent( 'loaded' );
+                    return;
+                }
 
-                    // make columns
-                    for ( i = 0, len = workspace.length; i < len; i++ )
-                    {
-                        Column = new QUIColumn(
-                            workspace[ i ].attributes
-                        );
+                var i, len, Column;
 
-                        if ( workspace[ i ].children ) {
-                            Column.unserialize( workspace[ i ] );
-                        }
+                // make columns
+                for ( i = 0, len = workspace.length; i < len; i++ )
+                {
+                    Column = new QUIColumn(
+                        workspace[ i ].attributes
+                    );
 
-                        this.appendChild( Column );
+                    if ( workspace[ i ].children ) {
+                        Column.unserialize( workspace[ i ] );
                     }
 
-                    // resize columns width %
-                    this.resize( workspace );
+                    self.appendChild( Column );
                 }
 
-                self.fireEvent( 'load' );
-                self.$Loader.hide();
+                // resize columns width %
+                self.resize( workspace );
+                self.fireEvent( 'loaded' );
             });
-
-            return this;
         },
 
         /**
@@ -213,6 +206,64 @@ define([
         },
 
         /**
+         * fix the workspace
+         * the columns and panels are not more movable
+         */
+        fix : function()
+        {
+            var i, len, DragDrop;
+
+            this.$fixed = true;
+
+            for ( i = 0, len = this.$columns.length; i < len; i++ ) {
+                this.$columns[ i ].fix();
+            }
+
+            // set cursor from the column handlers to default
+            var list = this.$Elm.getElements( '.qui-column-handle' );
+
+            for ( i = 0, len = list.length; i < len; i++ )
+            {
+                list[ i ].setStyle( 'cursor', 'default' );
+                list[ i ].removeClass( 'qui-column-handle-enabled' );
+            }
+
+            // disable drag drops
+            Object.each( this.$dragDrops, function(DragDrop, key) {
+                DragDrop.disable();
+            });
+        },
+
+        /**
+         * unfix the workspace
+         * the columns and panels are movable, again
+         */
+        unfix : function()
+        {
+            var i, len;
+
+            this.$fixed = false;
+
+            for ( i = 0, len = this.$columns.length; i < len; i++ ) {
+                this.$columns[ i ].unfix();
+            }
+
+            // set cursor from the column handlers to default
+            var list = this.$Elm.getElements( '.qui-column-handle' );
+
+            for ( i = 0, len = list.length; i < len; i++ )
+            {
+                list[ i ].setStyle( 'cursor', null );
+                list[ i ].addClass( 'qui-column-handle-enabled' );
+            }
+
+            // enable drag drops
+            Object.each( this.$dragDrops, function(DragDrop) {
+                DragDrop.enable();
+            });
+        },
+
+        /**
          * Create the DOMNode
          *
          * @method qui/controls/desktop/Workspace#create
@@ -222,13 +273,13 @@ define([
         {
             this.$Elm = new Element('div.qui-workspace', {
                 styles : {
-                    height : '100%',
-                    width  : '100%',
+                    height  : '100%',
+                    width   : '100%',
                     'float' : 'left'
                 }
             });
 
-            this.$Loader = new QUILoader({
+            this.Loader = new QUILoader({
                 styles : {
                     zIndex : 100
                 }
@@ -312,6 +363,10 @@ define([
                         contextmenu : this.$onHandlerContextMenu
                     }
                 });
+
+                if ( !this.$fixed ) {
+                    Handler.addClass( 'qui-column-handle-enabled' );
+                }
 
                 Handler.inject( Column.getElm(), 'before' );
 
@@ -644,7 +699,7 @@ define([
 
             var handlepos = Handler.getPosition().y;
 
-            new QUIDragDrop(Handler, {
+            var DragDrop = new QUIDragDrop(Handler, {
                 limit  : {
                     x: [ min, max ],
                     y: [ handlepos, handlepos ]
@@ -716,6 +771,8 @@ define([
                     }
                 }
             });
+
+            this.$dragDrops[ DragDrop.getId() ] = DragDrop;
         },
 
         /**
@@ -726,6 +783,10 @@ define([
          */
         $onHandlerContextMenu : function(event)
         {
+            if ( this.$fixed ) {
+                return;
+            }
+
             var self = this;
 
             event.stop();
@@ -735,7 +796,6 @@ define([
                 'qui/controls/contextmenu/Item'
             ], function(Contextmenu, ContextmenuItem)
             {
-
                 var Menu = new Contextmenu({
                     events :
                     {
@@ -802,6 +862,10 @@ define([
          */
         $onHandlerContextMenuClick : function(Item)
         {
+            if ( this.$fixed ) {
+                return;
+            }
+
             Item.getAttribute( 'Column' ).destroy();
             Item.getAttribute( 'Handler' ).destroy();
         },
@@ -814,6 +878,10 @@ define([
          */
         $onHandlerContextMenuHighlight : function(Item)
         {
+            if ( this.$fixed ) {
+                return;
+            }
+
             Item.getAttribute( 'Column' ).highlight();
         },
 
@@ -825,6 +893,10 @@ define([
          */
         $onHandlerContextMenuNormalize : function(Item)
         {
+            if ( this.$fixed ) {
+                return;
+            }
+
             Item.getAttribute( 'Column' ).normalize();
         }
     });

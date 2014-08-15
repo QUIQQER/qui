@@ -464,6 +464,22 @@ define([
         },
 
         /**
+         * Enable the dragdrop
+         */
+        enableDragDrop : function()
+        {
+
+        },
+
+        /**
+         * Enable the dragdrop
+         */
+        disableDragDrop : function()
+        {
+
+        },
+
+        /**
          * Create a Task for the Control
          *
          * @method qui/controls/desktop/Tasks#instanceToTask

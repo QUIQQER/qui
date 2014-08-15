@@ -1,7 +1,6 @@
 
 .qui-panel {
     background: #FFFFFF;
-    /* border: 1px solid #e6e9ed; */
     border-radius: 3px;
     clear: both;
     float: left;
@@ -86,7 +85,6 @@
 
 .qui-panel-expand,
 .qui-panel-collapse {
-    /*background: url(images/collapse-expand.gif) left top no-repeat;*/
     cursor: pointer;
     float: right;
     height: 40px;
@@ -94,10 +92,6 @@
     padding-right: 5px;
     text-align: center;
     width: 40px;
-}
-
-.qui-panel-expand {
-    /*background: url(images/collapse-expand.gif) left -16px no-repeat;*/
 }
 
 .qui-panel-content {
@@ -178,41 +172,6 @@
     margin: 10px;
 }
 
-/*
-.qui-panel-buttons:before {
-    content: "";
-    width: 100%;
-    height: 3px;
-    display: block;
-    position: relative;
-    top: -2px;
-
-    background-color: transparent;
-    background-image: -moz-linear-gradient(center top , rgba(0, 0, 0, 0.2), transparent);
-    background-image: -webkit-gradient(linear, center top, left bottom, from(rgba(0, 0, 0, 0.2)), to(transparent));
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent);
-    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent);
-    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent);
-    background-image: linear-gradient(top, rgba(0, 0, 0, 0.2), transparent);
-}
-
-.qui-panel-buttons:after {
-    content: "";
-    width: 100%;
-    height: 3px;
-    display: block;
-    position: relative;
-    top: 43px;
-
-    background-color: transparent;
-    background-image: -moz-linear-gradient(center bottom , rgba(0, 0, 0, 0.2), transparent);
-    background-image: -webkit-gradient(linear, center bottom, left bottom, from(rgba(0, 0, 0, 0.2)), to(transparent));
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
-    background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
-    background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
-    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2), transparent);
-}
-*/
 .qui-panel-buttons .qui-buttons-seperator {
     border-left: 2px solid #cccfd5;
     float: left;

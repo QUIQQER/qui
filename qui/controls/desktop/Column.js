@@ -75,6 +75,7 @@ define([
             this.$Elm         = null;
             this.$Content     = null;
             this.$panels      = {};
+            this.$dragDrops   = {};
 
             this.addEvents({
                 onDestroy : this.$onDestroy,
@@ -241,6 +242,64 @@ define([
         },
 
         /**
+         * fix the column
+         * the panels are not more movable
+         */
+        fix : function()
+        {
+            var i, len, DragDrop;
+
+            this.$fixed = true;
+
+            Object.each( this.$panels, function(Panel) {
+                Panel.disableDragDrop();
+            });
+
+            // set cursor from the column handlers to default
+            var list = this.$Elm.getElements( '.qui-column-hor-handle' );
+
+            for ( i = 0, len = list.length; i < len; i++ )
+            {
+                list[ i ].setStyle( 'cursor', 'default' );
+                list[ i ].removeClass( 'qui-column-hor-handle-enabled' );
+            }
+
+            // disable drag drops
+            Object.each( this.$dragDrops, function(DragDrop, key) {
+                DragDrop.disable();
+            });
+        },
+
+        /**
+         * unfix the column
+         * the panels are movable, again
+         */
+        unfix : function()
+        {
+            var i, len;
+
+            this.$fixed = false;
+
+            Object.each( this.$panels, function(Panel) {
+                Panel.enableDragDrop();
+            });
+
+            // set cursor from the column handlers to default
+            var list = this.$Elm.getElements( '.qui-column-hor-handle' );
+
+            for ( i = 0, len = list.length; i < len; i++ )
+            {
+                list[ i ].setStyle( 'cursor', null );
+                list[ i ].addClass( 'qui-column-hor-handle-enabled' );
+            }
+
+            // enable drag drops
+            Object.each( this.$dragDrops, function(DragDrop) {
+                DragDrop.enable();
+            });
+        },
+
+        /**
          * Append a child to the Column
          *
          * @method qui/controls/desktop/Column#appendChild
@@ -283,6 +342,10 @@ define([
                 Handler = new Element('div', {
                     'class' : 'qui-column-hor-handle smooth'
                 });
+
+                if ( !this.$fixed ) {
+                    Handler.addClass( 'qui-column-hor-handle-enabled' );
+                }
 
                 this.$addHorResize( Handler );
 
@@ -332,10 +395,10 @@ define([
 
             if ( this.getAttribute( 'sortable' ) )
             {
-                Panel.setAttribute( 'dragable', true );
+                Panel.enableDragDrop();
             } else
             {
-                Panel.setAttribute( 'dragable', false );
+                Panel.disableDragDrop();
             }
 
 
@@ -390,6 +453,14 @@ define([
             });
 
             this.$panels[ Panel.getId() ] = Panel;
+
+            if ( this.$fixed )
+            {
+                this.fix();
+            } else
+            {
+                this.unfix();
+            }
 
             return this;
         },
@@ -1071,6 +1142,8 @@ define([
 
             DragDrop.setAttribute( 'Control', this );
             DragDrop.setAttribute( 'Handle', Handle );
+
+            this.$dragDrops[ DragDrop.getId() ] = DragDrop;
         },
 
         /**
