@@ -4,6 +4,7 @@
     border-radius: 3px;
     clear: both;
     float: left;
+    outline: none;
     overflow: hidden;
     position: relative;
     width: 100%;

@@ -9,7 +9,6 @@
     float: left;
     height: 100%;
     overflow: auto;
-    padding: 5px;
     width: 100%;
 }
 
@@ -22,7 +21,7 @@
     border-style: solid;
     border-color: transparent;
     color: transparent;
-    cursor : e-resize;
+    cursor: default;
     float: left;
     height: 100%;
     overflow: hidden;
@@ -31,6 +30,7 @@
 .qui-column-handle-enabled:hover {
     background: #C3C3C3 url(images/handle-icon.gif) center center no-repeat;
     border-color: #909090;
+    cursor : e-resize;
 }
 
 .qui-column-hor-handle,
@@ -42,7 +42,7 @@
     border-style: solid;
     border-color: transparent;
     clear: both;
-    cursor : n-resize;
+    cursor: default;
     font-size: 1px;
     height: 4px;
     line-height: 1px;
@@ -52,6 +52,7 @@
 .qui-column-hor-handle-enabled:hover {
     background: #EEE url(images/handle-icon-horizontal.gif) center center no-repeat;
     border-color: #C3C3C3;
+    cursor: n-resize;
 }
 
 .qui-column-drag-arrow {

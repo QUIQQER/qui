@@ -112,6 +112,10 @@
         {
             "use strict";
 
+            QUI.addEvent('onError', function(err, file, no) {
+                console.log( err +' - '+ file +' - '+ no );
+            });
+
             <?php echo $example_code; ?>
         });
     </script>

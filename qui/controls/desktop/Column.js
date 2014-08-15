@@ -390,7 +390,7 @@ define([
             // or no second panel exist
             // use the column height
             if ( !Panel.getAttribute( 'height' ) || !this.count() ) {
-                Panel.setAttribute( 'height', colheight - 2 );
+                Panel.setAttribute( 'height', colheight );
             }
 
             if ( this.getAttribute( 'sortable' ) )
@@ -453,6 +453,7 @@ define([
             });
 
             this.$panels[ Panel.getId() ] = Panel;
+
 
             if ( this.$fixed )
             {
@@ -877,6 +878,42 @@ define([
         },
 
         /**
+         * Resize all panels with the same size
+         */
+        adaptPanels : function()
+        {
+            var i, len, Panel, panelHeight;
+
+            var list      = this.$Content.getElements( '.qui-panel' ),
+                handler   = this.$Content.getElements( '.qui-column-hor-handle' ),
+                maxHeight = this.$Content.getComputedSize().totalHeight,
+                len       = list.length;
+
+            var handlerSum = handler.getDimensions().map(function(obj) {
+                return obj.y;
+            }).sum();
+
+            maxHeight   = maxHeight - handlerSum;
+            panelHeight = Math.ceil( maxHeight / len );
+
+            for ( i = 0; i < len; i++ )
+            {
+                Panel = QUI.Controls.getById(
+                    list[ i ].get( 'data-quiid' )
+                );
+
+                if ( maxHeight < panelHeight) {
+                    panelHeight = maxHeight;
+                }
+
+                Panel.setAttribute( 'height', panelHeight );
+                Panel.resize();
+
+                maxHeight = maxHeight - panelHeight;
+            }
+        },
+
+        /**
          * Panel close event
          *
          * @method qui/controls/desktop/Column#$onPanelMinimize
@@ -919,8 +956,14 @@ define([
         $onPanelOpen : function(Panel)
         {
             // find the sibling
-            var Prev      = false,
-                direction = Panel.getAttribute( 'columnCloseDirection' );
+            var Prev        = false,
+                PanelElm    = Panel.getElm(),
+
+                direction     = Panel.getAttribute( 'columnCloseDirection' ),
+                panelHeight   = PanelElm.getComputedSize().totalHeight,
+                contentHeight = this.$Content.getSize().y,
+                scrollHeight  = this.$Content.getScrollSize().y;
+
 
             if ( direction && direction == 'next' ) {
                 Prev = this.getNextOpenedPanel( Panel );
@@ -938,60 +981,61 @@ define([
                 Prev = this.getNextOpenedPanel( Panel );
             }
 
-            if ( !Prev ) {
-                return;
-            }
-
-
-            var panel_height       = Panel.getElm().getComputedSize().totalHeight,
-                panel_title_height = Panel.getHeader().getSize().y,
-                prev_height        = Prev.getElm().getComputedSize().totalHeight;
-
-            Prev.setAttribute(
-                'height',
-                prev_height - (panel_height - panel_title_height)
-            );
-
-            Prev.resize();
-
-            // check if the panel content have a scroll bar
-            var elm_size   = this.$Content.getSize().y,
-                elm_scroll = this.$Content.getScrollSize().y;
-
-            if ( elm_size >= elm_scroll ) {
-                return;
-            }
-
-            // we must recalc our panels
-            // we have no space :-/ or to many space
-            var len    = Object.getLength( this.$panels ),
-                height = Math.ceil( elm_size / len );
-
-            for ( var quiid in this.$panels )
+            // all other panels closed
+            if ( !Prev )
             {
-                Panel = this.$panels[ quiid ];
+                // use the whole left space, if space exists
+                var left = this.$getLeftSpace();
 
-                if ( !Panel.isOpen() ) {
-                    continue;
+                if ( !left ) {
+                    return;
                 }
 
-                Panel.setAttribute( 'height', height );
+                // we have some more space
+                Panel.setAttribute( 'height', panelHeight + left );
                 Panel.resize();
+                return;
             }
 
-            // look at the last
-            var i;
-            var childheight = 0,
-                children    = this.$Content.getChildren();
+            // we have more panels opened, we must resized the panels
+            var PrevElm    = Prev.getElm(),
+                prevHeight = PrevElm.getComputedSize().totalHeight,
+                newHeight  = prevHeight - panelHeight;
 
-            for ( i = 0, len = children.length; i < len; i++ ) {
-                childheight = childheight + children[ i ].getSize().y;
+            Prev.setAttribute( 'height', newHeight );
+            Prev.resize();
+
+            var left = this.$getLeftSpace();
+
+            if ( left === 0 ) {
+                return;
             }
 
-            Panel.setAttribute(
-                'height',
-                Panel.getAttribute( 'height' ) - ( childheight - elm_size )
-            );
+            if ( left > 0 )
+            {
+                Prev.setAttribute( 'height', newHeight + left );
+                Prev.resize();
+                return;
+            }
+
+            this.adaptPanels();
+        },
+
+        /**
+         * Return the left space, the empty space which is available
+         *
+         * @return {Integer}
+         */
+        $getLeftSpace : function()
+        {
+            var childrens   = this.$Content.getChildren(),
+                contentSize = this.$Content.getSize().y;
+
+            var sum = childrens.getDimensions().map(function(obj) {
+                return obj.y;
+            }).sum();
+
+            return contentSize - sum;
         },
 
         /**
@@ -1154,7 +1198,7 @@ define([
          */
         $horResizeStop : function(DragDrop, Dragable)
         {
-            var i, len, size, change;
+            var change, newHeight;
 
             var Handle   = DragDrop.getAttribute('Handle'),
                 pos      = Dragable.getPosition(),
@@ -1162,10 +1206,6 @@ define([
                 children = this.$Content.getChildren(),
 
                 computedSize = this.$Content.getComputedSize();
-
-            size = computedSize.height -
-                        computedSize['padding-top'] -
-                        computedSize['padding-bottom'];
 
             change = pos.y - hpos.y;
 
@@ -1189,7 +1229,7 @@ define([
 
                 if ( !NextOpened )
                 {
-                    NextInstance.setAttribute( 'height', 30 );
+                    NextInstance.setAttribute( 'height', 40 );
                     NextInstance.open();
                 } else
                 {
@@ -1203,7 +1243,7 @@ define([
 
                 if ( !PrevOpened )
                 {
-                    PrevInstance.setAttribute( 'height', 30 );
+                    PrevInstance.setAttribute( 'height', 40 );
                     PrevInstance.open();
                 } else
                 {
@@ -1211,44 +1251,53 @@ define([
                 }
             }
 
+
             if ( NextInstance )
             {
-                NextInstance.setAttribute(
-                    'height',
-                    NextInstance.getAttribute( 'height' ) - change
-                );
+                newHeight = NextInstance.getElm().getSize().y - change;
 
+                if ( newHeight < 50 ) { // panel min height
+                    newHeight = 50;
+                }
+
+                NextInstance.setAttribute( 'height', newHeight );
                 NextInstance.resize();
             }
 
 
-            if ( !PrevInstance ) {
-                return;
+            if ( PrevInstance )
+            {
+                newHeight = PrevInstance.getElm().getSize().y + change;
+
+                var discrepancy = 0;
+
+                if ( newHeight < 50 ) // panel min height
+                {
+                    discrepancy = 50 - newHeight;
+                    newHeight   = 50;
+                }
+
+                PrevInstance.setAttribute( 'height', newHeight );
+                PrevInstance.resize();
+
+                if ( discrepancy && NextInstance )
+                {
+                    newHeight = NextInstance.getElm().getSize().y - discrepancy;
+
+                    NextInstance.setAttribute( 'height', newHeight );
+                    NextInstance.resize();
+                }
             }
 
-            PrevInstance.setAttribute(
-                'height',
-                PrevInstance.getAttribute( 'height' ) + change
-            );
+            var leftSpace = this.$getLeftSpace();
 
-            PrevInstance.resize();
-
-            // check if a rest height exist
-            var children_height = 0;
-
-            for ( i = 0, len = children.length; i < len; i++ ) {
-                children_height = children_height + children[i].getSize().y;
+            if ( leftSpace == 0 ) {
+                 return;
             }
 
-            if ( children_height == size.y ) {
-                return;
-            }
+            newHeight = PrevInstance.getAttribute( 'height' ) + leftSpace;
 
-            PrevInstance.setAttribute(
-                'height',
-                PrevInstance.getAttribute( 'height' ) + (size.y - children_height)
-            );
-
+            PrevInstance.setAttribute( 'height', newHeight );
             PrevInstance.resize();
         },
 

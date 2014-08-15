@@ -1,15 +1,22 @@
 
 require([
 
+    'qui/QUI',
     'qui/controls/desktop/Workspace',
     'qui/controls/desktop/Column',
     'qui/controls/desktop/Panel',
     'qui/controls/desktop/Tasks',
     'qui/controls/buttons/Button'
 
-], function(Workspace, Column, Panel, TaskPanel, Button)
+], function(QUI, Workspace, Column, Panel, TaskPanel, Button)
 {
     "use strict";
+
+    QUI.addEvent('onError', function(error, file, line)
+    {
+        console.log( error +' '+ file +' '+ line );
+    });
+
 
     document.id( 'container' ).setStyle('height', 400);
 
@@ -28,6 +35,9 @@ require([
     var MyWorkspace = new Workspace().inject(
         document.id( 'container' )
     );
+
+    MyWorkspace.fix();
+
 
     // Columns
     var Column1 = new Column({

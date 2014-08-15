@@ -139,10 +139,7 @@ define([
                 tabindex : -1,
 
                 styles : {
-                    height : this.getAttribute('height'),
-                    outline : 'none',
-                    '-moz-outline': 'none'
-
+                    height : this.getAttribute('height')
                 },
 
                 html : '<div class="qui-panel-header box"></div>' +

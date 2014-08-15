@@ -24,6 +24,7 @@ require([
         width  : 500
     }).inject( document.id( 'container' ) );
 
+
     MyColumn.appendChild(
         new Panel({
             title   : 'My Panel 1',
