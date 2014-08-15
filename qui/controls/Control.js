@@ -338,8 +338,12 @@ define([
          */
         focus : function()
         {
-            if ( this.$Elm ) {
-                this.$Elm.focus();
+            if ( this.$Elm )
+            {
+                // try catch for ie 8 fix
+                try {
+                    this.$Elm.focus();
+                } catch ( e ) {}
             }
 
             return this;
