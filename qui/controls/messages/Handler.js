@@ -30,7 +30,7 @@ define([
     'qui/Locale',
     'qui/classes/storage/Storage',
 
-    'css!qui/controls/messages/Handler'
+    'css!qui/controls/messages/Handler.css'
 
 ], function(require, Control, Favico, Locale)
 {
