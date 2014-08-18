@@ -28,6 +28,8 @@ require([
         document.id( 'container' )
     );
 
+    MyWorkspace.unfix();
+
     // Columns
     var Column1 = new Column({
         title : 'My Column 1'

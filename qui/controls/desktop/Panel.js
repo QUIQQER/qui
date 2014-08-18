@@ -803,9 +803,24 @@ define([
                 this.$Header.setStyle( 'cursor', 'move' );
             }
 
-            if ( self.$Dropable ) {
-                self.$Dropable.enable();
-            };
+            if ( this.$Dropable )
+            {
+                this.$Dropable.enable();
+                return;
+            }
+
+            var self = this;
+
+            this.$getDragable(function()
+            {
+                if ( self.getAttribute( 'dragable' ) )
+                {
+                    self.$Dropable.enable();
+                } else
+                {
+                    self.$Dropable.disable();
+                }
+            });
         },
 
         /**
@@ -821,7 +836,7 @@ define([
 
             if ( self.$Dropable ) {
                 self.$Dropable.disable();
-            };
+            }
         },
 
         /**
@@ -832,16 +847,29 @@ define([
          */
         $getDragable : function(callback)
         {
-            var self = this;
-
-            if ( self.$Dropable )
+            if ( this.$Dropable )
             {
-                callback( self.$Dropable );
+                callback( this.$Dropable );
                 return;
             }
 
+            if ( typeof this.$_dragDropExec !== 'undefined' )
+            {
+                (function() {
+                    this.$getDragable( callback );
+                }).delay( 20, this );
+
+                return;
+            }
+
+            this.$_dragDropExec = true;
+
+            var self = this;
+
             require(['qui/classes/utils/DragDrop'], function(DragDrop)
             {
+                var DragDropParent = null;
+
                 self.$Dropable = new DragDrop(self.$Header, {
                     dropables : '.qui-panel-drop',
                     cssClass  : 'radius5',
@@ -851,35 +879,45 @@ define([
                     },
                     events :
                     {
-                        onStart : function(Dragable, Element, event)
-                        {
-                            self.fireEvent(
-                                'dragDropStart',
-                                [ self, Element, event ]
-                            );
+                        onStart : function(Dragable, Element, event) {
+                            self.fireEvent( 'dragDropStart', [ self, Element, event ] );
                         },
 
-                        onComplete : function()
-                        {
-                            self.fireEvent(
-                                'dragDropComplete',
-                                [ self ]
-                            );
+                        onComplete : function() {
+                            self.fireEvent( 'dragDropComplete', [ self ] );
                         },
 
-                        onDrag : function(Dragable, Element, event) {
+                        onDrag : function(Dragable, Element, event)
+                        {
                             self.fireEvent( 'drag', [ self, event ] );
+
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropDrag', [ self, event ] );
+                            }
                         },
 
                         onEnter : function(Dragable, Element, Dropable)
                         {
-                            Dropable.highlight();
-                            // QUI.controls.Utils.highlight( Droppable );
+                            var quiid = Dropable.get( 'data-quiid' );
+
+                            if ( !quiid ) {
+                                return;
+                            }
+
+                            DragDropParent = QUI.Controls.getById( quiid );
+
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropEnter', [ self, Element ] );
+                            }
                         },
 
-                        onLeave : function(Dragable, Element, Dropable) {
-                            Dropable.highlight();
-                            //QUI.controls.Utils.normalize( Droppable );
+                        onLeave : function(Dragable, Element, Dropable)
+                        {
+                            if ( DragDropParent )
+                            {
+                                DragDropParent.fireEvent( 'dragDropLeave', [ self, Element ] );
+                                DragDropParent = null;
+                            }
                         },
 
                         onDrop : function(Dragable, Element, Dropable, event)
@@ -888,24 +926,9 @@ define([
                                 return;
                             }
 
-                            var quiid = Dropable.get( 'data-quiid' );
-
-                            if ( !quiid ) {
-                                return;
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropDrop', [ self, Element, Dropable, event ] );
                             }
-
-                            var Parent = QUI.Controls.getById( quiid );
-
-                            Parent.fireEvent( 'onDrop', [ self ] );
-
-                            /*
-
-                            var Parent = QUI.Controls.getById( quiid );
-
-                            Parent.normalize();
-                            Parent.appendChild( self );
-
-                            */
                         }
                     }
                 });

@@ -36,7 +36,7 @@ require([
         document.id( 'container' )
     );
 
-    MyWorkspace.fix();
+    MyWorkspace.unfix();
 
 
     // Columns

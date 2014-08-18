@@ -346,8 +346,12 @@ define([
             Column.setParent( this );
             Column.inject( this.$Elm );
 
-            if ( this.$fixed ) {
+            if ( this.$fixed )
+            {
                 Column.fix();
+            } else
+            {
+                Column.unfix();
             }
 
             if ( this.count() )

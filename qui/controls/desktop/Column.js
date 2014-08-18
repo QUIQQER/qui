@@ -51,10 +51,12 @@ define([
             '$onEnterRemovePanel',
             '$onLeaveRemovePanel',
             '$onClickRemovePanel',
-            '$onDragDropStart',
-            '$onDragDropStop',
-            '$onDrag',
-            '$onDrop'
+
+            '$onDragDropEnter',
+            '$onDragDropLeave',
+            '$onDragDropDrag',
+            '$onDragDropDrop',
+            '$onDragDropComplete'
         ],
 
         options : {
@@ -62,7 +64,6 @@ define([
             width       : false,
             height      : false,
             resizeLimit : [],
-            sortable    : true,
             closable    : false,
             placement   : 'left' // depricated
         },
@@ -77,9 +78,16 @@ define([
             this.$panels      = {};
             this.$dragDrops   = {};
 
+            this.$fixed = true;
+
             this.addEvents({
                 onDestroy : this.$onDestroy,
-                onDrop    : this.$onDrop
+
+                dragDropEnter : this.$onDragDropEnter,
+                dragDropLeave : this.$onDragDropLeave,
+                dragDropDrag  : this.$onDragDropDrag,
+                dragDropDrop  : this.$onDragDropDrop,
+                dragDropComplete : this.$onDragDropComplete
             });
         },
 
@@ -309,35 +317,77 @@ define([
          */
         appendChild : function(Panel, pos)
         {
-            var Prev, colheight;
+            if ( !this.isApandable( Panel ) ) {
+                return this;
+            }
 
-            var Handler   = false,
-                height    = false,
-                Parent    = Panel.getParent(),
+            var Handler = false,
+                height  = false,
+                Parent  = Panel.getParent(),
+                count   = this.count(),
 
-                computedSize    = this.$Content.getComputedSize(),
-                old_panel_is_me = false;
+                panelIndex   = false,
+                parentIsMe   = false,
+                colomnHeight = this.$Content.getComputedSize().totalHeight,
+                handleList   = this.$Content.getElements( '.qui-column-hor-handle' ),
+                paneList     = this.$Content.getElements( '.qui-panel' );
+
+            var ChildPanel = this.getElm().getElement(
+                '[data-quiid="'+ Panel.getId() +'"]'
+            );
 
 
-            colheight = computedSize.height -
-                        computedSize['padding-top'] -
-                        computedSize['padding-bottom'];
-
-            // depend from another parent, if the panel has a parent
-            if ( typeOf( Parent ) == 'qui/controls/desktop/Column' )
+        // only sortable
+            if ( ChildPanel )
             {
-                Parent.dependChild( Panel );
+                panelIndex = Array.prototype.indexOf.call( paneList, Panel.getElm() );
+                parentIsMe = true;
 
-                if ( Parent == this ) {
-                    old_panel_is_me = true;
+                if ( typeof pos !== 'undefined' )
+                {
+                    // same position, so we do nothing
+                    if ( pos == panelIndex ) {
+                        return this;
+                    }
+
+                    if ( (panelIndex + 1) == pos ) {
+                        return this;
+                    }
                 }
             }
 
-            Panel.setParent( this );
+
+        // depend from another parent, if the panel has a parent
+            if ( parentIsMe === false )
+            {
+                if ( Panel.getParent() ) {
+                    Panel.getParent().dependChild( Panel );
+                }
+
+                Panel.setParent( this );
+
+            } else
+            {
+        // only sort, than destroy the handler
+                if ( Panel.getAttribute( '_Handler' ) )
+                {
+                    Panel.getAttribute( '_Handler' ).destroy();
+
+                } else if ( panelIndex == 0 )
+                {
+                    handleList[ 0 ].destroy();
+                }
+
+                if ( typeof handleList[ panelIndex-1 ] !== 'undefined' &&
+                     handleList[ panelIndex-1 ].getParent() )
+                {
+                    handleList[ panelIndex-1 ].destroy();
+                }
+            }
 
 
-            // create a new handler
-            if ( this.count() )
+        // create a new handler
+            if ( count )
             {
                 Handler = new Element('div', {
                     'class' : 'qui-column-hor-handle smooth'
@@ -352,48 +402,44 @@ define([
                 Panel.setAttribute( '_Handler', Handler );
             }
 
-            var handlelist = this.getElm().getElements(
-                '.qui-column-hor-handle'
-            );
 
-            // if the old panel was me, so we only make a new order
-            // there is a less column, because the panel column was destroyed
-            if ( typeof pos !== 'undefined' &&
-                 old_panel_is_me &&
-                 (pos).toInt() !== 0 )
-            {
-                pos = pos - 1;
+        // new panel events
+            Panel.addEvents({
+                onMinimize : this.$onPanelMinimize,
+                onOpen     : this.$onPanelOpen,
+                onDestroy  : this.$onPanelDestroy
+            });
+
+            this.$panels[ Panel.getId() ] = Panel;
+
+
+        // insert
+            if ( !Panel.getAttribute( 'height' ) || !count ) {
+                Panel.setAttribute( 'height', colomnHeight );
             }
 
-            // insert the panel
-            if ( typeof pos === 'undefined' || handlelist.length < (pos).toInt() )
+            if ( typeof pos === 'undefined' || handleList.length < (pos).toInt() )
             {
-                // first panel have no handler
                 if ( Handler ) {
                     Handler.inject( this.$Content );
                 }
 
                 Panel.inject( this.$Content );
 
-            } else if ( (pos).toInt() === 0 || !handlelist.length )
+            } else if ( ( pos ).toInt() === 0 )
             {
                 Handler.inject( this.$Content, 'top' );
                 Panel.inject( this.$Content, 'top' );
 
-            } else if ( typeof handlelist[ pos - 1 ] !== 'undefined' )
+            } else if ( typeof handleList[ pos - 1 ] !== 'undefined' )
             {
-                Handler.inject( handlelist[ pos - 1 ], 'after' );
-                Panel.inject( handlelist[ pos - 1 ], 'after' );
+                Handler.inject( handleList[ pos - 1 ], 'after' );
+                Panel.inject( handleList[ pos - 1 ], 'after' );
             }
 
-            // if no height
-            // or no second panel exist
-            // use the column height
-            if ( !Panel.getAttribute( 'height' ) || !this.count() ) {
-                Panel.setAttribute( 'height', colheight );
-            }
 
-            if ( this.getAttribute( 'sortable' ) )
+        // drag drop?
+            if ( this.$fixed === false )
             {
                 Panel.enableDragDrop();
             } else
@@ -402,66 +448,12 @@ define([
             }
 
 
-            // if some panels insight, resize the other panels
-            if ( this.count() )
-            {
-                height = Panel.getAttribute( 'height' );
-                Prev   = this.getPreviousPanel( Panel );
-
-                if ( !Prev ) {
-                    Prev = this.getNextPanel( Panel );
-                }
-
-                if ( !Prev ) {
-                    Prev = this.$panels[ 0 ];
-                }
-
-
-                if ( height > colheight || height.toString().match( '%' ) ) {
-                    height = (colheight / 2).round();
-                }
-
-                var max         = Prev.getAttribute( 'height' ),
-                    prev_height = max - height;
-
-                if ( prev_height < 100 )
-                {
-                    prev_height = 100;
-                    height      = max - 100;
-                }
-
-                if ( Handler ) {
-                    height = height - Handler.getSize().y;
-                }
-
-                Panel.setAttribute( 'height', height );
-                Prev.setAttribute( 'height', prev_height );
-                Prev.resize();
+        // more panels inside
+            if ( !count ) {
+                return this;
             }
 
-            Panel.resize();
-
-            Panel.addEvents({
-                onMinimize : this.$onPanelMinimize,
-                onOpen     : this.$onPanelOpen,
-                onDestroy  : this.$onPanelDestroy,
-
-                // drag drop events
-                onDragDropStart    : this.$onDragDropStart,
-                onDragDropComplete : this.$onDragDropStop,
-                onDrag             : this.$onDrag
-            });
-
-            this.$panels[ Panel.getId() ] = Panel;
-
-
-            if ( this.$fixed )
-            {
-                this.fix();
-            } else
-            {
-                this.unfix();
-            }
+            this.$onPanelOpen( Panel );
 
             return this;
         },
@@ -495,6 +487,10 @@ define([
             if ( Parent ) {
                 Panel.getParent().$onPanelDestroy( Panel );
             }
+
+            Panel.getElm().dispose();
+
+            this.recalcPanels();
 
             return this;
         },
@@ -911,6 +907,54 @@ define([
 
                 maxHeight = maxHeight - panelHeight;
             }
+        },
+
+        /**
+         * Recalc the panels, if space exist, the last panel would be resized
+         */
+        recalcPanels : function()
+        {
+            var list      = this.$Content.getChildren( 'div' ),
+                maxHeight = this.$Content.getComputedSize().totalHeight;
+
+            var listSum = list.getDimensions().map(function(obj) {
+                return obj.y;
+            }).sum();
+
+            var rest = maxHeight - listSum;
+
+            if ( rest == 0 ) {
+                return;
+            }
+
+            // resize last panel
+            var LastElm   = this.$Content.getLast( '.qui-panel' ),
+                LastPanel = QUI.Controls.getById( LastElm.get( 'data-quiid' ) );
+
+            LastPanel.setAttribute(
+                'height',
+                LastPanel.getElm().getComputedSize().totalHeight + rest
+            );
+
+            LastPanel.resize();
+        },
+
+        /**
+         * Return true or false, if the object can be append into the column
+         *
+         * @param {Object} QO - QUI object
+         */
+        isApandable : function(QO)
+        {
+            console.log( typeOf( QO ) );
+
+            switch ( typeOf( QO ) )
+            {
+                case 'qui/controls/desktop/Panel':
+                    return true;
+            }
+
+            return true;
         },
 
         /**
@@ -1439,18 +1483,134 @@ define([
          */
 
         /**
-         * event : drag drop start
+         * event on drag drop enter
+         *
+         * @method qui/controls/desktop/Column#$onDragDropEnter
+         * @param {qui/controls/Control} Control - QUI Control
+         * @param {DOMNode} Elm
+         */
+        $onDragDropEnter : function(QO, Elm)
+        {
+            if ( !this.isApandable( QO ) ) {
+                return;
+            }
+
+
+            this.$calcDragDropArrows();
+
+            // calc the nearest
+            var y        = Elm.getPosition().y,
+                closest  = null,
+                distance = false;
+
+            for ( var i in this.$ddArrowPositions )
+            {
+                distance =  y - i;
+
+                if ( distance < 0 ) {
+                    distance = distance * -1;
+                }
+
+                if ( !closest || closest > distance )
+                {
+                    this.$ddArrow = this.$ddArrowPositions[ i ];
+                    closest = distance;
+                }
+            }
+
+            if ( this.$ddArrow ) {
+                this.$ddArrow.setStyle( 'display', null );
+            }
+
+            this.highlight();
+        },
+
+        /**
+         * event on draging
+         *
+         * @method qui/controls/desktop/Column#$onDragDropDrag
+         * @param {qui/controls/Control} Control - QUI Control
+         * @param {DOMEvent} event
+         */
+        $onDragDropDrag : function(QO, event)
+        {
+            var y = event.page.y,
+                x = event.page.x;
+
+            if ( typeof this.$ddArrowPositions[ y ] === 'undefined' ) {
+                return;
+            }
+
+            if ( this.$ddArrow == this.$ddArrowPositions[ y ] ) {
+                return;
+            }
+
+            if ( this.$ddArrow ) {
+                this.$ddArrow.setStyle( 'display', 'none' );
+            }
+
+            this.$ddArrow = this.$ddArrowPositions[ y ];
+            this.$ddArrow.setStyle( 'display', null );
+        },
+
+        /**
+         * event : a control droped on the column
+         *
+         * @method qui/controls/desktop/Column#$onDragDropDrop
+         * @param {qui/controls/Control} Control - QUI Control
+         */
+        $onDragDropDrop : function(QO)
+        {
+            if ( !this.isApandable( QO ) ) {
+                return;
+            }
+
+            if ( !this.$ddArrow )
+            {
+                this.appendChild( QO );
+                this.recalcPanels();
+
+                return;
+            }
+
+            this.appendChild( QO, this.$ddArrow.get( 'data-arrowno' ) );
+            this.$onDragDropLeave( QO );
+
+            this.recalcPanels();
+        },
+
+        /**
+         * event drag drop complete
+         *
+         * @method qui/controls/desktop/Column#$onDragDropComplete
+         * @param {qui/controls/Control} QO - QUI Object
+         */
+        $onDragDropComplete : function(QO)
+        {
+            this.$clearDragDropArrows();
+            this.normalize();
+        },
+
+        /**
+         * event: drag drop leave
+         *
+         * @method qui/controls/desktop/Column#$onDragDropLeave
+         * @param {qui/controls/Control} Control - QUI Control
+         */
+        $onDragDropLeave : function(QO)
+        {
+            this.$onDragDropComplete();
+        },
+
+        /**
          * calculates the position of the drag drop arrows
          * and create the drag drop arrows
          *
          * @method qui/controls/desktop/Column#$onDragDropStart
-         * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
-         * @param {DOMNode} DragElement - DragDrop DOMNode Element
-         * @param {DOMEvent} event - DOM event
          */
-        $onDragDropStart : function(DragDrop, DragElement, event)
+        $calcDragDropArrows : function()
         {
-            var i, y, len, closest, distance, Handler;
+            var i, y, len, Handler;
 
             this.$ddArrowPositions = {};
 
@@ -1460,7 +1620,7 @@ define([
                 xPos   = elmPos.x;
 
             // first arrow
-            this.$ddArrowPositions[ elmPos.y ] = new Element('div', {
+            this.$ddArrowPositions[ elmPos.y + 10 ] = new Element('div', {
                 'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
                     top     : elmPos.y,
@@ -1492,7 +1652,7 @@ define([
 
 
             // last arrow
-            this.$ddArrowPositions[ elmPos.y + Elm.getSize().y ] = new Element('div', {
+            this.$ddArrowPositions[ elmPos.y + Elm.getSize().y - 10 ] = new Element('div', {
                 'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
                     top     : elmPos.y + Elm.getSize().y - 20,
@@ -1501,28 +1661,6 @@ define([
                 },
                 'data-arrowno' : i + 1
             }).inject( document.body );
-
-            // calc the nearest
-            y        = event.page.y;
-            closest  = null;
-            distance = false;
-
-            for ( i in this.$ddArrowPositions )
-            {
-                distance = y-i;
-
-                if ( distance < 0 ) {
-                    distance = distance * -1;
-                }
-
-                if ( !closest || closest > distance )
-                {
-                    this.$ddArrow = this.$ddArrowPositions[ i ];
-                    closest = distance;
-                }
-            }
-
-            this.$ddArrow.setStyle( 'display', null );
         },
 
         /**
@@ -1531,7 +1669,7 @@ define([
          *
          * @method qui/controls/desktop/Column#$onDragDropStop
          */
-        $onDragDropStop : function()
+        $clearDragDropArrows : function()
         {
             var i, len, list;
 
@@ -1547,43 +1685,6 @@ define([
             for ( i = 0, len = list.length; i < len; i++ ) {
                 list[ i ].set( 'data-arrowid', null );
             }
-        },
-
-        /**
-         * event : drag
-         *
-         * @method qui/controls/desktop/Column#$onDrag
-         * @param {qui/classes/utils/DragDrop} DragDrop - DragDrop Object
-         * @param {DOMEvent} event - DOM event
-         */
-        $onDrag : function(DragDrop, event)
-        {
-            var y = event.page.y;
-
-            if ( this.$ddArrowPositions[ y ] )
-            {
-                this.$ddArrow.setStyle( 'display', 'none' );
-                this.$ddArrowPositions[ y ].setStyle( 'display', null );
-
-                this.$ddArrow = this.$ddArrowPositions[ y ];
-            }
-        },
-
-        /**
-         * event : a control droped on the column
-         *
-         * @method qui/controls/desktop/Column#$onDrop
-         * @param {qui/controls/Control} Control - QUI Control
-         */
-        $onDrop : function(Control)
-        {
-            if ( !this.$ddArrow )
-            {
-                this.appendChild( Control );
-                return;
-            }
-
-            this.appendChild( Control, this.$ddArrow.get( 'data-arrowno' ) );
         }
     });
 });
