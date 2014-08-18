@@ -537,7 +537,7 @@ define([
         $bindResizeToColumn : function(Handler, Column)
         {
             // dbl click
-            Handler.addEvent('dblclick', function() {
+            Handler.addEvent('dblClick', function() {
                 Column.toggle();
             });
 

@@ -563,16 +563,14 @@ define([
 
             this.$Elm.setStyle( 'width', width );
 
-            // all panels resize
-            var i, Panel;
-
-            for ( i in this.$panels )
-            {
-                Panel = this.$panels[ i ];
-
-                Panel.setAttribute( 'width', width );
-                Panel.resize();
+            for ( var i in this.$panels ) {
+                this.$panels[ i ].setAttribute( 'width', width );
             }
+
+            (function() {
+                this.recalcPanels();
+            }).delay( 20, this );
+
 
             return this;
         },
@@ -914,6 +912,10 @@ define([
          */
         recalcPanels : function()
         {
+            if ( !this.count() ) {
+                return;
+            }
+
             var list      = this.$Content.getChildren( 'div' ),
                 maxHeight = this.$Content.getComputedSize().totalHeight;
 
@@ -931,11 +933,13 @@ define([
             var LastElm   = this.$Content.getLast( '.qui-panel' ),
                 LastPanel = QUI.Controls.getById( LastElm.get( 'data-quiid' ) );
 
-            LastPanel.setAttribute(
-                'height',
-                LastPanel.getElm().getComputedSize().totalHeight + rest
-            );
+            if ( LastPanel.isOpen() === false ) {
+                LastPanel = this.getPreviousPanel( LastPanel );
+            }
 
+            var newHeight = LastPanel.getElm().getComputedSize().totalHeight + rest
+
+            LastPanel.setAttribute( 'height', newHeight );
             LastPanel.resize();
         },
 
@@ -952,6 +956,10 @@ define([
                 case 'qui/controls/desktop/Tasks':
                 case 'qui/controls/taskbar/Task':
                     return true;
+            }
+
+            if ( instanceOf( QO, Panel ) ) {
+                return true;
             }
 
             return false;
