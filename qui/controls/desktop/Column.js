@@ -946,15 +946,14 @@ define([
          */
         isApandable : function(QO)
         {
-            console.log( typeOf( QO ) );
-
             switch ( typeOf( QO ) )
             {
                 case 'qui/controls/desktop/Panel':
+                case 'qui/controls/desktop/Tasks':
                     return true;
             }
 
-            return true;
+            return false;
         },
 
         /**
