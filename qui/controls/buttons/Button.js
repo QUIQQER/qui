@@ -605,13 +605,25 @@ define([
                             return;
                         }
 
-                        var pos  = self.$Elm.getPosition(),
-                            size = self.$Elm.getSize();
+                        var pos   = self.$Elm.getPosition(),
+                            size  = self.$Elm.getSize(),
 
-                        self.$Menu.setPosition(
-                            pos.x - 20,
-                            pos.y + size.y + 10
-                        );
+                            mpos  = self.getAttribute('menuCorner'),
+                            msize = self.$Menu.getElm().getComputedSize();
+
+                        if ( mpos.contains( 'bottom' ) )
+                        {
+                            self.$Menu.setPosition(
+                                pos.x - 20,
+                                pos.y - size.y - msize.totalHeight + 10
+                            );
+                        } else
+                        {
+                            self.$Menu.setPosition(
+                                pos.x - 20,
+                                pos.y + size.y + 10
+                            );
+                        }
 
                         self.$Menu.show();
                         self.$Elm.focus();

@@ -120,7 +120,7 @@ define([
         create : function()
         {
             this.$Elm = new Element('div', {
-                'class'      : 'qui-column box qui-panel-drop',
+                'class'      : 'qui-column box qui-panel-drop qui-task-drop',
                 'data-quiid' : this.getId()
             });
 
@@ -950,6 +950,7 @@ define([
             {
                 case 'qui/controls/desktop/Panel':
                 case 'qui/controls/desktop/Tasks':
+                case 'qui/controls/taskbar/Task':
                     return true;
             }
 
@@ -1562,6 +1563,13 @@ define([
         {
             if ( !this.isApandable( QO ) ) {
                 return;
+            }
+
+            if ( typeOf( QO ) == 'qui/controls/taskbar/Task' )
+            {
+                QO = QO.getInstance();
+
+                this.$onDragDropComplete();
             }
 
             if ( !this.$ddArrow )

@@ -70,7 +70,7 @@ define([
             this.$Elm      = null;
 
             this.addEvents({
-                'onDestroy' : this.$onDestroy
+                onDestroy : this.$onDestroy
             });
 
             if ( typeof Instance === 'undefined' ) {
@@ -153,7 +153,7 @@ define([
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class' : 'qui-task radius5 box',
+                'class' : 'qui-task box',
                 html    : '<span class="qui-task-icon"></span>' +
                           '<span class="qui-task-text"></span>',
                 styles : {
@@ -185,58 +185,66 @@ define([
             {
                 this.$_enter = null;
 
+                var DragDropParent = null;
+
                 new QUIDragDrop(this.$Elm, {
-                    dropables : [ '.qui-taskgroup', '.qui-taskbar' ],
-                    cssClass  : 'radius5',
+                    dropables : '.qui-task-drop',
                     events    :
                     {
-                        onEnter : function(Element, Droppable)
-                        {
-                            if ( !Droppable ) {
-                                return;
-                            }
-
-                            var quiid = Droppable.get( 'data-quiid' );
-
-                            if ( !quiid ) {
-                                return;
-                            }
-
-                            QUI.Controls.getById( quiid ).highlight();
+                        onStart : function(Dragable, Element, event) {
+                            self.fireEvent( 'dragDropStart', [ self, Element, event ] );
                         },
 
-                        onLeave : function(Element, Droppable)
-                        {
-                            if ( !Droppable ) {
-                                return;
-                            }
-
-                            var quiid = Droppable.get( 'data-quiid' );
-
-                            if ( !quiid ) {
-                                return;
-                            }
-
-                            QUI.Controls.getById( quiid ).normalize();
+                        onComplete : function() {
+                            self.fireEvent( 'dragDropComplete', [ self ] );
                         },
 
-                        onDrop : function(Element, Droppable, event)
+                        onDrag : function(Dragable, Element, event)
                         {
-                            if ( !Droppable ) {
-                                return;
-                            }
+                            self.fireEvent( 'drag', [ self, event ] );
 
-                            var quiid = Droppable.get( 'data-quiid' );
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropDrag', [ self, event ] );
+                            }
+                        },
+
+                        onEnter : function(Dragable, Element, Dropable)
+                        {
+                            var quiid = Dropable.get( 'data-quiid' );
 
                             if ( !quiid ) {
                                 return;
                             }
 
-                            var Bar = QUI.Controls.getById( quiid );
+                            DragDropParent = QUI.Controls.getById( quiid );
 
-                            Bar.normalize();
-                            Bar.appendChild( self );
+                            if ( !DragDropParent ) {
+                                return;
+                            }
 
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropEnter', [ self, Element ] );
+                            }
+                        },
+
+                        onLeave : function(Dragable, Element, Dropable)
+                        {
+                            if ( DragDropParent )
+                            {
+                                DragDropParent.fireEvent( 'dragDropLeave', [ self, Element ] );
+                                DragDropParent = null;
+                            }
+                        },
+
+                        onDrop : function(Dragable, Element, Dropable, event)
+                        {
+                            if ( !Dropable ) {
+                                return;
+                            }
+
+                            if ( DragDropParent ) {
+                                DragDropParent.fireEvent( 'dragDropDrop', [ self, Element, Dropable, event ] );
+                            }
                         }
                     }
                 });

@@ -269,6 +269,51 @@ define([
         },
 
         /**
+         * Depends a panel from the column
+         *
+         * @method qui/controls/desktop/Tasks#dependChild
+         * @param {qui/controls/desktop/Panel} Panel
+         * @return {this} self
+         */
+        dependChild : function(Panel)
+        {
+            var self = this,
+                Task = Panel.getAttribute( 'Task' );
+
+            if ( !Task ) {
+                return this;
+            }
+
+            Panel.getElm().setStyles({
+                left     : null,
+                position : null,
+                top      : null,
+                display  : null
+            });
+
+            Panel.setAttributes({
+                collapsible : true,
+                Task        : null
+            });
+
+            // task events
+            Task.removeEvents( 'normalize' );
+            Task.removeEvents( 'activate' );
+            Task.removeEvents( 'destroy' );
+            Task.removeEvents( 'refresh' );
+            Task.removeEvents( 'destroy' );
+            Task.removeEvents( 'click' );
+
+            Task.setInstance( null );
+            Task.destroy();
+
+            this.getTaskbar().removeChild( Task );
+            this.selectTask( Task );
+
+            return this;
+        },
+
+        /**
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendTask
@@ -295,8 +340,7 @@ define([
                 return;
             }
 
-            if ( this.$Active &&
-                 this.$Active.getType() != 'qui/controls/taskbar/Group' )
+            if ( this.$Active && this.$Active.getType() != 'qui/controls/taskbar/Group' )
             {
                 var _Tmp = this.$Active;
                 this.$Active = Task;
@@ -344,42 +388,14 @@ define([
          */
         $destroyTask : function(Task)
         {
-            var self = this;
-
-            var selectTask  = function()
-            {
-                var tid = Task.getId();
-
-                if ( self.$LastTask && self.$LastTask.getId() != tid )
-                {
-                    self.$LastTask.click();
-                    return;
-                }
-
-                var LastTask = self.lastChild();
-
-                if ( LastTask.getInstance() && LastTask.getId() != tid )
-                {
-                    LastTask.click();
-                    return;
-                }
-
-                var FirstTask = self.firstChild();
-
-                if ( FirstTask.getInstance() && FirstTask.getId() != tid )
-                {
-                    FirstTask.click();
-                    return;
-                }
-            };
-
             if ( !Task.getInstance() )
             {
-                selectTask();
+                this.selectTask( Task );
                 return;
             }
 
-            var Instance = Task.getInstance(),
+            var self     = this,
+                Instance = Task.getInstance(),
                 Elm      = Instance.getElm();
 
             moofx( Elm ).animate({
@@ -392,9 +408,45 @@ define([
                         Instance.destroy();
                     }).delay( 100 );
 
-                    selectTask();
+                    self.selectTask( Task );
                 }
             });
+        },
+
+        /**
+         * Select the last task, or the last task, or the first task
+         *
+         * @param {qui/controls/Control} Task
+         */
+        selectTask : function(Task)
+        {
+            var tid = false;
+
+            if ( typeof Task !== 'undefined' ) {
+                Task.getId();
+            }
+
+            if ( this.$LastTask && this.$LastTask.getId() != tid )
+            {
+                this.$LastTask.click();
+                return;
+            }
+
+            var LastTask = self.lastChild();
+
+            if ( LastTask.getInstance() && LastTask.getId() != tid )
+            {
+                LastTask.click();
+                return;
+            }
+
+            var FirstTask = self.firstChild();
+
+            if ( FirstTask.getInstance() && FirstTask.getId() != tid )
+            {
+                FirstTask.click();
+                return;
+            }
         },
 
         /**
@@ -536,10 +588,7 @@ define([
         {
             if ( Task.getType() === 'qui/controls/taskbar/Group' )
             {
-                Task.addEvent(
-                    'onAppendChild',
-                    this.$onTaskbarAppendChild
-                );
+                Task.addEvent( 'onAppendChild', this.$onTaskbarAppendChild );
 
                 var tasks = Task.getTasks();
 
@@ -616,8 +665,7 @@ define([
             });
 
             if ( !TaskParent ||
-                 TaskParent &&
-                 TaskParent.getType() !== 'qui/controls/taskbar/Group' )
+                 TaskParent && TaskParent.getType() !== 'qui/controls/taskbar/Group' )
             {
                 (function()
                 {

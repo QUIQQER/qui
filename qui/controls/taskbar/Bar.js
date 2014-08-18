@@ -151,7 +151,7 @@ define([
             }
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-taskbar box',
+                'class'      : 'qui-taskbar qui-task-drop box',
                 'data-quiid' : this.getId()
             });
 
@@ -213,8 +213,7 @@ define([
 
             var Parent = Task.getParent();
 
-            if ( Parent &&
-                    Parent.getType() === 'qui/controls/taskbar/Bar' )
+            if ( Parent && Parent.getType() === 'qui/controls/taskbar/Bar' )
             {
                 Task.removeEvent( 'refresh', Parent.$onTaskRefresh );
                 Task.removeEvent( 'destroy', Parent.$onTaskDestroy );
