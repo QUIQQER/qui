@@ -153,18 +153,17 @@ define([
                 height : height
             });
 
-            var TaskbarElm   = this.$Taskbar.getElm(),
-                taskbar_size = TaskbarElm.getSize(),
-                content_size = this.$Elm.getSize();
+            var contentSize  = this.getContentSize(),
+                contentSizeY = contentSize.y;
 
             this.$Container.setStyles({
-                height : content_size.y - taskbar_size.y
+                height : contentSizeY
             });
 
             if ( this.$Active && this.$Active.getInstance()	)
             {
                 this.$Active.getInstance().setAttributes({
-                    height : content_size.y - taskbar_size.y
+                    height : contentSizeY
                 });
 
                 this.$Active.getInstance().resize();
@@ -361,7 +360,8 @@ define([
             }
 
             var Instance = Task.getInstance(),
-                Elm      = Instance.getElm();
+                Elm      = Instance.getElm(),
+                self     = this;
 
             Elm.setStyle( 'display', null );
 
@@ -371,9 +371,9 @@ define([
             }, {
                 callback : function(time)
                 {
-                    this.resize();
-                    this.fireEvent( 'show', [ this ] );
-                }.bind( Instance )
+                    self.resize();
+                    Instance.fireEvent( 'show', [ Instance ] );
+                }
             });
         },
 
@@ -513,6 +513,23 @@ define([
         getTaskbar : function()
         {
             return this.$Taskbar;
+        },
+
+        /**
+         * Return the available content size
+         *
+         * @method qui/controls/desktop/Tasks#getContentSize
+         * @return {Object} {x,y}
+         */
+        getContentSize : function()
+        {
+             var taskbarSize = this.$Taskbar.getElm().getSize(),
+                 contentSize = this.$Elm.getSize();
+
+             return {
+                 x : contentSize.x - taskbarSize.x,
+                 y : contentSize.y - taskbarSize.y
+             };
         },
 
         /**
