@@ -12,10 +12,11 @@
 define([
 
     'qui/controls/Control',
+    'qui/utils/Elements',
 
     'css!qui/controls/contextmenu/Menu.css'
 
-], function(Control)
+], function(Control, QUIElementUtil)
 {
     "use strict";
 
@@ -149,6 +150,20 @@ define([
                 case 'right':
                     Elm.addClass( 'qui-context-corner-right' );
                 break;
+            }
+
+            // zindex
+            if ( this.getParent() && QUI.Controls.isControl( this.getParent() ) )
+            {
+                var ParentElm = this.getParent().getElm();
+
+                if ( ParentElm )
+                {
+                    Elm.setStyle(
+                        'zIndex',
+                        QUIElementUtil.getComputedZIndex( ParentElm ) + 1
+                    );
+                }
             }
 
             Elm.setStyles({
