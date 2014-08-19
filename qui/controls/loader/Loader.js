@@ -107,7 +107,7 @@ define([
 
             var Message = this.$Elm.getElement( '.qui-loader-message' ),
                 Bar     = this.$Elm.getElement( '.qui-loader-bar' ),
-                size    = this.$Elm.getParent().getSize();
+                size    = this.$Elm.getSize();
 
             Message.set( 'html', '' );
 
