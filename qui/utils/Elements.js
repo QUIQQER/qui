@@ -68,5 +68,19 @@ define({
         }
 
         return max;
+    },
+
+    /**
+     * Return the index of the child from its parent
+     *
+     * @param {DOMNode} Elm
+     * @return {Integer}
+     */
+    getChildIndex : function(Elm)
+    {
+        return Array.prototype.indexOf.call(
+            Elm.getParent().children,
+            Elm
+        );
     }
 });
