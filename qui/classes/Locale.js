@@ -157,24 +157,24 @@ define(['qui/classes/DOM'], function(DOM)
                 return '['+ key +'] '+ value;
             }
 
-            if ( !this.langs[ this.current ] ||
-                 !this.langs[ this.current ][ key ] )
+            if ( this.langs[ this.current ] &&
+                 this.langs[ this.current ][ key ] &&
+                 this.langs[ this.current ][ key ][ value ] )
             {
-                this.fireEvent('error', [
-                    'No translation found for ['+ key +'] '+ value,
-                    this
-                ]);
-
-                return '['+ key +'] '+ value;
+                return this.langs[ this.current ][ key ][ value ];
             }
 
-            if ( typeof value == 'undefined' ) {
+            if ( this.langs[ this.current ] &&
+                 this.langs[ this.current ][ key ] &&
+                 typeof value === 'undefined' )
+            {
                 return this.langs[ this.current ][ key ];
             }
 
-            if ( this.langs[ this.current ][ key ][ value ] ) {
-                return this.langs[ this.current ][ key ][ value ];
-            }
+            this.fireEvent('error', [
+                 'No translation found for ['+ key +'] '+ value,
+                 this
+            ]);
 
             return '['+ key +'] '+ value;
         }
