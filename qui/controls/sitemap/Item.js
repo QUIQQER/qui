@@ -20,10 +20,11 @@ define([
     'qui/utils/Controls',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
+    'qui/classes/utils/DragDrop',
 
     'css!qui/controls/sitemap/Item.css'
 
-], function(QUI, QUI_Control, Utils, QUI_ContextMenu, QUI_ContextMenuItem)
+], function(QUI, QUIControl, Utils, QUIContextMenu, QUIContextMenuItem, QUIDragDrop)
 {
     "use strict";
 
@@ -43,7 +44,7 @@ define([
      */
     return new Class({
 
-        Extends : QUI_Control,
+        Extends : QUIControl,
         Type    : 'qui/controls/sitemap/Item',
 
         Binds : [
@@ -61,7 +62,8 @@ define([
             alt   : '',
             title : '',
 
-            hasChildren : false
+            hasChildren : false,
+            dragable    : false
         },
 
         $Elm   : null,
@@ -79,6 +81,7 @@ define([
 
             this.$Children    = null;
             this.$ContextMenu = null;
+            this.$DragDrop    = null;
             this.$disable     = false;
 
             this.$items = [];
@@ -180,12 +183,57 @@ define([
             {
                 this.$setOpener();
 
-                for ( i = 0; i < len; i++ ) {
-                    this.$items[i].inject( this.$Children );
+                for ( i = 0; i < len; i++ )
+                {
+                    this.$items[ i ].inject( this.$Children );
+                    this.$items[ i ].refresh();
                 }
             }
 
+            if ( this.getAttribute( 'dragable' ) ) {
+                this.getDragDrop();
+            }
+
             return this.$Elm;
+        },
+
+        /**
+         * refresh the entry - recalc
+         *
+         * @return {self}
+         */
+        refresh : function()
+        {
+            var width = 0;
+
+            if ( this.$Opener )
+            {
+                width = width + this.$Opener.measure(function() {
+                    return this.getSize().x;
+                });
+            }
+
+            if ( this.$Icons )
+            {
+                width = width + this.$Icons.measure(function() {
+                    return this.getSize().x;
+                });
+            }
+
+            if ( this.$Text )
+            {
+                width = width + this.$Text.measure(function() {
+                    return this.getSize().x;
+                });
+            }
+
+            if ( !width ) {
+                return this;
+            }
+
+            this.$Elm.setStyle( 'width', width );
+
+            return this;
         },
 
         /**
@@ -346,6 +394,8 @@ define([
             Child.addEvents({
                 onDestroy : this.$onChildDestroy
             });
+
+            Child.refresh();
 
             this.getMap().fireEvent( 'appendChild', [ this, Child ] );
 
@@ -611,6 +661,7 @@ define([
             if ( !this.$Children ) {
                 return this;
             }
+
             this.$Children.setStyle( 'display', 'none' );
             this.$setOpener();
 
@@ -667,7 +718,7 @@ define([
 
             var cm_name = this.getAttribute( 'name' ) || this.getId();
 
-            this.$ContextMenu = new QUI_ContextMenu({
+            this.$ContextMenu = new QUIContextMenu({
                 name   : cm_name +'-contextmenu',
                 events :
                 {
@@ -798,6 +849,84 @@ define([
         $onChildDestroy : function(Item)
         {
             this.$removeChild( Item );
+        },
+
+
+        /**
+         * Drag Drop Methods
+         */
+
+        /**
+         * Return the DragDrop Object
+         *
+         * @return DragDrop
+         */
+        getDragDrop : function()
+        {
+            if ( this.$DragDrop ) {
+                return this.$DragDrop;
+            }
+
+            var self = this;
+
+            // drag drop for the item
+            this.$DragDrop = new QUIDragDrop( this.$Elm, {
+                dropables : '.qui-sitemap-entry-dropable',
+                styles : {
+                    height : 30,
+                    width : 200
+                },
+                events :
+                {
+                    onEnter : function(Element, Dragable, Droppable)
+                    {
+                        if ( !Droppable ) {
+                            return;
+                        }
+
+                        var quiid = Droppable.get( 'data-quiid' );
+
+                        if ( !quiid ) {
+                            return;
+                        }
+
+                        QUI.Controls.getById( quiid ).highlight();
+                    },
+
+                    onLeave : function(Element, Dragable, Droppable)
+                    {
+                        if ( !Droppable ) {
+                            return;
+                        }
+
+                        var quiid = Droppable.get( 'data-quiid' );
+
+                        if ( !quiid ) {
+                            return;
+                        }
+
+                        QUI.Controls.getById( quiid ).normalize();
+                    },
+
+                    onDrop : function(Element, Dragable, Droppable, event)
+                    {
+                        if ( !Droppable ) {
+                            return;
+                        }
+                        var quiid = Droppable.get( 'data-quiid' );
+
+                        if ( !quiid ) {
+                            return;
+                        }
+
+                        var Bar = QUI.Controls.getById( quiid );
+
+                        Bar.normalize();
+                        Bar.appendChild( self );
+                    }
+                }
+            });
         }
+
     });
 });
