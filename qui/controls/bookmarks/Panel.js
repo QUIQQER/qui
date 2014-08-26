@@ -160,7 +160,9 @@ define([
             }
 
             // qui-contextitem items can be droped
-            this.getElm().addClass( 'qui-contextitem-dropable' );
+            this.getElm()
+                .addClass( 'qui-contextitem-dropable' )
+                .addClass( 'qui-sitemap-entry-dropable' );
 
             this.fireEvent( 'load', [ this ] );
         },
@@ -196,7 +198,8 @@ define([
                 Child = this.$createEntry({
                     text  : Item.getAttribute( 'text' ),
                     icon  : Item.getAttribute( 'icon' ),
-                    click : Item.getAttribute( 'bookmark' )
+                    click : Item.getAttribute( 'bookmark' ),
+                    path  : ''
                 }).inject( this.$Container );
             }
 
@@ -230,8 +233,8 @@ define([
 
             params.text  = params.text || '';
             params.icon  = params.icon || false;
-            params.click = params.click || false;
-            params.path  = params.path || false;
+            params.click = params.click || '';
+            params.path  = params.path || '';
 
             var Bookmark = new Element('div', {
                 'class' : 'qui-bookmark box smooth',
