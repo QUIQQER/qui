@@ -70,6 +70,8 @@ define([
             this.$TaskButton = null;
             this.$Active     = null;
             this.$LastTask   = null;
+
+            this.$tmpList = [];
         },
 
         /**
@@ -219,6 +221,13 @@ define([
                 this.unserialize( this.$serialize );
             }
 
+            for ( var i = 0, len = this.$tmpList.length; i < len; i++ )
+            {
+                this.$Taskbar.appendChild(
+                    this.instanceToTask( this.$tmpList[ i ] )
+                );
+            }
+
             return this.$Elm;
         },
 
@@ -260,6 +269,12 @@ define([
          */
         appendChild : function(Instance)
         {
+            if ( !this.$Taskbar )
+            {
+                this.$tmpList.push( Instance );
+                return this;
+            }
+
             this.$Taskbar.appendChild(
                 this.instanceToTask( Instance )
             );

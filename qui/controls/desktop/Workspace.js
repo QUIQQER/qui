@@ -71,8 +71,6 @@ define([
             this.$fixed   = false;
 
             this.$dragDrops = {};
-
-            window.addEvent( 'resize', this.resize );
         },
 
         /**
@@ -178,14 +176,10 @@ define([
 
             // resize columns width %
             var old_max   = 0,
-                max_width = this.$Elm.getSize().x,
+                elmSize   = this.$Elm.getSize(),
+                maxHeight = elmSize.y,
+                maxWidth  = elmSize.x,
                 Parent    = this.$Elm.getParent();
-
-            if ( Parent )
-            {
-                var psize = Parent.getSize();
-                max_width = psize.x;
-            }
 
             for ( i = 0, len = wlist.length; i < len; i++ ) {
                 old_max = old_max + wlist[ i ];
@@ -198,9 +192,10 @@ define([
 
                 this.$columns[ i ].setAttribute(
                     'width',
-                    (max_width * (perc / 100)).round() - 5
+                    (maxWidth * (perc / 100)).round() - 5
                 );
 
+                this.$columns[ i ].setAttribute( 'height', maxHeight );
                 this.$columns[ i ].resize();
             }
         },
@@ -378,11 +373,7 @@ define([
 
                 // get prev column
                 var Sibling       = this.lastChild(),
-                    sibling_width = max_width - col_width - 20;
-
-                if ( max_width > Sibling.getAttribute( 'width' ) ) {
-                    sibling_width = Sibling.getAttribute( 'width' ) - col_width - 22; // 22 --> wegen firefox scrollbar bug
-                }
+                    sibling_width = max_width - col_width - 4; // -4 because handler
 
                 Sibling.setAttribute( 'width', sibling_width );
                 Sibling.resize();
@@ -471,6 +462,26 @@ define([
         count : function()
         {
             return this.$columns.length;
+        },
+
+        /**
+         * set the with of the workspace
+         *
+         * @param {Integer} width
+         */
+        setWidth : function(width)
+        {
+            this.$Elm.setStyle( 'width', width );
+        },
+
+        /**
+         * set the height of the workspace
+         *
+         * @param {Integer} height
+         */
+        setHeight : function(height)
+        {
+            this.$Elm.setStyle( 'height', height );
         },
 
         /**

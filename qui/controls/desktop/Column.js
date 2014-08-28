@@ -78,7 +78,8 @@ define([
             this.$panels      = {};
             this.$dragDrops   = {};
 
-            this.$fixed = true;
+            this.$fixed   = true;
+            this.$tmpList = []; // temp list for append Child
 
             this.addEvents({
                 onDestroy : this.$onDestroy,
@@ -155,6 +156,15 @@ define([
 
             if ( typeof this.$serialize !== 'undefined' ) {
                 this.unserialize( this.$serialize );
+            }
+
+            // temp panels exist?
+            for ( var i = 0, len = this.$tmpList.length; i < len; i++ )
+            {
+                this.appendChild(
+                    this.$tmpList[ i ].Panel,
+                    this.$tmpList[ i ].pos
+                );
             }
 
             // this.resize();
@@ -321,14 +331,23 @@ define([
                 return this;
             }
 
+            if ( !this.$Content )
+            {
+                this.$tmpList.push({
+                    Panel : Panel,
+                    pos   : pos
+                });
+
+                return this;
+            }
+
             var Handler = false,
-                height  = false,
                 Parent  = Panel.getParent(),
                 count   = this.count(),
 
+                columnHeight = 100,
                 panelIndex   = false,
                 parentIsMe   = false,
-                colomnHeight = this.$Content.getComputedSize().totalHeight,
                 handleList   = this.$Content.getElements( '.qui-column-hor-handle' ),
                 paneList     = this.$Content.getElements( '.qui-panel' );
 
@@ -336,6 +355,13 @@ define([
                 '[data-quiid="'+ Panel.getId() +'"]'
             );
 
+            if ( this.getAttribute( 'height' ) )
+            {
+                columnHeight = this.getAttribute( 'height' );
+            } else
+            {
+                columnHeight = this.$Content.getComputedSize().totalHeight;
+            }
 
         // only sortable
             if ( ChildPanel )
@@ -412,10 +438,13 @@ define([
 
             this.$panels[ Panel.getId() ] = Panel;
 
-
         // insert
+            if ( !Panel.getAttribute( 'height' ) ) {
+                Panel.setAttribute( 'height', 200 );
+            }
+
             if ( !Panel.getAttribute( 'height' ) || !count ) {
-                Panel.setAttribute( 'height', colomnHeight );
+                Panel.setAttribute( 'height', columnHeight );
             }
 
             if ( typeof pos === 'undefined' || handleList.length < (pos).toInt() )
@@ -453,9 +482,47 @@ define([
                 return this;
             }
 
-            this.$onPanelOpen( Panel );
+        // recalc
+            this.$recalcAppend( Panel );
 
             return this;
+        },
+
+        /**
+         * event on append child - recalc panels
+         */
+        $recalcAppend : function(Panel)
+        {
+            var left = this.$getLeftSpace();
+
+            if ( left == 0 ) {
+                return;
+            }
+
+            var Prev = this.getPreviousOpenedPanel( Panel );
+
+            if ( !Prev ) {
+                Prev = this.getNextOpenedPanel( Panel );
+            }
+
+            if ( !Prev ) {
+                return;
+            }
+
+            if ( Prev.getElm().getSize().y + left < 50 )
+            {
+                Prev.minimize();
+
+                this.$recalcAppend( Panel );
+                return;
+            }
+
+            Prev.setAttribute(
+                'height',
+                Prev.getElm().getSize().y + left
+            );
+
+            Prev.resize();
         },
 
         /**
@@ -551,24 +618,35 @@ define([
                 return this;
             }
 
-            var width = this.getAttribute( 'width' );
+            var width  = this.getAttribute( 'width' ),
+                height = this.getAttribute( 'height' );
 
-            if ( !width ) {
+            if ( !width && !height ) {
                 return this;
             }
 
-            if ( this.$Elm.getSize().x == this.getAttribute( 'width' ) ) {
+            var elmSize = this.$Elm.getSize();
+
+            if ( elmSize.x == this.getAttribute( 'width' ) &&
+                 elmSize.y == this.getAttribute( 'height' ) )
+            {
                 return this;
             }
 
             this.$Elm.setStyle( 'width', width );
+            this.$Elm.setStyle( 'height', height );
 
             for ( var i in this.$panels ) {
                 this.$panels[ i ].setAttribute( 'width', width );
             }
 
-            (function() {
+            this.$Content.setStyle( 'overflow', 'hidden' );
+
+            (function()
+            {
                 this.recalcPanels();
+                this.$Content.setStyle( 'overflow', null );
+
             }).delay( 20, this );
 
 
@@ -916,16 +994,9 @@ define([
                 return;
             }
 
-            var list      = this.$Content.getChildren( 'div' ),
-                maxHeight = this.$Content.getComputedSize().totalHeight;
+            var leftSpace = this.$getLeftSpace();
 
-            var listSum = list.getDimensions().map(function(obj) {
-                return obj.y;
-            }).sum();
-
-            var rest = maxHeight - listSum;
-
-            if ( rest == 0 ) {
+            if ( leftSpace == 0 ) {
                 return;
             }
 
@@ -934,12 +1005,23 @@ define([
                 LastPanel = QUI.Controls.getById( LastElm.get( 'data-quiid' ) );
 
             if ( LastPanel.isOpen() === false ) {
-                LastPanel = this.getPreviousPanel( LastPanel );
+                LastPanel = this.getPreviousOpenedPanel( LastPanel );
             }
 
-            var newHeight = LastPanel.getElm().getComputedSize().totalHeight + rest
+            if ( LastPanel.isOpen() === false ) {
+                return;
+            }
 
-            LastPanel.setAttribute( 'height', newHeight );
+            var panelHeight = LastPanel.getElm().getSize().y;
+
+            if ( panelHeight + leftSpace < 50 )
+            {
+                LastPanel.minimize();
+                this.recalcPanels();
+                return;
+            }
+
+            LastPanel.setAttribute( 'height', panelHeight + leftSpace );
             LastPanel.resize();
         },
 
@@ -990,11 +1072,16 @@ define([
                 return;
             }
 
-            var panel_height       = Panel.getAttribute('height'),
-                panel_title_height = Panel.getHeader().getSize().y,
-                next_height        = Next.getElm().getComputedSize().totalHeight;
+            var elmSize = Next.getElm().getSize().y,
+                left    = this.$getLeftSpace();
 
-            Next.setAttribute( 'height', next_height + panel_height - panel_title_height );
+            if ( elmSize + left < 50 )
+            {
+                Next.minimize();
+                return;
+            }
+
+            Next.setAttribute( 'height', elmSize + left );
             Next.resize();
         },
 
@@ -1012,7 +1099,7 @@ define([
                 PanelElm    = Panel.getElm(),
 
                 direction     = Panel.getAttribute( 'columnCloseDirection' ),
-                panelHeight   = PanelElm.getComputedSize().totalHeight,
+                panelHeight   = PanelElm.getSize().y,
                 contentHeight = this.$Content.getSize().y,
                 scrollHeight  = this.$Content.getScrollSize().y;
 
@@ -1083,7 +1170,11 @@ define([
             var childrens   = this.$Content.getChildren(),
                 contentSize = this.$Content.getSize().y;
 
-            var sum = childrens.getDimensions().map(function(obj) {
+            if ( !contentSize ) {
+                return 0;
+            }
+
+            var sum = childrens.getSize().map(function(obj) {
                 return obj.y;
             }).sum();
 
