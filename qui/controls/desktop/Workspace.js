@@ -59,11 +59,10 @@ define([
             limit : {}
         },
 
-        initialize : function(Parent, options)
+        initialize : function(options)
         {
             this.parent( options );
 
-            this.$Parent = Parent;
             this.Loader = null;
 
             this.$available_panels = {};
@@ -291,6 +290,18 @@ define([
          */
         save : function()
         {
+            this.fireEvent( 'save', [ this, JSON.encode( this.serialize() ) ] );
+
+            return true;
+        },
+
+        /**
+         * Serialize the workspace
+         *
+         * @return {Object}
+         */
+        serialize : function()
+        {
             var i, len, p, plen,
                 panels, children, Column;
 
@@ -306,11 +317,7 @@ define([
                 result.push( Column.serialize() );
             }
 
-            // QUI.Storage.set( 'qui.workspace', JSON.encode( result ) );
-
-            this.fireEvent( 'save', [ this, JSON.encode( result ) ] );
-
-            return true;
+            return result;
         },
 
         /**
