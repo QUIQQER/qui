@@ -444,7 +444,11 @@ define([
                 return;
             }
 
-            var LastTask = self.lastChild();
+            var LastTask = this.lastChild();
+
+            if ( !LastTask ) {
+                return;
+            }
 
             if ( LastTask.getInstance() && LastTask.getId() != tid )
             {
@@ -452,7 +456,7 @@ define([
                 return;
             }
 
-            var FirstTask = self.firstChild();
+            var FirstTask = this.firstChild();
 
             if ( FirstTask.getInstance() && FirstTask.getId() != tid )
             {
