@@ -55,6 +55,7 @@ define(function()
             }
 
             this.setAttributes( options );
+            this.fireEvent( 'init', [ this ] );
         },
 
         /**

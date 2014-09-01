@@ -131,7 +131,7 @@ define([
                     Task = new TaskbarTask();
                 }
 
-                Task.addEvent('onInit', importInit);
+                Task.addEvent( 'onInit', importInit );
                 Task.unserialize( tasks[i] );
             }
         },

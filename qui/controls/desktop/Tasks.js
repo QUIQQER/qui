@@ -116,11 +116,8 @@ define([
                 return this;
             }
 
-            if ( data.bar )
-            {
-                this.$Taskbar.unserialize(
-                    data.bar
-                );
+            if ( data.bar ) {
+                this.$Taskbar.unserialize( data.bar );
             }
         },
 

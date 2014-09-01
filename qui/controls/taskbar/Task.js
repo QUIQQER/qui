@@ -77,7 +77,6 @@ define([
                 return;
             }
 
-
             Instance.setAttribute( 'Task', this );
 
             // Instance events
@@ -128,7 +127,7 @@ define([
                 return this;
             }
 
-            QUI.Controls.getByType(instance.type, function(Modul)
+            require([ instance.type ], function(Modul)
             {
                 var Instance = new Modul( data.instance );
                     Instance.unserialize( data.instance );
