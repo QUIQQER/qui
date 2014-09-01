@@ -73,50 +73,16 @@ define([
         },
 
         /**
-         * Load saved wrokspace into the workspace
-         *
-         * @method qui/controls/desktop/Workspace#load
-         * @param {JSONString} workspace - JSON object string -> from save()
+         * Clear the workspace and destroy all panels
          */
-        load : function(workspace)
+        clear : function()
         {
-            var self      = this,
-                workspace = JSON.decode( workspace );
-
-            if ( !workspace.length )
-            {
-                self.fireEvent( 'loaded' );
-                return;
+            for ( var i = 0, len = this.$columns.length; i < len; i++ ) {
+                this.$columns[ i ].destroy();
             }
 
-            require(["qui/controls/desktop/Panel"], function(QUIPanel)
-            {
-                if ( !workspace.length )
-                {
-                    self.fireEvent( 'loaded' );
-                    return;
-                }
-
-                var i, len, Column;
-
-                // make columns
-                for ( i = 0, len = workspace.length; i < len; i++ )
-                {
-                    Column = new QUIColumn(
-                        workspace[ i ].attributes
-                    );
-
-                    if ( workspace[ i ].children ) {
-                        Column.unserialize( workspace[ i ] );
-                    }
-
-                    self.appendChild( Column );
-                }
-
-                // resize columns width %
-                self.resize( workspace );
-                self.fireEvent( 'loaded' );
-            });
+            this.$columns = [];
+            this.$Elm.set( 'html', '' );
         },
 
         /**
@@ -127,7 +93,7 @@ define([
          */
         resize : function(workspace)
         {
-            var i, len, perc, Column;
+            var i, len, width, perc, Column;
             var wlist = [];
 
             if ( typeof workspace === 'undefined' ||
@@ -187,13 +153,14 @@ define([
             // calc the % and resize it
             for ( i = 0, len = wlist.length; i < len; i++ )
             {
-                perc = QUIMath.percent( wlist[ i ], old_max );
+                perc  = QUIMath.percent( wlist[ i ], old_max );
+                width = (maxWidth * (perc / 100)).round();
 
-                this.$columns[ i ].setAttribute(
-                    'width',
-                    (maxWidth * (perc / 100)).round() - 5
-                );
+                if ( i !== 0 ) {
+                    width = width - 4;
+                }
 
+                this.$columns[ i ].setAttribute( 'width', width );
                 this.$columns[ i ].setAttribute( 'height', maxHeight );
                 this.$columns[ i ].resize();
             }
@@ -298,6 +265,7 @@ define([
         /**
          * Serialize the workspace
          *
+         * @method qui/controls/desktop/Workspace#serialize
          * @return {Object}
          */
         serialize : function()
@@ -318,6 +286,52 @@ define([
             }
 
             return result;
+        },
+
+        /**
+         * Load saved wrokspace into the workspace
+         *
+         * @method qui/controls/desktop/Workspace#unserialize
+         * @param {Object} workspace - serialize object from serialize();
+         */
+        unserialize : function(workspace)
+        {
+            var self = this;
+
+            if ( !workspace.length )
+            {
+                self.fireEvent( 'loaded' );
+                return;
+            }
+
+            require(["qui/controls/desktop/Panel"], function(QUIPanel)
+            {
+                if ( !workspace.length )
+                {
+                    self.fireEvent( 'loaded' );
+                    return;
+                }
+
+                var i, len, Column;
+
+                // make columns
+                for ( i = 0, len = workspace.length; i < len; i++ )
+                {
+                    Column = new QUIColumn(
+                        workspace[ i ].attributes
+                    );
+
+                    if ( workspace[ i ].children ) {
+                        Column.unserialize( workspace[ i ] );
+                    }
+
+                    self.appendChild( Column );
+                }
+
+                // resize columns width %
+                self.resize( workspace );
+                self.fireEvent( 'loaded' );
+            });
         },
 
         /**

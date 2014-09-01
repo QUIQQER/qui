@@ -181,15 +181,20 @@ define([
          */
         serialize : function()
         {
-            var panels   = this.getChildren(),
-                children = [];
+            var panels     = this.getChildren(),
+                children   = [],
+                attributes = this.getAttributes(),
+                size       = this.getElm().getSize();
 
             for ( var p in panels ) {
                 children.push( panels[ p ].serialize() );
             }
 
+            attributes.width  = size.x;
+            attributes.height = size.y;
+
             return {
-                attributes : this.getAttributes(),
+                attributes : attributes,
                 children   : children
             };
         },
@@ -220,7 +225,7 @@ define([
                 return;
             }
 
-            var req = ['MessageHandler'];
+            var req = [];
 
             for ( i = 0, len = children.length; i < len; i++ )
             {
@@ -231,31 +236,35 @@ define([
                 req.push( child_modul );
             }
 
-            require(req, function(MessageHandler)
+            require(req, function()
             {
-                var i, len, attr, height, Child, Control;
+                var regArgs = arguments;
 
-                for ( i = 0, len = children.length; i < len; i++ )
+                QUI.getMessageHandler(function(MessageHandler)
                 {
-                    Child  = children[ i ];
-                    attr   = Child.attributes;
-                    height = attr.height;
+                    var i, len, attr, height, Child, Control;
 
-                    try
+                    for ( i = 0, len = children.length; i < len; i++ )
                     {
-                        Control = eval(
-                            'new '+ Child.type +'( attr )'
-                        );
+                        Child  = children[ i ];
+                        attr   = Child.attributes;
+                        height = attr.height;
 
-                        Control.unserialize( Child );
+                        try
+                        {
+                            Control = new regArgs[ i ]( attr )
+                            Control.unserialize( Child );
 
-                        self.appendChild( Control );
+                            self.appendChild( Control );
 
-                    } catch ( Exception )
-                    {
-                        MH.addException( Exception );
+                        } catch ( Exception )
+                        {
+                            MessageHandler.addError(
+                                Exception.toString()
+                            );
+                        }
                     }
-                }
+                });
             });
         },
 
