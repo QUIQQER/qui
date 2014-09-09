@@ -127,7 +127,8 @@ define([
          */
         add : function(Control)
         {
-            var n = Control.getAttribute( 'name' ),
+            var s = this,
+                n = Control.getAttribute( 'name' ),
                 t = typeOf( Control );
 
             if ( !n || n === '' ) {
@@ -146,6 +147,10 @@ define([
             this.$types[ t ].push( Control );
 
             this.$cids[ Control.getId() ] = Control;
+
+            Control.addEvent('onDestroy', function() {
+                s.destroy( Control );
+            });
         },
 
         /**

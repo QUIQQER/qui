@@ -412,6 +412,17 @@ define([
         },
 
         /**
+         * clearChildren() alternative
+         *
+         * @method qui/controls/contextmenu/Menu#clear
+         * @return {this} self
+         */
+        clear : function()
+        {
+            return this.clearChildren();
+        },
+
+        /**
          * Return the active item
          *
          * @method qui/controls/contextmenu/Menu#getActive

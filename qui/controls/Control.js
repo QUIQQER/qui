@@ -61,6 +61,15 @@ define([
         {
             this.parent( options );
 
+            this.addEvent( 'onDestroy', function()
+            {
+                if ( typeof this.$Elm !== 'undefined' && this.$Elm ) {
+                    this.$Elm.destroy();
+                }
+
+                this.$Elm = null;
+            }.bind( this ));
+
             QUI.Controls.add( this );
         },
 
@@ -196,26 +205,6 @@ define([
             if ( data.attributes ) {
                 this.setAttributes( data.attributes );
             }
-        },
-
-        /**
-         * Destroys the DOMNode of the Control
-         *
-         * @method qui/controls/Control#destroy
-         * @fires onDestroy
-         */
-        destroy : function()
-        {
-            this.fireEvent( 'destroy', [ this ] );
-
-            if ( typeof this.$Elm !== 'undefined' && this.$Elm ) {
-                this.$Elm.destroy();
-            }
-
-            this.$Elm = null;
-
-            // destroy it from the controls
-            QUI.Controls.destroy( this );
         },
 
         /**

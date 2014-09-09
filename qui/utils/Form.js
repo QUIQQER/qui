@@ -48,9 +48,9 @@ define({
             }
 
             if ( Elm.type === 'text' ||
-                 Elm.type === 'textarea' ||
-                 Elm.type === 'select' ||
-                 Elm.type === 'hidden' )
+                 Elm.type === 'hidden' ||
+                 Elm.nodeName === 'TEXTAREA' ||
+                 Elm.nodeName === 'SELECT' )
             {
                 Elm.value = data[k];
                 continue;
