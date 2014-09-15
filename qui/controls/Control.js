@@ -19,11 +19,12 @@
 define([
 
     'qui/QUI',
+    'qui/Locale',
     'qui/classes/DOM',
 
     'css!qui/controls/Control.css'
 
-], function(QUI, DOM)
+], function(QUI, Locale, DOM)
 {
     "use strict";
 
@@ -346,6 +347,67 @@ define([
         resize : function()
         {
             this.fireEvent( 'resize', [ this ] );
+        },
+
+        /**
+         * create and open a new sheet
+         *
+         * @method qui/controls/Control#openSheet
+         * @param {Function} onfinish - callback function
+         */
+        openSheet : function(onfinish)
+        {
+            var Sheet = new Element('div', {
+                'class' : 'qui-sheet qui-box',
+                html    : '<div class="qui-sheet-content box"></div>' +
+                          '<div class="qui-sheet-buttons box">' +
+                              '<div class="qui-sheet-buttons-back qui-button btn-white">' +
+                                  '<span>' +
+                                      Locale.get( 'qui/controls/Control', 'btn.back' ) +
+                                  '</span>' +
+                              '</div>' +
+                          '</div>',
+                styles : {
+                    left : '-110%'
+                }
+            }).inject( this.$Elm  );
+
+            Sheet.getElement( '.qui-sheet-buttons-back' ).addEvent(
+                'click',
+                function() {
+                    Sheet.fireEvent( 'close' );
+                }
+            );
+
+            Sheet.addEvent('close', function()
+            {
+                moofx( Sheet ).animate({
+                    left : '-100%'
+                }, {
+                    callback : function() {
+                        Sheet.destroy();
+                    }
+                });
+            });
+
+            // heights
+            var Content = Sheet.getElement( '.qui-sheet-content' );
+
+            Content.setStyles({
+                height : Sheet.getSize().y - 80
+            });
+
+
+            // effect
+            moofx( Sheet ).animate({
+                left : 0
+            }, {
+                callback : function() {
+                    onfinish( Content, Sheet );
+                }
+            });
+
+            return Sheet;
         }
     });
 });

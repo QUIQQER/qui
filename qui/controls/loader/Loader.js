@@ -111,9 +111,22 @@ define([
 
             Message.set( 'html', '' );
 
+            var top  = (size.y - 50) / 2,
+                left = (size.x - 240) / 2;
+
+            if ( top < 0 )
+            {
+                size = this.$Elm.measure(function() {
+                    return this.getSize();
+                });
+
+                top  = (size.y - 50) / 2;
+                left = (size.x - 240) / 2;
+            }
+
             Bar.setStyles({
-                top  : (size.y - 50) / 2,
-                left : (size.x - 240) / 2
+                top  : top,
+                left : left
             });
 
             if ( typeof str !== 'undefined' )
