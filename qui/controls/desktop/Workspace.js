@@ -17,7 +17,8 @@
  * @require qui/classes/utils/DragDrop
  *
  * @event onLoaded - if the workspace is loaded
- * @event onSave [{this}, {JSON ObjectString}]
+ * @event onSave [ {this}, {JSON ObjectString} ]
+ * @event onColumnContextMenu [ {this}, {qui/controls/desktop/Column}, {DOMEvent} ]
  */
 
 define([
@@ -52,7 +53,9 @@ define([
             '$onHandlerContextMenu',
             '$onHandlerContextMenuHighlight',
             '$onHandlerContextMenuNormalize',
-            '$onHandlerContextMenuClick'
+            '$onHandlerContextMenuClick',
+            '$onColumnContextMenu',
+            '$onColumnDestroy'
         ],
 
         options : {
@@ -65,7 +68,6 @@ define([
 
             this.Loader = null;
 
-            this.$available_panels = {};
             this.$columns = [];
             this.$fixed   = false;
 
@@ -362,6 +364,13 @@ define([
             Column.setParent( this );
             Column.inject( this.$Elm );
 
+            Column.removeEvents( 'contextMenu' );
+
+            Column.addEvents({
+                onContextMenu : this.$onColumnContextMenu,
+                onDestroy     : this.$onColumnDestroy
+            });
+
             if ( this.$fixed )
             {
                 Column.fix();
@@ -503,60 +512,6 @@ define([
         setHeight : function(height)
         {
             this.$Elm.setStyle( 'height', height );
-        },
-
-        /**
-         * Add a available panel
-         *
-         * @method qui/controls/desktop/Workspace#addAvailablePanel
-         * @param {Object} params - parameter {
-         *     require : '',
-         *     text    : '',
-         *     icon    : ''
-         * }
-         *
-         * @return {this}
-         */
-        addAvailablePanel : function(params)
-        {
-            if ( typeof params.require === 'undefined' ) {
-                return this;
-            }
-
-            if ( typeof params.text === 'undefined' ) {
-                return this;
-            }
-
-            if ( typeof params.icon === 'undefined' ) {
-                return this;
-            }
-
-
-            if ( typeof this.$available_panels[ params.require ] !== 'undefined' ) {
-                return this;
-            }
-
-            this.$available_panels[ params.require ] = params;
-
-            return this;
-        },
-
-        /**
-         * Return all available Panels for that Workbench
-         *
-         * @method qui/controls/desktop/Workspace#getAvailablePanel
-         * @return {Array}
-         */
-        getAvailablePanel : function()
-        {
-            var panels = [],
-                list   = this.$available_panels;
-
-            for ( var i in list ) {
-                panels.push( list[ i ] );
-            }
-
-            return panels;
         },
 
         /**
@@ -790,6 +745,80 @@ define([
             }
 
             Item.getAttribute( 'Column' ).normalize();
+        },
+
+        /**
+         * event : column context menu
+         *
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenuNormalize
+         * @param {qui/controls/desktop/Column} Column
+         * @param {DOMEvent} event
+         */
+        $onColumnContextMenu : function(Column, event)
+        {
+            if ( this.$fixed ) {
+                return;
+            }
+
+            this.fireEvent( 'columnContextMenu', [ this, Column, event ] );
+        },
+
+        /**
+         * event : on column destroy
+         *
+         * @method qui/controls/desktop/Workspace#$onHandlerContextMenuNormalize
+         */
+        $onColumnDestroy : function(Column)
+        {
+            // destroy two successively handlers
+            this.$Elm.getElements('.qui-column-handle+.qui-column-handle').destroy();
+
+            // remove the column from the list
+            var newList = [];
+
+            for ( var i = 0, len = this.$columns.length; i < len; i++ )
+            {
+                if ( this.$columns[ i ] != Column ) {
+                    newList.push( this.$columns[ i ] );
+                }
+            }
+
+            this.$columns = newList;
+
+
+            // recalc columns
+            var LastElm = this.$Elm.getLast( '.qui-column' ),
+                left    = this.$getLeftSpace();
+
+            if ( !LastElm ) {
+                return;
+            }
+
+            var Last = QUI.Controls.getById( LastElm.get('data-quiid') );
+
+            Last.setAttribute( 'width', LastElm.getSize().x + left );
+            Last.resize();
+        },
+
+        /**
+         * Return the left space, the empty space which is available
+         *
+         * @return {Integer}
+         */
+        $getLeftSpace : function()
+        {
+            var childrens   = this.$Elm.getChildren(),
+                contentSize = this.$Elm.getSize().x;
+
+            if ( !contentSize ) {
+                return 0;
+            }
+
+            var sum = childrens.getSize().map(function(obj) {
+                return obj.x;
+            }).sum();
+
+            return contentSize - sum;
         }
     });
 });

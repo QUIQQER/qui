@@ -13,6 +13,8 @@
  * @require qui/controls/loader/Loader
  * @require qui/classes/utils/DragDrop
  * @require css!qui/controls/desktop/Column.css
+ *
+ * @event onContextMenu [ {self}, {DOMEvent} ]
  */
 
 define([
@@ -65,7 +67,8 @@ define([
             height      : false,
             resizeLimit : [],
             closable    : false,
-            placement   : 'left' // depricated
+            placement   : 'left', // depricated
+            contextmenu : false
         },
 
         initialize: function(options)
@@ -84,10 +87,10 @@ define([
             this.addEvents({
                 onDestroy : this.$onDestroy,
 
-                dragDropEnter : this.$onDragDropEnter,
-                dragDropLeave : this.$onDragDropLeave,
-                dragDropDrag  : this.$onDragDropDrag,
-                dragDropDrop  : this.$onDragDropDrop,
+                dragDropEnter    : this.$onDragDropEnter,
+                dragDropLeave    : this.$onDragDropLeave,
+                dragDropDrag     : this.$onDragDropDrag,
+                dragDropDrop     : this.$onDragDropDrop,
                 dragDropComplete : this.$onDragDropComplete
             });
         },
@@ -140,6 +143,7 @@ define([
 
             // contextmenu
             this.$ContextMenu = new Contextmenu({
+                Column : this,
                 events :
                 {
                     onBlur : function(Menu) {
@@ -758,6 +762,10 @@ define([
         highlight : function()
         {
             if ( !this.getElm() ) {
+                return this;
+            }
+
+            if ( this.getElm().getElement( '.qui-column-hightlight' ) ) {
                 return this;
             }
 
@@ -1458,9 +1466,21 @@ define([
          *
          * @method qui/controls/desktop/Column#$onContextMenu
          * @param {DOMEvent} event
+         * @depricated
          */
         $onContextMenu : function(event)
         {
+            if ( this.$fixed ) {
+                return;
+            }
+
+            this.fireEvent( 'contextMenu', [ this, event ] );
+
+
+            if ( !this.getAttribute( 'contextmenu' ) ) {
+                return;
+            }
+
             if ( !this.getParent() ) {
                 return;
             }

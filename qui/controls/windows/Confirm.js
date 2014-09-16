@@ -206,6 +206,22 @@ define([
             }
 
 
+            this.$Buttons.set( 'html', '' );
+
+            this.addButton(
+                new QUIButton({
+                    text      : this.getAttribute( 'cancel_button' ).text,
+                    textimage : this.getAttribute( 'cancel_button' ).textimage,
+                    styles    : {
+                        width : 150,
+                        'float' : 'none'
+                    },
+                    events : {
+                        onClick : this.cancel
+                    }
+                })
+            );
+
             this.addButton(
                 new QUIButton({
                     text      : this.getAttribute( 'ok_button' ).text,
