@@ -135,8 +135,10 @@ define([
                 }
             });
 
+            var Container = this.$Elm.getElement( '.qui-contextitem-container' );
+
             // click events on the text
-            this.$Elm.getElement( '.qui-contextitem-container' ).addEvents({
+            Container.addEvents({
                 click      : this.$onClick,
                 mousedown  : this.$onMouseDown,
                 mouseup    : this.$onMouseUp
@@ -162,26 +164,9 @@ define([
             {
                 var Text = this.$Elm.getElement( '.qui-contextitem-text' );
 
-                if ( this.$Elm.getComputedSize().width )
-                {
-                    Text.set({
-                        html   : this.getAttribute( 'text' ),
-                        styles : {
-                            width : this.$Elm.getComputedSize().width
-                        }
-                    });
-                } else
-                {
-                    (function()
-                    {
-                        Text.set({
-                            html   : self.getAttribute( 'text' ),
-                            styles : {
-                                width : self.$Elm.getComputedSize().width
-                            }
-                        });
-                    }).delay( 500 );
-                }
+                Text.set({
+                    html : this.getAttribute( 'text' )
+                });
             }
 
             // drag drop for the item
