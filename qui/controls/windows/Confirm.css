@@ -3,14 +3,15 @@
  ============================================== */
 
 .submit-body .texticon {
-	float: left;
-	margin-right: 20px;
+    float: left;
+    margin-right: 20px;
 }
 
 .submit-body .textbody {
-	float: left;
+    float: left;
+    width: calc( 100% - 80px );
 }
 
 .submit-body .information {
-	margin-top: 10px;
+    margin-top: 10px;
 }
