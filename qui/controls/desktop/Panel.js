@@ -178,17 +178,25 @@ define([
                 this.$Content.set( 'html', this.getAttribute('content') );
             }
 
-            if ( this.getAttribute('collapsible') )
+
+            this.$Collaps = new Element('div', {
+                'class' : 'qui-panel-collapse icon-chevron-down'
+            }).inject( this.$Header );
+
+            this.$Header.addEvent('click', function()
             {
-                this.$Collaps = new Element('div', {
-                    'class' : 'qui-panel-collapse icon-chevron-down'
-                }).inject( this.$Header );
-
-                this.$Header.setStyle( 'cursor', 'pointer' );
-
-                this.$Header.addEvent('click', function() {
+                if ( self.getAttribute( 'collapsible' ) ) {
                     self.toggle();
-                });
+                }
+            });
+
+            if ( !this.getAttribute( 'collapsible' ) )
+            {
+                this.$Collaps.setStyle( 'display', 'none' );
+
+            } else
+            {
+                this.$Header.setStyle( 'cursor', 'pointer' );
             }
 
             // drag & drop
@@ -407,11 +415,14 @@ define([
 
             this.$Elm.setStyle( 'height', this.$Header.getSize().y );
 
-            this.$Collaps.removeClass( 'qui-panel-collapse' );
-            this.$Collaps.removeClass( 'icon-chevron-down' );
+            if ( this.$Collaps )
+            {
+                this.$Collaps.removeClass( 'qui-panel-collapse' );
+                this.$Collaps.removeClass( 'icon-chevron-down' );
 
-            this.$Collaps.addClass( 'qui-panel-expand' );
-            this.$Collaps.addClass( 'icon-chevron-right' );
+                this.$Collaps.addClass( 'qui-panel-expand' );
+                this.$Collaps.addClass( 'icon-chevron-right' );
+            }
 
             this.$Header.addClass( 'qui-panel-close' );
 
@@ -1015,6 +1026,22 @@ define([
                 return;
             }
 
+
+            if ( attr == 'collapsible' )
+            {
+                if ( v === false )
+                {
+                    this.$Collaps.setStyle( 'display', 'none' );
+                    this.$Header.setStyle( 'cursor', null );
+
+                    return;
+                }
+
+                this.$Collaps.setStyle( 'display', null );
+                this.$Header.setStyle( 'cursor', 'pointer' );
+
+                return;
+            }
         }
     });
 });
