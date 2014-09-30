@@ -386,7 +386,7 @@ define([
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
             this.$Header.removeClass( 'qui-panel-close' );
 
-            if ( this.$Collaps )
+            if ( this.getAttribute( 'collapsible' ) )
             {
                 this.$Collaps.removeClass( 'qui-panel-expand' );
                 this.$Collaps.removeClass( 'icon-chevron-right' );
@@ -415,7 +415,7 @@ define([
 
             this.$Elm.setStyle( 'height', this.$Header.getSize().y );
 
-            if ( this.$Collaps )
+            if ( this.getAttribute( 'collapsible' ) )
             {
                 this.$Collaps.removeClass( 'qui-panel-collapse' );
                 this.$Collaps.removeClass( 'icon-chevron-down' );
