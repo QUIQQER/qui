@@ -470,12 +470,18 @@ define([
 
             } else if ( ( pos ).toInt() === 0 )
             {
-                Handler.inject( this.$Content, 'top' );
+                if ( Handler ) {
+                    Handler.inject( this.$Content, 'top' );
+                }
+
                 Panel.inject( this.$Content, 'top' );
 
             } else if ( typeof handleList[ pos - 1 ] !== 'undefined' )
             {
-                Handler.inject( handleList[ pos - 1 ], 'after' );
+                if ( Handler ) {
+                    Handler.inject( handleList[ pos - 1 ], 'after' );
+                }
+
                 Panel.inject( handleList[ pos - 1 ], 'after' );
             }
 

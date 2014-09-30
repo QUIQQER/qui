@@ -271,8 +271,10 @@ define([
         },
 
         /**
-         * Open
+         * api for column
+         *
          * @method qui/controls/desktop/Tasks#open
+         * @ignore
          */
         open : function()
         {
@@ -280,15 +282,25 @@ define([
         },
 
         /**
-         * minimize
+         * api for column
+         *
          * @method qui/controls/desktop/Tasks#open
+         * @ignore
          */
         minimize : function()
         {
+            this.setAttribute( 'height', 100 );
+            this.resize();
 
+            this.fireEvent( 'minimize', [ this ] );
         },
 
-
+        /**
+         * api for column
+         *
+         * @method qui/controls/desktop/Tasks#toggle
+         * @ignore
+         */
         toggle : function()
         {
 
@@ -373,7 +385,10 @@ define([
          */
         appendTask : function(Task)
         {
-            this.$Taskbar.appendChild( Task );
+            if ( Task.getInstance() ) {
+                this.appendChild( Task.getInstance() );
+            }
+
             return this;
         },
 
@@ -840,6 +855,14 @@ console.log( '$removeTask' );
         $onDragDropDrop : function(QO)
         {
             if ( !this.isApandable( QO ) ) {
+                return;
+            }
+
+            if ( QO.getType() == 'qui/controls/taskbar/Task' )
+            {
+                this.appendTask( QO );
+                this.normalize();
+
                 return;
             }
 
