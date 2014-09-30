@@ -26,10 +26,11 @@ define([
     'qui/controls/loader/Loader',
     'qui/controls/taskbar/Bar',
     'qui/controls/taskbar/Task',
+    'qui/controls/desktop/Panel',
 
     'css!qui/controls/desktop/Tasks.css'
 
-], function(QUI, Control, Loader, Taskbar, TaskbarTask)
+], function(QUI, QUIControl, QUILoader, QUITaskbar, QUITaskbarTask, QUIPanel)
 {
     "use strict";
 
@@ -40,14 +41,18 @@ define([
      */
     return new Class({
 
-        Extends : Control,
+        Extends : QUIControl,
         Type    : 'qui/controls/desktop/Tasks',
 
         Binds : [
             '$activateTask',
             '$destroyTask',
             '$normalizeTask',
-            '$onTaskbarAppendChild'
+            '$onTaskbarAppendChild',
+
+            '$onDragDropEnter',
+            '$onDragDropLeave',
+            '$onDragDropDrop'
         ],
 
         options : {
@@ -63,7 +68,7 @@ define([
         {
             this.parent( options );
 
-            this.Loader = new Loader();
+            this.Loader = new QUILoader();
 
             this.$Elm        = null;
             this.$Taskbar    = null;
@@ -187,18 +192,25 @@ define([
 
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
-                'class'      : 'qui-taskpanel qui-panel',
+                'class'      : 'qui-taskpanel qui-panel qui-panel-drop qui-task-drop',
 
                 styles : {
                     height : '100%'
                 }
             });
 
+            this.addEvents({
+                dragDropEnter : this.$onDragDropEnter,
+                dragDropLeave : this.$onDragDropLeave,
+                dragDropDrop  : this.$onDragDropDrop
+            });
+
+
             this.$Container = new Element(
                 'div.qui-taskpanel-container'
             ).inject( this.$Elm );
 
-            this.$Taskbar = new Taskbar({
+            this.$Taskbar = new QUITaskbar({
                 name   : 'qui-taskbar-'+ this.getId(),
                 type   : 'bottom',
                 styles : {
@@ -259,6 +271,30 @@ define([
         },
 
         /**
+         * Open
+         * @method qui/controls/desktop/Tasks#open
+         */
+        open : function()
+        {
+
+        },
+
+        /**
+         * minimize
+         * @method qui/controls/desktop/Tasks#open
+         */
+        minimize : function()
+        {
+
+        },
+
+
+        toggle : function()
+        {
+
+        },
+
+        /**
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendChild
@@ -272,9 +308,23 @@ define([
                 return this;
             }
 
+            var InstanceParent = Instance.getParent();
+
+            if ( InstanceParent && typeOf( InstanceParent.dependChild ) == 'function' ) {
+                Instance.getParent().dependChild( Instance );
+            }
+
+            Instance.setParent( this );
+
             this.$Taskbar.appendChild(
                 this.instanceToTask( Instance )
             );
+
+            if ( instanceOf( Instance, QUIPanel ) )
+            {
+                Instance.open();
+                Instance.setAttribute( 'collapsible', false );
+            }
 
             return this;
         },
@@ -312,14 +362,12 @@ define([
             Task.removeEvents( 'activate' );
             Task.removeEvents( 'destroy' );
             Task.removeEvents( 'refresh' );
-            Task.removeEvents( 'destroy' );
             Task.removeEvents( 'click' );
 
             Task.setInstance( null );
-            Task.destroy();
 
             this.getTaskbar().removeChild( Task );
-            this.selectTask( Task );
+            this.selectTask();
 
             return this;
         },
@@ -565,6 +613,28 @@ define([
         },
 
         /**
+         * Return true or false, if the object can be append into the column
+         *
+         * @param {Object} QO - QUI object
+         */
+        isApandable : function(QO)
+        {
+            switch ( typeOf( QO ) )
+            {
+                case 'qui/controls/desktop/Panel':
+                case 'qui/controls/desktop/Tasks':
+                case 'qui/controls/taskbar/Task':
+                    return true;
+            }
+
+            if ( instanceOf( QO, QUIPanel ) ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
          * Create a Task for the Control
          *
          * @method qui/controls/desktop/Tasks#instanceToTask
@@ -595,7 +665,7 @@ define([
 
             if ( !Task )
             {
-                Task = new TaskbarTask( Instance );
+                Task = new QUITaskbarTask( Instance );
             } else
             {
                 Task.setInstance( Instance );
@@ -645,19 +715,6 @@ define([
                 IParent = Task.getTaskbar().getParent();
             }
 
-            /*
-            if ( IParent &&
-                 IParent.getId() == this.getId() )
-            {
-                // if the panel is already in the panel
-                // then we do nothing
-                if ( this.$Container
-                         .getElement( '[data-quiid="'+ Instance.getId() +'"]' ) )
-                {
-                    return;
-                }
-            }
-            */
 
             // clear old tasks parent binds
             if ( IParent && IParent.getType() == 'qui/controls/desktop/Tasks') {
@@ -679,10 +736,6 @@ define([
             // not the best solution
             Instance.__destroy = Instance.destroy;
             Instance.destroy   = this.$onInstanceDestroy.bind( this, Instance );
-
-            // delete the own task destroy event
-            // so the tasks panel can destroy the instance
-            Task.removeEvent( 'onDestroy', Task.$onDestroy );
 
             if ( Taskbar )
             {
@@ -756,6 +809,49 @@ define([
             if ( Task && Task.getElm() ) {
                 Task.destroy();
             }
+        },
+
+        /**
+         * DragDrop event handling
+         */
+
+        /**
+         * event on drag drop enter
+         *
+         * @method qui/controls/desktop/Tasks#$onDragDropEnter
+         * @param {qui/controls/Control} Control - QUI Control
+         * @param {DOMNode} Elm
+         */
+        $onDragDropEnter : function(QO, Elm)
+        {
+            this.highlight();
+        },
+
+        /**
+         * event: drag drop leave
+         *
+         * @method qui/controls/desktop/Tasks#$onDragDropLeave
+         * @param {qui/controls/Control} Control - QUI Control
+         */
+        $onDragDropLeave : function(QO)
+        {
+            this.normalize();
+        },
+
+        /**
+         * event : a control droped on the column
+         *
+         * @method qui/controls/desktop/Tasks#$onDragDropDrop
+         * @param {qui/controls/Control} Control - QUI Control
+         */
+        $onDragDropDrop : function(QO)
+        {
+            if ( !this.isApandable( QO ) ) {
+                return;
+            }
+
+            this.appendChild( QO );
+            this.normalize();
         }
     });
 });

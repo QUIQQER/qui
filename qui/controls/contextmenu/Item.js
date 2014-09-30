@@ -12,7 +12,12 @@
  * @require qui/utils/Controls',
  * @require css!qui/controls/contextmenu/Item.css'
  *
- * @event onAppend [{self}, {qui/controls/contextmenu/Item}]
+ * @event onAppend [ {self}, {qui/controls/contextmenu/Item} ]
+ * @event onActive [ {self} ]
+ * @event onNormal [ {self} ]
+ * @event onClick [ {self} ]
+ * @event onMouseDown [ {self}, {DOMEvent} ]
+ * @event onMouseUp[ {self}, {DOMEvent} ]
  */
 
 define([
@@ -135,10 +140,8 @@ define([
                 }
             });
 
-            var Container = this.$Elm.getElement( '.qui-contextitem-container' );
-
             // click events on the text
-            Container.addEvents({
+            this.$Elm.getElement( '.qui-contextitem-container' ).addEvents({
                 click      : this.$onClick,
                 mousedown  : this.$onMouseDown,
                 mouseup    : this.$onMouseUp
@@ -164,9 +167,26 @@ define([
             {
                 var Text = this.$Elm.getElement( '.qui-contextitem-text' );
 
-                Text.set({
-                    html : this.getAttribute( 'text' )
-                });
+                if ( this.$Elm.getComputedSize().width )
+                {
+                    Text.set({
+                        html   : this.getAttribute( 'text' ),
+                        styles : {
+                            width : this.$Elm.getComputedSize().width
+                        }
+                    });
+                } else
+                {
+                    (function()
+                    {
+                        Text.set({
+                            html   : self.getAttribute( 'text' ),
+                            styles : {
+                                width : self.$Elm.getComputedSize().width
+                            }
+                        });
+                    }).delay( 500 );
+                }
             }
 
             // drag drop for the item

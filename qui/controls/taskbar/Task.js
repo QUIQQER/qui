@@ -77,19 +77,24 @@ define([
                 return;
             }
 
+            var self = this;
+
             Instance.setAttribute( 'Task', this );
 
             // Instance events
             Instance.addEvent('onRefresh', function(Instance) {
-                Instance.getAttribute( 'Task' ).refresh();
+                self.refresh();
             });
+
+            Instance.addEvent('onSetAttribute', function(Instance) {
+                self.refresh();
+            });
+
 
             Instance.addEvent('onDestroy', function(Instance)
             {
-                var Task = Instance.getAttribute( 'Task' );
-
-                Task.$Instance = null;
-                Task.destroy();
+                self.$Instance = null;
+                self.destroy();
             });
 
             this.parent( options );

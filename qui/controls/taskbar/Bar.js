@@ -50,7 +50,6 @@ define([
 
         Binds : [
             '$onTaskRefresh',
-            '$onTaskDestroy',
             '$onTaskClick'
         ],
 
@@ -216,14 +215,12 @@ define([
             if ( Parent && Parent.getType() === 'qui/controls/taskbar/Bar' )
             {
                 Task.removeEvent( 'refresh', Parent.$onTaskRefresh );
-                Task.removeEvent( 'destroy', Parent.$onTaskDestroy );
                 Task.removeEvent( 'click', Parent.$onTaskClick );
             }
 
             Task.setParent( this );
 
             Task.addEvent( 'onRefresh', this.$onTaskRefresh );
-            Task.addEvent( 'onDestroy', this.$onTaskDestroy );
             Task.addEvent( 'onClick', this.$onTaskClick );
 
             Task.normalize();
@@ -306,7 +303,8 @@ define([
                 });
             }
 
-            Task.removeEvent( 'refresh', this.$onTaskRefresh );
+            //Task.removeEvent( 'refresh', this.$onTaskRefresh );
+            Task.destroy();
         },
 
         /**
@@ -358,17 +356,6 @@ define([
                 Child.setAttribute( 'icon', Task.getIcon() );
                 Child.setAttribute( 'text', Task.getTitle() );
             });
-        },
-
-        /**
-         * Refresh the context menu if the task would be destroyed
-         *
-         * @method qui/controls/taskbar/Bar#$onTaskDestroy
-         * @param {qui/controls/taskbar/Task} Task
-         */
-        $onTaskDestroy : function(Task)
-        {
-            this.removeChild( Task );
         },
 
         /**

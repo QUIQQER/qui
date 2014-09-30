@@ -60,7 +60,8 @@ define([
         Type    : 'qui/controls/desktop/Panel',
 
         Binds : [
-            '$onDestroy'
+            '$onDestroy',
+            '$onSetAttribute'
         ],
 
         options : {
@@ -115,7 +116,8 @@ define([
             this.$Dropable      = null;
 
             this.addEvents({
-                onDestroy : this.$onDestroy
+                onDestroy      : this.$onDestroy,
+                onSetAttribute : this.$onSetAttribute
             });
         },
 
@@ -963,6 +965,56 @@ define([
                     destroy[ i ].destroy();
                 }
             }
+        },
+
+        /**
+         * event : on set attribute
+         *
+         * @method qui/controls/desktop/Panel#$onSetAttribute
+         * @param {String} attr - attribute name
+         * @param {unknown_type} v - attribute value
+         */
+        $onSetAttribute : function(attr, v)
+        {
+            if ( !this.$Elm ) {
+                return;
+            }
+
+            // title
+            if ( attr == 'title' )
+            {
+                if ( this.$Title ) {
+                    this.$Title.set( 'html', v );
+                }
+
+                return;
+            }
+
+            // icon
+            if ( attr == 'icon' )
+            {
+                if ( !this.$Icon ) {
+                    return;
+                }
+
+                if ( Utils.isFontAwesomeClass( v )  )
+                {
+                    var css = this.$Icon.className;
+                        css = css.replace(/\bicon-\S+/g, '');
+
+                    this.$Icon.className = css;
+                    this.$Icon.addClass( v );
+
+                } else
+                {
+                    new Element('img', {
+                        src : v
+                    }).inject( this.$Icon );
+                }
+
+                return;
+            }
+
         }
     });
 });

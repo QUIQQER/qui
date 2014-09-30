@@ -737,6 +737,10 @@ define([
          */
         resize : function()
         {
+            if ( !this.getElm() ) {
+                return;
+            }
+
             // tab width
             var i, len;
 
