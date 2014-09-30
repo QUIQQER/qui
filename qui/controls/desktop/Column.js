@@ -1025,6 +1025,23 @@ define([
                 LastPanel = this.getPreviousOpenedPanel( LastPanel );
             }
 
+            // all panels closed?
+            // open first panel
+            if ( !LastPanel )
+            {
+                var FirstElm  = this.$Content.getFirst( '.qui-panel' );
+
+                if ( !FirstElm ) {
+                    return;
+                }
+
+                LastPanel = QUI.Controls.getById( FirstElm.get( 'data-quiid' ) );
+                LastPanel.open();
+
+                // the old left space is not longer correct
+                leftSpace = this.$getLeftSpace();
+            }
+
             if ( LastPanel.isOpen() === false ) {
                 return;
             }

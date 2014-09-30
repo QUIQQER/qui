@@ -303,7 +303,6 @@ define([
                 });
             }
 
-            //Task.removeEvent( 'refresh', this.$onTaskRefresh );
             Task.destroy();
         },
 

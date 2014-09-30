@@ -357,16 +357,9 @@ define([
                 Task        : null
             });
 
-            // task events
-            Task.removeEvents( 'normalize' );
-            Task.removeEvents( 'activate' );
-            Task.removeEvents( 'destroy' );
-            Task.removeEvents( 'refresh' );
-            Task.removeEvents( 'click' );
-
             Task.setInstance( null );
+            Task.destroy();
 
-            this.getTaskbar().removeChild( Task );
             this.selectTask();
 
             return this;
@@ -773,7 +766,7 @@ define([
             {
                 this.$LastTask = null;
             }
-
+console.log( '$removeTask' );
             Task.removeEvents({
                 onActivate : this.$activateTask,
                 onDestroy  : this.$destroyTask
