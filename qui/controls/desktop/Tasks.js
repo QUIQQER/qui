@@ -60,8 +60,9 @@ define([
             icon  : 'icon-tasks',
 
             // header
-            header : true,    // true to create a panel header when panel is created
-            title  : 'Tasks'  // the title inserted into the panel's header
+            header : true,     // true to create a panel header when panel is created
+            title  : 'Tasks',  // the title inserted into the panel's header
+            height : '100%'
         },
 
         initialize : function(options)
@@ -195,7 +196,7 @@ define([
                 'class'      : 'qui-taskpanel qui-panel qui-panel-drop qui-task-drop',
 
                 styles : {
-                    height : '100%'
+                    height : this.getAttribute( 'height' ) || '100%'
                 }
             });
 
