@@ -459,7 +459,7 @@ define([
         {
             if ( !Task.getInstance() )
             {
-                this.selectTask( Task );
+                this.selectTask();
                 return;
             }
 
@@ -477,7 +477,7 @@ define([
                         Instance.destroy();
                     }).delay( 100 );
 
-                    self.selectTask( Task );
+                    self.selectTask();
                 }
             });
         },
@@ -489,13 +489,13 @@ define([
          */
         selectTask : function(Task)
         {
-            var tid = false;
-
-            if ( typeof Task !== 'undefined' ) {
-                Task.getId();
+            if ( typeof Task !== 'undefined' && Task.getInstance() )
+            {
+                Task.click();
+                return;
             }
 
-            if ( this.$LastTask && this.$LastTask.getId() != tid )
+            if ( this.$LastTask && this.$LastTask.getInstance() )
             {
                 this.$LastTask.click();
                 return;
@@ -507,7 +507,7 @@ define([
                 return;
             }
 
-            if ( LastTask.getInstance() && LastTask.getId() != tid )
+            if ( LastTask.getInstance() )
             {
                 LastTask.click();
                 return;
@@ -515,7 +515,7 @@ define([
 
             var FirstTask = this.firstChild();
 
-            if ( FirstTask.getInstance() && FirstTask.getId() != tid )
+            if ( FirstTask.getInstance() )
             {
                 FirstTask.click();
                 return;
