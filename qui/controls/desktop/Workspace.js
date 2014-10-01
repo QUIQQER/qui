@@ -107,7 +107,7 @@ define([
                 workspace = false;
             }
 
-            if ( typeof workspace !== 'undefined' ) // unserialize
+            if ( workspace ) // unserialize
             {
                 var attr;
 
@@ -145,15 +145,11 @@ define([
             }
 
             // resize columns width %
-            var old_max   = 0,
+            var old_max   = wlist.sum(),
                 elmSize   = this.$Elm.getSize(),
                 maxHeight = elmSize.y,
                 maxWidth  = elmSize.x,
                 Parent    = this.$Elm.getParent();
-
-            for ( i = 0, len = wlist.length; i < len; i++ ) {
-                old_max = old_max + wlist[ i ];
-            }
 
             // calc the % and resize it
             for ( i = 0, len = wlist.length; i < len; i++ )
