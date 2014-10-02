@@ -809,9 +809,9 @@ define([
 
             if ( key == 'icon' )
             {
+                this.removeIcon( this.getAttribute('icon') );
                 this.addIcon( value );
 
-                // this.$Icons.setStyle('background-image', 'url('+ value +')');
                 return;
             }
 
