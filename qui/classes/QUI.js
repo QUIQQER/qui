@@ -115,6 +115,10 @@ define([
                 Parent = document.body;
             }
 
+            if ( typeOf( Parent ) !== 'element' ) {
+                return;
+            }
+
             // parse all qui controls
             var nodes = Parent.getElements( '[data-qui]' ),
                 list  = nodes.map(function(Elm) {

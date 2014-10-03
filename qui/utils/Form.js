@@ -47,6 +47,15 @@ define({
                 continue;
             }
 
+            if ( Elm.type === 'text' ||
+                 Elm.type === 'hidden' ||
+                 Elm.nodeName === 'TEXTAREA' ||
+                 Elm.nodeName === 'SELECT' )
+            {
+                Elm.value = data[k];
+                continue;
+            }
+
             if ( Elm.length )
             {
                 for ( i = 0, len = Elm.length; i < len; i++ )
@@ -63,7 +72,7 @@ define({
                 continue;
             }
 
-            Elm.value = data[k];
+            Elm.value = data[ k ];
         }
     },
 
