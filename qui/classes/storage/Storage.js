@@ -1,7 +1,10 @@
 
 /**
- * Use Local storage,
+ * Use Local storage, with fallbacks
  * if local storage not exist, it loads the polyfill
+ *
+ * some browsers cant use local storage in private mode,
+ * so it use internal object storage, therefore the data are kept only in the session
  *
  * @module qui/classes/storage/Storage
  * @author www.pcsg.de (Henning Leutz)
@@ -34,6 +37,8 @@ define(needle, function(QDOM, Polyfill)
         Extends : QDOM,
         Type    : 'qui/classes/storage/Storage',
 
+        $data : {},
+
         /**
          * Set the value of a key
          *
@@ -43,7 +48,14 @@ define(needle, function(QDOM, Polyfill)
          */
         set : function(key, value)
         {
-            window.localStorage.setItem( key, value );
+            try
+            {
+                window.localStorage.setItem( key, value );
+
+            } catch ( e )
+            {
+                this.$data[ key ] = value;
+            }
         },
 
         /**
@@ -55,7 +67,61 @@ define(needle, function(QDOM, Polyfill)
          */
         get : function(key)
         {
-            return window.localStorage.getItem( key );
+            try
+            {
+                return window.localStorage.getItem( key );
+
+            } catch ( e )
+            {
+
+            }
+
+            if ( typeof this.$data[ key ] !== 'undefined' ) {
+                return this.$data[ key ];
+            }
+
+            return null;
+        },
+
+        /**
+         * Remove a stored key
+         *
+         * @method qui/classes/storage/Storage#remove
+         * @param {String} key
+         */
+        remove : function(key)
+        {
+            try
+            {
+                window.localStorage.removeItem( key );
+
+            } catch ( e )
+            {
+
+            }
+
+            if ( typeof this.$data[ key ] !== 'undefined' ) {
+                delete this.$data[ key ];
+            }
+        },
+
+        /**
+         * Clear the storage
+         *
+         * @method qui/classes/storage/Storage#clear
+         */
+        clear : function()
+        {
+            this.$data = {};
+
+            try
+            {
+                window.localStorage.clear();
+
+            } catch ( e )
+            {
+
+            }
         }
     });
 });

@@ -16,9 +16,10 @@ define([
 
     'require',
     'qui/classes/DOM',
-    'qui/classes/Controls'
+    'qui/classes/Controls',
+    'qui/classes/storage/Storage'
 
-], function(require, DOM, Controls)
+], function(require, DOM, Controls, Storage)
 {
     "use strict";
 
@@ -60,7 +61,9 @@ define([
                 window.onerror = this.trigger.bind( this );
             }
 
-            this.Controls       = new Controls();
+            this.Controls = new Controls();
+            this.Storage  = new Storage();
+
             this.MessageHandler = null;
         },
 

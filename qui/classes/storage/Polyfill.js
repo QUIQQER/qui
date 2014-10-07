@@ -63,7 +63,7 @@ define(function()
         {
             data = JSON.stringify(data);
 
-            if (type == 'session')
+            if ( type == 'session' )
             {
                 window.name = data;
             } else
@@ -74,15 +74,18 @@ define(function()
 
         function clearData()
         {
-            if (type == 'session') {
+            if ( type == 'session' )
+            {
                 window.name = '';
+
             } else
             {
                 createCookie('localStorage', '', 365);
             }
         }
 
-        function getData() {
+        function getData()
+        {
             var data = type == 'session' ? window.name : readCookie('localStorage');
             return data ? JSON.parse(data) : {};
         }
