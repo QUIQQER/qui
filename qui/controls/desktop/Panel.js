@@ -60,8 +60,7 @@ define([
         Type    : 'qui/controls/desktop/Panel',
 
         Binds : [
-            '$onDestroy',
-            '$onSetAttribute'
+            '$onDestroy'
         ],
 
         options : {
@@ -116,8 +115,7 @@ define([
             this.$Dropable      = null;
 
             this.addEvents({
-                onDestroy      : this.$onDestroy,
-                onSetAttribute : this.$onSetAttribute
+                onDestroy : this.$onDestroy
             });
         },
 
@@ -178,25 +176,17 @@ define([
                 this.$Content.set( 'html', this.getAttribute('content') );
             }
 
-
-            this.$Collaps = new Element('div', {
-                'class' : 'qui-panel-collapse icon-chevron-down'
-            }).inject( this.$Header );
-
-            this.$Header.addEvent('click', function()
+            if ( this.getAttribute('collapsible') )
             {
-                if ( self.getAttribute( 'collapsible' ) ) {
-                    self.toggle();
-                }
-            });
+                this.$Collaps = new Element('div', {
+                    'class' : 'qui-panel-collapse icon-chevron-down'
+                }).inject( this.$Header );
 
-            if ( !this.getAttribute( 'collapsible' ) )
-            {
-                this.$Collaps.setStyle( 'display', 'none' );
-
-            } else
-            {
                 this.$Header.setStyle( 'cursor', 'pointer' );
+
+                this.$Header.addEvent('click', function() {
+                    self.toggle();
+                });
             }
 
             // drag & drop
@@ -386,7 +376,7 @@ define([
             this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
             this.$Header.removeClass( 'qui-panel-close' );
 
-            if ( this.getAttribute( 'collapsible' ) )
+            if ( this.$Collaps )
             {
                 this.$Collaps.removeClass( 'qui-panel-expand' );
                 this.$Collaps.removeClass( 'icon-chevron-right' );
@@ -415,14 +405,11 @@ define([
 
             this.$Elm.setStyle( 'height', this.$Header.getSize().y );
 
-            if ( this.getAttribute( 'collapsible' ) )
-            {
-                this.$Collaps.removeClass( 'qui-panel-collapse' );
-                this.$Collaps.removeClass( 'icon-chevron-down' );
+            this.$Collaps.removeClass( 'qui-panel-collapse' );
+            this.$Collaps.removeClass( 'icon-chevron-down' );
 
-                this.$Collaps.addClass( 'qui-panel-expand' );
-                this.$Collaps.addClass( 'icon-chevron-right' );
-            }
+            this.$Collaps.addClass( 'qui-panel-expand' );
+            this.$Collaps.addClass( 'icon-chevron-right' );
 
             this.$Header.addClass( 'qui-panel-close' );
 
@@ -975,72 +962,6 @@ define([
                 if ( destroy[ i ] && "destroy" in destroy[ i ] ) {
                     destroy[ i ].destroy();
                 }
-            }
-        },
-
-        /**
-         * event : on set attribute
-         *
-         * @method qui/controls/desktop/Panel#$onSetAttribute
-         * @param {String} attr - attribute name
-         * @param {unknown_type} v - attribute value
-         */
-        $onSetAttribute : function(attr, v)
-        {
-            if ( !this.$Elm ) {
-                return;
-            }
-
-            // title
-            if ( attr == 'title' )
-            {
-                if ( this.$Title ) {
-                    this.$Title.set( 'html', v );
-                }
-
-                return;
-            }
-
-            // icon
-            if ( attr == 'icon' )
-            {
-                if ( !this.$Icon ) {
-                    return;
-                }
-
-                if ( Utils.isFontAwesomeClass( v )  )
-                {
-                    var css = this.$Icon.className;
-                        css = css.replace(/\bicon-\S+/g, '');
-
-                    this.$Icon.className = css;
-                    this.$Icon.addClass( v );
-
-                } else
-                {
-                    new Element('img', {
-                        src : v
-                    }).inject( this.$Icon );
-                }
-
-                return;
-            }
-
-
-            if ( attr == 'collapsible' )
-            {
-                if ( v === false )
-                {
-                    this.$Collaps.setStyle( 'display', 'none' );
-                    this.$Header.setStyle( 'cursor', null );
-
-                    return;
-                }
-
-                this.$Collaps.setStyle( 'display', null );
-                this.$Header.setStyle( 'cursor', 'pointer' );
-
-                return;
             }
         }
     });

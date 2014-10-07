@@ -26,11 +26,10 @@ define([
     'qui/controls/loader/Loader',
     'qui/controls/taskbar/Bar',
     'qui/controls/taskbar/Task',
-    'qui/controls/desktop/Panel',
 
     'css!qui/controls/desktop/Tasks.css'
 
-], function(QUI, QUIControl, QUILoader, QUITaskbar, QUITaskbarTask, QUIPanel)
+], function(QUI, Control, Loader, Taskbar, TaskbarTask)
 {
     "use strict";
 
@@ -41,18 +40,14 @@ define([
      */
     return new Class({
 
-        Extends : QUIControl,
+        Extends : Control,
         Type    : 'qui/controls/desktop/Tasks',
 
         Binds : [
             '$activateTask',
             '$destroyTask',
             '$normalizeTask',
-            '$onTaskbarAppendChild',
-
-            '$onDragDropEnter',
-            '$onDragDropLeave',
-            '$onDragDropDrop'
+            '$onTaskbarAppendChild'
         ],
 
         options : {
@@ -60,16 +55,15 @@ define([
             icon  : 'icon-tasks',
 
             // header
-            header : true,     // true to create a panel header when panel is created
-            title  : 'Tasks',  // the title inserted into the panel's header
-            height : '100%'
+            header : true,    // true to create a panel header when panel is created
+            title  : 'Tasks'  // the title inserted into the panel's header
         },
 
         initialize : function(options)
         {
             this.parent( options );
 
-            this.Loader = new QUILoader();
+            this.Loader = new Loader();
 
             this.$Elm        = null;
             this.$Taskbar    = null;
@@ -193,25 +187,18 @@ define([
 
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
-                'class'      : 'qui-taskpanel qui-panel qui-panel-drop qui-task-drop',
+                'class'      : 'qui-taskpanel qui-panel',
 
                 styles : {
-                    height : this.getAttribute( 'height' ) || '100%'
+                    height : '100%'
                 }
             });
-
-            this.addEvents({
-                dragDropEnter : this.$onDragDropEnter,
-                dragDropLeave : this.$onDragDropLeave,
-                dragDropDrop  : this.$onDragDropDrop
-            });
-
 
             this.$Container = new Element(
                 'div.qui-taskpanel-container'
             ).inject( this.$Elm );
 
-            this.$Taskbar = new QUITaskbar({
+            this.$Taskbar = new Taskbar({
                 name   : 'qui-taskbar-'+ this.getId(),
                 type   : 'bottom',
                 styles : {
@@ -272,42 +259,6 @@ define([
         },
 
         /**
-         * api for column
-         *
-         * @method qui/controls/desktop/Tasks#open
-         * @ignore
-         */
-        open : function()
-        {
-
-        },
-
-        /**
-         * api for column
-         *
-         * @method qui/controls/desktop/Tasks#open
-         * @ignore
-         */
-        minimize : function()
-        {
-            this.setAttribute( 'height', 100 );
-            this.resize();
-
-            this.fireEvent( 'minimize', [ this ] );
-        },
-
-        /**
-         * api for column
-         *
-         * @method qui/controls/desktop/Tasks#toggle
-         * @ignore
-         */
-        toggle : function()
-        {
-
-        },
-
-        /**
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendChild
@@ -321,23 +272,9 @@ define([
                 return this;
             }
 
-            var InstanceParent = Instance.getParent();
-
-            if ( InstanceParent && typeOf( InstanceParent.dependChild ) == 'function' ) {
-                Instance.getParent().dependChild( Instance );
-            }
-
-            Instance.setParent( this );
-
             this.$Taskbar.appendChild(
                 this.instanceToTask( Instance )
             );
-
-            if ( instanceOf( Instance, QUIPanel ) )
-            {
-                Instance.open();
-                Instance.setAttribute( 'collapsible', false );
-            }
 
             return this;
         },
@@ -370,10 +307,19 @@ define([
                 Task        : null
             });
 
+            // task events
+            Task.removeEvents( 'normalize' );
+            Task.removeEvents( 'activate' );
+            Task.removeEvents( 'destroy' );
+            Task.removeEvents( 'refresh' );
+            Task.removeEvents( 'destroy' );
+            Task.removeEvents( 'click' );
+
             Task.setInstance( null );
             Task.destroy();
 
-            this.selectTask();
+            this.getTaskbar().removeChild( Task );
+            this.selectTask( Task );
 
             return this;
         },
@@ -386,10 +332,7 @@ define([
          */
         appendTask : function(Task)
         {
-            if ( Task.getInstance() ) {
-                this.appendChild( Task.getInstance() );
-            }
-
+            this.$Taskbar.appendChild( Task );
             return this;
         },
 
@@ -459,7 +402,7 @@ define([
         {
             if ( !Task.getInstance() )
             {
-                this.selectTask();
+                this.selectTask( Task );
                 return;
             }
 
@@ -477,7 +420,7 @@ define([
                         Instance.destroy();
                     }).delay( 100 );
 
-                    self.selectTask();
+                    self.selectTask( Task );
                 }
             });
         },
@@ -489,13 +432,13 @@ define([
          */
         selectTask : function(Task)
         {
-            if ( typeof Task !== 'undefined' && Task.getInstance() )
-            {
-                Task.click();
-                return;
+            var tid = false;
+
+            if ( typeof Task !== 'undefined' ) {
+                Task.getId();
             }
 
-            if ( this.$LastTask && this.$LastTask.getInstance() )
+            if ( this.$LastTask && this.$LastTask.getId() != tid )
             {
                 this.$LastTask.click();
                 return;
@@ -507,7 +450,7 @@ define([
                 return;
             }
 
-            if ( LastTask.getInstance() )
+            if ( LastTask.getInstance() && LastTask.getId() != tid )
             {
                 LastTask.click();
                 return;
@@ -515,7 +458,7 @@ define([
 
             var FirstTask = this.firstChild();
 
-            if ( FirstTask.getInstance() )
+            if ( FirstTask.getInstance() && FirstTask.getId() != tid )
             {
                 FirstTask.click();
                 return;
@@ -622,28 +565,6 @@ define([
         },
 
         /**
-         * Return true or false, if the object can be append into the column
-         *
-         * @param {Object} QO - QUI object
-         */
-        isApandable : function(QO)
-        {
-            switch ( typeOf( QO ) )
-            {
-                case 'qui/controls/desktop/Panel':
-                case 'qui/controls/desktop/Tasks':
-                case 'qui/controls/taskbar/Task':
-                    return true;
-            }
-
-            if ( instanceOf( QO, QUIPanel ) ) {
-                return true;
-            }
-
-            return false;
-        },
-
-        /**
          * Create a Task for the Control
          *
          * @method qui/controls/desktop/Tasks#instanceToTask
@@ -674,7 +595,7 @@ define([
 
             if ( !Task )
             {
-                Task = new QUITaskbarTask( Instance );
+                Task = new TaskbarTask( Instance );
             } else
             {
                 Task.setInstance( Instance );
@@ -724,6 +645,19 @@ define([
                 IParent = Task.getTaskbar().getParent();
             }
 
+            /*
+            if ( IParent &&
+                 IParent.getId() == this.getId() )
+            {
+                // if the panel is already in the panel
+                // then we do nothing
+                if ( this.$Container
+                         .getElement( '[data-quiid="'+ Instance.getId() +'"]' ) )
+                {
+                    return;
+                }
+            }
+            */
 
             // clear old tasks parent binds
             if ( IParent && IParent.getType() == 'qui/controls/desktop/Tasks') {
@@ -745,6 +679,10 @@ define([
             // not the best solution
             Instance.__destroy = Instance.destroy;
             Instance.destroy   = this.$onInstanceDestroy.bind( this, Instance );
+
+            // delete the own task destroy event
+            // so the tasks panel can destroy the instance
+            Task.removeEvent( 'onDestroy', Task.$onDestroy );
 
             if ( Taskbar )
             {
@@ -782,7 +720,7 @@ define([
             {
                 this.$LastTask = null;
             }
-console.log( '$removeTask' );
+
             Task.removeEvents({
                 onActivate : this.$activateTask,
                 onDestroy  : this.$destroyTask
@@ -818,57 +756,6 @@ console.log( '$removeTask' );
             if ( Task && Task.getElm() ) {
                 Task.destroy();
             }
-        },
-
-        /**
-         * DragDrop event handling
-         */
-
-        /**
-         * event on drag drop enter
-         *
-         * @method qui/controls/desktop/Tasks#$onDragDropEnter
-         * @param {qui/controls/Control} Control - QUI Control
-         * @param {DOMNode} Elm
-         */
-        $onDragDropEnter : function(QO, Elm)
-        {
-            this.highlight();
-        },
-
-        /**
-         * event: drag drop leave
-         *
-         * @method qui/controls/desktop/Tasks#$onDragDropLeave
-         * @param {qui/controls/Control} Control - QUI Control
-         */
-        $onDragDropLeave : function(QO)
-        {
-            this.normalize();
-        },
-
-        /**
-         * event : a control droped on the column
-         *
-         * @method qui/controls/desktop/Tasks#$onDragDropDrop
-         * @param {qui/controls/Control} Control - QUI Control
-         */
-        $onDragDropDrop : function(QO)
-        {
-            if ( !this.isApandable( QO ) ) {
-                return;
-            }
-
-            if ( QO.getType() == 'qui/controls/taskbar/Task' )
-            {
-                this.appendTask( QO );
-                this.normalize();
-
-                return;
-            }
-
-            this.appendChild( QO );
-            this.normalize();
         }
     });
 });

@@ -79,11 +79,8 @@ define([
          */
         clear : function()
         {
-            for ( var i = 0, len = this.$columns.length; i < len; i++ )
-            {
-                if ( typeof this.$columns[ i ] !== 'undefined' ) {
-                    this.$columns[ i ].destroy();
-                }
+            for ( var i = 0, len = this.$columns.length; i < len; i++ ) {
+                this.$columns[ i ].destroy();
             }
 
             this.$columns = [];
@@ -107,7 +104,7 @@ define([
                 workspace = false;
             }
 
-            if ( workspace ) // unserialize
+            if ( workspace )
             {
                 var attr;
 
@@ -145,11 +142,15 @@ define([
             }
 
             // resize columns width %
-            var old_max   = wlist.sum(),
+            var old_max   = 0,
                 elmSize   = this.$Elm.getSize(),
                 maxHeight = elmSize.y,
                 maxWidth  = elmSize.x,
                 Parent    = this.$Elm.getParent();
+
+            for ( i = 0, len = wlist.length; i < len; i++ ) {
+                old_max = old_max + wlist[ i ];
+            }
 
             // calc the % and resize it
             for ( i = 0, len = wlist.length; i < len; i++ )
@@ -165,33 +166,6 @@ define([
                 this.$columns[ i ].setAttribute( 'height', maxHeight );
                 this.$columns[ i ].resize();
             }
-
-
-
-            if ( typeof this.$delayResize !== 'undefined' ) {
-                clearTimeout( this.$delayResize );
-            }
-
-            this.$delayResize = (function()
-            {
-                if ( !this.$getLeftSpace() ) {
-                    return;
-                }
-
-                // recalc last column
-                var LastElm = this.$Elm.getLast( '.qui-column' ),
-                    left    = this.$getLeftSpace();
-
-                if ( !LastElm ) {
-                    return;
-                }
-
-                var Last = QUI.Controls.getById( LastElm.get('data-quiid') );
-
-                Last.setAttribute( 'width', LastElm.getSize().x + left );
-                Last.resize();
-
-            }).delay( 200, this );
         },
 
         /**
@@ -307,7 +281,7 @@ define([
             for ( i = 0, len = columns.length; i < len; i++ )
             {
                 Column = QUI.Controls.getById(
-                    columns[ i ].get( 'data-quiid' )
+                    columns[i].get( 'data-quiid' )
                 );
 
                 result.push( Column.serialize() );
@@ -367,11 +341,9 @@ define([
          *
          * @method qui/controls/desktop/Workspace#appendChild
          * @param {qui/controls/desktop/Column|Params} Column
-         * @param {String} pos - [optional]
-         * @param {qui/controls/desktop/Column} Sibling - [optional]
          * @return {this}
          */
-        appendChild : function(Column, pos, Sibling)
+        appendChild : function(Column)
         {
             if ( typeOf( Column ) !== 'qui/controls/desktop/Column' ) {
                 Column = new QUIColumn( Column );
@@ -390,37 +362,14 @@ define([
 
             Column.setAttribute( 'width', col_width );
             Column.setParent( this );
+            Column.inject( this.$Elm );
 
-            // inject at specific position
-            if ( typeof Sibling !== 'undefined' && typeof pos !== 'undefined' )
-            {
-                if ( pos != 'after' && pos != 'before' ) {
-                    pos = 'after';
-                }
-
-                Column.inject( Sibling.getElm(), pos );
-
-            } else if ( typeof pos !== 'undefined' )
-            {
-                if ( pos != 'top' && pos != 'bottom' ) {
-                    pos = 'bottom';
-                }
-
-                Column.inject( this.$Elm, pos );
-
-            } else
-            {
-                Column.inject( this.$Elm );
-            }
-
-            // set events
             Column.removeEvents( 'contextMenu' );
 
             Column.addEvents({
                 onContextMenu : this.$onColumnContextMenu,
                 onDestroy     : this.$onColumnDestroy
             });
-
 
             if ( this.$fixed )
             {
@@ -430,78 +379,39 @@ define([
                 Column.unfix();
             }
 
-            // create column handler
             if ( this.count() )
             {
-                var handlerPos = 'before',
-
-                    Handler = new Element('div', {
-                        html    : '&nbps;',
-                        'class' : 'qui-column-handle smooth',
-                        styles  : {
-                            width       : 4,
-                            borderWidth : '0 1px'
-                        },
-                        events : {
-                            contextmenu : this.$onHandlerContextMenu
-                        }
-                    });
-
+                var Handler = new Element('div', {
+                    html    : '&nbps;',
+                    'class' : 'qui-column-handle smooth',
+                    styles  : {
+                        width       : 4,
+                        borderWidth : '0 1px'
+                    },
+                    events : {
+                        contextmenu : this.$onHandlerContextMenu
+                    }
+                });
 
                 if ( !this.$fixed ) {
                     Handler.addClass( 'qui-column-handle-enabled' );
                 }
 
-                if ( typeof pos !== 'undefined' && pos === 'before' ) {
-                    handlerPos = 'after';
-                }
-
-                Handler.inject( Column.getElm(), handlerPos );
+                Handler.inject( Column.getElm(), 'before' );
 
                 this.$bindResizeToColumn( Handler, Column );
 
-                // resize last column
-                if ( typeof Sibling === 'undefined' )
-                {
-                    if ( handlerPos == 'after' )
-                    {
-                        Sibling = QUI.Controls.getById(
-                            Handler.getNext().get( 'data-quiid' )
-                        );
+                // get prev column
+                var Sibling       = this.lastChild(),
+                    sibling_width = max_width - col_width - 4; // -4 because handler
 
-                    } else
-                    {
-                        Sibling = QUI.Controls.getById(
-                            Handler.getPrevious().get( 'data-quiid' )
-                        );
-                    }
-                }
-
-                var siblingWidth = Sibling.getElm().getSize().x;
-
-                siblingWidth = siblingWidth - col_width - 4;
-
-                Sibling.setAttribute( 'width', siblingWidth );
+                Sibling.setAttribute( 'width', sibling_width );
                 Sibling.resize();
             }
 
-            // refresh the columns
-            this.$readColumns();
+            this.$columns.push( Column );
 
             Column.resize();
-
-
-            if ( typeof this.$delayResize !== 'undefined' ) {
-                clearTimeout( this.$delayResize );
-            }
-
-            this.$delayResize = (function()
-            {
-                if ( this.$getLeftSpace() ) {
-                    this.resize();
-                }
-            }).delay( 200, this );
-
 
             return this;
         },
@@ -509,7 +419,7 @@ define([
         /**
          * Add a panel to the workspace
          *
-         * First it looks for the first tasks panel, if no task panel exist,
+         * First it looks fot the first tasks panel, if no task panel exist,
          * it looks for an panel with the name content-panel, if that not exist
          * then it took the panel to a column
          *
@@ -602,28 +512,6 @@ define([
         setHeight : function(height)
         {
             this.$Elm.setStyle( 'height', height );
-        },
-
-        /**
-         * Read the columns in the workspace and set the internal $columns array
-         */
-        $readColumns : function()
-        {
-            var i, len, Column;
-            var nodes = this.$Elm.getChildren();
-
-            this.$columns = [];
-
-            for ( i = 0, len = nodes.length; i < len; i++ )
-            {
-                Column = QUI.Controls.getById( nodes[ i ].get( 'data-quiid' ) );
-
-                if ( Column ) {
-                    this.$columns.push( Column );
-                }
-            }
-
-            return this.$columns;
         },
 
         /**

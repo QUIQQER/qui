@@ -470,18 +470,12 @@ define([
 
             } else if ( ( pos ).toInt() === 0 )
             {
-                if ( Handler ) {
-                    Handler.inject( this.$Content, 'top' );
-                }
-
+                Handler.inject( this.$Content, 'top' );
                 Panel.inject( this.$Content, 'top' );
 
             } else if ( typeof handleList[ pos - 1 ] !== 'undefined' )
             {
-                if ( Handler ) {
-                    Handler.inject( handleList[ pos - 1 ], 'after' );
-                }
-
+                Handler.inject( handleList[ pos - 1 ], 'after' );
                 Panel.inject( handleList[ pos - 1 ], 'after' );
             }
 
@@ -1029,23 +1023,6 @@ define([
 
             if ( LastPanel.isOpen() === false ) {
                 LastPanel = this.getPreviousOpenedPanel( LastPanel );
-            }
-
-            // all panels closed?
-            // open first panel
-            if ( !LastPanel )
-            {
-                var FirstElm  = this.$Content.getFirst( '.qui-panel' );
-
-                if ( !FirstElm ) {
-                    return;
-                }
-
-                LastPanel = QUI.Controls.getById( FirstElm.get( 'data-quiid' ) );
-                LastPanel.open();
-
-                // the old left space is not longer correct
-                leftSpace = this.$getLeftSpace();
             }
 
             if ( LastPanel.isOpen() === false ) {
