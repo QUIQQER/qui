@@ -79,8 +79,11 @@ define([
          */
         clear : function()
         {
-            for ( var i = 0, len = this.$columns.length; i < len; i++ ) {
-                this.$columns[ i ].destroy();
+            for ( var i = 0, len = this.$columns.length; i < len; i++ )
+            {
+                if ( typeOf( this.$columns[ i ] ) == 'qui/controls/desktop/Column' ) {
+                    this.$columns[ i ].destroy();
+                }
             }
 
             this.$columns = [];
