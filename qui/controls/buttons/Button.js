@@ -86,7 +86,8 @@ define([
             'title'     : false,
             'class'     : false,    // extra CSS Class
             'buttonCSSClass' : true, // should have the button the qui-button css class?
-            'menuCorner'     : 'top'
+            'menuCorner'     : 'top',
+            'dropDownIcon'   : true
         },
 
         params : {},
@@ -299,9 +300,12 @@ define([
                         Menu.appendChild( self.$items[i] );
                     }
 
-                    self.$Drop = new Element('div', {
-                        'class' : 'qui-button-drop icon-chevron-down'
-                    }).inject( self.$Elm );
+                    if ( self.getAttribute( 'dropDownIcon' ) )
+                    {
+                        self.$Drop = new Element('div', {
+                            'class' : 'qui-button-drop icon-chevron-down'
+                        }).inject( self.$Elm );
+                    }
                 });
             }
 
@@ -520,7 +524,7 @@ define([
             {
                 Menu.appendChild( Itm );
 
-                if ( !self.$Drop )
+                if ( self.getAttribute( 'dropDownIcon' ) && !self.$Drop )
                 {
                     self.$Drop = new Element('div', {
                         'class' : 'qui-button-drop icon-chevron-down'
