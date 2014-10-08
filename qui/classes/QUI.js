@@ -132,6 +132,11 @@ define([
             {
                 var i, len, Cls, Elm;
 
+                var formNodes = {
+                    'TEXTAREA' : true,
+                    'INPUT'    : true
+                };
+
                 for ( i = 0, len = list.length; i < len; i++ )
                 {
                     Cls = arguments[ i ];
@@ -142,7 +147,8 @@ define([
                         continue;
                     }
 
-                    if ( Elm.get( 'html' ).trim() !== '' )
+                    if ( Elm.get( 'html' ).trim() !== '' ||
+                         typeof formNodes[ Elm.nodeName ] !== 'undefined' )
                     {
                         new Cls().import( Elm );
                     } else
