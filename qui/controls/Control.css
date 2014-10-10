@@ -6,9 +6,14 @@
         box-sizing: border-box;
 }
 
+.qui-control {
+    position: relative;
+}
+
 .qui-box {
     float: left;
     height: 100%;
+    position: relative;
     width: 100%;
 
 -webkit-box-sizing: border-box;
@@ -32,6 +37,7 @@
 
 .qui-sheet-buttons {
     clear: both;
+    float: left;
     padding: 10px 0;
     width: 100%;
     z-index: 1;

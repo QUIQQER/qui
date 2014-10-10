@@ -297,6 +297,24 @@ define([
         },
 
         /**
+         * Is the control hidden?
+         *
+         * @return {Bool}
+         */
+        isHidden : function()
+        {
+            if ( !this.$Elm ) {
+                return true;
+            }
+
+            if ( this.$Elm.getStyle( 'display' ) == 'none' ) {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
          * Highlight the control
          *
          * @method qui/controls/Control#highlight
@@ -394,7 +412,7 @@ define([
             var Content = Sheet.getElement( '.qui-sheet-content' );
 
             Content.setStyles({
-                height : Sheet.getSize().y - 80
+                height : Sheet.getSize().y - 50
             });
 
 
