@@ -142,6 +142,7 @@ define([
         import : function(Elm)
         {
             this.$Elm = Elm;
+            this.$Elm.set( 'data-quiid', this.getId() );
             this.fireEvent( 'import', [ this, Elm ] );
 
             return this;
