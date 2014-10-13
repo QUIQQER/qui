@@ -118,7 +118,7 @@ define([
             if ( this.getAttribute( 'titleCloseButton' ) )
             {
                 new Element('div', {
-                    'class' : 'icon-remove fa fa-remove',
+                    'class' : 'icon-remove',
                     styles  : {
                         cursor : 'pointer',
                         'float' : 'right',
@@ -184,7 +184,7 @@ define([
                 });
             }
 
-            if ( this.getAttribute( 'buttons' ) === false ) {
+            if ( !this.getAttribute( 'buttons' ) ) {
                 this.$Buttons.setStyle( 'display', 'none' );
             }
 
