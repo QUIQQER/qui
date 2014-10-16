@@ -41,10 +41,6 @@ define([
         Extends : QUIPopup,
         Type    : 'qui/controls/windows/Confirm',
 
-        Binds : [
-            '$onOpen'
-        ],
-
         options: {
             'maxHeight' : 300,
             'autoclose' : true,
@@ -145,9 +141,6 @@ define([
                 }
             });
 
-
-            //this.addEvent( 'onOpen', this.$onOpen );
-
             this.$Body    = null;
             this.$Win     = null;
             this.$Buttons = null;
@@ -162,7 +155,6 @@ define([
         {
             this.create();
 
-
             var Body;
 
             var self    = this,
@@ -170,17 +162,17 @@ define([
                 html    = '';
 
             Content.setStyles({
-                padding: 20
+                padding : 20
             });
 
             this.$Body = new Element('div.submit-body', {
-                html   : '<div class="textbody">' +
-                             '<h2 class="text">&nbsp;</h2>' +
-                             '<div class="information">&nbsp;</div>' +
-                         '</div>',
+                html : '<div class="textbody">' +
+                           '<h2 class="text">&nbsp;</h2>' +
+                           '<div class="information">&nbsp;</div>' +
+                       '</div>',
                 styles : {
-                    'float': 'left',
-                    width  : '100%'
+                    'float' : 'left',
+                    width   : '100%'
                 }
             });
 
@@ -213,7 +205,7 @@ define([
                     text      : this.getAttribute( 'cancel_button' ).text,
                     textimage : this.getAttribute( 'cancel_button' ).textimage,
                     styles    : {
-                        width : 150,
+                        width   : 150,
                         'float' : 'none'
                     },
                     events : {
@@ -227,7 +219,7 @@ define([
                     text      : this.getAttribute( 'ok_button' ).text,
                     textimage : this.getAttribute( 'ok_button' ).textimage,
                     styles    : {
-                        width : 150,
+                        width   : 150,
                         'float' : 'none'
                     },
                     events :

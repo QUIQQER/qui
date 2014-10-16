@@ -106,7 +106,10 @@ define([
                           '</div>' +
                           '<div class="qui-window-popup-content box"></div>'+
                           '<div class="qui-window-popup-buttons box"></div>',
-                tabindex : -1
+                tabindex : -1,
+                styles : {
+                    left : '-100%'
+                }
             });
 
             this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
@@ -284,13 +287,20 @@ define([
             if ( left < 0 ) {
                 left = 0;
             }
-
+console.log( 'resize' );
+console.log( withfx );
             this.$Elm.setStyles({
                 height   : height,
                 width    : width,
-                left     : left,
                 top      : top
             });
+
+            if ( withfx === false )
+            {
+                this.$Elm.setStyles({
+                    left : left
+                });
+            }
 
             if ( this.$Buttons )
             {
@@ -326,14 +336,13 @@ define([
 
             var left = ( doc_size.x - width ) / 2;
 
-            if ( !withfx )
+            if ( withfx == false )
             {
                 this.$Elm.setStyle( 'left', left );
                 this.fireEvent( 'resize', [ this ] );
 
                 return;
             }
-
 
             moofx( this.$Elm ).animate({
                 left : left
@@ -453,8 +462,6 @@ define([
             this.$Buttons.setStyles({
                 height  : Node.getComputedSize().totalHeight
             });
-
-            this.resize();
 
             return this;
         },
