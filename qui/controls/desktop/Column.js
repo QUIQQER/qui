@@ -1756,7 +1756,7 @@ define([
 
             // first arrow
             this.$ddArrowPositions[ elmPos.y + 10 ] = new Element('div', {
-                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
                 styles  : {
                     top     : elmPos.y,
                     left    : xPos,
@@ -1774,7 +1774,7 @@ define([
                 y = Handler.getPosition().y;
 
                 this.$ddArrowPositions[ y ] = new Element('div', {
-                    'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                    'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
                     styles  : {
                         top     : y - 20,
                         left    : xPos,
@@ -1788,7 +1788,7 @@ define([
 
             // last arrow
             this.$ddArrowPositions[ elmPos.y + Elm.getSize().y - 10 ] = new Element('div', {
-                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
                 styles  : {
                     top     : elmPos.y + Elm.getSize().y - 20,
                     left    : xPos,

@@ -206,7 +206,7 @@ define([
             // left / right
             this.BtnLeft = new Button({
                 name    : 'toLeft',
-                'class' : 'qui-toolbar-button icon-chevron-left',
+                'class' : 'qui-toolbar-button icon-chevron-left fa fa-icon-chevron-left',
                 events  :
                 {
                     onClick : function(Btn) {
@@ -218,7 +218,7 @@ define([
 
             this.BtnRight = new Button({
                 name    : 'toRight',
-                'class' : 'qui-toolbar-button icon-chevron-right',
+                'class' : 'qui-toolbar-button icon-chevron-right fa fa-icon-chevron-right',
                 events  :
                 {
                     onClick : function(Btn) {
@@ -230,7 +230,7 @@ define([
 
             // create the left context menu
             this.Menu = new Button({
-                'class' : 'qui-toolbar-button icon-chevron-down'
+                'class' : 'qui-toolbar-button icon-chevron-down fa fa-icon-chevron-down'
             });
 
             this.Menu.setParent( this );

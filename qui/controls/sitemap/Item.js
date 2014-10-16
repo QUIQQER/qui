@@ -332,6 +332,7 @@ define([
             }
 
             this.removeIcon( 'icon-remove' );
+            this.removeIcon( 'fa-remove' );
 
             return this;
         },
@@ -348,7 +349,7 @@ define([
                 return this;
             }
 
-            var Icon = this.addIcon( 'icon-remove' );
+            var Icon = this.addIcon( 'icon-remove fa fa-remove' );
 
             Icon.setStyles({
                 color : 'red'

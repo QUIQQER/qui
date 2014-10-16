@@ -51,7 +51,7 @@ define([
 
             this.setAttributes({
                 title : 'Bookmarks',
-                icon  : 'icon-book'
+                icon  : 'icon-book fa fa-bookmark'
             });
 
             this.addEvent( 'onCreate', this.$create );

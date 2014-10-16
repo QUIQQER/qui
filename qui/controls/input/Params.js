@@ -98,7 +98,7 @@ define([
             });
 
             this.$AddButton = new QUIButton({
-                textimage : 'icon-plus',
+                textimage : 'icon-plus fa fa-plus',
                 text : 'Parameter hinzufügen',
                 events : {
                     onClick : this.openAddParamWindow
@@ -227,7 +227,7 @@ define([
             }).inject( this.$ParamList );
 
             new QUIButton({
-                icon : 'icon-remove',
+                icon : 'icon-remove fa fa-remove',
                 styles : {
                     'float' : 'right',
                     lineHeight : 20,
@@ -256,7 +256,7 @@ define([
 
             new QUIConfirm({
                 title  : 'Parameter hinzufügen',
-                icon   : 'icon-plus',
+                icon   : 'icon-plus fa fa-plus',
                 maxHeight   : this.getAttribute( 'windowMaxHeight' ),
                 maxWidth    : this.getAttribute( 'windowMaxWidth' ),
                 autoclose   : false,

@@ -263,7 +263,7 @@ define([
             {
                 new Element('div', {
                     'class' : 'qui-task-close',
-                    'html'  : '<span class="icon-remove"></span>',
+                    'html'  : '<span class="icon-remove fa fa-remove"></span>',
                     events  : {
                         click : this.close
                     }

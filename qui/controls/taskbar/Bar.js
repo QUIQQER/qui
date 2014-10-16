@@ -170,7 +170,7 @@ define([
             this.$TaskButton = new Button({
                 name    : 'qui-taskbar-btn-'+ this.getId(),
                 'class' : 'qui-taskbar-button',
-                icon    : 'icon-chevron-up',
+                icon    : 'icon-chevron-up fa fa-chevron-up',
                 menuCorner : this.getAttribute('position'),
                 styles  : {
                     width  : 30,

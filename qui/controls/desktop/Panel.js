@@ -179,7 +179,7 @@ define([
             if ( this.getAttribute('collapsible') )
             {
                 this.$Collaps = new Element('div', {
-                    'class' : 'qui-panel-collapse icon-chevron-down'
+                    'class' : 'qui-panel-collapse icon-chevron-down fa fa-chevron-down'
                 }).inject( this.$Header );
 
                 this.$Header.setStyle( 'cursor', 'pointer' );
@@ -380,9 +380,11 @@ define([
             {
                 this.$Collaps.removeClass( 'qui-panel-expand' );
                 this.$Collaps.removeClass( 'icon-chevron-right' );
+                this.$Collaps.removeClass( 'fa-chevron-down' );
 
                 this.$Collaps.addClass( 'qui-panel-collapse' );
                 this.$Collaps.addClass( 'icon-chevron-down' );
+                this.$Collaps.addClass( 'fa-chevron-down' );
             }
 
             this.fireEvent( 'open', [ this ] );
@@ -407,9 +409,11 @@ define([
 
             this.$Collaps.removeClass( 'qui-panel-collapse' );
             this.$Collaps.removeClass( 'icon-chevron-down' );
+            this.$Collaps.removeClass( 'fa-chevron-down' );
 
             this.$Collaps.addClass( 'qui-panel-expand' );
             this.$Collaps.addClass( 'icon-chevron-right' );
+            this.$Collaps.addClass( 'fa-chevron-right' );
 
             this.$Header.addClass( 'qui-panel-close' );
 

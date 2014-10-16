@@ -52,7 +52,7 @@ define([
 
         options : {
             name  : 'taskpanel',
-            icon  : 'icon-tasks',
+            icon  : 'icon-tasks fa fa-tasks',
 
             // header
             header : true,    // true to create a panel header when panel is created

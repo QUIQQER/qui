@@ -272,7 +272,7 @@ define([
         {
             this.$Elm = new Element('div', {
                 'class' : 'message-handler-control',
-                html    : '<span class="icon-info"></span>' +
+                html    : '<span class="icon-info fa fa-info"></span>' +
                           '<span class="message-handler-count"></span>',
                 title   : Locale.get( 'qui/controls/messages', 'handler.open' ),
                 events  : {
@@ -313,11 +313,11 @@ define([
                               'Nachrichten' +
                           '</div>' +
                           '<div class="message-handler-container-buttons">' +
-                              '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
-                              '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
-                              '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
-                              '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
-                              '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
+                              '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok fa fa-check"></div>' +
+                              '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign fa fa-info"></div>' +
+                              '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign fa fa-warning"></div>' +
+                              '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt fa fa-bolt"></div>' +
+                              '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash fa fa-trash"></div>' +
                           '</div>' +
                           '<div class="message-handler-container-messages"></div>' +
                           '<div class="message-handler-container-close"></div>'

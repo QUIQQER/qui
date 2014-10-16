@@ -206,14 +206,14 @@ define([
 
             var CloseButton = new Button({
                 text : 'schließen / abbrechen',
-                textimage : 'icon-remove',
+                textimage : 'icon-remove fa fa-remove',
                 events : {
                     onClick : this.hide.bind( this )
                 }
             });
 
             new Button({
-                icon : 'icon-remove',
+                icon : 'icon-remove fa fa-remove',
                 styles : {
                     'float' : 'right'
                 },
