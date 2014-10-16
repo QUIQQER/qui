@@ -331,6 +331,7 @@ qui/QUI.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 
@@ -372,6 +373,7 @@ qui/utils/Controls.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/utils/Controls.js
@@ -380,6 +382,7 @@ qui/controls/Control.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -393,6 +396,7 @@ qui/controls/contextmenu/Bar.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -419,6 +423,7 @@ qui/controls/contextmenu/Seperator.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -434,6 +439,7 @@ qui/controls/contextmenu/Menu.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -450,6 +456,7 @@ qui/controls/contextmenu/BarItem.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -474,6 +481,7 @@ qui/controls/contextmenu/Item.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -494,6 +502,7 @@ qui/controls/loader/Loader.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -509,6 +518,7 @@ qui/controls/windows/Prompt.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -536,6 +546,7 @@ qui/controls/windows/Popup.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -572,6 +583,7 @@ qui/controls/windows/Alert.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -596,6 +608,7 @@ qui/controls/windows/Submit.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -623,6 +636,7 @@ qui/controls/windows/Confirm.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -650,6 +664,7 @@ qui/controls/buttons/Seperator.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -664,6 +679,7 @@ qui/controls/buttons/Select.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -686,6 +702,7 @@ qui/controls/buttons/Button.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -704,6 +721,7 @@ qui/controls/sitemap/Filter.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -724,6 +742,7 @@ qui/controls/sitemap/Map.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -748,6 +767,7 @@ qui/controls/sitemap/Item.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -770,6 +790,7 @@ qui/controls/input/Params.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -799,6 +820,7 @@ qui/controls/utils/Background.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -813,6 +835,7 @@ qui/controls/utils/Progressbar.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -828,6 +851,7 @@ qui/controls/toolbar/Bar.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -853,6 +877,7 @@ qui/controls/toolbar/Tab.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -870,6 +895,7 @@ qui/controls/bookmarks/Panel.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -906,6 +932,7 @@ qui/controls/taskbar/Bar.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -935,6 +962,7 @@ qui/controls/taskbar/Task.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -952,6 +980,7 @@ qui/controls/taskbar/Group.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -976,6 +1005,7 @@ qui/controls/breadcrumb/Bar.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -991,6 +1021,7 @@ qui/controls/breadcrumb/Item.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1007,6 +1038,7 @@ qui/controls/desktop/Tasks.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1033,15 +1065,6 @@ qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/taskbar/Bar
 qui/controls/taskbar/Bar.js
-qui/lib/require-css/css!qui/controls/toolbar/Bar
-qui/controls/toolbar/Bar.js
-qui/controls/buttons/Seperator.js
-qui/lib/require-css/css!qui/controls/desktop/panels/Sheet
-qui/controls/desktop/panels/Sheet.js
-qui/lib/require-css/css!qui/controls/breadcrumb/Bar
-qui/controls/breadcrumb/Bar.js
-qui/lib/require-css/css!qui/controls/desktop/Panel
-qui/controls/desktop/Panel.js
 qui/lib/require-css/css!qui/controls/desktop/Tasks
 qui/controls/desktop/Tasks.js
 
@@ -1049,6 +1072,7 @@ qui/controls/desktop/panels/Sheet.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1069,6 +1093,7 @@ qui/controls/desktop/Workspace.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1100,7 +1125,6 @@ qui/lib/require-css/css!qui/controls/desktop/Panel
 qui/controls/desktop/Panel.js
 qui/lib/require-css/css!qui/controls/desktop/Column
 qui/controls/desktop/Column.js
-qui/classes/storage/Storage.js
 qui/utils/Math.js
 qui/controls/desktop/Workspace.js
 
@@ -1108,6 +1132,7 @@ qui/controls/desktop/Column.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1144,6 +1169,7 @@ qui/controls/desktop/Panel.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1178,6 +1204,7 @@ qui/controls/messages/Information.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1194,6 +1221,7 @@ qui/controls/messages/Error.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1210,6 +1238,7 @@ qui/controls/messages/Attention.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1226,6 +1255,7 @@ qui/controls/messages/Message.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1241,6 +1271,7 @@ qui/controls/messages/Handler.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1250,7 +1281,6 @@ qui/lib/require-css/css.js
 qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
 qui/controls/messages/Favico.js
-qui/classes/storage/Storage.js
 qui/lib/require-css/css!qui/controls/messages/Handler
 qui/controls/messages/Handler.js
 
@@ -1262,6 +1292,7 @@ qui/controls/messages/Success.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1278,6 +1309,7 @@ qui/controls/messages/Panel.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
@@ -1339,12 +1371,14 @@ qui/classes/QUI.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 
 qui/classes/request/Ajax.js
 ----------------
 qui/classes/DOM.js
 qui/classes/Controls.js
+qui/classes/storage/Storage.js
 qui/classes/QUI.js
 qui/QUI.js
 qui/classes/Locale.js
