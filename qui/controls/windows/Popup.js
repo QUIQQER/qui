@@ -210,6 +210,8 @@ define([
          */
         open : function()
         {
+            var self = this;
+
             this.Background.create();
 
             this.Background.getElm().addEvent(
@@ -220,10 +222,27 @@ define([
             this.Background.show();
             this.inject( document.body );
 
-            document.body.addClass( 'noscroll' );
-
             this.resize( true );
             this.fireEvent( 'open', [ this ] );
+
+            // touch body fix
+            this.$oldBodyStyle = {
+                overflow : document.body.style.overflow,
+                position : document.body.style.position,
+                width    : document.body.style.width,
+                top      : document.body.style.top,
+                scroll   : document.body.getScroll()
+            };
+
+            document.body.setStyles({
+                width : document.body.getSize().x
+            });
+
+            document.body.setStyles({
+                overflow : 'hidden',
+                position : 'fixed',
+                top      : this.$oldBodyStyle.scroll.y * -1
+            });
         },
 
         /**
@@ -336,6 +355,20 @@ define([
         {
             window.removeEvent( 'resize', this.resize );
 
+            // set old body attributes
+            document.body.setStyles({
+                overflow : this.$oldBodyStyle.overflow || null,
+                position : this.$oldBodyStyle.position || null,
+                width    : this.$oldBodyStyle.width || null,
+                top      : this.$oldBodyStyle.top || null,
+            });
+
+            document.body.scrollTo(
+                this.$oldBodyStyle.scroll.x,
+                this.$oldBodyStyle.scroll.y
+            );
+
+
             if ( !this.$Elm ) {
                 return;
             }
@@ -351,10 +384,6 @@ define([
 
                     self.$Elm.destroy();
                     self.Background.destroy();
-
-                    if ( !document.body.getElement( 'cls-background' ) ) {
-                        document.body.removeClass( 'noscroll' );
-                    }
                 }
             });
         },
