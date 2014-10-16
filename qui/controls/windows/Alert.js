@@ -35,7 +35,7 @@ define([
 
         options : {
             maxHeight : 300,
-            icon      : 'icon-bell',
+            icon      : 'icon-bell fa fa-bell',
             title     : 'Alert'
         },
 

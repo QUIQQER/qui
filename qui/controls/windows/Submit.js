@@ -45,16 +45,16 @@ define([
 
             'information' : false,
             'title'       : '...',
-            'titleicon'   : 'icon-remove',
-            'icon'        : 'icon-remove',
+            'titleicon'   : 'icon-remove fa fa-remove',
+            'icon'        : 'icon-remove fa fa-remove',
 
             cancel_button : {
                 text      : 'Cancel',
-                textimage : 'icon-remove'
+                textimage : 'icon-remove fa fa-remove'
             },
             ok_button : {
                 text      : 'OK',
-                textimage : 'icon-ok'
+                textimage : 'icon-ok fa fa-check'
             }
         },
 

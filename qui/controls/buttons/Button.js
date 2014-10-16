@@ -303,7 +303,7 @@ define([
                     if ( self.getAttribute( 'dropDownIcon' ) )
                     {
                         self.$Drop = new Element('div', {
-                            'class' : 'qui-button-drop icon-chevron-down'
+                            'class' : 'qui-button-drop icon-chevron-down fa fa-chevron-down'
                         }).inject( self.$Elm );
                     }
                 });
@@ -527,7 +527,7 @@ define([
                 if ( self.getAttribute( 'dropDownIcon' ) && !self.$Drop )
                 {
                     self.$Drop = new Element('div', {
-                        'class' : 'qui-button-drop icon-chevron-down'
+                        'class' : 'qui-button-drop icon-chevron-down fa fa-chevron-down'
                     }).inject( self.$Elm );
                 }
             });
