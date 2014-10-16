@@ -356,17 +356,20 @@ define([
             window.removeEvent( 'resize', this.resize );
 
             // set old body attributes
-            document.body.setStyles({
-                overflow : this.$oldBodyStyle.overflow || null,
-                position : this.$oldBodyStyle.position || null,
-                width    : this.$oldBodyStyle.width || null,
-                top      : this.$oldBodyStyle.top || null,
-            });
+            if ( typeof this.$oldBodyStyle !== 'undefined' )
+            {
+                document.body.setStyles({
+                    overflow : this.$oldBodyStyle.overflow || null,
+                    position : this.$oldBodyStyle.position || null,
+                    width    : this.$oldBodyStyle.width || null,
+                    top      : this.$oldBodyStyle.top || null,
+                });
 
-            document.body.scrollTo(
-                this.$oldBodyStyle.scroll.x,
-                this.$oldBodyStyle.scroll.y
-            );
+                document.body.scrollTo(
+                    this.$oldBodyStyle.scroll.x,
+                    this.$oldBodyStyle.scroll.y
+                );
+            }
 
 
             if ( !this.$Elm ) {
