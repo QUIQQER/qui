@@ -287,8 +287,7 @@ define([
             if ( left < 0 ) {
                 left = 0;
             }
-console.log( 'resize' );
-console.log( withfx );
+
             this.$Elm.setStyles({
                 height   : height,
                 width    : width,
