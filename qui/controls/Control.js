@@ -376,6 +376,8 @@ define([
          */
         openSheet : function(onfinish)
         {
+            var self  = this;
+
             var Sheet = new Element('div', {
                 'class' : 'qui-sheet qui-box',
                 html    : '<div class="qui-sheet-content box"></div>' +
@@ -398,8 +400,12 @@ define([
                 }
             );
 
+            var oldOverflow = this.getElm().getStyle( 'overflow' );
+
             Sheet.addEvent('close', function()
             {
+                self.getElm().setStyle( 'overflow', oldOverflow );
+
                 moofx( Sheet ).animate({
                     left : '-100%'
                 }, {
@@ -416,6 +422,7 @@ define([
                 height : Sheet.getSize().y - 50
             });
 
+            this.getElm().setStyle( 'overflow', 'hidden' );
 
             // effect
             moofx( Sheet ).animate({
