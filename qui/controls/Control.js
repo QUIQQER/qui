@@ -373,10 +373,17 @@ define([
          *
          * @method qui/controls/Control#openSheet
          * @param {Function} onfinish - callback function
+         * @param {Object} options - [optional] { nobuttons : true }
          */
-        openSheet : function(onfinish)
+        openSheet : function(onfinish, options)
         {
-            var self  = this;
+            var self = this;
+
+            options = options || {};
+
+            options = Object.merge({
+                buttons : true
+            }, options );
 
             var Sheet = new Element('div', {
                 'class' : 'qui-sheet qui-box',
@@ -423,6 +430,11 @@ define([
             });
 
             this.getElm().setStyle( 'overflow', 'hidden' );
+
+            if ( options.buttons === false ) {
+                Sheet.getElement( '.qui-sheet-buttons' ).destroy();
+            }
+
 
             // effect
             moofx( Sheet ).animate({
