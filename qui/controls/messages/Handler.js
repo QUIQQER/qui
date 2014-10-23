@@ -755,12 +755,23 @@ define([
                         position : 'fixed',
                         top      : null
                     });
+
+                    Node.addClass( 'animated' );
+                    Node.addClass( 'fadeInDown' );
+
+                    Node.inject( document.body );
+
+                } else
+                {
+                    Node.inject( document.body );
+                    Node.setStyle( 'opacity', 0 );
+
+                    moofx( Node ).animate({
+                        opacity : 1
+                    });
                 }
 
-                Node.addClass( 'animated' );
-                Node.inject( document.body );
-                Node.addClass( 'fadeInDown' );
-
+                // destroy after 3 seconds
                 (function()
                 {
                     moofx( Node ).animate({
