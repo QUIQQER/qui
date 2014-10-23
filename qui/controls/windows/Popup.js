@@ -225,8 +225,6 @@ define([
             this.Background.show();
             this.inject( document.body );
 
-            this.resize( true );
-            this.fireEvent( 'open', [ this ] );
 
             // touch body fix
             this.$oldBodyStyle = {
@@ -246,6 +244,31 @@ define([
                 position : 'fixed',
                 top      : this.$oldBodyStyle.scroll.y * -1
             });
+
+            (function()
+            {
+                var bodyWidth = document.body.getStyle('width').toInt(),
+                    docWidth  = document.getSize().x;
+
+                if ( docWidth - bodyWidth )
+                {
+                    new Element('div', {
+                        'class' : '__qui-scroll-bar-placeholder',
+                        styles : {
+                            background: '#CCC',
+                            height: '100%',
+                            position: 'fixed',
+                            right : 0,
+                            top   : 0,
+                            width : docWidth - bodyWidth
+                        }
+                    }).inject( document.body );
+                }
+
+                self.resize( true );
+                self.fireEvent( 'open', [ self ] );
+
+            }).delay( 20 );
         },
 
         /**
@@ -362,6 +385,8 @@ define([
         close : function()
         {
             window.removeEvent( 'resize', this.resize );
+
+            document.getElements( '.__qui-scroll-bar-placeholder' ).destroy();
 
             // set old body attributes
             if ( typeof this.$oldBodyStyle !== 'undefined' )
