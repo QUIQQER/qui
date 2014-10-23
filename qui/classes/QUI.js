@@ -118,7 +118,12 @@ define([
                 Parent = document.body;
             }
 
-            if ( typeOf( Parent ) !== 'element' ) {
+            if ( typeOf( Parent ) !== 'element' )
+            {
+                if ( typeof callback !== 'undefined' ) {
+                    callback();
+                }
+
                 return;
             }
 
