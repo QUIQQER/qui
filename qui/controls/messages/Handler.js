@@ -28,11 +28,12 @@ define([
     'qui/controls/Control',
     'qui/controls/messages/Favico',
     'qui/Locale',
+    'qui/utils/Elements',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function(require, Control, Favico, Locale)
+], function(require, Control, Favico, Locale, ElementUtils)
 {
     "use strict";
 
@@ -272,7 +273,7 @@ define([
         {
             this.$Elm = new Element('div', {
                 'class' : 'message-handler-control',
-                html    : '<span class="icon-info fa fa-info"></span>' +
+                html    : '<span class="icon-info"></span>' +
                           '<span class="message-handler-count"></span>',
                 title   : Locale.get( 'qui/controls/messages', 'handler.open' ),
                 events  : {
@@ -313,11 +314,11 @@ define([
                               'Nachrichten' +
                           '</div>' +
                           '<div class="message-handler-container-buttons">' +
-                              '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok fa fa-check"></div>' +
-                              '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign fa fa-info"></div>' +
-                              '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign fa fa-warning"></div>' +
-                              '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt fa fa-bolt"></div>' +
-                              '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash fa fa-trash"></div>' +
+                              '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
+                              '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
+                              '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
+                              '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
+                              '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
                           '</div>' +
                           '<div class="message-handler-container-messages"></div>' +
                           '<div class="message-handler-container-close"></div>'
@@ -723,22 +724,27 @@ define([
                     this.save();
                 }
 
-                var pos, size;
+                var pos, size, zIndex;
                 var Node = Message.createMessageElement();
 
                 if ( typeof Parent === 'undefined' ) {
                     Parent = document.body;
                 }
 
-                pos  = Parent.getPosition();
-                size = Parent.getSize();
+                pos    = Parent.getPosition();
+                size   = Parent.getSize();
+                zIndex = 10000;
+
+                if ( document.body != Parent ) {
+                    zIndex = ElementUtils.getComputedZIndex( Parent ) + 1;
+                }
 
                 Node.setStyles({
                     left     : pos.x,
                     position : 'absolute',
                     top      : pos.y + size.y,
                     width    : 280,
-                    zIndex   : 10000
+                    zIndex   : zIndex
                 });
 
                 if ( Parent == document.body )
@@ -764,7 +770,7 @@ define([
                             Node.destroy();
                         }
                     });
-                }).delay( 2000 );
+                }).delay( 3000 );
 
                 this.fireEvent( 'add', [ this, Message ] );
 
