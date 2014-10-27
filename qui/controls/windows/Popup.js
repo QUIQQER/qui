@@ -414,7 +414,8 @@ define([
             var self = this;
 
             moofx( this.$Elm ).animate({
-                left : document.getSize().x * -1
+                left    : document.getSize().x * -1,
+                opacity : 0
             }, {
                 equation : 'ease-in',
                 callback : function()
