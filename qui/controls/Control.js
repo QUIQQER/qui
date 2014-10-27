@@ -414,8 +414,10 @@ define([
                 self.getElm().setStyle( 'overflow', oldOverflow );
 
                 moofx( Sheet ).animate({
-                    left : '-100%'
+                    left    : '-100%',
+                    opacity : 0
                 }, {
+                    equation : 'ease-in',
                     callback : function() {
                         Sheet.destroy();
                     }
@@ -440,6 +442,7 @@ define([
             moofx( Sheet ).animate({
                 left : 0
             }, {
+                equation : 'ease-out',
                 callback : function() {
                     onfinish( Content, Sheet );
                 }

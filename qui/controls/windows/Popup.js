@@ -366,9 +366,11 @@ define([
                 return;
             }
 
+
             moofx( this.$Elm ).animate({
                 left : left
             }, {
+                equation : 'ease-out',
                 callback : function()
                 {
                     self.$Elm.focus();
@@ -414,6 +416,7 @@ define([
             moofx( this.$Elm ).animate({
                 left : document.getSize().x * -1
             }, {
+                equation : 'ease-in',
                 callback : function()
                 {
                     self.fireEvent( 'close', [ self ] );
