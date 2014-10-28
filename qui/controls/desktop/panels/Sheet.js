@@ -39,7 +39,8 @@ define([
         options : {
             styles  : false,
             header  : true,
-            buttons : true
+            buttons : true,
+            title   : ''
         },
 
         initialize: function(options)
@@ -93,6 +94,33 @@ define([
             }
 
             this.$Header.set( 'html', this.getAttribute( 'title' ) );
+
+            // header close button
+            new Button({
+                icon   : 'icon-remove fa fa-remove',
+                styles : {
+                    'float' : 'right'
+                },
+                events : {
+                    onClick : this.hide.bind( this )
+                }
+            }).inject( this.$Header );
+
+            // sub close button
+            var CloseButton = new Button({
+                text      : 'schließen / abbrechen',
+                textimage : 'icon-remove fa fa-remove',
+                styles    : {
+                    width : 200
+                },
+                events : {
+                    onClick : this.hide.bind( this )
+                }
+            });
+
+            this.addButton( CloseButton );
+
+
 
             this.$FX = moofx( this.$Elm );
 
@@ -185,7 +213,10 @@ define([
                 visibility : null
             });
 
-            Elm.setStyle( 'display', null );
+            Elm.setStyles({
+                display : null,
+                opacity : 1
+            })
 
             if ( !this.getAttribute( 'buttons' ) ) {
                 this.$Buttons.setStyle( 'display', 'none' );
@@ -200,30 +231,10 @@ define([
                 header_size = this.$Header.getSize();
 
             this.getBody().setStyles({
+                'float' : 'left',
                 height  : size.y - button_size.y - header_size.y,
-                width   : '100%',
-                'float' : 'left'
+                width   : '100%'
             });
-
-            var CloseButton = new Button({
-                text      : 'schließen / abbrechen',
-                textimage : 'icon-remove',
-                events : {
-                    onClick : this.hide.bind( this )
-                }
-            });
-
-            new Button({
-                icon   : 'icon-remove',
-                styles : {
-                    'float' : 'right'
-                },
-                events : {
-                    onClick : this.hide.bind( this )
-                }
-            }).inject( this.$Header );
-
-            this.addButton( CloseButton );
 
 
             this.$FX.animate({
@@ -255,7 +266,7 @@ define([
                 left    : (size.x + 50) * -1,
                 opacity : 0
             }, {
-                equation : 'ease-in',
+                equation : 'ease-out',
                 callback : this.$fxComplete
             });
 
@@ -279,7 +290,7 @@ define([
             }
 
             this.fireEvent( 'close', [ this ] );
-            this.destroy();
+//            this.destroy();
         }
     });
 });
