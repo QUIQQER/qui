@@ -51,6 +51,10 @@
     width: 100%;
 }
 
+.qui-panel-sheet-body {
+    overflow: auto;
+}
+
 .qui-panel-sheet-btn-container {
     background: #666;
     border-top: 1px solid #ddd;

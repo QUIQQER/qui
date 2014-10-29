@@ -40,7 +40,11 @@ define([
             styles  : false,
             header  : true,
             buttons : true,
-            title   : ''
+            title   : '',
+            closeButton : {
+                textimage : 'icon-remove fa fa-remove',
+                text      : 'schließen / abbrechen'
+            }
         },
 
         initialize: function(options)
@@ -107,9 +111,11 @@ define([
             }).inject( this.$Header );
 
             // sub close button
+            var closeButton = this.getAttribute( 'closeButton' );
+console.log( closeButton );
             var CloseButton = new Button({
-                text      : 'schließen / abbrechen',
-                textimage : 'icon-remove fa fa-remove',
+                text      : closeButton.text || 'schließen / abbrechen',
+                textimage : closeButton.textimage || false,
                 styles    : {
                     width : 200
                 },

@@ -50,6 +50,10 @@ define([
         $messages    : [],
         $newMessages : 0,
 
+        Binds : [
+            '$onSetAttribute'
+        ],
+
         $filter : {
             attention   : true,
             error       : true,
@@ -59,15 +63,19 @@ define([
 
         options : {
             autosave : true,
-            autoload : true
+            autoload : true,
+            useFavicon : true
         },
 
         initialize : function(params)
         {
             var self = this;
 
-
             this.parent( params );
+
+            this.addEvents({
+                onSetAttribute : this.$onSetAttribute
+            });
 
             this.Favico  = null;
             this.$Parent = null;
@@ -80,6 +88,7 @@ define([
                     this.Favico = new Favico({
                         animation : 'fade'
                     });
+
                 } catch ( e ) {
                     // nothing
                 }
@@ -90,6 +99,15 @@ define([
                         self.Favico.badge( 0 );
                     }
                 });
+            }
+
+            if ( this.getAttribute( 'useFavicon' ) === false )
+            {
+                if ( this.Favico )
+                {
+                    this.Favico.reset();
+                    this.Favico = null;
+                }
             }
 
             var data = window.localStorage.getItem( 'messageHandler' );
@@ -1043,6 +1061,27 @@ define([
             Messages.setStyles({
                height : height
             });
+        },
+
+        /**
+         * event : on set Attribute
+         *
+         * @param {String} k - key
+         * @param {unknown} v - value
+         */
+        $onSetAttribute : function(k, v)
+        {
+            if ( k == 'useFavicon' )
+            {
+                if ( v === false )
+                {
+                    if ( this.Favico )
+                    {
+                        this.Favico.reset();
+                        this.Favico = null;
+                    }
+                }
+            }
         }
     });
 });
