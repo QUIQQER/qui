@@ -56,6 +56,7 @@ define([
             '$onSetAttribute',
             '$stringEvent',
             '$onClick',
+            '$onInject',
 
             '$onMouseEnter',
             '$onMouseLeave',
@@ -80,17 +81,19 @@ define([
 
             this.parent( options );
 
-            this.$items    = [];
-            this.$Elm      = null;
-            this.$Menu     = null;
-            this.$path     = '';
-            this.$disabled = false;
+            this.$items     = [];
+            this.$Elm       = null;
+            this.$Container = null;
+            this.$Menu      = null;
+            this.$path      = '';
+            this.$disabled  = false;
 
             if ( typeof options.disabled !== 'undefined' && options.disabled ) {
                 this.$disabled = true;
             }
 
             this.addEvent( 'onSetAttribute', this.$onSetAttribute );
+            this.addEvent( 'onInject', this.$onInject );
 
             if ( items.length ) {
                 this.insert( items );
@@ -140,8 +143,10 @@ define([
                 }
             });
 
+            this.$Container = this.$Elm.getElement( '.qui-contextitem-container' );
+
             // click events on the text
-            this.$Elm.getElement( '.qui-contextitem-container' ).addEvents({
+            this.$Container.addEvents({
                 click      : this.$onClick,
                 mousedown  : this.$onMouseDown,
                 mouseup    : this.$onMouseUp
@@ -167,26 +172,11 @@ define([
             {
                 var Text = this.$Elm.getElement( '.qui-contextitem-text' );
 
-                if ( this.$Elm.getComputedSize().width )
-                {
-                    Text.set({
-                        html   : this.getAttribute( 'text' ),
-                        styles : {
-                            width : this.$Elm.getComputedSize().width
-                        }
-                    });
-                } else
-                {
-                    (function()
-                    {
-                        Text.set({
-                            html   : self.getAttribute( 'text' ),
-                            styles : {
-                                width : self.$Elm.getComputedSize().width
-                            }
-                        });
-                    }).delay( 500 );
-                }
+                Text.set({
+                    html   : this.getAttribute( 'text' )
+                });
+
+                this.$onInject.delay( 500 );
             }
 
             // drag drop for the item
@@ -255,11 +245,8 @@ define([
 
                 var Menu = this.getContextMenu();
 
-                for ( i = 0; i < len; i++ )
-                {
-                    Menu.appendChild(
-                        this.$items[i]
-                    );
+                for ( i = 0; i < len; i++ ) {
+                    Menu.appendChild( this.$items[i] );
                 }
             }
 
@@ -269,6 +256,25 @@ define([
             }
 
             return this.$Elm;
+        },
+
+        /**
+         * event : on inject
+         */
+        $onInject : function()
+        {
+            var Icon = this.$Container.getElement( '.qui-contextitem-icon' ),
+                Text = this.$Container.getElement( '.qui-contextitem-text' );
+
+            var iconSize = Icon.measure(function() {
+                return this.getComputedSize();
+            });
+
+            var elmSize = this.$Container.measure(function() {
+                return this.getComputedSize();
+            });
+
+            Text.setStyle( 'width', elmSize.width - iconSize.totalWidth );
         },
 
         /**
@@ -410,9 +416,7 @@ define([
             {
                 if ( this.$Menu )
                 {
-                    this.$Elm
-                        .getChildren('.qui-contextitem-container')
-                        .addClass('qui-contextitem-active');
+                    this.$Container.addClass('qui-contextitem-active');
                 } else
                 {
                     this.$Elm.addClass('qui-contextitem-active');
@@ -438,9 +442,7 @@ define([
 
             if ( this.$Menu )
             {
-                this.$Elm
-                    .getChildren( '.qui-contextitem-container' )
-                    .removeClass( 'qui-contextitem-active' );
+                this.$Container.removeClass( 'qui-contextitem-active' );
             } else
             {
                 this.$Elm.removeClass( 'qui-contextitem-active' );
@@ -561,8 +563,7 @@ define([
                     Icon.addClass( value );
                 } else
                 {
-                    this.$Elm.getElement( '.qui-contextitem-container' )
-                             .setStyle( 'background-image', 'url('+ value +')' );
+                    this.$Container.setStyle( 'background-image', 'url('+ value +')' );
 
                 }
 
@@ -636,9 +637,7 @@ define([
                     }
                 }
 
-                this.$Elm
-                    .getChildren( '.qui-contextitem-container' )
-                    .addClass( 'qui-contextitem-active' );
+                this.$Container.addClass( 'qui-contextitem-active' );
             }
 
             this.setActive();
@@ -660,10 +659,7 @@ define([
                 this.$Menu.hide();
             }
 
-            this.$Elm
-                .getChildren( '.qui-contextitem-container' )
-                .removeClass( 'qui-contextitem-active' );
-
+            this.$Container.removeClass( 'qui-contextitem-active' );
             this.setNormal();
         },
 
