@@ -112,7 +112,7 @@ define([
 
             // sub close button
             var closeButton = this.getAttribute( 'closeButton' );
-console.log( closeButton );
+
             var CloseButton = new Button({
                 text      : closeButton.text || 'schließen / abbrechen',
                 textimage : closeButton.textimage || false,
@@ -204,11 +204,13 @@ console.log( closeButton );
          * Show the panel sheet
          *
          * @method qui/controls/desktop/panels/Sheet#show
+         * @param {Function} callback - [optional] callback function
          * @return {this}
          */
-        show : function()
+        show : function(callback)
         {
-            var Elm     = this.getElm(),
+            var self    = this,
+                Elm     = this.getElm(),
                 Parent  = Elm.getParent(),
                 size    = Parent.getSize();
 
@@ -222,7 +224,7 @@ console.log( closeButton );
             Elm.setStyles({
                 display : null,
                 opacity : 1
-            })
+            });
 
             if ( !this.getAttribute( 'buttons' ) ) {
                 this.$Buttons.setStyle( 'display', 'none' );
@@ -247,7 +249,14 @@ console.log( closeButton );
                 left : 0
             }, {
                 equation : 'ease-out',
-                callback : this.$fxComplete
+                callback : function()
+                {
+                    if ( typeOf( callback ) === 'function' ) {
+                        callback();
+                    }
+
+                    self.$fxComplete();
+                }
             });
 
             return this;
@@ -257,11 +266,13 @@ console.log( closeButton );
          * Hide the panel sheet
          *
          * @method qui/controls/desktop/panels/Sheet#hide
+         * @param {Function} callback - [optional] callback function
          * @return {this}
          */
-        hide : function()
+        hide : function(callback)
         {
-            var Elm    = this.getElm(),
+            var self   = this,
+                Elm    = this.getElm(),
                 Parent = Elm.getParent(),
                 size   = Parent.getSize();
 
@@ -273,7 +284,14 @@ console.log( closeButton );
                 opacity : 0
             }, {
                 equation : 'ease-out',
-                callback : this.$fxComplete
+                callback : function()
+                {
+                    if ( typeOf( callback ) === 'function' ) {
+                        callback();
+                    }
+
+                    self.$fxComplete();
+                }
             });
 
             return this;
@@ -285,7 +303,7 @@ console.log( closeButton );
          *
          * @method qui/controls/desktop/panels/Sheet#$fxComplete
          */
-        $fxComplete : function(Sheet)
+        $fxComplete : function()
         {
             if ( this.getElm().getStyle('left').toInt() >= 0 )
             {
@@ -296,7 +314,6 @@ console.log( closeButton );
             }
 
             this.fireEvent( 'close', [ this ] );
-//            this.destroy();
         }
     });
 });
