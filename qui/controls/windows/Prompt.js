@@ -43,15 +43,16 @@ define([
         Type    : 'qui/controls/windows/Prompt',
 
         options: {
-            'maxHeight' : 300,
+            maxHeight : 300,
 
-            'check'     : false, // function to check the input
-            'autoclose' : true,
+            check     : false, // function to check the input
+            autoclose : true,
 
-            'information' : false,
-            'title'       : '...',
-            'titleicon'   : 'icon-remove fa fa-remove',
-            'icon'        : 'icon-remove fa fa-remove',
+            information : false,
+            title       : '...',
+            titleicon   : 'icon-remove fa fa-remove',
+            icon        : 'icon-remove fa fa-remove',
+            value : false,
 
             cancel_button : {
                 text      : 'Cancel',
@@ -153,8 +154,9 @@ define([
                 this.$Info.set( 'html', this.getAttribute( 'information' ) );
             }
 
-            // input events
-            this.$Input = Content.getElement( 'input' );
+            if ( this.getAttribute( 'value' ) ) {
+                this.$Input.value = this.getAttribute( 'value' );
+            }
 
             this.$Input.addEvent('keyup', function(event)
             {
