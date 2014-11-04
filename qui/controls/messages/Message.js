@@ -45,6 +45,8 @@ define([
         {
             this.parent( options );
 
+            this.$elements = [];
+
             if ( !this.getAttribute( 'time' ) )
             {
                 this.setAttribute( 'time', new Date() );
@@ -125,7 +127,7 @@ define([
                 'class' : 'messages-message box',
                 html    : '<div class="messages-message-header">' +
                               '<span>' + time + '</span>' +
-                              '<span class="messages-message-destroy icon-remove-circle fa fa-remove"></span>' +
+                              '<span class="messages-message-destroy icon-remove-circle"></span>' +
                           '</div>' +
                           '<div class="messages-message-text">' +
                               this.getAttribute( 'message' ) +
@@ -155,6 +157,8 @@ define([
             Destroy.addEvent('click', function() {
                 Elm.destroy();
             });
+
+            this.$elements.push( Elm );
 
             return Elm;
         }

@@ -43,7 +43,7 @@ define([
 
         options : {
             title : 'Nachrichten',
-            icon  : 'icon-bullhorn fa fa-bullhorn',
+            icon  : 'icon-bullhorn',
 
             showSucces      : true,
             showInformation : true,
@@ -75,7 +75,7 @@ define([
 
             this.addButton({
                 name   : 'ok',
-                icon   : 'icon-ok fa fa-check',
+                icon   : 'icon-ok',
                 title  : Locale.get( 'qui/controls/messages', 'handler.button.success' ),
                 alt    : Locale.get( 'qui/controls/messages', 'handler.button.success' ),
                 events : {
@@ -85,7 +85,7 @@ define([
 
             this.addButton({
                 name   : 'information',
-                icon   : 'icon-info-sign fa fa-info',
+                icon   : 'icon-info-sign',
                 title  : Locale.get( 'qui/controls/messages', 'handler.button.information' ),
                 alt    : Locale.get( 'qui/controls/messages', 'handler.button.information' ),
                 events : {
@@ -95,7 +95,7 @@ define([
 
             this.addButton({
                 name   : 'attention',
-                icon   : 'icon-warning-sign fa fa-warning',
+                icon   : 'icon-warning-sign',
                 title  : Locale.get( 'qui/controls/messages', 'handler.button.attention' ),
                 alt    : Locale.get( 'qui/controls/messages', 'handler.button.attention' ),
                 events : {
@@ -105,7 +105,7 @@ define([
 
             this.addButton({
                 name   : 'error',
-                icon   : 'icon-bolt fa fa-bolt',
+                icon   : 'icon-bolt',
                 title  : Locale.get( 'qui/controls/messages', 'handler.button.error' ),
                 alt    : Locale.get( 'qui/controls/messages', 'handler.button.error' ),
                 events : {
@@ -115,7 +115,7 @@ define([
 
             this.addButton({
                 name   : 'clear',
-                icon   : 'icon-trash fa fa-trash',
+                icon   : 'icon-trash',
                 title  : Locale.get( 'qui/controls/messages', 'handler.button.clear' ),
                 alt    : Locale.get( 'qui/controls/messages', 'handler.button.clear' ),
                 events :

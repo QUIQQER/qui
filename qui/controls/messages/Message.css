@@ -35,14 +35,19 @@
 /* Message colors
  ================================================================= */
 
+.message-attention {
+    background: #FAF6D4;
+    border-color: #E6C26E;
+}
+
 .message-error {
     background: #F2D4CE;
     border-color: #AE432E;
 }
 
-.message-attention {
-    background: #FAF6D4;
-    border-color: #E6C26E;
+.message-information {
+    background: #CEE6F2;
+    border-color: #058DC7;
 }
 
 .message-success {
@@ -50,7 +55,7 @@
     border-color: #77AB13;
 }
 
-.message-information {
-    background: #CEE6F2;
-    border-color: #058DC7;
+.message-loading {
+    background: #FAF6D4;
+    border-color: #E6C26E;
 }

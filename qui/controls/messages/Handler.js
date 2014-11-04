@@ -28,12 +28,11 @@ define([
     'qui/controls/Control',
     'qui/controls/messages/Favico',
     'qui/Locale',
-    'qui/utils/Elements',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function(require, Control, Favico, Locale, ElementUtils)
+], function(require, Control, Favico, Locale)
 {
     "use strict";
 
@@ -50,10 +49,6 @@ define([
         $messages    : [],
         $newMessages : 0,
 
-        Binds : [
-            '$onSetAttribute'
-        ],
-
         $filter : {
             attention   : true,
             error       : true,
@@ -63,19 +58,15 @@ define([
 
         options : {
             autosave : true,
-            autoload : true,
-            useFavicon : true
+            autoload : true
         },
 
         initialize : function(params)
         {
             var self = this;
 
-            this.parent( params );
 
-            this.addEvents({
-                onSetAttribute : this.$onSetAttribute
-            });
+            this.parent( params );
 
             this.Favico  = null;
             this.$Parent = null;
@@ -88,7 +79,6 @@ define([
                     this.Favico = new Favico({
                         animation : 'fade'
                     });
-
                 } catch ( e ) {
                     // nothing
                 }
@@ -99,15 +89,6 @@ define([
                         self.Favico.badge( 0 );
                     }
                 });
-            }
-
-            if ( this.getAttribute( 'useFavicon' ) === false )
-            {
-                if ( this.Favico )
-                {
-                    this.Favico.reset();
-                    this.Favico = null;
-                }
             }
 
             var data = window.localStorage.getItem( 'messageHandler' );
@@ -141,8 +122,9 @@ define([
                      'qui/controls/messages/Error',
                      'qui/controls/messages/Information',
                      'qui/controls/messages/Success',
+                     'qui/controls/messages/Loading',
                      'qui/controls/messages/Message'
-                ], function(Attention, Error, Information, Success, StandardMessage)
+                ], function(Attention, Error, Information, Success, Loading, StandardMessage)
                 {
                     var i, len, type, Data, Message;
 
@@ -169,6 +151,10 @@ define([
 
                             case 'qui/controls/messages/Success':
                                 Message = new Success( Data );
+                            break;
+
+                            case 'qui/controls/messages/Loading':
+                                Message = new Loading( Data );
                             break;
 
                             default:
@@ -232,8 +218,9 @@ define([
                 'qui/controls/messages/Attention',
                 'qui/controls/messages/Error',
                 'qui/controls/messages/Information',
-                'qui/controls/messages/Success'
-            ], function(Attention, Error, Information, Success)
+                'qui/controls/messages/Success',
+                'qui/controls/messages/Loading'
+            ], function(Attention, Error, Information, Success, Loading)
             {
                 _Ajax.asyncPost('ajax_messages_get', function(result)
                 {
@@ -264,6 +251,10 @@ define([
 
                             case 'QUI\\Messages\\Success':
                                 Message = new Success( data );
+                            break;
+
+                            case 'QUI\\Messages\\Loading':
+                                Message = new Loading( data );
                             break;
 
                             default:
@@ -477,8 +468,9 @@ define([
                  'qui/controls/messages/Error',
                  'qui/controls/messages/Information',
                  'qui/controls/messages/Success',
+                 'qui/controls/messages/Loading',
                  'qui/controls/messages/Message'
-            ], function(Attention, Error, Information, Success, StandardMessage)
+            ], function(Attention, Error, Information, Success, Loading, StandardMessage)
             {
                 var data, Message;
 
@@ -503,6 +495,10 @@ define([
 
                     case 'QUI\\Messages\\Success':
                         Message = new Success( data );
+                    break;
+
+                    case 'QUI\\Messages\\Loading':
+                        Message = new Loading( data );
                     break;
 
                     default:
@@ -606,10 +602,7 @@ define([
 
             params.messages = messages;
 
-            window.localStorage.setItem(
-                'messageHandler',
-                JSON.encode( params )
-            );
+            window.localStorage.setItem( 'messageHandler', JSON.encode( params ) );
         },
 
         /**
@@ -723,14 +716,21 @@ define([
          */
         add : function(Message, Parent)
         {
-            var Messages = document.getElement( '.message-handler-container-messages' );
+            var self     = this,
+                Messages = document.getElement( '.message-handler-container-messages' );
 
             this.$messages.push( Message );
 
-            Message.addEvent(
-                'onDestroy',
-                this.$onMessageDestroy.bind( this )
-            );
+            Message.addEvents({
+                onDestroy : this.$onMessageDestroy.bind( this ),
+                onFinish  : function()
+                {
+                    // for loading message
+                    if ( self.getAttribute( 'autosave' ) ) {
+                        self.save();
+                    }
+                }
+            });
 
             // message handler is closed
             if ( !Messages )
@@ -742,27 +742,22 @@ define([
                     this.save();
                 }
 
-                var pos, size, zIndex;
+                var pos, size;
                 var Node = Message.createMessageElement();
 
                 if ( typeof Parent === 'undefined' ) {
                     Parent = document.body;
                 }
 
-                pos    = Parent.getPosition();
-                size   = Parent.getSize();
-                zIndex = 10000;
-
-                if ( document.body != Parent ) {
-                    zIndex = ElementUtils.getComputedZIndex( Parent ) + 1;
-                }
+                pos  = Parent.getPosition();
+                size = Parent.getSize();
 
                 Node.setStyles({
                     left     : pos.x,
                     position : 'absolute',
                     top      : pos.y + size.y,
                     width    : 280,
-                    zIndex   : zIndex
+                    zIndex   : 10000
                 });
 
                 if ( Parent == document.body )
@@ -773,23 +768,12 @@ define([
                         position : 'fixed',
                         top      : null
                     });
-
-                    Node.addClass( 'animated' );
-                    Node.addClass( 'fadeInDown' );
-
-                    Node.inject( document.body );
-
-                } else
-                {
-                    Node.inject( document.body );
-                    Node.setStyle( 'opacity', 0 );
-
-                    moofx( Node ).animate({
-                        opacity : 1
-                    });
                 }
 
-                // destroy after 3 seconds
+                Node.addClass( 'animated' );
+                Node.inject( document.body );
+                Node.addClass( 'fadeInDown' );
+
                 (function()
                 {
                     moofx( Node ).animate({
@@ -799,7 +783,7 @@ define([
                             Node.destroy();
                         }
                     });
-                }).delay( 3000 );
+                }).delay( 2000 );
 
                 this.fireEvent( 'add', [ this, Message ] );
 
@@ -923,6 +907,38 @@ define([
 
                 self.add( Message, Parent );
                 self.fireEvent( 'addInformation', [ this, Message ] );
+            });
+
+            return this;
+        },
+
+        /**
+         * Add an attention
+         *
+         * @method qui/controls/messages/Handler#addAttention
+         * @param {String} str - Message text
+         * @param {Function} callback - Callback Function, to get the Loading object
+         * @param {DOMNode} Parent - [optional] Parent Object, where to display the message
+         * @return {this}
+         */
+        addLoading : function(str, callback, Parent)
+        {
+            var self = this;
+
+            require(['qui/controls/messages/Loading'], function(Loading)
+            {
+                var Message = new Loading({
+                    message : str
+                });
+
+                self.add( Message, Parent );
+                self.fireEvent( 'addLoadingMessage', [ this, Message ] );
+
+                if ( typeof callback !== 'undefined' &&
+                     typeOf( callback ) == 'function' )
+                {
+                    callback( Message );
+                }
             });
 
             return this;
@@ -1061,27 +1077,6 @@ define([
             Messages.setStyles({
                height : height
             });
-        },
-
-        /**
-         * event : on set Attribute
-         *
-         * @param {String} k - key
-         * @param {unknown} v - value
-         */
-        $onSetAttribute : function(k, v)
-        {
-            if ( k == 'useFavicon' )
-            {
-                if ( v === false )
-                {
-                    if ( this.Favico )
-                    {
-                        this.Favico.reset();
-                        this.Favico = null;
-                    }
-                }
-            }
         }
     });
 });
