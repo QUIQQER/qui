@@ -19,6 +19,8 @@ define({
      */
     setDataToForm : function(data, form)
     {
+        "use strict";
+
         if ( typeof form === 'undefined' || form.nodeName !== 'FORM' ) {
             return;
         }
@@ -52,6 +54,10 @@ define({
                  Elm.nodeName === 'TEXTAREA' ||
                  Elm.nodeName === 'SELECT' )
             {
+                if ( typeOf( data[k] ) == 'boolean' ) {
+                    continue;
+                }
+
                 Elm.value = data[k];
                 continue;
             }
@@ -86,6 +92,8 @@ define({
      */
     getFormData : function(form)
     {
+        "use strict";
+
         if ( typeof form === 'undefined' || !form ) {
             return {};
         }
@@ -147,6 +155,8 @@ define({
      */
     insertTextAtCursor : function(el, text)
     {
+        "use strict";
+
         var val = el.value, endIndex, range;
 
         if ( typeof el.selectionStart != "undefined" &&
