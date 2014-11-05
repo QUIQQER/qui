@@ -1,0 +1,40 @@
+{
+    "name": "quiqqer/qui",
+    "version": "dev-dev",
+    "description": "QUIQQER-UI is a modular user interface component framework written in JavaScript",
+    "author": "Henning Leutz <leutz@pcsg.de>",
+
+    "contributors": [{
+        "name": "Henning Leutz",
+        "email": "leutz@pcsg.de"
+    }],
+
+    "main": "init.js",
+
+    "repository": {
+        "type": "git",
+        "url": "git@dev.quiqqer.com:quiqqer/qui.git"
+    },
+
+    "bugs": {
+        "url": "https://dev.quiqqer.com/quiqqer/qui/issues"
+    },
+
+    "keywords": [
+        "qui",
+        "quiqqer",
+        "mootools",
+        "javascript",
+        "amd",
+        "components",
+        "requirejs"
+    ],
+
+    "dependencies": {
+        "requirejs" : null,
+        "mootools"  : ">=1.4",
+        "mootools-more" : ">=1.5"
+    },
+
+    "license": "MIT"
+}
