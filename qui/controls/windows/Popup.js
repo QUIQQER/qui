@@ -106,10 +106,7 @@ define([
                           '</div>' +
                           '<div class="qui-window-popup-content box"></div>'+
                           '<div class="qui-window-popup-buttons box"></div>',
-                tabindex : -1,
-                styles : {
-                    left : '-100%'
-                }
+                tabindex : -1
             });
 
             this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
@@ -225,6 +222,8 @@ define([
             this.Background.show();
             this.inject( document.body );
 
+            this.resize( true );
+            this.fireEvent( 'open', [ this ] );
 
             // touch body fix
             this.$oldBodyStyle = {
@@ -244,31 +243,6 @@ define([
                 position : 'fixed',
                 top      : this.$oldBodyStyle.scroll.y * -1
             });
-
-            (function()
-            {
-                var bodyWidth = document.body.getStyle('width').toInt(),
-                    docWidth  = document.getSize().x;
-
-                if ( docWidth - bodyWidth )
-                {
-                    new Element('div', {
-                        'class' : '__qui-scroll-bar-placeholder',
-                        styles : {
-                            background: '#CCC',
-                            height: '100%',
-                            position: 'fixed',
-                            right : 0,
-                            top   : 0,
-                            width : docWidth - bodyWidth
-                        }
-                    }).inject( document.body );
-                }
-
-                self.resize( true );
-                self.fireEvent( 'open', [ self ] );
-
-            }).delay( 20 );
         },
 
         /**
@@ -314,15 +288,9 @@ define([
             this.$Elm.setStyles({
                 height   : height,
                 width    : width,
+                left     : left,
                 top      : top
             });
-
-            if ( withfx === false )
-            {
-                this.$Elm.setStyles({
-                    left : left
-                });
-            }
 
             if ( this.$Buttons )
             {
@@ -358,7 +326,7 @@ define([
 
             var left = ( doc_size.x - width ) / 2;
 
-            if ( withfx == false )
+            if ( !withfx )
             {
                 this.$Elm.setStyle( 'left', left );
                 this.fireEvent( 'resize', [ this ] );
@@ -388,8 +356,6 @@ define([
         {
             window.removeEvent( 'resize', this.resize );
 
-            document.getElements( '.__qui-scroll-bar-placeholder' ).destroy();
-
             // set old body attributes
             if ( typeof this.$oldBodyStyle !== 'undefined' )
             {
@@ -414,10 +380,9 @@ define([
             var self = this;
 
             moofx( this.$Elm ).animate({
-                left    : document.getSize().x * -1,
-                opacity : 0
+                left : document.getSize().x * -1
             }, {
-                equation : 'ease-in',
+                equation : 'ease-out',
                 callback : function()
                 {
                     self.fireEvent( 'close', [ self ] );
@@ -490,6 +455,8 @@ define([
             this.$Buttons.setStyles({
                 height  : Node.getComputedSize().totalHeight
             });
+
+            this.resize();
 
             return this;
         },

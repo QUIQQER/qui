@@ -390,12 +390,15 @@ define([
                 Elm      = Instance.getElm(),
                 self     = this;
 
-            Elm.setStyle( 'display', null );
-
+            Elm.setStyles({
+                display : null,
+                opacity : 1
+            });
 
             moofx( Elm ).animate({
                 left : 0
             }, {
+                equation : 'ease-out',
                 callback : function(time)
                 {
                     self.resize();
@@ -426,7 +429,8 @@ define([
                 Elm      = Instance.getElm();
 
             moofx( Elm ).animate({
-                left : (this.$Container.getSize().x + 10) * -1
+                left    : (this.$Container.getSize().x + 10) * -1,
+                opacity : 0
             }, {
                 callback : function(Elm)
                 {
@@ -504,8 +508,10 @@ define([
 
 
             moofx( Elm ).animate({
-                left : (this.$Container.getSize().x + 10) * -1
+                left    : (this.$Container.getSize().x + 10) * -1,
+                opacity : 0
             }, {
+                equation : 'ease-out',
                 callback : function(Elm)
                 {
                     Elm.setStyle( 'display', 'none' );
