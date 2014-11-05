@@ -17,7 +17,7 @@ QUIQQER-UI or QUI are mainly used at QUIQQER
 
 ## Installation
 
-You can install qui with composer
+Installation via composer
 
 *composer.json*
 
@@ -58,6 +58,14 @@ If you use no MooTools, please place MooTools and moofx before requirejs:
 <script src="components/qui/init.js" data-main="your_start_script.js"></script>
 
 ```
+
+
+*bower*
+
+Installation via bower
+
+    bower install http://dev.quiqqer.com:3000/quiqqer/qui.git
+
 
 
 ## Usage
