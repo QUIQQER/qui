@@ -71,6 +71,8 @@ define([
             this.$Active     = null;
             this.$LastTask   = null;
 
+            this.$__unserialize = false;
+
             this.$tmpList = [];
         },
 
@@ -108,6 +110,9 @@ define([
          */
         unserialize : function(data)
         {
+            var self = this;
+
+            this.$__unserialize = true;
             this.setAttributes( data.attributes );
 
             if ( !this.$Elm )
@@ -116,9 +121,19 @@ define([
                 return this;
             }
 
-            if ( data.bar ) {
+            if ( data.bar )
+            {
+                this.$Taskbar.addEvent('onUnserializeFinish', function()
+                {
+                    if ( self.firstChild() ) {
+                        self.firstChild().click();
+                    }
+                });
+
                 this.$Taskbar.unserialize( data.bar );
             }
+
+            this.$__unserialize = false;
         },
 
         /**
@@ -706,6 +721,10 @@ define([
                 onActivate : this.$activateTask,
                 onDestroy  : this.$destroyTask
             });
+
+            if ( this.$__unserialize === false ) {
+                 return;
+            }
 
             if ( !TaskParent ||
                  TaskParent && TaskParent.getType() !== 'qui/controls/taskbar/Group' )

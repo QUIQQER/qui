@@ -20,6 +20,8 @@
  *     {qui/controls/taskbar/Bar},
  *     {qui/controls/taskbar/Task}
  * ]
+ *
+ * @event onUnserializeFinish [ {qui/controls/taskbar/Bar} ]
  */
 
 define([
@@ -65,6 +67,8 @@ define([
             this.$TaskButton = null;
             this.$tasks      = [];
             this.$Active     = null;
+
+            this.$unserializedTasks = 0;
 
             this.parent( options );
         },
@@ -116,8 +120,14 @@ define([
             var self = this;
             var i, len, Task;
 
-            var importInit = function( Task ) {
+            var importInit = function( Task )
+            {
                 self.appendChild( Task );
+                self.$unserializedTasks++;
+
+                if ( self.$unserializedTasks == tasks.length ) {
+                    self.fireEvent( 'unserializeFinish', [ self ] );
+                }
             };
 
             for ( i = 0, len = tasks.length; i < len; i++ )
@@ -170,7 +180,7 @@ define([
             this.$TaskButton = new Button({
                 name    : 'qui-taskbar-btn-'+ this.getId(),
                 'class' : 'qui-taskbar-button',
-                icon    : 'icon-chevron-up fa fa-chevron-up',
+                icon    : 'icon-chevron-up',
                 menuCorner : this.getAttribute('position'),
                 styles  : {
                     width  : 30,
