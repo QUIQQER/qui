@@ -47,9 +47,9 @@ If you dont use MooTools, please place MooTools and moofx before requirejs:
 
 ``` html
 <!-- mootools -->
-<script src="components/qui/build/qui/lib/mootools-core.js"></script>
-<script src="components/qui/build/qui/lib/mootools-more.js"></script>
-<script src="components/qui/build/qui/lib/moofx.js"></script>
+<script src="components/qui/qui/lib/mootools-core.js"></script>
+<script src="components/qui/qui/lib/mootools-more.js"></script>
+<script src="components/qui/qui/lib/moofx.js"></script>
 
 <!-- include require -->
 <script src="components/require-built.js"></script>
@@ -67,9 +67,9 @@ bower install http://dev.quiqqer.com:3000/quiqqer/qui.git
 
 ``` html
 <!-- mootools -->
-<script src="bower_components/qui/build/qui/lib/mootools-core.js"></script>
-<script src="bower_components/qui/build/qui/lib/mootools-more.js"></script>
-<script src="bower_components/qui/build/qui/lib/moofx.js"></script>
+<script src="bower_components/qui/qui/lib/mootools-core.js"></script>
+<script src="bower_components/qui/qui/lib/mootools-more.js"></script>
+<script src="bower_components/qui/qui/lib/moofx.js"></script>
 
 <!-- include require -->
 <script src="bower_components/requirejs/require.js"></script>
@@ -77,6 +77,31 @@ bower install http://dev.quiqqer.com:3000/quiqqer/qui.git
 <!-- include qui -->
 <script src="bower_components/qui/init.js" data-main="test.js"></script>
 ```
+
+
+### Installation via nodejs
+
+
+``` bash
+npm install -S "git+http://dev.quiqqer.com:3000/quiqqer/qui.git"
+```
+
+``` html
+<!-- mootools -->
+<script src="node_modules/quiqqer-qui/qui/lib/mootools-core.js"></script>
+<script src="node_modules/quiqqer-qui/qui/lib/mootools-more.js"></script>
+<script src="node_modules/quiqqer-qui/qui/lib/moofx.js"></script>
+
+<!-- include require -->
+<script src="node_modules/quiqqer-qui/qui/lib/requirejs.js"></script>
+
+<!-- include qui -->
+<script src="node_modules/quiqqer-qui/build/init.js" data-main="test.js"></script>
+```
+
+
+
+
 
 
 ## Usage example
