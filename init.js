@@ -1,9 +1,12 @@
 
-(function (global) {
+(function (global)
+{
+    "use strict";
+
     var i, len, dataMain = false;
     var scripts = document.getElementsByTagName('script');
 
-    for ( var i = 0, len = scripts.length; i < len; i++  )
+    for ( i = 0, len = scripts.length; i < len; i++  )
     {
         if ( scripts[ i ].getAttribute( 'src' ).match( 'qui/init.js' ) ) {
             dataMain = scripts[ i ].getAttribute( 'data-main' );

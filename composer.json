@@ -2,7 +2,7 @@
     "name" : "quiqqer/qui",
     "type" : "component",
     "description" : "QUI - Controls",
-    "version" : "dev-master",
+    "version" : "dev-dev",
     "license" : "MIT",
 
     "authors" : [{
