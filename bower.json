@@ -1,0 +1,28 @@
+{
+    "name" : "quiqqer/qui",
+    "description" : "QUI - MooTools AMD web components",
+    "version" : "dev-dev",
+    "license" : "MIT",
+
+    "authors" : [{
+        "name": "Henning Leutz",
+        "email": "leutz@pcsg.de",
+        "homepage": "http://www.pcsg.de",
+        "role": "Developer"
+    }],
+
+    "support" : {
+        "email": "support@pcsg.de",
+        "url": "http://www.pcsg.de"
+    },
+
+    "main": "init.js",
+
+    "ignore": [
+        "coverage",
+        "doc",
+        "examples",
+        "jsdoc",
+        "tests"
+    ]
+}
