@@ -22,7 +22,6 @@ QUIQQER-UI or QUI are mainly used at QUIQQER
 *composer.json*
 
 ```javascript
-
 {
     "require" : {
         "quiqqer/qui" : "dev-dev"
@@ -33,35 +32,47 @@ QUIQQER-UI or QUI are mainly used at QUIQQER
         "url": "http://update.quiqqer.com/"
     }]
 }
-
 ```
 
+```bash
     php composer.phar install
+```
 
-
-If you use no MooTools, please place MooTools and moofx before requirejs:
+If you dont use MooTools, please place MooTools and moofx before requirejs:
 
 
 ``` html
+    <!-- mootools -->
+    <script src="components/qui/build/qui/lib/mootools-core.js"></script>
+    <script src="components/qui/build/qui/lib/mootools-more.js"></script>
+    <script src="components/qui/build/qui/lib/moofx.js"></script>
 
-<!-- mootools -->
-<script src="components/qui/build/qui/lib/mootools-core.js"></script>
-<script src="components/qui/build/qui/lib/mootools-more.js"></script>
-<script src="components/qui/build/qui/lib/moofx.js"></script>
+    <!-- include require -->
+    <script src="components/require-built.js"></script>
 
-<-- include components -->
-<script src="components/require-built.js"></script>
-
-<-- include qui -->
-<script src="components/qui/init.js" data-main="your_start_script.js"></script>
-
+    <!-- include qui -->
+    <script src="components/qui/init.js" data-main="your_start_script.js"></script>
 ```
 
 
 ### Installation via bower
 
+``` bash
     bower install http://dev.quiqqer.com:3000/quiqqer/qui.git
+```
 
+``` html
+    <!-- mootools -->
+    <script src="bower_components/qui/build/qui/lib/mootools-core.js"></script>
+    <script src="bower_components/qui/build/qui/lib/mootools-more.js"></script>
+    <script src="bower_components/qui/build/qui/lib/moofx.js"></script>
+
+    <!-- include require -->
+    <script src="bower_components/requirejs/require.js"></script>
+
+    <!-- include qui -->
+    <script src="bower_components/qui/init.js" data-main="test.js"></script>
+```
 
 
 ## Usage

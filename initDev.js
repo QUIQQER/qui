@@ -11,7 +11,7 @@
 
     for ( i = 0, len = scripts.length; i < len; i++  )
     {
-        if ( scripts[ i ].getAttribute( 'src' ).match( 'qui/init.js' ) )
+        if ( scripts[ i ].getAttribute( 'src' ).match( 'qui/initDev.js' ) )
         {
             dataMain = scripts[ i ].getAttribute( 'data-main' );
             srcMain  = scripts[ i ].getAttribute( 'src' );
@@ -19,15 +19,15 @@
     }
 
     // qui config
-    var baseUrl = srcMain.replace( 'qui/init.js', '' );
+    var baseUrl = srcMain.replace( 'qui/initDev.js', '' );
 
     require.config({
         paths : {
-            'qui' : baseUrl +'qui/build/qui'
+            'qui' : baseUrl +'qui/qui'
         },
         map : {
             '*': {
-                'css': baseUrl +'qui/build/qui/lib/css.js'
+                'css': baseUrl +'qui/qui/lib/css.js'
             }
         }
     });
