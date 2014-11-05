@@ -1,5 +1,5 @@
 {
-    "name" : "quiqqer-qui",
+    "name" : "qui",
     "description" : "QUI - MooTools AMD web components",
     "version" : "dev-dev",
     "license" : "MIT",
@@ -19,11 +19,15 @@
     "main": "init.js",
 
     "ignore": [
+        "build-config.js",
+        "build.js",
+        "build-jsdoc.js",
         "coverage",
         "doc",
         "examples",
         "jsdoc",
-        "tests"
+        "tests",
+        "r.js"
     ],
 
     "dependencies": {
