@@ -1,5 +1,5 @@
 {
-    "name" : "quiqqer/qui",
+    "name" : "quiqqer-qui",
     "description" : "QUI - MooTools AMD web components",
     "version" : "dev-dev",
     "license" : "MIT",
@@ -24,5 +24,9 @@
         "examples",
         "jsdoc",
         "tests"
-    ]
+    ],
+
+    "dependencies": {
+        "requirejs": null
+    }
 }
