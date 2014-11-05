@@ -470,12 +470,18 @@ define([
 
             } else if ( ( pos ).toInt() === 0 )
             {
-                Handler.inject( this.$Content, 'top' );
+                if ( Handler ) {
+                    Handler.inject( this.$Content, 'top' );
+                }
+
                 Panel.inject( this.$Content, 'top' );
 
             } else if ( typeof handleList[ pos - 1 ] !== 'undefined' )
             {
-                Handler.inject( handleList[ pos - 1 ], 'after' );
+                if ( Handler ) {
+                    Handler.inject( handleList[ pos - 1 ], 'after' );
+                }
+
                 Panel.inject( handleList[ pos - 1 ], 'after' );
             }
 
@@ -1025,7 +1031,7 @@ define([
                 LastPanel = this.getPreviousOpenedPanel( LastPanel );
             }
 
-            if ( LastPanel.isOpen() === false ) {
+            if ( !LastPanel || LastPanel.isOpen() === false ) {
                 return;
             }
 
@@ -1756,7 +1762,7 @@ define([
 
             // first arrow
             this.$ddArrowPositions[ elmPos.y + 10 ] = new Element('div', {
-                'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
                     top     : elmPos.y,
                     left    : xPos,
@@ -1774,7 +1780,7 @@ define([
                 y = Handler.getPosition().y;
 
                 this.$ddArrowPositions[ y ] = new Element('div', {
-                    'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
+                    'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                     styles  : {
                         top     : y - 20,
                         left    : xPos,
@@ -1788,7 +1794,7 @@ define([
 
             // last arrow
             this.$ddArrowPositions[ elmPos.y + Elm.getSize().y - 10 ] = new Element('div', {
-                'class' : 'qui-column-drag-arrow icon-circle-arrow-left fa fa-arrow-circle-left',
+                'class' : 'qui-column-drag-arrow icon-circle-arrow-left ',
                 styles  : {
                     top     : elmPos.y + Elm.getSize().y - 20,
                     left    : xPos,
