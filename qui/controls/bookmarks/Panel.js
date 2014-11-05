@@ -67,7 +67,7 @@ define([
             this.parent();
 
             var size  = this.$Content.getSize(),
-                width = size.x - 130;
+                width = size.x - 140;
 
             if ( width <= 0 ) {
                 return;
