@@ -52,7 +52,7 @@ define([
 
         options : {
             name  : 'taskpanel',
-            icon  : 'icon-tasks fa fa-tasks',
+            icon  : 'icon-tasks',
 
             // header
             header : true,    // true to create a panel header when panel is created
@@ -562,6 +562,16 @@ define([
         disableDragDrop : function()
         {
 
+        },
+
+        /**
+         * Minimize
+         *
+         * @return {this} self
+         */
+        minimize : function()
+        {
+            return this;
         },
 
         /**

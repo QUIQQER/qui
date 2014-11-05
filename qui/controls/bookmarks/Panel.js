@@ -50,12 +50,32 @@ define([
             this.$bookmarks = [];
 
             this.setAttributes({
-                title : 'Bookmarks',
-                icon  : 'icon-book fa fa-bookmark'
+                title  : 'Bookmarks',
+                icon   : 'icon-book',
+                footer : false
             });
 
             this.addEvent( 'onCreate', this.$create );
             this.parent( options );
+        },
+
+        /**
+         * resize the bookmark panels
+         */
+        resize : function()
+        {
+            this.parent();
+
+            var size  = this.$Content.getSize(),
+                width = size.x - 130;
+
+            if ( width <= 0 ) {
+                return;
+            }
+
+            this.$Content.getElements('.qui-bookmark-text').each(function(Text) {
+                Text.setStyle( 'width', width );
+            });
         },
 
         /**
@@ -141,6 +161,8 @@ define([
                 );
             }
 
+            this.resize();
+
             return this;
         },
 
@@ -204,6 +226,7 @@ define([
             }
 
             this.$bookmarks.push( Child );
+            this.resize();
 
             this.fireEvent( 'appendChild', [ this, Child ] );
 
@@ -242,6 +265,7 @@ define([
                           '<span class="qui-bookmark-text">'+ params.text +'</span>',
                 'data-click' : params.click,
                 'data-path'  : params.path,
+                title  : params.text,
                 events :
                 {
                     click : function()

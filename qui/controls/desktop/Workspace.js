@@ -666,7 +666,7 @@ define([
                 Menu.hide();
                 Menu.appendChild(
                     new ContextmenuItem({
-                        icon    : 'icon-arrow-left fa fa-arrow-left',
+                        icon    : 'icon-arrow-left',
                         text    : 'Bearbeitungspalte links löschen.',
                         Column  : LeftColumn,
                         Handler : Target,
@@ -681,7 +681,7 @@ define([
 
                 Menu.appendChild(
                     new ContextmenuItem({
-                        icon   : 'icon-arrow-right fa fa-arrow-right',
+                        icon   : 'icon-arrow-right',
                         text   : 'Bearbeitungspalte rechts löschen.',
                         target : event.target,
                         Column : RightColumn,

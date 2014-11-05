@@ -268,6 +268,10 @@ define([
                             );
                         }
                     }
+
+                    Object.each( self.$panels, function(Panel) {
+                        Panel.resize();
+                    });
                 });
             });
         },
@@ -655,8 +659,10 @@ define([
             this.$Elm.setStyle( 'width', width );
             this.$Elm.setStyle( 'height', height );
 
-            for ( var i in this.$panels ) {
+            for ( var i in this.$panels )
+            {
                 this.$panels[ i ].setAttribute( 'width', width );
+                this.$panels[ i ].resize();
             }
 
             this.$Content.setStyle( 'overflow', 'hidden' );

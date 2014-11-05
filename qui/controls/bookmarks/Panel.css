@@ -18,6 +18,13 @@
     color: #FFF;
 }
 
+.qui-bookmark-text {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .qui-bookmark-button {
     border: none !important;
     cursor: pointer !important;

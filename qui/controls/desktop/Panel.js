@@ -240,6 +240,14 @@ define([
                 this.$Title.set( 'html', this.getAttribute('title') );
             }
 
+            if ( this.getAttribute( 'footer' ) )
+            {
+                this.$Footer.setStyle( 'display', null );
+            } else
+            {
+                this.$Footer.setStyle( 'display', 'none' );
+            }
+
             if ( this.getAttribute( 'icon' ) )
             {
                 var path = this.getAttribute( 'icon' );
