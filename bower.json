@@ -31,6 +31,8 @@
     ],
 
     "dependencies": {
-        "requirejs": null
+        "requirejs" : null,
+        "mootools"  : ">=1.4",
+        "mootools-more" : ">=1.5"
     }
 }

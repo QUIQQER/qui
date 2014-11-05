@@ -17,10 +17,9 @@ QUIQQER-UI or QUI are mainly used at QUIQQER
 
 ## Installation
 
-Installation via composer
+### Installation via composer
 
 *composer.json*
-
 
 ```javascript
 
@@ -37,9 +36,8 @@ Installation via composer
 
 ```
 
-```bash
-php composer.phar install
-```
+    php composer.phar install
+
 
 If you use no MooTools, please place MooTools and moofx before requirejs:
 
@@ -60,9 +58,7 @@ If you use no MooTools, please place MooTools and moofx before requirejs:
 ```
 
 
-*bower*
-
-Installation via bower
+### Installation via bower
 
     bower install http://dev.quiqqer.com:3000/quiqqer/qui.git
 
