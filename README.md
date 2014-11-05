@@ -170,13 +170,16 @@ http://doc.quiqqer.com/qui/doc/
 Parts of QUI are free open-source software and not from us.
 We thank all for the nice work.
 
-- Composer ( http://getcomposer.org )
-- Bower ( http://bower.io )
 - MooTools ( http://mootools.net/ )
 - requirejs ( requirejs.org/ )
 - AMD css! plugin curl.js ( https://github.com/cujojs/curl )
-
 - QUIQQER / QUI Font: http://fontfabric.com/multicolore-free-fonts/
+
+An additional thanks to:
+
+- Composer ( http://getcomposer.org )
+- Bower ( http://bower.io )
+- NodeJS ( http://nodejs.org/ )
 
 Last but not least, the QUIQQER UI Idea based on MochaUI.
 We decided to reimplement MochaUI idea, with AMD definition and create more controls.
