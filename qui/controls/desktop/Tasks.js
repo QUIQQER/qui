@@ -392,11 +392,12 @@ define([
 
             Elm.setStyles({
                 display : null,
-                opacity : 1
+                opacity : 0
             });
 
             moofx( Elm ).animate({
-                left : 0
+                left    : 0,
+                opacity : 1
             }, {
                 equation : 'ease-out',
                 callback : function(time)

@@ -336,7 +336,8 @@ define([
 
 
             moofx( this.$Elm ).animate({
-                left : left
+                left    : left,
+                opacity : 1
             }, {
                 equation : 'ease-out',
                 callback : function()
@@ -380,7 +381,8 @@ define([
             var self = this;
 
             moofx( this.$Elm ).animate({
-                left : document.getSize().x * -1
+                left    : document.getSize().x * -1,
+                opacity : 0
             }, {
                 equation : 'ease-out',
                 callback : function()
