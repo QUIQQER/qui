@@ -117,7 +117,9 @@ define([
 
             if ( !this.$Elm )
             {
-                this.$serialize = data;
+                this.$serialize     = data;
+                this.$__unserialize = false;
+
                 return this;
             }
 
@@ -128,12 +130,12 @@ define([
                     if ( self.firstChild() ) {
                         self.firstChild().click();
                     }
+
+                    self.$__unserialize = false;
                 });
 
                 this.$Taskbar.unserialize( data.bar );
             }
-
-            this.$__unserialize = false;
         },
 
         /**
@@ -729,7 +731,7 @@ define([
                 onDestroy  : this.$destroyTask
             });
 
-            if ( this.$__unserialize === false ) {
+            if ( this.$__unserialize === true ) {
                  return;
             }
 
