@@ -47,6 +47,7 @@ define([
             '$onDestroy',
             '$onContextMenu',
             '$onPanelOpen',
+            '$onPanelOpenBegin',
             '$onPanelMinimize',
             '$onPanelDestroy',
             '$clickAddPanelToColumn',
@@ -448,9 +449,11 @@ define([
 
         // new panel events
             Panel.addEvents({
-                onMinimize : this.$onPanelMinimize,
-                onOpen     : this.$onPanelOpen,
-                onDestroy  : this.$onPanelDestroy
+                onMinimize    : this.$onPanelMinimize,
+                onOpen        : this.$onPanelOpen,
+                onOpenBegin   : this.$onPanelOpenBegin,
+                onResizeBegin : this.$onPanelOpenBegin,
+                onDestroy     : this.$onPanelDestroy
             });
 
             this.$panels[ Panel.getId() ] = Panel;
@@ -563,9 +566,11 @@ define([
 
             // destroy the panel events
             Panel.removeEvents({
-                onMinimize : this.$onPanelMinimize,
-                onOpen     : this.$onPanelOpen,
-                onDestroy  : this.$onPanelDestroy
+                onMinimize    : this.$onPanelMinimize,
+                onOpen        : this.$onPanelOpen,
+                onOpenBegin   : this.$onPanelOpenBegin,
+                onResizebegin : this.$onPanelOpenBegin,
+                onDestroy     : this.$onPanelDestroy
             });
 
             // if the panel is from this column
@@ -1168,25 +1173,49 @@ define([
             // we have more panels opened, we must resized the panels
             var PrevElm    = Prev.getElm(),
                 prevHeight = PrevElm.getComputedSize().totalHeight,
-                newHeight  = prevHeight - panelHeight;
+                leftSpace  = this.$getLeftSpace(),
+                newHeight  = prevHeight + leftSpace;
+
+            if ( newHeight < 100 )
+            {
+                Panel.setAttribute( 'height', panelHeight - ( 100 - newHeight ) );
+                Panel.resize();
+
+                newHeight = 100;
+            }
 
             Prev.setAttribute( 'height', newHeight );
             Prev.resize();
+//
+//            var left = this.$getLeftSpace();
+//
+//            return;
+//
+//
+//            if ( left === 0 ) {
+//                return;
+//            }
+//
+//            if ( left > 0 )
+//            {
+//                Prev.setAttribute( 'height', newHeight + left );
+//                Prev.resize();
+//                return;
+//            }
+//
+//            this.adaptPanels();
+        },
 
-            var left = this.$getLeftSpace();
-
-            if ( left === 0 ) {
-                return;
-            }
-
-            if ( left > 0 )
-            {
-                Prev.setAttribute( 'height', newHeight + left );
-                Prev.resize();
-                return;
-            }
-
-            this.adaptPanels();
+        /**
+         * Panel open begins event
+         *
+         * @method qui/controls/desktop/Column#$onPanelOpen
+         * @param {qui/controls/desktop/Panel} Panel
+         * @ignore
+         */
+        $onPanelOpenBegin : function(Panel)
+        {
+            this.$Content.setStyle( 'overflow', 'hidden' );
         },
 
         /**

@@ -20,9 +20,11 @@
  *
  * @event onCreate [ this ]
  * @event onOpen [ this ]
+ * @event onOpenBegin [ this ]
  * @event onMinimize [ this ]
  * @event onRefresh [ this ]
  * @event onResize [ this ]
+ * @event onResizeBegin [ this ]
  * @event onDragDropStart [ this ]
  * @event dragDropComplete [ this ]
  * @event onDrag [ this, event, Element ]
@@ -277,6 +279,10 @@ define([
          */
         resize : function()
         {
+            var self = this;
+
+            this.fireEvent( 'resizeBegin', [ this ] );
+
             if ( this.getAttribute( 'header' ) === false )
             {
                 this.$Header.setStyle( 'display', 'none' );
@@ -312,10 +318,7 @@ define([
             if ( this.getAttribute( 'styles' ) &&
                  this.getAttribute( 'styles' ).height )
             {
-                this.setAttribute(
-                    'height',
-                    this.getAttribute( 'styles' ).height
-                );
+                this.setAttribute( 'height', this.getAttribute( 'styles' ).height );
             }
 
             var content_height = this.getAttribute( 'height' ),
@@ -355,20 +358,29 @@ define([
                 content_width = '100%';
             }
 
-            // set proportions
-            this.$Content.setStyles({
-                overflow : overflow,
-                height   : content_height,
-                width    : content_width
-            });
-
-            this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
 
             if ( this.$ButtonBar ) {
                 this.$ButtonBar.resize();
             }
 
-            this.fireEvent( 'resize', [ this ] );
+            moofx( this.$Elm ).animate({
+                height : this.getAttribute( 'height' )
+            }, {
+                duration : 250,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    // set proportions
+                    self.$Content.setStyles({
+                        overflow : overflow,
+                        height   : content_height,
+                        width    : content_width
+                    });
+
+                    self.fireEvent( 'resize', [ self ] );
+                }
+            });
+
             return this;
         },
 
@@ -380,8 +392,11 @@ define([
          */
         open : function()
         {
+            var self = this;
+
+            this.fireEvent( 'openBegin', [ this ] );
+
             this.$Content.setStyle( 'display', null );
-            this.$Elm.setStyle( 'height', this.getAttribute( 'height' ) );
             this.$Header.removeClass( 'qui-panel-close' );
 
             if ( this.$Collaps )
@@ -393,8 +408,17 @@ define([
                 this.$Collaps.addClass( 'icon-chevron-down' );
             }
 
-            this.fireEvent( 'open', [ this ] );
-            this.resize();
+            moofx( this.$Elm ).animate({
+                height : this.getAttribute( 'height' )
+            }, {
+                duration : 200,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    self.fireEvent( 'open', [ self ] );
+                    self.resize();
+                }
+            });
 
             return this;
         },
@@ -407,11 +431,13 @@ define([
          */
         minimize : function()
         {
+            var self = this;
+
+            this.fireEvent( 'minimizeBegin', [ this ] );
+
             this.$Content.setStyle( 'display', 'none' );
             this.$Footer.setStyle( 'display', 'none' );
             this.$Buttons.setStyle( 'display', 'none' );
-
-            this.$Elm.setStyle( 'height', this.$Header.getSize().y );
 
             this.$Collaps.removeClass( 'qui-panel-collapse' );
             this.$Collaps.removeClass( 'icon-chevron-down' );
@@ -421,7 +447,18 @@ define([
 
             this.$Header.addClass( 'qui-panel-close' );
 
-            this.fireEvent( 'minimize', [ this ] );
+
+            moofx( this.$Elm ).animate({
+                height : this.$Header.getSize().y
+            }, {
+                duration : 200,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    self.fireEvent( 'minimize', [ self ] );
+                    self.resize();
+                }
+            });
 
             return this;
         },
