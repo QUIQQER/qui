@@ -429,7 +429,7 @@ define([
          * @method qui/controls/desktop/Panel#minimize
          * @return {this} self
          */
-        minimize : function()
+        minimize : function(callback)
         {
             var self = this;
 
@@ -457,6 +457,10 @@ define([
                 {
                     self.fireEvent( 'minimize', [ self ] );
                     self.resize();
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
+                    }
                 }
             });
 
