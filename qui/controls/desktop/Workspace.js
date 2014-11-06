@@ -155,6 +155,8 @@ define([
                 old_max = old_max + wlist[ i ];
             }
 
+            var availableWidth = maxWidth;
+
             // calc the % and resize it
             for ( i = 0, len = wlist.length; i < len; i++ )
             {
@@ -165,9 +167,15 @@ define([
                     width = width - 4;
                 }
 
+                if ( availableWidth < width ) {
+                    width = availableWidth;
+                }
+
                 this.$columns[ i ].setAttribute( 'width', width );
                 this.$columns[ i ].setAttribute( 'height', maxHeight );
                 this.$columns[ i ].resize();
+
+                availableWidth = availableWidth - width;
             }
         },
 

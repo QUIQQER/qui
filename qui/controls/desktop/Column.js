@@ -26,10 +26,11 @@ define([
     'qui/controls/desktop/Panel',
     'qui/controls/loader/Loader',
     'qui/classes/utils/DragDrop',
+    'qui/controls/desktop/panels/Sheet',
 
     'css!qui/controls/desktop/Column.css'
 
-], function(QUI, Control, Contextmenu, ContextmenuItem, Panel, Loader, QuiDragDrop)
+], function(QUI, Control, Contextmenu, ContextmenuItem, Panel, Loader, QuiDragDrop, QUISheet)
 {
     "use strict";
 
@@ -79,8 +80,14 @@ define([
             this.$ContextMenu = null;
             this.$Elm         = null;
             this.$Content     = null;
+            this.$Settings    = null;
+            this.$Highlight   = null;
+
             this.$panels      = {};
             this.$dragDrops   = {};
+
+            this.$FXSB = null;
+            this.$SettingsButton = null;
 
             this.$fixed   = true;
             this.$tmpList = []; // temp list for append Child
@@ -124,6 +131,8 @@ define([
          */
         create : function()
         {
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class'      : 'qui-column box qui-panel-drop qui-task-drop',
                 'data-quiid' : this.getId()
@@ -137,10 +146,39 @@ define([
                 this.$Elm.setStyle( 'width', this.getAttribute( 'width' ) );
             }
 
-
             this.$Content = new Element('div', {
                 'class' : 'qui-column-content box'
             }).inject( this.$Elm );
+
+            this.$SettingsButton = new Element('div', {
+                'class' : 'qui-column-settingButton',
+                'html'  : '<span class="icon-gear fa fa-gear"></span>',
+                styles  : {
+                    display : 'none',
+                    opacity : 0
+                },
+                events :
+                {
+                    click : function() {
+                        self.showSettings();
+                    },
+                    mouseenter : function() {
+                        self.highlight();
+                    },
+                    mouseleave : function() {
+                        self.normalize();
+                    }
+                }
+            }).inject( this.$Elm );
+
+
+            this.$Highlight = new Element('div', {
+                'class' : 'qui-column-hightlight',
+                styles : {
+                    display : 'none'
+                }
+            }).inject( this.$Elm );
+
 
             // contextmenu
             this.$ContextMenu = new Contextmenu({
@@ -158,6 +196,10 @@ define([
             this.$Elm.addEvents({
                 contextmenu : this.$onContextMenu
             });
+
+            this.$Settings = new QUISheet({
+                header : false
+            }).inject( this.$Elm );
 
             if ( typeof this.$serialize !== 'undefined' ) {
                 this.unserialize( this.$serialize );
@@ -292,7 +334,8 @@ define([
             });
 
             // set cursor from the column handlers to default
-            var list = this.$Elm.getElements( '.qui-column-hor-handle' );
+            var list = this.$Elm.getElements( '.qui-column-hor-handle' ),
+                self = this;
 
             for ( i = 0, len = list.length; i < len; i++ )
             {
@@ -300,9 +343,37 @@ define([
                 list[ i ].removeClass( 'qui-column-hor-handle-enabled' );
             }
 
+
             // disable drag drops
             Object.each( this.$dragDrops, function(DragDrop, key) {
                 DragDrop.disable();
+            });
+
+            this.hideSettings();
+
+            this.$Highlight.setStyles({
+                width : null
+            });
+
+
+            moofx( this.$SettingsButton ).animate({
+                opacity : 0
+            }, {
+                duration : 250,
+                callback : function()
+                {
+                    self.$SettingsButton.setStyle( 'display', 'none' );
+
+                    moofx( self.$Content ).animate({
+                        width : self.$Elm.getSize().x
+                    }, {
+                        duration : 250,
+                        equation : 'ease-out',
+                        callback : function() {
+                            self.$Content.setStyle( 'boxShadow', null );
+                        }
+                    });
+                }
             });
         },
 
@@ -313,6 +384,11 @@ define([
         unfix : function()
         {
             var i, len;
+            var wasUnFixed = false;
+
+            if ( this.$fixed === false ) {
+                wasUnFixed = true;
+            }
 
             this.$fixed = false;
 
@@ -321,7 +397,8 @@ define([
             });
 
             // set cursor from the column handlers to default
-            var list = this.$Elm.getElements( '.qui-column-hor-handle' );
+            var self = this,
+                list = this.$Elm.getElements( '.qui-column-hor-handle' );
 
             for ( i = 0, len = list.length; i < len; i++ )
             {
@@ -332,6 +409,39 @@ define([
             // enable drag drops
             Object.each( this.$dragDrops, function(DragDrop) {
                 DragDrop.enable();
+            });
+
+            // show settings
+            var size     = this.$Elm.getSize(),
+                settings = this.$SettingsButton.measure(function() {
+                    return this.getSize();
+                });
+
+            this.$Highlight.setStyles({
+                width : size.x - 30
+            });
+
+            this.$Content.setStyle( 'boxShadow', '0 0 6px 0 rgba(0, 0, 0, 0.7)' );
+
+            moofx( this.$Content ).animate({
+                width : size.x - settings.x
+            }, {
+                duration : 250,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    self.$SettingsButton.setStyle( 'display', 'inline' );
+
+                    if ( wasUnFixed ) {
+                        return;
+                    }
+
+                    moofx( self.$SettingsButton ).animate({
+                        opacity : 1
+                    }, {
+                        duration : 250
+                    });
+                }
             });
         },
 
@@ -672,6 +782,12 @@ define([
 
             this.$Content.setStyle( 'overflow', 'hidden' );
 
+
+            if ( this.$fixed === false )  {
+                this.unfix();
+            }
+
+
             (function()
             {
                 this.recalcPanels();
@@ -778,17 +894,9 @@ define([
          */
         highlight : function()
         {
-            if ( !this.getElm() ) {
-                return this;
+            if ( this.$Highlight ) {
+                this.$Highlight.setStyle( 'display', null );
             }
-
-            if ( this.getElm().getElement( '.qui-column-hightlight' ) ) {
-                return this;
-            }
-
-            new Element( 'div.qui-column-hightlight' ).inject(
-                this.getElm()
-            );
 
             return this;
         },
@@ -801,11 +909,9 @@ define([
          */
         normalize : function()
         {
-            if ( !this.getElm() ) {
-                return this;
+            if ( this.$Highlight ) {
+                this.$Highlight.setStyle( 'display', 'none' );
             }
-
-            this.getElm().getElements( '.qui-column-hightlight' ).destroy();
 
             return this;
         },
@@ -1861,6 +1967,36 @@ define([
             for ( i = 0, len = list.length; i < len; i++ ) {
                 list[ i ].set( 'data-arrowid', null );
             }
+        },
+
+        /**
+         * Show settings
+         * only showable if column is unfix
+         */
+        showSettings : function()
+        {
+            if ( this.$fixed ) {
+                return;
+            }
+
+            if ( !this.$Settings ) {
+                return;
+            }
+
+            this.$Settings.show();
+
+        },
+
+        /**
+         * Hide settings
+         */
+        hideSettings : function()
+        {
+            if ( !this.$Settings ) {
+                return;
+            }
+
+            this.$Settings.hide();
         }
     });
 });
