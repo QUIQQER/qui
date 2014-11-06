@@ -836,7 +836,7 @@ define([
         },
 
         /**
-         * Enable the dragdrop
+         * Disable the dragdrop
          */
         disableDragDrop : function()
         {
@@ -846,8 +846,8 @@ define([
                 this.$Header.setStyle( 'cursor', 'default' );
             }
 
-            if ( self.$Dropable ) {
-                self.$Dropable.disable();
+            if ( this.$Dropable ) {
+                this.$Dropable.disable();
             }
         },
 
