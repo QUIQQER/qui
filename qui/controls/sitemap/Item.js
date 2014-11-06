@@ -71,6 +71,8 @@ define([
 
         initialize : function(options)
         {
+            var self = this;
+
             this.parent( options );
 
             this.$Elm    = null;
@@ -86,32 +88,38 @@ define([
 
             this.$items = [];
 
-            this.addEvent( 'onSetAttribute', this.$onSetAttribute );
+            this.addEvents({
+                onSetAttribute : this.$onSetAttribute,
+                onDestroy      : function(Item)
+                {
+                    Item.clearChildren();
 
-            this.addEvent('onDestroy', function(Item)
-            {
-                Item.clearChildren();
+                    if ( self.$Opener ) {
+                        self.$Opener.destroy();
+                    }
 
-                if ( this.$Opener ) {
-                    this.$Opener.destroy();
-                }
+                    if ( self.$Icons ) {
+                        self.$Icons.destroy();
+                    }
 
-                if ( this.$Icons ) {
-                    this.$Icons.destroy();
-                }
+                    if ( self.$Text ) {
+                        self.$Text.destroy();
+                    }
 
-                if ( this.$Text ) {
-                    this.$Text.destroy();
-                }
+                    if ( self.$Children ) {
+                        self.$Children.destroy();
+                    }
 
-                if ( this.$Children ) {
-                    this.$Children.destroy();
-                }
-
-                if ( this.$ContextMenu ) {
-                    this.$ContextMenu.destroy();
+                    if ( self.$ContextMenu ) {
+                        self.$ContextMenu.destroy();
+                    }
+                },
+                onInject : function() {
+                    self.refresh();
                 }
             });
+
+
         },
 
         /**
@@ -223,7 +231,7 @@ define([
             if ( this.$Text )
             {
                 width = width + this.$Text.measure(function() {
-                    return this.getSize().x;
+                    return this.getComputedSize().totalWidth;
                 });
             }
 
@@ -332,7 +340,6 @@ define([
             }
 
             this.removeIcon( 'icon-remove' );
-            this.removeIcon( 'fa-remove' );
 
             return this;
         },
@@ -349,7 +356,7 @@ define([
                 return this;
             }
 
-            var Icon = this.addIcon( 'icon-remove fa fa-remove' );
+            var Icon = this.addIcon( 'icon-remove' );
 
             Icon.setStyles({
                 color : 'red'
