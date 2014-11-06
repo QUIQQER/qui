@@ -97,6 +97,9 @@
     z-index: 1;
 }
 
+/** settings
+ * ============================================== */
+
 .qui-column-settingButton:hover {
     background: #999;
 }
@@ -109,4 +112,12 @@
     width: 100%;
 }
 
+.qui-column-settings-content {
+    padding: 20px;
+}
+
+.qui-column-settings-content h1 {
+    font-size: 16px;
+    text-decoration: underline;
+}
 

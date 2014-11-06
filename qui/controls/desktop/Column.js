@@ -55,6 +55,8 @@ define([
             '$onEnterRemovePanel',
             '$onLeaveRemovePanel',
             '$onClickRemovePanel',
+            '$onSettingsOpen',
+            '$onSettingsClose',
 
             '$onDragDropEnter',
             '$onDragDropLeave',
@@ -70,7 +72,10 @@ define([
             resizeLimit : [],
             closable    : false,
             placement   : 'left', // depricated
-            contextmenu : false
+            contextmenu : false,
+
+            // settings
+            setting_toggle : false
         },
 
         initialize: function(options)
@@ -86,8 +91,9 @@ define([
             this.$panels      = {};
             this.$dragDrops   = {};
 
-            this.$FXSB = null;
-            this.$SettingsButton = null;
+            this.$FXSB             = null;
+            this.$SettingsButton   = null;
+            this.$__eventPanelOpen = false;
 
             this.$fixed   = true;
             this.$tmpList = []; // temp list for append Child
@@ -197,8 +203,16 @@ define([
                 contextmenu : this.$onContextMenu
             });
 
+            // setting sheet
             this.$Settings = new QUISheet({
-                header : false
+                header : false,
+                events : {
+                    onOpen  : this.$onSettingsOpen,
+                    onClose : this.$onSettingsClose
+                },
+                closeButton : {
+                    text : 'schließen'
+                }
             }).inject( this.$Elm );
 
             if ( typeof this.$serialize !== 'undefined' ) {
@@ -1196,6 +1210,10 @@ define([
          */
         $onPanelMinimize : function(Panel)
         {
+            if ( this.$__eventPanelOpen ) {
+                 return;
+            }
+
             var Next = this.getNextOpenedPanel( Panel );
 
             Panel.setAttribute( 'columnCloseDirection', 'next' );
@@ -1234,9 +1252,37 @@ define([
          */
         $onPanelOpen : function(Panel)
         {
+            if ( this.getAttribute( 'setting_toggle' ) )
+            {
+                this.$__eventPanelOpen = true;
+
+                // close all panels
+                var i, len, Sibling;
+                var list = this.$Content.getElements( '.qui-panel' ),
+                    pid  = Panel.getId();;
+
+
+                for ( i = 0, len = list.length; i < len; i++ )
+                {
+                    if ( Panel.getId() != list[ i ].get( 'data-quiid' ) )
+                    {
+                        QUI.Controls.getById(
+                            list[ i ].get( 'data-quiid' )
+                        ).minimize();
+                    }
+                }
+
+                (function() {
+                    this.$__eventPanelOpen = false;
+                }).delay( 200, this );
+
+                return;
+            }
+
+
             // find the sibling
-            var Prev        = false,
-                PanelElm    = Panel.getElm(),
+            var Prev     = false,
+                PanelElm = Panel.getElm(),
 
                 direction     = Panel.getAttribute( 'columnCloseDirection' ),
                 panelHeight   = PanelElm.getSize().y,
@@ -1292,24 +1338,6 @@ define([
 
             Prev.setAttribute( 'height', newHeight );
             Prev.resize();
-//
-//            var left = this.$getLeftSpace();
-//
-//            return;
-//
-//
-//            if ( left === 0 ) {
-//                return;
-//            }
-//
-//            if ( left > 0 )
-//            {
-//                Prev.setAttribute( 'height', newHeight + left );
-//                Prev.resize();
-//                return;
-//            }
-//
-//            this.adaptPanels();
         },
 
         /**
@@ -1970,6 +1998,10 @@ define([
         },
 
         /**
+         * Settings
+         */
+
+        /**
          * Show settings
          * only showable if column is unfix
          */
@@ -1997,6 +2029,47 @@ define([
             }
 
             this.$Settings.hide();
+        },
+
+        /**
+         * event : on setting open
+         */
+        $onSettingsOpen : function(Sheet)
+        {
+            var Content = Sheet.getContent();
+
+            Content.set({
+                'class' : 'qui-column-settings-content',
+                html    : '<h1>Einstellungen für die Panelspalte</h1>'+
+                          '<label>' +
+                              '<input type="checkbox" name="setting_toggle" />' +
+                              'Nur immer ein Panel offen halten' +
+                          '</label>'
+            });
+
+            if ( this.getAttribute( 'setting_toggle' ) ) {
+                Content.getElement('[name="setting_toggle"]').checked = true;
+            }
+        },
+
+        /**
+         * event : on setting close
+         */
+        $onSettingsClose : function(Sheet)
+        {
+            var self    = this,
+                Content = Sheet.getContent();
+
+            Content.getElements( 'input' ).each(function(Elm)
+            {
+                if ( Elm.type == 'checkbox' )
+                {
+                    self.setAttribute( Elm.get( 'name' ), Elm.checked ? true : false );
+                    return;
+                }
+
+                self.setAttribute( Elm.get( 'name' ), Elm.get( 'value' ) );
+            });
         }
     });
 });
