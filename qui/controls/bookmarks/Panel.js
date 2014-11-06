@@ -403,6 +403,10 @@ define([
          */
         $onItemMouseEnter : function(event)
         {
+            if ( this.getAttribute( 'dragable' ) === false ) {
+                return;
+            }
+
             event.target.getElements( 'button' ).setStyle( 'display', null );
         },
 
