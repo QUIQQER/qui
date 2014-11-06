@@ -115,11 +115,9 @@ define([
                     }
                 },
                 onInject : function() {
-                    self.refresh();
+                    self.refresh.delay( 20, self );
                 }
             });
-
-
         },
 
         /**
