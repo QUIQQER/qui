@@ -107,13 +107,23 @@ define([
 
             if ( !this.$Elm )
             {
+                this.fireEvent( 'unserializeFinish', [ this ] );
                 this.$serialize = data;
                 return this;
             }
 
             var tasks = data.tasks;
 
-            if ( !tasks ) {
+            if ( !tasks )
+            {
+                this.fireEvent( 'unserializeFinish', [ this ] );
+                return this;
+            }
+
+
+            if ( !tasks.length )
+            {
+                this.fireEvent( 'unserializeFinish', [ this ] );
                 return this;
             }
 

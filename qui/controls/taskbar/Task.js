@@ -263,7 +263,7 @@ define([
             {
                 new Element('div', {
                     'class' : 'qui-task-close',
-                    'html'  : '<span class="icon-remove fa fa-remove"></span>',
+                    'html'  : '<span class="icon-remove"></span>',
                     events  : {
                         click : this.close
                     }
@@ -323,6 +323,7 @@ define([
                 }
 
                 Text.set( 'html', title );
+                this.$Elm.set( 'title', this.getTitle() );
             }
 
             this.fireEvent( 'refresh', [ this ] );

@@ -107,6 +107,7 @@ define([
          *
          * @method qui/controls/desktop/Tasks#unserialize
          * @param {Object} data
+         * @return {self}
          */
         unserialize : function(data)
         {
@@ -135,7 +136,13 @@ define([
                 });
 
                 this.$Taskbar.unserialize( data.bar );
+
+                return this;
             }
+
+            this.$__unserialize = false;
+
+            return this;
         },
 
         /**
