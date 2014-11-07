@@ -72,6 +72,26 @@ define([
             this.$LastTask   = null;
 
             this.$__unserialize = false;
+            this.$__serialize   = null;
+
+            this.addEvents({
+                onInject : function()
+                {
+                    (function()
+                    {
+                        // exist serialize data
+                        if ( this.$__serialize )
+                        {
+                            this.unserialize( this.$__serialize );
+                            this.$__serialize = null;
+                        }
+
+                        this.$__unserialize = false;
+
+                    }).delay( 20, this );
+
+                }.bind( this )
+            });
 
             this.$tmpList = [];
         },
@@ -118,7 +138,7 @@ define([
 
             if ( !this.$Elm )
             {
-                this.$serialize     = data;
+                this.$__serialize   = data;
                 this.$__unserialize = false;
 
                 return this;
@@ -238,8 +258,10 @@ define([
             this.$Taskbar.setParent( this );
 
             // exist serialize data
-            if ( typeof this.$serialize !== 'undefined' ) {
-                this.unserialize( this.$serialize );
+            if ( this.$__serialize )
+            {
+                this.unserialize( this.$__serialize );
+                this.$__serialize = null;
             }
 
             for ( var i = 0, len = this.$tmpList.length; i < len; i++ )
