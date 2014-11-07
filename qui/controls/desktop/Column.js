@@ -1265,23 +1265,48 @@ define([
 
                 // close all panels
                 var i, len, Sibling;
-                var list = this.$Content.getElements( '.qui-panel' ),
-                    pid  = Panel.getId();;
 
+                var list   = this.$Content.getElements( '.qui-panel' ),
+                    pid    = Panel.getId(),
+                    opened = 0;
 
                 for ( i = 0, len = list.length; i < len; i++ )
                 {
                     if ( Panel.getId() != list[ i ].get( 'data-quiid' ) )
                     {
-                        QUI.Controls.getById(
+                        Sibling = QUI.Controls.getById(
                             list[ i ].get( 'data-quiid' )
-                        ).minimize();
+                        );
+
+                        if ( Sibling.isOpen() )
+                        {
+                            Sibling.minimize();
+
+                            opened++;
+                        }
                     }
                 }
 
                 (function() {
                     this.$__eventPanelOpen = false;
                 }).delay( 200, this );
+
+
+                if ( !opened )
+                {
+                    var leftSpace = this.$getLeftSpace();
+
+                    if ( !leftSpace ) {
+                        return;
+                    }
+
+                    Panel.setAttribute(
+                        'height',
+                        Panel.getAttribute( 'height' ) + leftSpace
+                    );
+
+                    Panel.resize();
+                }
 
                 return;
             }

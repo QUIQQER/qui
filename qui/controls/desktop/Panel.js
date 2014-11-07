@@ -388,9 +388,10 @@ define([
          * Open the Panel
          *
          * @method qui/controls/desktop/Panel#open
+         * @param {Function} callback - [optional] callback function
          * @return {this} self
          */
-        open : function()
+        open : function(callback)
         {
             var self = this;
 
@@ -417,6 +418,10 @@ define([
                 {
                     self.fireEvent( 'open', [ self ] );
                     self.resize();
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
+                    }
                 }
             });
 
@@ -427,6 +432,7 @@ define([
          * Minimize / Collapse the panel
          *
          * @method qui/controls/desktop/Panel#minimize
+         * @param {Function} callback - [optional] callback function
          * @return {this} self
          */
         minimize : function(callback)
