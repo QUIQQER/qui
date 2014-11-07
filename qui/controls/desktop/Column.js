@@ -153,7 +153,10 @@ define([
             }
 
             this.$Content = new Element('div', {
-                'class' : 'qui-column-content box'
+                'class' : 'qui-column-content box',
+                styles : {
+                    width : '100%'
+                }
             }).inject( this.$Elm );
 
             this.$SettingsButton = new Element('div', {
@@ -383,8 +386,12 @@ define([
                     }, {
                         duration : 250,
                         equation : 'ease-out',
-                        callback : function() {
-                            self.$Content.setStyle( 'boxShadow', null );
+                        callback : function()
+                        {
+                            self.$Content.setStyles({
+                                boxShadow : null,
+                                width     : '100%'
+                            });
                         }
                     });
                 }
@@ -797,7 +804,7 @@ define([
             this.$Content.setStyle( 'overflow', 'hidden' );
 
 
-            if ( this.$fixed === false )  {
+            if ( this.$fixed === false ) {
                 this.unfix();
             }
 
