@@ -9,7 +9,7 @@
 .qui-column-content {
     float: left;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     width: 100%;
     z-index: 2;

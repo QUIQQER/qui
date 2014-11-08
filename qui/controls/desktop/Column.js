@@ -392,6 +392,8 @@ define([
                                 boxShadow : null,
                                 width     : '100%'
                             });
+
+                            self.resize();
                         }
                     });
                 }
@@ -452,6 +454,7 @@ define([
                 callback : function()
                 {
                     self.$SettingsButton.setStyle( 'display', 'inline' );
+                    self.resize();
 
                     if ( wasUnFixed ) {
                         return;
@@ -786,36 +789,20 @@ define([
 
             var elmSize = this.$Elm.getSize();
 
-            if ( elmSize.x == this.getAttribute( 'width' ) &&
-                 elmSize.y == this.getAttribute( 'height' ) )
-            {
-                return this;
-            }
-
             this.$Elm.setStyle( 'width', width );
             this.$Elm.setStyle( 'height', height );
+
+            if ( this.$fixed === false ) {
+                width = width - 30;
+            }
+
+            this.$Content.setStyle( 'width', width );
 
             for ( var i in this.$panels )
             {
                 this.$panels[ i ].setAttribute( 'width', width );
                 this.$panels[ i ].resize();
             }
-
-            this.$Content.setStyle( 'overflow', 'hidden' );
-
-
-            if ( this.$fixed === false ) {
-                this.unfix();
-            }
-
-
-            (function()
-            {
-                this.recalcPanels();
-                this.$Content.setStyle( 'overflow', null );
-
-            }).delay( 20, this );
-
 
             return this;
         },

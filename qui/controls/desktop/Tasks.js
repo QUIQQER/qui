@@ -65,11 +65,10 @@ define([
 
             this.Loader = new Loader();
 
-            this.$Elm        = null;
-            this.$Taskbar    = null;
-            this.$TaskButton = null;
-            this.$Active     = null;
-            this.$LastTask   = null;
+            this.$Elm      = null;
+            this.$Taskbar  = null;
+            this.$Active   = null;
+            this.$LastTask = null;
 
             this.$__unserialize = false;
             this.$__serialize   = null;
@@ -186,14 +185,20 @@ define([
          */
         resize : function()
         {
-            var height = this.getAttribute( 'height' );
+            var height = this.getAttribute( 'height' ),
+                width  = this.getAttribute( 'width' );
 
             if ( !height ) {
                 height = '100%';
             }
 
+            if ( !width ) {
+                width = '100%';
+            }
+
             this.$Elm.setStyles({
-                height : height
+                height : height,
+                width  : width
             });
 
             var contentSize  = this.getContentSize(),
@@ -211,6 +216,8 @@ define([
 
                 this.$Active.getInstance().resize();
             }
+
+            this.$Taskbar.resize();
 
             this.fireEvent( 'resize', [ this ] );
 

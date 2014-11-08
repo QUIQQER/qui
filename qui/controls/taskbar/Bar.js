@@ -54,6 +54,7 @@ define([
             '$onTaskRefresh',
             '$onTaskClick',
             '$onTaskDestroy',
+            '$openContextMenu',
             'scrollToLeft',
             'scrollToRight'
         ],
@@ -69,14 +70,16 @@ define([
             this.$Elm    = null;
             this.$tasks  = [];
 
-            this.$Active   = null;
-            this.$LastTask = null;
+            this.$Active      = null;
+            this.$LastTask    = null;
+            this.$ContextMenu = null;
 
             this.$TaskButton    = null;
             this.$Left          = null;
             this.$Right         = null;
             this.$Container     = null;
             this.$TaskContainer = null;
+
 
             this.$unserializedTasks = 0;
             this.$overflowed        = false;
@@ -183,9 +186,12 @@ define([
             this.$Elm = new Element('div', {
                 'class'      : 'qui-taskbar qui-task-drop box',
                 'data-quiid' : this.getId(),
-                'html'       : '<div class="qui-taskbar-container">'+
+                html         : '<div class="qui-taskbar-container">'+
                                    '<div class="qui-taskbar-container-tasks"></div>'+
-                               '</div>'
+                               '</div>',
+                events : {
+                    contextmenu : this.$openContextMenu
+                }
             });
 
             if ( this.getAttribute( 'styles' ) ) {
@@ -261,16 +267,16 @@ define([
          */
         resize : function()
         {
-            var maxSize      = this.$Elm.getSize(),
+            var maxWidth     = this.$Elm.getComputedSize().totalWidth,
                 buttonsWidth = 94,
 
                 tasksSize = this.$Elm.getElements( '.qui-task' ).map(function(Item) {
                     return Item.getComputedSize().totalWidth;
                 }).sum();
 
-            if ( tasksSize > maxSize.x )
+            if ( tasksSize > maxWidth )
             {
-                this.$Container.setStyle( 'width', maxSize.x - buttonsWidth );
+                this.$Container.setStyle( 'width', maxWidth - buttonsWidth );
 
                 this.$Left.show();
                 this.$Right.show();
@@ -280,7 +286,7 @@ define([
 
             } else
             {
-                this.$Container.setStyle( 'width', maxSize.x );
+                this.$Container.setStyle( 'width', maxWidth );
 
                 this.$Left.hide();
                 this.$Right.hide();
@@ -590,6 +596,16 @@ define([
             if ( FirstTask ) {
                 FirstTask.click();
             }
+        },
+
+        /**
+         * Open the bar context menu
+         *
+         * @param {DOMEvent} event
+         */
+        $openContextMenu : function(event)
+        {
+
         }
     });
 });
