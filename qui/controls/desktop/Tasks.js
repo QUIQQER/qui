@@ -365,7 +365,6 @@ define([
             Task.destroy();
 
             this.getTaskbar().removeChild( Task );
-            this.selectTask( Task );
 
             return this;
         },
@@ -403,12 +402,6 @@ define([
                 this.$Active = Task;
 
                 this.$normalizeTask( _Tmp );
-
-                if ( this.$LastTask != Task &&
-                     this.$LastTask != _Tmp )
-                {
-                    this.$LastTask = _Tmp;
-                }
             }
 
             this.$Active = Task;
@@ -450,9 +443,7 @@ define([
          */
         $destroyTask : function(Task)
         {
-            if ( !Task.getInstance() )
-            {
-                this.selectTask( Task );
+            if ( !Task.getInstance() ) {
                 return;
             }
 
@@ -470,8 +461,6 @@ define([
                     {
                         Instance.destroy();
                     }).delay( 100 );
-
-                    self.selectTask( Task );
                 }
             });
         },
@@ -592,13 +581,17 @@ define([
          */
         getContentSize : function()
         {
-             var taskbarSize = this.$Taskbar.getElm().getSize(),
-                 contentSize = this.$Elm.getSize();
+            if ( !this.getTaskbar() ) {
+                return this.$Elm.getSize();
+            }
 
-             return {
-                 x : contentSize.x - taskbarSize.x,
-                 y : contentSize.y - taskbarSize.y
-             };
+            var taskbarSize = this.getTaskbar().getElm().getSize(),
+                contentSize = this.$Elm.getSize();
+
+            return {
+                x : contentSize.x - taskbarSize.x,
+                y : contentSize.y - taskbarSize.y
+            };
         },
 
         /**
@@ -708,19 +701,6 @@ define([
                 IParent = Task.getTaskbar().getParent();
             }
 
-            /*
-            if ( IParent &&
-                 IParent.getId() == this.getId() )
-            {
-                // if the panel is already in the panel
-                // then we do nothing
-                if ( this.$Container
-                         .getElement( '[data-quiid="'+ Instance.getId() +'"]' ) )
-                {
-                    return;
-                }
-            }
-            */
 
             // clear old tasks parent binds
             if ( IParent && IParent.getType() == 'qui/controls/desktop/Tasks') {
@@ -782,29 +762,10 @@ define([
          */
         $removeTask : function(Task)
         {
-            if ( this.$LastTask &&
-                 this.$LastTask.getId() == Task.getId() )
-            {
-                this.$LastTask = null;
-            }
-
             Task.removeEvents({
                 onActivate : this.$activateTask,
                 onDestroy  : this.$destroyTask
             });
-
-            if ( Task.isActive() )
-            {
-                this.$Active = null;
-
-                if ( this.$LastTask )
-                {
-                    this.$LastTask.click();
-                } else
-                {
-                    this.lastChild().click();
-                }
-            }
 
             this.getTaskbar().removeChild( Task );
         },

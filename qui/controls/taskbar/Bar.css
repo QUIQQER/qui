@@ -23,9 +23,9 @@
 
 .qui-taskbar-button {
     background: none;
-    border-bottom-width: 0px !important;
+    border-width: 0px !important;
     border-radius: 0px !important;
-    border-right: 1px solid #AAAAAA;
+    border-left: 1px solid #AAAAAA;
     color: #AAAAAA;
     float: left;
     line-height: 32px !important;
@@ -41,4 +41,9 @@
 
 .qui-taskbar-button .qui-button-drop {
     display: none;
+}
+
+.qui-taskbar-container {
+    float: left;
+    overflow: hidden;
 }

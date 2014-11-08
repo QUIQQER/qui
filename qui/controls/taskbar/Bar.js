@@ -52,7 +52,10 @@ define([
 
         Binds : [
             '$onTaskRefresh',
-            '$onTaskClick'
+            '$onTaskClick',
+            '$onTaskDestroy',
+            'scrollToLeft',
+            'scrollToRight'
         ],
 
         options : {
@@ -63,12 +66,20 @@ define([
 
         initialize : function(options)
         {
-            this.$Elm        = null;
-            this.$TaskButton = null;
-            this.$tasks      = [];
-            this.$Active     = null;
+            this.$Elm    = null;
+            this.$tasks  = [];
+
+            this.$Active   = null;
+            this.$LastTask = null;
+
+            this.$TaskButton    = null;
+            this.$Left          = null;
+            this.$Right         = null;
+            this.$Container     = null;
+            this.$TaskContainer = null;
 
             this.$unserializedTasks = 0;
+            this.$overflowed        = false;
 
             this.parent( options );
         },
@@ -171,13 +182,15 @@ define([
 
             this.$Elm = new Element('div', {
                 'class'      : 'qui-taskbar qui-task-drop box',
-                'data-quiid' : this.getId()
+                'data-quiid' : this.getId(),
+                'html'       : '<div class="qui-taskbar-container">'+
+                                   '<div class="qui-taskbar-container-tasks"></div>'+
+                               '</div>'
             });
 
             if ( this.getAttribute( 'styles' ) ) {
                 this.$Elm.setStyles( this.getAttribute( 'styles' ) );
             }
-
 
             if ( this.getAttribute( 'position' ) == 'bottom' ) {
                 this.$Elm.addClass( 'qui-taskbar-bottom' );
@@ -186,6 +199,41 @@ define([
             if ( this.getAttribute( 'position' ) == 'top' ) {
                 this.$Elm.addClass( 'qui-taskbar-top' );
             }
+
+            this.$Container     = this.$Elm.getElement( '.qui-taskbar-container' );
+            this.$TaskContainer = this.$Elm.getElement( '.qui-taskbar-container-tasks' );
+
+            this.$ContainerScroll = new Fx.Scroll( this.$Container );
+
+            this.$TaskContainer.setStyles({
+                left     : 0,
+                position : 'relative',
+                top      : 0
+            });
+
+            this.$Left = new Button({
+                name    : 'qui-taskbar-left',
+                'class' : 'icon-angle-left fa fa-angle-left',
+                events  : {
+                    onClick : this.scrollToLeft
+                },
+                styles  : {
+                    width  : 30,
+                    height : 30
+                }
+            }).inject( this.$Elm, 'top' );
+
+            this.$Right = new Button({
+                name    : 'qui-taskbar-left',
+                'class' : 'icon-angle-right fa fa-angle-right',
+                events  : {
+                    onClick : this.scrollToRight
+                },
+                styles  : {
+                    width  : 30,
+                    height : 30
+                }
+            }).inject( this.$Elm );
 
             this.$TaskButton = new Button({
                 name    : 'qui-taskbar-btn-'+ this.getId(),
@@ -198,8 +246,6 @@ define([
                 }
             }).inject( this.$Elm );
 
-            this.$TaskButton.disable();
-
 
             // exist serialize data
             if ( typeof this.$serialize !== 'undefined' ) {
@@ -208,6 +254,42 @@ define([
 
 
             return this.$Elm;
+        },
+
+        /**
+         * Resize the elements
+         */
+        resize : function()
+        {
+            var maxSize      = this.$Elm.getSize(),
+                buttonsWidth = 94,
+
+                tasksSize = this.$Elm.getElements( '.qui-task' ).map(function(Item) {
+                    return Item.getComputedSize().totalWidth;
+                }).sum();
+
+            if ( tasksSize > maxSize.x )
+            {
+                this.$Container.setStyle( 'width', maxSize.x - buttonsWidth );
+
+                this.$Left.show();
+                this.$Right.show();
+                this.$TaskButton.show();
+
+                this.$overflowed = true;
+
+            } else
+            {
+                this.$Container.setStyle( 'width', maxSize.x );
+
+                this.$Left.hide();
+                this.$Right.hide();
+                this.$TaskButton.hide();
+
+                this.$overflowed = false;
+            }
+
+            this.$TaskContainer.setStyle( 'width', tasksSize );
         },
 
         /**
@@ -242,9 +324,10 @@ define([
 
             Task.addEvent( 'onRefresh', this.$onTaskRefresh );
             Task.addEvent( 'onClick', this.$onTaskClick );
+            Task.addEvent( 'onDestroy', this.$onTaskDestroy );
 
             Task.normalize();
-            Task.inject( this.$Elm );
+            Task.inject( this.$TaskContainer );
 
             this.$tasks.push( Task );
 
@@ -264,9 +347,8 @@ define([
                 })
             );
 
-            this.$TaskButton.enable();
-
             this.fireEvent( 'appendChild', [ this, Task ] );
+            this.resize();
 
             return this;
         },
@@ -279,7 +361,7 @@ define([
          */
         firstChild : function()
         {
-            if ( this.$tasks[ 0 ] ) {
+            if ( typeof this.$tasks[ 0 ] !== 'undefined' ) {
                 return this.$tasks[ 0 ];
             }
 
@@ -353,6 +435,42 @@ define([
         },
 
         /**
+         * Scroll the taskbar to the left
+         */
+        scrollToLeft : function()
+        {
+            if ( this.$ContainerScroll ) {
+                this.$ContainerScroll.toLeft();
+            }
+        },
+
+        /**
+         * Scroll the taskbar to the right
+         */
+        scrollToRight : function()
+        {
+            if ( this.$ContainerScroll ) {
+                this.$ContainerScroll.toRight();
+            }
+        },
+
+        /**
+         * Scroll the taskbar to the Task
+         *
+         * @param {qui/controls/taskbar/Task} Task
+         */
+        scrollToTask : function(Task)
+        {
+            if ( !this.$overflowed ) {
+                return;
+            }
+
+            if ( this.$ContainerScroll ) {
+                this.$ContainerScroll.toElement( Task.getElm() );
+            }
+        },
+
+        /**
          * Refresh the context menu item of the task, if the task refresh
          *
          * @method qui/controls/taskbar/Bar#$onTaskRefresh
@@ -390,12 +508,88 @@ define([
                 return;
             }
 
-            if ( this.$Active ) {
+            if ( this.$Active )
+            {
                 this.$Active.normalize();
+                this.$LastTask = this.$Active;
+            }
+
+            if ( this.$overflowed ) {
+                this.scrollToTask( Task );
             }
 
             this.$Active = Task;
             this.$Active.activate();
+        },
+
+        /**
+         * event task destroy
+         *
+         * @method qui/controls/taskbar/Bar#$onTaskDestroy
+         * @param {qui/controls/taskbar/Task} Task
+         */
+        $onTaskDestroy : function(Task)
+        {
+            // clear internal array
+            var i, len, tasks = [];
+            for ( i = 0, len = this.$tasks.length; i < len; i++ )
+            {
+                if ( Task.getId() !== this.$tasks[ i ].getId() ) {
+                    tasks.push( this.$tasks[ i ] );
+                }
+            }
+
+            this.$tasks = tasks;
+
+
+            // destroy entry in context menu
+            this.$TaskButton.getContextMenu(function(Menu)
+            {
+                var Child = Menu.getChildren( Task.getId() );
+
+                if ( Child ) {
+                    Child.destroy();
+                }
+            });
+
+
+            // open other task
+            if ( this.$LastTask &&
+                 this.$LastTask.getId() == Task.getId() )
+            {
+                this.$LastTask = null;
+            }
+
+            this.resize.delay( 200, this );
+
+            if ( this.$Active !== null && this.$Active != Task ) {
+                return;
+            }
+
+
+            this.$Active = null;
+
+            if ( this.$LastTask &&
+                 this.$LastTask.getId() != Task.getId() )
+            {
+                this.$LastTask.click();
+                return;
+            }
+
+            var FirstTask = this.firstChild();
+
+            if ( FirstTask && Task.getId() == FirstTask.getId() )
+            {
+                if ( typeof this.$tasks[ 1 ] !== 'undefined' ) {
+                    return this.$tasks[ 1 ].click();
+                }
+
+                return;
+            }
+
+            if ( FirstTask ) {
+                FirstTask.click();
+            }
         }
     });
 });
