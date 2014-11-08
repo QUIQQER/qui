@@ -30,11 +30,12 @@ define([
     'qui/controls/taskbar/Task',
     'qui/controls/taskbar/Group',
     'qui/controls/buttons/Button',
+    'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
 
     'css!qui/controls/taskbar/Bar.css'
 
-], function(Control, TaskbarTask, TaskbarGroup, Button, ContextmenuItem)
+], function(Control, TaskbarTask, TaskbarGroup, Button, Contextmenu, ContextmenuItem)
 {
     "use strict";
 
@@ -55,6 +56,7 @@ define([
             '$onTaskClick',
             '$onTaskDestroy',
             '$openContextMenu',
+            '$onTaskContextMenu',
             'scrollToLeft',
             'scrollToRight'
         ],
@@ -328,9 +330,13 @@ define([
 
             Task.setParent( this );
 
-            Task.addEvent( 'onRefresh', this.$onTaskRefresh );
-            Task.addEvent( 'onClick', this.$onTaskClick );
-            Task.addEvent( 'onDestroy', this.$onTaskDestroy );
+            Task.addEvents({
+                onRefresh     : this.$onTaskRefresh,
+                onClick       : this.$onTaskClick,
+                onDestroy     : this.$onTaskDestroy,
+                onContextMenu : this.$onTaskContextMenu
+            });
+
 
             Task.normalize();
             Task.inject( this.$TaskContainer );
@@ -393,7 +399,7 @@ define([
          * Remove a task from the bar
          *
          * @method qui/controls/taskbar/Bar#removeChild
-         * @return {qui/controls/taskbar/Task}
+         * @param {qui/controls/taskbar/Task}
          */
         removeChild : function(Task)
         {
@@ -412,6 +418,68 @@ define([
             }
 
             Task.destroy();
+        },
+
+        /**
+         * Close / Remove all tasks from the bar
+         *
+         * @method qui/controls/taskbar/Bar#closeAllTasks
+         * @return {qui/controls/taskbar/Bar}
+         */
+        closeAllTasks : function()
+        {
+            if ( this.$TaskButton )
+            {
+                this.$TaskButton.getContextMenu(function(Menu) {
+                    Menu.clear();
+                });
+            }
+
+            var tasks = this.$tasks;
+
+            for ( var i = 0, len = tasks.length; i < len; i++ ) {
+                tasks[ i ].destroy();
+            }
+
+            this.$tasks = [];
+
+            return this;
+        },
+
+        /**
+         * Close / Remove all other tasks from the bar
+         *
+         * @method qui/controls/taskbar/Bar#closeOtherTasks
+         * @param {qui/controls/taskbar/Task}
+         * @return {qui/controls/taskbar/Bar}
+         */
+        closeOtherTasks : function(Task)
+        {
+            var tasks = this.$tasks,
+                tid   = Task.getId();
+
+            for ( var i = 0, len = tasks.length; i < len; i++ )
+            {
+                if ( tid != tasks[ i ].getId() ) {
+                    tasks[ i ].destroy();
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Close / Remove the task from the bar
+         *
+         * @method qui/controls/taskbar/Bar#closeTask
+         * @param {qui/controls/taskbar/Task}
+         * @return {qui/controls/taskbar/Bar}
+         */
+        closeTask : function(Task)
+        {
+            this.removeChild( Task );
+
+            return this;
         },
 
         /**
@@ -558,6 +626,13 @@ define([
                 }
             });
 
+            Task.removeEvents({
+                onRefresh     : this.$onTaskRefresh,
+                onClick       : this.$onTaskClick,
+                onDestroy     : this.$onTaskDestroy,
+                onContextMenu : this.$onTaskContextMenu
+            });
+
 
             // open other task
             if ( this.$LastTask &&
@@ -605,7 +680,118 @@ define([
          */
         $openContextMenu : function(event)
         {
+            event.stop();
 
+            var self = this;
+
+            if ( !this.$ContextMenu )
+            {
+                this.$ContextMenu = new Contextmenu({
+                    name : 'taskbar-contextmenu',
+                    events :
+                    {
+                        onBlur : function(Menu)
+                        {
+                            Menu.hide();
+
+                            self.$tasks.each(function(Task) {
+                                Task.deHighlight();
+                            });
+                        }
+                    }
+                });
+
+                this.$ContextMenu.hide();
+                this.$ContextMenu.inject( document.body );
+
+                this.$ContextMenu.appendChild(
+                    new ContextmenuItem({
+                        name   : 'close-task',
+                        text   : 'Task schließen',
+                        icon   : 'icon-remove',
+                        events :
+                        {
+                            onClick : function(Item)
+                            {
+                                var Task = Item.getAttribute( 'Task' );
+
+                                if ( Task ) {
+                                    self.closeTask( Task );
+                                }
+                            }
+                        }
+                    })
+                ).appendChild(
+                    new ContextmenuItem({
+                        name   : 'close-other-task',
+                        text   : 'Andere Tasks schließen',
+                        icon   : 'icon-remove-sign',
+                        events :
+                        {
+                            onClick : function(Item)
+                            {
+                                var Task = Item.getAttribute( 'Task' );
+
+                                if ( Task )
+                                {
+                                    self.closeOtherTasks( Task );
+                                    Task.focus();
+                                }
+                            }
+                        }
+                    })
+                ).appendChild(
+                    new ContextmenuItem({
+                        name   : 'close-all-task',
+                        text   : 'Alle Tasks schließen',
+                        icon   : 'icon-remove-circle',
+                        events :
+                        {
+                            onClick : function() {
+                                self.closeAllTasks();
+                            }
+                        }
+                    })
+                );
+            }
+
+
+            this.$ContextMenu.getChildren( 'close-task' ).disable();
+            this.$ContextMenu.getChildren( 'close-other-task' ).disable();
+
+            this.$ContextMenu.setPosition( event.page.x, event.page.y )
+            this.$ContextMenu.show();
+            this.$ContextMenu.focus();
+            this.$ContextMenu.setTitle( '---' );
+
+            return this.$ContextMenu;
+        },
+
+        /**
+         * event : on task contextmenu
+         *
+         * @param {qui/controls/taskbar/Task} Task
+         * @param {DOMEvent} event - DOMEvent
+         */
+        $onTaskContextMenu : function(Task, event)
+        {
+            this.$tasks.each(function(Task) {
+                Task.deHighlight();
+            });
+
+            var Menu       = this.$openContextMenu( event ),
+                CloseTask  = Menu.getChildren( 'close-task' ),
+                CloseOther = Menu.getChildren( 'close-other-task' );
+
+            Menu.setTitle( Task.getTitle() );
+
+            CloseTask.setAttribute( 'Task', Task );
+            CloseOther.setAttribute( 'Task', Task );
+
+            CloseTask.enable();
+            CloseOther.enable();
+
+            Task.highlight();
         }
     });
 });

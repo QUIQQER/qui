@@ -20,6 +20,11 @@
     background: #94928C;
 }
 
+.qui-task.highlight {
+    border: 1px solid #6C98D9 !important;
+    background: #6C98D9 !important;
+}
+
 .qui-task-icon {
     background-repeat: no-repeat;
     background-position: center center;

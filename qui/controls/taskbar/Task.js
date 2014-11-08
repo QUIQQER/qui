@@ -20,6 +20,7 @@
  * @event onClose [this, DOMEvent]
  * @event onContextMenu [this, DOMEvent]
  * @event onHighlight [this]
+ * @event onDeHighlight [this]
  * @event onSelect [this]
  */
 
@@ -439,6 +440,40 @@ define([
         },
 
         /**
+         * Highlight the Task
+         *
+         * @method qui/controls/taskbar/Task#highlight
+         * @return {this}
+         */
+        highlight : function()
+        {
+            if ( this.$Elm ) {
+                this.$Elm.addClass( 'highlight' );
+            }
+
+            this.fireEvent( 'highlight', [ this ] );
+
+            return this;
+        },
+
+        /**
+         * Remove the highlight from a task
+         *
+         * @method qui/controls/taskbar/Task#highlight
+         * @return {this}
+         */
+        deHighlight : function()
+        {
+            if ( this.$Elm ) {
+                this.$Elm.removeClass( 'highlight' );
+            }
+
+            this.fireEvent( 'deHighlight', [ this ] );
+
+            return this;
+        },
+
+        /**
          * Hide the task tab
          *
          * @method qui/controls/taskbar/Task#hide
@@ -510,23 +545,6 @@ define([
             if ( this.$Elm ) {
                 this.$Elm.focus();
             }
-
-            return this;
-        },
-
-        /**
-         * Highlight the Task
-         *
-         * @method qui/controls/taskbar/Task#highlight
-         * @return {this}
-         */
-        highlight : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.addClass( 'highlight' );
-            }
-
-            this.fireEvent( 'highlight', [ this ] );
 
             return this;
         },
