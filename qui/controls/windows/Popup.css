@@ -43,6 +43,7 @@
 .qui-window-popup-sheet-buttons {
     clear: both;
     padding: 10px 0;
+    text-align: center;
     width: 100%;
     z-index: 1;
 }
