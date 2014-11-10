@@ -93,7 +93,9 @@ define([
 
             this.$FXSB             = null;
             this.$SettingsButton   = null;
+
             this.$__eventPanelOpen = false;
+            this.$__unserialize    = false;
 
             this.$fixed   = true;
             this.$tmpList = []; // temp list for append Child
@@ -245,13 +247,19 @@ define([
          */
         serialize : function()
         {
+            var ser;
+
             var panels     = this.getChildren(),
                 children   = [],
                 attributes = this.getAttributes(),
                 size       = this.getElm().getSize();
 
-            for ( var p in panels ) {
-                children.push( panels[ p ].serialize() );
+            for ( var p in panels )
+            {
+                ser = panels[ p ].serialize();
+                ser.isOpen = panels[ p ].isOpen();
+
+                children.push( ser );
             }
 
             attributes.width  = size.x;
@@ -289,6 +297,8 @@ define([
                 return;
             }
 
+            this.$__unserialize = true;
+
             var req = [];
 
             for ( i = 0, len = children.length; i < len; i++ )
@@ -308,6 +318,8 @@ define([
                 {
                     var i, len, attr, height, Child, Control;
 
+                    var opened = [];
+
                     for ( i = 0, len = children.length; i < len; i++ )
                     {
                         Child  = children[ i ];
@@ -321,6 +333,10 @@ define([
 
                             self.appendChild( Control );
 
+                            if ( Child.isOpen ) {
+                                opened.push( Control );
+                            }
+
                         } catch ( Exception )
                         {
                             MessageHandler.addError(
@@ -328,6 +344,12 @@ define([
                             );
                         }
                     }
+
+                    self.$__unserialize = false;
+
+                    Object.each( opened, function(Panel) {
+                        Panel.open();
+                    });
 
                     Object.each( self.$panels, function(Panel) {
                         Panel.resize();
@@ -624,6 +646,10 @@ define([
                 }
 
                 Panel.inject( handleList[ pos - 1 ], 'after' );
+            }
+
+            if ( this.$__unserialize ) {
+                Panel.minimize();
             }
 
 

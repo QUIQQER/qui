@@ -602,7 +602,7 @@ define([
         },
 
         /**
-         * Enable the dragdrop
+         * Enable the dragdrop -> do nothing, panel compatibility
          */
         enableDragDrop : function()
         {
@@ -610,7 +610,7 @@ define([
         },
 
         /**
-         * Enable the dragdrop
+         * Enable the dragdrop -> do nothing, panel compatibility
          */
         disableDragDrop : function()
         {
@@ -618,7 +618,17 @@ define([
         },
 
         /**
-         * Minimize
+         * Open the Panel -> do nothing, panel compatibility
+         *
+         * @return {this} self
+         */
+        open : function()
+        {
+            return this;
+        },
+
+        /**
+         * Minimize -> do nothing, panel compatibility
          *
          * @return {this} self
          */
