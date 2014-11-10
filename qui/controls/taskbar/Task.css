@@ -13,6 +13,7 @@
     padding: 2px 5px;
     text-align: left;
     white-space: nowrap;
+    width: 170px;
 }
 
 .qui-task.active {
@@ -40,6 +41,10 @@
     color: #333;
     float: left;
     line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
 }
 
 .qui-task-close {

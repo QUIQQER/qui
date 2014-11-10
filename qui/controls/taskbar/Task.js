@@ -311,19 +311,11 @@ define([
                 {
                     Icon.setStyle( 'background-image', 'url('+ icon +')' );
                 }
-
             }
 
             if ( this.getTitle() )
             {
-                var title = this.getTitle();
-                    title = title.substring( 0, 19 );
-
-                if ( title.length > 19 ) {
-                    title = title +'...';
-                }
-
-                Text.set( 'html', title );
+                Text.set( 'html', this.getTitle() );
                 this.$Elm.set( 'title', this.getTitle() );
             }
 
