@@ -823,6 +823,7 @@ define([
             }
 
             this.$Content.setStyle( 'width', width );
+            this.$Highlight.setStyle( 'width', width );
 
             for ( var i in this.$panels )
             {
