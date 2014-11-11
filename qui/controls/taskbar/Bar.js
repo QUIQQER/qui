@@ -347,7 +347,7 @@ define([
             this.$TaskButton.appendChild(
                 new ContextmenuItem({
                     icon   : Task.getIcon(),
-                    text   : Task.getTitle(),
+                    text   : Task.getText(),
                     name   : Task.getId(),
                     Task   : Task,
                     events :
@@ -565,7 +565,7 @@ define([
                 }
 
                 Child.setAttribute( 'icon', Task.getIcon() );
-                Child.setAttribute( 'text', Task.getTitle() );
+                Child.setAttribute( 'text', Task.getText() );
             });
         },
 
@@ -783,7 +783,7 @@ define([
                 CloseTask  = Menu.getChildren( 'close-task' ),
                 CloseOther = Menu.getChildren( 'close-other-task' );
 
-            Menu.setTitle( Task.getTitle() );
+            Menu.setTitle( Task.getText() );
 
             CloseTask.setAttribute( 'Task', Task );
             CloseOther.setAttribute( 'Task', Task );

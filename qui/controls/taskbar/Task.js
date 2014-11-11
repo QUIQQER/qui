@@ -313,11 +313,23 @@ define([
                 }
             }
 
-            if ( this.getTitle() )
-            {
-                Text.set( 'html', this.getTitle() );
-                this.$Elm.set( 'title', this.getTitle() );
+            var description = this.getDescription(),
+                text        = this.getText();
+
+            if ( !text ) {
+                text = '';
             }
+
+            if ( !description && text) {
+                description = text;
+            }
+
+            if ( !description ) {
+                description = '';
+            }
+
+            this.$Elm.set( 'title', description );
+            Text.set( 'html', text );
 
             this.fireEvent( 'refresh', [ this ] );
         },
@@ -340,16 +352,31 @@ define([
         /**
          * Return the instance title
          *
-         * @method qui/controls/taskbar/Task#getTitle
+         * @method qui/controls/taskbar/Task#getText
          * @return {String|false}
          */
-        getTitle : function()
+        getText : function()
         {
             if ( !this.getInstance() ) {
                 return '';
             }
 
             return this.getInstance().getAttribute( 'title' );
+        },
+
+        /**
+         * Return the description text
+         *
+         * @method qui/controls/taskbar/Task#getDescription
+         * @return {String|false}
+         */
+        getDescription : function()
+        {
+            if ( !this.getInstance() ) {
+                return '';
+            }
+
+            return this.getInstance().getAttribute( 'description' );
         },
 
         /**
