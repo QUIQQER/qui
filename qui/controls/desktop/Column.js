@@ -247,17 +247,19 @@ define([
          */
         serialize : function()
         {
-            var ser;
+            var Panel, ser;
 
-            var panels     = this.getChildren(),
+            var panels     = this.$Content.getChildren( '.qui-panel' ),
                 children   = [],
                 attributes = this.getAttributes(),
                 size       = this.getElm().getSize();
 
-            for ( var p in panels )
+            for ( var i = 0, len = panels.length; i < len; i++ )
             {
-                ser = panels[ p ].serialize();
-                ser.isOpen = panels[ p ].isOpen();
+                Panel = QUI.Controls.getById( panels[ i ].get( 'data-quiid' ) );
+
+                ser = Panel.serialize();
+                ser.isOpen = Panel.isOpen();
 
                 children.push( ser );
             }

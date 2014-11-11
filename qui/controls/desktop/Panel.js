@@ -445,11 +445,14 @@ define([
             this.$Footer.setStyle( 'display', 'none' );
             this.$Buttons.setStyle( 'display', 'none' );
 
-            this.$Collaps.removeClass( 'qui-panel-collapse' );
-            this.$Collaps.removeClass( 'icon-chevron-down' );
+            if ( this.$Collaps )
+            {
+                this.$Collaps.removeClass( 'qui-panel-collapse' );
+                this.$Collaps.removeClass( 'icon-chevron-down' );
 
-            this.$Collaps.addClass( 'qui-panel-expand' );
-            this.$Collaps.addClass( 'icon-chevron-right' );
+                this.$Collaps.addClass( 'qui-panel-expand' );
+                this.$Collaps.addClass( 'icon-chevron-right' );
+            }
 
             this.$Header.addClass( 'qui-panel-close' );
 
