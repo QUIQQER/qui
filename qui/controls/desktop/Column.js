@@ -833,6 +833,9 @@ define([
                 this.$panels[ i ].resize();
             }
 
+            // recalc the height
+            this.recalcPanels();
+
             return this;
         },
 
