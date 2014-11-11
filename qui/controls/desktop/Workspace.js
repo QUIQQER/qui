@@ -164,7 +164,7 @@ define([
                 width = (maxWidth * (perc / 100)).round();
 
                 if ( i !== 0 ) {
-                    width = width - 4;
+                    width = width - 6; // resizer width
                 }
 
                 if ( availableWidth < width ) {
