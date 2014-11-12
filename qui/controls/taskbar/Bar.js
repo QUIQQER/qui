@@ -513,9 +513,16 @@ define([
          */
         scrollToLeft : function()
         {
-            if ( this.$ContainerScroll ) {
-                this.$ContainerScroll.toLeft();
+            if ( !this.$ContainerScroll ) {
+                return;
             }
+
+            var scrollPos  = this.$Container.getScroll(),
+                scrollSize = this.$Container.getScrollSize(),
+                size       = this.$Container.getSize(),
+                pos        = scrollPos.x - ( size.x * 0.8 ).round();
+
+            this.$ContainerScroll.start( pos, 0 );
         },
 
         /**
@@ -523,9 +530,16 @@ define([
          */
         scrollToRight : function()
         {
-            if ( this.$ContainerScroll ) {
-                this.$ContainerScroll.toRight();
+            if ( !this.$ContainerScroll ) {
+                return;
             }
+
+            var scrollPos  = this.$Container.getScroll(),
+                scrollSize = this.$Container.getScrollSize(),
+                size       = this.$Container.getSize(),
+                pos        = scrollPos.x + ( size.x * 0.8 ).round();
+
+            this.$ContainerScroll.start( pos, 0 );
         },
 
         /**
