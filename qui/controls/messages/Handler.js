@@ -57,8 +57,9 @@ define([
         },
 
         options : {
-            autosave : true,
-            autoload : true
+            autosave   : true,
+            autoload   : true,
+            useFavicon : false
         },
 
         initialize : function(params)
@@ -85,7 +86,7 @@ define([
 
                 window.addEvent('unload', function()
                 {
-                    if ( self.Favico )  {
+                    if ( self.getAttribute( 'useFavicon' ) && self.Favico )  {
                         self.Favico.badge( 0 );
                     }
                 });
@@ -684,7 +685,7 @@ define([
          */
         refreshFavicon : function()
         {
-            if ( this.Favico ) {
+            if ( this.Favico && this.getAttribute( 'useFavicon' ) ) {
                 this.Favico.badge( this.$newMessages );
             }
 
