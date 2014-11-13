@@ -82,5 +82,67 @@ define({
             Elm.getParent().children,
             Elm
         );
+    },
+
+    /**
+     * Return the cursor position of an input field
+     *
+     * @return {null|Integer}
+     */
+    getCursorPosition : function(Input)
+    {
+        if ( Input.nodeName !== 'INPUT' ) {
+            return null;
+        }
+
+        if ( 'selectionStart' in Input ) {
+            return Input.selectionStart;
+        }
+
+        if ( document.selection )
+        {
+            // IE
+            Input.focus();
+
+            var range    = document.selection.createRange();
+            var rangeLen = range.text.length;
+
+            range.moveStart( 'character', -input.value.length );
+
+            return range.text.length - rangeLen;
+        }
+
+        return null;
+    },
+
+    /**
+     * Set the cursor to the position
+     *
+     * @param {DOMNode} Input - Input | Textarea Element
+     * @param {Integer} pos - Position of the cursor
+     */
+    setCursorPosition : function(Input, pos)
+    {
+        if ( Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA' ) {
+            return null;
+        }
+
+        if ( Input.createTextRange )
+        {
+            var range = Input.createTextRange();
+
+            range.move( 'character', pos );
+            range.select();
+            return;
+        }
+
+        if ( Input.selectionStart )
+        {
+            Input.focus();
+            Input.setSelectionRange( pos+1, pos+1 );
+            return;
+        }
+
+        Input.focus();
     }
 });
