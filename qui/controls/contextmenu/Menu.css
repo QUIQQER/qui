@@ -18,6 +18,8 @@
     float: left;
     padding: 2px 5px;
     text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     width: 100%;
 
     -webkit-box-sizing: border-box;

@@ -82,11 +82,13 @@ define([
             this.parent( options );
 
             this.$items     = [];
+            this.$path      = '';
+            this.$disabled  = false;
+
             this.$Elm       = null;
             this.$Container = null;
             this.$Menu      = null;
-            this.$path      = '';
-            this.$disabled  = false;
+            this.$Text      = null;
 
             if ( typeof options.disabled !== 'undefined' && options.disabled ) {
                 this.$disabled = true;
@@ -144,6 +146,7 @@ define([
             });
 
             this.$Container = this.$Elm.getElement( '.qui-contextitem-container' );
+            this.$Text      = this.$Elm.getElement( '.qui-contextitem-text' );
 
             // click events on the text
             this.$Container.addEvents({
@@ -472,6 +475,16 @@ define([
             }
 
             return this.getContextMenu().getChildren();
+        },
+
+        /**
+         * Return the text node
+         *
+         * @return {DOMNode|null}
+         */
+        getTextElm : function()
+        {
+            return this.$Text;
         },
 
         /**

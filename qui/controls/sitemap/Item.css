@@ -69,10 +69,12 @@
     line-height: 30px;
 }
 
+.qui-sitemap-entry-highlighted,
 .qui-sitemap-entry-container:hover {
     background-color: #2F8FC6;
     color: #FFFFFF;
 }
+
 
 .qui-sitemap-entry-disabled:hover,
 .qui-sitemap-entry-disabled .qui-sitemap-entry-text:hover {

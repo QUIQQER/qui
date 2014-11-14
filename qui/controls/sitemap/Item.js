@@ -250,11 +250,19 @@ define([
          */
         getTextElm : function()
         {
-            if ( this.$Text ) {
-                return this.$Text;
-            }
+            return this.$Text;
+        },
 
-            return null;
+        /**
+         * Return the container DOMNode
+         * include the icon and the text node
+         *
+         * @method qui/controls/sitemap/Item#getContainerElm
+         * @return {DOMNode|null}
+         */
+        getContainerElm : function()
+        {
+            return this.$Container;
         },
 
         /**
@@ -550,7 +558,7 @@ define([
         },
 
         /**
-         * Normalite the item
+         * Normalize the item
          * no selection or highlighting
          *
          * @method qui/controls/sitemap/Item#normalize
@@ -564,12 +572,37 @@ define([
             {
                 this.$Container.removeClass( 'qui-sitemap-entry-select' );
                 this.$Container.removeClass( 'qui-sitemap-entry-holdBack' );
+                this.$Container.removeClass( 'qui-sitemap-entry-highlighted' );
             }
 
             if ( this.$Opener ) {
                 this.$Opener.removeClass( 'qui-sitemap-entry-holdBack' );
             }
 
+            return this;
+        },
+
+        /**
+         * Highight the item
+         *
+         * @method qui/controls/sitemap/Item#highlight
+         * @return {this} self
+         */
+        highlight : function()
+        {
+            this.$Container.addClass( 'qui-sitemap-entry-highlighted' );
+            return this;
+        },
+
+        /**
+         * Dehighight the item
+         *
+         * @method qui/controls/sitemap/Item#deHighlight
+         * @return {this} self
+         */
+        deHighlight : function()
+        {
+            this.$Container.removeClass( 'qui-sitemap-entry-highlighted' );
             return this;
         },
 
