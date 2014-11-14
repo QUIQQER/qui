@@ -770,6 +770,18 @@ define([
                         top      : null
                     });
 
+                    // messages are shown?
+                    var messages = document.body.getChildren( '.messages-message' );
+
+                    if ( messages.length )
+                    {
+                        var sum = messages.map(function(Elm) {
+                            return Elm.getSize().y + 10;
+                        }).sum();
+
+                        Node.setStyle( 'bottom', sum + 10 );
+                    }
+
                     // fined the highest zIndex
                     var zIndexList = document.getElements('body > *').map(function(Elm)  {
                         return Elm.getStyle( 'zIndex' ).toInt() || 1;
@@ -797,7 +809,7 @@ define([
                             Node.destroy();
                         }
                     });
-                }).delay( 2000 );
+                }).delay( 2500 );
 
                 this.fireEvent( 'add', [ this, Message ] );
 
