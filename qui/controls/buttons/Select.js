@@ -54,7 +54,8 @@ define([
         options : {
             name    : 'select-box',
             'style' : {},      // mootools css style attributes
-            'class' : false    // extra CSS Class
+            'class' : false,   // extra CSS Class
+            menuWidth : 200
         },
 
         params : {},
@@ -63,7 +64,9 @@ define([
         {
             this.parent( options );
 
-            this.$Menu = new QUIMenu();
+            this.$Menu = new QUIMenu({
+                width : this.getAttribute( 'menuWidth' )
+            });
 
             this.$Elm      = null;
             this.$value    = null;
