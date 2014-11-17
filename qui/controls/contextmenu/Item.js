@@ -604,6 +604,10 @@ define([
          */
         $onClick : function(event)
         {
+            if ( this.$disabled ) {
+                return;
+            }
+
             this.fireEvent( 'click', [ this, event ] );
 
             var Parent = this.getParent();
