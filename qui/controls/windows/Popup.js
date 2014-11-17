@@ -62,6 +62,7 @@ define([
             icon      : false,	// {false|string} [optional] icon of the window
             title     : false,	// {false|string} [optional] title of the window
             'class'   : false,
+            backgroundClosable : true, // {bool} [optional] closes the window on click? standard = true
 
             // buttons
             buttons          : true, // {bool} [optional] show the bottom button line
@@ -214,10 +215,13 @@ define([
 
             this.Background.create();
 
-            this.Background.getElm().addEvent(
-                'click',
-                this.cancel
-            );
+            if ( this.getAttribute( 'backgroundClosable' ) )
+            {
+                this.Background.getElm().addEvent(
+                    'click',
+                    this.cancel
+                );
+            }
 
             this.Background.show();
             this.inject( document.body );

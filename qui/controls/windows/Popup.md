@@ -37,6 +37,7 @@ require(['qui/controls/windows/Popup'], function(Popup)
 + closeButton
 + closeButtonText
 + titleCloseButton
++ backgroundClosable
 
 ### maxWidth {integer}
 
@@ -94,6 +95,11 @@ Schließen Button oben rechts in der Titel-Leiste anzeigen -> ja / nein
 ### class {string}
 
 Extra CSS Klasse(n) für das Popup
+
+### backgroundClosable {bool}
+
+Optional - standard = true
+Schließt sich das Fenster bei klick auf den Hintergrund?
 
 
 ## Die wichtigsten Methoden
