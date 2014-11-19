@@ -25,7 +25,7 @@ define({
             return;
         }
 
-        var i, k, len, Elm;
+        var i, k, len, val, Elm;
 
         data = data || {};
 
@@ -66,11 +66,22 @@ define({
             {
                 for ( i = 0, len = Elm.length; i < len; i++ )
                 {
-                    if ( Elm[i].type !== 'radio' ) {
+                    if ( Elm[ i ].type !== 'radio' && Elm[ i ].type !== 'checkbox' ) {
                         continue;
                     }
 
-                    if ( Elm[i].value == data[k] ) {
+                    val = Elm[ i ].value;
+
+                    if ( typeOf( data[ k ] ) == 'array' )
+                    {
+                        if ( data[ k ].contains( val ) ) {
+                            Elm[i].checked = true;
+                        }
+
+                        continue;
+                    }
+
+                    if ( val == data[ k ] ) {
                         Elm[i].checked = true;
                     }
                 }
@@ -98,24 +109,40 @@ define({
             return {};
         }
 
-        var i, len, Elm;
+        var i, n, len, Elm;
+
         var result   = {},
             elements = form.elements;
 
         for ( i = 0, len = elements.length; i < len; i++ )
         {
             Elm = elements[i];
+            n   = Elm.name;
 
             if ( Elm.type === 'checkbox' )
             {
-                result[ Elm.name ] = Elm.checked ? true : false;
+                // array
+                if ( elements[ n ].length )
+                {
+                    if ( typeof result[ Elm.name ] === 'undefined' ) {
+                        result[ n ] = [];
+                    }
+
+                    if ( Elm.checked ) {
+                        result[ n ].push( Elm.value );
+                    }
+
+                    continue;
+                }
+
+                result[ n ] = Elm.checked ? true : false;
                 continue;
             }
 
             if ( Elm.type === 'radio' && !Elm.length )
             {
                 if ( Elm.checked ) {
-                    result[ Elm.name ] = Elm.value;
+                    result[ n ] = Elm.value;
                 }
 
                 continue;
@@ -139,7 +166,7 @@ define({
                 }
             }
 
-            result[ Elm.name ] = Elm.value;
+            result[ n ] = Elm.value;
         }
 
         return result;
