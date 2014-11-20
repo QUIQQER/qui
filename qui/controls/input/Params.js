@@ -313,13 +313,13 @@ define('qui/controls/input/Params', [
                             ParamName  = Content.getElement( '[name="paramName"]' ),
                             ParamValue = Content.getElement( '[name="paramValue"]' );
 
-                        if ( ParamName.value == '' )
+                        if ( ParamName.value === '' )
                         {
                             ParamName.focus();
                             return;
                         }
 
-                        if ( ParamValue.value == '' )
+                        if ( ParamValue.value === '' )
                         {
                             ParamValue.focus();
                             return;

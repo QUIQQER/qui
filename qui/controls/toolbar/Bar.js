@@ -618,7 +618,6 @@ define('qui/controls/toolbar/Bar', [
                 case 'element':
                     Itm.inject( this.Tabs );
                     return this;
-                break;
 
                 default:
                     return this;

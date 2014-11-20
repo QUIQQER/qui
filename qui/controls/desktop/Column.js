@@ -330,7 +330,7 @@ define('qui/controls/desktop/Column', [
 
                         try
                         {
-                            Control = new regArgs[ i ]( attr )
+                            Control = new regArgs[ i ]( attr );
                             Control.unserialize( Child );
 
                             self.appendChild( Control );
@@ -575,7 +575,7 @@ define('qui/controls/desktop/Column', [
                 {
                     Panel.getAttribute( '_Handler' ).destroy();
 
-                } else if ( panelIndex == 0 )
+                } else if ( panelIndex === 0 )
                 {
                     handleList[ 0 ].destroy();
                 }
@@ -683,7 +683,7 @@ define('qui/controls/desktop/Column', [
         {
             var left = this.$getLeftSpace();
 
-            if ( left == 0 ) {
+            if ( left === 0 ) {
                 return;
             }
 
@@ -1134,7 +1134,7 @@ define('qui/controls/desktop/Column', [
          */
         adaptPanels : function()
         {
-            var i, len, Panel, panelHeight;
+            var i, Panel, panelHeight;
 
             var list      = this.$Content.getElements( '.qui-panel' ),
                 handler   = this.$Content.getElements( '.qui-column-hor-handle' ),
@@ -1176,7 +1176,7 @@ define('qui/controls/desktop/Column', [
 
             var leftSpace = this.$getLeftSpace();
 
-            if ( leftSpace == 0 ) {
+            if ( leftSpace === 0 ) {
                 return;
             }
 
@@ -1677,7 +1677,7 @@ define('qui/controls/desktop/Column', [
 
             var leftSpace = this.$getLeftSpace();
 
-            if ( leftSpace == 0 ) {
+            if ( leftSpace === 0 ) {
                  return;
             }
 

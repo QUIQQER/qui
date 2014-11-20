@@ -1,6 +1,7 @@
 {
-    "eval"    : true,
-    "globals" : {
+    "eval"     : true,
+    "mootools" : true,
+    "globals"  : {
         "define" : true	
     }
 }

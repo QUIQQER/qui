@@ -100,7 +100,7 @@ define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], funct
          */
         finish : function(msg, type)
         {
-            var i, len, Text;
+            var Text;
 
             for ( var i = 0, len = this.$elements.length; i < len; i++ )
             {
