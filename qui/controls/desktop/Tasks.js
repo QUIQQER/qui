@@ -19,7 +19,7 @@
  * @event onRefresh [this]
  */
 
-define([
+define('qui/controls/desktop/Tasks', [
 
     'qui/QUI',
     'qui/controls/Control',

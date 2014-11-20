@@ -14,7 +14,7 @@
  * @event complete [ {this} ]
  */
 
-define([
+define('qui/controls/utils/Progressbar', [
 
     'qui/controls/Control',
 

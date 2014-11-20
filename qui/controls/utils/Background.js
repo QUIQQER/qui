@@ -10,7 +10,7 @@
  * @event onClick [{self}]
  */
 
-define(['qui/controls/Control'], function(Control)
+define('qui/controls/utils/Background', ['qui/controls/Control'], function(Control)
 {
     "use strict";
 

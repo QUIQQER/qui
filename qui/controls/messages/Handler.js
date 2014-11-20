@@ -22,7 +22,7 @@
  * @event onLoad [ {this} ]
  */
 
-define([
+define('qui/controls/messages/Handler', [
 
     'require',
     'qui/controls/Control',

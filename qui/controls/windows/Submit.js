@@ -13,7 +13,7 @@
  * @fires onCancel
  */
 
-define([
+define('qui/controls/windows/Submit', [
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',

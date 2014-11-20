@@ -8,7 +8,7 @@
  * @require qui/classes/Locale
  */
 
-define(['qui/classes/Locale'], function(QUILocale)
+define('qui/Locale', ['qui/classes/Locale'], function(QUILocale)
 {
     "use strict";
 

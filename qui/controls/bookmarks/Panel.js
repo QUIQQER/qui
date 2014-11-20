@@ -15,7 +15,7 @@
  * @event removeChild [ {self} ]
  */
 
-define([
+define('qui/controls/bookmarks/Panel', [
 
     'qui/QUI',
     'qui/controls/desktop/Panel',

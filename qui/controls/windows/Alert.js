@@ -9,7 +9,7 @@
  * @require css!qui/controls/windows/Alert.css
  */
 
-define([
+define('qui/controls/windows/Alert', [
 
     'qui/controls/windows/Popup',
 

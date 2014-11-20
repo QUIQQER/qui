@@ -15,7 +15,7 @@
  * @event onChildClick
  */
 
-define([
+define('qui/controls/contextmenu/Bar', [
 
     'qui/controls/Control',
     'qui/controls/contextmenu/BarItem',

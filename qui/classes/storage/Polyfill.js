@@ -7,7 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define(function()
+define('qui/classes/storage/Polyfill', function()
 {
     "use strict";
 

@@ -9,7 +9,7 @@
  * @require css!qui/controls/contextmenu/Menu.css
  */
 
-define([
+define('qui/controls/contextmenu/Menu', [
 
     'qui/controls/Control',
     'qui/utils/Elements',

@@ -17,7 +17,7 @@
  * @event onComplete [ this, event ]
  */
 
-define(['qui/classes/DOM'], function(DOM)
+define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
 {
     "use strict";
 

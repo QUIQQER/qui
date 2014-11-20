@@ -15,7 +15,7 @@
  * @event onAppendChild [ this, Itm ]
  */
 
-define([
+define('qui/controls/toolbar/Bar', [
 
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',

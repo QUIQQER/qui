@@ -7,7 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/Math', {
 
     /**
      * Resize Variables in dependence on each other

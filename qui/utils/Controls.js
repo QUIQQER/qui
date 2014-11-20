@@ -9,7 +9,7 @@
  * @require qui/QUI
  */
 
-define(['qui/QUI'], function(QUI, Panel)
+define('qui/utils/Controls', ['qui/QUI'], function(QUI, Panel)
 {
     "use strict";
 

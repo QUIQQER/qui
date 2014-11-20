@@ -9,7 +9,7 @@
  * @require css!qui/controls/breadcrumb/Bar.css
  */
 
-define([
+define('qui/controls/breadcrumb/Bar', [
 
     'qui/controls/Control',
 

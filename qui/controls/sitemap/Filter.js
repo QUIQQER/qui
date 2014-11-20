@@ -15,7 +15,7 @@
  * @event onFilter  [this, results]
  */
 
-define([
+define('qui/controls/sitemap/Filter', [
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',

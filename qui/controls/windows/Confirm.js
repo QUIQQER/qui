@@ -14,7 +14,7 @@
  * @event onCancel
  */
 
-define([
+define('qui/controls/windows/Confirm', [
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',

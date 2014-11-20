@@ -6,7 +6,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/NoSelect', {
 
     /**
      * Enable the selection for an Element

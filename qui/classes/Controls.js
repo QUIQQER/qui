@@ -9,7 +9,7 @@
  * @require qui/classes/DOM
  */
 
-define([
+define('qui/classes/Controls', [
 
     'require',
     'qui/classes/DOM'

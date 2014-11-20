@@ -11,7 +11,7 @@
  * @require css!qui/controls/input/Params.css'
  */
 
-define([
+define('qui/controls/input/Params', [
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',

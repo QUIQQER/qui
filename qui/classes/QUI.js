@@ -12,7 +12,7 @@
  * @event onError : if there is an error
  */
 
-define([
+define('qui/classes/QUI', [
 
     'require',
     'qui/classes/DOM',

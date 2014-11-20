@@ -12,7 +12,7 @@
  * @require css!qui/controls/messages/Panel.css
  */
 
-define([
+define('qui/controls/messages/Panel', [
 
     'qui/QUI',
     'qui/controls/desktop/Panel',

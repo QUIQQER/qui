@@ -10,7 +10,7 @@
  * @event onError [ {String}, {this} ] - triggered if no_translation === false and no translation exist
  */
 
-define(['qui/classes/DOM'], function(DOM)
+define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
 {
     "use strict";
 

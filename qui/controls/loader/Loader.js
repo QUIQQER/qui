@@ -11,7 +11,7 @@
  * @require css!qui/controls/loader/Loader.css
  */
 
-define([
+define('qui/controls/loader/Loader', [
 
     'qui/controls/Control',
     'qui/Locale',

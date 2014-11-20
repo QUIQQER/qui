@@ -22,7 +22,7 @@
  * @event onResizeBegin [ self ]
  */
 
-define([
+define('qui/controls/windows/Popup', [
 
     'qui/controls/Control',
     'qui/controls/utils/Background',

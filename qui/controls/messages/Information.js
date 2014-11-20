@@ -8,7 +8,7 @@
  * @require qui/controls/messages/Message
  */
 
-define(['qui/controls/messages/Message'], function(Message)
+define('qui/controls/messages/Information', ['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 

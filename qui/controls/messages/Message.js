@@ -12,7 +12,7 @@
  * @event onClick [this]
  */
 
-define([
+define('qui/controls/messages/Message', [
 
     'qui/controls/Control',
     'qui/Locale',

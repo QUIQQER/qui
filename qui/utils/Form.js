@@ -6,7 +6,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/Form', {
 
     /**
      * Set an object to an formular DOMNode

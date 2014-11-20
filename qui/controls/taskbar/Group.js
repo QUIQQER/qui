@@ -27,7 +27,7 @@
  * ]
  */
 
-define([
+define('qui/controls/taskbar/Group', [
 
     'qui/QUI',
     'qui/controls/Control',

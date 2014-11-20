@@ -11,7 +11,7 @@
  * @event onClose [this]
  */
 
-define([
+define('qui/controls/desktop/panels/Sheet', [
 
     'qui/controls/Control',
     'qui/controls/buttons/Button',

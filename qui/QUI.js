@@ -7,7 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define(['qui/classes/QUI'], function(QUIClass)
+define('qui/QUI', ['qui/classes/QUI'], function(QUIClass)
 {
     "use strict";
 

@@ -24,7 +24,7 @@
  * @event onUnserializeFinish [ {qui/controls/taskbar/Bar} ]
  */
 
-define([
+define('qui/controls/taskbar/Bar', [
 
     'qui/controls/Control',
     'qui/controls/taskbar/Task',

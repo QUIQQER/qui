@@ -6,7 +6,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/Elements', {
 
     /**
      * checks if the element is in the viewport

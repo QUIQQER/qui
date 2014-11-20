@@ -31,7 +31,7 @@
  * @event onEnable
  */
 
-define([
+define('qui/controls/buttons/Button', [
 
     'qui/controls/Control',
     'qui/utils/Controls',
@@ -94,6 +94,8 @@ define([
 
         initialize : function(options)
         {
+            options = options || {};
+
             this.parent( options );
 
             this.$Menu  = null;

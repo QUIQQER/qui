@@ -7,7 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/Object', {
 
     /**
      * Combines two Object

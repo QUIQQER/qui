@@ -13,7 +13,7 @@
  * @require css!qui/controls/sitemap/Item.css
  */
 
-define([
+define('qui/controls/sitemap/Item', [
 
     'qui/QUI',
     'qui/controls/Control',

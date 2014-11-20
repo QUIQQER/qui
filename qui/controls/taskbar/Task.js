@@ -24,7 +24,7 @@
  * @event onSelect [this]
  */
 
-define([
+define('qui/controls/taskbar/Task', [
 
     'qui/QUI',
     'qui/controls/Control',

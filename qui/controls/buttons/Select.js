@@ -2,7 +2,7 @@
 /**
  * QUI Control - Select Box DropDown
  *
- * @module controls/buttons/Button
+ * @module qui/controls/buttons/Select
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/controls/Control
@@ -16,7 +16,7 @@
  * @event onClick [this, event]
  */
 
-define([
+define('qui/controls/buttons/Select', [
 
     'qui/controls/Control',
     'qui/utils/Controls',

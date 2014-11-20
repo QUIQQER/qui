@@ -16,7 +16,7 @@
  * @event onResize [ this ]
  */
 
-define([
+define('qui/controls/Control', [
 
     'qui/QUI',
     'qui/Locale',

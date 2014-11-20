@@ -11,7 +11,7 @@
  * @event onCreate [this]
  */
 
-define([
+define('qui/controls/buttons/Seperator', [
 
     'qui/controls/Control'
 

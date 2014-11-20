@@ -20,7 +20,7 @@
  * @event onMouseUp[ {self}, {DOMEvent} ]
  */
 
-define([
+define('qui/controls/contextmenu/Item', [
 
     'qui/QUI',
     'qui/controls/Control',

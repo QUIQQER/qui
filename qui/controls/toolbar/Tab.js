@@ -11,7 +11,7 @@
  * @require css!qui/controls/toolbar/Tab.css
  */
 
-define([
+define('qui/controls/toolbar/Tab', [
 
     'qui/controls/Control',
     'qui/utils/Controls',

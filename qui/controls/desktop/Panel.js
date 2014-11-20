@@ -32,7 +32,7 @@
  * @event onCategoryLeave [ this, Category ]
  */
 
-define([
+define('qui/controls/desktop/Panel', [
 
     'qui/QUI',
     'qui/controls/Control',

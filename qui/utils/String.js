@@ -7,7 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define({
+define('qui/utils/String', {
 
     /**
      * get params from an url

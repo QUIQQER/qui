@@ -13,7 +13,7 @@
  * @event onSetAttribute [key, value]
  */
 
-define(function()
+define('qui/classes/DOM', function()
 {
     "use strict";
 

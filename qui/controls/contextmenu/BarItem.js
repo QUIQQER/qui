@@ -19,7 +19,7 @@
  * @event onAppend [ {this}, {qui/controls/contextmenu/Item} ]
  */
 
-define([
+define('qui/controls/contextmenu/BarItem', [
 
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',

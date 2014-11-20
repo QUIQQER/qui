@@ -15,7 +15,7 @@
  * @event onCancel [ this ]
  */
 
-define([
+define('qui/controls/windows/Prompt', [
 
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',

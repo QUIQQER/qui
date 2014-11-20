@@ -11,7 +11,7 @@
  * @require css!qui/controls/sitemap/Map.css
  */
 
-define([
+define('qui/controls/sitemap/Map', [
 
     'qui/QUI',
     'qui/controls/Control',

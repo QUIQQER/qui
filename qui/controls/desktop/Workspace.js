@@ -21,7 +21,7 @@
  * @event onColumnContextMenu [ {this}, {qui/controls/desktop/Column}, {DOMEvent} ]
  */
 
-define([
+define('qui/controls/desktop/Workspace', [
 
     'qui/QUI',
     'qui/controls/Control',
