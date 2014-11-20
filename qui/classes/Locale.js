@@ -98,14 +98,17 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
 
             if ( typeof value !== 'undefined' )
             {
-                this.langs[ lang ][ set ][ values ] = value;
+                this.langs[ lang ][ group ][ values ] = value;
                 return this;
             }
 
             var _key = this.langs[ lang ][ group ];
 
-            for ( var k in values ) {
-                _key[ k ] = values[ k ];
+            for ( var k in values )
+            {
+                if ( values.hasOwnProperty( k ) ) {
+                    _key[k] = values[k];
+                }
             }
 
             this.langs[ lang ][ group ] = _key;
@@ -134,8 +137,11 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
 
             var result = this.$get( group, value );
 
-            for ( group in repl ) {
-                result = result.replace( '['+ group +']', repl[ group ] );
+            for ( group in repl )
+            {
+                if ( repl.hasOwnProperty( group ) ) {
+                    result = result.replace('[' + group + ']', repl[group]);
+                }
             }
 
             return result;
