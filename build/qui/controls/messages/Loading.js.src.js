@@ -10,7 +10,7 @@
  * @event onFinish [ {self} ]
  */
 
-define(['qui/controls/messages/Message'], function(Message)
+define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], function(Message)
 {
     "use strict";
 

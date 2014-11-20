@@ -96,7 +96,7 @@ npm install -S "git+http://dev.quiqqer.com:3000/quiqqer/qui.git"
 <script src="node_modules/quiqqer-qui/qui/lib/requirejs.js"></script>
 
 <!-- include qui -->
-<script src="node_modules/quiqqer-qui/build/init.js" data-main="test.js"></script>
+<script src="node_modules/quiqqer-qui/init.js" data-main="test.js"></script>
 ```
 
 

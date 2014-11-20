@@ -2,10 +2,11 @@
 /**
  * english translation utils
  *
+ * @module qui/controls/utils/PasswordSecurity/en
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define(['qui/Locale'], function(Locale)
+define('qui/controls/utils/PasswordSecurity/en', ['qui/Locale'], function(Locale)
 {
     "use strict";
 

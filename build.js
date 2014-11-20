@@ -10,9 +10,9 @@
 //    findNestedDependencies: true,
 
     separateCSS: true,
-    wrapShim: true,
+    wrapShim: false,
 
-    fileExclusionRegExp: /\.git|^tests$|^build$|^coverage$|^doc$|^examples$|^r\.js|^composer\.json|^build\.js|^build\-config\.js/,
+    fileExclusionRegExp: /\.git|^tests$|^build$|^coverage$|^doc$|^jsdoc$|^examples$|^r\.js|\.md|^composer\.json|^bower\.json|^init\.js|^initDev\.js|^build\.js|^build-jsdoc\.js|^build\-config\.js/,
 
     paths : {
         qui : 'qui'

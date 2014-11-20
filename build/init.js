@@ -1,2 +1,0 @@
-!function(){"use strict";var i,t,e=!1,u=document.getElementsByTagName("script");for(i=0,t=u.length;t>i;i++)u[i].getAttribute("src").match("qui/init.js")&&(e=u[i].getAttribute("data-main"));var r=require.toUrl("");require.config({paths:{qui:"qui/build/qui"},map:{"*":{css:r+"qui/build/qui/lib/css.js"}}}),e&&require([e])}(this);
-//# sourceMappingURL=init.js.map

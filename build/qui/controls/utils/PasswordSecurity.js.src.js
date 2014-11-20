@@ -6,7 +6,7 @@
  * @author www.namerobot.com (Henning Leutz)
  */
 
-define([
+define('qui/controls/utils/PasswordSecurity', [
 
     'qui/controls/Control',
     'qui/Locale',
