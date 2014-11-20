@@ -1,0 +1,6 @@
+{
+    "eval"    : true,
+    "globals" : {
+        "define" : true	
+    }
+}
