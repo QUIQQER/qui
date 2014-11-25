@@ -11,12 +11,13 @@
 
 define('qui/controls/contextmenu/Menu', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/utils/Elements',
 
     'css!qui/controls/contextmenu/Menu.css'
 
-], function(Control, QUIElementUtil)
+], function(QUI, Control, QUIElementUtil)
 {
     "use strict";
 
@@ -62,7 +63,7 @@ define('qui/controls/contextmenu/Menu', [
          * Create the DOM Element
          *
          * @method qui/controls/contextmenu/Menu#create
-         * @return {DOMNode} main DOM-Node Element
+         * @return {HTMLElement} main DOM-Node Element
          */
         create : function()
         {
@@ -242,8 +243,8 @@ define('qui/controls/contextmenu/Menu', [
          * context menu don't get out of the body
          *
          * @method qui/controls/contextmenu/Menu#setPosition
-         * @param {Integer} x - from the top (x axis)
-         * @param {Integer}y - from the left (y axis)
+         * @param {Number} x - from the top (x axis)
+         * @param {Number}y - from the left (y axis)
          * @return {this} self
          */
         setPosition : function(x, y)
@@ -287,8 +288,8 @@ define('qui/controls/contextmenu/Menu', [
          * Get an Child Element
          *
          * @method qui/controls/contextmenu/Menu#getChildren
-         * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array|false|qui/controls/contextmenu/Item} children
+         * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
+         * @return {Array|Boolean|qui/controls/contextmenu/Item} children
          */
         getChildren : function(name)
         {
@@ -314,7 +315,7 @@ define('qui/controls/contextmenu/Menu', [
          * Return the first child Element
          *
          * @method qui/controls/contextmenu/Menu#firstChild
-         * @return {false|qui/controls/contextmenu/Item} Child
+         * @return {Boolean|qui/controls/contextmenu/Item} Child
          */
         firstChild : function()
         {
@@ -329,7 +330,7 @@ define('qui/controls/contextmenu/Menu', [
          * Return the number of children
          *
          * @method qui/controls/contextmenu/Menu#count
-         * @return {Integer} count of children
+         * @return {Number} count of children
          */
         count : function()
         {
@@ -426,7 +427,7 @@ define('qui/controls/contextmenu/Menu', [
          * Return the active item
          *
          * @method qui/controls/contextmenu/Menu#getActive
-         * @return {qui/controls/contextmenu/Item|false} Active Child
+         * @return {qui/controls/contextmenu/Item|Boolean} Active Child
          */
         getActive : function()
         {
@@ -438,7 +439,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#getNext
          * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|false}
+         * @return {qui/controls/contextmenu/Item|Boolean}
          */
         getNext : function(Item)
         {
@@ -461,7 +462,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#getPrevious
          * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|false}
+         * @return {qui/controls/contextmenu/Item|Boolean}
          */
         getPrevious : function(Item)
         {
@@ -528,7 +529,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#up
          */
-        up : function(event)
+        up : function()
         {
             if ( !this.$items.length ) {
                 return;

@@ -63,7 +63,7 @@ define('qui/controls/messages/Message', [
          * Return the DOMNode of the message
          *
          * @method qui/controls/messages/Message#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -102,7 +102,7 @@ define('qui/controls/messages/Message', [
          * -> getAttribute('code')
          *
          * @method qui/controls/messages/Message#getCode
-         * @return {Integer}
+         * @return {Number}
          */
         getCode : function()
         {
@@ -113,15 +113,14 @@ define('qui/controls/messages/Message', [
          * Create a DOMNode Element from the message attributes
          *
          * @method qui/controls/messages/Message#createMessageElement
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         createMessageElement : function()
         {
             var self = this,
-                time = '',
                 Time = this.getAttribute( 'time' );
 
-            time = Time.toLocaleDateString() +' '+ Time.toLocaleTimeString();
+            var time = Time.toLocaleDateString() +' '+ Time.toLocaleTimeString();
 
             var Elm = new Element('div', {
                 'class' : 'messages-message box',

@@ -89,7 +89,7 @@ define('qui/controls/windows/Popup', [
          * Create the DOMNode Element
          *
          * @method qui/controls/windows/Popup#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -174,7 +174,9 @@ define('qui/controls/windows/Popup', [
                         width       : 150,
                         textAlign   : 'center'
                     }
-                }).inject( this.$Buttons );
+                });
+
+                Submit.inject( this.$Buttons );
 
 
                 this.$Buttons.setStyles({
@@ -211,8 +213,6 @@ define('qui/controls/windows/Popup', [
          */
         open : function()
         {
-            var self = this;
-
             this.Background.create();
 
             if ( this.getAttribute( 'backgroundClosable' ) )
@@ -328,7 +328,7 @@ define('qui/controls/windows/Popup', [
             });
 
 
-            var left = ( doc_size.x - width ) / 2;
+            left = ( doc_size.x - width ) / 2;
 
             if ( !withfx )
             {
@@ -368,7 +368,7 @@ define('qui/controls/windows/Popup', [
                     overflow : this.$oldBodyStyle.overflow || null,
                     position : this.$oldBodyStyle.position || null,
                     width    : this.$oldBodyStyle.width || null,
-                    top      : this.$oldBodyStyle.top || null,
+                    top      : this.$oldBodyStyle.top || null
                 });
 
                 document.body.scrollTo(
@@ -414,7 +414,7 @@ define('qui/controls/windows/Popup', [
          * Return the content DOMNode
          *
          * @method qui/controls/windows/Popup#getContent
-         * @return {DOMNode} DIV
+         * @return {HTMLElement} DIV
          */
         getContent : function()
         {
@@ -436,7 +436,7 @@ define('qui/controls/windows/Popup', [
          * Add a Element to the button bar
          *
          * @method qui/controls/windows/Popup#addButton
-         * @param {DOMNode} Elm
+         * @param {HTMLElement} Elm
          * @return {this}
          */
         addButton : function(Elm)

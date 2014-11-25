@@ -62,7 +62,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Create the DOMNode Element of the Sheet
          *
          * @method qui/controls/desktop/panels/Sheet#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -137,7 +137,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Return the panel content
          *
          * @method qui/controls/desktop/panels/Sheet#getContent
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getContent : function()
         {
@@ -148,7 +148,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Return the panel content
          *
          * @method qui/controls/desktop/panels/Sheet#getBody
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getBody : function()
         {
@@ -159,7 +159,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Return the button container
          *
          * @method qui/controls/desktop/panels/Sheet#getButtons
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getButtons : function()
         {

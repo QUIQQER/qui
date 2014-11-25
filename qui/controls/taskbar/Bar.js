@@ -175,7 +175,7 @@ define('qui/controls/taskbar/Bar', [
          * Create the DOMNode for the Bar
          *
          * @method qui/controls/taskbar/Bar#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -352,7 +352,7 @@ define('qui/controls/taskbar/Bar', [
                     Task   : Task,
                     events :
                     {
-                        onMouseDown : function(Item, event) {
+                        onMouseDown : function(Item) {
                             Item.getAttribute( 'Task' ).click();
                         }
                     }
@@ -369,7 +369,7 @@ define('qui/controls/taskbar/Bar', [
          * Return the first task children
          *
          * @method qui/controls/taskbar/Bar#firstChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
+         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|Boolean}
          */
         firstChild : function()
         {
@@ -384,7 +384,7 @@ define('qui/controls/taskbar/Bar', [
          * Return the last task children
          *
          * @method qui/controls/taskbar/Bar#lastChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
+         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|Boolean}
          */
         lastChild : function()
         {
@@ -399,12 +399,10 @@ define('qui/controls/taskbar/Bar', [
          * Remove a task from the bar
          *
          * @method qui/controls/taskbar/Bar#removeChild
-         * @param {qui/controls/taskbar/Task}
+         * @param {qui/controls/taskbar/Task} Task
          */
         removeChild : function(Task)
         {
-            var Child = false;
-
             if ( this.$TaskButton )
             {
                 this.$TaskButton.getContextMenu(function(Menu)
@@ -450,7 +448,7 @@ define('qui/controls/taskbar/Bar', [
          * Close / Remove all other tasks from the bar
          *
          * @method qui/controls/taskbar/Bar#closeOtherTasks
-         * @param {qui/controls/taskbar/Task}
+         * @param {qui/controls/taskbar/Task} Task
          * @return {qui/controls/taskbar/Bar}
          */
         closeOtherTasks : function(Task)
@@ -472,7 +470,7 @@ define('qui/controls/taskbar/Bar', [
          * Close / Remove the task from the bar
          *
          * @method qui/controls/taskbar/Bar#closeTask
-         * @param {qui/controls/taskbar/Task}
+         * @param {qui/controls/taskbar/Task} Task
          * @return {qui/controls/taskbar/Bar}
          */
         closeTask : function(Task)
@@ -518,7 +516,6 @@ define('qui/controls/taskbar/Bar', [
             }
 
             var scrollPos  = this.$Container.getScroll(),
-                scrollSize = this.$Container.getScrollSize(),
                 size       = this.$Container.getSize(),
                 pos        = scrollPos.x - ( size.x * 0.8 ).round();
 
@@ -535,7 +532,6 @@ define('qui/controls/taskbar/Bar', [
             }
 
             var scrollPos  = this.$Container.getScroll(),
-                scrollSize = this.$Container.getScrollSize(),
                 size       = this.$Container.getSize(),
                 pos        = scrollPos.x + ( size.x * 0.8 ).round();
 
@@ -562,7 +558,7 @@ define('qui/controls/taskbar/Bar', [
          * Refresh the context menu item of the task, if the task refresh
          *
          * @method qui/controls/taskbar/Bar#$onTaskRefresh
-         * @param {qui/controls/taskbar/Task}
+         * @param {qui/controls/taskbar/Task} Task
          */
         $onTaskRefresh : function(Task)
         {
@@ -588,9 +584,8 @@ define('qui/controls/taskbar/Bar', [
          *
          * @method qui/controls/taskbar/Bar#$onTaskClick
          * @param {qui/controls/taskbar/Task} Task
-         * @param {DOMEvent} event
          */
-        $onTaskClick : function(Task, event)
+        $onTaskClick : function(Task)
         {
             if ( this.$Active == Task ) {
                 return;

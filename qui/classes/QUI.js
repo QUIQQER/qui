@@ -50,6 +50,8 @@ define('qui/classes/QUI', [
             // error handling
             if ( this.getAttribute('fetchErrors') )
             {
+                var self = this;
+
                 require.onError = function(requireType, requireModules)
                 {
                     self.trigger(
@@ -109,7 +111,7 @@ define('qui/classes/QUI', [
         /**
          * parse qui controls
          *
-         * @param {DOMNode} Parent - [optional], if no parent given, document.body would be use
+         * @param {HTMLElement} Parent - [optional], if no parent given, document.body would be use
          * @param {Function} callback - [optional]
          */
         parse : function(Parent, callback)
@@ -174,14 +176,11 @@ define('qui/classes/QUI', [
          * @method qui/classes/QUI#triggerError
          *
          * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
-         * @param {Object} params    - Weitere Paramater (optional)
          * @return {this} self
          */
-        triggerError : function(Exception, params)
+        triggerError : function(Exception)
         {
-            this.trigger( Exception.getMessage() );
-
-            return this;
+            return this.trigger( Exception.getMessage(), '', 0 );
         },
 
         /**
@@ -190,17 +189,18 @@ define('qui/classes/QUI', [
          * @method qui/classes/QUI#trigger
          *
          * @param {String} msg
-         * @param {String} url
-         * @param {Integer} linenumer
+         * @param {String} url - [optional]
+         * @param {Number} linenumber - [optional]
          *
          * @return {this} self
          */
         trigger : function(msg, url, linenumber)
         {
+            /*
             var message = msg +"\n"+
                           "File: "+ url +"\n"+
                           "Linenumber: "+ linenumber;
-
+            */
             this.fireEvent( 'error', [ msg, url, linenumber ] );
 
             return this;
@@ -252,10 +252,8 @@ define('qui/classes/QUI', [
          */
         getControls : function(callback)
         {
-            if ( this.Controls )
-            {
+            if ( this.Controls ) {
                 callback( this.Controls );
-                return;
             }
         }
     });

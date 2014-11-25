@@ -83,16 +83,16 @@ define('qui/controls/taskbar/Task', [
             Instance.setAttribute( 'Task', this );
 
             // Instance events
-            Instance.addEvent('onRefresh', function(Instance) {
+            Instance.addEvent('onRefresh', function() {
                 self.refresh();
             });
 
-            Instance.addEvent('onSetAttribute', function(Instance) {
+            Instance.addEvent('onSetAttribute', function() {
                 self.refresh();
             });
 
 
-            Instance.addEvent('onDestroy', function(Instance)
+            Instance.addEvent('onDestroy', function()
             {
                 self.$Instance = null;
                 self.destroy();
@@ -123,7 +123,7 @@ define('qui/controls/taskbar/Task', [
          * @param {Object} data
          * @return {this}
          */
-        unserialize : function(data, onfinish)
+        unserialize : function(data)
         {
             this.setAttributes( data.attributes );
 
@@ -147,7 +147,7 @@ define('qui/controls/taskbar/Task', [
          * Return the DOM-Node
          *
          * @method qui/controls/buttons/Button#getElm
-         * @return {DOMNode} DOM-Node Element
+         * @return {HTMLElement} DOM-Node Element
          */
         create : function()
         {
@@ -232,7 +232,7 @@ define('qui/controls/taskbar/Task', [
                             }
                         },
 
-                        onLeave : function(Dragable, Element, Dropable)
+                        onLeave : function(Dragable, Element)
                         {
                             if ( DragDropParent )
                             {
@@ -338,7 +338,7 @@ define('qui/controls/taskbar/Task', [
          * Return the instance icon
          *
          * @method qui/controls/taskbar/Task#refresh
-         * @return {String|false}
+         * @return {String|Boolean}
          */
         getIcon : function()
         {
@@ -353,7 +353,7 @@ define('qui/controls/taskbar/Task', [
          * Return the instance title
          *
          * @method qui/controls/taskbar/Task#getText
-         * @return {String|false}
+         * @return {String|Boolean}
          */
         getText : function()
         {
@@ -368,7 +368,7 @@ define('qui/controls/taskbar/Task', [
          * Return the description text
          *
          * @method qui/controls/taskbar/Task#getDescription
-         * @return {String|false}
+         * @return {String|Boolean}
          */
         getDescription : function()
         {
@@ -511,7 +511,7 @@ define('qui/controls/taskbar/Task', [
          * Return true if the Task is active
          *
          * @method qui/controls/taskbar/Task#isActive
-         * @return {Bool}
+         * @return {Boolean}
          */
         isActive : function()
         {

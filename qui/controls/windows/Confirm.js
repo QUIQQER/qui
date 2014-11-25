@@ -1,6 +1,6 @@
 
 /**
- * Submit Fenster
+ * Submit Window
  *
  * @module qui/controls/windows/Confirm
  * @author www.pcsg.de (Henning Leutz)
@@ -140,8 +140,6 @@ define('qui/controls/windows/Confirm', [
                     self.$Body
                         .getElement('.text')
                         .set( 'html', value );
-
-                    return;
                 }
             });
 
@@ -162,12 +160,8 @@ define('qui/controls/windows/Confirm', [
         {
             this.create();
 
-
-            var Body;
-
             var self    = this,
-                Content = this.getContent(),
-                html    = '';
+                Content = this.getContent();
 
             Content.setStyles({
                 padding: 20
@@ -230,7 +224,7 @@ define('qui/controls/windows/Confirm', [
                     },
                     events :
                     {
-                        onClick : function(Btn) {
+                        onClick : function() {
                             self.submit();
                         }
                     }

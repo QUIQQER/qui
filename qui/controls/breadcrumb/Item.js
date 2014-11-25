@@ -49,7 +49,7 @@ define('qui/controls/breadcrumb/Item', [
          * Create the DOMNode for the Item
          *
          * @method qui/controls/breadcrumb/Item#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

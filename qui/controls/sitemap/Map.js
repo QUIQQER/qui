@@ -15,11 +15,10 @@ define('qui/controls/sitemap/Map', [
 
     'qui/QUI',
     'qui/controls/Control',
-    'qui/controls/sitemap/Item',
 
     'css!qui/controls/sitemap/Map.css'
 
-], function(QUI, Control, Item)
+], function(QUI, Control)
 {
     "use strict";
 
@@ -53,7 +52,7 @@ define('qui/controls/sitemap/Map', [
             {
                 Child.addEvents({
 
-                    onClick : function(Item, event) {
+                    onClick : function(Item) {
                         self.fireEvent( 'childClick', [ Item, self ] );
                     },
 
@@ -81,7 +80,7 @@ define('qui/controls/sitemap/Map', [
          * Create the DOMNode of the Map
          *
          * @method qui/controls/sitemap/Map#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -100,7 +99,7 @@ define('qui/controls/sitemap/Map', [
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Map#firstChild
-         * @return {qui/controls/sitemap/Item|false}
+         * @return {qui/controls/sitemap/Item|Boolean}
          */
         firstChild : function()
         {
@@ -219,7 +218,7 @@ define('qui/controls/sitemap/Map', [
          * Get specific children by value
          *
          * @method qui/controls/sitemap/Map#getChildren
-         * @param {String|Integer} value
+         * @param {String|Number} value
          * @return {Array}
          */
         getChildrenByValue : function(value)
@@ -250,6 +249,7 @@ define('qui/controls/sitemap/Map', [
          * @method qui/controls/sitemap/Map#childContextMenu
          * @fires onChildContextMenu {qui/controls/sitemap/Item}
          * @param {qui/controls/sitemap/Item} Itm
+         * @param {DOMEvent} event
          * @return {this} self
          */
         childContextMenu : function(Itm, event)
@@ -282,7 +282,7 @@ define('qui/controls/sitemap/Map', [
          * Clear a child item
          *
          * @method qui/controls/sitemap/Map#$clearItem
-         * @param {qui/controls/sitemap/Item}
+         * @param {qui/controls/sitemap/Item} Item
          * @return {this} self
          */
         $clearItem : function(Item)
@@ -310,7 +310,7 @@ define('qui/controls/sitemap/Map', [
          * Opens a child item
          *
          * @method qui/controls/sitemap/Map#$openItem
-         * @param {qui/controls/sitemap/Item}
+         * @param {qui/controls/sitemap/Item} Item
          * @return {this} self
          */
         $openItem : function(Item)
@@ -361,7 +361,7 @@ define('qui/controls/sitemap/Map', [
          * Adds an selected Item to the sels list
          *
          * @method qui/controls/sitemap/Map#$addSelected
-         * @param {qui/controls/sitemap/Item}
+         * @param {qui/controls/sitemap/Item} Item
          * @return {this}
          * @ignore
          */
@@ -376,7 +376,7 @@ define('qui/controls/sitemap/Map', [
          * Remove an selected Item from the sels list
          *
          * @method qui/controls/sitemap/Map#$removeSelected
-         * @param {qui/controls/sitemap/Item}
+         * @param {qui/controls/sitemap/Item} Item
          * @return {this}
          * @ignore
          */

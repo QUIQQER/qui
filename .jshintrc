@@ -1,7 +1,12 @@
 {
-    "eval"     : true,
+    "evil"     : true,
+    "strict"   : true,
+    "undef"    : true,
+    "unused"   : true,
     "mootools" : true,
-    "globals"  : {
-        "define" : true	
-    }
+    "browser"  : true,
+
+    "predef"  : [
+        "define", "require", "moofx", "Asset"
+    ]
 }

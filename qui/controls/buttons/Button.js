@@ -36,11 +36,10 @@ define('qui/controls/buttons/Button', [
     'qui/controls/Control',
     'qui/utils/Controls',
     'qui/utils/NoSelect',
-    'qui/utils/Elements',
 
     'css!qui/controls/buttons/Button.css'
 
-], function(Control, Utils, NoSelect, ElementUtils)
+], function(Control, Utils, NoSelect)
 {
     "use strict";
 
@@ -154,7 +153,7 @@ define('qui/controls/buttons/Button', [
          * Create the DOM Element
          *
          * @method qui/controls/buttons/Button#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -368,7 +367,7 @@ define('qui/controls/buttons/Button', [
          * is Button Active?
          *
          * @method qui/controls/buttons/Button#isActive
-         * @return {Bool}
+         * @return {Boolean}
          */
         isActive : function()
         {
@@ -376,11 +375,7 @@ define('qui/controls/buttons/Button', [
                 return false;
             }
 
-            if ( this.getElm().get( 'data-status' ) == 1 ) {
-                return true;
-            }
-
-            return false;
+            return this.getElm().get( 'data-status' ) == 1;
         },
 
         /**
@@ -409,7 +404,7 @@ define('qui/controls/buttons/Button', [
         },
 
         /**
-         * @depricated use disable
+         * @deprecated use disable
          * @method qui/controls/buttons/Button#setDisable
          * @return {qui/controls/buttons/Button}
          */
@@ -422,7 +417,7 @@ define('qui/controls/buttons/Button', [
          * is Button Disabled?
          *
          * @method qui/controls/buttons/Button#isDisabled
-         * @return {Bool}
+         * @return {Boolean}
          */
         isDisabled : function()
         {
@@ -430,11 +425,7 @@ define('qui/controls/buttons/Button', [
                 return false;
             }
 
-            if ( this.getElm().get('data-status') == -1 ) {
-                return true;
-            }
-
-            return false;
+            return this.getElm().get('data-status') == -1;
         },
 
         /**
@@ -446,7 +437,7 @@ define('qui/controls/buttons/Button', [
         enable : function()
         {
             if ( !this.getElm() ) {
-                return false;
+                return this;
             }
 
             this.getElm().set({
@@ -654,8 +645,8 @@ define('qui/controls/buttons/Button', [
          *
          * @method qui/controls/buttons/Button#onSetAttribute
          *
-         * @param {String} k             - Attribute name
-         * @param {unknown_type} value     - Attribute value
+         * @param {String} k - Attribute name
+         * @param {Object|String|Boolean|Number} value - Attribute value
          *
          * @ignore
          */

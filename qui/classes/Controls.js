@@ -55,8 +55,8 @@ define('qui/classes/Controls', [
          * Get the Controls by its unique id
          *
          * @method qui/classes/Controls#getById
-         * @param {String|Integer} id - ID of the wanted Control
-         * @return {qui/controls/Control|false} a QUI control, based on qui/controls/Control or false
+         * @param {String|Number} id - ID of the wanted Control
+         * @return {qui/controls/Control|Boolean} a QUI control, based on qui/controls/Control or false
          */
         getById : function(id)
         {
@@ -90,6 +90,7 @@ define('qui/classes/Controls', [
          * @param {Function} onload
          *
          * @example QUI.Controls.loadType('qui/controls/taskbar/Task', function(Modul) { })
+         * @deprecated
          */
         loadType : function(type, onload)
         {
@@ -97,14 +98,14 @@ define('qui/classes/Controls', [
                 type = 'qui/'+ type;
             }
 
-            require( [ modul ] , onload );
+            require( [ type ] , onload );
         },
 
         /**
          * Is the Object a QUI Control?
          *
          * @method qui/controls/Control#isControl
-         * @return {Bool} true or false
+         * @return {Boolean} Obj - true or false
          */
         isControl : function(Obj)
         {
@@ -112,11 +113,7 @@ define('qui/classes/Controls', [
                 return false;
             }
 
-            if ( typeof Obj.getType !== 'undefined' ) {
-                return true;
-            }
-
-            return false;
+            return typeof Obj.getType !== 'undefined';
         },
 
         /**

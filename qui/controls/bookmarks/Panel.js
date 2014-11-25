@@ -248,7 +248,7 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/bookmarks/Panel#$createEntry
          * @param {Object} params - {text, icon, click}
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         $createEntry : function(params)
         {

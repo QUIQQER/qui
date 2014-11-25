@@ -366,8 +366,6 @@ define('qui/controls/desktop/Column', [
          */
         fix : function()
         {
-            var i, len, DragDrop;
-
             this.$fixed = true;
 
             Object.each( this.$panels, function(Panel) {
@@ -378,7 +376,7 @@ define('qui/controls/desktop/Column', [
             var list = this.$Elm.getElements( '.qui-column-hor-handle' ),
                 self = this;
 
-            for ( i = 0, len = list.length; i < len; i++ )
+            for ( var i = 0, len = list.length; i < len; i++ )
             {
                 list[ i ].setStyle( 'cursor', 'default' );
                 list[ i ].removeClass( 'qui-column-hor-handle-enabled' );
@@ -386,7 +384,7 @@ define('qui/controls/desktop/Column', [
 
 
             // disable drag drops
-            Object.each( this.$dragDrops, function(DragDrop, key) {
+            Object.each( this.$dragDrops, function(DragDrop) {
                 DragDrop.disable();
             });
 
@@ -430,7 +428,6 @@ define('qui/controls/desktop/Column', [
          */
         unfix : function()
         {
-            var i, len;
             var wasUnFixed = false;
 
             if ( this.$fixed === false ) {
@@ -447,7 +444,7 @@ define('qui/controls/desktop/Column', [
             var self = this,
                 list = this.$Elm.getElements( '.qui-column-hor-handle' );
 
-            for ( i = 0, len = list.length; i < len; i++ )
+            for ( var i = 0, len = list.length; i < len; i++ )
             {
                 list[ i ].setStyle( 'cursor', null );
                 list[ i ].addClass( 'qui-column-hor-handle-enabled' );
@@ -498,7 +495,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#appendChild
          * @param {qui/controls/desktop/Panel|qui/controls/desktop/Tasks} Panel
-         * @param {Integer} pos - [optional] Position where to insert
+         * @param {Number} pos - [optional] Position where to insert
          * @return {this}
          */
         appendChild : function(Panel, pos)
@@ -518,7 +515,6 @@ define('qui/controls/desktop/Column', [
             }
 
             var Handler = false,
-                Parent  = Panel.getParent(),
                 count   = this.count(),
 
                 columnHeight = 100,
@@ -678,6 +674,8 @@ define('qui/controls/desktop/Column', [
 
         /**
          * event on append child - recalc panels
+         *
+         * @param {qui/controls/desktop/Panel} Panel
          */
         $recalcAppend : function(Panel)
         {
@@ -736,10 +734,7 @@ define('qui/controls/desktop/Column', [
             });
 
             // if the panel is from this column
-            var Handler = false,
-                Parent  = Panel.getParent();
-
-            Handler = Panel.getAttribute( '_Handler' );
+            var Parent = Panel.getParent();
 
             if ( Parent ) {
                 Panel.getParent().$onPanelDestroy( Panel );
@@ -783,7 +778,7 @@ define('qui/controls/desktop/Column', [
          * How many panels are in the coulumn?
          *
          * @method qui/controls/desktop/Column#count
-         * @return {Integer}
+         * @return {Number}
          */
         count : function()
         {
@@ -814,8 +809,6 @@ define('qui/controls/desktop/Column', [
             if ( !width && !height ) {
                 return this;
             }
-
-            var elmSize = this.$Elm.getSize();
 
             this.$Elm.setStyle( 'width', width );
             this.$Elm.setStyle( 'height', height );
@@ -919,11 +912,11 @@ define('qui/controls/desktop/Column', [
          * is the column open?
          *
          * @method qui/controls/desktop/Column#isOpen
-         * @return {Bool}
+         * @return {Boolean}
          */
         isOpen : function()
         {
-            return this.$Content.getStyle( 'display' ) == 'none' ? false : true;
+            return this.$Content.getStyle( 'display' ) != 'none';
         },
 
         /**
@@ -962,7 +955,7 @@ define('qui/controls/desktop/Column', [
          * if no column exist, so it search the prev and next columns
          *
          * @method qui/controls/desktop/Column#getSibling
-         * @return {false|qui/controls/desktop/Column}
+         * @return {Boolean|qui/controls/desktop/Column}
          */
         getSibling : function()
         {
@@ -977,7 +970,7 @@ define('qui/controls/desktop/Column', [
             }
 
             if ( Column ) {
-                return QUI.Controls.getById( Next.get( 'data-quiid' ) );
+                return QUI.Controls.getById( Column.get( 'data-quiid' ) );
             }
 
             Column = this.getPrevious();
@@ -1000,7 +993,7 @@ define('qui/controls/desktop/Column', [
          * Return the previous sibling
          *
          * @method qui/controls/desktop/Column#getPrevious
-         * @return {false|qui/controls/desktop/Column}
+         * @return {Boolean|qui/controls/desktop/Column}
          */
         getPrevious : function()
         {
@@ -1017,7 +1010,7 @@ define('qui/controls/desktop/Column', [
          * Return the next sibling
          *
          * @method qui/controls/desktop/Column#getNext
-         * @return {false|qui/controls/desktop/Column}
+         * @return {Boolean|qui/controls/desktop/Column}
          */
         getNext : function()
         {
@@ -1034,7 +1027,7 @@ define('qui/controls/desktop/Column', [
          * return the next panel sibling
          *
          * @method qui/controls/desktop/Column#getNextPanel
-         * @return {false|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
          */
         getNextPanel : function(Panel)
         {
@@ -1053,7 +1046,7 @@ define('qui/controls/desktop/Column', [
          * Get the next panel sibling which is opened
          *
          * @method qui/controls/desktop/Column#getNextOpenedPanel
-         * @return {false|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
          */
         getNextOpenedPanel : function(Panel)
         {
@@ -1083,7 +1076,7 @@ define('qui/controls/desktop/Column', [
          * return the previous panel sibling
          *
          * @method qui/controls/desktop/Column#getPreviousPanel
-         * @return {false|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
          */
         getPreviousPanel : function(Panel)
         {
@@ -1102,7 +1095,7 @@ define('qui/controls/desktop/Column', [
          * return the previous panel sibling
          *
          * @method qui/controls/desktop/Column#getPreviousOpenedPanel
-         * @return {false|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
          */
         getPreviousOpenedPanel : function(Panel)
         {
@@ -1220,11 +1213,7 @@ define('qui/controls/desktop/Column', [
                     return true;
             }
 
-            if ( instanceOf( QO, Panel ) ) {
-                return true;
-            }
-
-            return false;
+            return instanceOf( QO, Panel );
         },
 
         /**
@@ -1278,6 +1267,8 @@ define('qui/controls/desktop/Column', [
          */
         $onPanelOpen : function(Panel)
         {
+            var leftSpace;
+
             if ( this.getAttribute( 'setting_toggle' ) )
             {
                 this.$__eventPanelOpen = true;
@@ -1286,7 +1277,6 @@ define('qui/controls/desktop/Column', [
                 var i, len, Sibling;
 
                 var list   = this.$Content.getElements( '.qui-panel' ),
-                    pid    = Panel.getId(),
                     opened = 0;
 
                 for ( i = 0, len = list.length; i < len; i++ )
@@ -1313,7 +1303,7 @@ define('qui/controls/desktop/Column', [
 
                 if ( !opened )
                 {
-                    var leftSpace = this.$getLeftSpace();
+                    leftSpace = this.$getLeftSpace();
 
                     if ( !leftSpace ) {
                         return;
@@ -1335,10 +1325,8 @@ define('qui/controls/desktop/Column', [
             var Prev     = false,
                 PanelElm = Panel.getElm(),
 
-                direction     = Panel.getAttribute( 'columnCloseDirection' ),
-                panelHeight   = PanelElm.getSize().y,
-                contentHeight = this.$Content.getSize().y,
-                scrollHeight  = this.$Content.getScrollSize().y;
+                direction   = Panel.getAttribute( 'columnCloseDirection' ),
+                panelHeight = PanelElm.getSize().y;
 
 
             if ( direction && direction == 'next' ) {
@@ -1374,9 +1362,10 @@ define('qui/controls/desktop/Column', [
             }
 
             // we have more panels opened, we must resized the panels
+            leftSpace = this.$getLeftSpace();
+
             var PrevElm    = Prev.getElm(),
                 prevHeight = PrevElm.getComputedSize().totalHeight,
-                leftSpace  = this.$getLeftSpace(),
                 newHeight  = prevHeight + leftSpace;
 
             if ( newHeight < 100 )
@@ -1398,7 +1387,7 @@ define('qui/controls/desktop/Column', [
          * @param {qui/controls/desktop/Panel} Panel
          * @ignore
          */
-        $onPanelOpenBegin : function(Panel)
+        $onPanelOpenBegin : function()
         {
             this.$Content.setStyle( 'overflow', 'hidden' );
         },
@@ -1406,7 +1395,7 @@ define('qui/controls/desktop/Column', [
         /**
          * Return the left space, the empty space which is available
          *
-         * @return {Integer}
+         * @return {Number}
          */
         $getLeftSpace : function()
         {
@@ -1525,7 +1514,7 @@ define('qui/controls/desktop/Column', [
          * Add the horizental resizing events to the column
          *
          * @method qui/controls/desktop/Column#$addHorResize
-         * @param {DOMNode} Handle
+         * @param {HTMLElement} Handle
          */
         $addHorResize : function(Handle)
         {
@@ -1588,10 +1577,7 @@ define('qui/controls/desktop/Column', [
 
             var Handle   = DragDrop.getAttribute('Handle'),
                 pos      = Dragable.getPosition(),
-                hpos     = Handle.getPosition(),
-                children = this.$Content.getChildren(),
-
-                computedSize = this.$Content.getComputedSize();
+                hpos     = Handle.getPosition();
 
             change = pos.y - hpos.y;
 
@@ -1692,7 +1678,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onContextMenu
          * @param {DOMEvent} event
-         * @depricated
+         * @deprecated
          */
         $onContextMenu : function(event)
         {
@@ -1841,7 +1827,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDragDropEnter
          * @param {qui/controls/Control} Control - QUI Control
-         * @param {DOMNode} Elm
+         * @param {HTMLElement} Elm
          */
         $onDragDropEnter : function(QO, Elm)
         {
@@ -1888,8 +1874,7 @@ define('qui/controls/desktop/Column', [
          */
         $onDragDropDrag : function(QO, event)
         {
-            var y = event.page.y,
-                x = event.page.x;
+            var y = event.page.y;
 
             if ( typeof this.$ddArrowPositions[ y ] === 'undefined' ) {
                 return;
@@ -1944,9 +1929,8 @@ define('qui/controls/desktop/Column', [
          * event drag drop complete
          *
          * @method qui/controls/desktop/Column#$onDragDropComplete
-         * @param {qui/controls/Control} QO - QUI Object
          */
-        $onDragDropComplete : function(QO)
+        $onDragDropComplete : function()
         {
             this.$clearDragDropArrows();
             this.normalize();
@@ -1956,9 +1940,8 @@ define('qui/controls/desktop/Column', [
          * event: drag drop leave
          *
          * @method qui/controls/desktop/Column#$onDragDropLeave
-         * @param {qui/controls/Control} Control - QUI Control
          */
-        $onDragDropLeave : function(QO)
+        $onDragDropLeave : function()
         {
             this.$onDragDropComplete();
         },

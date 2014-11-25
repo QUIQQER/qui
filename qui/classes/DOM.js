@@ -108,7 +108,7 @@ define('qui/classes/DOM', function()
          * @method qui/classes/DOM#setAttribute
          *
          * @param {String} k - Name of the Attribute
-         * @param {Object|String|Integer|Array} v - value
+         * @param {Object|String|Number|Array} v - value
          *
          * @return {this} The wanted attribute
          */
@@ -180,8 +180,11 @@ define('qui/classes/DOM', function()
         {
             attributes = attributes || {};
 
-            for ( var k in attributes ) {
-                this.setAttribute( k, attributes[k] );
+            for ( var k in attributes )
+            {
+                if ( attributes.hasOwnProperty( k ) ) {
+                    this.setAttribute( k, attributes[k] );
+                }
             }
 
             return this;
@@ -189,11 +192,11 @@ define('qui/classes/DOM', function()
 
         /**
          * Return an attribute of the Object
-         * returns the not the default attributes, too
+         * returns the "not default attributes", too
          *
          * @method qui/classes/DOM#setAttribute
-         * @param {Object} attributes - Object width attributes
-         * @return {unknown_type|Bool} attribute
+         * @param {String} k - name of the attribute
+         * @return {String|Boolean|Array|Object} attribute
          */
         getAttribute : function(k)
         {
@@ -219,7 +222,7 @@ define('qui/classes/DOM', function()
          *
          * @method qui/classes/DOM#getAllAttributes
          * @see qui/classes/DOM#getAttributes()
-         * @depricated
+         * @deprecated
          */
         getAllAttributes : function()
         {
@@ -258,7 +261,7 @@ define('qui/classes/DOM', function()
          *
          * @method qui/classes/DOM#existAttribute
          * @param {String} k - wanted attribute
-         * @return {Bool} true or false
+         * @return {Boolean} true or false
          */
         existAttribute : function(k)
         {
@@ -268,11 +271,7 @@ define('qui/classes/DOM', function()
 
             var oid = Slick.uidOf( this );
 
-            if ( window.$quistorage[ oid ] && window.$quistorage[ oid ][ k ] ) {
-                return true;
-            }
-
-            return false;
+            return window.$quistorage[ oid ] && window.$quistorage[ oid ][ k ];
         },
 
         /**
@@ -280,7 +279,7 @@ define('qui/classes/DOM', function()
          *
          * @method qui/classes/DOM#existAttribute
          * @param {String} eventname - wanted event
-         * @return {Array|false} Event list
+         * @return {Array|Boolean} Event list
          */
         getEvents : function(eventname)
         {

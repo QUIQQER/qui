@@ -13,13 +13,14 @@
 
 define('qui/controls/input/Params', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/buttons/Button',
     'qui/controls/windows/Confirm',
 
     'css!qui/controls/input/Params.css'
 
-], function(QUIControl, QUIButton, QUIConfirm)
+], function(QUI, QUIControl, QUIButton, QUIConfirm)
 {
     "use strict";
 
@@ -64,7 +65,7 @@ define('qui/controls/input/Params', [
          * Bind an input element to the control
          *
          * @method qui/controls/input/Params#bindElement
-         * @param {DOMNode} Input - Input Element
+         * @param {HTMLElement} Input - Input Element
          */
         bindElement : function(Input)
         {
@@ -146,31 +147,31 @@ define('qui/controls/input/Params', [
          * on Change event at the input field
          *
          * @method qui/controls/input/Params#$setValue
-         * @param {String} value - JSON srray string
+         * @param {String} value - JSON array string
          */
         $setValue : function(value)
         {
             var i, len;
 
-            value = JSON.decode( value );
+            var jsonValue = JSON.decode( value );
 
-            if ( typeOf( value ) != 'array' ) {
-                value = [];
+            if ( typeOf( jsonValue ) != 'array' ) {
+                jsonValue = [];
             }
 
-            for ( i = 0, len = value.length; i < len; i++ )
+            for ( i = 0, len = jsonValue.length; i < len; i++ )
             {
-                if ( typeof value[ i ].name === 'undefined' ) {
+                if ( typeof jsonValue[ i ].name === 'undefined' ) {
                     continue;
                 }
 
-                if ( typeof value[ i ].value === 'undefined' ) {
+                if ( typeof jsonValue[ i ].value === 'undefined' ) {
                     continue;
                 }
 
                 this.addParam(
-                    value[ i ].name,
-                    value[ i ].value
+                    jsonValue[ i ].name,
+                    jsonValue[ i ].value
                 );
             }
         },
@@ -248,7 +249,7 @@ define('qui/controls/input/Params', [
          * Open the add parameter sub window
          *
          * @method qui/controls/input/Params#openAddParamWindow
-         * @param {DOMNode} Param - [optional] edit a param (.qui-control-input-param-entry)
+         * @param {HTMLElement} Param - [optional] edit a param (.qui-control-input-param-entry)
          */
         openAddParamWindow : function(Param)
         {
@@ -326,7 +327,7 @@ define('qui/controls/input/Params', [
                         }
 
                         // if no duplicate params allowed, then check it
-                        if ( !this.getAttribute( 'allowDuplicate' ) )
+                        if ( !self.getAttribute( 'allowDuplicate' ) )
                         {
                             var result = self.$ParamList.getElements(
                                 '[data-name="'+ ParamName.value +'"]'
@@ -374,5 +375,4 @@ define('qui/controls/input/Params', [
             }).open();
         }
     });
-
 });

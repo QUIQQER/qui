@@ -20,6 +20,8 @@ define('qui/utils/Object', {
      */
     combine : function(first, second)
     {
+        "use strict";
+
         first  = first || {};
         second = second || {};
 
@@ -32,12 +34,14 @@ define('qui/utils/Object', {
      * @method qui/utils/Object#existsValue
      * @example Object.existsValue('my.sub.vars');
      *
-     * @param {Sring} namespace
+     * @param {String} namespace
      * @param {Object} obj
      * @returns {Boolean}
      */
     existsValue : function( namespace, obj )
     {
+        "use strict";
+
         var parts = namespace.split( '.' );
 
         for ( var i = 0, len = parts.length; i < len; ++i )
@@ -58,12 +62,14 @@ define('qui/utils/Object', {
      * @method qui/utils/Object#getValue
      * @example Object.getValue('my.sub.vars');
      *
-     * @param {Sring} namespace
+     * @param {String} namespace
      * @param {Object} obj
-     * @returns {unknown_type}
+     * @returns {String|Boolean|Number|Object}
      */
     getValue : function( namespace, obj )
     {
+        "use strict";
+
         var parts = namespace.split( '.' );
 
         for ( var i = 0, len = parts.length; i < len; ++i )
@@ -89,6 +95,8 @@ define('qui/utils/Object', {
      */
     namespace : function extend( namespace, obj )
     {
+        "use strict";
+
         var pl, i;
         var parts  = namespace.split('.'),
             parent = obj;

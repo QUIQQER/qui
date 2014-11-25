@@ -1,7 +1,7 @@
 
 /**
  * string helper
- * Helps with string opartions
+ * Helps with string operations
  *
  * @module qui/utils/String
  * @author www.pcsg.de (Henning Leutz)
@@ -19,20 +19,22 @@ define('qui/utils/String', {
      */
     getUrlParams : function(str)
     {
-        str = str.split('?');
+        "use strict";
 
-        if ( typeof str[1] === 'undefined' ){
+        var params = str.split('?');
+
+        if ( typeof params[1] === 'undefined' ){
             return {};
         }
 
-        str = str[1].split('&');
+        params = params[1].split('&');
 
         var i, len, sp;
         var r = {};
 
-        for ( i = 0, len = str.length; i < len; i++ )
+        for ( i = 0, len = params.length; i < len; i++ )
         {
-            sp = str[i].split('=');
+            sp = params[i].split('=');
 
             r[ sp[0] ] = sp[1];
         }

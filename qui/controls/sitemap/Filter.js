@@ -69,7 +69,7 @@ define('qui/controls/sitemap/Filter', [
          * Create the DOMNode of the sitemap filter
          *
          * @method qui/controls/sitemap/Filter#create
-         * @return {DOMNode} DOM-Element
+         * @return {HTMLElement} DOM-Element
          */
         create : function()
         {
@@ -105,7 +105,7 @@ define('qui/controls/sitemap/Filter', [
 
                 },
 
-                focus : function(event)
+                focus : function()
                 {
                     self.fireEvent( 'focus', [ self ] );
                 },
@@ -122,14 +122,16 @@ define('qui/controls/sitemap/Filter', [
             if ( this.getAttribute( 'withbutton' ) )
             {
                 this.$Search = new Button({
-                    image  : URL_BIN_DIR +'16x16/search.png',
+                    icon   : 'icon-search',
                     events :
                     {
                         onClick : function() {
                             self.filter( self.getInput().value );
                         }
                     }
-                }).inject( this.$Elm );
+                });
+
+                this.$Search.inject( this.$Elm );
             }
 
 
@@ -151,7 +153,7 @@ define('qui/controls/sitemap/Filter', [
         bindSitemap : function(Sitemap)
         {
             if ( typeof Sitemap === 'undefined' || !Sitemap ) {
-                return;
+                return this;
             }
 
             this.$maps.push( Sitemap );
@@ -176,7 +178,7 @@ define('qui/controls/sitemap/Filter', [
          * Return the filter input DOMNode Element
          *
          * @method qui/controls/sitemap/Filter#getInput
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         getInput : function()
         {

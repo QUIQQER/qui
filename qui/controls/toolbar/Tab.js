@@ -64,7 +64,7 @@ define('qui/controls/toolbar/Tab', [
          * Create the DOMNode for the Tab
          *
          * @method qui/controls/toolbar/Tab#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -173,7 +173,7 @@ define('qui/controls/toolbar/Tab', [
          * Is the Tab active?
          *
          * @method qui/controls/toolbar/Tab#isActive
-         * @return {Bool}
+         * @return {Boolean}
          */
         isActive : function()
         {
@@ -184,7 +184,7 @@ define('qui/controls/toolbar/Tab', [
          * Is the Tab disabled?
          *
          * @method qui/controls/toolbar/Tab#isDisabled
-         * @return {Bool}
+         * @return {Boolean}
          */
         isDisabled : function()
         {

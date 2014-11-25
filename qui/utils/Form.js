@@ -15,7 +15,7 @@ define('qui/utils/Form', {
      * @method qui/utils/Form#setDataToForm
      *
      * @param {Object} data
-     * @param {DOMNode} form - Formular
+     * @param {HTMLElement} form - Formular
      */
     setDataToForm : function(data, form)
     {
@@ -98,7 +98,7 @@ define('qui/utils/Form', {
      *
      * @method qui/utils/Form#getFormData
      *
-     * @param {DOMNode} form - DOMNode Formular
+     * @param {HTMLElement} form - DOMNode Formular
      * @return {Object}
      */
     getFormData : function(form)
@@ -158,10 +158,8 @@ define('qui/utils/Form', {
 
                     result[ Elm[i].name ] = '';
 
-                    if ( Elm[i].checked )
-                    {
+                    if ( Elm[i].checked ) {
                         result[ Elm[i].name ] = Elm[i].value;
-                        continue;
                     }
                 }
             }
@@ -177,7 +175,7 @@ define('qui/utils/Form', {
      *
      * @method qui/utils/Form#insertTextAtCursor
      *
-     * @param {DOMNode} el
+     * @param {HTMLElement} el
      * @param {String} text
      */
     insertTextAtCursor : function(el, text)

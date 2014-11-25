@@ -7,9 +7,6 @@
  *
  * @require qui/controls/Control
  * @require qui/controls/contextmenu/BarItem
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require qui/controls/contextmenu/Seperator
  * @require css!qui/controls/contextmenu/Bar.css
  *
  * @event onChildClick
@@ -19,13 +16,10 @@ define('qui/controls/contextmenu/Bar', [
 
     'qui/controls/Control',
     'qui/controls/contextmenu/BarItem',
-    'qui/controls/contextmenu/Menu',
-    'qui/controls/contextmenu/Item',
-    'qui/controls/contextmenu/Seperator',
 
     'css!qui/controls/contextmenu/Bar.css'
 
-], function(Control, ContextBarItem, ContextMenu, ContextItem, ContextSeperator)
+], function(Control, ContextBarItem)
 {
     "use strict";
 
@@ -67,7 +61,7 @@ define('qui/controls/contextmenu/Bar', [
          * Create the DOMNode Element
          *
          * @method qui/controls/contextmenu/Bar#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -109,8 +103,8 @@ define('qui/controls/contextmenu/Bar', [
          * Get an Child Element
          *
          * @method qui/controls/contextmenu/Bar#getChildren
-         * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array|false|qui/controls/contextmenu/Item}
+         * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
+         * @return {Array|Boolean|qui/controls/contextmenu/Item}
          */
         getChildren : function(name)
         {
@@ -136,7 +130,7 @@ define('qui/controls/contextmenu/Bar', [
          * Return the first child Element
          *
          * @method qui/controls/contextmenu/Bar#firstChild
-         * @return {false|qui/controls/contextmenu/Item}
+         * @return {Boolean|qui/controls/contextmenu/Item}
          */
         firstChild : function()
         {
@@ -151,7 +145,7 @@ define('qui/controls/contextmenu/Bar', [
          * Return the number of children
          *
          * @method qui/controls/contextmenu/Bar#count
-         * @return {Integer}
+         * @return {Number}
          */
         count : function()
         {
@@ -218,7 +212,7 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#getNext
          * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|false}
+         * @return {qui/controls/contextmenu/Item|Boolean}
          */
         getNext : function(Item)
         {
@@ -241,7 +235,7 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#getPrevious
          * @param {qui/controls/contextmenu/BarItem} Item
-         * @return {qui/controls/contextmenu/BarItem|false}
+         * @return {qui/controls/contextmenu/BarItem|Boolean}
          */
         getPrevious : function(Item)
         {
@@ -293,9 +287,8 @@ define('qui/controls/contextmenu/Bar', [
          * event: on item enter
          *
          * @method qui/controls/contextmenu/Bar#$onItemLeave
-         * @param {qui/controls/contextmenu/BarItem} Item
          */
-        $onItemLeave : function(Item)
+        $onItemLeave : function()
         {
 
         },
@@ -304,9 +297,8 @@ define('qui/controls/contextmenu/Bar', [
          * event: on item enter
          *
          * @method qui/controls/contextmenu/Bar#$onItemClick
-         * @param {qui/controls/contextmenu/BarItem} Item
          */
-        $onItemClick : function(Item)
+        $onItemClick : function()
         {
             this.setAttribute( 'openening', true );
         },

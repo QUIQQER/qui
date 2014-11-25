@@ -127,11 +127,9 @@ define('qui/controls/toolbar/Bar', [
 
             var i, len, Itm;
 
-            var items = this.items,
-                width = 0;
+            var items = this.items;
 
             // items create
-
             this.Tabs.set( 'html', '' );
 
             for ( i = 0, len = items.length; i < len; i++ )
@@ -171,7 +169,7 @@ define('qui/controls/toolbar/Bar', [
          * Create the DOMNode for the Bar
          *
          * @method qui/controls/toolbar/Bar#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -199,9 +197,6 @@ define('qui/controls/toolbar/Bar', [
 
             this.Tabs      = this.$Elm.getElement( '.qui-toolbar-tabs' );
             this.Container = this.$Elm.getElement( '.qui-toolbar-container' );
-
-            var items = this.items,
-                width = 0;
 
             // left / right
             this.BtnLeft = new Button({
@@ -415,8 +410,8 @@ define('qui/controls/toolbar/Bar', [
                 Container = this.$Elm.getElement( '.qui-toolbar-container' ),
                 Tabs      = this.$Elm.getElement( '.qui-toolbar-tabs' ),
 
-                left      = Tabs.getStyle( 'left' ).toInt() + Tab.getElm().offsetLeft,
-                pos       = Tab.getElm().offsetLeft + Tab.getElm().offsetWidth;
+                left      = Tabs.getStyle( 'left' ).toInt() + TabElm.offsetLeft,
+                pos       = TabElm.offsetLeft + TabElm.offsetWidth;
 
             if ( left < 0 )
             {
@@ -485,7 +480,7 @@ define('qui/controls/toolbar/Bar', [
          * Number of children in the toolbar
          *
          * @method qui/controls/toolbar/Bar#count
-         * @return {Integer}
+         * @return {Number}
          */
         count : function()
         {
@@ -528,15 +523,14 @@ define('qui/controls/toolbar/Bar', [
          *
          * @method qui/controls/toolbar/Bar#moveChildToPos
          * @param {qui/controls/Control} Child - Item in the toolbar
-         * @param {Integer} pos   - New position
+         * @param {Number} pos   - New position
          *
          * @return {this}
          */
         moveChildToPos : function(Child, pos)
         {
             // Array anpassen
-            var Before = false,
-                nitems = [],
+            var nitems = [],
                 itms   = this.items;
 
             for ( var i = 0, len = itms.length; i < len; i++ )

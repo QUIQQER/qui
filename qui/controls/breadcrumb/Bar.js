@@ -48,7 +48,7 @@ define('qui/controls/breadcrumb/Bar', [
          * Create the DOMNode for the Bar
          *
          * @method qui/controls/breadcrumb/Bar#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -103,7 +103,7 @@ define('qui/controls/breadcrumb/Bar', [
          * Return the first child of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#firstChild
-         * @return {qui/controls/breadcrumb/Item|false}
+         * @return {qui/controls/breadcrumb/Item|Boolean}
          */
         firstChild : function()
         {
@@ -118,7 +118,7 @@ define('qui/controls/breadcrumb/Bar', [
          * Return the last child of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#lastChild
-         * @return {qui/controls/breadcrumb/Item|false}
+         * @return {qui/controls/breadcrumb/Item|Boolean}
          */
         lastChild : function()
         {

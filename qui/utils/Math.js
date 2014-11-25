@@ -14,9 +14,9 @@ define('qui/utils/Math', {
      *
      * @method qui/utils/Math#resizeVar
      *
-     * @param {Integer} var1 - First variable
-     * @param {Integer} var1 - Second variable
-     * @param {Integer} max  - Max value of each variable
+     * @param {Number} var1 - First variable
+     * @param {Number} var2 - Second variable
+     * @param {Number} max  - Max value of each variable
      *
      * @return {Object} Object {
      *     var1 : value,
@@ -25,6 +25,8 @@ define('qui/utils/Math', {
      */
     resizeVar : function(var1, var2, max)
     {
+        "use strict";
+
         var resize_by_percent;
 
         if ( var1 > max )
@@ -53,10 +55,12 @@ define('qui/utils/Math', {
      * @method qui/utils/Math#parseAmountToFloat
      *
      * @param {String} str - Value, String
-     * @return {Float}
+     * @return {Number}
      */
     parseAmountToFloat : function(str)
     {
+        "use strict";
+
         return parseFloat(
             str.toString().replace(',', '.')
         );
@@ -67,13 +71,15 @@ define('qui/utils/Math', {
      * Return the percentage integer value
      *
      * @method qui/utils/Math#percent
-     * @param Integer|Float $amount
-     * @param Integer|Float $total
+     * @param {Number} amount
+     * @param {Number} total
      *
-     * @return {Integer}
+     * @return {Number}
      */
     percent : function(amount, total)
     {
+        "use strict";
+
         if (amount === 0 || total === 0) {
             return 0;
         }
@@ -86,17 +92,19 @@ define('qui/utils/Math', {
      *
      * @method qui/utils/Math#calcMwst
      *
-     * @param {Float|Integer|Bool} brutto
-     * @param {Float|Integer|Bool} netto
-     * @param {Integer} mwst
+     * @param {Number|Boolean} brutto
+     * @param {Number|Boolean} netto
+     * @param {Number} mwst
      *
      * @return {Object} Object {
-     *        brutto : brutto,
-     *         netto : netto
+     *     brutto : brutto,
+     *     netto : netto
      * }
      */
     calcMwst : function(brutto, netto, mwst)
     {
+        "use strict";
+
         mwst = (parseInt(mwst, 10) / 100) + 1;
 
         if (brutto === false)

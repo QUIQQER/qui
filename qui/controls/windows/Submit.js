@@ -124,8 +124,6 @@ define('qui/controls/windows/Submit', [
                     this.$Body
                         .getElement('.text')
                         .set( 'html', value );
-
-                    return;
                 }
 
             }.bind( this ));
@@ -143,12 +141,9 @@ define('qui/controls/windows/Submit', [
          */
         onCreate : function()
         {
-            var Body;
-
             var self    = this,
                 Content = this.$Win.el.content,
-                Footer  = this.$Win.el.footer,
-                html    = '';
+                Footer  = this.$Win.el.footer;
 
             Content.setStyles({
                 padding: 20
@@ -185,7 +180,7 @@ define('qui/controls/windows/Submit', [
                 textimage : this.getAttribute( 'cancel_button' ).textimage,
                 events :
                 {
-                    onClick : function(Btn)
+                    onClick : function()
                     {
                         self.fireEvent( 'cancel', [ self ] );
                         self.close();
@@ -198,7 +193,7 @@ define('qui/controls/windows/Submit', [
                 textimage : this.getAttribute( 'ok_button' ).textimage,
                 events :
                 {
-                    onClick : function(Btn) {
+                    onClick : function() {
                         self.submit();
                     }
                 }

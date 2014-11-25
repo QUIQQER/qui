@@ -195,7 +195,7 @@ define('qui/controls/messages/Panel', [
          * @method qui/controls/messages/Panel#$onMessageHandlerAdd
          * @param {qui/controls/messages/Handler} MessageHandler
          * @param {qui/controls/messages/Message} Message
-         * @param {Bool} animate - [optional] animate the message or not; default = true
+         * @param {Boolean} animate - [optional] animate the message or not; default = true
          */
         $onMessageHandlerAdd : function(MessageHandler, Message, animate)
         {
@@ -289,5 +289,4 @@ define('qui/controls/messages/Panel', [
             this.refreshMessages();
         }
     });
-
 });

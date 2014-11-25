@@ -154,7 +154,6 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
          *
          * @param {String} key   - Group / Key of the translation
          * @param {String} value - Translation value / name
-         * @param {Object} repl  - Assoziative Array of replacements
          * @return {String}
          */
         $get : function(key, value)

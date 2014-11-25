@@ -61,7 +61,7 @@ define('qui/controls/contextmenu/Item', [
             '$onMouseEnter',
             '$onMouseLeave',
             '$onMouseUp',
-            '$onMouseDown',
+            '$onMouseDown'
         ],
 
         options : {
@@ -122,7 +122,7 @@ define('qui/controls/contextmenu/Item', [
          * Create the DOMNode for the Element
          *
          * @method qui/controls/contextmenu/Item#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -219,7 +219,7 @@ define('qui/controls/contextmenu/Item', [
                             QUI.Controls.getById( quiid ).normalize();
                         },
 
-                        onDrop : function(Element, Dragable, Droppable, event)
+                        onDrop : function(Element, Dragable, Droppable)
                         {
                             if ( !Droppable ) {
                                 return;
@@ -378,7 +378,7 @@ define('qui/controls/contextmenu/Item', [
          * Return if the item is disabled or not
          *
          * @method qui/controls/contextmenu/Item#isDisable
-         * @return {Bool}
+         * @return {Boolean}
          */
         isDisabled : function()
         {
@@ -460,7 +460,7 @@ define('qui/controls/contextmenu/Item', [
          * All Context Menu Items
          *
          * @method qui/controls/contextmenu/Item#getChildren
-         * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
+         * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array}
          */
         getChildren : function(name)
@@ -520,14 +520,11 @@ define('qui/controls/contextmenu/Item', [
                 {
                     onShow : function(Menu)
                     {
-                        var children = Menu.getChildren(),
-                            Elm      = Menu.getElm();
+                        var children = Menu.getChildren();
 
                         for ( var i = 0, len = children.length; i < len; i++ ) {
                             children[ i ].setNormal();
                         }
-
-                        //Menu.setPosition( Elm.getSize().x + 10, 0 );
                     }
                 }
             });
@@ -546,7 +543,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#$onSetAttribute
          * @param {String} key
-         * @param {unknown_type} value
+         * @param {Boolean|Number|String|Object|Array} value
          *
          * @ignore
          */
@@ -579,8 +576,6 @@ define('qui/controls/contextmenu/Item', [
                     this.$Container.setStyle( 'background-image', 'url('+ value +')' );
 
                 }
-
-                return;
             }
         },
 
@@ -625,7 +620,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#$onMouseEnter
          * @param {DOMEvent} event - optional
          */
-        $onMouseEnter : function(event)
+        $onMouseEnter : function()
         {
             if ( this.$disabled ) {
                 return;
@@ -666,7 +661,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#$onMouseLeave
          * @param {DOMEvent} event - optional
          */
-        $onMouseLeave : function(event)
+        $onMouseLeave : function()
         {
             if ( this.$disabled ) {
                 return;

@@ -35,6 +35,7 @@ define('qui/controls/buttons/Select', [
     /**
      * @class qui/controls/buttons/Select
      *
+     * @param {Object} options
      * @memberof! <global>
      */
     return new Class({
@@ -79,7 +80,7 @@ define('qui/controls/buttons/Select', [
          * Create the DOMNode Element
          *
          * @method qui/controls/buttons/Select#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -187,7 +188,7 @@ define('qui/controls/buttons/Select', [
          * Return the current value of the select box
          *
          * @method qui/controls/buttons/Select#getValue
-         * @return {String|Integer}
+         * @return {String|Boolean}
          */
         getValue : function()
         {
@@ -199,8 +200,8 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#appendChild
          *
-         * @param {String} text
-         * @param {String} value
+         * @param {String} text - Text of the child
+         * @param {String} value - Value of the child
          * @param {String} icon - [optional]
          * @return {this}
          */
@@ -225,7 +226,7 @@ define('qui/controls/buttons/Select', [
          * Return the first option child
          *
          * @method qui/controls/buttons/Select#firstChild
-         * @return {qui/controls/contextmenu/Item|false}
+         * @return {qui/controls/contextmenu/Item|Boolean}
          */
         firstChild : function()
         {
@@ -421,7 +422,7 @@ define('qui/controls/buttons/Select', [
          * if the element has the focus
          *
          * @method qui/controls/buttons/Select#$onKeyUp
-         * @param {DOMNode} event
+         * @param {HTMLElement} event
          */
         $onKeyUp : function(event)
         {
@@ -450,10 +451,8 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
-            if ( event.key === 'enter' )
-            {
+            if ( event.key === 'enter' ) {
                 this.$Menu.select();
-                return;
             }
         }
     });

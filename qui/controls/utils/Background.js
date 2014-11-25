@@ -38,7 +38,7 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
          * The Background would inserted into the body
          *
          * @method qui/controls/utils/Background#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

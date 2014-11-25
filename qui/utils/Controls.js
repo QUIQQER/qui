@@ -9,7 +9,7 @@
  * @require qui/QUI
  */
 
-define('qui/utils/Controls', ['qui/QUI'], function(QUI, Panel)
+define('qui/utils/Controls', ['qui/QUI'], function(QUI)
 {
     "use strict";
 
@@ -19,8 +19,8 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI, Panel)
          * Checks if the string is a fontawesome css class
          *
          * @method qui/utils/Controls#isFontAwesomeClass
-         * @param {String} str - FontAweomse icon-class or an image path
-         * @returns {Bool}
+         * @param {String} icon - FontAweomse icon-class or an image path
+         * @returns {Boolean}
          */
         isFontAwesomeClass : function(icon)
         {
@@ -28,20 +28,14 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI, Panel)
                 return false;
             }
 
-            if ( ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) &&
-                 !icon.match( /\./ ) )
-            {
-                return true;
-            }
-
-            return false;
+            return ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) && !icon.match( /\./ );
         },
 
         /**
          * Highlights a control
          *
          * @method qui/utils/Controls#highlight
-         * @param {DOMNode} Element
+         * @param {HTMLElement} Element
          */
         highlight : function(Element)
         {
@@ -62,7 +56,7 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI, Panel)
          * Normalize a control, if it is was highlighted
          *
          * @method qui/utils/Controls#normalize
-         * @param {DOMNode} Element
+         * @param {HTMLElement} Element
          */
         normalize : function(Element)
         {

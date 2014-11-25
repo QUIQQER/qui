@@ -124,9 +124,9 @@ define('qui/controls/sitemap/Item', [
          * Create the DOMNode of the Sitemap Item
          *
          * @method qui/controls/sitemap/Item#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
-        create : function(Parent)
+        create : function()
         {
             var i, len;
             var self = this;
@@ -246,7 +246,7 @@ define('qui/controls/sitemap/Item', [
          * Return the text DOMNode
          *
          * @method qui/controls/sitemap/Item#getTextElm
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getTextElm : function()
         {
@@ -258,7 +258,7 @@ define('qui/controls/sitemap/Item', [
          * include the icon and the text node
          *
          * @method qui/controls/sitemap/Item#getContainerElm
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getContainerElm : function()
         {
@@ -271,7 +271,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @method qui/controls/sitemap/Item#addIcon
          * @param {String} icon_url - URL of the Image
-         * @return {DOMNode} Element
+         * @return {HTMLElement} Element
          */
         addIcon : function(icon_url)
         {
@@ -420,7 +420,7 @@ define('qui/controls/sitemap/Item', [
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Item#firstChild
-         * @return {qui/controls/sitemap/Item|false}
+         * @return {qui/controls/sitemap/Item|Boolean}
          */
         firstChild : function()
         {
@@ -432,7 +432,7 @@ define('qui/controls/sitemap/Item', [
          * Observed the hasChildren Attribute
          *
          * @method qui/controls/sitemap/Item#hasChildren
-         * @return {Bool}
+         * @return {Boolean}
          */
         hasChildren : function()
         {
@@ -482,7 +482,7 @@ define('qui/controls/sitemap/Item', [
          * Get the number of children
          *
          * @method qui/controls/sitemap/Item#countChildren
-         * @return {Integer}
+         * @return {Number}
          */
         countChildren : function()
         {
@@ -732,7 +732,7 @@ define('qui/controls/sitemap/Item', [
          * Is the Item open?
          *
          * @method qui/controls/sitemap/Item#isOpen
-         * @return {Bool}
+         * @return {Boolean}
          */
         isOpen : function()
         {
@@ -740,7 +740,7 @@ define('qui/controls/sitemap/Item', [
                 return false;
             }
 
-            return this.$Children.getStyle( 'display' ) == 'none' ? false : true;
+            return this.$Children.getStyle( 'display' ) !== 'none';
         },
 
         /**
@@ -872,10 +872,8 @@ define('qui/controls/sitemap/Item', [
                 return;
             }
 
-            if ( key == 'value' )
-            {
+            if ( key == 'value' ) {
                 this.$Elm.set( 'data-value', value );
-                return;
             }
         },
 
@@ -947,7 +945,7 @@ define('qui/controls/sitemap/Item', [
                         QUI.Controls.getById( quiid ).normalize();
                     },
 
-                    onDrop : function(Element, Dragable, Droppable, event)
+                    onDrop : function(Element, Dragable, Droppable)
                     {
                         if ( !Droppable ) {
                             return;

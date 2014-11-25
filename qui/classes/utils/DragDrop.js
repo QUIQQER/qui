@@ -24,7 +24,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
     /**
      * @class qui/classes/utils/DragDrop
      *
-     * @param {DOMNode} Element - Which Element is dragable
+     * @param {HTMLElement} Elm - Which Element is dragable
      * @param {Object} options  - QDOM params
      *
      * @memberof! <global>
@@ -100,7 +100,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
          * Return the binded Element
          *
          * @method qui/classes/utils/DragDrop#getElm
-         * @return {DOMNode} Main Dom-Node Element
+         * @return {HTMLElement} Main Dom-Node Element
          */
         getElm : function()
         {
@@ -156,8 +156,6 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
             }
 
             this.setAttribute( '_mousedown', true );
-
-            var i, len;
 
             var mx = event.page.x,
                 my = event.page.y,
@@ -285,7 +283,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
          * event: fired on every drag step
          *
          * @method qui/classes/utils/DragDrop#$onDrag
-         * @param {DOMNode} Element
+         * @param {HTMLElement} Element
          * @param {DOMEvent} event
          */
         $onDrag : function(Element, event)
@@ -297,8 +295,8 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
          * event: if the drag drop would be droped to a dopable
          *
          * @method qui/classes/utils/DragDrop#$onDrop
-         * @param {DOMNode} Element
-         * @param {DOMNode} Dropable
+         * @param {HTMLElement} Element
+         * @param {HTMLElement} Dropable
          * @param {DOMEvent} event
          */
         $onDrop : function(Element, Dropable, event)
@@ -310,8 +308,8 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
          * If the drag drop enters a dropable
          *
          * @method qui/classes/utils/DragDrop#$onDrop
-         * @param {DOMNode} Element
-         * @param {DOMNode} Dropable
+         * @param {HTMLElement} Element
+         * @param {HTMLElement} Dropable
          */
         $onEnter : function(Element, Dropable)
         {
@@ -322,8 +320,8 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
          * If the drag drop leaves a dropable
          *
          * @method qui/classes/utils/DragDrop#$onLeave
-         * @param {DOMNode} Element
-         * @param {DOMNode} Dropable
+         * @param {HTMLElement} Element
+         * @param {HTMLElement} Dropable
          */
         $onLeave : function(Element, Dropable)
         {

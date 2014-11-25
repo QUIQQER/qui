@@ -49,7 +49,7 @@ define('qui/controls/contextmenu/Seperator', [
          * Create the DOMNode for the Element
          *
          * @method qui/controls/contextmenu/Seperator#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

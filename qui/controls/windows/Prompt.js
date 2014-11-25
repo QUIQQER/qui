@@ -207,7 +207,7 @@ define('qui/controls/windows/Prompt', [
                     },
                     events :
                     {
-                        onClick : function(Btn)
+                        onClick : function()
                         {
                             self.fireEvent( 'cancel', [ self ] );
                             self.close();
@@ -225,7 +225,7 @@ define('qui/controls/windows/Prompt', [
                     },
                     events :
                     {
-                        onClick : function(Btn) {
+                        onClick : function() {
                             self.submit();
                         }
                     }
@@ -250,7 +250,7 @@ define('qui/controls/windows/Prompt', [
          * Return the DOMNode input field of the prompt
          *
          * @method qui/controls/windows/Prompt#getInput
-         * @returns {DOMNode}
+         * @returns {HTMLElement}
          */
         getInput : function()
         {
@@ -302,11 +302,7 @@ define('qui/controls/windows/Prompt', [
                 return this.getAttribute( 'check' )( this );
             }
 
-            if ( this.$Input.value === '' ) {
-                return false;
-            }
-
-            return true;
+            return this.$Input.value !== '';
         },
 
         /**

@@ -90,12 +90,10 @@ define('qui/controls/contextmenu/BarItem', [
          * Create the DOMNode for the Element
          *
          * @method qui/controls/contextmenu/BarItem#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
-            var i, len;
-
             var self = this;
 
             this.$Elm = new Element('div', {
@@ -118,7 +116,7 @@ define('qui/controls/contextmenu/BarItem', [
                         return true;
                     },
 
-                    focus : function(event)
+                    focus : function()
                     {
                         self.focus();
                         return true;
@@ -299,7 +297,7 @@ define('qui/controls/contextmenu/BarItem', [
          * All Context Menu Items
          *
          * @method qui/controls/contextmenu/BarItem#getChildren
-         * @param {String} name : [Name of the Children, optional, if no name given, returns all Children]
+         * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array}
          */
         getChildren : function(name)
@@ -392,11 +390,7 @@ define('qui/controls/contextmenu/BarItem', [
          */
         isActive : function()
         {
-            if ( this.$Elm && this.$Elm.hasClass( '.qui-contextmenu-baritem-active' ) ) {
-                return true;
-            }
-
-            return false;
+            return this.$Elm && this.$Elm.hasClass( '.qui-contextmenu-baritem-active' );
         },
 
         /**
@@ -418,7 +412,7 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#$onSetAttribute
          * @param {String} key
-         * @param {unknown_type} value
+         * @param {Boolean|Number|String|Object|Array} value
          * @ignore
          */
         $onSetAttribute : function(key, value)
@@ -435,10 +429,8 @@ define('qui/controls/contextmenu/BarItem', [
                 return;
             }
 
-            if ( key == 'icon' )
-            {
+            if ( key == 'icon' ) {
                 this.$Elm.setStyle('background-image', 'url('+ value +')');
-                return;
             }
         },
 

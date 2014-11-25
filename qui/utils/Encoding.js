@@ -18,6 +18,8 @@ define('qui/utils/Encoding', {
      */
     encodeUTF8 : function(rohtext)
     {
+        "use strict";
+
         // dient der Normalisierung des Zeilenumbruchs
         rohtext     = rohtext.replace(/\r\n/g,"\n");
         var utftext = "";
@@ -57,10 +59,12 @@ define('qui/utils/Encoding', {
      */
     decodeUTF8 : function(utftext)
     {
-        var i, c, c1, c2, c3;
+        "use strict";
+
+        var i, c, c2, c3;
         var plaintext = "";
 
-        i = c = c1 = c2 = 0;
+        i = c = c2 = 0;
 
         while ( i < utftext.length )
         {

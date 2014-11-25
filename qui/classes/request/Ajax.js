@@ -83,7 +83,7 @@ define('qui/classes/request/Ajax', [
                 method : self.getAttribute('method'),
                 async  : self.getAttribute('async'),
 
-                onProgress : function(event, xhr) {
+                onProgress : function() {
                     self.fireEvent( 'progress', [ self ] );
                 },
 
@@ -129,7 +129,7 @@ define('qui/classes/request/Ajax', [
          *
          * @method qui/classes/request/Ajax#getResult
          *
-         * @return {unknown_type} result
+         * @return {Boolean|String} result
          *
          * @example
          * Ajax.send( myparams );
@@ -207,13 +207,12 @@ define('qui/classes/request/Ajax', [
          *
          * @method qui/classes/request/Ajax#$parseResult
          * @param {String} responseText - request result
-         * @param {String} responseXML
          *
          * if changes exists, please update the controls/upload/File.js
          *
          * @ignore
          */
-        $parseResult : function(responseText, responseXML)
+        $parseResult : function(responseText)
         {
             var i;
 

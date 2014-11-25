@@ -21,7 +21,7 @@ if ( typeof window.localStorage === 'undefined' ||
     needle.push( 'qui/classes/storage/Polyfill' );
 }
 
-define('qui/classes/storage/Storage', needle, function(QDOM, Polyfill)
+define('qui/classes/storage/Storage', needle, function(QDOM)
 {
     "use strict";
 

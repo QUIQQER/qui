@@ -152,7 +152,7 @@ define('qui/controls/utils/Progressbar', [
          * sets the percentage from its current state to desired percentage
          *
          * @method qui/controls/utils/Progressbar#set
-         * @param {Integer} to - 0 - 100
+         * @param {Number} to - 0 - 100
          */
         set : function(to)
         {
@@ -163,7 +163,7 @@ define('qui/controls/utils/Progressbar', [
         /**
          * @method qui/controls/utils/Progressbar#get
          *
-         * @return {Integer}
+         * @return {Number}
          */
         get: function()
         {

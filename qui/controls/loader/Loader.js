@@ -42,8 +42,6 @@ define('qui/controls/loader/Loader', [
             this.parent( options );
             this.$delay = null;
 
-            var self = this;
-
             this.addEvent('onDestroy', function()
             {
                 if ( this.$Elm.getParent() ) {
@@ -56,7 +54,7 @@ define('qui/controls/loader/Loader', [
          * Create the DOMNode Element of the loader
          *
          * @method controls/loader/Loader#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

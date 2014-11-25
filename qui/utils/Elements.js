@@ -12,10 +12,12 @@ define('qui/utils/Elements', {
      * checks if the element is in the viewport
      *
      * @method qui/utils/Elements#isInViewport
-     * @param {DOMNode} el
+     * @param {HTMLElement} el
      */
     isInViewport : function(el)
     {
+        "use strict";
+
         var rect = el.getBoundingClientRect();
 
         return (
@@ -27,30 +29,15 @@ define('qui/utils/Elements', {
     },
 
     /**
-     *
-     */
-    isInBody : function(Elm)
-    {
-        var bodySize = document.body.getSize(),
-            elmCords = Elm.getCoordinates();
-
-
-        console.log( elmCords );
-        console.log( bodySize );
-
-
-
-        return false;
-    },
-
-    /**
      * Return the z-index of an Element
      *
      * @method qui/utils/Elements#getComputedZIndex
-     * @return {Integer}
+     * @return {Number}
      */
     getComputedZIndex : function(Elm)
     {
+        "use strict";
+
         var i, z, len, max = 0;
         var parents = Elm.getParents();
 
@@ -73,11 +60,13 @@ define('qui/utils/Elements', {
     /**
      * Return the index of the child from its parent
      *
-     * @param {DOMNode} Elm
-     * @return {Integer}
+     * @param {HTMLElement} Elm
+     * @return {Number}
      */
     getChildIndex : function(Elm)
     {
+        "use strict";
+
         return Array.prototype.indexOf.call(
             Elm.getParent().children,
             Elm
@@ -87,10 +76,12 @@ define('qui/utils/Elements', {
     /**
      * Return the cursor position of an input field
      *
-     * @return {null|Integer}
+     * @return {null|Number}
      */
     getCursorPosition : function(Input)
     {
+        "use strict";
+
         if ( Input.nodeName !== 'INPUT' ) {
             return null;
         }
@@ -107,7 +98,7 @@ define('qui/utils/Elements', {
             var range    = document.selection.createRange();
             var rangeLen = range.text.length;
 
-            range.moveStart( 'character', -input.value.length );
+            range.moveStart( 'character', -Input.value.length );
 
             return range.text.length - rangeLen;
         }
@@ -118,11 +109,13 @@ define('qui/utils/Elements', {
     /**
      * Set the cursor to the position
      *
-     * @param {DOMNode} Input - Input | Textarea Element
-     * @param {Integer} pos - Position of the cursor
+     * @param {HTMLElement} Input - Input | Textarea Element
+     * @param {Number} pos - Position of the cursor
      */
     setCursorPosition : function(Input, pos)
     {
+        "use strict";
+
         if ( Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA' ) {
             return null;
         }

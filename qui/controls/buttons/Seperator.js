@@ -39,7 +39,7 @@ define('qui/controls/buttons/Seperator', [
             this.parent( options );
 
             // Events
-            this.addEvent('resize', function(Toolbar)
+            this.addEvent('resize', function()
             {
                 var Elm = this.getElm();
 
@@ -53,7 +53,7 @@ define('qui/controls/buttons/Seperator', [
          * Create the DOMNode
          *
          * @method qui/controls/buttons/Seperator#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

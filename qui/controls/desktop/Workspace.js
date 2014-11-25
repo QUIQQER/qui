@@ -148,8 +148,7 @@ define('qui/controls/desktop/Workspace', [
             var old_max   = 0,
                 elmSize   = this.$Elm.getSize(),
                 maxHeight = elmSize.y,
-                maxWidth  = elmSize.x,
-                Parent    = this.$Elm.getParent();
+                maxWidth  = elmSize.x;
 
             for ( i = 0, len = wlist.length; i < len; i++ ) {
                 old_max = old_max + wlist[ i ];
@@ -185,7 +184,7 @@ define('qui/controls/desktop/Workspace', [
          */
         fix : function()
         {
-            var i, len, DragDrop;
+            var i, len;
 
             this.$fixed = true;
 
@@ -201,7 +200,7 @@ define('qui/controls/desktop/Workspace', [
             }
 
             // disable drag drops
-            Object.each( this.$dragDrops, function(DragDrop, key) {
+            Object.each( this.$dragDrops, function(DragDrop) {
                 DragDrop.disable();
             });
         },
@@ -237,7 +236,7 @@ define('qui/controls/desktop/Workspace', [
          * Create the DOMNode
          *
          * @method qui/controls/desktop/Workspace#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -266,7 +265,7 @@ define('qui/controls/desktop/Workspace', [
          * Save the Workspace to the localstorage
          *
          * @method qui/controls/desktop/Workspace#save
-         * @return {Bool}
+         * @return {Boolean}
          */
         save : function()
         {
@@ -283,8 +282,7 @@ define('qui/controls/desktop/Workspace', [
          */
         serialize : function()
         {
-            var i, len, p, plen,
-                panels, children, Column;
+            var i, len, Column;
 
             var columns = this.$Elm.getChildren( '.qui-column' ),
                 result  = [];
@@ -317,7 +315,7 @@ define('qui/controls/desktop/Workspace', [
                 return;
             }
 
-            require(["qui/controls/desktop/Panel"], function(QUIPanel)
+            require(["qui/controls/desktop/Panel"], function()
             {
                 if ( !workspace.length )
                 {
@@ -351,7 +349,7 @@ define('qui/controls/desktop/Workspace', [
          * Add a column to the workspace
          *
          * @method qui/controls/desktop/Workspace#appendChild
-         * @param {qui/controls/desktop/Column|Params} Column
+         * @param {qui/controls/desktop/Column|Object} Column
          * @return {this}
          */
         appendChild : function(Column)
@@ -476,7 +474,7 @@ define('qui/controls/desktop/Workspace', [
          * Return the last column
          *
          * @method qui/controls/desktop/Workspace#lastChild
-         * @return {qui/controls/desktop/Column|false}
+         * @return {qui/controls/desktop/Column|Boolean}
          */
         lastChild : function()
         {
@@ -487,7 +485,7 @@ define('qui/controls/desktop/Workspace', [
          * Return the first column
          *
          * @method qui/controls/desktop/Workspace#firstChild
-         * @return {qui/controls/desktop/Column|false}
+         * @return {qui/controls/desktop/Column|Boolean}
          */
         firstChild : function()
         {
@@ -498,7 +496,7 @@ define('qui/controls/desktop/Workspace', [
          * Return the number of columns in the workspace
          *
          * @method qui/controls/desktop/Workspace#count
-         * @return {Integer}
+         * @return {Number}
          */
         count : function()
         {
@@ -508,7 +506,7 @@ define('qui/controls/desktop/Workspace', [
         /**
          * set the with of the workspace
          *
-         * @param {Integer} width
+         * @param {Number} width
          */
         setWidth : function(width)
         {
@@ -518,7 +516,7 @@ define('qui/controls/desktop/Workspace', [
         /**
          * set the height of the workspace
          *
-         * @param {Integer} height
+         * @param {Number} height
          */
         setHeight : function(height)
         {
@@ -529,7 +527,7 @@ define('qui/controls/desktop/Workspace', [
          * Add the vertical resizing events to the column
          *
          * @method qui/controls/desktop/Workspace#$bindResizeToColumn
-         * @param {DOMNode} Handler
+         * @param {HTMLElement} Handler
          * @param {qui/controls/desktop/Column} Column
          */
         $bindResizeToColumn : function(Handler, Column)
@@ -637,7 +635,7 @@ define('qui/controls/desktop/Workspace', [
          * Resize handler context menu
          *
          * @method qui/controls/desktop/Workspace#$onHandlerContextMenu
-         * @param {DOMEvent} event
+         * @param {HTMLElement} event
          */
         $onHandlerContextMenu : function(event)
         {
@@ -814,7 +812,7 @@ define('qui/controls/desktop/Workspace', [
         /**
          * Return the left space, the empty space which is available
          *
-         * @return {Integer}
+         * @return {Number}
          */
         $getLeftSpace : function()
         {
