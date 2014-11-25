@@ -521,7 +521,6 @@ qui/lib/require-css/css!qui/controls/windows/Popup
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/windows/Popup.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/windows/Prompt
 qui/controls/windows/Prompt.js
@@ -611,7 +610,6 @@ qui/lib/require-css/css!qui/controls/windows/Popup
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/windows/Popup.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/windows/Submit
 qui/controls/windows/Submit.js
@@ -639,7 +637,6 @@ qui/lib/require-css/css!qui/controls/windows/Popup
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/windows/Popup.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/windows/Confirm
 qui/controls/windows/Confirm.js
@@ -697,7 +694,6 @@ qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
 qui/utils/Controls.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
 
@@ -716,7 +712,6 @@ qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
 qui/utils/Controls.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/sitemap/Filter
@@ -735,15 +730,6 @@ qui/lib/require-css/normalize.js
 qui/lib/require-css/css.js
 qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
-qui/utils/Controls.js
-qui/utils/Elements.js
-qui/lib/require-css/css!qui/controls/contextmenu/Menu
-qui/controls/contextmenu/Menu.js
-qui/classes/utils/DragDrop.js
-qui/lib/require-css/css!qui/controls/contextmenu/Item
-qui/controls/contextmenu/Item.js
-qui/lib/require-css/css!qui/controls/sitemap/Item
-qui/controls/sitemap/Item.js
 qui/lib/require-css/css!qui/controls/sitemap/Map
 qui/controls/sitemap/Map.js
 
@@ -785,7 +771,6 @@ qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
 qui/utils/Controls.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
 qui/controls/utils/Background.js
@@ -1067,7 +1052,6 @@ qui/lib/require-css/css!qui/controls/Control
 qui/controls/Control.js
 qui/utils/Controls.js
 qui/utils/NoSelect.js
-qui/utils/Elements.js
 qui/lib/require-css/css!qui/controls/buttons/Button
 qui/controls/buttons/Button.js
 qui/lib/require-css/css!qui/controls/desktop/panels/Sheet

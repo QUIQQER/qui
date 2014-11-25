@@ -42,7 +42,7 @@ define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], funct
          * Return the DOMNode of the message
          *
          * @method qui/controls/messages/Message#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         createMessageElement : function()
         {
@@ -63,7 +63,9 @@ define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], funct
                 styles  : {
                     marginRight : 10
                 }
-            }).inject( Message, 'top' );
+            });
+
+            Percent.inject( Message, 'top' );
 
             if ( this.getAttribute( 'percent' ) === false ) {
                 Percent.setStyle( 'display', 'none' );
@@ -75,7 +77,7 @@ define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], funct
         /**
          * Set the percent status to the element
          *
-         * @param {Integer} percent - 0 - 100
+         * @param {Number} percent - 0 - 100
          */
         setStatus : function(percent)
         {
@@ -100,7 +102,7 @@ define('qui/controls/messages/Loading', ['qui/controls/messages/Message'], funct
          */
         finish : function(msg, type)
         {
-            var i, len, Text;
+            var Text;
 
             for ( var i = 0, len = this.$elements.length; i < len; i++ )
             {

@@ -3,7 +3,7 @@
  * Password Security Checker
  *
  * @module qui/controls/utils/PasswordSecurity
- * @author www.namerobot.com (Henning Leutz)
+ * @author www.pcsg.de (Henning Leutz)
  */
 
 define('qui/controls/utils/PasswordSecurity', [
@@ -58,7 +58,7 @@ define('qui/controls/utils/PasswordSecurity', [
         /**
          * Bind an input element to the security display
          *
-         * @param {DOMNode} Input - input field <input />
+         * @param {HTMLElement} Input - input field <input />
          */
         bindInput : function(Input)
         {
@@ -74,7 +74,7 @@ define('qui/controls/utils/PasswordSecurity', [
         /**
          * Create the DOMNode Eement
          *
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -104,7 +104,7 @@ define('qui/controls/utils/PasswordSecurity', [
         /**
          * event : key down
          */
-        $keyup : function(event)
+        $keyup : function()
         {
             if ( this.$delay ) {
                 clearTimeout( this.$delay );

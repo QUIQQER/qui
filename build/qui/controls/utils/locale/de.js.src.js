@@ -14,6 +14,6 @@ define('qui/controls/utils/PasswordSecurity/de', ['qui/Locale'], function(Locale
         "html.password.strength1" : "Passwortstärke: Sehr unsicher",
         "html.password.strength2" : "Passwortstärke: Unsicher",
         "html.password.strength3" : "Passwortstärke: Sicher",
-        "html.password.strength4" : "Passwortstärke: Sehr sicher",
+        "html.password.strength4" : "Passwortstärke: Sehr sicher"
     });
 });

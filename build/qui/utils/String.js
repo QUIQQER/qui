@@ -1,2 +1,2 @@
-define("qui/utils/String",{getUrlParams:function(t){if(t=t.split("?"),"undefined"==typeof t[1])return{};t=t[1].split("&");var i,e,n,r={};for(i=0,e=t.length;e>i;i++)n=t[i].split("="),r[n[0]]=n[1];return r}});
+define("qui/utils/String",{getUrlParams:function(t){"use strict";var i=t.split("?");if("undefined"==typeof i[1])return{};i=i[1].split("&");var r,e,n,s={};for(r=0,e=i.length;e>r;r++)n=i[r].split("="),s[n[0]]=n[1];return s}});
 //# sourceMappingURL=String.js.map
