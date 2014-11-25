@@ -207,6 +207,39 @@ define('qui/controls/windows/Popup', [
         },
 
         /**
+         * Refresh the window
+         *
+         * @method qui/controls/windows/Popup#refresh
+         */
+        refresh : function()
+        {
+            // icon
+            var path = this.getAttribute( 'icon' );
+
+            if ( path && Utils.isFontAwesomeClass( path )  )
+            {
+                this.$Icon.addClass( path );
+
+            } else if ( path  )
+            {
+                this.$Icon.set( 'html', '' );
+
+                new Element('img', {
+                    src : path
+                }).inject( this.$Icon );
+            }
+
+            // title
+            if ( this.getAttribute( 'title' ) ) {
+                this.$TitleText.set( 'html', this.getAttribute( 'title' ) );
+            }
+
+            if ( !this.getAttribute( 'title' ) && !this.getAttribute( 'icon' ) ) {
+                this.$Title.setStyle( 'display', 'none' );
+            }
+        },
+
+        /**
          * Open the popup
          *
          * @method qui/controls/windows/Popup#open
