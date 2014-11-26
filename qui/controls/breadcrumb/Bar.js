@@ -72,8 +72,8 @@ define('qui/controls/breadcrumb/Bar', [
          * append a child to the end of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#appendChild
-         * @param {qui/controls/breadcrumb/Item} Item - breadcrumb item
-         * @return {this}
+         * @param {Object} Item - qui/controls/breadcrumb/Item
+         * @return {Object} this (qui/controls/breadcrumb/Bar)
          */
         appendChild : function(Item)
         {
@@ -103,7 +103,7 @@ define('qui/controls/breadcrumb/Bar', [
          * Return the first child of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#firstChild
-         * @return {qui/controls/breadcrumb/Item|Boolean}
+         * @return {Object|Boolean} qui/controls/breadcrumb/Item | false
          */
         firstChild : function()
         {
@@ -118,7 +118,7 @@ define('qui/controls/breadcrumb/Bar', [
          * Return the last child of the breadcrumb
          *
          * @method qui/controls/breadcrumb/Bar#lastChild
-         * @return {qui/controls/breadcrumb/Item|Boolean}
+         * @return {Object|Boolean} qui/controls/breadcrumb/Item | false
          */
         lastChild : function()
         {

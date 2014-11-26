@@ -75,7 +75,7 @@ define('qui/classes/QUI', [
          *
          * @method qui/classes/QUI#namespace
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
-         * @depricated
+         * @deprecated
          */
         namespace : function()
         {
@@ -176,7 +176,7 @@ define('qui/classes/QUI', [
          * @method qui/classes/QUI#triggerError
          *
          * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
-         * @return {this} self
+         * @return {Object} this (qui/classes/QUI)
          */
         triggerError : function(Exception)
         {
@@ -192,7 +192,7 @@ define('qui/classes/QUI', [
          * @param {String} url - [optional]
          * @param {Number} linenumber - [optional]
          *
-         * @return {this} self
+         * @return {Object} this (qui/classes/QUI)
          */
         trigger : function(msg, url, linenumber)
         {

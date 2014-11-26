@@ -128,7 +128,7 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/bookmarks/Panel#unserialize
          * @param {Object} data
-         * @return {this}
+         * @return {Object} this (qui/controls/bookmarks/Panel)
          */
         unserialize : function(data)
         {
@@ -194,7 +194,7 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/bookmarks/Panel#appendChild
          * @param {qui/controls/Control} Item - A QUI control
-         * @return {this}
+         * @return {Object} this (qui/controls/bookmarks/Panel)
          */
         appendChild : function(Item)
         {

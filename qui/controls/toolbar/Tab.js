@@ -147,7 +147,7 @@ define('qui/controls/toolbar/Tab', [
          * If the Tab is Active, you can set to normal status
          *
          * @method qui/controls/toolbar/Tab#setNormal
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         setNormal : function()
         {
@@ -161,7 +161,7 @@ define('qui/controls/toolbar/Tab', [
          * Set the tab active
          *
          * @method qui/controls/toolbar/Tab#setActive
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          * @depricated
          */
         setActive : function()
@@ -195,7 +195,7 @@ define('qui/controls/toolbar/Tab', [
          * Mouseenter
          *
          * @method qui/controls/toolbar/Tab#mouseenter
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         mouseenter : function()
         {
@@ -211,7 +211,7 @@ define('qui/controls/toolbar/Tab', [
          * Mouseleave
          *
          * @method qui/controls/toolbar/Tab#mouseleave
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         mouseleave : function()
         {
@@ -227,7 +227,7 @@ define('qui/controls/toolbar/Tab', [
          * Fire mouseenter
          *
          * @method qui/controls/toolbar/Tab#enter
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         enter : function()
         {
@@ -244,7 +244,7 @@ define('qui/controls/toolbar/Tab', [
          * it fires only if the Tab was active
          *
          * @method qui/controls/toolbar/Tab#leave
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         leave : function()
         {
@@ -267,7 +267,7 @@ define('qui/controls/toolbar/Tab', [
          * Set the tab active
          *
          * @method qui/controls/toolbar/Tab#activate
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         activate : function()
         {
@@ -295,7 +295,7 @@ define('qui/controls/toolbar/Tab', [
          * all actions are not performed
          *
          * @method qui/controls/toolbar/Tab#disable
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         disable : function()
         {
@@ -310,7 +310,7 @@ define('qui/controls/toolbar/Tab', [
          * all actions are performed
          *
          * @method qui/controls/toolbar/Tab#enable
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         enable : function()
         {
@@ -325,7 +325,7 @@ define('qui/controls/toolbar/Tab', [
          * If the tab have a menu, the menu is displayed
          *
          * @method qui/controls/toolbar/Tab#click
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Tab)
          */
         click : function()
         {

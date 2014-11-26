@@ -40,7 +40,7 @@ define('qui/controls/taskbar/Task', [
     /**
      * @class qui/controls/taskbar/Task
      *
-     * @param {qui/controls/Control} Instance - Control for the task
+     * @param {Object} Instance - (qui/controls/Control) Control for the task
      * @param {Object} options                - QDOM params
      *
      * @memberof! <global>
@@ -121,7 +121,7 @@ define('qui/controls/taskbar/Task', [
          *
          * @method qui/controls/taskbar/Task#unserialize
          * @param {Object} data
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         unserialize : function(data)
         {
@@ -188,8 +188,6 @@ define('qui/controls/taskbar/Task', [
 
             if ( this.getAttribute( 'dragable' ) )
             {
-                this.$_enter = null;
-
                 var DragDropParent = null;
 
                 new QUIDragDrop(this.$Elm, {
@@ -383,7 +381,7 @@ define('qui/controls/taskbar/Task', [
          * Return the binded instance to the task
          *
          * @method qui/controls/taskbar/Task#getInstance
-         * @return {qui/controls/Control}
+         * @return {Object} qui/controls/Control
          */
         getInstance : function()
         {
@@ -394,7 +392,7 @@ define('qui/controls/taskbar/Task', [
          * Set / Bind an instance to the task
          *
          * @method qui/controls/taskbar/Task#setInstance
-         * @param {qui/controls/Control} Instance
+         * @param {Object} Instance - qui/controls/Control
          */
         setInstance : function(Instance)
         {
@@ -405,7 +403,7 @@ define('qui/controls/taskbar/Task', [
          * Return the Taskbar object
          *
          * @method qui/controls/taskbar/Task#getTaskbar
-         * @return {qui/controls/taskbar/Taskbar}
+         * @return {Object} qui/controls/taskbar/Taskbar
          */
         getTaskbar : function()
         {
@@ -422,7 +420,7 @@ define('qui/controls/taskbar/Task', [
          * Set the Tab active
          *
          * @method qui/controls/taskbar/Task#activate
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         activate : function()
         {
@@ -440,7 +438,7 @@ define('qui/controls/taskbar/Task', [
          * Normalize the tab
          *
          * @method qui/controls/taskbar/Task#normalize
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         normalize : function()
         {
@@ -462,7 +460,7 @@ define('qui/controls/taskbar/Task', [
          * Highlight the Task
          *
          * @method qui/controls/taskbar/Task#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         highlight : function()
         {
@@ -479,7 +477,7 @@ define('qui/controls/taskbar/Task', [
          * Remove the highlight from a task
          *
          * @method qui/controls/taskbar/Task#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         deHighlight : function()
         {
@@ -496,7 +494,7 @@ define('qui/controls/taskbar/Task', [
          * Hide the task tab
          *
          * @method qui/controls/taskbar/Task#hide
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         hide : function()
         {
@@ -526,7 +524,7 @@ define('qui/controls/taskbar/Task', [
          * Trigger the click event
          *
          * @method qui/controls/taskbar/Task#click
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         click : function(event)
         {
@@ -543,7 +541,7 @@ define('qui/controls/taskbar/Task', [
          * Trigger the close event
          *
          * @method qui/controls/taskbar/Task#close
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         close : function(event)
         {
@@ -557,7 +555,7 @@ define('qui/controls/taskbar/Task', [
          * Set the focus to the task DOMNode element
          *
          * @method qui/controls/taskbar/Task#focus
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         focus : function()
         {
@@ -572,7 +570,7 @@ define('qui/controls/taskbar/Task', [
          * Select the Task
          *
          * @method qui/controls/taskbar/Task#select
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         select : function()
         {
@@ -589,7 +587,7 @@ define('qui/controls/taskbar/Task', [
          * Is the Task selected?
          *
          * @method qui/controls/taskbar/Task#isSelected
-         * @return {Bool}
+         * @return {Boolean}
          */
         isSelected : function()
         {
@@ -604,7 +602,7 @@ define('qui/controls/taskbar/Task', [
          * Unselect the Task
          *
          * @method qui/controls/taskbar/Task#unselect
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Task)
          */
         unselect : function()
         {

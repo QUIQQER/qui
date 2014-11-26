@@ -99,7 +99,7 @@ define('qui/controls/sitemap/Map', [
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Map#firstChild
-         * @return {qui/controls/sitemap/Item|Boolean}
+         * @return {Object|Boolean} qui/controls/sitemap/Item | false
          */
         firstChild : function()
         {
@@ -110,8 +110,8 @@ define('qui/controls/sitemap/Map', [
          * Add a Child
          *
          * @method qui/controls/sitemap/Map#appendChild
-         * @param {qui/controls/sitemap/Item} Itm
-         * @return {this}
+         * @param {Object} Itm - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         appendChild : function(Itm)
         {
@@ -133,7 +133,7 @@ define('qui/controls/sitemap/Map', [
          * Clear all children / destroy ist
          *
          * @method qui/controls/sitemap/Map#clearChildren
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         clearChildren : function()
         {
@@ -207,7 +207,7 @@ define('qui/controls/sitemap/Map', [
          * Alias for getChildren
          *
          * @method qui/controls/sitemap/Map#getChildren
-         * @see qui/controls/sitemap/Map#getChildren
+         * @see #getChildren
          */
         getElements : function(selector)
         {
@@ -230,7 +230,7 @@ define('qui/controls/sitemap/Map', [
          * Deselected all selected Items
          *
          * @method qui/controls/sitemap/Map#deselectAllChildren
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         deselectAllChildren : function()
         {
@@ -248,9 +248,9 @@ define('qui/controls/sitemap/Map', [
          *
          * @method qui/controls/sitemap/Map#childContextMenu
          * @fires onChildContextMenu {qui/controls/sitemap/Item}
-         * @param {qui/controls/sitemap/Item} Itm
+         * @param {Object} Itm - qui/controls/sitemap/Item
          * @param {DOMEvent} event
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         childContextMenu : function(Itm, event)
         {
@@ -267,7 +267,7 @@ define('qui/controls/sitemap/Map', [
          * Opens all children and children children
          *
          * @method qui/controls/sitemap/Map#openAll
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         openAll : function()
         {
@@ -282,8 +282,8 @@ define('qui/controls/sitemap/Map', [
          * Clear a child item
          *
          * @method qui/controls/sitemap/Map#$clearItem
-         * @param {qui/controls/sitemap/Item} Item
-         * @return {this} self
+         * @param {Object} Item - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         $clearItem : function(Item)
         {
@@ -310,8 +310,8 @@ define('qui/controls/sitemap/Map', [
          * Opens a child item
          *
          * @method qui/controls/sitemap/Map#$openItem
-         * @param {qui/controls/sitemap/Item} Item
-         * @return {this} self
+         * @param {Object} Item - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         $openItem : function(Item)
         {
@@ -338,8 +338,8 @@ define('qui/controls/sitemap/Map', [
          * Remove the child from the list
          *
          * @method qui/controls/sitemap/Item#countChildren
-         * @param {qui/controls/sitemap/Item} Child
-         * @return {this} self
+         * @param {Object} Child - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          */
         $removeChild : function(Child)
         {
@@ -361,8 +361,8 @@ define('qui/controls/sitemap/Map', [
          * Adds an selected Item to the sels list
          *
          * @method qui/controls/sitemap/Map#$addSelected
-         * @param {qui/controls/sitemap/Item} Item
-         * @return {this}
+         * @param {Object} Item - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          * @ignore
          */
         $addSelected : function(Item)
@@ -376,8 +376,8 @@ define('qui/controls/sitemap/Map', [
          * Remove an selected Item from the sels list
          *
          * @method qui/controls/sitemap/Map#$removeSelected
-         * @param {qui/controls/sitemap/Item} Item
-         * @return {this}
+         * @param {Object} Item - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Map)
          * @ignore
          */
         $removeSelected : function(Item)

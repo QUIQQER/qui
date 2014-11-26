@@ -110,7 +110,7 @@ define('qui/classes/DOM', function()
          * @param {String} k - Name of the Attribute
          * @param {Object|String|Number|Array} v - value
          *
-         * @return {this} The wanted attribute
+         * @return {Object} this (qui/classes/DOM)
          */
         setAttribute : function(k, v)
         {
@@ -119,7 +119,7 @@ define('qui/classes/DOM', function()
             if ( typeof this.options[ k ] !== 'undefined' )
             {
                 this.options[ k ] = v;
-                return;
+                return this;
             }
 
             var oid = Slick.uidOf( this );
@@ -169,7 +169,7 @@ define('qui/classes/DOM', function()
          * @method qui/classes/DOM#setAttributes
          *
          * @param {Object} attributes - Object with attributes
-         * @return {this} self
+         * @return {Object} this (qui/classes/DOM)
          *
          * @example Object.setAttributes({
          *   attr1 : '1',

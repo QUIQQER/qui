@@ -123,11 +123,12 @@ define('qui/controls/buttons/Button', [
          * Compatible to _ptools::Button v2
          *
          * @method qui/controls/buttons/Button#initV2
+         * @param {Object} options
          * @ignore
          */
         initV2: function(options)
         {
-            if ( options.onclick )
+            if ( typeof options.onclick !== 'undefined' )
             {
                 if ( typeOf( options.onclick ) === 'string' )
                 {
@@ -140,7 +141,7 @@ define('qui/controls/buttons/Button', [
                 delete options.onclick;
             }
 
-            if ( options.oncreate )
+            if ( typeof options.oncreate !== 'undefined' )
             {
                 this.addEvent( 'onCreate', options.oncreate );
                 delete options.oncreate;
@@ -157,8 +158,6 @@ define('qui/controls/buttons/Button', [
          */
         create : function()
         {
-            var i, len;
-
             var self = this;
 
             var Elm = new Element('button', {
@@ -286,12 +285,13 @@ define('qui/controls/buttons/Button', [
             }
 
             if ( this.getAttribute( 'disabled' ) ) {
-                this.setDisable();
+                this.disable();
             }
 
 
             // sub menu
-            len = this.$items.length;
+            var i;
+            var len = this.$items.length;
 
             if ( len )
             {
@@ -333,7 +333,7 @@ define('qui/controls/buttons/Button', [
         },
 
         /**
-         * @see qui/controls/buttons/Button#onclick
+         * @see #click()
          */
         onclick : function(event)
         {
@@ -383,14 +383,14 @@ define('qui/controls/buttons/Button', [
          * Most Events are no more triggered
          *
          * @method qui/controls/buttons/Button#disable
-         * @return {qui/controls/buttons/Button}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         disable : function()
         {
             var Elm = this.getElm();
 
             if ( !Elm ) {
-                return;
+                return this;
             }
 
             Elm.set({
@@ -406,7 +406,7 @@ define('qui/controls/buttons/Button', [
         /**
          * @deprecated use disable
          * @method qui/controls/buttons/Button#setDisable
-         * @return {qui/controls/buttons/Button}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         setDisable : function()
         {
@@ -432,7 +432,7 @@ define('qui/controls/buttons/Button', [
          * If the Button was disabled, you can enable the Button
          *
          * @method qui/controls/buttons/Button#setEnable
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         enable : function()
         {
@@ -451,10 +451,10 @@ define('qui/controls/buttons/Button', [
         },
 
         /**
-         * @depricated
+         * @deprecated
          *
          * @method qui/controls/buttons/Button#setEnable
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         setEnable : function()
         {
@@ -466,16 +466,16 @@ define('qui/controls/buttons/Button', [
          * The Button must be enabled.
          *
          * @method qui/controls/buttons/Button#setNormal
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         setNormal : function()
         {
             if ( this.isDisabled() ) {
-                return;
+                return this;
             }
 
             if ( !this.getElm() ) {
-                return false;
+                return this;
             }
 
             var Elm = this.getElm();
@@ -498,8 +498,8 @@ define('qui/controls/buttons/Button', [
          *
          * @method qui/controls/buttons/Button#appendChild
          *
-         * @param {qui/controls/contextmenu/Item} Itm
-         * @return {this}
+         * @param {Object} Itm - qui/controls/contextmenu/Item
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         appendChild : function(Itm)
         {
@@ -543,7 +543,7 @@ define('qui/controls/buttons/Button', [
          * Clear the Context Menu Items
          *
          * @method qui/controls/buttons/Button#clear
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         clear : function()
         {
@@ -562,7 +562,7 @@ define('qui/controls/buttons/Button', [
          * @method qui/controls/buttons/Button#getContextMenu
          *
          * @param {Function} callback - callback function( {qui/controls/contextmenu/Menu} )
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Button)
          */
         getContextMenu : function(callback)
         {

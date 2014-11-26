@@ -170,8 +170,8 @@ define('qui/controls/desktop/panels/Sheet', [
          * Add a button to the Sheet
          *
          * @method qui/controls/desktop/panels/Sheet#addButton
-         * @param {qui/controls/buttons/Button|Object} Btn - QUI Button or QUI Button options
-         * @return {this}
+         * @param {Object} Btn - QUI Button (qui/controls/buttons/Button) or QUI Button options (Object)
+         * @return {Object} this (qui/controls/desktop/panels/Sheet)
          */
         addButton : function(Btn)
         {
@@ -205,7 +205,7 @@ define('qui/controls/desktop/panels/Sheet', [
          *
          * @method qui/controls/desktop/panels/Sheet#show
          * @param {Function} callback - [optional] callback function
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/panels/Sheet)
          */
         show : function(callback)
         {
@@ -267,7 +267,7 @@ define('qui/controls/desktop/panels/Sheet', [
          *
          * @method qui/controls/desktop/panels/Sheet#hide
          * @param {Function} callback - [optional] callback function
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/panels/Sheet)
          */
         hide : function(callback)
         {

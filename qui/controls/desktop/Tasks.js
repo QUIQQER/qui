@@ -35,7 +35,7 @@ define('qui/controls/desktop/Tasks', [
 
     /**
      * @class qui/controls/desktop/Tasks
-     *
+     * @param {Object} options
      * @memberof! <global>
      */
     return new Class({
@@ -99,7 +99,7 @@ define('qui/controls/desktop/Tasks', [
          * Is the Panel open?
          *
          * @method qui/controls/desktop/Tasks#isOpen
-         * @return {Bool}
+         * @return {Boolean}
          */
         isOpen : function()
         {
@@ -126,7 +126,7 @@ define('qui/controls/desktop/Tasks', [
          *
          * @method qui/controls/desktop/Tasks#unserialize
          * @param {Object} data
-         * @return {self}
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         unserialize : function(data)
         {
@@ -168,7 +168,7 @@ define('qui/controls/desktop/Tasks', [
          * Refresh the panel
          *
          * @method qui/controls/desktop/Tasks#refresh
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         refresh : function()
         {
@@ -181,7 +181,7 @@ define('qui/controls/desktop/Tasks', [
          * Resize the panel
          *
          * @method qui/controls/desktop/Tasks#resize
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         resize : function()
         {
@@ -228,7 +228,7 @@ define('qui/controls/desktop/Tasks', [
          * Create DOMNode Element for the Tasks
          *
          * @method qui/controls/desktop/Tasks#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -285,7 +285,7 @@ define('qui/controls/desktop/Tasks', [
          * Highlight the column
          *
          * @method qui/controls/desktop/Tasks#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         highlight : function()
         {
@@ -300,7 +300,7 @@ define('qui/controls/desktop/Tasks', [
          * Dehighlight the column
          *
          * @method qui/controls/desktop/Tasks#normalize
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         normalize : function()
         {
@@ -315,7 +315,7 @@ define('qui/controls/desktop/Tasks', [
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendChild
-         * @param {qui/controls/Control} Instance - A QUI Control
+         * @param {Object} Instance - (qui/controls/Control) A QUI Control
          */
         appendChild : function(Instance)
         {
@@ -336,13 +336,12 @@ define('qui/controls/desktop/Tasks', [
          * Depends a panel from the column
          *
          * @method qui/controls/desktop/Tasks#dependChild
-         * @param {qui/controls/desktop/Panel} Panel
-         * @return {this} self
+         * @param {Object} Panel - qui/controls/desktop/Panel
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         dependChild : function(Panel)
         {
-            var self = this,
-                Task = Panel.getAttribute( 'Task' );
+            var Task = Panel.getAttribute( 'Task' );
 
             if ( !Task ) {
                 return this;
@@ -380,7 +379,7 @@ define('qui/controls/desktop/Tasks', [
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendTask
-         * @param {qui/controls/taskbar/Task|qui/controls/taskbar/Group} Task - A QUI task
+         * @param {Object} Task - (qui/controls/taskbar/Task | qui/controls/taskbar/Group) A QUI task
          */
         appendTask : function(Task)
         {
@@ -395,7 +394,7 @@ define('qui/controls/desktop/Tasks', [
          * Shows the instance from the tab
          *
          * @method qui/controls/desktop/Tasks#$activateTask
-         * @param {qui/controls/taskbar/Task|qui/controls/taskbar/Group} Task
+         * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
          */
         $activateTask : function(Task)
         {
@@ -431,7 +430,7 @@ define('qui/controls/desktop/Tasks', [
                 opacity : 1
             }, {
                 equation : 'ease-out',
-                callback : function(time)
+                callback : function()
                 {
                     self.resize();
                     Instance.fireEvent( 'show', [ Instance ] );
@@ -446,7 +445,7 @@ define('qui/controls/desktop/Tasks', [
          * Hide the instance from the tab and destroy it
          *
          * @method qui/controls/desktop/Tasks#$destroyTask
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $destroyTask : function(Task)
         {
@@ -454,15 +453,14 @@ define('qui/controls/desktop/Tasks', [
                 return;
             }
 
-            var self     = this,
-                Instance = Task.getInstance(),
+            var Instance = Task.getInstance(),
                 Elm      = Instance.getElm();
 
             moofx( Elm ).animate({
                 left    : (this.$Container.getSize().x + 10) * -1,
                 opacity : 0
             }, {
-                callback : function(Elm)
+                callback : function()
                 {
                     (function()
                     {
@@ -475,7 +473,7 @@ define('qui/controls/desktop/Tasks', [
         /**
          * Select the last task, or the last task, or the first task
          *
-         * @param {qui/controls/Control} Task
+         * @param {Object} Task - qui/controls/Control
          */
         selectTask : function(Task)
         {
@@ -505,10 +503,8 @@ define('qui/controls/desktop/Tasks', [
 
             var FirstTask = this.firstChild();
 
-            if ( FirstTask.getInstance() && FirstTask.getId() != tid )
-            {
+            if ( FirstTask.getInstance() && FirstTask.getId() != tid ) {
                 FirstTask.click();
-                return;
             }
         },
 
@@ -519,7 +515,7 @@ define('qui/controls/desktop/Tasks', [
          * Hide the instance from the tab
          *
          * @method qui/controls/desktop/Tasks#$normalizeTask
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $normalizeTask : function(Task)
         {
@@ -551,7 +547,7 @@ define('qui/controls/desktop/Tasks', [
          * Return the first task children
          *
          * @method qui/controls/desktop/Tasks#firstChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
+         * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
         firstChild : function()
         {
@@ -562,7 +558,7 @@ define('qui/controls/desktop/Tasks', [
          * Return the last task children
          *
          * @method qui/controls/desktop/Tasks#lastChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|false}
+         * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
         lastChild : function()
         {
@@ -573,7 +569,7 @@ define('qui/controls/desktop/Tasks', [
          * Return the taskbar object
          *
          * @method qui/controls/desktop/Tasks#getTaskbar
-         * @return {qui/controls/taskbar/Bar|null}
+         * @return {Object|null} qui/controls/taskbar/Bar | null
          */
         getTaskbar : function()
         {
@@ -620,7 +616,7 @@ define('qui/controls/desktop/Tasks', [
         /**
          * Open the Panel -> do nothing, panel compatibility
          *
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         open : function()
         {
@@ -630,7 +626,7 @@ define('qui/controls/desktop/Tasks', [
         /**
          * Minimize -> do nothing, panel compatibility
          *
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Tasks)
          */
         minimize : function()
         {
@@ -641,8 +637,8 @@ define('qui/controls/desktop/Tasks', [
          * Create a Task for the Control
          *
          * @method qui/controls/desktop/Tasks#instanceToTask
-         * @param {qui/controls/Control} Instance - Instance of a QUI control
-         * @return {qui/controls/tasksbar/Task}
+         * @param {Object} Instance - (qui/controls/Control) Instance of a QUI control
+         * @return {Object} qui/controls/tasksbar/Task
          */
         instanceToTask : function(Instance)
         {
@@ -687,8 +683,8 @@ define('qui/controls/desktop/Tasks', [
          * event on taskbar append child or taskbar group
          *
          * @method qui/controls/desktop/Tasks#$onTaskbarAppendChild
-         * @param {qui/controls/taskbar/Bar|qui/controls/taskbar/Group} Bar
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Bar - qui/controls/taskbar/Bar | qui/controls/taskbar/Group
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $onTaskbarAppendChild : function(Bar, Task)
         {
@@ -775,7 +771,7 @@ define('qui/controls/desktop/Tasks', [
          * Remove a task from the tasks panel and remove all binded events
          *
          * @method qui/controls/desktop/Tasks#$removeTask
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $removeTask : function(Task)
         {

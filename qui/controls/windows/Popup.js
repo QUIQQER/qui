@@ -470,7 +470,7 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#addButton
          * @param {HTMLElement} Elm
-         * @return {this}
+         * @return {Object} qui/controls/windows/Popup
          */
         addButton : function(Elm)
         {
@@ -504,7 +504,7 @@ define('qui/controls/windows/Popup', [
          * hide the button line
          *
          * @method qui/controls/windows/Popup#hideButtons
-         * @return {this}
+         * @return {Object} qui/controls/windows/Popup
          */
         hideButtons : function()
         {
@@ -519,7 +519,7 @@ define('qui/controls/windows/Popup', [
          * show the button line
          *
          * @method qui/controls/windows/Popup#showButtons
-         * @return {this}
+         * @return {Object} qui/controls/windows/Popup
          */
         showButtons : function()
         {

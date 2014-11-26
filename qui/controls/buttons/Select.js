@@ -165,7 +165,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#setValue
          * @param {String} value
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Select)
          */
         setValue : function(value)
         {
@@ -203,7 +203,7 @@ define('qui/controls/buttons/Select', [
          * @param {String} text - Text of the child
          * @param {String} value - Value of the child
          * @param {String} icon - [optional]
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Select)
          */
         appendChild : function(text, value, icon)
         {
@@ -226,7 +226,7 @@ define('qui/controls/buttons/Select', [
          * Return the first option child
          *
          * @method qui/controls/buttons/Select#firstChild
-         * @return {qui/controls/contextmenu/Item|Boolean}
+         * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         firstChild : function()
         {
@@ -260,7 +260,7 @@ define('qui/controls/buttons/Select', [
          * Opens the select box
          *
          * @method qui/controls/buttons/Select#open
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Select)
          */
         open : function()
         {
@@ -322,7 +322,7 @@ define('qui/controls/buttons/Select', [
          * Disable the select
          *
          * @method qui/controls/buttons/Select#disable
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Select)
          */
         disable : function()
         {
@@ -345,7 +345,7 @@ define('qui/controls/buttons/Select', [
          * Enable the select
          *
          * @method qui/controls/buttons/Select#enable
-         * @return {this}
+         * @return {Object} this (qui/controls/buttons/Select)
          */
         enable : function()
         {
@@ -358,7 +358,7 @@ define('qui/controls/buttons/Select', [
          * set the value to the select box
          *
          * @method qui/controls/buttons/Select#$set
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $set : function(Item)
         {

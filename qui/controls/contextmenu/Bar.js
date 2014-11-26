@@ -25,7 +25,7 @@ define('qui/controls/contextmenu/Bar', [
 
     /**
      * @class qui/controls/contextmenu/Bar
-     *
+     * @param {Object} options
      * @memberof! <global>
      */
     return new Class({
@@ -43,7 +43,7 @@ define('qui/controls/contextmenu/Bar', [
         options : {
             styles    : null,     // mootools css styles
             width     : 200,      // menü width
-            openening : false,  // if open status = true, onmouseover opens the baritmes
+            openening : false,    // if open status = true, onmouseover opens the baritmes
             dragable  : false
         },
 
@@ -54,7 +54,6 @@ define('qui/controls/contextmenu/Bar', [
             this.$items   = [];
             this.$Elm     = null;
             this.$Menu    = null;
-            this.$cActive = null;
         },
 
         /**
@@ -81,7 +80,7 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#insert
          * @param {Array} list - new QUI\Controls\Contextmenu\Bar()->toArray()
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Bar)
          */
         insert : function(list)
         {
@@ -104,7 +103,7 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#getChildren
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array|Boolean|qui/controls/contextmenu/Item}
+         * @return {Array|Boolean|Object} List of children | false | qui/controls/contextmenu/Item
          */
         getChildren : function(name)
         {
@@ -130,7 +129,7 @@ define('qui/controls/contextmenu/Bar', [
          * Return the first child Element
          *
          * @method qui/controls/contextmenu/Bar#firstChild
-         * @return {Boolean|qui/controls/contextmenu/Item}
+         * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         firstChild : function()
         {
@@ -156,8 +155,8 @@ define('qui/controls/contextmenu/Bar', [
          * Add the Child to the Menü
          *
          * @method qui/controls/contextmenu/Bar#appendChild
-         * @param {qui/controls/contextmenu/BarItem} Child
-         * @return {this}
+         * @param {Object} Child - qui/controls/contextmenu/BarItem
+         * @return {Object} this (qui/controls/contextmenu/Bar)
          */
         appendChild : function(Child)
         {
@@ -191,7 +190,7 @@ define('qui/controls/contextmenu/Bar', [
          * Destroy all children items
          *
          * @method qui/controls/contextmenu/Bar#clearChildren
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Bar)
          */
         clearChildren : function()
         {
@@ -211,8 +210,8 @@ define('qui/controls/contextmenu/Bar', [
          * Return the next children / item of the item
          *
          * @method qui/controls/contextmenu/Bar#getNext
-         * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|Boolean}
+         * @param {Object} Item - qui/controls/contextmenu/Item
+         * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         getNext : function(Item)
         {
@@ -234,8 +233,8 @@ define('qui/controls/contextmenu/Bar', [
          * Return the previous children / item of the item
          *
          * @method qui/controls/contextmenu/Bar#getPrevious
-         * @param {qui/controls/contextmenu/BarItem} Item
-         * @return {qui/controls/contextmenu/BarItem|Boolean}
+         * @param {Object} Item - qui/controls/contextmenu/BarItem
+         * @return {Object|Boolean} - qui/controls/contextmenu/BarItem | false
          */
         getPrevious : function(Item)
         {
@@ -259,7 +258,7 @@ define('qui/controls/contextmenu/Bar', [
          * event: on item enter
          *
          * @method qui/controls/contextmenu/Bar#$onItemEnter
-         * @param {qui/controls/contextmenu/BarItem} Item
+         * @param {Object} Item - qui/controls/contextmenu/BarItem
          */
         $onItemEnter : function(Item)
         {

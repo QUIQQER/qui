@@ -277,7 +277,7 @@ define('qui/controls/windows/Prompt', [
          *
          * @method qui/controls/windows/Prompt#setValue
          * @param value
-         * @return {this}
+         * @return {Object} qui/controls/windows/Prompt
          */
         setValue : function(value)
         {

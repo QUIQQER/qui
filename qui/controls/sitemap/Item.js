@@ -206,7 +206,7 @@ define('qui/controls/sitemap/Item', [
         /**
          * refresh the entry - recalc
          *
-         * @return {self}
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         refresh : function()
         {
@@ -309,7 +309,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @method qui/controls/sitemap/Item#removeIcon
          * @param {String} icon_url - URL of the Image
-         * @return {this}
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         removeIcon : function(icon_url)
         {
@@ -337,7 +337,7 @@ define('qui/controls/sitemap/Item', [
          * Activate the Item. The inactive Icon would be destroy
          *
          * @method qui/controls/sitemap/Item#activate
-         * @return {this}
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         activate : function()
         {
@@ -354,7 +354,7 @@ define('qui/controls/sitemap/Item', [
          * Deactivate the Item. Add inactive Icon
          *
          * @method qui/controls/sitemap/Item#deactivate
-         * @return {this}
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         deactivate : function()
         {
@@ -375,8 +375,8 @@ define('qui/controls/sitemap/Item', [
          * Add a Child
          *
          * @method qui/controls/sitemap/Item#appendChild
-         * @param {qui/controls/sitemap/Item} Child
-         * @return {this}
+         * @param {Object} Child - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         appendChild : function(Child)
         {
@@ -420,7 +420,7 @@ define('qui/controls/sitemap/Item', [
          * Get the first Child if exists
          *
          * @method qui/controls/sitemap/Item#firstChild
-         * @return {qui/controls/sitemap/Item|Boolean}
+         * @return {Object|Boolean} qui/controls/sitemap/Item | false
          */
         firstChild : function()
         {
@@ -458,7 +458,7 @@ define('qui/controls/sitemap/Item', [
          * Delete all children
          *
          * @method qui/controls/sitemap/Item#clearChildren
-         * @return {this}
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         clearChildren : function()
         {
@@ -493,8 +493,8 @@ define('qui/controls/sitemap/Item', [
          * Remove the child from the list
          *
          * @method qui/controls/sitemap/Item#countChildren
-         * @param {qui/controls/sitemap/Item} Child
-         * @return {this} self
+         * @param {Object} Child - qui/controls/sitemap/Item
+         * @return {Object} this (qui/controls/sitemap/Item)
          * @ignore
          */
         $removeChild : function(Child)
@@ -523,7 +523,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @method qui/controls/sitemap/Item#select
          * @param {DOMEvent} event - [optional]
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         select : function(event)
         {
@@ -544,7 +544,7 @@ define('qui/controls/sitemap/Item', [
          * Deselect the Item
          *
          * @method qui/controls/sitemap/Item#deselect
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         deselect : function()
         {
@@ -562,7 +562,7 @@ define('qui/controls/sitemap/Item', [
          * no selection or highlighting
          *
          * @method qui/controls/sitemap/Item#normalize
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         normalize : function()
         {
@@ -586,7 +586,7 @@ define('qui/controls/sitemap/Item', [
          * Highight the item
          *
          * @method qui/controls/sitemap/Item#highlight
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         highlight : function()
         {
@@ -598,7 +598,7 @@ define('qui/controls/sitemap/Item', [
          * Dehighight the item
          *
          * @method qui/controls/sitemap/Item#deHighlight
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         deHighlight : function()
         {
@@ -610,7 +610,7 @@ define('qui/controls/sitemap/Item', [
          * Disable the item
          *
          * @method qui/controls/sitemap/Item#disable
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         disable : function()
         {
@@ -627,7 +627,7 @@ define('qui/controls/sitemap/Item', [
          * Enable the item if the item was disabled
          *
          * @method qui/controls/sitemap/Item#enable
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         enable : function()
         {
@@ -644,7 +644,7 @@ define('qui/controls/sitemap/Item', [
          * the item is a little disappear
          *
          * @method qui/controls/sitemap/Item#holdBack
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         holdBack : function()
         {
@@ -661,7 +661,7 @@ define('qui/controls/sitemap/Item', [
          * Klick the sitemap item
          *
          * @method qui/controls/sitemap/Item#click
-         * @param {Event} event - [optional -> event click]
+         * @param {DOMEvent} [event] - [optional -> event click]
          */
         click : function(event)
         {
@@ -673,7 +673,7 @@ define('qui/controls/sitemap/Item', [
          * Opens the childrens
          *
          * @method qui/controls/sitemap/Item#open
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         open : function()
         {
@@ -693,7 +693,7 @@ define('qui/controls/sitemap/Item', [
          * Close the childrens
          *
          * @method qui/controls/sitemap/Item#close
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         close : function()
         {
@@ -713,7 +713,7 @@ define('qui/controls/sitemap/Item', [
          * Switch between open and close
          *
          * @method qui/controls/sitemap/Item#toggle
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         toggle : function()
         {
@@ -747,7 +747,7 @@ define('qui/controls/sitemap/Item', [
          * Create and return a contextmenu for the Element
          *
          * @method qui/controls/sitemap/Item#getContextMenu
-         * @return {qui/controls/sitemap/Menu} Menu
+         * @return {Object} Menu - qui/controls/sitemap/Menu
          */
         getContextMenu : function()
         {
@@ -782,7 +782,7 @@ define('qui/controls/sitemap/Item', [
          * Get the map parent, if it is set
          *
          * @method qui/controls/sitemap/Item#getMap
-         * @return {qui/controls/sitemap/Map|null} Map
+         * @return {Object|null} Map - qui/controls/sitemap/Map
          */
         getMap : function()
         {
@@ -793,8 +793,8 @@ define('qui/controls/sitemap/Item', [
          * Set the map parent
          *
          * @method qui/controls/sitemap/Item#getMap
-         * @param {qui/controls/sitemap/Map} Map
-         * @return {this}
+         * @param {Object} Map - qui/controls/sitemap/Map
+         * @return {Object} this (qui/controls/sitemap/Item)
          */
         setMap : function(Map)
         {
@@ -881,7 +881,7 @@ define('qui/controls/sitemap/Item', [
          * event : children destroy
          *
          * @method qui/controls/sitemap/Item#$onChildDestroy
-         * @param {qui/controls/sitemap/Item} Item
+         * @param {Object} Item - qui/controls/sitemap/Item
          */
         $onChildDestroy : function(Item)
         {
@@ -964,6 +964,5 @@ define('qui/controls/sitemap/Item', [
                 }
             });
         }
-
     });
 });

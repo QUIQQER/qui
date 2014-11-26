@@ -286,7 +286,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#insert
          * @param {Array} list
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         insert : function(list)
         {
@@ -328,15 +328,15 @@ define('qui/controls/contextmenu/Item', [
          */
         click : function()
         {
-            this.$onClick();
+            this.$onClick( false );
         },
 
         /**
          * Add a Child to the Item
          *
          * @method qui/controls/contextmenu/Item#appendChild
-         * @param {qui/controls/contextmenu/Item} Child
-         * @return {this} self
+         * @param {Object} Child - qui/controls/contextmenu/Item
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         appendChild : function(Child)
         {
@@ -360,7 +360,7 @@ define('qui/controls/contextmenu/Item', [
          * disable the item
          *
          * @method qui/controls/contextmenu/Item#disable
-         * @return {self}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         disable : function()
         {
@@ -389,7 +389,7 @@ define('qui/controls/contextmenu/Item', [
          * enable the item if the item was disabled
          *
          * @method qui/controls/contextmenu/Item#enable
-         * @return {self}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         enable : function()
         {
@@ -407,7 +407,7 @@ define('qui/controls/contextmenu/Item', [
          * Set the Item active
          *
          * @method qui/controls/contextmenu/Item#setActive
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         setActive : function()
         {
@@ -435,7 +435,7 @@ define('qui/controls/contextmenu/Item', [
          * Normalize the item
          *
          * @method qui/controls/contextmenu/Item#setNormal
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         setNormal : function()
         {
@@ -461,7 +461,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#getChildren
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array}
+         * @return {Array|Object} List of children |  qui/controls/contextmenu/Menu
          */
         getChildren : function(name)
         {
@@ -480,7 +480,7 @@ define('qui/controls/contextmenu/Item', [
         /**
          * Return the text node
          *
-         * @return {DOMNode|null}
+         * @return {HTMLElement|null}
          */
         getTextElm : function()
         {
@@ -491,7 +491,7 @@ define('qui/controls/contextmenu/Item', [
          * Clear the Context Menu Items
          *
          * @method qui/controls/contextmenu/Item#clear
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/Item)
          */
         clear : function()
         {
@@ -594,7 +594,7 @@ define('qui/controls/contextmenu/Item', [
          * event : onclick
          *
          * @method qui/controls/contextmenu/Item#$onClick
-         * @param {DOMEvent} event
+         * @param {DOMEvent|Boolean} event
          * @ignore
          */
         $onClick : function(event)
@@ -618,7 +618,6 @@ define('qui/controls/contextmenu/Item', [
          * event: mouse enter
          *
          * @method qui/controls/contextmenu/Item#$onMouseEnter
-         * @param {DOMEvent} event - optional
          */
         $onMouseEnter : function()
         {
@@ -659,7 +658,6 @@ define('qui/controls/contextmenu/Item', [
          * event: mouse leave
          *
          * @method qui/controls/contextmenu/Item#$onMouseLeave
-         * @param {DOMEvent} event - optional
          */
         $onMouseLeave : function()
         {

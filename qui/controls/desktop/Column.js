@@ -91,7 +91,6 @@ define('qui/controls/desktop/Column', [
             this.$panels      = {};
             this.$dragDrops   = {};
 
-            this.$FXSB             = null;
             this.$SettingsButton   = null;
 
             this.$__eventPanelOpen = false;
@@ -135,7 +134,7 @@ define('qui/controls/desktop/Column', [
          * Create the DOMNode for the Column
          *
          * @method qui/controls/desktop/Column#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -494,9 +493,9 @@ define('qui/controls/desktop/Column', [
          * Append a child to the Column
          *
          * @method qui/controls/desktop/Column#appendChild
-         * @param {qui/controls/desktop/Panel|qui/controls/desktop/Tasks} Panel
-         * @param {Number} pos - [optional] Position where to insert
-         * @return {this}
+         * @param {Object} Panel - qui/controls/desktop/Panel | qui/controls/desktop/Tasks
+         * @param {Number} [pos] - [optional] Position where to insert
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         appendChild : function(Panel, pos)
         {
@@ -675,7 +674,7 @@ define('qui/controls/desktop/Column', [
         /**
          * event on append child - recalc panels
          *
-         * @param {qui/controls/desktop/Panel} Panel
+         * @param {Object} Panel - qui/controls/desktop/Panel
          */
         $recalcAppend : function(Panel)
         {
@@ -715,8 +714,8 @@ define('qui/controls/desktop/Column', [
          * Depends a panel from the column
          *
          * @method qui/controls/desktop/Column#dependChild
-         * @param {qui/controls/desktop/Panel} Panel
-         * @return {this} self
+         * @param {Object} Panel - qui/controls/desktop/Panel
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         dependChild : function(Panel)
         {
@@ -751,8 +750,8 @@ define('qui/controls/desktop/Column', [
          * Return the column children
          *
          * @method qui/controls/desktop/Column#getChildren
-         * @param {String} name - [optional]
-         * @return {Object}
+         * @param {String} [name] - [optional]
+         * @return {Object|Boolean} Child | false
          */
         getChildren : function(name)
         {
@@ -795,7 +794,7 @@ define('qui/controls/desktop/Column', [
          * Resize the column and all panels in the column
          *
          * @method qui/controls/desktop/Column#resize
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         resize : function()
         {
@@ -836,7 +835,7 @@ define('qui/controls/desktop/Column', [
          * Open the column
          *
          * @method qui/controls/desktop/Column#open
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         open : function()
         {
@@ -852,7 +851,7 @@ define('qui/controls/desktop/Column', [
 
             Sibling.resize();
 
-            // self reresh
+            // self refresh
             this.resize();
 
             return this;
@@ -862,7 +861,7 @@ define('qui/controls/desktop/Column', [
          * Close the column
          *
          * @method qui/controls/desktop/Column#close
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         close : function()
         {
@@ -892,7 +891,7 @@ define('qui/controls/desktop/Column', [
          * if close, the open ;-)
          *
          * @method qui/controls/desktop/Column#toggle
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         toggle : function()
         {
@@ -923,7 +922,7 @@ define('qui/controls/desktop/Column', [
          * Highlight the column
          *
          * @method qui/controls/desktop/Column#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         highlight : function()
         {
@@ -938,7 +937,7 @@ define('qui/controls/desktop/Column', [
          * Dehighlight the column
          *
          * @method qui/controls/desktop/Column#normalize
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Column)
          */
         normalize : function()
         {
@@ -955,7 +954,7 @@ define('qui/controls/desktop/Column', [
          * if no column exist, so it search the prev and next columns
          *
          * @method qui/controls/desktop/Column#getSibling
-         * @return {Boolean|qui/controls/desktop/Column}
+         * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
         getSibling : function()
         {
@@ -993,7 +992,7 @@ define('qui/controls/desktop/Column', [
          * Return the previous sibling
          *
          * @method qui/controls/desktop/Column#getPrevious
-         * @return {Boolean|qui/controls/desktop/Column}
+         * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
         getPrevious : function()
         {
@@ -1010,7 +1009,7 @@ define('qui/controls/desktop/Column', [
          * Return the next sibling
          *
          * @method qui/controls/desktop/Column#getNext
-         * @return {Boolean|qui/controls/desktop/Column}
+         * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
         getNext : function()
         {
@@ -1027,7 +1026,7 @@ define('qui/controls/desktop/Column', [
          * return the next panel sibling
          *
          * @method qui/controls/desktop/Column#getNextPanel
-         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
         getNextPanel : function(Panel)
         {
@@ -1046,7 +1045,7 @@ define('qui/controls/desktop/Column', [
          * Get the next panel sibling which is opened
          *
          * @method qui/controls/desktop/Column#getNextOpenedPanel
-         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
         getNextOpenedPanel : function(Panel)
         {
@@ -1076,7 +1075,7 @@ define('qui/controls/desktop/Column', [
          * return the previous panel sibling
          *
          * @method qui/controls/desktop/Column#getPreviousPanel
-         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
         getPreviousPanel : function(Panel)
         {
@@ -1095,7 +1094,7 @@ define('qui/controls/desktop/Column', [
          * return the previous panel sibling
          *
          * @method qui/controls/desktop/Column#getPreviousOpenedPanel
-         * @return {Boolean|qui/controls/desktop/Panel|qui/controls/desktop/Tasks}
+         * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
         getPreviousOpenedPanel : function(Panel)
         {
@@ -1211,16 +1210,17 @@ define('qui/controls/desktop/Column', [
                 case 'qui/controls/desktop/Tasks':
                 case 'qui/controls/taskbar/Task':
                     return true;
-            }
 
-            return instanceOf( QO, Panel );
+                default:
+                    return instanceOf( QO, Panel );
+            }
         },
 
         /**
          * Panel close event
          *
          * @method qui/controls/desktop/Column#$onPanelMinimize
-         * @param {qui/controls/desktop/Panel} Panel
+         * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
         $onPanelMinimize : function(Panel)
@@ -1262,7 +1262,7 @@ define('qui/controls/desktop/Column', [
          * Panel open event
          *
          * @method qui/controls/desktop/Column#$onPanelOpen
-         * @param {qui/controls/desktop/Panel} Panel
+         * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
         $onPanelOpen : function(Panel)
@@ -1384,7 +1384,6 @@ define('qui/controls/desktop/Column', [
          * Panel open begins event
          *
          * @method qui/controls/desktop/Column#$onPanelOpen
-         * @param {qui/controls/desktop/Panel} Panel
          * @ignore
          */
         $onPanelOpenBegin : function()
@@ -1417,7 +1416,7 @@ define('qui/controls/desktop/Column', [
          * event: If the panel would be destroyed
          *
          * @method qui/controls/desktop/Column#$onPanelDestroy
-         * @param {qui/controls/desktop/Panel} Panel
+         * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
         $onPanelDestroy : function(Panel)
@@ -1511,7 +1510,7 @@ define('qui/controls/desktop/Column', [
         },
 
         /**
-         * Add the horizental resizing events to the column
+         * Add the horizontal resizing events to the column
          *
          * @method qui/controls/desktop/Column#$addHorResize
          * @param {HTMLElement} Handle
@@ -1769,7 +1768,7 @@ define('qui/controls/desktop/Column', [
          * event : onclick contextmenu, add a panel
          *
          * @method qui/controls/desktop/Column#$clickAddPanelToColumn
-         * @param {qui/controls/contextmenu/Item} ContextMenuItem
+         * @param {Object} ContextMenuItem - qui/controls/contextmenu/Item
          */
         $clickAddPanelToColumn : function(ContextMenuItem)
         {
@@ -1789,7 +1788,7 @@ define('qui/controls/desktop/Column', [
          * event : on mouse enter at a contextmenu item -> remove panel
          *
          * @method qui/controls/desktop/Column#$onEnterRemovePanel
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onEnterRemovePanel : function(Item)
         {
@@ -1800,7 +1799,7 @@ define('qui/controls/desktop/Column', [
          * event : on mouse leave at a contextmenu item -> remove panel
          *
          * @method qui/controls/desktop/Column#$onLeaveRemovePanel
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onLeaveRemovePanel : function(Item)
         {
@@ -1811,7 +1810,7 @@ define('qui/controls/desktop/Column', [
          * event : on mouse click at a contextmenu item -> remove panel
          *
          * @method qui/controls/desktop/Column#$onClickRemovePanel
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onClickRemovePanel : function(Item)
         {
@@ -1826,7 +1825,7 @@ define('qui/controls/desktop/Column', [
          * event on drag drop enter
          *
          * @method qui/controls/desktop/Column#$onDragDropEnter
-         * @param {qui/controls/Control} Control - QUI Control
+         * @param {Object} QO - (qui/controls/Control) QUI Control
          * @param {HTMLElement} Elm
          */
         $onDragDropEnter : function(QO, Elm)
@@ -1839,9 +1838,10 @@ define('qui/controls/desktop/Column', [
             this.$calcDragDropArrows();
 
             // calc the nearest
+            var distance;
+
             var y        = Elm.getPosition().y,
-                closest  = null,
-                distance = false;
+                closest  = null;
 
             for ( var i in this.$ddArrowPositions )
             {
@@ -1869,7 +1869,7 @@ define('qui/controls/desktop/Column', [
          * event on draging
          *
          * @method qui/controls/desktop/Column#$onDragDropDrag
-         * @param {qui/controls/Control} Control - QUI Control
+         * @param {Object} QO - (qui/controls/Control) QUI Control
          * @param {DOMEvent} event
          */
         $onDragDropDrag : function(QO, event)
@@ -1896,7 +1896,7 @@ define('qui/controls/desktop/Column', [
          * event : a control droped on the column
          *
          * @method qui/controls/desktop/Column#$onDragDropDrop
-         * @param {qui/controls/Control} Control - QUI Control
+         * @param {Object} QO - (qui/controls/Control) QUI Control
          */
         $onDragDropDrop : function(QO)
         {
@@ -2017,9 +2017,9 @@ define('qui/controls/desktop/Column', [
         {
             var i, len, list;
 
-            for ( i in this.$ddArrowPositions ) {
-                this.$ddArrowPositions[ i ].destroy();
-            }
+            this.$ddArrowPositions.each(function(Arrow) {
+                Arrow.destroy();
+            });
 
             this.$ddArrowPositions = {};
 

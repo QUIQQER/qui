@@ -91,8 +91,7 @@ define('qui/controls/taskbar/Group', [
                     self.$ContextMenu.destroy();
                 }
 
-                var Parent = self.getTaskbar(),
-                    tasks  = self.getTasks();
+                var tasks = self.getTasks();
 
                 for ( var i = 0, len = tasks.length; i < len; i++ ) {
                     tasks[ i ].removeEvent( 'refresh', self.$onTaskRefresh );
@@ -104,7 +103,7 @@ define('qui/controls/taskbar/Group', [
          * Return the DOMNode
          *
          * @method qui/controls/taskbar/Group#getElm
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -123,11 +122,11 @@ define('qui/controls/taskbar/Group', [
                 tabindex : -1,
                 events   :
                 {
-                    focus : function(event) {
+                    focus : function() {
                         self.fireEvent( 'focus', [ self ] );
                     },
 
-                    blur : function(event) {
+                    blur : function() {
                         self.fireEvent( 'blur', [ self ] );
                     },
 
@@ -163,17 +162,14 @@ define('qui/controls/taskbar/Group', [
 
                     onShow : function(Menu)
                     {
-                        var x = 0, y = 0;
-
                         var MenuElm  = Menu.getElm(),
                             menusize = MenuElm.getSize(),
                             pos      = self.getElm().getPosition();
 
-                        x = pos.x;
-                        y = pos.y - menusize.y;
+                        var x = pos.x;
+                        var y = pos.y - menusize.y;
 
                         Menu.setPosition( x, y ).focus();
-
                     }
                 }
             });
@@ -229,7 +225,7 @@ define('qui/controls/taskbar/Group', [
                         QUI.Controls.getById( quiid ).normalize();
                     },
 
-                    onDrop : function(Element, Droppable, event)
+                    onDrop : function(Element, Droppable)
                     {
                         if ( !Droppable ) {
                             return;
@@ -256,7 +252,7 @@ define('qui/controls/taskbar/Group', [
          * Return the binded instance of the active task
          *
          * @method qui/controls/taskbar/Group#getInstance
-         * @return {qui/controls/Control|null}
+         * @return {Object|null} qui/controls/Control | null
          */
         getInstance : function()
         {
@@ -271,7 +267,7 @@ define('qui/controls/taskbar/Group', [
          * Return the instance icon
          *
          * @method qui/controls/taskbar/Group#getIcon
-         * @return {String|false}
+         * @return {String|Boolean} Icon name | false
          */
         getIcon : function()
         {
@@ -288,7 +284,7 @@ define('qui/controls/taskbar/Group', [
          * Return the instance title
          *
          * @method qui/controls/taskbar/Group#getTitle
-         * @return {String|false}
+         * @return {String|Boolean} Instance | false
          */
         getTitle : function()
         {
@@ -305,7 +301,7 @@ define('qui/controls/taskbar/Group', [
          * Return the the parent
          *
          * @method qui/controls/taskbar/Group#getTaskbar
-         * @return {qui/controls/taskbar/Bar}
+         * @return {Object} qui/controls/taskbar/Bar
          */
         getTaskbar : function()
         {
@@ -316,7 +312,7 @@ define('qui/controls/taskbar/Group', [
          * Refresh the group display
          *
          * @method qui/controls/taskbar/Group#refresh
-         * @param {qui/controls/taskbar/Task} Task - [optional]
+         * @param {Object} [Task] - [optional] qui/controls/taskbar/Task
          */
         refresh : function(Task)
         {
@@ -344,7 +340,7 @@ define('qui/controls/taskbar/Group', [
          * Execute a click event
          *
          * @method qui/controls/taskbar/Group#click
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Group)
          */
         click : function()
         {
@@ -370,7 +366,7 @@ define('qui/controls/taskbar/Group', [
          * Set the focus to the group DOMNode element
          *
          * @method qui/controls/taskbar/Group#focus
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Group)
          */
         focus : function()
         {
@@ -385,7 +381,7 @@ define('qui/controls/taskbar/Group', [
          * Highlight the group
          *
          * @method qui/controls/taskbar/Group#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Group)
          */
         highlight : function()
         {
@@ -403,7 +399,7 @@ define('qui/controls/taskbar/Group', [
          * no highlight
          *
          * @method qui/controls/taskbar/Group#normalize
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Group)
          */
         normalize : function()
         {
@@ -422,7 +418,7 @@ define('qui/controls/taskbar/Group', [
          * Set the group active
          *
          * @method qui/controls/taskbar/Group#activate
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Group)
          */
         activate : function()
         {
@@ -454,8 +450,11 @@ define('qui/controls/taskbar/Group', [
         {
             var Parent = this.getParent();
 
-            for ( var i in this.$tasks ) {
-                this.$tasks[i].close();
+            for ( var i in this.$tasks )
+            {
+                if ( this.$tasks.hasOwnProperty( i ) ) {
+                    this.$tasks[ i ].close();
+                }
             }
 
             this.$tasks = null;
@@ -494,7 +493,7 @@ define('qui/controls/taskbar/Group', [
          * Return true if the group is active
          *
          * @method qui/controls/taskbar/Group#isActive
-         * @return {Bool}
+         * @return {Boolean}
          */
         isActive : function()
         {
@@ -509,7 +508,7 @@ define('qui/controls/taskbar/Group', [
          * Add a Task to the group
          *
          * @method qui/controls/taskbar/Group#appendChild
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         appendChild : function(Task)
         {
@@ -558,8 +557,11 @@ define('qui/controls/taskbar/Group', [
         {
             var tasks = [];
 
-            for ( var i in this.$tasks ) {
-                tasks.push( this.$tasks[i] );
+            for ( var i in this.$tasks )
+            {
+                if ( this.$tasks.hasOwnProperty( i ) ) {
+                    tasks.push( this.$tasks[ i ] );
+                }
             }
 
             return tasks;
@@ -569,12 +571,15 @@ define('qui/controls/taskbar/Group', [
          * Return the first Task
          *
          * @method qui/controls/taskbar/Group#firstTask
-         * @return {qui/controls/taskbar/Task|null}
+         * @return {Object|null} qui/controls/taskbar/Task | null
          */
         firstTask : function()
         {
-            for ( var i in this.$tasks ) {
-                return this.$tasks[ i ];
+            for ( var i in this.$tasks )
+            {
+                if ( this.$tasks.hasOwnProperty( i ) ) {
+                    return this.$tasks[i];
+                }
             }
 
             return null;
@@ -584,7 +589,7 @@ define('qui/controls/taskbar/Group', [
          * Return the tasks number in the group
          *
          * @method qui/controls/taskbar/Group#count
-         * @return {Integer}
+         * @return {Number}
          */
         count : function()
         {
@@ -647,7 +652,7 @@ define('qui/controls/taskbar/Group', [
          * event: on task refresh
          *
          * @method qui/controls/taskbar/Group#$onTaskRefresh
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $onTaskRefresh : function(Task)
         {
@@ -669,10 +674,9 @@ define('qui/controls/taskbar/Group', [
          * event: on task selection / menu click
          *
          * @method qui/controls/taskbar/Group#$onMenuClick
-         * @param {qui/controls/contextmenu/Item} Item
-         * @param {DOMEvent} event - [optional]
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $onMenuClick : function(Item, event)
+        $onMenuClick : function(Item)
         {
             this.refresh( Item.getAttribute( 'Task' ) );
             this.click();

@@ -162,7 +162,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Focus the item
          *
          * @method qui/controls/contextmenu/BarItem#focus
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         focus : function()
         {
@@ -183,7 +183,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Blur the item
          *
          * @method qui/controls/contextmenu/BarItem#blur
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         blur : function()
         {
@@ -201,7 +201,7 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#insert
          * @param {Array} list
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         insert : function(list)
         {
@@ -232,7 +232,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Opens the submenu
          *
          * @method qui/controls/contextmenu/BarItem#show
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         show : function()
         {
@@ -276,8 +276,8 @@ define('qui/controls/contextmenu/BarItem', [
          * Add a Child to the Item
          *
          * @method qui/controls/contextmenu/BarItem#appendChild
-         * @param {qui/controls/contextmenu/Item} Child
-         * @return {this}
+         * @param {Object} Child - qui/controls/contextmenu/Item
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         appendChild : function(Child)
         {
@@ -313,7 +313,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Clear the Context Menu Items
          *
          * @method qui/controls/contextmenu/BarItem#clear
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         clear : function()
         {
@@ -368,7 +368,7 @@ define('qui/controls/contextmenu/BarItem', [
          * Set the Item active
          *
          * @method qui/controls/contextmenu/BarItem#setActive
-         * @return {this}
+         * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
         setActive : function()
         {

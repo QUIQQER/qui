@@ -115,7 +115,7 @@ define('qui/controls/taskbar/Bar', [
          *
          * @method qui/controls/taskbar/Bar#unserialize
          * @param {Object} data
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Bar)
          */
         unserialize : function(data)
         {
@@ -314,7 +314,7 @@ define('qui/controls/taskbar/Bar', [
          * Append a child to the Taskbar
          *
          * @method qui/controls/taskbar/Bar#appendChild
-         * @param {qui/controls/taskbar/Task|qui/controls/taskbar/Group} Task
+         * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
          */
         appendChild : function(Task)
         {
@@ -369,7 +369,7 @@ define('qui/controls/taskbar/Bar', [
          * Return the first task children
          *
          * @method qui/controls/taskbar/Bar#firstChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|Boolean}
+         * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
         firstChild : function()
         {
@@ -384,7 +384,7 @@ define('qui/controls/taskbar/Bar', [
          * Return the last task children
          *
          * @method qui/controls/taskbar/Bar#lastChild
-         * @return {qui/controls/taskbar/Task|qui/controls/taskbar/Group|Boolean}
+         * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
         lastChild : function()
         {
@@ -399,7 +399,7 @@ define('qui/controls/taskbar/Bar', [
          * Remove a task from the bar
          *
          * @method qui/controls/taskbar/Bar#removeChild
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         removeChild : function(Task)
         {
@@ -422,7 +422,7 @@ define('qui/controls/taskbar/Bar', [
          * Close / Remove all tasks from the bar
          *
          * @method qui/controls/taskbar/Bar#closeAllTasks
-         * @return {qui/controls/taskbar/Bar}
+         * @return {Object} qui/controls/taskbar/Bar
          */
         closeAllTasks : function()
         {
@@ -448,8 +448,8 @@ define('qui/controls/taskbar/Bar', [
          * Close / Remove all other tasks from the bar
          *
          * @method qui/controls/taskbar/Bar#closeOtherTasks
-         * @param {qui/controls/taskbar/Task} Task
-         * @return {qui/controls/taskbar/Bar}
+         * @param {Object} Task - qui/controls/taskbar/Task
+         * @return {Object} qui/controls/taskbar/Bar
          */
         closeOtherTasks : function(Task)
         {
@@ -470,8 +470,8 @@ define('qui/controls/taskbar/Bar', [
          * Close / Remove the task from the bar
          *
          * @method qui/controls/taskbar/Bar#closeTask
-         * @param {qui/controls/taskbar/Task} Task
-         * @return {qui/controls/taskbar/Bar}
+         * @param {Object} Task - qui/controls/taskbar/Task
+         * @return {Object} qui/controls/taskbar/Bar
          */
         closeTask : function(Task)
         {
@@ -484,7 +484,7 @@ define('qui/controls/taskbar/Bar', [
          * highlight the toolbar
          *
          * @method qui/controls/taskbar/Bar#highlight
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Bar)
          */
         highlight : function()
         {
@@ -497,7 +497,7 @@ define('qui/controls/taskbar/Bar', [
          * normalize the toolbar
          *
          * @method qui/controls/taskbar/Bar#normalize
-         * @return {this}
+         * @return {Object} this (qui/controls/taskbar/Bar)
          */
         normalize : function()
         {
@@ -541,7 +541,7 @@ define('qui/controls/taskbar/Bar', [
         /**
          * Scroll the taskbar to the Task
          *
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         scrollToTask : function(Task)
         {
@@ -558,7 +558,7 @@ define('qui/controls/taskbar/Bar', [
          * Refresh the context menu item of the task, if the task refresh
          *
          * @method qui/controls/taskbar/Bar#$onTaskRefresh
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $onTaskRefresh : function(Task)
         {
@@ -583,7 +583,7 @@ define('qui/controls/taskbar/Bar', [
          * event task click
          *
          * @method qui/controls/taskbar/Bar#$onTaskClick
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $onTaskClick : function(Task)
         {
@@ -609,7 +609,7 @@ define('qui/controls/taskbar/Bar', [
          * event task destroy
          *
          * @method qui/controls/taskbar/Bar#$onTaskDestroy
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          */
         $onTaskDestroy : function(Task)
         {
@@ -779,7 +779,7 @@ define('qui/controls/taskbar/Bar', [
         /**
          * event : on task contextmenu
          *
-         * @param {qui/controls/taskbar/Task} Task
+         * @param {Object} Task - qui/controls/taskbar/Task
          * @param {DOMEvent} event - DOMEvent
          */
         $onTaskContextMenu : function(Task, event)

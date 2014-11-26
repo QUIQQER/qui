@@ -115,7 +115,7 @@ define('qui/controls/contextmenu/Menu', [
          * Shows the Menu, clears the display style
          *
          * @method qui/controls/contextmenu/Menu#show
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         show : function()
         {
@@ -209,7 +209,7 @@ define('qui/controls/contextmenu/Menu', [
          * Hide the Menu, set the display style to none
          *
          * @method qui/controls/contextmenu/Menu#hide
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         hide : function()
         {
@@ -226,7 +226,7 @@ define('qui/controls/contextmenu/Menu', [
          * Set the focus to the Menu, the blur event would be triggerd
          *
          * @method qui/controls/contextmenu/Menu#focus
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         focus : function()
         {
@@ -245,7 +245,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#setPosition
          * @param {Number} x - from the top (x axis)
          * @param {Number}y - from the left (y axis)
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         setPosition : function(x, y)
         {
@@ -265,7 +265,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#setTitle
          * @param {String} text - Title text
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         setTitle : function(text)
         {
@@ -289,7 +289,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#getChildren
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
-         * @return {Array|Boolean|qui/controls/contextmenu/Item} children
+         * @return {Array|Boolean|Object} List of children | false | Child (qui/controls/contextmenu/Item)
          */
         getChildren : function(name)
         {
@@ -315,7 +315,7 @@ define('qui/controls/contextmenu/Menu', [
          * Return the first child Element
          *
          * @method qui/controls/contextmenu/Menu#firstChild
-         * @return {Boolean|qui/controls/contextmenu/Item} Child
+         * @return {Object|Boolean} Child (qui/controls/contextmenu/Item) | false
          */
         firstChild : function()
         {
@@ -341,8 +341,8 @@ define('qui/controls/contextmenu/Menu', [
          * Add the Child to the Menü
          *
          * @method qui/controls/contextmenu/Menu#appendChild
-         * @param {qui/controls/contextmenu/Item} Child
-         * @return {this} self
+         * @param {Object} Child - qui/controls/contextmenu/Item
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         appendChild : function(Child)
         {
@@ -396,7 +396,7 @@ define('qui/controls/contextmenu/Menu', [
          * Destroy all children items
          *
          * @method qui/controls/contextmenu/Menu#clearChildren
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         clearChildren : function()
         {
@@ -416,7 +416,7 @@ define('qui/controls/contextmenu/Menu', [
          * clearChildren() alternative
          *
          * @method qui/controls/contextmenu/Menu#clear
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         clear : function()
         {
@@ -427,7 +427,7 @@ define('qui/controls/contextmenu/Menu', [
          * Return the active item
          *
          * @method qui/controls/contextmenu/Menu#getActive
-         * @return {qui/controls/contextmenu/Item|Boolean} Active Child
+         * @return {Object|Boolean} Active Child (qui/controls/contextmenu/Item) | false
          */
         getActive : function()
         {
@@ -438,8 +438,8 @@ define('qui/controls/contextmenu/Menu', [
          * Return the next children / item of the item
          *
          * @method qui/controls/contextmenu/Menu#getNext
-         * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|Boolean}
+         * @param {Object} Item - qui/controls/contextmenu/Item
+         * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         getNext : function(Item)
         {
@@ -461,8 +461,8 @@ define('qui/controls/contextmenu/Menu', [
          * Return the previous children / item of the item
          *
          * @method qui/controls/contextmenu/Menu#getPrevious
-         * @param {qui/controls/contextmenu/Item} Item
-         * @return {qui/controls/contextmenu/Item|Boolean}
+         * @param {Object} Item - qui/controls/contextmenu/Item
+         * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         getPrevious : function(Item)
         {
@@ -486,7 +486,7 @@ define('qui/controls/contextmenu/Menu', [
          * Deselect all children
          *
          * @method qui/controls/contextmenu/Menu#deselectItems
-         * @return {this} self
+         * @return {Object} this (qui/controls/contextmenu/Menu)
          */
         deselectItems : function()
         {
@@ -517,10 +517,8 @@ define('qui/controls/contextmenu/Menu', [
                 return;
             }
 
-            if ( event.key === 'enter' )
-            {
+            if ( event.key === 'enter' ) {
                 this.select( event );
-                return;
             }
         },
 

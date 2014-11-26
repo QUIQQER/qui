@@ -125,7 +125,7 @@ define('qui/controls/desktop/Panel', [
          * Create the DOMNode Element for the panel
          *
          * @method qui/controls/desktop/Panel#create
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -207,7 +207,7 @@ define('qui/controls/desktop/Panel', [
          * Refresh the panel
          *
          * @method qui/controls/desktop/Panel#refresh
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         refresh : function()
         {
@@ -275,7 +275,7 @@ define('qui/controls/desktop/Panel', [
          * Execute a resize and repaint
          *
          * @method qui/controls/desktop/Panel#resize
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         resize : function()
         {
@@ -334,12 +334,6 @@ define('qui/controls/desktop/Panel', [
                 content_height = Parent.getSize().y * ( content_height / 100 );
             }
 
-            content_height = content_height;
-
-            if ( this.getAttribute( 'breadcrumb' ) ) {
-                content_height = content_height;
-            }
-
             content_height = content_height -
                              this.$Buttons.getSize().y - 2 -
                              this.$Footer.getSize().y - 1 -
@@ -388,8 +382,8 @@ define('qui/controls/desktop/Panel', [
          * Open the Panel
          *
          * @method qui/controls/desktop/Panel#open
-         * @param {Function} callback - [optional] callback function
-         * @return {this} self
+         * @param {Function} [callback] - [optional] callback function
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         open : function(callback)
         {
@@ -432,8 +426,8 @@ define('qui/controls/desktop/Panel', [
          * Minimize / Collapse the panel
          *
          * @method qui/controls/desktop/Panel#minimize
-         * @param {Function} callback - [optional] callback function
-         * @return {this} self
+         * @param {Function} [callback] - [optional] callback function
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         minimize : function(callback)
         {
@@ -481,7 +475,7 @@ define('qui/controls/desktop/Panel', [
          * Close the panel if the panel is opened and open the panel if the panel is closed
          *
          * @method qui/controls/desktop/Panel#toggle
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         toggle : function()
         {
@@ -504,7 +498,7 @@ define('qui/controls/desktop/Panel', [
          * Is the Panel open?
          *
          * @method qui/controls/desktop/Panel#isOpen
-         * @return {Bool}
+         * @return {Boolean}
          */
         isOpen : function()
         {
@@ -512,14 +506,14 @@ define('qui/controls/desktop/Panel', [
                 return false;
             }
 
-            return this.$Content.getStyle( 'display' ) == 'none' ? false : true;
+            return this.$Content.getStyle( 'display' ) != 'none';
         },
 
         /**
          * Highlight the column
          *
          * @method qui/controls/desktop/Panel#highlight
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         highlight : function()
         {
@@ -538,7 +532,7 @@ define('qui/controls/desktop/Panel', [
          * Dehighlight the column
          *
          * @method qui/controls/desktop/Panel#normalize
-         * @return {this} self
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         normalize : function()
         {
@@ -552,7 +546,7 @@ define('qui/controls/desktop/Panel', [
         },
 
         /**
-         * @depricated
+         * @deprecated
          * @method qui/controls/desktop/Panel#getBody
          */
         getBody : function()
@@ -564,7 +558,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Content ( Body ) DOMNode Element
          *
          * @method qui/controls/desktop/Panel#getBody
-         * @return {null|DOMNode}
+         * @return {null|HTMLElement}
          */
         getContent : function()
         {
@@ -576,7 +570,7 @@ define('qui/controls/desktop/Panel', [
          *
          * @method qui/controls/desktop/Panel#setContent
          * @param {String} content - HTML String
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         setContent : function(content)
         {
@@ -589,7 +583,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Footer DOMNode Element
          *
          * @method qui/controls/desktop/Panel#getFooter
-         * @return {null|DOMNode}
+         * @return {null|HTMLElement}
          */
         getFooter : function()
         {
@@ -601,7 +595,7 @@ define('qui/controls/desktop/Panel', [
          *
          * @method qui/controls/desktop/Panel#setFooter
          * @param {String} content - HTML String
-         * @return {this}
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         setFooter : function(content)
         {
@@ -614,7 +608,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Title DOMNode Element
          *
          * @method qui/controls/desktop/Panel#getHeader
-         * @return {null|DOMNode}
+         * @return {null|HTMLElement}
          */
         getHeader : function()
         {
@@ -626,8 +620,8 @@ define('qui/controls/desktop/Panel', [
          * This is a button top of the panel
          *
          * @method qui/controls/desktop/Panel#addButton
-         * @param {qui/controls/buttons/Buttons|qui/controls/buttons/Seperator|Object} Btn
-         * @return {this}
+         * @param {Object} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Seperator | Object params
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         addButton : function(Btn)
         {
@@ -674,7 +668,7 @@ define('qui/controls/desktop/Panel', [
          * Return the button bar of the pannel
          *
          * @method qui/controls/desktop/Panel#getButtonBar
-         * @return {qui/controls/toolbar/Bar}
+         * @return {Object} qui/controls/toolbar/Bar
          */
         getButtonBar : function()
         {
@@ -697,8 +691,8 @@ define('qui/controls/desktop/Panel', [
          * This is a button left of the panel
          *
          * @method qui/controls/desktop/Panel#addCategory
-         * @param {qui/controls/buttons/Buttons|Object} Btn
-         * @return {this} self
+         * @param {Object} Btn - qui/controls/buttons/Buttons | button params
+         * @return {Object} this (qui/controls/desktop/Panel)
          */
         addCategory : function(Btn)
         {
@@ -759,7 +753,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Category bar object
          *
          * @method qui/controls/desktop/Panel#getCategoryBar
-         * @return {qui/controls/toolbar/Bar}
+         * @return {Object} qui/controls/toolbar/Bar
          */
         getCategoryBar : function()
         {
@@ -774,8 +768,7 @@ define('qui/controls/desktop/Panel', [
                     'menu-button' : false,
                     events :
                     {
-                        onClear : function(Bar)
-                        {
+                        onClear : function() {
                             this.$ActiveCat = null;
                         }.bind( this )
                     }
@@ -789,7 +782,7 @@ define('qui/controls/desktop/Panel', [
          * Return the active category
          *
          * @method qui/controls/desktop/Panel#getActiveCategory
-         * @return {qui/controls/buttons/Buttons}
+         * @return {Object} qui/controls/buttons/Buttons
          */
         getActiveCategory : function()
         {
@@ -800,7 +793,7 @@ define('qui/controls/desktop/Panel', [
          * Return the Breacrumb bar object
          *
          * @method qui/controls/desktop/Panel#getBreadcrumb
-         * @return {qui/controls.breadcrumb.Bar}
+         * @return {Object} qui/controls.breadcrumb.Bar
          */
         getBreadcrumb : function()
         {
@@ -847,7 +840,7 @@ define('qui/controls/desktop/Panel', [
          *
          * @method qui/controls/desktop/Panel#createSheet
          * @param {Object} options - [optional] Sheet options
-         * @return {qui/controls/panels/Sheet}
+         * @return {Object} qui/controls/panels/Sheet
          */
         createSheet : function(options)
         {

@@ -101,7 +101,7 @@ define('qui/controls/utils/Progressbar', [
          * calculates width in pixels from percentage
          *
          * @method qui/controls/utils/Progressbar#calculate
-         * @param {Integer} percentage - 0 - 100
+         * @param {Number} percentage - 0 - 100
          */
         calculate : function(percentage)
         {
@@ -116,7 +116,7 @@ define('qui/controls/utils/Progressbar', [
          * animates the change in percentage
          *
          * @method qui/controls/utils/Progressbar#animate
-         * @param {Integer} to - 0 - 100
+         * @param {Number} to - 0 - 100
          */
         animate : function(to)
         {

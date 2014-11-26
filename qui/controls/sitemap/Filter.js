@@ -147,8 +147,8 @@ define('qui/controls/sitemap/Filter', [
          * Older Sitemap binds persist
          *
          * @method qui/controls/sitemap/Filter#bindSitemap
-         * @param {qui/controls/sitemap/Map} Sitemap
-         * @return {this} self
+         * @param {Object} Sitemap - qui/controls/sitemap/Map
+         * @return {Object} this (qui/controls/sitemap/Filter)
          */
         bindSitemap : function(Sitemap)
         {
@@ -165,7 +165,7 @@ define('qui/controls/sitemap/Filter', [
          * all binds would be resolved
          *
          * @method qui/controls/sitemap/Filter#clearBinds
-         * @return {this} self
+         * @return {Object} this (qui/controls/sitemap/Filter)
          */
         clearBinds : function()
         {
@@ -190,7 +190,7 @@ define('qui/controls/sitemap/Filter', [
          *
          * @method qui/controls/sitemap/Filter#filter
          * @param {String} str - the filter value
-         * @return {this}
+         * @return {Object} this (qui/controls/sitemap/Filter)
          */
         filter : function(str)
         {
@@ -207,7 +207,7 @@ define('qui/controls/sitemap/Filter', [
          * Helper Function for the filter
          *
          * @method qui/controls/sitemap/Filter#$filter
-         * @param {qui/controls/sitemap/Map} Map - the Sitemap
+         * @param {Object} Map - (qui/controls/sitemap/Map) the Sitemap
          * @param {String} str - the filter value
          */
         $filter : function(Map, str)

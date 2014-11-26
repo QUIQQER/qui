@@ -63,6 +63,9 @@ define('qui/controls/toolbar/Bar', [
             this.items = [];
             this.btns  = [];
 
+            this.moveLeft  = null;
+            this.moveRight = null;
+
             this.parent( options );
         },
 
@@ -117,7 +120,7 @@ define('qui/controls/toolbar/Bar', [
          * Refresh the Bar
          *
          * @method qui/controls/toolbar/Bar#refresh
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         refresh : function()
         {
@@ -252,7 +255,7 @@ define('qui/controls/toolbar/Bar', [
          * Clear the whole bar and destroys the children
          *
          * @method qui/controls/toolbar/Bar#clear
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         clear : function()
         {
@@ -307,7 +310,7 @@ define('qui/controls/toolbar/Bar', [
          * Hide the Bar
          *
          * @method qui/controls/toolbar/Bar#hide
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         hide : function()
         {
@@ -323,7 +326,7 @@ define('qui/controls/toolbar/Bar', [
          * Show the Bar
          *
          * @method qui/controls/toolbar/Bar#show
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         show : function()
         {
@@ -337,12 +340,12 @@ define('qui/controls/toolbar/Bar', [
          * Scrolls the bar to the right
          *
          * @method qui/controls/toolbar/Bar#toLeft
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         toLeft : function()
         {
             if ( !this.Fx ) {
-                return;
+                return this;
             }
 
             //this.Fx.stop();
@@ -357,7 +360,7 @@ define('qui/controls/toolbar/Bar', [
          * Scrolls the bar to the right
          *
          * @method qui/controls/toolbar/Bar#toRight
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         toRight : function()
         {
@@ -380,8 +383,8 @@ define('qui/controls/toolbar/Bar', [
          * Scroll to a specific tab
          *
          * @method qui/controls/toolbar/Bar#toTab
-         * @param {qui/controls/toolbar/Tab} Tab
-         * @return {this}
+         * @param {Object} Tab - qui/controls/toolbar/Tab
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         toTab : function(Tab)
         {
@@ -441,7 +444,7 @@ define('qui/controls/toolbar/Bar', [
          * Get the first children
          *
          * @method qui/controls/toolbar/Bar#firstChild
-         * @return {qui/controls/Control}
+         * @return {Object} qui/controls/Control
          */
         firstChild : function()
         {
@@ -452,7 +455,7 @@ define('qui/controls/toolbar/Bar', [
          * Get the last child
          *
          * @method qui/controls/toolbar/Bar#lastChild
-         * @return {qui/controls/Control}
+         * @return {Object} qui/controls/Control
          */
         lastChild : function()
         {
@@ -491,8 +494,8 @@ define('qui/controls/toolbar/Bar', [
          * Remove a child from the toolbar
          *
          * @method qui/controls/toolbar/Bar#removeChild
-         * @param {qui/controls/Control} Child
-         * @return {this}
+         * @param {Object} Child - qui/controls/Control
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         removeChild : function(Child)
         {
@@ -522,10 +525,10 @@ define('qui/controls/toolbar/Bar', [
          * Move an child to another position
          *
          * @method qui/controls/toolbar/Bar#moveChildToPos
-         * @param {qui/controls/Control} Child - Item in the toolbar
+         * @param {Object} Child - (qui/controls/Control) Item in the toolbar
          * @param {Number} pos   - New position
          *
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         moveChildToPos : function(Child, pos)
         {
@@ -561,7 +564,7 @@ define('qui/controls/toolbar/Bar', [
          *
          * @method qui/controls/toolbar/Bar#getElement
          * @param {String} name - name of the wanted Element
-         * @return {null|qui/controls/Control}
+         * @return {null|Object} null | qui/controls/Control
          */
         getElement : function(name)
         {
@@ -584,12 +587,8 @@ define('qui/controls/toolbar/Bar', [
          * Add an Child to the toolbar
          *
          * @method qui/controls/toolbar/Bar#appendChild
-         * @param {
-         *         qui/controls/buttons/Button|
-         *         qui/controls/buttons/Seperator|
-         *         qui/controls/toolbar/Tab
-         * } Itm
-         * @return {this}
+         * @param {Object} Itm - qui/controls/buttons/Button | qui/controls/buttons/Seperator | qui/controls/toolbar/Tab
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         appendChild : function(Itm)
         {
@@ -686,8 +685,8 @@ define('qui/controls/toolbar/Bar', [
          * Set an toolbar child active
          *
          * @method qui/controls/toolbar/Bar#setItemActive
-         * @param {qui/controls/toolbar/Tab} Child
-         * @return {this}
+         * @param {Object} Child - qui/controls/toolbar/Tab
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         setItemActive : function(Child)
         {
@@ -715,7 +714,7 @@ define('qui/controls/toolbar/Bar', [
          * Returns the active child
          *
          * @method qui/controls/toolbar/Bar#getActive
-         * @return {null|qui/controls/Control}
+         * @return {null|Object} null | qui/controls/Control
          */
         getActive : function()
         {
@@ -726,12 +725,12 @@ define('qui/controls/toolbar/Bar', [
          * Resize the whole toolbar
          *
          * @method qui/controls/toolbar/Bar#resize
-         * @return {this}
+         * @return {Object} this (qui/controls/toolbar/Bar)
          */
         resize : function()
         {
             if ( !this.getElm() ) {
-                return;
+                return this;
             }
 
             // tab width
@@ -778,7 +777,7 @@ define('qui/controls/toolbar/Bar', [
          * Add a ContextMenuItem for a child to the toolbar
          *
          * @method qui/controls/toolbar/Bar#$addContextMenuItm
-         * @return {qui/controls/contextmenu/Item}
+         * @return {Object} qui/controls/contextmenu/Item
          * @ignore
          */
         $addContextMenuItm : function(Itm)
@@ -792,7 +791,7 @@ define('qui/controls/toolbar/Bar', [
 
             Itm.setAttribute( 'ContextMenuItem', MenuItem );
 
-            MenuItem.addEvent('onMouseDown', function(Itm, event)
+            MenuItem.addEvent('onMouseDown', function(Itm)
             {
                 var Tab     = Itm.getAttribute( 'TAB' ),
                     Toolbar = Itm.getAttribute( 'Toolbar' );

@@ -7,6 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
+/* jshint ignore:start */
 define('qui/classes/storage/Polyfill', function()
 {
     "use strict";
@@ -146,3 +147,4 @@ define('qui/classes/storage/Polyfill', function()
 
     return Storage;
 });
+/* jshint ignore:end */

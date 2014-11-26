@@ -44,7 +44,7 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          *
          * @method qui/classes/storage/Storage#set
          * @param {String} key
-         * @param {String|Integer} value
+         * @param {String|Number|Boolean} value
          */
         set : function(key, value)
         {
@@ -63,7 +63,7 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          *
          * @method qui/classes/storage/Storage#get
          * @param {String} key
-         * @return {unknown_type} the wanted storage
+         * @return {String|Number|Boolean} the wanted storage
          */
         get : function(key)
         {

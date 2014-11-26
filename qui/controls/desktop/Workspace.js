@@ -38,7 +38,7 @@ define('qui/controls/desktop/Workspace', [
     /**
      * @class qui/controls/desktop/Workspace
      *
-     * @param {DOMNode} Parent - Parent node
+     * @param {HTMLElement} Parent - Parent node
      * @param {Object} options . QDOM params
      *
      * @memberof! <global>
@@ -94,7 +94,7 @@ define('qui/controls/desktop/Workspace', [
          * Workspace resize
          *
          * @method qui/controls/desktop/Workspace#resize
-         * @param {Array} workspace - [optional] json decoded serialized workspace
+         * @param {Array|Boolean} [workspace] - [optional] json decoded serialized workspace
          */
         resize : function(workspace)
         {
@@ -349,8 +349,8 @@ define('qui/controls/desktop/Workspace', [
          * Add a column to the workspace
          *
          * @method qui/controls/desktop/Workspace#appendChild
-         * @param {qui/controls/desktop/Column|Object} Column
-         * @return {this}
+         * @param {Object} Column - qui/controls/desktop/Column | column params
+         * @return {Object} this (qui/controls/desktop/Workspace)
          */
         appendChild : function(Column)
         {
@@ -433,7 +433,7 @@ define('qui/controls/desktop/Workspace', [
          * then it took the panel to a column
          *
          * @method qui/controls/desktop/Workspace#appendPanel
-         * @param {qui/controls/dekstop/Panel} Panel
+         * @param {Object} Panel - qui/controls/dekstop/Panel
          */
         appendPanel : function(Panel)
         {
@@ -467,14 +467,16 @@ define('qui/controls/desktop/Workspace', [
                 return;
             }
 
-            QUI.MH.addError( 'Could not append the panel to the Workspace' );
+            QUI.getMessageHandler(function(MH) {
+                MH.addError( 'Could not append the panel to the Workspace' );
+            });
         },
 
         /**
          * Return the last column
          *
          * @method qui/controls/desktop/Workspace#lastChild
-         * @return {qui/controls/desktop/Column|Boolean}
+         * @return {Object|Boolean} qui/controls/desktop/Column | false
          */
         lastChild : function()
         {
@@ -485,7 +487,7 @@ define('qui/controls/desktop/Workspace', [
          * Return the first column
          *
          * @method qui/controls/desktop/Workspace#firstChild
-         * @return {qui/controls/desktop/Column|Boolean}
+         * @return {Object|Boolean} qui/controls/desktop/Column | false
          */
         firstChild : function()
         {
@@ -528,7 +530,7 @@ define('qui/controls/desktop/Workspace', [
          *
          * @method qui/controls/desktop/Workspace#$bindResizeToColumn
          * @param {HTMLElement} Handler
-         * @param {qui/controls/desktop/Column} Column
+         * @param {Object} Column - qui/controls/desktop/Column
          */
         $bindResizeToColumn : function(Handler, Column)
         {
@@ -714,7 +716,7 @@ define('qui/controls/desktop/Workspace', [
          * event : mouseclick on a contextmenu item on the handler slider
          *
          * @method qui/controls/desktop/Workspace#$onHandlerContextMenuClick
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onHandlerContextMenuClick : function(Item)
         {
@@ -730,7 +732,7 @@ define('qui/controls/desktop/Workspace', [
          * event : mouseenter on a contextmenu item on the handler slider
          *
          * @method qui/controls/desktop/Workspace#$onHandlerContextMenuHighlight
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onHandlerContextMenuHighlight : function(Item)
         {
@@ -745,7 +747,7 @@ define('qui/controls/desktop/Workspace', [
          * event : mouseleave on a contextmenu item on the handler slider
          *
          * @method qui/controls/desktop/Workspace#$onHandlerContextMenuNormalize
-         * @param {qui/controls/contextmenu/Item} Item
+         * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $onHandlerContextMenuNormalize : function(Item)
         {
@@ -760,7 +762,7 @@ define('qui/controls/desktop/Workspace', [
          * event : column context menu
          *
          * @method qui/controls/desktop/Workspace#$onHandlerContextMenuNormalize
-         * @param {qui/controls/desktop/Column} Column
+         * @param {Object} Column - qui/controls/desktop/Column
          * @param {DOMEvent} event
          */
         $onColumnContextMenu : function(Column, event)
