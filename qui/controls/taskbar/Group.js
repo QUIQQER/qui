@@ -312,7 +312,7 @@ define('qui/controls/taskbar/Group', [
          * Refresh the group display
          *
          * @method qui/controls/taskbar/Group#refresh
-         * @param {Object} [Task] - [optional] qui/controls/taskbar/Task
+         * @param {Object} [Task] - optional, qui/controls/taskbar/Task
          */
         refresh : function(Task)
         {

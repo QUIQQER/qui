@@ -590,7 +590,7 @@ define('qui/controls/contextmenu/Menu', [
          * Makes a click on the active element
          *
          * @method qui/controls/contextmenu/Menu#select
-         * @param {DOMEvent} event - [optional]
+         * @param {DOMEvent} [event] - optional
          */
         select : function(event)
         {

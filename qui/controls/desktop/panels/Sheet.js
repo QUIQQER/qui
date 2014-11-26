@@ -179,8 +179,6 @@ define('qui/controls/desktop/panels/Sheet', [
                 Btn = new Button( Btn );
             }
 
-            var i, len, list;
-
             var Container = this.getButtons().getElement( '.qui-panel-sheet-buttons' ),
                 width     = 0,
                 styles    = Btn.getAttributes( 'styles' ) || {};
@@ -191,9 +189,9 @@ define('qui/controls/desktop/panels/Sheet', [
             Btn.setAttribute( 'styles', styles );
             Btn.inject( Container );
 
-            list = Container.getElements( 'button' );
+            var list = Container.getElements( 'button' );
 
-            for ( i = 0, len = list.length; i < len; i++ ) {
+            for ( var i = 0, len = list.length; i < len; i++ ) {
                 width = width + list[ i ].getComputedSize().totalWidth;
             }
 
@@ -204,7 +202,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Show the panel sheet
          *
          * @method qui/controls/desktop/panels/Sheet#show
-         * @param {Function} callback - [optional] callback function
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/panels/Sheet)
          */
         show : function(callback)
@@ -266,7 +264,7 @@ define('qui/controls/desktop/panels/Sheet', [
          * Hide the panel sheet
          *
          * @method qui/controls/desktop/panels/Sheet#hide
-         * @param {Function} callback - [optional] callback function
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/panels/Sheet)
          */
         hide : function(callback)

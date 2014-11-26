@@ -202,7 +202,7 @@ define('qui/controls/buttons/Select', [
          *
          * @param {String} text - Text of the child
          * @param {String} value - Value of the child
-         * @param {String} icon - [optional]
+         * @param {String} [icon] - optional
          * @return {Object} this (qui/controls/buttons/Select)
          */
         appendChild : function(text, value, icon)

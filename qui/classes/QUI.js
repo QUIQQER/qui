@@ -111,8 +111,8 @@ define('qui/classes/QUI', [
         /**
          * parse qui controls
          *
-         * @param {HTMLElement} Parent - [optional], if no parent given, document.body would be use
-         * @param {Function} callback - [optional]
+         * @param {HTMLElement} [Parent] - optional, if no parent given, document.body would be use
+         * @param {Function} [callback] - optional
          */
         parse : function(Parent, callback)
         {
@@ -189,8 +189,8 @@ define('qui/classes/QUI', [
          * @method qui/classes/QUI#trigger
          *
          * @param {String} msg
-         * @param {String} url - [optional]
-         * @param {Number} linenumber - [optional]
+         * @param {String} [url] - optional
+         * @param {Number} [linenumber] - optional
          *
          * @return {Object} this (qui/classes/QUI)
          */

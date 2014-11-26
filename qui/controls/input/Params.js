@@ -249,7 +249,7 @@ define('qui/controls/input/Params', [
          * Open the add parameter sub window
          *
          * @method qui/controls/input/Params#openAddParamWindow
-         * @param {HTMLElement} Param - [optional] edit a param (.qui-control-input-param-entry)
+         * @param {HTMLElement} [Param] - optional, edit a param (.qui-control-input-param-entry)
          */
         openAddParamWindow : function(Param)
         {

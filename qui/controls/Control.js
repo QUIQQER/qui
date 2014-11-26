@@ -97,8 +97,8 @@ define('qui/controls/Control', [
          * Inject the DOMNode of the Control to a Parent
          *
          * @method qui/controls/Control#inject
-         * @param {HTMLElement|qui/controls/Control} Parent - Parent Element
-         * @param {String} pos - [optional]
+         * @param {HTMLElement|Object} Parent - (qui/controls/Control) Parent Element
+         * @param {String} [pos] - optional
          * @return {Object} qui/controls/Control
          */
         inject : function(Parent, pos)
@@ -228,7 +228,7 @@ define('qui/controls/Control', [
          * If the control have a QUI_Object Parent
          *
          * @method qui/controls/Control#getParent
-         * @return {qui/controls/Control|Boolean}
+         * @return {Object|Boolean} qui/controls/Control | false
          */
         getParent : function()
         {
@@ -240,7 +240,7 @@ define('qui/controls/Control', [
          *
          * @method qui/controls/Control#setParent
          *
-         * @param {qui/controls/Control} Parent
+         * @param {Object} Parent - qui/controls/Control
          * @return {Object} qui/controls/Control
          */
         setParent : function(Parent)
@@ -369,7 +369,7 @@ define('qui/controls/Control', [
          *
          * @method qui/controls/Control#openSheet
          * @param {Function} onfinish - callback function
-         * @param {Object} options - [optional] { nobuttons : true }
+         * @param {Object} [options] - optional { nobuttons : true }
          */
         openSheet : function(onfinish, options)
         {

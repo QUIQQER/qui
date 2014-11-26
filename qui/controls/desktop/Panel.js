@@ -382,7 +382,7 @@ define('qui/controls/desktop/Panel', [
          * Open the Panel
          *
          * @method qui/controls/desktop/Panel#open
-         * @param {Function} [callback] - [optional] callback function
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         open : function(callback)
@@ -426,7 +426,7 @@ define('qui/controls/desktop/Panel', [
          * Minimize / Collapse the panel
          *
          * @method qui/controls/desktop/Panel#minimize
-         * @param {Function} [callback] - [optional] callback function
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         minimize : function(callback)
@@ -651,8 +651,8 @@ define('qui/controls/desktop/Panel', [
          * Return the children
          *
          * @method @method qui/controls/desktop/Panel#getButtons
-         * @param {String} name - [optional] name of the wanted Element
-         *                        if no name given, all children will be return
+         * @param {String} [name] - optional, name of the wanted Element
+         *                          if no name given, all children will be return
          * @return {Array}
          */
         getButtons : function(name)
@@ -736,8 +736,8 @@ define('qui/controls/desktop/Panel', [
          * Return a category children
          *
          * @method qui/controls/desktop/Panel#getCategory
-         * @param {String} name - [optional] name of the wanted Element
-         *                        if no name given, all children will be return
+         * @param {String} [name] - optional, name of the wanted Element
+         *                          if no name given, all children will be return
          * @return {Array}
          */
         getCategory : function(name)
@@ -839,7 +839,7 @@ define('qui/controls/desktop/Panel', [
          * Create a sheet in the panel and open it
          *
          * @method qui/controls/desktop/Panel#createSheet
-         * @param {Object} options - [optional] Sheet options
+         * @param {Object} [options] - optional, Sheet options
          * @return {Object} qui/controls/panels/Sheet
          */
         createSheet : function(options)

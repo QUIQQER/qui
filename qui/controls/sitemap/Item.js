@@ -522,7 +522,7 @@ define('qui/controls/sitemap/Item', [
          * Select the Item
          *
          * @method qui/controls/sitemap/Item#select
-         * @param {DOMEvent} event - [optional]
+         * @param {DOMEvent} [event] - optional
          * @return {Object} this (qui/controls/sitemap/Item)
          */
         select : function(event)

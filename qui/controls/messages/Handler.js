@@ -315,8 +315,7 @@ define('qui/controls/messages/Handler', [
                 Parent = document.body;
             }
 
-            var self = this,
-                size = Parent.getSize();
+            var self = this;
 
             var Container = new Element('div', {
                 'class' : 'message-handler-container',
@@ -660,7 +659,7 @@ define('qui/controls/messages/Handler', [
          * Returns the count of the new messages
          *
          * @method qui/controls/messages/Handler#getNewMessages
-         * @return {Boolean}
+         * @return {Number}
          */
         getNewMessages : function()
         {
@@ -711,9 +710,9 @@ define('qui/controls/messages/Handler', [
          * Add a message to the Handler
          *
          * @method qui/controls/messages/Handler#add
-         * @param {qui/controls/messages/Message} Message
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {Object} Message - qui/controls/messages/Message
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         add : function(Message, Parent)
         {
@@ -842,8 +841,8 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#addAttention
          * @param {String} str - Message text
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addAttention : function(str, Parent)
         {
@@ -867,8 +866,8 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#addError
          * @param {String} str - Message text
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addError : function(str, Parent)
         {
@@ -891,9 +890,9 @@ define('qui/controls/messages/Handler', [
          * Add an exception
          *
          * @method qui/controls/messages/Handler#addException
-         * @param {Exception} Exception
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {DOMException|Object} Exception - DOMException | qui/controls/messages/Message
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addException : function(Exception, Parent)
         {
@@ -918,8 +917,8 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#addInformation
          * @param {String} str - Message text
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addInformation : function(str, Parent)
         {
@@ -944,8 +943,8 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#addAttention
          * @param {String} str - Message text
          * @param {Function} callback - Callback Function, to get the Loading object
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addLoading : function(str, callback, Parent)
         {
@@ -975,8 +974,8 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#addSuccess
          * @param {String} str - Message text
-         * @param {HTMLElement} Parent - [optional] Parent Object, where to display the message
-         * @return {this}
+         * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
+         * @return {Object} this (qui/controls/messages/Handler)
          */
         addSuccess : function(str, Parent)
         {
@@ -1040,7 +1039,7 @@ define('qui/controls/messages/Handler', [
          * event : on message destroy
          *
          * @method qui/controls/messages/Handler#$onMessageDestroy
-         * @param {qui/controls/messages/Message} Message
+         * @param {Object} Message - qui/controls/messages/Message
          */
         $onMessageDestroy : function(Message)
         {

@@ -494,7 +494,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#appendChild
          * @param {Object} Panel - qui/controls/desktop/Panel | qui/controls/desktop/Tasks
-         * @param {Number} [pos] - [optional] Position where to insert
+         * @param {Number} [pos] - optional, Position where to insert
          * @return {Object} this (qui/controls/desktop/Column)
          */
         appendChild : function(Panel, pos)

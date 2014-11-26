@@ -193,9 +193,9 @@ define('qui/controls/messages/Panel', [
          * event on add message to the message-handler
          *
          * @method qui/controls/messages/Panel#$onMessageHandlerAdd
-         * @param {qui/controls/messages/Handler} MessageHandler
-         * @param {qui/controls/messages/Message} Message
-         * @param {Boolean} animate - [optional] animate the message or not; default = true
+         * @param {Object} MessageHandler - qui/controls/messages/Handler
+         * @param {Object} Message - qui/controls/messages/Message
+         * @param {Boolean} [animate] - optional, animate the message or not; default = true
          */
         $onMessageHandlerAdd : function(MessageHandler, Message, animate)
         {
@@ -255,7 +255,7 @@ define('qui/controls/messages/Panel', [
          * Toggle the button status
          *
          * @method qui/controls/messages/Panel#$toggleButton
-         * @param {qui/controls/buttons/Button} Btn
+         * @param {Object} Btn - qui/controls/buttons/Button
          */
         $toggleButton : function(Btn)
         {
@@ -284,6 +284,9 @@ define('qui/controls/messages/Panel', [
                 case 'error':
                     this.setAttribute( 'showError', Btn.isActive() );
                 break;
+
+                default:
+                    return;
             }
 
             this.refreshMessages();

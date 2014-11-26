@@ -94,7 +94,7 @@ define('qui/controls/desktop/Workspace', [
          * Workspace resize
          *
          * @method qui/controls/desktop/Workspace#resize
-         * @param {Array|Boolean} [workspace] - [optional] json decoded serialized workspace
+         * @param {Array|Boolean} [workspace] - optional, json decoded serialized workspace
          */
         resize : function(workspace)
         {

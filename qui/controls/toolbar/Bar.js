@@ -466,8 +466,8 @@ define('qui/controls/toolbar/Bar', [
          * Return all children
          *
          * @method qui/controls/toolbar/Bar#getChildren
-         * @param {String} name - [optional] name of the wanted Element
-         *                        if no name given, all children will be return
+         * @param {String} [name] - optional, name of the wanted Element
+         *                          if no name given, all children will be return
          * @return {Array}
          */
         getChildren : function(name)
