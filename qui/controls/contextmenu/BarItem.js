@@ -68,6 +68,8 @@ define('qui/controls/contextmenu/BarItem', [
 
         initialize : function(options)
         {
+            options = options || {};
+
             var items = options.items || [];
             delete options.items;
 

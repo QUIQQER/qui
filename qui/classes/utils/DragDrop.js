@@ -6,7 +6,7 @@
  * @module qui/classes/utils/DragDrop
  * @author www.pcsg.de (Henning Leutz)
  *
- * @requires qui/classes/DOM
+ * @require qui/classes/DOM
  *
  * @event onStart [ this, Dragable, event ]
  * @event onStop [ this, Dragable ]
@@ -65,6 +65,9 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
             this.$Element = Elm;
             this.$enable  = true;
 
+            if ( typeof Elm === 'undefined' ) {
+                return;
+            }
 
             Elm.addEvents({
 

@@ -74,6 +74,8 @@ define('qui/controls/contextmenu/Item', [
 
         initialize : function(options)
         {
+            options = options || {};
+
             var self  = this,
                 items = options.items || [];
 
