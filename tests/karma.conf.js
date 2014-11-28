@@ -13,7 +13,6 @@ module.exports = function(config)
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['requirejs', 'jasmine'],
 
-
     // list of files / patterns to load in the browser
     files: [
         {pattern: 'tests/spec/**/*.js'},
@@ -24,7 +23,6 @@ module.exports = function(config)
         {pattern: 'qui/**/*.js', included: false},
         {pattern: 'qui/**/*.css', included: false}
     ],
-
 
     // list of files to exclude
     exclude: [
@@ -62,7 +60,7 @@ module.exports = function(config)
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'Firefox'], // 'PhantomJS' ,'Chrome', 'Firefox'
+    browsers: ['PhantomJS' ,'Chrome', 'Firefox'], // 'PhantomJS' ,'Chrome', 'Firefox'
 
 
     // Continuous Integration mode
