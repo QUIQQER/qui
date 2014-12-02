@@ -2,6 +2,8 @@
 
 describe("qui/classes/DOM", function()
 {
+    "use strict";
+
     it("qui/classes/DOM", function(done)
     {
         require(['qui/classes/DOM'], function(QDOM)
