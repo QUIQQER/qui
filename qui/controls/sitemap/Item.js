@@ -858,17 +858,18 @@ define('qui/controls/sitemap/Item', [
             {
                 this.$Text.set( 'html', value );
 
-                var w = ( this.$Text.getSize().x ).toInt();
+                //var w = ( this.$Text.getSize().x ).toInt();
+                //
+                //if ( this.$Opener ) {
+                //    w = w + ( this.$Opener.getSize().x ).toInt();
+                //}
+                //
+                //if ( this.$Icons ) {
+                //    w = w + ( this.$Icons.getSize().x ).toInt();
+                //}
 
-                if ( this.$Opener ) {
-                    w = w + ( this.$Opener.getSize().x ).toInt();
-                }
-
-                if ( this.$Icons ) {
-                    w = w + ( this.$Icons.getSize().x ).toInt();
-                }
-
-                this.$Elm.setStyle( 'width', w );
+                // this.$Elm.setStyle( 'width', w );
+                this.refresh();
                 return;
             }
 

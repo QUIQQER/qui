@@ -12,7 +12,7 @@
     separateCSS: true,
     wrapShim: false,
 
-    fileExclusionRegExp: /\.git|^tests$|^build$|^coverage$|^doc$|^jsdoc$|^examples$|^r\.js|\.md|^composer\.json|^bower\.json|^init\.js|^initDev\.js|^build\.js|^build-jsdoc\.js|^build\-config\.js/,
+    fileExclusionRegExp: /\.git|^tests$|^build$|^coverage$|^doc$|^jsdoc$|^examples$|^r\.js|\.md|^package\.json|^composer\.json|^bower\.json|^init\.js|^initDev\.js|^\.jshintrc|^\.flowconfig|^build\.js|^build-jsdoc\.js|^build\-config\.js/,
 
     paths : {
         qui : 'qui'

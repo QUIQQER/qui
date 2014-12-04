@@ -46,7 +46,7 @@ define('qui/controls/desktop/Workspace', [
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'qui/controls/desktop.Workspace',
+        Type    : 'qui/controls/desktop/Workspace',
 
         Binds : [
             'resize',

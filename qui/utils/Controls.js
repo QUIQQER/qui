@@ -28,7 +28,7 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI)
                 return false;
             }
 
-            return ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) && !icon.match( /\./ );
+            return ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) && !icon.match( /\./ ) ? true : false;
         },
 
         /**

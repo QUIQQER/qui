@@ -7,6 +7,7 @@
     "browser"  : true,
 
     "predef"  : [
-        "define", "require", "moofx", "Asset"
+        "define", "require", "moofx", "Asset",
+        "describe", "expect", "it"
     ]
 }
