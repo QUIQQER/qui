@@ -29,11 +29,38 @@ define('qui/utils/Form', {
 
         data = data || {};
 
+        // unselect checkboxes and radios
         for ( k in data )
         {
-            if ( !form.elements[ k ] ) {
+            if ( !data.hasOwnProperty( k ) ) {
                 continue;
             }
+
+            if ( typeof form.elements[ k ] === 'undefined' ) {
+                continue;
+            }
+
+            Elm = form.elements[ k ];
+
+            if ( Elm.type === 'checkbox' || Elm.type === 'radio' ) {
+                form.getElements( '[name="'+ k +'"]' ).set( 'checked', false );
+            }
+
+            if ( Elm.length && ( Elm[0].type === 'checkbox' || Elm[0].type === 'radio' ) ) {
+                form.getElements( '[name="'+ k +'"]' ).set( 'checked', false );
+            }
+        }
+
+        for ( k in data )
+        {
+            if ( !data.hasOwnProperty( k ) ) {
+                continue;
+            }
+
+            if ( typeof form.elements[ k ] === 'undefined' ) {
+                continue;
+            }
+
 
             Elm = form.elements[ k ];
 
