@@ -50,7 +50,7 @@ describe("qui/utils/Form", function()
             expect( data.radio1 ). toBe( '2' );
 
             /**
-             * setDataToForm
+             * setDataToForm test
              */
             FormUtils.setDataToForm({
                 text1  : 'new value',
@@ -66,7 +66,8 @@ describe("qui/utils/Form", function()
             expect( Form.elements.radio1.value ). toBe( '3' );
             expect( data.radio1 ). toBe( '3' );
 
-            console.log( data.check3 );
+            expect( data.check3[0] ). toBe( '2' );
+            expect( data.check3[1] ). toBe( '3' );
 
             done();
         });
