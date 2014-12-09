@@ -7,6 +7,7 @@
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/QUI
+ * @require qui/Locale
  * @require qui/classes/DOM
  * @require css!qui/controls/Control.css
  *
@@ -43,7 +44,7 @@ define('qui/controls/Control', [
         Extends : DOM,
         Type    : 'qui/controls/Control',
 
-        $Parent : null,
+        $Parent : false,
 
         options : {
             name : ''
@@ -142,6 +143,34 @@ define('qui/controls/Control', [
         'import' : function(Elm)
         {
             this.$Elm = Elm;
+
+            // set options
+            var attribute, attrName, attrValue, numb;
+            var attributes = Elm.attributes;
+
+            for ( var i = 0, len = attributes.length; i < len; i++ )
+            {
+                attribute = attributes[ i ];
+                attrName  = attribute.name;
+
+                if ( !attrName.match( 'data-qui-options-' ) ) {
+                    continue;
+                }
+
+                attrValue = attribute.value;
+                numb      = Number.from( attrValue );
+
+                if ( typeOf( numb ) === 'number' ) {
+                    attrValue = numb;
+                }
+
+                this.setAttribute(
+                    attrName.replace( 'data-qui-options-', '' ),
+                    attrValue
+                );
+            }
+
+
             this.$Elm.set( 'data-quiid', this.getId() );
             this.fireEvent( 'import', [ this, Elm ] );
 
@@ -161,7 +190,7 @@ define('qui/controls/Control', [
                 return this.$Elm;
             }
 
-            if ( "styles" in Elm ) {
+            if ( typeof Elm.styles !== 'undefined' ) {
                 this.setAttribute( 'styles', Elm.styles );
             }
 
