@@ -352,6 +352,12 @@ define('qui/controls/desktop/Panel', [
                 content_width = '100%';
             }
 
+            if ( this.$CategoryBar )
+            {
+                this.$Categories.setStyle( 'height', content_height );
+                this.$CategoryBar.setAttribute( 'height', content_height );
+                this.$CategoryBar.resize();
+            }
 
             if ( this.$ButtonBar ) {
                 this.$ButtonBar.resize();
@@ -679,7 +685,8 @@ define('qui/controls/desktop/Panel', [
                 this.$ButtonBar = new Toolbar({
                     slide : false,
                     type  : 'buttons',
-                    'menu-button' : false
+                    'menu-button' : false,
+                    mousewheel    : false
                 }).inject( this.$Buttons );
             }
 
@@ -762,9 +769,10 @@ define('qui/controls/desktop/Panel', [
                 this.$Categories.setStyle( 'display', null );
 
                 this.$CategoryBar = new Toolbar({
-                    width : 190,
-                    slide : false,
-                    type  : 'buttons',
+                    width    : 190,
+                    slide    : false,
+                    type     : 'buttons',
+                    vertical : true,
                     'menu-button' : false,
                     events :
                     {
@@ -966,7 +974,7 @@ define('qui/controls/desktop/Panel', [
                             }
                         },
 
-                        onLeave : function(Dragable, Element, Dropable)
+                        onLeave : function(Dragable, Element)
                         {
                             if ( DragDropParent )
                             {

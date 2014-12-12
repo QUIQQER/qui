@@ -40,12 +40,20 @@ define('qui/controls/toolbar/Bar', [
         Extends : Control,
         Type    : 'qui/controls/toolbar/Bar',
 
-        options : {
-            'menu-button' : true,
-            'slide'       : true,
+        Binds : [
+            'toLeft',
+            'toRight',
+            '$onMousewheel'
+        ],
 
-            'width' : false,
-            'type'  : 'tabbar'
+        options : {
+            height        : false,
+            slide         : true,
+            'menu-button' : true,
+            mousewheel    : true,
+            type          : 'tabbar',
+            width         : false,
+            vertical      : false
         },
 
         initialize : function(options)
@@ -197,33 +205,31 @@ define('qui/controls/toolbar/Bar', [
                 this.$Elm.setStyles( this.getAttribute( 'styles' ) );
             }
 
-
             this.Tabs      = this.$Elm.getElement( '.qui-toolbar-tabs' );
             this.Container = this.$Elm.getElement( '.qui-toolbar-container' );
+
+            if ( this.getAttribute( 'mousewheel' ) )
+            {
+                this.Container.addEvents({
+                    mousewheel : this.$onMousewheel
+                });
+            }
 
             // left / right
             this.BtnLeft = new Button({
                 name    : 'toLeft',
                 'class' : 'qui-toolbar-button icon-chevron-left fa fa-icon-chevron-left',
-                events  :
-                {
-                    onClick : function(Btn) {
-                        Btn.getAttribute( 'Toolbar' ).toLeft();
-                    }
-                },
-                Toolbar : this
+                events  : {
+                    onClick : this.toLeft
+                }
             });
 
             this.BtnRight = new Button({
                 name    : 'toRight',
                 'class' : 'qui-toolbar-button icon-chevron-right fa fa-icon-chevron-right',
-                events  :
-                {
-                    onClick : function(Btn) {
-                        Btn.getAttribute( 'Toolbar' ).toRight();
-                    }
-                },
-                Toolbar : this
+                events  : {
+                    onClick : this.toRight
+                }
             });
 
             // create the left context menu
@@ -239,9 +245,10 @@ define('qui/controls/toolbar/Bar', [
             this.BtnRight.inject( this.$Elm );
 
             this.Tabs.setStyles({
-                position : 'relative',
+                'float'  : 'left',
                 left     : 0,
-                'float'  : 'left'
+                position : 'relative',
+                top      : 0
             });
 
             this.refresh();
@@ -348,7 +355,6 @@ define('qui/controls/toolbar/Bar', [
                 return this;
             }
 
-            //this.Fx.stop();
             this.Fx.animate({
                 left : 0
             });
@@ -364,8 +370,6 @@ define('qui/controls/toolbar/Bar', [
          */
         toRight : function()
         {
-            // this.Fx.stop();
-
             var left = this.Tabs.offsetLeft - 150;
 
             if ( left < ((this.Tabs.offsetWidth-150) * -1) ) {
@@ -374,6 +378,71 @@ define('qui/controls/toolbar/Bar', [
 
             this.Fx.animate({
                 left : left
+            });
+
+            return this;
+        },
+
+        /**
+         * Scroll ths bar up
+         *
+         * @return {Object} this (qui/controls/toolbar/Bar)
+         */
+        scrollUp : function()
+        {
+            if ( !this.getAttribute( 'vertical' ) ) {
+                return this;
+            }
+
+
+            var top = this.Tabs.getStyle( 'top').toInt() + 150;
+
+            if ( top >= 0 ) {
+                top = 0;
+            }
+
+            this.Fx.animate({
+                top : top
+            }, {
+                duration : 250,
+                equation : 'ease-out'
+            });
+
+
+            return this;
+        },
+
+        /**
+         * scroll the bar down
+         *
+         * @return {Object} this (qui/controls/toolbar/Bar)
+         */
+        scrollDown : function()
+        {
+            if ( !this.getAttribute( 'vertical' ) ) {
+                return this;
+            }
+
+
+            var tabsSize = this.Tabs.getSize(),
+                conSize  = this.Container.getSize();
+
+            if ( conSize.y >= tabsSize.y ) {
+                return this;
+            }
+
+            var maxScroll = conSize.y - tabsSize.y,
+                top       = this.Tabs.getStyle( 'top' ).toInt() - 150;
+
+            if ( maxScroll > top ) {
+                top = maxScroll;
+            }
+
+            this.Fx.animate({
+                top : top
+            }, {
+                duration : 250,
+                equation : 'ease-out'
             });
 
             return this;
@@ -733,42 +802,60 @@ define('qui/controls/toolbar/Bar', [
                 return this;
             }
 
+            var width = 0;
+
             // tab width
-            var i, len;
-
-            var width  = 0,
-                cwidth = 0,
-                itms   = this.Tabs.getChildren();
-
-            for ( i = 0, len = itms.length; i < len; i++ ) {
-                width = width + ( itms[ i ].getSize().x.toInt() ) + 30;
-            }
-
-            if ( this.getAttribute( 'width' ) &&
-                 this.getAttribute( 'width' ).toString().contains( '%' ) === false )
+            if ( this.getAttribute( 'vertical' ) )
             {
-                cwidth = ( this.getAttribute( 'width' ) ).toInt();
-
-                if ( this.getAttribute( 'slide' ) )
+                if ( this.getAttribute('width') )
                 {
-                    cwidth = cwidth -
-                             this.BtnLeft.getElm().getComputedSize().totalWidth -
-                             this.BtnRight.getElm().getComputedSize().totalWidth;
-                }
+                    width = this.getAttribute('width');
 
-                if ( this.getAttribute( 'menu-button' ) ) {
-                    cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
+                    this.Tabs.setStyle( 'width', width );
+                    this.Container.setStyle( 'width', width );
+                    this.getElm().setStyle( 'width', width );
                 }
 
             } else
             {
-                cwidth = '100%';
+                var i, len;
+
+                var cwidth = 0,
+                    itms   = this.Tabs.getChildren();
+
+                for ( i = 0, len = itms.length; i < len; i++ ) {
+                    width = width + ( itms[i].getSize().x.toInt() ) + 30;
+                }
+
+                if ( this.getAttribute('width') &&
+                     this.getAttribute('width').toString().contains('%') === false )
+                {
+                    cwidth = ( this.getAttribute('width') ).toInt();
+
+                    if ( this.getAttribute('slide') )
+                    {
+                        cwidth = cwidth -
+                        this.BtnLeft.getElm().getComputedSize().totalWidth -
+                        this.BtnRight.getElm().getComputedSize().totalWidth;
+                    }
+
+                    if ( this.getAttribute('menu-button') ) {
+                        cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
+                    }
+
+                } else
+                {
+                    cwidth = '100%';
+                }
+
+                this.Tabs.setStyle( 'width', width );
+                this.Container.setStyle( 'width', cwidth );
+                this.getElm().setStyle( 'width', this.getAttribute( 'width' ) );
             }
 
-            this.Tabs.setStyle( 'width', width );
-            this.Container.setStyle( 'width', cwidth );
-
-            this.getElm().setStyle( 'width', this.getAttribute( 'width' ) );
+            if ( this.getAttribute( 'height' ) ) {
+                this.Container.setStyle( 'height', this.getAttribute( 'height' ) );
+            }
 
             return this;
         },
@@ -801,6 +888,25 @@ define('qui/controls/toolbar/Bar', [
             });
 
             return MenuItem;
+        },
+
+        /**
+         * on : mousewheel event
+         * @param {DOMEvent} event - DOM Event
+         */
+        $onMousewheel : function(event)
+        {
+            // Mousewheel UP
+            if ( event.wheel > 0 )
+            {
+                this.scrollUp();
+                return;
+            }
+
+            // Mousewheel DOWN
+            if ( event.wheel < 0 ) {
+                this.scrollDown();
+            }
         }
     });
 });
