@@ -151,10 +151,9 @@ define('qui/classes/request/Ajax', [
          */
         parseParams : function(params)
         {
-            var k, type_of;
+            var k, type_of, value;
 
-            var result = {},
-                value  = '';
+            var result = {};
 
             if ( typeof params.lang === 'undefined' &&
                  typeof Locale !== 'undefined' )
@@ -164,6 +163,10 @@ define('qui/classes/request/Ajax', [
 
             for ( k in params )
             {
+                if ( !params.hasOwnProperty( k ) ) {
+                    continue;
+                }
+
                 if ( typeof params[ k ] === 'undefined' ) {
                     continue;
                 }
@@ -253,6 +256,7 @@ define('qui/classes/request/Ajax', [
 
                 event_params = [];
 
+
             // exist messages?
             if ( result.message_handler &&
                  result.message_handler.length )
@@ -312,7 +316,7 @@ define('qui/classes/request/Ajax', [
                     continue;
                 }
 
-                if ( res.result )
+                if ( typeof res.result !== 'undefined' )
                 {
                     event_params.push( res.result );
                     continue;
