@@ -780,21 +780,20 @@ define('qui/controls/messages/Handler', [
 
                         Node.setStyle( 'bottom', sum + 10 );
                     }
-
-                    // fined the highest zIndex
-                    var zIndexList = document.getElements('body > *').map(function(Elm)  {
-                        return Elm.getStyle( 'zIndex' ).toInt() || 1;
-                    });
-
-                    var max = Math.max.apply( null, zIndexList ) + 1;
-
-                    if ( !max || max < 10000 ) {
-                        max = 10000;
-                    }
-
-                    Node.setStyle( 'zIndex', max );
                 }
 
+                // fined the highest zIndex
+                var zIndexList = document.getElements('body > *').map(function(Elm)  {
+                    return Elm.getStyle( 'zIndex' ).toInt() || 1;
+                });
+
+                var max = Math.max.apply( null, zIndexList ) + 1;
+
+                if ( !max || max < 10000 ) {
+                    max = 10000;
+                }
+
+                Node.setStyle( 'zIndex', max );
                 Node.addClass( 'animated' );
                 Node.inject( document.body );
                 Node.addClass( 'fadeInDown' );
