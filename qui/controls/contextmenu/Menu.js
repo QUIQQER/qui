@@ -173,9 +173,8 @@ define('qui/controls/contextmenu/Menu', [
 
             var elm_size = Elm.getSize();
 
-            this.$Container.setStyles({
-                height : elm_size.y + 5
-            });
+            this.$Container.setStyle( 'height', elm_size.y + 5 );
+            Elm.setStyle( 'height', elm_size.y );
 
 
             // if parent is the body element
