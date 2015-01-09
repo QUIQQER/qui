@@ -174,7 +174,7 @@ define('qui/controls/contextmenu/Menu', [
             var elm_size = Elm.getSize();
 
             this.$Container.setStyles({
-                height : elm_size.y
+                height : elm_size.y + 5
             });
 
 
