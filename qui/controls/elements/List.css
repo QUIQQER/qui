@@ -32,6 +32,11 @@
     padding: 10px;
 }
 
+.qui-elements-list-item-description,
 .qui-elements-list-item header {
-    padding: 10px;
+    padding-left: 10px;
+}
+
+.qui-elements-list-item header {
+    font-weight: bold;
 }
