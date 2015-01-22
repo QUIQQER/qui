@@ -193,7 +193,7 @@ define('qui/controls/bookmarks/Panel', [
          * Add a bookmarks
          *
          * @method qui/controls/bookmarks/Panel#appendChild
-         * @param {qui/controls/Control} Item - A QUI control
+         * @param {Object} Item - qui/controls/Control, A QUI control
          * @return {Object} this (qui/controls/bookmarks/Panel)
          */
         appendChild : function(Item)
@@ -275,8 +275,9 @@ define('qui/controls/bookmarks/Panel', [
 
                         if ( path )
                         {
-                            BookmarkPanel.$clickMenuItem( path );
-                            return;
+                            if ( BookmarkPanel.$clickMenuItem( path ) ) {
+                                return;
+                            }
                         }
 
                         if ( typeof click === 'undefined' ) {
@@ -337,39 +338,40 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/bookmarks/Panel#clickMenuItem
          * @param {String} path - Path to the menu item
+         * @return {Boolean}
          */
         $clickMenuItem : function(path)
         {
             path = path.replace(/^\/|\/$/g, '');
 
-            var i, len;
-
             var parts  = path.split( '/' ),
                 Parent = QUI.Controls.get( parts[ 0 ] );
 
             if ( !Parent || !Parent.length ) {
-                return;
+                return false;
             }
 
             Parent = Parent[ 0 ];
 
-            for ( i = 1, len = parts.length; i < len; i++ )
+            for ( var i = 1, len = parts.length; i < len; i++ )
             {
                 Parent = Parent.getChildren( parts[ i ] );
 
                 if ( Parent === false ) {
-                    return;
+                    return false;
                 }
             }
 
             Parent.click();
+
+            return true;
         },
 
         /**
          * event : click at the remove button
          *
          * @method qui/controls/bookmarks/Panel#$clickRemoveButton
-         * @param {qui/controls/buttons/Button} Btn
+         * @param {Object} Btn - qui/controls/buttons/Button
          */
         $clickRemoveButton : function(Btn)
         {
