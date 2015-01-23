@@ -40,12 +40,12 @@ define('qui/controls/input/Params', [
         ],
 
         options : {
-            name : '',
-            styles : false,         // optional -> style parameter
-            allowedParams  : false, // optional -> set which param names are allowed
-            allowDuplicate : false, // optional -> allow duplicate param entries
-            windowMaxHeight : 250,  // optional -> the add window max height
-            windowMaxWidth  : 400   // optional -> the add window max width
+            name            : '',
+            styles          : false, // optional -> style parameter
+            allowedParams   : false, // optional {array} -> set which param names are allowed
+            allowDuplicate  : false, // optional -> allow duplicate param entries
+            windowMaxHeight : 250,   // optional -> the add window max height
+            windowMaxWidth  : 400    // optional -> the add window max width
         },
 
         initialize : function(Input, options)
@@ -256,18 +256,22 @@ define('qui/controls/input/Params', [
             var self = this;
 
             new QUIConfirm({
-                title  : 'Parameter hinzufügen',
-                icon   : 'icon-plus fa fa-plus',
-                maxHeight   : this.getAttribute( 'windowMaxHeight' ),
-                maxWidth    : this.getAttribute( 'windowMaxWidth' ),
-                autoclose   : false,
+                title     : 'Parameter hinzufügen',
+                icon      : 'icon-plus fa fa-plus',
+                maxHeight : this.getAttribute( 'windowMaxHeight' ),
+                maxWidth  : this.getAttribute( 'windowMaxWidth' ),
+                autoclose : false,
 
-                text : 'Geben Sie bitte den Namen und den Wert des Parameters ein.',
+                text        : 'Geben Sie bitte den Namen und den Wert des Parameters ein.',
                 information : '<div class="qui-control-input-param-window">' +
-                                  '<label for="">Name</label>' +
-                                  '<input type="text" name="paramName" value="" />' +
-                                  '<label for="">Wert</label>' +
-                                  '<input type="text" name="paramValue" value="" />' +
+                                  '<label>' +
+                                  '     <span class="qui-control-input-param-window-label">Name</span>' +
+                                  '     <input type="text" name="paramName" value="" />' +
+                                  '</label>' +
+                                  '<label>' +
+                                  '     <span class="qui-control-input-param-window-label">Wert</span>' +
+                                  '     <input type="text" name="paramValue" value="" />' +
+                                  '</label>' +
                               '</div>',
 
                 events :
@@ -279,11 +283,32 @@ define('qui/controls/input/Params', [
 
                     onOpen : function(Confirm)
                     {
-                        var Content    = Confirm.getContent(),
-                            ParamName  = Content.getElement( '[name="paramName"]' );
+                        var Content       = Confirm.getContent(),
+                            ParamName     = Content.getElement( '[name="paramName"]' ),
+                            ParamValue    = Content.getElement( '[name="paramValue"]' ),
+                            allowedParams = self.getAttribute( 'allowedParams' );
 
+                        Content.setStyle( 'width', '100%' );
+                        Content.getElement( '.textbody' ).setStyle( 'width', '100%' );
 
-                        Content.getElements('input').addEvents({
+                        if ( allowedParams.length )
+                        {
+                            var NameSelect = new Element('select', {
+                                name : "paramName"
+                            }).replaces( ParamName );
+
+                            for ( var i = 0, len = allowedParams.length; i < len; i++ )
+                            {
+                                new Element('option', {
+                                    value : allowedParams[ i ],
+                                    html  : allowedParams[ i ]
+                                }).inject( NameSelect );
+                            }
+
+                            ParamName = NameSelect;
+                        }
+
+                        Content.getElements('input,select').addEvents({
                             keyup : function(event)
                             {
                                 if ( event.key === 'enter' ) {
@@ -294,13 +319,8 @@ define('qui/controls/input/Params', [
 
                         if ( typeOf( Param ) === 'element' )
                         {
-                            Content.getElement(
-                                '[name="paramName"]'
-                            ).value = Param.get( 'data-name' );
-
-                            Content.getElement(
-                                '[name="paramValue"]'
-                            ).value = Param.get( 'data-value' );
+                            ParamName.value  = Param.get( 'data-name' );
+                            ParamValue.value = Param.get( 'data-value' );
                         }
 
                         (function() {
