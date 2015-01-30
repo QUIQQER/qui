@@ -130,7 +130,7 @@ define('qui/classes/QUI', [
             }
 
             // parse all qui controls
-            var nodes = Parent.getElements( '[data-qui]' ),
+            var nodes = document.id( Parent ).getElements( '[data-qui]' ),
                 list  = nodes.map(function(Elm) {
                     return Elm.get( 'data-qui' );
                 });
@@ -157,7 +157,7 @@ define('qui/classes/QUI', [
                     if ( Elm.get( 'html' ).trim() !== '' ||
                          typeof formNodes[ Elm.nodeName ] !== 'undefined' )
                     {
-                        new Cls().import( Elm );
+                        new Cls().imports( Elm );
                     } else
                     {
                         new Cls().replaces( Elm );

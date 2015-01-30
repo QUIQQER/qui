@@ -140,7 +140,7 @@ define('qui/controls/Control', [
          * @param {HTMLElement} Elm - Elm node
          * @return {Object} qui/controls/Control
          */
-        'import' : function(Elm)
+        imports : function(Elm)
         {
             this.$Elm = Elm;
 
