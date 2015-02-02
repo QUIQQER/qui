@@ -167,14 +167,17 @@ define('qui/controls/contextmenu/Menu', [
                 }
             }
 
+            this.$Container.setStyle( 'height', 0 );
+
             Elm.setStyles({
-                display : ''
+                display : '',
+                height  : 0
             });
 
-            var elm_size = Elm.getSize();
+            var scrollSize = Elm.getScrollSize();
 
-            this.$Container.setStyle( 'height', elm_size.y + 5 );
-            Elm.setStyle( 'height', elm_size.y );
+            this.$Container.setStyle( 'height', scrollSize.y + 5 );
+            Elm.setStyle( 'height', scrollSize.y );
 
 
             // if parent is the body element
