@@ -259,8 +259,11 @@ define('qui/controls/windows/Popup', [
             this.Background.show();
             this.inject( document.body );
 
-            this.resize( true );
-            this.fireEvent( 'open', [ this ] );
+
+            this.resize(true, function()
+            {
+                this.fireEvent( 'open', [ this ] );
+            }.bind( this ));
 
             // touch body fix
             this.$oldBodyStyle = {
@@ -286,8 +289,10 @@ define('qui/controls/windows/Popup', [
          * Resize the popup
          *
          * @method qui/controls/windows/Popup#resize
+         * @param {Boolean} [withfx]
+         * @param {Function} [callback]
          */
-        resize : function(withfx)
+        resize : function(withfx, callback)
         {
             if ( !this.$Elm ) {
                 return;
@@ -368,6 +373,10 @@ define('qui/controls/windows/Popup', [
                 this.$Elm.setStyle( 'left', left );
                 this.fireEvent( 'resize', [ this ] );
 
+                if ( typeof callback === 'function' ) {
+                    callback();
+                }
+
                 return;
             }
 
@@ -381,6 +390,10 @@ define('qui/controls/windows/Popup', [
                 {
                     self.$Elm.focus();
                     self.fireEvent( 'resize', [ self ] );
+
+                    if ( typeof callback === 'function' ) {
+                        callback();
+                    }
                 }
             });
         },
