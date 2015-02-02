@@ -189,12 +189,12 @@ define('qui/controls/contextmenu/Menu', [
                 var elm_pos   = Elm.getPosition(),
                     body_size = Parent.getSize();
 
-                if ( elm_pos.x + elm_size.x + 50 > body_size.x ) {
-                    this.$Elm.setStyle( 'left', body_size.x - elm_size.x - 50 );
+                if ( elm_pos.x + scrollSize.x + 50 > body_size.x ) {
+                    this.$Elm.setStyle( 'left', body_size.x - scrollSize.x - 50 );
                 }
 
-                if ( elm_pos.y + elm_size.y + 50 > body_size.y ) {
-                    this.$Elm.setStyle( 'top', body_size.y - elm_size.y - 50 );
+                if ( elm_pos.y + scrollSize.y + 50 > body_size.y ) {
+                    this.$Elm.setStyle( 'top', body_size.y - scrollSize.y - 50 );
                 }
             }
 
