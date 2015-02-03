@@ -2017,9 +2017,12 @@ define('qui/controls/desktop/Column', [
         {
             var i, len, list;
 
-            this.$ddArrowPositions.each(function(Arrow) {
-                Arrow.destroy();
-            });
+            for ( i in this.$ddArrowPositions )
+            {
+                if ( this.$ddArrowPositions.hasOwnProperty( i ) ) {
+                    this.$ddArrowPositions[ i ].destroy();
+                }
+            }
 
             this.$ddArrowPositions = {};
 
@@ -2050,7 +2053,6 @@ define('qui/controls/desktop/Column', [
             }
 
             this.$Settings.show();
-
         },
 
         /**
