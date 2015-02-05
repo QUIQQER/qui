@@ -95,6 +95,19 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM)
                     }
 
                     self.$stop( event );
+                },
+
+                mouseleave : function(event)
+                {
+                    if ( self.$Drag ) {
+                        return;
+                    }
+
+                    if ( typeof self.$timer !== 'undefined' ) {
+                        clearTimeout( self.$timer );
+                    }
+
+                    self.$stop( event );
                 }
             });
         },
