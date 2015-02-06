@@ -62,6 +62,7 @@ define('qui/controls/sitemap/Item', [
             alt   : '',
             title : '',
 
+            contextmenu : true,
             hasChildren : false,
             dragable    : false
         },
@@ -147,6 +148,12 @@ define('qui/controls/sitemap/Item', [
                 {
                     contextmenu : function(event)
                     {
+                        if ( self.getAttribute( 'contextmenu' ) === false )
+                        {
+                            event.stop();
+                            return;
+                        }
+
                         if ( self.getMap() ) {
                             self.getMap().childContextMenu( self, event );
                         }
