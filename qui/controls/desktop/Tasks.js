@@ -615,6 +615,22 @@ define('qui/controls/desktop/Tasks', [
         },
 
         /**
+         * do nothing, panel compatibility
+         */
+        fix : function()
+        {
+
+        },
+
+        /**
+         * do nothing, panel compatibility
+         */
+        unfix : function()
+        {
+
+        },
+
+        /**
          * Enable the collapsible -> do nothing, panel compatibility
          */
         enableCollapsible : function()
