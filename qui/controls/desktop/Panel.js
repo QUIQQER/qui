@@ -374,6 +374,24 @@ define('qui/controls/desktop/Panel', [
         },
 
         /**
+         * fix the panel
+         * the panel are not more editable - the method can be overwritten, its a placeholder for child panels
+         */
+        fix : function()
+        {
+
+        },
+
+        /**
+         * unfix the panel
+         * the panel is editable - the method can be overwritten, its a placeholder for child panels
+         */
+        unfix : function()
+        {
+
+        },
+
+        /**
          * Open the Panel
          *
          * @method qui/controls/desktop/Panel#open

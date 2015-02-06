@@ -367,8 +367,10 @@ define('qui/controls/desktop/Column', [
         {
             this.$fixed = true;
 
-            Object.each( this.$panels, function(Panel) {
+            Object.each( this.$panels, function(Panel)
+            {
                 Panel.disableDragDrop();
+                Panel.fix();
             });
 
             // set cursor from the column handlers to default
@@ -437,8 +439,10 @@ define('qui/controls/desktop/Column', [
 
             this.$fixed = false;
 
-            Object.each( this.$panels, function(Panel) {
+            Object.each( this.$panels, function(Panel)
+            {
                 Panel.enableDragDrop();
+                Panel.unfix();
             });
 
             // set cursor from the column handlers to default
