@@ -116,9 +116,6 @@ define('qui/controls/desktop/panels/Sheet', [
             var CloseButton = new Button({
                 text      : closeButton.text || 'schließen / abbrechen',
                 textimage : closeButton.textimage || false,
-                styles    : {
-                    width : 200
-                },
                 events : {
                     onClick : this.hide.bind( this )
                 }
@@ -180,7 +177,6 @@ define('qui/controls/desktop/panels/Sheet', [
             }
 
             var Container = this.getButtons().getElement( '.qui-panel-sheet-buttons' ),
-                width     = 0,
                 styles    = Btn.getAttributes( 'styles' ) || {};
 
             styles.margin = '12px 5px';
@@ -188,14 +184,7 @@ define('qui/controls/desktop/panels/Sheet', [
 
             Btn.setAttribute( 'styles', styles );
             Btn.inject( Container );
-
-            var list = Container.getElements( 'button' );
-
-            for ( var i = 0, len = list.length; i < len; i++ ) {
-                width = width + list[ i ].getComputedSize().totalWidth;
-            }
-
-            Container.setStyle( 'width', width );
+            Btn.getElm().setStyle( 'float', 'none' );
         },
 
         /**
