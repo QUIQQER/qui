@@ -41,7 +41,7 @@ define('qui/controls/taskbar/Task', [
      * @class qui/controls/taskbar/Task
      *
      * @param {Object} Instance - (qui/controls/Control) Control for the task
-     * @param {Object} options                - QDOM params
+     * @param {Object} options  - QDOM params
      *
      * @memberof! <global>
      */
@@ -74,7 +74,9 @@ define('qui/controls/taskbar/Task', [
                 onDestroy : this.$onDestroy
             });
 
-            if ( typeof Instance === 'undefined' ) {
+            if ( typeof Instance === 'undefined' )
+            {
+                this.parent( options );
                 return;
             }
 
@@ -627,6 +629,12 @@ define('qui/controls/taskbar/Task', [
             }
 
             this.$Instance = null;
+
+            if ( typeof this.$Elm !== 'undefined' && this.$Elm )
+            {
+                this.$Elm.destroy();
+                this.$Elm = null;
+            }
         }
     });
 });

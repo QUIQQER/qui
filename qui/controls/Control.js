@@ -63,15 +63,6 @@ define('qui/controls/Control', [
         {
             this.parent( options );
 
-            this.addEvent( 'onDestroy', function()
-            {
-                if ( typeof this.$Elm !== 'undefined' && this.$Elm ) {
-                    this.$Elm.destroy();
-                }
-
-                this.$Elm = null;
-            }.bind( this ));
-
             QUI.Controls.add( this );
         },
 
@@ -92,6 +83,31 @@ define('qui/controls/Control', [
 
 
             return this.$Elm;
+        },
+
+        /**
+         * Destroy the Object and all relationsships to some Object
+         *
+         * @method qui/controls/Control#destroy
+         */
+        destroy : function()
+        {
+            this.fireEvent( 'destroy', [ this ] );
+
+            if ( typeof this.$Elm !== 'undefined' && this.$Elm ) {
+                this.$Elm.destroy();
+            }
+
+            this.$Elm = null;
+
+            // storage clear
+            var oid = Slick.uidOf( this );
+
+            if ( oid in window.$quistorage ) {
+                delete window.$quistorage[ oid ];
+            }
+
+            this.removeEvents();
         },
 
         /**

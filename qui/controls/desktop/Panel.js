@@ -133,8 +133,6 @@ define('qui/controls/desktop/Panel', [
                 return this.$Elm;
             }
 
-            var self = this;
-
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
                 'class' : 'qui-panel box',
@@ -178,21 +176,12 @@ define('qui/controls/desktop/Panel', [
                 this.$Content.set( 'html', this.getAttribute('content') );
             }
 
-            if ( this.getAttribute('collapsible') )
-            {
-                this.$Collaps = new Element('div', {
-                    'class' : 'qui-panel-collapse icon-chevron-down'
-                }).inject( this.$Header );
-
-                this.$Header.setStyle( 'cursor', 'pointer' );
-
-                this.$Header.addEvent('click', function() {
-                    self.toggle();
-                });
+            if ( this.getAttribute( 'collapsible' ) ) {
+                this.enableCollapsible();
             }
 
             // drag & drop
-            if ( this.getAttribute('dragable') ) {
+            if ( this.getAttribute( 'dragable' ) ) {
                 this.enableDragDrop();
             }
 
@@ -853,6 +842,46 @@ define('qui/controls/desktop/Panel', [
         createSheet : function(options)
         {
             return new PanelSheet( options ).inject( this.$Elm );
+        },
+
+        /**
+         * Enable collapsible
+         */
+        enableCollapsible : function()
+        {
+            this.setAttribute( 'collapsible', true );
+
+            if ( this.$Collaps ) {
+                return;
+            }
+
+            var self = this;
+
+            this.$Collaps = new Element('div', {
+                'class' : 'qui-panel-collapse icon-chevron-down'
+            }).inject( this.$Header );
+
+            this.$Header.setStyle( 'cursor', 'pointer' );
+
+            this.$Header.addEvent('click', function() {
+                self.toggle();
+            });
+        },
+
+        /**
+         * Disable collapsible
+         */
+        disableCollapsible : function()
+        {
+            this.setAttribute( 'collapsible', false );
+
+            if ( !this.$Collaps ) {
+                return;
+            }
+
+            this.$Collaps.destroy();
+            this.$Header.setStyle( 'cursor', 'default' );
+            this.$Header.removeEvent( 'click' );
         },
 
         /**

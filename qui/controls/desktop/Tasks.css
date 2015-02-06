@@ -42,3 +42,34 @@
 .qui-taskpanel .qui-task-text {
     color: #FFFFFF;
 }
+
+/** header
+ ================================================== */
+
+.qui-taskpanel-header {
+    background: #DEDEDE;
+    border-bottom: 2px solid #8F9399;
+    color: #8F9399;
+    cursor: pointer;
+    font-size: 12px;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.qui-taskpanel-header-text {
+    float: left;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    width : calc( 100% - 50px );
+    white-space: nowrap;
+}
+
+.qui-taskpanel-header-icon {
+    float: left;
+    text-align: center;
+    width : 50px;
+}

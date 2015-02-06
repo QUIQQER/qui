@@ -141,7 +141,7 @@ define('qui/controls/desktop/Column', [
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-column box qui-panel-drop qui-task-drop',
+                'class'      : 'qui-column box qui-panel-drop',
                 'data-quiid' : this.getId()
             });
 
@@ -393,6 +393,8 @@ define('qui/controls/desktop/Column', [
                 width : null
             });
 
+            this.$Elm.removeClass( 'qui-task-drop' );
+
 
             moofx( this.$SettingsButton ).animate({
                 opacity : 0
@@ -464,6 +466,7 @@ define('qui/controls/desktop/Column', [
                 width : size.x - 30
             });
 
+            this.$Elm.addClass( 'qui-task-drop' );
             this.$Content.setStyle( 'boxShadow', '0 0 6px 0 rgba(0, 0, 0, 0.7)' );
 
             moofx( this.$Content ).animate({
@@ -519,12 +522,16 @@ define('qui/controls/desktop/Column', [
                 columnHeight = 100,
                 panelIndex   = false,
                 parentIsMe   = false,
-                handleList   = this.$Content.getElements( '.qui-column-hor-handle' ),
-                paneList     = this.$Content.getElements( '.qui-panel' );
+                handleList   = this.$Content.getChildren( '.qui-column-hor-handle' ),
+                paneList     = this.$Content.getChildren( '.qui-panel' );
 
             var ChildPanel = this.getElm().getElement(
                 '[data-quiid="'+ Panel.getId() +'"]'
             );
+
+            Panel.setAttribute( 'collapsible', true );
+            Panel.getElm().setStyle( 'opacity', null );
+
 
             if ( this.getAttribute( 'height' ) )
             {
@@ -552,7 +559,6 @@ define('qui/controls/desktop/Column', [
                     }
                 }
             }
-
 
         // depend from another parent, if the panel has a parent
             if ( parentIsMe === false )
@@ -650,6 +656,8 @@ define('qui/controls/desktop/Column', [
             }
 
 
+            Panel.enableCollapsible();
+
         // drag drop?
             if ( this.$fixed === false )
             {
@@ -658,7 +666,6 @@ define('qui/controls/desktop/Column', [
             {
                 Panel.disableDragDrop();
             }
-
 
         // more panels inside
             if ( !count ) {
@@ -764,6 +771,10 @@ define('qui/controls/desktop/Column', [
 
             for ( i in items )
             {
+                if ( !items.hasOwnProperty( i ) ) {
+                    continue;
+                }
+
                 if ( items[ i ].getAttribute( 'name' ) == name ) {
                     return items[ i ];
                 }
@@ -1128,8 +1139,8 @@ define('qui/controls/desktop/Column', [
         {
             var i, Panel, panelHeight;
 
-            var list      = this.$Content.getElements( '.qui-panel' ),
-                handler   = this.$Content.getElements( '.qui-column-hor-handle' ),
+            var list      = this.$Content.getChildren( '.qui-panel' ),
+                handler   = this.$Content.getChildren( '.qui-column-hor-handle' ),
                 maxHeight = this.$Content.getComputedSize().totalHeight,
                 len       = list.length;
 
@@ -1276,7 +1287,7 @@ define('qui/controls/desktop/Column', [
                 // close all panels
                 var i, len, Sibling;
 
-                var list   = this.$Content.getElements( '.qui-panel' ),
+                var list   = this.$Content.getChildren( '.qui-panel' ),
                     opened = 0;
 
                 for ( i = 0, len = list.length; i < len; i++ )

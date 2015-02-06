@@ -47,7 +47,9 @@ define('qui/controls/desktop/Tasks', [
             '$activateTask',
             '$destroyTask',
             '$normalizeTask',
-            '$onTaskbarAppendChild'
+            '$onTaskbarAppendChild',
+            'open',
+            'minimize'
         ],
 
         options : {
@@ -103,7 +105,7 @@ define('qui/controls/desktop/Tasks', [
          */
         isOpen : function()
         {
-            return true;
+            return this.$Header.getStyle( 'display' ) == 'none';
         },
 
         /**
@@ -238,7 +240,7 @@ define('qui/controls/desktop/Tasks', [
 
             this.$Elm = new Element('div', {
                 'data-quiid' : this.getId(),
-                'class'      : 'qui-taskpanel qui-panel',
+                'class'      : 'qui-taskpanel qui-panel qui-panel-drop',
 
                 styles : {
                     height : '100%'
@@ -248,6 +250,21 @@ define('qui/controls/desktop/Tasks', [
             this.$Container = new Element(
                 'div.qui-taskpanel-container'
             ).inject( this.$Elm );
+
+            this.$Header = new Element( 'div', {
+                'class' : 'qui-taskpanel-header',
+                html : '<div class="qui-taskpanel-header-text"></div>' +
+                       '<div class="qui-taskpanel-header-icon">' +
+                           '<span class="icon-chevron-down"></span>' +
+                       '</div>',
+                styles : {
+                    display : 'none'
+                },
+                events : {
+                    click : this.open
+                }
+            }).inject( this.$Elm );
+
 
             this.$Taskbar = new Taskbar({
                 name   : 'qui-taskbar-'+ this.getId(),
@@ -362,13 +379,13 @@ define('qui/controls/desktop/Tasks', [
             // task events
             Task.removeEvents( 'normalize' );
             Task.removeEvents( 'activate' );
-            Task.removeEvents( 'destroy' );
             Task.removeEvents( 'refresh' );
-            Task.removeEvents( 'destroy' );
             Task.removeEvents( 'click' );
 
             Task.setInstance( null );
             Task.destroy();
+
+            Task.removeEvents( 'destroy' );
 
             this.getTaskbar().removeChild( Task );
 
@@ -598,6 +615,22 @@ define('qui/controls/desktop/Tasks', [
         },
 
         /**
+         * Enable the collapsible -> do nothing, panel compatibility
+         */
+        enableCollapsible : function()
+        {
+
+        },
+
+        /**
+         * Disable the collapsible -> do nothing, panel compatibility
+         */
+        disableCollapsible : function()
+        {
+
+        },
+
+        /**
          * Enable the dragdrop -> do nothing, panel compatibility
          */
         enableDragDrop : function()
@@ -606,7 +639,7 @@ define('qui/controls/desktop/Tasks', [
         },
 
         /**
-         * Enable the dragdrop -> do nothing, panel compatibility
+         * Disable the dragdrop -> do nothing, panel compatibility
          */
         disableDragDrop : function()
         {
@@ -616,20 +649,84 @@ define('qui/controls/desktop/Tasks', [
         /**
          * Open the Panel -> do nothing, panel compatibility
          *
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        open : function()
+        open : function(callback)
         {
+            var self = this;
+
+            this.$Container.setStyle( 'display', null );
+            this.$Taskbar.getElm().setStyle( 'display', null );
+            this.$Header.setStyle( 'display', 'none' );
+
+
+            moofx( this.$Elm ).animate({
+                height : this.getAttribute( 'height' )
+            }, {
+                duration : 200,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    self.fireEvent( 'open', [ self ] );
+                    self.resize();
+
+                    if ( typeof callback === 'function' ) {
+                        callback();
+                    }
+                }
+            });
+
             return this;
         },
 
         /**
          * Minimize -> do nothing, panel compatibility
          *
+         * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        minimize : function()
+        minimize : function(callback)
         {
+            var self = this;
+
+            this.$Container.setStyle( 'display', 'none' );
+            this.$Taskbar.getElm().setStyle( 'display', 'none' );
+            this.$Header.setStyle( 'display', null );
+
+            var texts = [],
+                Text  = this.$Header.getElement( '.qui-taskpanel-header-text'),
+                tasks = this.getTaskbar().getChildren();
+
+            for ( var i = 0, len = tasks.length; i < len; i++ ) {
+                texts.push( tasks[ i ].getText() );
+            }
+
+            if ( texts.length )
+            {
+                Text.set( 'html', texts.join(', ') );
+            } else
+            {
+                Text.set( 'html', '&nbsp;' );
+            }
+
+
+            moofx( this.$Elm ).animate({
+                height : this.$Header.getSize().y
+            }, {
+                duration : 200,
+                equation : 'ease-out',
+                callback : function()
+                {
+                    self.fireEvent( 'minimize', [ self ] );
+                    self.resize();
+
+                    if ( typeof callback === 'function' ) {
+                        callback();
+                    }
+                }
+            });
+
             return this;
         },
 

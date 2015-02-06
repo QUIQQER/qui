@@ -328,6 +328,10 @@ define('qui/controls/taskbar/Bar', [
                 Task.removeEvent( 'click', Parent.$onTaskClick );
             }
 
+            if ( Parent && "dependChild" in Parent ) {
+                Parent.dependChild( Task.getInstance() );
+            }
+
             Task.setParent( this );
 
             Task.addEvents({
@@ -389,7 +393,7 @@ define('qui/controls/taskbar/Bar', [
         lastChild : function()
         {
             if ( this.$tasks.length ) {
-                return this.$tasks[ this.$tasks.length - 1  ];
+                return this.$tasks[ this.$tasks.length - 1 ];
             }
 
             return false;
@@ -416,6 +420,16 @@ define('qui/controls/taskbar/Bar', [
             }
 
             Task.destroy();
+        },
+
+        /**
+         * Return tasks list
+         *
+         * @return {Array}
+         */
+        getChildren : function()
+        {
+            return this.$tasks;
         },
 
         /**
