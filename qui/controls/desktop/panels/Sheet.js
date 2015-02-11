@@ -164,6 +164,16 @@ define('qui/controls/desktop/panels/Sheet', [
         },
 
         /**
+         * clear the buttons
+         */
+        clearButtons : function()
+        {
+            this.getButtons()
+                .getElements( '.qui-panel-sheet-buttons')
+                .set( 'html', '' );
+        },
+
+        /**
          * Add a button to the Sheet
          *
          * @method qui/controls/desktop/panels/Sheet#addButton
