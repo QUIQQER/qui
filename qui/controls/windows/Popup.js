@@ -327,6 +327,10 @@ define('qui/controls/windows/Popup', [
                 left = 0;
             }
 
+            if ( this.$Elm.getStyle( 'left' ).toInt() ) {
+                left = this.$Elm.getStyle( 'left' ).toInt();
+            }
+
             this.$Elm.setStyles({
                 height   : height,
                 width    : width,
