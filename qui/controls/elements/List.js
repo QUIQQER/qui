@@ -13,7 +13,7 @@ define('qui/controls/elements/List', [
     'qui/QUI',
     'qui/controls/Control',
 
-    'css!qui/controls/elements/List'
+    'css!qui/controls/elements/List.css'
 
 ], function (QUI, QUIControl)
 {
