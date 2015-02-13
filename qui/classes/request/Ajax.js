@@ -52,9 +52,10 @@ define('qui/classes/request/Ajax', [
         $result  : null,
 
         options : {
-            method : 'post',
-            url    : '',
-            async  : true
+            method  : 'post',
+            url     : '',
+            async   : true,
+            timeout : 10000
         },
 
         initialize : function(options)
@@ -79,9 +80,10 @@ define('qui/classes/request/Ajax', [
             self.setAttribute( 'params', params );
 
             self.$Request = new Request({
-                url    : self.getAttribute('url'),
-                method : self.getAttribute('method'),
-                async  : self.getAttribute('async'),
+                url     : self.getAttribute('url'),
+                method  : self.getAttribute('method'),
+                async   : self.getAttribute('async'),
+                timeout : self.getAttribute('timeout'),
 
                 onProgress : function() {
                     self.fireEvent( 'progress', [ self ] );
