@@ -329,7 +329,10 @@ define('qui/controls/buttons/Button', [
                 return;
             }
 
+            this.getElm().addClass( 'qui-button--click' );
             this.fireEvent( 'click', [ this, event ] );
+
+            this.getElm().removeClass.delay( 300, this.getElm(), 'qui-button--click' );
         },
 
         /**
