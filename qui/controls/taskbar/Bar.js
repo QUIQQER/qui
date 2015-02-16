@@ -783,9 +783,9 @@ define('qui/controls/taskbar/Bar', [
             this.$ContextMenu.getChildren( 'close-other-task' ).disable();
 
             this.$ContextMenu.setPosition( event.page.x, event.page.y )
+            this.$ContextMenu.setTitle( '---' );
             this.$ContextMenu.show();
             this.$ContextMenu.focus();
-            this.$ContextMenu.setTitle( '---' );
 
             return this.$ContextMenu;
         },
