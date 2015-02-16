@@ -258,6 +258,7 @@ define('qui/classes/request/Ajax', [
 
                 event_params = [];
 
+            this.$result = result;
 
             // exist messages?
             if ( result.message_handler &&
