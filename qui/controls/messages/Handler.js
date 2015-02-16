@@ -656,6 +656,19 @@ define('qui/controls/messages/Handler', [
         },
 
         /**
+         * Clear new messages - set it to 0
+         *
+         * @method qui/controls/messages/Handler#clearNewMessages
+         */
+        clearNewMessages : function()
+        {
+            this.$newMessages = 0;
+            this.refreshFavicon();
+
+            this.fireEvent( 'clear' );
+        },
+
+        /**
          * Returns the count of the new messages
          *
          * @method qui/controls/messages/Handler#getNewMessages

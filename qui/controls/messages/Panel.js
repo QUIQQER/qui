@@ -36,6 +36,7 @@ define('qui/controls/messages/Panel', [
 
         Binds : [
             '$onCreate',
+            '$onOpen',
             '$toggleButton',
             '$onMessageHandlerAdd',
             '$onMessageHandlerClear'
@@ -56,7 +57,8 @@ define('qui/controls/messages/Panel', [
             this.parent( options );
 
             this.addEvents({
-                onCreate : this.$onCreate
+                onCreate : this.$onCreate,
+                onOpen   : this.$onOpen
             });
         },
 
@@ -205,6 +207,37 @@ define('qui/controls/messages/Panel', [
                 animate = true;
             }
 
+            // refresh title if closed
+            if ( !this.isOpen() && this.$Title )
+            {
+                var Span = this.$Title.getElement(
+                    '.qui-controls-messages-panel-titleinfo'
+                );
+
+                if ( !Span )
+                {
+                    Span = new Element('span', {
+                        'class' : 'qui-controls-messages-panel-titleinfo'
+                    }).inject( this.$Title );
+                }
+
+                QUI.getMessageHandler(function(MessageHandler)
+                {
+                    var count = MessageHandler.getNewMessages();
+
+                    if ( count )
+                    {
+                        Span.setStyle( 'display', null );
+                        Span.set( 'html', count );
+                        return;
+                    }
+
+                    Span.setStyle( 'display', 'none' );
+                });
+
+                this.$Title.addClass( 'qui-controls-messages-panel-title' );
+            }
+
             if ( type == 'qui/controls/messages/Success' &&
                  !this.getAttribute('showSucces') )
             {
@@ -290,6 +323,22 @@ define('qui/controls/messages/Panel', [
             }
 
             this.refreshMessages();
+        },
+
+        /**
+         * event : on open
+         */
+        $onOpen : function()
+        {
+            QUI.getMessageHandler(function(MessageHandler) {
+                MessageHandler.clearNewMessages();
+            });
+
+            if ( !this.$Title ) {
+                return;
+            }
+
+            this.$Title.getElements( '.qui-controls-messages-panel-titleinfo').destroy();
         }
     });
 });
