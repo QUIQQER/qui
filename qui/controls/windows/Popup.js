@@ -331,12 +331,12 @@ define('qui/controls/windows/Popup', [
                 left = this.$Elm.getStyle( 'left' ).toInt();
             }
 
-            this.$Elm.setStyles({
-                height   : height,
-                width    : width,
-                left     : left,
-                top      : top
-            });
+            //this.$Elm.setStyles({
+            //    height   : height,
+            //    width    : width,
+            //    left     : left,
+            //    top      : top
+            //});
 
             if ( this.$Buttons )
             {
@@ -374,7 +374,13 @@ define('qui/controls/windows/Popup', [
 
             if ( !withfx )
             {
-                this.$Elm.setStyle( 'left', left );
+                this.$Elm.setStyles({
+                    height   : height,
+                    width    : width,
+                    left     : left,
+                    top      : top
+                });
+
                 this.fireEvent( 'resize', [ this ] );
 
                 if ( typeof callback === 'function' ) {
@@ -386,7 +392,10 @@ define('qui/controls/windows/Popup', [
 
 
             moofx( this.$Elm ).animate({
+                height  : height,
+                width   : width,
                 left    : left,
+                top     : top,
                 opacity : 1
             }, {
                 equation : 'ease-out',
@@ -435,9 +444,10 @@ define('qui/controls/windows/Popup', [
             var self = this;
 
             moofx( this.$Elm ).animate({
-                left    : document.getSize().x * -1,
+                top     : this.$Elm.getPosition().y + 100,
                 opacity : 0
             }, {
+                duration : 200,
                 equation : 'ease-out',
                 callback : function()
                 {
