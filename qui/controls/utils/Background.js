@@ -25,12 +25,15 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
         Type    : 'qui/controls/utils/Background',
 
         options : {
-            styles : false
+            styles  : false,
+            animate : true
         },
 
         initialize : function(params)
         {
             this.parent( params );
+
+            this.$FX = moofx( this.$Elm );
         },
 
         /**
@@ -58,7 +61,7 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
                     top      : 0,
                     left     : 0,
                     zIndex   : 1000,
-                    opacity  : 0.6,
+                    opacity  : 0,
                     display  : 'none'
                 },
                 events :
@@ -69,6 +72,8 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
                 }
             });
 
+            this.$FX = moofx( this.$Elm );
+
             document.body.appendChild( this.$Elm );
 
             if ( this.getAttribute( 'styles' ) ) {
@@ -76,6 +81,67 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
             }
 
             return this.$Elm;
+        },
+
+        /**
+         * Show the background
+         *
+         * @param {Function} [callback] - callback function
+         */
+        show : function(callback)
+        {
+            this.$Elm.setStyle( 'display', null );
+
+            if ( this.getAttribute( 'animate' ) === false )
+            {
+                this.$Elm.set( 'opacity', 0.6 );
+                return;
+            }
+
+
+            this.$FX.animate({
+                opacity : 0.6
+            }, {
+                duration : 200,
+                callback : function()
+                {
+                    if ( typeof callback === 'function' ) {
+                        callback();
+                    }
+                }
+            });
+        },
+
+        /**
+         * Hide the background
+         *
+         * @param {Function} [callback] - callback function
+         */
+        hide : function(callback)
+        {
+            if ( this.getAttribute( 'animate' ) === false )
+            {
+                this.$Elm.set( 'opacity', 0 );
+
+                if ( typeof callback === 'function' ) {
+                    callback();
+                }
+
+                return;
+            }
+
+
+            this.$FX.animate({
+                opacity : 0
+            }, {
+                duration : 200,
+                callback : function()
+                {
+                    if ( typeof callback === 'function' ) {
+                        callback();
+                    }
+                }
+            });
         }
     });
 });

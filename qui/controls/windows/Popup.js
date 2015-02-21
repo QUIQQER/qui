@@ -75,12 +75,14 @@ define('qui/controls/windows/Popup', [
         {
             this.parent( options );
 
-            this.$Elm        = null;
-            this.$Content    = null;
-            this.$Buttons    = null;
+            this.$Elm     = null;
+            this.$Content = null;
+            this.$Buttons = null;
+            this.$FX      = false;
 
             this.Background = new Background();
             this.Loader     = new Loader();
+
 
             window.addEvent( 'resize', this.resize );
         },
@@ -107,8 +109,13 @@ define('qui/controls/windows/Popup', [
                           '</div>' +
                           '<div class="qui-window-popup-content box"></div>'+
                           '<div class="qui-window-popup-buttons box"></div>',
-                tabindex : -1
+                tabindex : -1,
+                styles : {
+                    opacity : 0
+                }
             });
+
+            this.$FX = moofx( this.$Elm );
 
             this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
             this.$Icon      = this.$Elm.getElement( '.qui-window-popup-title-icon' );
@@ -289,7 +296,7 @@ define('qui/controls/windows/Popup', [
          * Resize the popup
          *
          * @method qui/controls/windows/Popup#resize
-         * @param {Boolean} [withfx]
+         * @param {Boolean} [withfx] - deprecated
          * @param {Function} [callback]
          */
         resize : function(withfx, callback)
@@ -331,13 +338,6 @@ define('qui/controls/windows/Popup', [
                 left = this.$Elm.getStyle( 'left' ).toInt();
             }
 
-            //this.$Elm.setStyles({
-            //    height   : height,
-            //    width    : width,
-            //    left     : left,
-            //    top      : top
-            //});
-
             if ( this.$Buttons )
             {
                 // button zentrieren
@@ -372,32 +372,47 @@ define('qui/controls/windows/Popup', [
 
             left = ( doc_size.x - width ) / 2;
 
-            if ( !withfx )
-            {
-                this.$Elm.setStyles({
-                    height   : height,
-                    width    : width,
-                    left     : left,
-                    top      : top
-                });
+            //if ( !withfx )
+            //{
+            //    this.$Elm.setStyles({
+            //        height   : height,
+            //        width    : width,
+            //        left     : left,
+            //        top      : top
+            //    });
+            //
+            //    this.fireEvent( 'resize', [ this ] );
+            //
+            //    if ( typeof callback === 'function' ) {
+            //        callback();
+            //    }
+            //
+            //    return;
+            //}
 
-                this.fireEvent( 'resize', [ this ] );
+            var pos  = this.$Elm.getPosition(),
+                size = this.$Elm.getSize();
 
-                if ( typeof callback === 'function' ) {
-                    callback();
-                }
-
-                return;
+            if ( pos.x === 0 ) {
+                this.$Elm.setStyle( 'left', left );
             }
 
+            if ( pos.y === 0 ) {
+                this.$Elm.setStyle( 'top', top - 50 );
+            }
 
-            moofx( this.$Elm ).animate({
+            if ( size.x === 0 ) {
+                this.$Elm.setStyle( 'width', width );
+            }
+
+            this.$FX.animate({
                 height  : height,
                 width   : width,
                 left    : left,
                 top     : top,
                 opacity : 1
             }, {
+                duration : 300,
                 equation : 'ease-out',
                 callback : function()
                 {
@@ -443,7 +458,7 @@ define('qui/controls/windows/Popup', [
 
             var self = this;
 
-            moofx( this.$Elm ).animate({
+            this.$FX.animate({
                 top     : this.$Elm.getPosition().y + 100,
                 opacity : 0
             }, {
@@ -454,7 +469,10 @@ define('qui/controls/windows/Popup', [
                     self.fireEvent( 'close', [ self ] );
 
                     self.$Elm.destroy();
-                    self.Background.destroy();
+
+                    self.Background.hide(function() {
+                        self.Background.destroy();
+                    });
                 }
             });
         },
