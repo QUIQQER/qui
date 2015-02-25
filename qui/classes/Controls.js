@@ -12,7 +12,9 @@
 define('qui/classes/Controls', [
 
     'require',
-    'qui/classes/DOM'
+    'qui/classes/DOM',
+    'qui/lib/element-query/ElementQuery',
+    'qui/lib/element-query/ResizeSensor'
 
 ], function(require, DOM)
 {
@@ -33,6 +35,8 @@ define('qui/classes/Controls', [
             this.$controls = {};
             this.$cids     = {};
             this.$types    = {};
+
+            this.ElementQueries = new ElementQueries();
         },
 
         /**
@@ -56,7 +60,7 @@ define('qui/classes/Controls', [
          *
          * @method qui/classes/Controls#getById
          * @param {String|Number} id - ID of the wanted Control
-         * @return {qui/controls/Control|Boolean} a QUI control, based on qui/controls/Control or false
+         * @return {Object|Boolean} (qui/controls/Control) a QUI control, based on qui/controls/Control or false
          */
         getById : function(id)
         {
@@ -120,7 +124,7 @@ define('qui/classes/Controls', [
          * Add a Control to the list
          *
          * @method qui/controls/Control#add
-         * @param {qui/controls/Control} Control
+         * @param {Object} Control - (qui/controls/Control)
          */
         add : function(Control)
         {
@@ -154,7 +158,7 @@ define('qui/classes/Controls', [
          * Destroy a Control
          *
          * @method qui/controls/Control#destroy
-         * @param {qui/controls/Control} Control
+         * @param {Object} Control - (qui/controls/Control)
          */
         destroy : function(Control)
         {

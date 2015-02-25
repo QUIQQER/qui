@@ -64,6 +64,7 @@ define('qui/controls/Control', [
             this.parent( options );
 
             QUI.Controls.add( this );
+            QUI.Controls.ElementQueries.update();
         },
 
         /**

@@ -1,9 +1,13 @@
 /**
- * Copyright 2013 Marc J. Schmidt. See the LICENSE file at the top-level
+ * Copyright Marc J. Schmidt. See the LICENSE file at the top-level
  * directory of this distribution and at
  * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
+ *
+ * links:
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors
+ * https://github.com/marcj/css-element-queries/issues/28#issuecomment-67327416
  */
-;
+
 (function() {
     /**
      *
@@ -11,6 +15,11 @@
      * @constructor
      */
     var ElementQueries = this.ElementQueries = function() {
+
+        this.sheetList    = {};
+        this.withTracking = false;
+        var elements = [];
+
         /**
          *
          * @param element
@@ -28,9 +37,8 @@
          *
          * @copyright https://github.com/Mr0grog/element-query/blob/master/LICENSE
          *
-         * @param element
-         * @param value
-         * @param units
+         * @param {HTMLElement} element
+         * @param {*} value
          * @returns {*}
          */
         function convertToPx(element, value) {
@@ -69,16 +77,17 @@
          * @constructor
          */
         function SetupInformation(element) {
-            this.element = element;
-            this.options = [];
-            var i, j, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
+            this.element   = element;
+            this.options   = {};
+            var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
 
             /**
-             * @param option {mode: 'min|max', property: 'width|height', value: '123px'}
+             * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
              */
             this.addOption = function(option) {
-                this.options.push(option);
-            }
+                var idx = [option.mode, option.property, option.value].join(',');
+                this.options[idx] = option;
+            };
 
             var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
 
@@ -92,8 +101,12 @@
 
                 attrValues = {};
 
-                for (i = 0, j = this.options.length; i < j; i++) {
-                    option = this.options[i];
+                for (key in this.options) {
+                    if (!this.options.hasOwnProperty(key)){
+                        continue;
+                    }
+                    option = this.options[key];
+
                     value = convertToPx(this.element, option.value);
 
                     actualValue = option.property == 'width' ? width : height;
@@ -134,11 +147,15 @@
             } else {
                 element.elementQueriesSetupInformation = new SetupInformation(element);
                 element.elementQueriesSetupInformation.addOption(options);
-                new ResizeSensor(element, function() {
+                element.elementQueriesSensor = new ResizeSensor(element, function() {
                     element.elementQueriesSetupInformation.call();
                 });
             }
             element.elementQueriesSetupInformation.call();
+
+            if (this.withTracking) {
+                elements.push(element);
+            }
         }
 
         /**
@@ -148,9 +165,10 @@
          * @param {String} value
          */
         function queueQuery(selector, mode, property, value) {
-            var query = document.querySelectorAll;
-            if ('undefined' !== typeof $$) query = $$;
-            if ('undefined' !== typeof jQuery) query = jQuery;
+            var query;
+            if (document.querySelectorAll) query = document.querySelectorAll.bind(document);
+            if (!query && 'undefined' !== typeof $$) query = $$;
+            if (!query && 'undefined' !== typeof jQuery) query = jQuery;
 
             if (!query) {
                 throw 'No document.querySelectorAll, jQuery or Mootools\'s $$ found.';
@@ -184,55 +202,173 @@
         /**
          * @param {CssRule[]|String} rules
          */
-        function readRules(rules) {
-            var selector = '';
+        function readRules(rules)
+        {
             if (!rules) {
                 return;
             }
-            if ('string' === typeof rules) {
+
+            if ('string' === typeof rules)
+            {
                 rules = rules.toLowerCase();
+
                 if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
                     extractQuery(rules);
                 }
-            } else {
-                for (var i = 0, j = rules.length; i < j; i++) {
-                    if (1 === rules[i].type) {
-                        selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
-                            extractQuery(selector);
-                        }
-                    } else if (4 === rules[i].type) {
-                        readRules(rules[i].cssRules || rules[i].rules);
+
+                return;
+            }
+
+            var selector = '';
+
+            for ( var i = 0, j = rules.length; i < j; i++ )
+            {
+                if ( 1 === rules[i].type )
+                {
+                    selector = rules[i].selectorText || rules[i].cssText;
+
+                    if ( -1 !== selector.indexOf('min-height') ||
+                         -1 !== selector.indexOf('max-height'))
+                    {
+                        extractQuery(selector);
+
+                    } else if ( -1 !== selector.indexOf('min-width') ||
+                                -1 !== selector.indexOf('max-width'))
+                    {
+                        extractQuery(selector);
                     }
+
+                } else if ( 4 === rules[i].type )
+                {
+                    readRules( rules[i].cssRules || rules[i].rules );
                 }
             }
         }
 
         /**
          * Searches all css rules and setups the event listener to all elements with element query rules..
+         *
+         * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+         *                               (no garbage collection possible if you don not call .detach() first)
          */
-        this.init = function()
+        this.init = function(withTracking)
         {
-            for (var i = 0, j = document.styleSheets.length; i < j; i++)
+            var i, j, Sheet;
+            this.withTracking = withTracking;
+
+            for ( i = 0, j = document.styleSheets.length; i < j; i++ )
             {
                 try
                 {
-                    readRules(document.styleSheets[i].cssText || document.styleSheets[i].cssRules || document.styleSheets[i].rules);
-                } catch (e) {
+                    Sheet = document.styleSheets[i];
 
-                }
+                    if ( typeof Sheet.href === 'string' &&
+                         typeof this.sheetList[ Sheet.href ] !== 'undefined' )
+                    {
+                        continue;
+                    }
+
+                    readRules( Sheet.cssText || Sheet.cssRules || Sheet.rules );
+
+                    this.sheetList[ Sheet.href ] = true;
+
+                } catch ( e ) {}
             }
-        }
-    }
+        };
 
-    function init() {
-        new ElementQueries().init();
-    }
+        /**
+         *
+         * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+         *                               (no garbage collection possible if you don not call .detach() first)
+         */
+        this.update = function(withTracking) {
+            this.withTracking = withTracking;
+            this.init();
+        };
+
+        this.detach = function() {
+            if (!this.withTracking) {
+                throw 'withTracking is not enabled. We can not detach elements since we don not store it.' +
+                'Use ElementQueries.withTracking = true; before domready.';
+            }
+
+            var element;
+            while (element = elements.pop()) {
+                ElementQueries.detach(element);
+            }
+
+            elements = [];
+        };
+    };
+
+    /**
+     *
+     * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
+     *                               (no garbage collection possible if you don not call .detach() first)
+     */
+    ElementQueries.update = function(withTracking) {
+        ElementQueries.instance.update(withTracking);
+    };
+
+    /**
+     * Removes all sensor and elementquery information from the element.
+     *
+     * @param {HTMLElement} element
+     */
+    ElementQueries.detach = function(element) {
+        if (element.elementQueriesSetupInformation) {
+            element.elementQueriesSensor.detach();
+            delete element.elementQueriesSetupInformation;
+            delete element.elementQueriesSensor;
+            console.log('detached');
+        } else {
+            console.log('detached already', element);
+        }
+    };
+
+    ElementQueries.withTracking = false;
+
+    ElementQueries.init = function() {
+        if (!ElementQueries.instance) {
+            ElementQueries.instance = new ElementQueries();
+        }
+
+        ElementQueries.instance.init(ElementQueries.withTracking);
+    };
+
+    var domLoaded = function (callback) {
+        /* Internet Explorer */
+        /*@cc_on
+         @if (@_win32 || @_win64)
+         document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
+         document.getElementById('ieScriptLoad').onreadystatechange = function() {
+         if (this.readyState == 'complete') {
+         callback();
+         }
+         };
+         @end @*/
+        /* Mozilla, Chrome, Opera */
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', callback, false);
+        }
+        /* Safari, iCab, Konqueror */
+        if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
+            var DOMLoadTimer = setInterval(function () {
+                if (/loaded|complete/i.test(document.readyState)) {
+                    callback();
+                    clearInterval(DOMLoadTimer);
+                }
+            }, 10);
+        }
+        /* Other web browsers */
+        window.onload = callback;
+    };
 
     if (window.addEventListener) {
-        window.addEventListener('load', init, false);
+        window.addEventListener('load', ElementQueries.init, false);
     } else {
-        window.attachEvent('onload', init);
+        window.attachEvent('onload', ElementQueries.init);
     }
+    domLoaded(ElementQueries.init);
 
 })();
