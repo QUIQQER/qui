@@ -27,34 +27,33 @@ new QUISwitch({
 
 ## Ein Schieberegler erstellen
 
-Der Schieberegler kann über eine Checkbox gelegt werden.
-
 ```javascript
-require([
-    'qui/QUI',
-    'qui/controls/buttons/Switch',
-    'qui/controls/buttons/Button'
-], function(QUI, QUISwitch, QUIButton)
-{           
-    var list = document.getElements( '[type="checkbox"]' );
+require(['qui/controls/buttons/Switch'], function(QUISwitch)
+{
+    new QUISwitch({
+        switchTextOn     :  '',
+        switchTextOnIcon : 'icon-power-off',
 
-    for ( var i = 0, len = list.length; i < len; i++ )
-    {
-        new QUISwitch({
-            switchTextOn      :  'ON',
-            switchTextOnIcon  : 'icon-power-off',
-
-            switchTextOff     :  'OFF',
-            switchTextOffIcon : 'icon-power-off'
-
-        }).inject( list[ i ].getParent() );
-
-
-        list[ i ].destroy();
-    }            
+        switchTextOff    :  '',
+        switchTextOffIcon : 'icon-power-off'
+    }).inject( document.body );
 });
 ```
 
 ## Die wichtigsten Methoden
 
-+ click()
++ toggle()
++ on()
++ off()
+
+### toggle()
+
+Wechselt den Status.
+
+### on()
+
+Setzt den Status auf *on*
+
+### on()
+
+Setzt den Status auf *off*
