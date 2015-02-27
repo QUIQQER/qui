@@ -42,23 +42,17 @@
     text-shadow: none;
 }
 
-.qui-switch-icon:before {
-    display: inline-block;
-    float: left;
-    margin: 0 0.5em 0 0;
-}
-
 .qui-switch-text-on,
 .qui-switch-text-off {
     float: left;
+    line-height: 1.6em;
 }
-
 
 .qui-switch-on {
     color: #fff;
     display: inline-block;
     float: left;
-    padding: 0.2em 0.4em ;
+    padding: 0em 0.55em 0em 0.4em ;
     text-align: center;
     text-shadow: 0 0 15px #fff;
     z-index: 2;
@@ -73,7 +67,7 @@
     color: #bbbbbb;
     display: inline-block;
     float: left;
-    padding: 0.2em 0.4em;
+    padding: 0em 0.4em 0em 0.55em;
     text-align: center;
     text-shadow: 0 0 5px #dedede;
     z-index: 3;
@@ -82,4 +76,11 @@
     -ms-transition: 0.15s;
     -o-transition: 0.15s;
     transition: 0.15s;
+}
+
+.qui-switch-icon-on,
+.qui-switch-icon-off {
+    float: left;
+    line-height: 1.6em;
+    margin-right: 0.1em;
 }

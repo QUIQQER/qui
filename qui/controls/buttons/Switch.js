@@ -69,9 +69,11 @@ define('qui/controls/buttons/Switch', [
             this.$Elm = new Element('div', {
                 'class' : 'qui-switch',
                 html    : '<div class="qui-switch-off">' +
+                              '<div class="qui-switch-icon-off"></div>' +
                               '<div class="qui-switch-text-off"></div>' +
                           '</div>' +
                           '<div class="qui-switch-on">' +
+                              '<div class="qui-switch-icon-on"></div>' +
                               '<div class="qui-switch-text-on"></div>' +
                           '</div>' +
                           '<div class="qui-switch-button"></div>' +
@@ -87,24 +89,13 @@ define('qui/controls/buttons/Switch', [
             this.$ButtonTextOff = this.$Elm.getElement( '.qui-switch-off' );
             this.$TextOff       = this.$Elm.getElement( '.qui-switch-text-off' );
             this.$InputStatus   = this.$Elm.getElement( 'input' );
+            this.$IconOn        = this.$Elm.getElement( '.qui-switch-icon-on' );
+            this.$IconOff       = this.$Elm.getElement( '.qui-switch-icon-off' );
 
+            this.$IconOn.addClass( this.getAttribute( 'switchTextOnIcon' ) );
+            this.$IconOff.addClass( this.getAttribute( 'switchTextOffIcon' ) );
             this.$TextOn.set( 'html', this.getAttribute( 'switchTextOn' ) );
             this.$TextOff.set( 'html', this.getAttribute( 'switchTextOff' ) );
-
-            if ( this.getAttribute( 'switchTextOnIcon' ) )
-            {
-                new Element('div', {
-                    'class' : this.getAttribute( 'switchTextOnIcon' )
-                }).inject( this.$TextOn, 'top' );
-            }
-
-            if ( this.getAttribute( 'switchTextOffIcon' ) )
-            {
-                new Element('div', {
-                    'class' : this.getAttribute( 'switchTextOffIcon' )
-                }).inject( this.$TextOff, 'top' );
-            }
-
 
             this.$Elm.addEvent( 'click', this.toggle );
 
