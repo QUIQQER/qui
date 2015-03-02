@@ -19,6 +19,7 @@
  * @event onAddSuccess [ {this}, {qui/controls/messages/Success} ]
  *
  * @event onClear [ {this} ]
+ * @event onClearNewMessages [ {this} ]
  * @event onLoad [ {this} ]
  */
 
@@ -665,7 +666,7 @@ define('qui/controls/messages/Handler', [
             this.$newMessages = 0;
             this.refreshFavicon();
 
-            this.fireEvent( 'clear' );
+            this.fireEvent( 'clearNewMessages' );
         },
 
         /**
