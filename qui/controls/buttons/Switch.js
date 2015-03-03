@@ -3,13 +3,16 @@
  * QUI Control - On / Off Slide Button
  *
  * @module qui/controls/buttons/Switch
- * @author www.pcsg.de
+ * @author www.pcsg.de ( Michael Danielczok )
+ * @author www.pcsg.de ( Henning Leutz )
  *
  * @require qui/controls/Control
- * @require css!Switch.css
+ * @require css!qui/controls/buttons/Switch.css
  *
- * @event onClick
  * @event onCreate
+ * @event onStatusOff
+ * @event onStatusOn
+ * @event onChange
  */
 
 define('qui/controls/buttons/Switch', [
@@ -25,7 +28,7 @@ define('qui/controls/buttons/Switch', [
     return new Class({
 
         Extends : QUIControl,
-        Types   : 'qui/controls/buttons/Switch',
+        Type    : 'qui/controls/buttons/Switch',
 
         Binds : [
             'toggle',
@@ -34,13 +37,14 @@ define('qui/controls/buttons/Switch', [
 
         options : {
             name   : '',
-            text   : 'on',
+            title  : '',
             styles : false,
+            status : true,
 
             switchTextOn      : '',
-            switchTextOnIcon  : false,
+            switchTextOnIcon  : 'icon-ok',
             switchTextOff     : '',
-            switchTextOffIcon : false
+            switchTextOffIcon : 'icon-remove'
         },
 
         initialize : function(options)
@@ -51,7 +55,8 @@ define('qui/controls/buttons/Switch', [
             this.$FxElm    = false;
             this.$FxButton = false;
 
-            this.$status = 'on';
+            this.$status = this.getAttribute( 'status' );
+            this.$triggerEvents = true;
 
             this.addEvents({
                 onInject : this.$onInject
@@ -83,17 +88,21 @@ define('qui/controls/buttons/Switch', [
                 }
             });
 
-            this.$Button        = this.$Elm.getElement( '.qui-switch-button' );
+            this.$InputStatus = this.$Elm.getElement( 'input' );
+            this.$Button      = this.$Elm.getElement( '.qui-switch-button' );
+
             this.$ButtonTextOn  = this.$Elm.getElement( '.qui-switch-on' );
             this.$TextOn        = this.$Elm.getElement( '.qui-switch-text-on' );
+
             this.$ButtonTextOff = this.$Elm.getElement( '.qui-switch-off' );
             this.$TextOff       = this.$Elm.getElement( '.qui-switch-text-off' );
-            this.$InputStatus   = this.$Elm.getElement( 'input' );
-            this.$IconOn        = this.$Elm.getElement( '.qui-switch-icon-on' );
-            this.$IconOff       = this.$Elm.getElement( '.qui-switch-icon-off' );
+
+            this.$IconOn  = this.$Elm.getElement( '.qui-switch-icon-on' );
+            this.$IconOff = this.$Elm.getElement( '.qui-switch-icon-off' );
 
             this.$IconOn.addClass( this.getAttribute( 'switchTextOnIcon' ) );
             this.$IconOff.addClass( this.getAttribute( 'switchTextOffIcon' ) );
+
             this.$TextOn.set( 'html', this.getAttribute( 'switchTextOn' ) );
             this.$TextOff.set( 'html', this.getAttribute( 'switchTextOff' ) );
 
@@ -119,6 +128,10 @@ define('qui/controls/buttons/Switch', [
                 });
             }
 
+            if ( this.getAttribute( 'title' ) ) {
+                this.$Elm.set( 'title', this.getAttribute( 'title' ) );
+            }
+
             this.$FxElm    = moofx( this.$Elm );
             this.$FxButton = moofx( this.$Button );
 
@@ -132,19 +145,43 @@ define('qui/controls/buttons/Switch', [
          */
         $onInject : function()
         {
+            var self = this;
+
             this.$Button.setStyle( 'left', 0 );
             this.$Elm.setStyle( 'background', '#0069b4' );
 
+            // fix for real resize
             (function()
             {
-                this.$Button.setStyle( 'width', this.$ButtonTextOff.getSize().x );
-                this.on();
+                self.$Button.setStyle( 'width', self.$ButtonTextOff.getSize().x );
 
-                moofx( this.$Elm ).animate({
+                self.$triggerEvents = false;
+
+                if ( self.getStatus() )
+                {
+                    self.on();
+                } else
+                {
+                    self.off();
+                }
+
+                self.$triggerEvents = true;
+
+                moofx( self.$Elm ).animate({
                     opacity : 1
                 });
 
-            }).delay( 100, this );
+            }).delay( 100 );
+        },
+
+        /**
+         * Return the Status
+         *
+         * @returns {Boolean}
+         */
+        getStatus : function()
+        {
+            return this.$status ? true : false;
         },
 
         /**
@@ -152,7 +189,7 @@ define('qui/controls/buttons/Switch', [
          */
         toggle : function()
         {
-            if ( this.$status == 'on' )
+            if ( this.$status )
             {
                 this.off();
             } else
@@ -166,8 +203,13 @@ define('qui/controls/buttons/Switch', [
          */
         on : function()
         {
-            this.$status = 'on';
-            this.fireEvent( 'statusOn' );
+            this.$status = 1;
+
+            if ( this.$triggerEvents )
+            {
+                this.fireEvent( 'statusOn', [ this ]  );
+                this.fireEvent( 'change', [ this ]  );
+            }
 
             if ( !this.$Elm ) {
                 return;
@@ -199,8 +241,13 @@ define('qui/controls/buttons/Switch', [
          */
         off : function()
         {
-            this.$status = 'off';
-            this.fireEvent( 'statusOff' );
+            this.$status = 0;
+
+            if ( this.$triggerEvents )
+            {
+                this.fireEvent( 'statusOff', [ this ] );
+                this.fireEvent( 'change', [ this ] );
+            }
 
             if ( !this.$Elm ) {
                 return;

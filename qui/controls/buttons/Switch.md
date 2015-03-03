@@ -1,6 +1,6 @@
 # qui/controls/buttons/Switch
 
-Mit dem onf / off Switch Control können Schieberegler erstellt werden. 
+Mit dem on / off Switch Control können Schieberegler erstellt werden. 
 Der Schieberegler passt seine Länge und Höhe automatisch an die Textlänge und Schriftgröße an.
 
 ##Eigenschaften
@@ -52,8 +52,8 @@ Wechselt den Status.
 
 ### on()
 
-Setzt den Status auf *on*
+Setzt den Status auf *1* (on)
 
 ### on()
 
-Setzt den Status auf *off*
+Setzt den Status auf *0* (off)
