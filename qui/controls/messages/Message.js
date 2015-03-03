@@ -120,7 +120,11 @@ define('qui/controls/messages/Message', [
             var self = this,
                 Time = this.getAttribute( 'time' );
 
-            var time = Time.toLocaleDateString() +' '+ Time.toLocaleTimeString();
+            //var time = Time.toLocaleDateString() +' '+ Time.toLocaleTimeString();
+
+            var time = ('0' + Time.getDate()).slice(-2) + '.' +
+                       ('0' + (Time.getMonth()+1)).slice(-2) + '.'+
+                       Time.getFullYear();
 
             var Elm = new Element('div', {
                 'class' : 'messages-message box',
