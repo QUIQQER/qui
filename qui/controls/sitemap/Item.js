@@ -724,6 +724,10 @@ define('qui/controls/sitemap/Item', [
          */
         toggle : function()
         {
+            if ( !this.hasChildren() ) {
+                return this;
+            }
+
             if ( this.isOpen() )
             {
                 this.close();
@@ -823,7 +827,6 @@ define('qui/controls/sitemap/Item', [
             {
                 this.$Opener.removeClass( 'qui-sitemap-entry-opener-open' );
                 this.$Opener.removeClass( 'qui-sitemap-entry-opener-close' );
-
                 return;
             }
 
@@ -857,31 +860,24 @@ define('qui/controls/sitemap/Item', [
             {
                 this.removeIcon( this.getAttribute('icon') );
                 this.addIcon( value );
-
                 return;
             }
 
             if ( key == 'text' )
             {
                 this.$Text.set( 'html', value );
-
-                //var w = ( this.$Text.getSize().x ).toInt();
-                //
-                //if ( this.$Opener ) {
-                //    w = w + ( this.$Opener.getSize().x ).toInt();
-                //}
-                //
-                //if ( this.$Icons ) {
-                //    w = w + ( this.$Icons.getSize().x ).toInt();
-                //}
-
-                // this.$Elm.setStyle( 'width', w );
                 this.refresh();
                 return;
             }
 
             if ( key == 'value' ) {
                 this.$Elm.set( 'data-value', value );
+            }
+
+            if ( key == 'hasChildren' )
+            {
+                this.options.hasChildren = value;
+                this.$setOpener();
             }
         },
 
@@ -895,7 +891,6 @@ define('qui/controls/sitemap/Item', [
         {
             this.$removeChild( Item );
         },
-
 
         /**
          * Drag Drop Methods
