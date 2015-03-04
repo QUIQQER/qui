@@ -332,7 +332,7 @@ define('qui/controls/taskbar/Group', [
             }
 
             if ( this.getAttribute( 'icon' ) ) {
-                Icon.setStyle( 'background-image', 'url('+ this.getAttribute('icon') +')' );
+                Icon.setStyle( 'background-image', 'url("'+ this.getAttribute('icon') +'")' );
             }
         },
 

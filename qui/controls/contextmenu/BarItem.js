@@ -432,7 +432,7 @@ define('qui/controls/contextmenu/BarItem', [
             }
 
             if ( key == 'icon' ) {
-                this.$Elm.setStyle('background-image', 'url('+ value +')');
+                this.$Elm.setStyle('background-image', 'url("'+ value +'")');
             }
         },
 

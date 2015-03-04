@@ -92,7 +92,7 @@ define('qui/controls/breadcrumb/Item', [
                 } else
                 {
                     Icon.setStyles({
-                        backgroundImage : 'url('+ this.getAttribute( 'icon' ) +')',
+                        backgroundImage : 'url("'+ this.getAttribute( 'icon' ) +'")',
                         paddingLeft     : 20
                     });
                 }

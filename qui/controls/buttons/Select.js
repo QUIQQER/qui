@@ -386,7 +386,7 @@ define('qui/controls/buttons/Select', [
                 {
                     Icon.setStyle(
                         'background',
-                        'url('+ value +') center center no-repeat'
+                        'url("'+ value +'") center center no-repeat'
                     );
                 }
             }

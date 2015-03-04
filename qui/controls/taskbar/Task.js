@@ -309,7 +309,7 @@ define('qui/controls/taskbar/Task', [
                     Icon.addClass( icon );
                 } else
                 {
-                    Icon.setStyle( 'background-image', 'url('+ icon +')' );
+                    Icon.setStyle( 'background-image', 'url("'+ icon +'")' );
                 }
             }
 

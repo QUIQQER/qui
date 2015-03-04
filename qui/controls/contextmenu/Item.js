@@ -169,7 +169,7 @@ define('qui/controls/contextmenu/Item', [
                     Icon.addClass( icon );
                 } else
                 {
-                    Icon.setStyle( 'background-image', 'url('+ icon +')' );
+                    Icon.setStyle( 'background-image', 'url("'+ icon +'")' );
                 }
             }
 
@@ -575,7 +575,7 @@ define('qui/controls/contextmenu/Item', [
                     Icon.addClass( value );
                 } else
                 {
-                    this.$Container.setStyle( 'background-image', 'url('+ value +')' );
+                    this.$Container.setStyle( 'background-image', 'url("'+ value +'")' );
 
                 }
             }
