@@ -17,7 +17,8 @@ define('qui/classes/QUI', [
     'require',
     'qui/classes/DOM',
     'qui/classes/Controls',
-    'qui/classes/storage/Storage'
+    'qui/classes/storage/Storage',
+    'qui/lib/polyfills/Promise'
 
 ], function(require, DOM, Controls, Storage)
 {
@@ -113,60 +114,72 @@ define('qui/classes/QUI', [
          *
          * @param {HTMLElement} [Parent] - optional, if no parent given, document.body would be use
          * @param {Function} [callback] - optional
+         * @return Promise
          */
         parse : function(Parent, callback)
         {
-            if ( typeof Parent === 'undefined' ) {
-                Parent = document.body;
-            }
-
-            if ( typeOf( Parent ) !== 'element' )
+            return new Promise(function(resolve, reject)
             {
-                if ( typeof callback !== 'undefined' ) {
-                    callback();
+                if ( typeof Parent === 'undefined' ) {
+                    Parent = document.body;
                 }
 
-                return;
-            }
-
-            // parse all qui controls
-            var nodes = document.id( Parent ).getElements( '[data-qui]' ),
-                list  = nodes.map(function(Elm) {
-                    return Elm.get( 'data-qui' );
-                });
-
-            require(list, function()
-            {
-                var i, len, Cls, Elm;
-
-                var formNodes = {
-                    'TEXTAREA' : true,
-                    'INPUT'    : true
-                };
-
-                for ( i = 0, len = list.length; i < len; i++ )
+                if ( typeOf( Parent ) !== 'element' )
                 {
-                    Cls = arguments[ i ];
-                    Elm = nodes[ i ];
+                    resolve();
 
-                    // already initialized
-                    if ( Elm.get( 'data-quiid' ) ) {
-                        continue;
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
                     }
 
-                    if ( Elm.get( 'html' ).trim() !== '' ||
-                         typeof formNodes[ Elm.nodeName ] !== 'undefined' )
-                    {
-                        new Cls().imports( Elm );
-                    } else
-                    {
-                        new Cls().replaces( Elm );
-                    }
+                    return;
                 }
 
-                if ( typeof callback !== 'undefined' ) {
-                    callback();
-                }
+                // parse all qui controls
+                var nodes = document.id( Parent ).getElements( '[data-qui]' ),
+                    list  = nodes.map(function(Elm) {
+                        return Elm.get( 'data-qui' );
+                    });
+
+                require(list, function()
+                {
+                    var i, len, Cls, Elm;
+
+                    var formNodes = {
+                        'TEXTAREA' : true,
+                        'INPUT'    : true
+                    };
+
+                    for ( i = 0, len = list.length; i < len; i++ )
+                    {
+                        Cls = arguments[ i ];
+                        Elm = nodes[ i ];
+
+                        // already initialized
+                        if ( Elm.get( 'data-quiid' ) ) {
+                            continue;
+                        }
+
+                        if ( Elm.get( 'html' ).trim() !== '' ||
+                            typeof formNodes[ Elm.nodeName ] !== 'undefined' )
+                        {
+                            new Cls().imports( Elm );
+                        } else
+                        {
+                            new Cls().replaces( Elm );
+                        }
+                    }
+
+                    resolve();
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
+                    }
+
+                }, function()
+                {
+                    reject();
+                });
             });
         },
 
