@@ -823,13 +823,13 @@ define('qui/controls/toolbar/Bar', [
                 var cwidth = 0,
                     itms   = this.Tabs.getChildren();
 
-                for ( i = 0, len = itms.length; i < len; i++ ) {
-                    width = width + ( itms[i].getSize().x.toInt() ) + 30;
-                }
-
                 if ( this.getAttribute('width') &&
                      this.getAttribute('width').toString().contains('%') === false )
                 {
+                    for ( i = 0, len = itms.length; i < len; i++ ) {
+                        width = width + ( itms[ i ].getSize().x.toInt() ) + 30;
+                    }
+
                     cwidth = ( this.getAttribute('width') ).toInt();
 
                     if ( this.getAttribute('slide') )
@@ -846,6 +846,12 @@ define('qui/controls/toolbar/Bar', [
                 } else
                 {
                     cwidth = '100%';
+
+                    if ( !this.getAttribute( 'menu-button' ) &&
+                         !this.getAttribute( 'slide' ) )
+                    {
+                        width = '100%';
+                    }
                 }
 
                 this.Tabs.setStyle( 'width', width );
