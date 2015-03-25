@@ -1,0 +1,141 @@
+
+.qui-loader-inner-ball-pulse-rise {
+    height: 80px;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -40px;
+    position: relative;
+    top: 50%;
+    width: 100px;
+}
+
+.qui-loader-inner-ball-pulse-rise > div {
+    animation-delay: 0;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(.15, .46, .9, .6);
+    border-radius: 100%;
+    display: inline-block;
+    height: 15px;
+    margin: 2px;
+    position: relative;
+    top: 20px;
+    width: 15px;
+
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(.15, .46, .9, .6);
+}
+
+@-webkit-keyframes qui-loader-inner-ball-pulse-rise {
+    0% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1); }
+
+    25% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px); }
+
+    50% {
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4); }
+
+    75% {
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px); }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes ball-pulse-rise-even {
+    0% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1); }
+
+    25% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px); }
+
+    50% {
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4); }
+
+    75% {
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px); }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes qui-loader-inner-ball-pulse-rise {
+    0% {
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4); }
+
+    25% {
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px); }
+
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1); }
+
+    75% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px); }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+    }
+}
+
+@keyframes qui-loader-inner-ball-pulse-rise {
+    0% {
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4); }
+
+    25% {
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px); }
+
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1); }
+
+    75% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px); }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+    }
+}
+
+.qui-loader-inner-ball-pulse-rise > div:nth-child(2n) {
+    -webkit-animation-name: ball-pulse-rise-even;
+    animation-name: ball-pulse-rise-even;
+}
+
+.qui-loader-inner-ball-pulse-rise > div:nth-child(2n-1) {
+    -webkit-animation-name: ball-pulse-rise-odd;
+    animation-name: ball-pulse-rise-odd;
+}
