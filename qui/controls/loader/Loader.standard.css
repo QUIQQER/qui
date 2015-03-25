@@ -12,7 +12,6 @@
 /*.qui-loader-dot {*/
 .qui-loader-inner-standard > div {
     display: inline-block;
-    background-color:#2F8FC6;
     width:20px;
     height:20px;
 
@@ -110,59 +109,59 @@
 @-moz-keyframes qui-loader-inner-standard {
     0% {
         -moz-transform:scale(1);
-        background-color:#2F8FC6;
+        opacity: 1;
     }
 
     100% {
         -moz-transform:scale(.3);
-        background-color:#A3D7FF;
+        opacity: 0.3;
     }
 }
 
 @-webkit-keyframes qui-loader-inner-standard {
     0% {
         -webkit-transform:scale(1);
-        background-color:#2F8FC6;
+        opacity: 1;
     }
 
     100% {
         -webkit-transform:scale(.3);
-        background-color:#A3D7FF;
+        opacity: 0.3;
     }
 }
 
 @-ms-keyframes qui-loader-inner-standard {
     0% {
         -ms-transform:scale(1);
-        background-color:#2F8FC6;
+        opacity: 1;
     }
 
     100% {
         -ms-transform:scale(.3);
-        background-color:#A3D7FF;
+        opacity: 0.3;
     }
 }
 
 @-o-keyframes qui-loader-inner-standard {
     0% {
         -o-transform:scale(1);
-        background-color:#2F8FC6;
+        opacity: 1;
     }
 
     100% {
         -o-transform:scale(.3);
-        background-color:#A3D7FF;
+        opacity: 0.3;
     }
 }
 
 @keyframes qui-loader-inner-standard {
     0% {
         transform:scale(1);
-        background-color:#2F8FC6;
+        opacity: 1;
     }
 
     100% {
         transform:scale(.3);
-        background-color:#A3D7FF;
+        opacity: 0.3;
     }
 }

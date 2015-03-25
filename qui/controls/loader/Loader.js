@@ -9,15 +9,20 @@
  * @require qui/controls/Control
  * @require qui/Locale
  * @require css!qui/controls/loader/Loader.css
+ *
+ * Global QUI Attribute
+ * - control-loader-type
+ * - control-loader-color
  */
 
 define('qui/controls/loader/Loader', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/Locale',
     'css!qui/controls/loader/Loader.css'
 
-], function(Control, Locale)
+], function(QUI, QUIControl, QUILocale)
 {
     "use strict";
 
@@ -28,14 +33,15 @@ define('qui/controls/loader/Loader', [
      */
     return new Class({
 
-        Extends : Control,
+        Extends : QUIControl,
         Type    : 'qui/controls/loader/Loader',
 
         options : {
-            cssclass  : '',    // extra CSS class
-            closetime : 50000, // seconds if the closing window showed
+            cssclass  : '',     // extra CSS class
+            closetime : 50000,  // seconds if the closing window showed
             styles    : false,  // extra CSS styles,
-            type      : 'standard'
+            type      : QUI.getAttribute( 'control-loader-type') || 'standard',
+            color     : QUI.getAttribute( 'control-loader-color' )
         },
 
         initialize : function(options)
@@ -100,6 +106,8 @@ define('qui/controls/loader/Loader', [
             this.$Inner   = this.$Elm.getElement( '.qui-loader-inner' );
             this.$Message = this.$Elm.getElement( '.qui-loader-message' );
 
+            this.$FX = moofx( this.$Elm );
+
             return this.$Elm;
         },
 
@@ -149,15 +157,23 @@ define('qui/controls/loader/Loader', [
             {
                 self.$Inner.set( 'html', '' );
 
+                var i, len, Child;
+
                 var Parent = new Element('div', {
                     'class' : 'qui-loader-inner-'+ animationType
                 }).inject( self.$Inner );
 
-                for ( var i = 0, len = animationData.children; i < len; i++ )
+                var color = self.getAttribute( 'color' );
+
+                for ( i = 0, len = animationData.children; i < len; i++ )
                 {
-                    new Element('div', {
+                    Child = new Element('div', {
                         'class' : 'control-background'
                     }).inject( Parent );
+
+                    if ( color ) {
+                        Child.setStyle( 'background', color );
+                    }
                 }
 
 
@@ -199,6 +215,17 @@ define('qui/controls/loader/Loader', [
                 return;
             }
 
+            if ( !this.$FX )
+            {
+                this.$Elm.setStyle( 'display', 'none' );
+
+                if ( typeof callback === 'function' ) {
+                    callback();
+                }
+
+                return;
+            }
+
             var self = this;
 
             this.$FX.animate({
@@ -236,7 +263,7 @@ define('qui/controls/loader/Loader', [
             var self = this;
 
             new Element('div', {
-                text   : Locale.get( 'quiqqer/controls', 'loader.close' ),
+                text   : QUILocale.get( 'quiqqer/controls', 'loader.close' ),
                 styles : {
                     'font-weight' : 'bold',
                     'text-align'  : 'center',
