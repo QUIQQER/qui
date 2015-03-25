@@ -288,6 +288,8 @@ define('qui/controls/desktop/panels/Sheet', [
                     }
 
                     self.$fxComplete();
+
+                    Elm.setStyle( 'display', 'none' );
                 }
             });
 
