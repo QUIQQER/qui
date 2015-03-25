@@ -40,8 +40,8 @@ define('qui/controls/loader/Loader', [
             cssclass  : '',     // extra CSS class
             closetime : 50000,  // seconds if the closing window showed
             styles    : false,  // extra CSS styles,
-            type      : QUI.getAttribute( 'control-loader-type') || 'standard',
-            color     : QUI.getAttribute( 'control-loader-color' )
+            type      : false,
+            color     : false
         },
 
         initialize : function(options)
@@ -144,14 +144,30 @@ define('qui/controls/loader/Loader', [
             }
 
             // load animation
-            var animationData = this.$animations.standard,
-                animationType = 'standard';
+            var animationData = false,
+                animationType = false;
 
-            if ( this.getAttribute( 'type' ) in this.$animations )
+            if ( this.getAttribute( 'type' ) &&
+                 this.getAttribute( 'type' ) in this.$animations )
             {
                 animationData = this.$animations[ this.getAttribute( 'type' ) ];
                 animationType = this.getAttribute( 'type' );
             }
+
+            if ( !animationType &&
+                 QUI.getAttribute( 'control-loader-type' ) &&
+                 QUI.getAttribute( 'control-loader-type' ) in this.$animations )
+            {
+                animationData = this.$animations[ QUI.getAttribute( 'control-loader-type' ) ];
+                animationType = QUI.getAttribute( 'control-loader-type' );
+            }
+
+            if ( !animationType )
+            {
+                animationData = this.$animations.standard;
+                animationType = 'standard';
+            }
+
 
             require( animationData.files , function()
             {
@@ -164,6 +180,10 @@ define('qui/controls/loader/Loader', [
                 }).inject( self.$Inner );
 
                 var color = self.getAttribute( 'color' );
+
+                if ( !color ) {
+                    color = QUI.getAttribute( 'control-loader-color' );
+                }
 
                 for ( i = 0, len = animationData.children; i < len; i++ )
                 {
