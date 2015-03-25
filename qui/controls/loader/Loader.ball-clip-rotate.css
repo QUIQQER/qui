@@ -1,0 +1,62 @@
+
+.qui-loader-inner-ball-clip-rotate {
+    height: 50px;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    top: 50%;
+    width: 50px;
+}
+
+
+.qui-loader-inner-ball-clip-rotate > div {
+    animation: rotate 0.75s 0s linear infinite;
+    animation-fill-mode: both;
+
+    display: inline-block;
+    background: transparent !important;
+    border-radius: 100%;
+    border: 3px solid rgba( 0, 0, 0, 0.5 );
+    border-bottom-color: transparent;
+    height: 50px;
+    margin: 2px;
+    width: 50px;
+
+    -webkit-animation: rotate 0.75s 0 linear infinite;
+    -webkit-animation-fill-mode: both;
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg) scale(1);
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg) scale(1);
+        transform: rotate(180deg) scale(1);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg) scale(1);
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg) scale(1);
+        transform: rotate(180deg) scale(1);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}

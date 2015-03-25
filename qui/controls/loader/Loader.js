@@ -70,9 +70,24 @@ define('qui/controls/loader/Loader', [
                     files    : ['css!qui/controls/loader/Loader.line-scale.css']
                 },
 
+                'ball-clip-rotate' : {
+                    children : 1,
+                    files    : ['css!qui/controls/loader/Loader.ball-clip-rotate.css']
+                },
+
                 'ball-pulse-rise' : {
                     children : 5,
                     files    : ['css!qui/controls/loader/Loader.ball-pulse-rise.css']
+                },
+
+                'ball-triangle-path' : {
+                    children : 3,
+                    files    : ['css!qui/controls/loader/Loader.ball-triangle-path.css']
+                },
+
+                'pacman' : {
+                    children : 5,
+                    files    : ['css!qui/controls/loader/Loader.pacman.css']
                 }
             };
         },
