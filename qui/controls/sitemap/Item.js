@@ -244,7 +244,9 @@ define('qui/controls/sitemap/Item', [
                 return this;
             }
 
-            this.$Elm.setStyle( 'width', width );
+            if ( this.$Elm ) {
+                this.$Elm.setStyle( 'width', width );
+            }
 
             return this;
         },
