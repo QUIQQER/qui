@@ -1,7 +1,7 @@
 
 .qui-sitemap-entry {
-    float: left;
     clear: both;
+    float: left;
     position: relative;
 }
 
@@ -11,47 +11,46 @@
 }
 
 .qui-sitemap-entry-opener {
-    float: left;
-    width: 20px;
-    height: 30px;
-    cursor: pointer;
-
     background-repeat: no-repeat;
     background-position: center center;
+    float: left;
+    height: 30px;
+    width: 20px;
 }
 
 .qui-sitemap-entry-opener-open {
     background-image: url('images/plus.png');
+    cursor: pointer;
 }
 
 .qui-sitemap-entry-opener-close {
     background-image: url('images/minus.png');
+    cursor: pointer;
 }
 
 .qui-sitemap-entry-icon {
-    float: left;
-    position: relative;
-    width: 20px;
-    height: 30px;
-    text-align: center;
-    padding: 0 0 0 5px;
-
     background-repeat: no-repeat;
     background-position: center center;
+    float: left;
+    height: 30px;
+    padding: 0 0 0 5px;
+    position: relative;
+    text-align: center;
+    width: 20px;
 }
 
 .qui-sitemap-entry-icon i {
-    width: 100%;
     text-align: center;
+    width: 100%;
 }
 
 .qui-sitemap-entry-icon-itm {
-    position: absolute;
+    font-size: 16px;
     left: 0;
+    line-height: 30px;
+    position: absolute;
     top: 0;
     z-index: 10;
-    line-height: 30px;
-    font-size: 16px;
 }
 
 .qui-sitemap-entry-disabled {
@@ -62,11 +61,11 @@
 }
 
 .qui-sitemap-entry-text {
-    float: left;
     cursor: pointer;
-    white-space: nowrap;
-    padding: 0 10px 0 5px;
+    float: left;
     line-height: 30px;
+    padding: 0 10px 0 5px;
+    white-space: nowrap;
 }
 
 .qui-sitemap-entry-highlighted,
@@ -74,7 +73,6 @@
     background-color: #2F8FC6;
     color: #FFFFFF;
 }
-
 
 .qui-sitemap-entry-disabled:hover,
 .qui-sitemap-entry-disabled .qui-sitemap-entry-text:hover {
@@ -98,7 +96,7 @@
 }
 
 .qui-sitemap-entry-children {
+    clear: both;
     float: left;
     margin-left: 20px;
-    clear: both;
 }
