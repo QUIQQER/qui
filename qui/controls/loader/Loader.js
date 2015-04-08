@@ -218,6 +218,9 @@ define('qui/controls/loader/Loader', [
                     self.$Elm.getParent().addClass( 'qui-loader-parent' );
                 }
 
+                self.$FX.animate({
+                    opacity : 0.8
+                });
 
                 if ( !self.getAttribute( 'closetime' ) ) {
                     return;
