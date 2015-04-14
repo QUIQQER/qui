@@ -158,6 +158,14 @@ define('qui/controls/loader/Loader', [
                 });
             }
 
+            // must be showed, because, hide can be triggered -> no async showed
+            this.$Elm.setStyle( 'display', '' );
+
+            this.$FX.animate({
+                opacity : 0.8
+            });
+
+
             // load animation
             var animationData = false,
                 animationType = false;
@@ -212,15 +220,9 @@ define('qui/controls/loader/Loader', [
                 }
 
 
-                self.$Elm.setStyle( 'display', '' );
-
                 if ( !self.$Elm.getParent().hasClass( 'qui-window-popup' ) ) {
                     self.$Elm.getParent().addClass( 'qui-loader-parent' );
                 }
-
-                self.$FX.animate({
-                    opacity : 0.8
-                });
 
                 if ( !self.getAttribute( 'closetime' ) ) {
                     return;
