@@ -49,6 +49,7 @@ define('qui/controls/loader/Loader', [
             this.parent( options );
 
             this.$Inner = null;
+            this.$Close = null;
             this.$FX    = null;
             this.$delay = null;
 
@@ -139,6 +140,20 @@ define('qui/controls/loader/Loader', [
 
             if ( !this.$Elm.getParent() ) {
                 return;
+            }
+
+            if ( this.$Close )
+            {
+                this.$Close.destroy();
+                this.$Close = null;
+
+                this.$Elm.set({
+                    html: '<div class="qui-loader-message"></div>' +
+                          '<div class="qui-loader-inner"></div>'
+                });
+
+                this.$Inner   = this.$Elm.getElement( '.qui-loader-inner' );
+                this.$Message = this.$Elm.getElement( '.qui-loader-message' );
             }
 
             var self = this,
@@ -302,7 +317,7 @@ define('qui/controls/loader/Loader', [
 
             var self = this;
 
-            new Element('div', {
+            this.$Close = new Element('div', {
                 text   : QUILocale.get( 'quiqqer/controls', 'loader.close' ),
                 styles : {
                     'font-weight' : 'bold',
