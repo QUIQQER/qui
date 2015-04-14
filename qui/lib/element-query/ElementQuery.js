@@ -341,11 +341,18 @@
         /*@cc_on
          @if (@_win32 || @_win64)
          document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
-         document.getElementById('ieScriptLoad').onreadystatechange = function() {
+         var iesLoad = document.getElementById('ieScriptLoad');
+         if ( !iesLoad ) {
+         document.addEvent('ready', function() {
+         callback();
+         });
+         } else {
+         iesLoad.onreadystatechange = function() {
          if (this.readyState == 'complete') {
          callback();
          }
          };
+         }
          @end @*/
         /* Mozilla, Chrome, Opera */
         if (document.addEventListener) {
