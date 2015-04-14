@@ -12,17 +12,24 @@
  * @event onError : if there is an error
  */
 
-define('qui/classes/QUI', [
-
+var quiRequire = [
     'require',
     'qui/classes/DOM',
     'qui/classes/Controls',
-    'qui/classes/storage/Storage',
-    'qui/lib/polyfills/Promise'
+    'qui/classes/storage/Storage'
+];
 
-], function(require, DOM, Controls, Storage)
+if ( typeof Promise === 'undefined' ) {
+    quiRequire.push( 'qui/lib/polyfills/Promise' );
+}
+
+define('qui/classes/QUI', quiRequire, function(require, DOM, Controls, Storage, PromisePol)
 {
     "use strict";
+
+    if ( typeof PromisePol !== 'undefined' && typeof Promise === 'undefined' ) {
+        window.Promise = PromisePol;
+    }
 
     /**
      * The QUIQQER main object
