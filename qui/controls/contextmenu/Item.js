@@ -108,9 +108,17 @@ define('qui/controls/contextmenu/Item', [
             {
                 this.addEvent('onClick', function()
                 {
+                    var func = self.getAttribute( 'onClick' );
+
                     try
                     {
-                        eval( self.getAttribute( 'onClick' ) +'( self )' );
+                        if ( typeof func === 'function' )
+                        {
+                            func( self );
+                        } else
+                        {
+                            eval( self.getAttribute( 'onClick' ) +'( self )' );
+                        }
 
                     } catch ( e )
                     {
