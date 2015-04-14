@@ -48,10 +48,11 @@ define('qui/controls/loader/Loader', [
         {
             this.parent( options );
 
-            this.$Inner = null;
-            this.$Close = null;
-            this.$FX    = null;
-            this.$delay = null;
+            this.$Inner  = null;
+            this.$Close  = null;
+            this.$FX     = null;
+            this.$delay  = null;
+            this.$status = 0;
 
             this.addEvent('onDestroy', function()
             {
@@ -134,6 +135,8 @@ define('qui/controls/loader/Loader', [
          */
         show : function(str)
         {
+            this.$status = 1;
+
             if ( !this.$Elm ) {
                 return;
             }
@@ -206,9 +209,12 @@ define('qui/controls/loader/Loader', [
                 animationType = 'standard';
             }
 
-
             require( animationData.files , function()
             {
+                if ( self.$status === 0 ) {
+                    return;
+                }
+
                 self.$Inner.set( 'html', '' );
 
                 var i, len, Child;
@@ -262,6 +268,8 @@ define('qui/controls/loader/Loader', [
          */
         hide : function(callback)
         {
+            this.$status = 0;
+
             if ( this.$delay ) {
                 clearTimeout( this.$delay );
             }
@@ -288,6 +296,7 @@ define('qui/controls/loader/Loader', [
             }, function()
             {
                 self.$Elm.setStyle( 'display', 'none' );
+                self.$status = 0;
 
                 if ( typeof callback === 'function' ) {
                     callback();
