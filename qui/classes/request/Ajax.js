@@ -270,11 +270,18 @@ define('qui/classes/request/Ajax', [
                 {
                     var i, len;
 
+                    var func_add_to_mh = function(Message) {
+                        MH.add( Message );
+                    };
+
                     for ( i = 0, len = messages.length; i < len; i++ )
                     {
-                        MH.parse( messages[ i ], function(Message) {
-                            MH.add( Message );
-                        });
+                        // parse time for javascript date
+                        if ( "time" in messages[ i ] ) {
+                            messages[ i ].time = messages[ i ] * 1000;
+                        }
+
+                        MH.parse( messages[ i ], func_add_to_mh );
                     }
                 });
             }
