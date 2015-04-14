@@ -211,7 +211,9 @@ define('qui/controls/loader/Loader', [
 
             require( animationData.files , function()
             {
-                if ( self.$status === 0 ) {
+                if ( self.$status === 0 )
+                {
+                    self.hide();
                     return;
                 }
 
@@ -243,6 +245,12 @@ define('qui/controls/loader/Loader', [
 
                 if ( !self.$Elm.getParent().hasClass( 'qui-window-popup' ) ) {
                     self.$Elm.getParent().addClass( 'qui-loader-parent' );
+                }
+
+                if ( self.$status === 0 )
+                {
+                    self.hide();
+                    return;
                 }
 
                 if ( !self.getAttribute( 'closetime' ) ) {
