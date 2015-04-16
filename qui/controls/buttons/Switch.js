@@ -66,6 +66,30 @@ define('qui/controls/buttons/Switch', [
         },
 
         /**
+         * resize the switch
+         */
+        resize : function()
+        {
+            this.$Button.setStyle( 'width', this.$ButtonTextOff.getSize().x );
+
+            this.$triggerEvents = false;
+
+            if ( this.getStatus() )
+            {
+                this.on();
+            } else
+            {
+                this.off();
+            }
+
+            this.$triggerEvents = true;
+
+            moofx( this.$Elm ).animate({
+                opacity : 1
+            });
+        },
+
+        /**
          * Create the DOM Element
          *
          * @method qui/controls/buttons/Button#create
@@ -153,27 +177,9 @@ define('qui/controls/buttons/Switch', [
             this.$Elm.setStyle( 'background', '#0069b4' );
 
             // fix for real resize
-            (function()
-            {
-                self.$Button.setStyle( 'width', self.$ButtonTextOff.getSize().x );
-
-                self.$triggerEvents = false;
-
-                if ( self.getStatus() )
-                {
-                    self.on();
-                } else
-                {
-                    self.off();
-                }
-
-                self.$triggerEvents = true;
-
-                moofx( self.$Elm ).animate({
-                    opacity : 1
-                });
-
-            }).delay( 200 );
+            (function() {
+                self.resize();
+            }).delay( 100 );
         },
 
         /**
