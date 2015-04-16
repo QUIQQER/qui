@@ -173,7 +173,7 @@ define('qui/controls/buttons/Switch', [
                     opacity : 1
                 });
 
-            }).delay( 100 );
+            }).delay( 200 );
         },
 
         /**
