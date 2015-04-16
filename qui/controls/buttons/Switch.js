@@ -32,7 +32,8 @@ define('qui/controls/buttons/Switch', [
 
         Binds : [
             'toggle',
-            '$onInject'
+            '$onInject',
+            '$onSetAttribute'
         ],
 
         options : {
@@ -59,7 +60,8 @@ define('qui/controls/buttons/Switch', [
             this.$triggerEvents = true;
 
             this.addEvents({
-                onInject : this.$onInject
+                onInject       : this.$onInject,
+                onSetAttribute : this.$onSetAttribute
             });
         },
 
@@ -273,6 +275,23 @@ define('qui/controls/buttons/Switch', [
                 duration : 350,
                 equation : 'cubic-bezier(0.34,1.31,0.7,1)'
             });
+        },
+
+        /**
+         * event : on set attribute
+         *
+         * @param {String} key   - attribute name
+         * @param {String|Number|Object} value - attribute value
+         */
+        $onSetAttribute : function(key, value)
+        {
+            if ( !this.$Elm ) {
+                return;
+            }
+
+            if ( key == 'title' ) {
+                this.$Elm.set( 'title', value );
+            }
         }
     });
 });
