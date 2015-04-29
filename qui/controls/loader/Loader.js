@@ -242,9 +242,10 @@ define('qui/controls/loader/Loader', [
                     }
                 }
 
+                var ElmParent = self.$Elm.getParent();
 
-                if ( !self.$Elm.getParent().hasClass( 'qui-window-popup' ) ) {
-                    self.$Elm.getParent().addClass( 'qui-loader-parent' );
+                if ( ElmParent && !ElmParent.hasClass( 'qui-window-popup' ) ) {
+                    ElmParent.addClass( 'qui-loader-parent' );
                 }
 
                 if ( self.$status === 0 )
