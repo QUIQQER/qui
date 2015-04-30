@@ -328,6 +328,10 @@ define('qui/controls/desktop/Panel', [
                              this.$Footer.getSize().y - 1 -
                              this.$Header.getSize().y;
 
+            if ( this.$Breadcrumb ) {
+                content_height = content_height - this.$Breadcrumb.getSize().y;
+            }
+
             if ( this.getAttribute( 'scrollbars' ) === false ) {
                 overflow = 'hidden';
             }
