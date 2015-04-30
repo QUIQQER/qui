@@ -5,8 +5,13 @@
  * @module qui/controls/contextmenu/Menu
  * @author www.pcsg.de (Henning Leutz)
  *
+ * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/utils/Elements
  * @require css!qui/controls/contextmenu/Menu.css
+ *
+ * @event onMouseEnter
+ * @event onMouseLeave
  */
 
 define('qui/controls/contextmenu/Menu', [
@@ -46,7 +51,7 @@ define('qui/controls/contextmenu/Menu', [
             title  : false,  // title of the menu (optional) : String
             shadow : true,   // menü with shadow (true) or not (false)
             corner : false,  // corner for the menü
-
+            maxHeight : false, // max height of the menu
             dragable : false
         },
 
@@ -57,6 +62,8 @@ define('qui/controls/contextmenu/Menu', [
             this.$items  = [];
             this.$Title  = null;
             this.$Active = null;
+
+            this.$__activeSubMenu = false;
         },
 
         /**
@@ -67,6 +74,8 @@ define('qui/controls/contextmenu/Menu', [
          */
         create : function()
         {
+            var self = this;
+
             this.$Elm = new Element('div.qui-contextmenu', {
                 html     : '<div class="qui-contextmenu-container"></div>',
                 tabindex : -1,
@@ -81,7 +90,15 @@ define('qui/controls/contextmenu/Menu', [
                         this.fireEvent( 'blur', [ this ] );
                     }.bind( this ),
 
-                    keyup : this.$keyup
+                    keyup : this.$keyup,
+
+                    mouseenter : function() {
+                        self.fireEvent( 'mouseEnter', [ self ] );
+                    },
+
+                    mouseleave : function() {
+                        self.fireEvent( 'mouseLeave', [ self ] );
+                    }
                 },
                 'data-quiid' : this.getId()
             });
@@ -122,6 +139,12 @@ define('qui/controls/contextmenu/Menu', [
             if ( !this.$Elm ) {
                 return this;
             }
+
+            if ( this.$__activeSubMenu ) {
+                this.$__activeSubMenu.hide();
+            }
+
+            this.$__activeSubMenu = false;
 
             var Parent = this.$Elm.getParent(),
                 Elm    = this.$Elm;
@@ -177,8 +200,37 @@ define('qui/controls/contextmenu/Menu', [
             var scrollSize = Elm.getScrollSize();
 
             this.$Container.setStyle( 'height', scrollSize.y + 5 );
-            Elm.setStyle( 'height', scrollSize.y );
 
+            if ( this.getAttribute('maxHeight') )
+            {
+                scrollSize = this.$Container.getScrollSize();
+
+                if ( scrollSize.y >= this.getAttribute('maxHeight') )
+                {
+                    Elm.setStyles({
+                        height : this.getAttribute('maxHeight')
+                    });
+
+                    this.$Container.setStyles({
+                        height : this.getAttribute('maxHeight'),
+                        overflow : 'auto'
+                    });
+
+                } else
+                {
+                    Elm.setStyles({
+                        height : scrollSize.y
+                    });
+
+                    this.$Container.setStyle( 'height', scrollSize.y + 5 );
+                }
+
+                scrollSize = Elm.getSize();
+
+            } else
+            {
+                Elm.setStyle( 'height', scrollSize.y );
+            }
 
             // if parent is the body element
             // context menu don't get out of the body
@@ -215,6 +267,16 @@ define('qui/controls/contextmenu/Menu', [
          */
         hide : function()
         {
+            // hide children menus
+            var children = this.getChildren();
+
+            for ( var i = 0, len = children.length; i < len; i++ )
+            {
+                if ( children[ i ].$Menu ) {
+                    children[ i ].$Menu.hide();
+                }
+            }
+
             this.getElm().setStyles({
                 display : 'none'
             });
@@ -290,7 +352,7 @@ define('qui/controls/contextmenu/Menu', [
          * Get an Child Element
          *
          * @method qui/controls/contextmenu/Menu#getChildren
-         * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
+         * @param {String} [name] - Name of the Children, optional, if no name given, returns all Children
          * @return {Array|Boolean|Object} List of children | false | Child (qui/controls/contextmenu/Item)
          */
         getChildren : function(name)

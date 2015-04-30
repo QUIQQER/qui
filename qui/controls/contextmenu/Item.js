@@ -92,6 +92,8 @@ define('qui/controls/contextmenu/Item', [
             this.$Menu      = null;
             this.$Text      = null;
 
+            this.$__childOpend = false;
+
             if ( typeof options.disabled !== 'undefined' && options.disabled ) {
                 this.$disabled = true;
             }
@@ -276,18 +278,18 @@ define('qui/controls/contextmenu/Item', [
          */
         $onInject : function()
         {
-            var Icon = this.$Container.getElement( '.qui-contextitem-icon' ),
-                Text = this.$Container.getElement( '.qui-contextitem-text' );
-
-            var iconSize = Icon.measure(function() {
-                return this.getComputedSize();
-            });
-
-            var elmSize = this.$Container.measure(function() {
-                return this.getComputedSize();
-            });
-
-            Text.setStyle( 'width', elmSize.width - iconSize.totalWidth );
+//            var Icon = this.$Container.getElement( '.qui-contextitem-icon' ),
+//                Text = this.$Container.getElement( '.qui-contextitem-text' );
+//
+//            var iconSize = Icon.measure(function() {
+//                return this.getComputedSize();
+//            });
+//
+//            var elmSize = this.$Container.measure(function() {
+//                return this.getComputedSize();
+//            });
+//
+//            Text.setStyle( 'width', elmSize.width - iconSize.totalWidth );
         },
 
         /**
@@ -523,8 +525,10 @@ define('qui/controls/contextmenu/Item', [
                 return this.$Menu;
             }
 
+            var self = this;
+
             this.$Menu = new ContextMenu({
-                name   : this.getAttribute( 'name' ) +'-menu',
+                name : this.getAttribute( 'name' ) +'-menu',
                 corner : 'left',
                 events :
                 {
@@ -535,11 +539,24 @@ define('qui/controls/contextmenu/Item', [
                         for ( var i = 0, len = children.length; i < len; i++ ) {
                             children[ i ].setNormal();
                         }
+
+                        // set active submenu
+                        var ActiveMenu = self.getParent().$__activeSubMenu;
+
+                        if ( ActiveMenu && ActiveMenu != Menu ) {
+                            self.getParent().$__activeSubMenu.hide();
+                        }
+
+                        self.getParent().$__activeSubMenu = Menu;
+                    },
+
+                    onMouseEnter : function() {
+                        self.$__childOpend = true;
                     }
                 }
             });
 
-            this.$Menu.inject( this.$Elm );
+            this.$Menu.inject( document.body );
             this.$Menu.hide();
 
             this.$Menu.setParent( this );
@@ -631,17 +648,26 @@ define('qui/controls/contextmenu/Item', [
          */
         $onMouseEnter : function()
         {
+            var ActiveMenu = this.getParent().$__activeSubMenu;
+
+            if ( ActiveMenu ) {
+                ActiveMenu.hide();
+            }
+
+
             if ( this.$disabled ) {
                 return;
             }
 
             if ( this.$Menu )
             {
-                var size   = this.$Elm.getSize(),
+                var pos    = this.$Elm.getPosition(),
+                    size   = this.$Elm.getSize(),
                     Parent = this.$Menu.getParent();
 
-                this.$Menu.setPosition( size.x, 0 );
-                this.$Menu.show();
+                this.$Menu.setPosition( pos.x + size.x, pos.y );
+
+                this.$__childOpend = false;
 
                 if ( Parent )
                 {
@@ -651,13 +677,13 @@ define('qui/controls/contextmenu/Item', [
                         elm_size  = MenuElm.getSize(),
                         body_size = document.body.getSize();
 
-                    if ( elm_pos.x + size.x > body_size.x )
-                    {
-                        // show the menü left
+                    // show the menü left
+                    if ( elm_pos.x + size.x > body_size.x ) {
                         this.$Menu.setPosition( 0 - elm_size.x, 0 );
                     }
                 }
 
+                this.$Menu.show();
                 this.$Container.addClass( 'qui-contextitem-active' );
             }
 
@@ -675,8 +701,15 @@ define('qui/controls/contextmenu/Item', [
                 return;
             }
 
-            if ( this.$Menu ) {
-                this.$Menu.hide();
+            if ( this.$Menu )
+            {
+                (function()
+                {
+                    if (this.$__childOpend === false) {
+                        this.$Menu.hide();
+                    }
+
+                }).delay( 100, this );
             }
 
             this.$Container.removeClass( 'qui-contextitem-active' );
