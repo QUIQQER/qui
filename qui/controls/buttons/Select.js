@@ -56,7 +56,8 @@ define('qui/controls/buttons/Select', [
             name    : 'select-box',
             'style' : {},      // mootools css style attributes
             'class' : false,   // extra CSS Class
-            menuWidth : 200
+            menuWidth : 200,
+            menuMaxHeight : 300
         },
 
         params : {},
@@ -282,6 +283,8 @@ define('qui/controls/buttons/Select', [
                 size = this.$Elm.getSize();
 
             this.getElm().addClass( 'qui-select-open' );
+
+            this.$Menu.setAttribute( 'maxHeight', this.getAttribute('menuMaxHeight') );
 
             this.$Menu.setPosition(
                 pos.x - 20,
