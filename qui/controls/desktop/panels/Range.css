@@ -1,0 +1,15 @@
+
+.qui-contro-input-range {
+    float: left;
+}
+
+.qui-contro-input-range-input {
+    cursor: pointer;
+    float: left;
+    margin-top: 5px;
+}
+
+.qui-contro-input-range-display {
+    padding: 5px;
+    width: 40px;
+}
