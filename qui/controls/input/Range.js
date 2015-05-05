@@ -1,4 +1,15 @@
 
+/**
+ * Input range
+ *
+ * @author www.pcsg.de (Henning Leutz)
+ * @module qui/controls/input/Range
+ *
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require css!qui/controls/input/Range.css
+ */
+
 define('qui/controls/input/Range', [
 
     'qui/QUI',
