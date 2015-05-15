@@ -92,6 +92,10 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
         {
             this.$Elm.setStyle( 'display', null );
 
+            if ( this.getAttribute( 'styles' ) ) {
+                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            }
+
             if ( this.getAttribute( 'animate' ) === false )
             {
                 this.$Elm.set( 'opacity', 0.6 );
