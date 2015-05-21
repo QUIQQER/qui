@@ -56,8 +56,9 @@ define('qui/controls/buttons/Switch', [
             this.$FxElm    = false;
             this.$FxButton = false;
 
-            this.$status = this.getAttribute( 'status' );
+            this.$status        = this.getAttribute( 'status' );
             this.$triggerEvents = true;
+            this.$disabled      = false;
 
             this.addEvents({
                 onInject       : this.$onInject,
@@ -212,6 +213,10 @@ define('qui/controls/buttons/Switch', [
          */
         on : function()
         {
+            if ( this.$disabled ) {
+                return;
+            }
+
             this.$status = 1;
 
             if ( this.$triggerEvents )
@@ -250,6 +255,10 @@ define('qui/controls/buttons/Switch', [
          */
         off : function()
         {
+            if ( this.$disabled ) {
+                return;
+            }
+
             this.$status = 0;
 
             if ( this.$triggerEvents )
@@ -282,6 +291,42 @@ define('qui/controls/buttons/Switch', [
                 duration : 350,
                 equation : 'cubic-bezier(0.34,1.31,0.7,1)'
             });
+        },
+
+        /**
+         * Set status to "on" without triggering any events
+         */
+        setSilentOn : function()
+        {
+            this.$triggerEvents = false;
+            this.on();
+            this.$triggerEvents = true;
+        },
+
+        /**
+         * Set status to "off" without triggering any events
+         */
+        setSilentOff : function()
+        {
+            this.$triggerEvents = false;
+            this.off();
+            this.$triggerEvents = true;
+        },
+
+        /**
+         * Enables the Switch so that the status can be switched
+         */
+        enable : function()
+        {
+            this.$disabled = false;
+        },
+
+        /**
+         * Disables the Switch: No status change possible
+         */
+        disable : function()
+        {
+            this.$disabled = true;
         },
 
         /**
