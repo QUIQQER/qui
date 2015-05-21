@@ -111,7 +111,8 @@ define('qui/controls/buttons/Switch', [
                           '<input type="hidden" />',
                 styles : {
                     opacity : 0
-                }
+                },
+                'data-quiid' : this.getId()
             });
 
             this.$InputStatus = this.$Elm.getElement( 'input' );
