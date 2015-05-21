@@ -8,28 +8,23 @@
  * @require require
  * @require qui/classes/DOM
  * @require qui/classes/Controls
+ * @require qui/classes/storage/Storage
+ * @require qui/lib/polyfills/Promise
  *
  * @event onError : if there is an error
  */
 
-var quiRequire = [
+define('qui/classes/QUI', [
+
     'require',
     'qui/classes/DOM',
     'qui/classes/Controls',
-    'qui/classes/storage/Storage'
-];
+    'qui/classes/storage/Storage',
+    'qui/lib/polyfills/Promise'
 
-if ( typeof Promise === 'undefined' ) {
-    quiRequire.push( 'qui/lib/polyfills/Promise' );
-}
-
-define('qui/classes/QUI', quiRequire, function(require, DOM, Controls, Storage, PromisePol)
+], function(require, DOM, Controls, Storage)
 {
     "use strict";
-
-    if ( typeof PromisePol !== 'undefined' && typeof Promise === 'undefined' ) {
-        window.Promise = PromisePol;
-    }
 
     /**
      * The QUIQQER main object
@@ -230,37 +225,48 @@ define('qui/classes/QUI', quiRequire, function(require, DOM, Controls, Storage, 
          * Return the message handler
          *
          * @method qui/classes/QUI#getMessageHandler
-         * @param {Function} callback
+         * @param {Function} [callback] - optional, callback function
+         * @return Promise
          */
         getMessageHandler : function(callback)
         {
-            if ( typeof this.$execGetMessageHandler !== 'undefined' && !this.MessageHandler )
-            {
-                this.$execGetMessageHandler = true;
-
-                (function() {
-                    this.getMessageHandler( callback );
-                }).delay( 20, this );
-
-                return;
-            }
-
-            this.$execGetMessageHandler = true;
-
-
-            if ( this.MessageHandler )
-            {
-                callback( this.MessageHandler );
-                return;
-            }
-
             var self = this;
 
-            require(['qui/controls/messages/Handler'], function(Handler)
+            return new Promise(function(resolve, reject)
             {
-                self.MessageHandler = new Handler();
+                if (typeof self.$execGetMessageHandler !== 'undefined' && !self.MessageHandler)
+                {
+                    self.$execGetMessageHandler = true;
 
-                callback( self.MessageHandler );
+                    (function () {
+                        self.getMessageHandler(callback);
+                    }).delay(20, self);
+
+                    return;
+                }
+
+                self.$execGetMessageHandler = true;
+
+                if (self.MessageHandler)
+                {
+                    if ( typeOf(callback)=== 'function' ) {
+                        callback( self.MessageHandler );
+                    }
+
+                    resolve( self.MessageHandler );
+                    return;
+                }
+
+                require(['qui/controls/messages/Handler'], function(Handler)
+                {
+                    self.MessageHandler = new Handler();
+
+                    if ( typeOf(callback)=== 'function' ) {
+                        callback( self.MessageHandler );
+                    }
+
+                    resolve( self.MessageHandler );
+                }, reject);
             });
         },
 

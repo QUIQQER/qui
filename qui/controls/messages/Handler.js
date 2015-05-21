@@ -955,31 +955,34 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#addAttention
          * @param {String} str - Message text
-         * @param {Function} callback - Callback Function, to get the Loading object
+         * @param {Function} [callback] - Callback Function, to get the Loading object
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
-         * @return {Object} this (qui/controls/messages/Handler)
+         * @return {Promise}
          */
         addLoading : function(str, callback, Parent)
         {
             var self = this;
 
-            require(['qui/controls/messages/Loading'], function(Loading)
+            return new Promise(function(resolve, reject)
             {
-                var Message = new Loading({
-                    message : str
-                });
-
-                self.add( Message, Parent );
-                self.fireEvent( 'addLoadingMessage', [ this, Message ] );
-
-                if ( typeof callback !== 'undefined' &&
-                     typeOf( callback ) == 'function' )
+                require(['qui/controls/messages/Loading'], function(Loading)
                 {
-                    callback( Message );
-                }
-            });
+                    var Message = new Loading({
+                        message : str
+                    });
 
-            return this;
+                    self.add( Message, Parent );
+                    self.fireEvent( 'addLoadingMessage', [ this, Message ] );
+
+                    if ( typeof callback !== 'undefined' &&
+                         typeOf( callback ) == 'function' )
+                    {
+                        callback( Message );
+                    }
+
+                    resolve( Message );
+                }, reject);
+            });
         },
 
         /**
