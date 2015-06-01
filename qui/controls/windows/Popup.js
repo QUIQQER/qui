@@ -123,6 +123,8 @@ define('qui/controls/windows/Popup', [
             this.$Content   = this.$Elm.getElement( '.qui-window-popup-content' );
             this.$Buttons   = this.$Elm.getElement( '.qui-window-popup-buttons' );
 
+            this.$Content.setStyle('opacity', 0);
+
             if ( this.getAttribute( 'titleCloseButton' ) )
             {
                 new Element('div', {
@@ -189,6 +191,7 @@ define('qui/controls/windows/Popup', [
                 this.$Buttons.setStyles({
                     'float'   : 'left',
                     margin    : '0 auto',
+                    opacity   : 0,
                     textAlign : 'center',
                     width     : '100%'
                 });
@@ -338,37 +341,27 @@ define('qui/controls/windows/Popup', [
                 left = this.$Elm.getStyle( 'left' ).toInt();
             }
 
-            if ( this.$Buttons )
-            {
-                // button zentrieren
-                var list = this.$Buttons.getChildren();
-
-                for ( var i = 0, len = list.length-1; i < len; i++ )
-                {
-                    if ( typeof list[ i ] === 'undefined' ) {
-                        continue;
-                    }
-
-                    list[ i ].setStyle( 'marginRight', 10 );
-                }
-
-                if ( list.length )
-                {
-                    this.$Buttons.setStyles({
-                        height : list[ 0 ].getComputedSize().totalHeight + 20
-                    });
-                }
-            }
-
-            // content height
-            var content_height = height -
-                                 this.$Buttons.getSize().y -
-                                 this.$Title.getSize().y;
-
-            this.$Content.setStyles({
-                height : content_height
-            });
-
+//            if ( this.$Buttons )
+//            {
+//                // button zentrieren
+//                var list = this.$Buttons.getChildren();
+//
+//                for ( var i = 0, len = list.length-1; i < len; i++ )
+//                {
+//                    if ( typeof list[ i ] === 'undefined' ) {
+//                        continue;
+//                    }
+//
+//                    list[ i ].setStyle( 'marginRight', 10 );
+//                }
+//
+//                if ( list.length )
+//                {
+//                    this.$Buttons.setStyles({
+//                        height : list[ 0 ].getComputedSize().totalHeight + 20
+//                    });
+//                }
+//            }
 
             left = ( doc_size.x - width ) / 2;
 
@@ -416,6 +409,23 @@ define('qui/controls/windows/Popup', [
                 equation : 'ease-out',
                 callback : function()
                 {
+                    // content height
+                    var content_height = height -
+                                         self.$Buttons.getSize().y -
+                                         self.$Title.getSize().y;
+
+                    self.$Content.setStyles({
+                        height : content_height
+                    });
+
+                    moofx(self.$Content).animate({
+                        opacity : 1
+                    });
+
+                    moofx(self.$Buttons).animate({
+                        opacity : 1
+                    });
+
                     self.$Elm.focus();
                     self.fireEvent( 'resize', [ self ] );
 

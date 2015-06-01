@@ -48,6 +48,10 @@
     z-index: 1;
 }
 
+.qui-window-popup-buttons button {
+    margin: 0 5px;
+}
+
 .qui-window-popup-sheet {
     background: #FFFFFF;
     height: 100%;
