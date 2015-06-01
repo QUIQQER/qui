@@ -415,16 +415,11 @@ define('qui/controls/windows/Popup', [
                                          self.$Title.getSize().y;
 
                     self.$Content.setStyles({
-                        height : content_height
+                        height : content_height,
+                        opacity : null
                     });
 
-                    moofx(self.$Content).animate({
-                        opacity : 1
-                    });
-
-                    moofx(self.$Buttons).animate({
-                        opacity : 1
-                    });
+                    self.$Buttons.setStyle('opacity', null);
 
                     self.$Elm.focus();
                     self.fireEvent( 'resize', [ self ] );
