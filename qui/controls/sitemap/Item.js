@@ -294,7 +294,16 @@ define('qui/controls/sitemap/Item', [
                 return Img;
             }
 
-            Img = this.$Icons.getElement( '.'+ icon_url );
+            // multible class definitions
+            if ( icon_url.match(' ') ) {
+
+                Img = this.$Icons.getElement(
+                    '.'+ icon_url.replace(/ /g, '.')
+                );
+
+            } else {
+                Img = this.$Icons.getElement( '.'+ icon_url );
+            }
 
             if ( Img ) {
                 return Img;
@@ -302,6 +311,7 @@ define('qui/controls/sitemap/Item', [
 
             if ( Utils.isFontAwesomeClass( icon_url ) )
             {
+                console.log(icon_url);
                 return new Element('i', {
                     'class' : 'qui-sitemap-entry-icon-itm '+ icon_url
                 }).inject( this.$Icons );
