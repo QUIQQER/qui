@@ -190,6 +190,7 @@ define('qui/controls/windows/Popup', [
 
                 this.$Buttons.setStyles({
                     'float'   : 'left',
+                    height    : 50,
                     margin    : '0 auto',
                     opacity   : 0,
                     textAlign : 'center',
@@ -410,7 +411,7 @@ define('qui/controls/windows/Popup', [
                 callback : function()
                 {
                     // content height
-                    var content_height = height -
+                    var content_height = self.$Elm.getSize().y -
                                          self.$Buttons.getSize().y -
                                          self.$Title.getSize().y;
 
@@ -547,7 +548,7 @@ define('qui/controls/windows/Popup', [
             });
 
             this.$Buttons.setStyles({
-                height  : Node.getComputedSize().totalHeight
+                height : 50
             });
 
             this.resize();
