@@ -63,6 +63,7 @@ define('qui/controls/windows/Popup', [
             title     : false,	// {false|string} [optional] title of the window
             'class'   : false,
             backgroundClosable : true, // {bool} [optional] closes the window on click? standard = true
+            maxTimeout : 50000, // timout for the Loader in seconds
 
             // buttons
             buttons          : true, // {bool} [optional] show the bottom button line
@@ -81,7 +82,9 @@ define('qui/controls/windows/Popup', [
             this.$FX      = false;
 
             this.Background = new Background();
-            this.Loader     = new Loader();
+            this.Loader     = new Loader({
+                closetime : this.getAttribute('maxTimeout')
+            });
 
 
             window.addEvent( 'resize', this.resize );
@@ -309,9 +312,6 @@ define('qui/controls/windows/Popup', [
                 return;
             }
 
-            withfx = withfx || false;
-
-
             this.fireEvent( 'resizeBegin', [ this ] );
 
             var self     = this,
@@ -328,61 +328,12 @@ define('qui/controls/windows/Popup', [
             }
 
             var top  = ( doc_size.y - height ) / 2,
-                left = doc_size.x * -1;
+                left = ( doc_size.x - width ) / 2;
 
             if ( top < 0 ) {
                 top = 0;
             }
 
-            if ( left < 0 ) {
-                left = 0;
-            }
-
-            if ( this.$Elm.getStyle( 'left' ).toInt() ) {
-                left = this.$Elm.getStyle( 'left' ).toInt();
-            }
-
-//            if ( this.$Buttons )
-//            {
-//                // button zentrieren
-//                var list = this.$Buttons.getChildren();
-//
-//                for ( var i = 0, len = list.length-1; i < len; i++ )
-//                {
-//                    if ( typeof list[ i ] === 'undefined' ) {
-//                        continue;
-//                    }
-//
-//                    list[ i ].setStyle( 'marginRight', 10 );
-//                }
-//
-//                if ( list.length )
-//                {
-//                    this.$Buttons.setStyles({
-//                        height : list[ 0 ].getComputedSize().totalHeight + 20
-//                    });
-//                }
-//            }
-
-            left = ( doc_size.x - width ) / 2;
-
-            //if ( !withfx )
-            //{
-            //    this.$Elm.setStyles({
-            //        height   : height,
-            //        width    : width,
-            //        left     : left,
-            //        top      : top
-            //    });
-            //
-            //    this.fireEvent( 'resize', [ this ] );
-            //
-            //    if ( typeof callback === 'function' ) {
-            //        callback();
-            //    }
-            //
-            //    return;
-            //}
 
             var pos  = this.$Elm.getPosition(),
                 size = this.$Elm.getSize();
@@ -520,7 +471,7 @@ define('qui/controls/windows/Popup', [
          * Add a Element to the button bar
          *
          * @method qui/controls/windows/Popup#addButton
-         * @param {HTMLElement} Elm
+         * @param {HTMLElement|Object} Elm
          * @return {Object} qui/controls/windows/Popup
          */
         addButton : function(Elm)
