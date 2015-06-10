@@ -40,18 +40,23 @@
 
 .qui-button:disabled {
     cursor: default;
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
-    -moz-opacity: 0.6;
-    opacity: 0.6;
+    background: #efefef;
+    background: rgba(239, 239, 239, 0.5);
+    color: #bbb;
+
+    box-shadow: 0 0 2px #aaa;
+    -moz-box-shadow: 0 0 2px #aaa;
+    -webkit-box-shadow: 0 0 2px #aaa;
 }
 
 .qui-button[disabled]:hover {
-    background: none;
-    color: #8f9399;
+    background: #efefef;
+    background: rgba(239, 239, 239, 0.5);
+    color: #bbb;
 
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
-    -moz-opacity: 0.6 !important;
-    opacity: 0.6 !important;
+    box-shadow: 0 0 2px #aaa;
+    -moz-box-shadow: 0 0 2px #aaa;
+    -webkit-box-shadow: 0 0 2px #aaa;
 }
 
 

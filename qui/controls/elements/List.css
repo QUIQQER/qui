@@ -19,6 +19,12 @@
     color: #fff;
 }
 
+.qui-elements-list-item-checkbox {
+    float: left;
+    padding-top: 10px;
+    text-align: center;
+}
+
 .qui-elements-list-item-icon {
     float: left;
     font-size: 42px;

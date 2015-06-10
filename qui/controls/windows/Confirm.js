@@ -204,6 +204,7 @@ define('qui/controls/windows/Confirm', [
 
             this.addButton(
                 new QUIButton({
+                    name      : 'cancel',
                     text      : this.getAttribute( 'cancel_button' ).text,
                     textimage : this.getAttribute( 'cancel_button' ).textimage,
                     styles    : {
@@ -217,6 +218,7 @@ define('qui/controls/windows/Confirm', [
 
             this.addButton(
                 new QUIButton({
+                    name      : 'submit',
                     text      : this.getAttribute( 'ok_button' ).text,
                     textimage : this.getAttribute( 'ok_button' ).textimage,
                     styles    : {
