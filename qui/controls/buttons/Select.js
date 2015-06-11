@@ -365,6 +365,8 @@ define('qui/controls/buttons/Select', [
          */
         $set : function(Item)
         {
+            var oldValue = this.$value;
+
             this.$value = Item.getAttribute( 'value' );
 
             if ( this.$Elm.getElement( '.text' ) )
@@ -396,7 +398,9 @@ define('qui/controls/buttons/Select', [
 
             document.body.focus();
 
-            this.fireEvent( 'change', [ this.$value, this ] );
+            if (oldValue != this.$value) {
+                this.fireEvent('change', [this.$value, this]);
+            }
         },
 
         /**
@@ -425,7 +429,7 @@ define('qui/controls/buttons/Select', [
          * if the element has the focus
          *
          * @method qui/controls/buttons/Select#$onKeyUp
-         * @param {HTMLElement} event
+         * @param {Event} event
          */
         $onKeyUp : function(event)
         {
