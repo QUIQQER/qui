@@ -35,13 +35,12 @@
     border-color: #0069B4;
     border-style: solid;
     border-width: 0;
+    box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
     color: #FFFFFF;
     height: 40px;
     margin: 0;
-
-            box-shadow: none;
-       -moz-box-shadow: none;
-    -webkit-box-shadow: none;
 }
 
 .qui-panel-header .qui-buttons-seperator {
@@ -104,20 +103,19 @@
 }
 
 .qui-panel-highlight {
-    position: absolute;
-    top: 0px;
-    left: 0px;
+    background-color: #6C98D9;
+    left: 0;
     height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
     width: 100%;
     z-index: 100;
-
-    background-color: #6C98D9;
 
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50);
     -moz-opacity: 0.5;
     -khtml-opacity: 0.5;
-    opacity: 0.5;
 }
 
 /* Panel topic buttons
@@ -137,19 +135,19 @@
 }
 
 .qui-panel-buttons button {
-    color: #8f9399;
-    background: transparent;
+    background: transparent !important;
     border-radius: 0;
     border-width: 0 1px 0 0;
     border-color: #e1e4e9;
     border-style: solid;
+    box-shadow: none  !important;
+    color: #8f9399;
     font-size: 14px;
     font-weight: bold;
     height: 50px;
     line-height: 50px;
     margin: 0;
     padding: 0 10px;
-    box-shadow: none;
 }
 
 .qui-panel-buttons button.qui-button-active {
@@ -184,55 +182,54 @@
  ================================================================= */
 
 .qui-panel-breadcrumb {
+    background: #fff;
+    border-bottom: 1px solid #dedede;
+    padding-left: 20px;
     height: 40px;
     width: 100%;
-    background: #fff;
-    padding-left: 20px;
-    border-bottom: 1px solid #dedede;
 }
-
 
 /* Panel left buttons - categories
  ================================================================= */
 
 .qui-panel-categories {
-    float: left;
-    width: 190px;
-    height: 100%;
     border-right: 1px solid #dedede;
+    float: left;
+    height: 100%;
     overflow: hidden;
+    width: 190px;
 }
 
 .qui-panel-categories .qui-button {
+    background: transparent;
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: #dedede;
-    border-radius: 0px;
-    color: #8F9399;
-    background: transparent;
-    padding: 10px 5px;
-    margin: 0 !important;
+    border-radius: 0;
     clear: both;
+    color: #8F9399;
+    margin: 0 !important;
+    padding: 10px 5px;
     width: 190px;
 }
 
 .qui-panel-categories .qui-button-active {
     background: #C3C3C3 !important;
-    color: #222;
-    border-width: 0 0 1px 0px !important;
+    border-width: 0 0 1px 0 !important;
     border-style: solid !important;
     border-color: #909090 !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
+    color: #222;
 }
 
 .qui-panel-categories .qui-button-over {
     background: #2F8FC6 !important;
-    color: #fff;
     border-width: 0 0 1px 0 !important;
     border-style: solid !important;
     border-color: #2F8FC6 !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     box-shadow: none !important;
+    color: #fff;
 }
 
 .qui-panel-categories .qui-button .image-container {
