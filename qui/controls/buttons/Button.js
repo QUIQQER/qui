@@ -36,10 +36,11 @@ define('qui/controls/buttons/Button', [
     'qui/controls/Control',
     'qui/utils/Controls',
     'qui/utils/NoSelect',
+    'qui/controls/contextmenu/Item',
 
     'css!qui/controls/buttons/Button.css'
 
-], function(Control, Utils, NoSelect)
+], function(Control, Utils, NoSelect, ContextMenuItem)
 {
     "use strict";
 
@@ -501,11 +502,15 @@ define('qui/controls/buttons/Button', [
          *
          * @method qui/controls/buttons/Button#appendChild
          *
-         * @param {Object} Itm - qui/controls/contextmenu/Item
+         * @param {Object} Itm - qui/controls/contextmenu/Item | object
          * @return {Object} this (qui/controls/buttons/Button)
          */
         appendChild : function(Itm)
         {
+            if (typeOf(Itm) == 'object') {
+                Itm = new ContextMenuItem(Itm);
+            }
+
             this.$items.push( Itm );
 
             Itm.setAttribute( 'Button', this );
