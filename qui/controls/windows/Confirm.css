@@ -5,11 +5,17 @@
 .submit-body .texticon {
     float: left;
     margin-right: 20px;
+    text-align: center;
+    width: 60px;
 }
 
 .submit-body .textbody {
     float: left;
     width: calc( 100% - 80px );
+}
+
+.submit-body .textbody h2:first-child {
+    margin-top: 0;
 }
 
 .submit-body .information {

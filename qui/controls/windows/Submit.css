@@ -11,6 +11,10 @@
 	float: left;
 }
 
+.submit-body .textbody h2:first-child {
+    margin-top: 0;
+}
+
 .submit-body .information {
 	margin-top: 10px;
 }
