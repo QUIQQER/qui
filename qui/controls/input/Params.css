@@ -43,7 +43,6 @@
 .qui-control-input-param-window label {
     clear: both;
     display: block;
-    margin: 0 auto;
     max-width : 300px;
     width: 100%;
 }

@@ -19,10 +19,11 @@ define('qui/classes/QUI', [
     'require',
     'qui/classes/DOM',
     'qui/classes/Controls',
+    'qui/classes/Windows',
     'qui/classes/storage/Storage',
     'qui/lib/polyfills/Promise'
 
-], function(require, DOM, Controls, Storage)
+], function(require, DOM, Controls, Windows, Storage)
 {
     "use strict";
 
@@ -67,6 +68,7 @@ define('qui/classes/QUI', [
             }
 
             this.Controls = new Controls();
+            this.Windows = new Windows();
             this.Storage  = new Storage();
 
             this.MessageHandler = null;
@@ -143,18 +145,6 @@ define('qui/classes/QUI', [
                         return Elm.get( 'data-qui' );
                     });
 
-
-                if (!list.length) {
-
-                    resolve();
-
-                    if ( typeof callback !== 'undefined' ) {
-                        callback();
-                    }
-
-                    return;
-                }
-
                 require(list, function()
                 {
                     var i, len, Cls, Elm;
@@ -190,7 +180,10 @@ define('qui/classes/QUI', [
                         callback();
                     }
 
-                }, reject);
+                }, function()
+                {
+                    reject();
+                });
             });
         },
 

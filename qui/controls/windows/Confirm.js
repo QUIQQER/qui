@@ -51,7 +51,7 @@ define('qui/controls/windows/Confirm', [
 
             'information' : false,
             'title'       : '...',
-            'titleicon'   : 'icon-remove fa fa-remove',
+            'texticon'    : 'icon-remove fa fa-remove',
             'icon'        : 'icon-remove fa fa-remove',
 
             cancel_button : {
@@ -71,40 +71,40 @@ define('qui/controls/windows/Confirm', [
             this.parent( options );
 
             // defaults
-            if ( this.getAttribute( 'name' ) === false ) {
-                this.setAttribute( 'name', 'win'+ new Date().getMilliseconds() );
+            if (this.getAttribute('name') === false) {
+                this.setAttribute('name', 'win'+ new Date().getMilliseconds());
             }
 
-            if ( this.getAttribute( 'width' ) === false ) {
-                this.setAttribute( 'width', 500 );
+            if (this.getAttribute('width') === false) {
+                this.setAttribute('width', 500);
             }
 
-            if ( this.getAttribute( 'height' ) === false ) {
-                this.setAttribute( 'height', 240 );
+            if (this.getAttribute('height') === false) {
+                this.setAttribute('height', 240);
             }
 
             // on set attribute event
             // if attributes were set after creation
             this.addEvent('onSetAttribute', function(attr, value)
             {
-                if ( !self.$Body.getElement( '.textbody' ) ) {
+                if (!self.$Body.getElement('.textbody')) {
                     return;
                 }
 
-                if ( attr == 'texticon' )
+                if (attr == 'texticon')
                 {
-                    var Texticon = self.$Body.getElement( '.texticon' ),
-                        Textbody = self.$Body.getElement( '.textbody' );
+                    var Texticon = self.$Body.getElement('.texticon'),
+                        Textbody = self.$Body.getElement('.textbody');
 
-                    if ( !Texticon )
+                    if (!Texticon)
                     {
-                        Texticon = new Element( 'div.texticon' );
-                        Texticon.inject( Textbody, 'before' );
+                        Texticon = new Element('div.texticon');
+                        Texticon.inject(Textbody, 'before');
                     }
 
                     Textbody.set({
                         styles : {
-                            width    : self.$Body.getSize().x - Node.width - 20,
+                            width    : null,
                             fontSize : null
                         },
                         src : null
@@ -112,9 +112,9 @@ define('qui/controls/windows/Confirm', [
 
                     Texticon.className = 'texticon';
 
-                    if ( Utils.isFontAwesomeClass( value ) )
+                    if (Utils.isFontAwesomeClass(value))
                     {
-                        Texticon.addClass( value );
+                        Texticon.addClass(value);
                         Texticon.setStyles({
                             fontSize : 50
                         });
@@ -126,25 +126,22 @@ define('qui/controls/windows/Confirm', [
                     return;
                 }
 
-                if ( attr == 'information' )
+                if (attr == 'information')
                 {
                     self.$Body
-                        .getElement( '.information' )
-                        .set( 'html', value );
+                        .getElement('.information')
+                        .set('html', value);
 
                     return;
                 }
 
-                if ( attr == 'text' )
+                if (attr == 'text')
                 {
                     self.$Body
                         .getElement('.text')
-                        .set( 'html', value );
+                        .set('html', value);
                 }
             });
-
-
-            //this.addEvent( 'onOpen', this.$onOpen );
 
             this.$Body    = null;
             this.$Win     = null;

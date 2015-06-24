@@ -16,6 +16,7 @@
  * @require css!qui/controls/buttons/Button.css
  *
  * @event onOpen [ self ]
+ * @event onOpenBegin [ self ]
  * @event onClose [ self ]
  * @event onCreate [ self ]
  * @event onResize [ self ]
@@ -84,8 +85,9 @@ define('qui/controls/windows/Popup', [
             this.Background = new Background();
             this.Loader     = new Loader();
 
+            QUI.Windows.register(this);
 
-            window.addEvent( 'resize', this.resize );
+            window.addEvent('resize', this.resize);
         },
 
         /**
@@ -271,9 +273,9 @@ define('qui/controls/windows/Popup', [
             this.Background.show();
             this.inject( document.body );
 
+            this.fireEvent( 'openBegin', [ this ] );
 
-            this.resize(true, function()
-            {
+            this.resize(true, function() {
                 this.fireEvent( 'open', [ this ] );
             }.bind( this ));
 

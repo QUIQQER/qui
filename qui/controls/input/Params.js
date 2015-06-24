@@ -44,8 +44,8 @@ define('qui/controls/input/Params', [
             styles          : false, // optional -> style parameter
             allowedParams   : false, // optional {array} -> set which param names are allowed
             allowDuplicate  : false, // optional -> allow duplicate param entries
-            windowMaxHeight : 250,   // optional -> the add window max height
-            windowMaxWidth  : 400    // optional -> the add window max width
+            windowMaxHeight : 360,   // optional -> the add window max height
+            windowMaxWidth  : 540    // optional -> the add window max width
         },
 
         initialize : function(Input, options)
@@ -189,7 +189,7 @@ define('qui/controls/input/Params', [
             var list = this.$ParamList.getElements( '.qui-control-input-param-entry' ),
                 data = [];
 
-            for ( i = 0, len = list.length; i < len; i++ )
+            for (i = 0, len = list.length; i < len; i++)
             {
                 Elm = list[ i ];
 
@@ -288,8 +288,6 @@ define('qui/controls/input/Params', [
                             ParamValue    = Content.getElement( '[name="paramValue"]' ),
                             allowedParams = self.getAttribute( 'allowedParams' );
 
-                        Content.setStyle( 'width', '100%' );
-                        Content.getElement( '.textbody' ).setStyle( 'width', '100%' );
 
                         if ( allowedParams.length )
                         {
