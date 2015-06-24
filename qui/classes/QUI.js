@@ -143,6 +143,18 @@ define('qui/classes/QUI', [
                         return Elm.get( 'data-qui' );
                     });
 
+
+                if (!list.length) {
+
+                    resolve();
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
+                    }
+
+                    return;
+                }
+
                 require(list, function()
                 {
                     var i, len, Cls, Elm;
@@ -178,10 +190,7 @@ define('qui/classes/QUI', [
                         callback();
                     }
 
-                }, function()
-                {
-                    reject();
-                });
+                }, reject);
             });
         },
 
