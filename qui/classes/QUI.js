@@ -145,6 +145,10 @@ define('qui/classes/QUI', [
                         return Elm.get( 'data-qui' );
                     });
 
+                list = list.filter(function(item) {
+                    return item !== '';
+                }).clean();
+
                 require(list, function()
                 {
                     var i, len, Cls, Elm;
@@ -160,12 +164,12 @@ define('qui/classes/QUI', [
                         Elm = nodes[ i ];
 
                         // already initialized
-                        if ( Elm.get( 'data-quiid' ) ) {
+                        if (Elm.get('data-quiid')) {
                             continue;
                         }
 
-                        if ( Elm.get( 'html' ).trim() !== '' ||
-                            typeof formNodes[ Elm.nodeName ] !== 'undefined' )
+                        if (typeof formNodes[ Elm.nodeName ] !== 'undefined' ||
+                            Elm.get('html').trim() !== '')
                         {
                             new Cls().imports( Elm );
                         } else
@@ -180,9 +184,9 @@ define('qui/classes/QUI', [
                         callback();
                     }
 
-                }, function()
+                }, function(err)
                 {
-                    reject();
+                    reject(err);
                 });
             });
         },
