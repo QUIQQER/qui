@@ -339,7 +339,7 @@ define('qui/controls/desktop/Panel', [
             // width calc
             if ( this.$Categories.getSize().x )
             {
-                content_width = content_width - this.$Categories.getSize().x;
+                content_width = content_width - this.$Categories.getComputedSize().totalWidth;
             } else
             {
                 content_width = '100%';
@@ -795,6 +795,71 @@ define('qui/controls/desktop/Panel', [
             }
 
             return this.$CategoryBar;
+        },
+
+        /**
+         * Minimize the category bar
+         *
+         * @return Promise
+         */
+        minimizeCategory : function()
+        {
+            var CategoryBar = this.getCategoryBar();
+
+            CategoryBar.setAttribute('width', 50);
+            CategoryBar.resize();
+
+            return new Promise(function(resolve) {
+
+                this.$Categories.addClass('qui-panel-categories-minimize');
+
+                moofx(this.$Categories).animate({
+                    width : 50
+                }, {
+                    duration : 250,
+                    equation : 'cubic-bezier(.42,.4,.46,1.29)',
+                    callback : function() {
+
+                        this.resize();
+                        resolve();
+
+                    }.bind(this)
+                });
+
+            }.bind(this));
+        },
+
+        /**
+         * Maximize the category bar
+         *
+         * @return Promise
+         */
+        maximizeCategory : function()
+        {
+            return new Promise(function(resolve) {
+
+                moofx(this.$Categories).animate({
+                    width : 190
+                }, {
+                    duration : 250,
+                    equation : 'cubic-bezier(.42,.4,.46,1.29)',
+                    callback : function() {
+
+                        this.$Categories.removeClass('qui-panel-categories-minimize');
+
+                        var CategoryBar = this.getCategoryBar();
+
+                        CategoryBar.setAttribute('width', 190);
+                        CategoryBar.resize();
+
+                        this.resize();
+
+                        resolve();
+
+                    }.bind(this)
+                });
+
+            }.bind(this));
         },
 
         /**
