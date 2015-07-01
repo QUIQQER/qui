@@ -92,6 +92,10 @@ define('qui/controls/sitemap/Map', [
                 this.$items[ i ].inject( this.$Elm );
             }
 
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
+            }
+
             return this.$Elm;
         },
 
