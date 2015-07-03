@@ -74,6 +74,20 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
         },
 
         /**
+         * Return list of translation groups
+         *
+         * @returns {Array}
+         */
+        getGroups : function()
+        {
+            if (!(this.current in this.langs)) {
+                return [];
+            }
+
+            return Object.keys(this.langs[this.current]);
+        },
+
+        /**
          * Set a translation for a translation group
          *
          * @method qui/classes/Locale#set
@@ -182,6 +196,33 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM)
             ]);
 
             return '['+ key +'] '+ value;
+        },
+
+        /**
+         * Exist the variable in the translation?
+         *
+         * @param {String} group
+         * @param {String} value
+         *
+         * @returns {Boolean}
+         */
+        exists : function(group, value)
+        {
+            if (this.langs[this.current] &&
+                this.langs[this.current][group] &&
+                this.langs[this.current][group][value])
+            {
+                return true;
+            }
+
+            if (this.langs[this.current] &&
+                this.langs[this.current][group] &&
+                typeof value === 'undefined')
+            {
+                return true;
+            }
+
+            return false;
         }
     });
 });
