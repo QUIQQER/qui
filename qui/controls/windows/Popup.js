@@ -81,6 +81,7 @@ define('qui/controls/windows/Popup', [
             this.$Content = null;
             this.$Buttons = null;
             this.$FX      = false;
+            this.$opened  = false;
 
             this.Background = new Background();
             this.Loader     = new Loader();
@@ -258,7 +259,7 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#open
          */
-        open : function()
+        open : function(callback)
         {
             this.Background.create();
 
@@ -272,12 +273,6 @@ define('qui/controls/windows/Popup', [
 
             this.Background.show();
             this.inject( document.body );
-
-            this.fireEvent( 'openBegin', [ this ] );
-
-            this.resize(true, function() {
-                this.fireEvent( 'open', [ this ] );
-            }.bind( this ));
 
             // touch body fix
             this.$oldBodyStyle = {
@@ -294,9 +289,23 @@ define('qui/controls/windows/Popup', [
 
             document.body.setStyles({
                 overflow : 'hidden',
-                position : 'fixed',
-                top      : this.$oldBodyStyle.scroll.y * -1
+                position : 'absolute'
             });
+
+            new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
+
+            this.$opened = true;
+            this.getElm().setStyle('position', 'fixed');
+
+            this.fireEvent( 'openBegin', [ this ] );
+
+            this.resize(true, function() {
+                this.fireEvent('open', [this]);
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }.bind( this ));
         },
 
         /**
@@ -312,94 +321,45 @@ define('qui/controls/windows/Popup', [
                 return;
             }
 
-            withfx = withfx || false;
+            if (!this.$opened) {
+                return this.open(callback);
+            }
 
-
-            this.fireEvent( 'resizeBegin', [ this ] );
+            this.fireEvent('resizeBegin', [this]);
 
             var self     = this,
                 doc_size = document.body.getSize(),
-                width    = Math.max( document.documentElement.clientWidth, window.innerWidth || 0 ),
-                height   = Math.max( document.documentElement.clientHeight, window.innerHeight || 0 );
+                width    = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+                height   = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-            if ( width > this.getAttribute( 'maxWidth' ) ) {
-                width = this.getAttribute( 'maxWidth' );
+            if (width > this.getAttribute('maxWidth')) {
+                width = this.getAttribute('maxWidth');
             }
 
-            if ( height > this.getAttribute( 'maxHeight' ) ) {
-                height = this.getAttribute( 'maxHeight' );
+            if (height > this.getAttribute('maxHeight')) {
+                height = this.getAttribute('maxHeight');
             }
 
-            var top  = ( doc_size.y - height ) / 2,
-                left = doc_size.x * -1;
+            var top = (doc_size.y - height) / 2;
+            var left = (doc_size.x - width) / 2;
 
-            if ( top < 0 ) {
+            if (top < 0) {
                 top = 0;
             }
-
-            if ( left < 0 ) {
-                left = 0;
-            }
-
-            if ( this.$Elm.getStyle( 'left' ).toInt() ) {
-                left = this.$Elm.getStyle( 'left' ).toInt();
-            }
-
-//            if ( this.$Buttons )
-//            {
-//                // button zentrieren
-//                var list = this.$Buttons.getChildren();
-//
-//                for ( var i = 0, len = list.length-1; i < len; i++ )
-//                {
-//                    if ( typeof list[ i ] === 'undefined' ) {
-//                        continue;
-//                    }
-//
-//                    list[ i ].setStyle( 'marginRight', 10 );
-//                }
-//
-//                if ( list.length )
-//                {
-//                    this.$Buttons.setStyles({
-//                        height : list[ 0 ].getComputedSize().totalHeight + 20
-//                    });
-//                }
-//            }
-
-            left = ( doc_size.x - width ) / 2;
-
-            //if ( !withfx )
-            //{
-            //    this.$Elm.setStyles({
-            //        height   : height,
-            //        width    : width,
-            //        left     : left,
-            //        top      : top
-            //    });
-            //
-            //    this.fireEvent( 'resize', [ this ] );
-            //
-            //    if ( typeof callback === 'function' ) {
-            //        callback();
-            //    }
-            //
-            //    return;
-            //}
 
             var pos  = this.$Elm.getPosition(),
                 size = this.$Elm.getSize();
 
-            if ( pos.x === 0 ) {
-                this.$Elm.setStyle( 'left', left );
+            if (pos.x === 0) {
+                this.$Elm.setStyle('left', left);
             }
 
-            if ( pos.y === 0 ) {
-                this.$Elm.setStyle( 'top', top - 50 );
+            if (pos.y === 0) {
+                this.$Elm.setStyle('top', top - 50);
             }
 
-            if ( size.x === 0 ) {
-                this.$Elm.setStyle( 'width', width );
+            if (size.x === 0) {
+                this.$Elm.setStyle('width', width);
             }
 
             this.$FX.animate({
@@ -425,10 +385,10 @@ define('qui/controls/windows/Popup', [
 
                     self.$Buttons.setStyle('opacity', null);
 
-                    self.$Elm.focus();
-                    self.fireEvent( 'resize', [ self ] );
+                    //self.$Elm.focus();
+                    self.fireEvent('resize', [self]);
 
-                    if ( typeof callback === 'function' ) {
+                    if (typeof callback === 'function') {
                         callback();
                     }
                 }
@@ -460,8 +420,9 @@ define('qui/controls/windows/Popup', [
                 );
             }
 
+            this.$opened = false;
 
-            if ( !this.$Elm ) {
+            if (!this.$Elm) {
                 return;
             }
 
