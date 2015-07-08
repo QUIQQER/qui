@@ -98,6 +98,9 @@ define('qui/controls/contextmenu/Menu', [
 
                     mouseleave : function() {
                         self.fireEvent( 'mouseLeave', [ self ] );
+                    },
+                    mousedown : function(event) {
+                        event.stop();
                     }
                 },
                 'data-quiid' : this.getId()

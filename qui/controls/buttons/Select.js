@@ -64,17 +64,18 @@ define('qui/controls/buttons/Select', [
 
         initialize : function(options)
         {
-            this.parent( options );
+            this.parent(options);
 
             this.$Menu = new QUIMenu({
-                width : this.getAttribute( 'menuWidth' )
+                width     : this.getAttribute('menuWidth'),
+                maxHeight : this.getAttribute('menuMaxHeight')
             });
 
             this.$Elm      = null;
             this.$value    = null;
             this.$disabled = false;
 
-            this.addEvent( 'onDestroy', this.$onDestroy );
+            this.addEvent('onDestroy', this.$onDestroy);
         },
 
         /**
@@ -107,12 +108,12 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            if ( this.getAttribute( 'class' ) ) {
-                this.$Elm.addClass( this.getAttribute( 'class' ) );
+            if (this.getAttribute('class')) {
+                this.$Elm.addClass(this.getAttribute('class'));
             }
 
             this.$Elm.addEvents({
@@ -121,26 +122,26 @@ define('qui/controls/buttons/Select', [
                 keyup : this.$onKeyUp
             });
 
-            this.$Menu.inject( document.body );
+            this.$Menu.inject(document.body);
             this.$Menu.hide();
 
-            this.$Menu.getElm().addClass( 'qui-dropdown' );
-            this.$Menu.getElm().addEvent( 'mouseleave', function()
+            this.$Menu.getElm().addClass('qui-dropdown');
+            this.$Menu.getElm().addEvent('mouseleave', function()
             {
                 var Option = self.$Menu.getChildren(
-                    self.getAttribute( 'name' ) + self.getValue()
+                    self.getAttribute('name') + self.getValue()
                 );
 
-                if ( Option ) {
+                if (Option) {
                     Option.setActive();
                 }
             });
 
-            if ( this.$Elm.getStyle( 'width' )  )
+            if (this.$Elm.getStyle('width'))
             {
-                var width = this.$Elm.getStyle( 'width' ).toInt();
+                var width = this.$Elm.getStyle('width').toInt();
 
-                this.$Elm.getElement( '.text' ).setStyles({
+                this.$Elm.getElement('.text').setStyles({
                     width    : width - 50,
                     overflow : 'hidden'
                 });
@@ -149,13 +150,13 @@ define('qui/controls/buttons/Select', [
             {
                 (function()
                 {
-                    var width = self.$Elm.getStyle( 'width' ).toInt();
+                    var width = self.$Elm.getStyle('width').toInt();
 
-                    self.$Elm.getElement( '.text' ).setStyles({
+                    self.$Elm.getElement('.text').setStyles({
                         width    : width - 50,
                         overflow : 'hidden'
                     });
-                }).delay( 300 );
+                }).delay(300);
             }
 
             return this.$Elm;
@@ -173,11 +174,11 @@ define('qui/controls/buttons/Select', [
             var i, len;
             var children = this.$Menu.getChildren();
 
-            for ( i = 0, len = children.length; i < len; i++ )
+            for (i = 0, len = children.length; i < len; i++)
             {
-                if ( children[ i ].getAttribute( 'value' ) == value )
+                if (children[i].getAttribute('value') == value)
                 {
-                    this.$set( children[ i ] );
+                    this.$set(children[i]);
                     return this;
                 }
             }
@@ -210,7 +211,7 @@ define('qui/controls/buttons/Select', [
         {
             this.$Menu.appendChild(
                 new QUIMenuItem({
-                    name   : this.getAttribute( 'name' ) + value,
+                    name   : this.getAttribute('name') + value,
                     text   : text,
                     value  : value,
                     icon   : icon || false,
@@ -248,12 +249,12 @@ define('qui/controls/buttons/Select', [
             this.$value = '';
             this.$Menu.clearChildren();
 
-            if ( this.$Elm.getElement( '.text' ) ) {
-                this.$Elm.getElement( '.text' ).set( 'html', '' );
+            if (this.$Elm.getElement('.text')) {
+                this.$Elm.getElement('.text').set('html', '');
             }
 
-            if ( this.$Elm.getElement( '.icon' ) ) {
-                this.$Elm.getElement( '.icon' ).setStyle( 'background', null );
+            if (this.$Elm.getElement('.icon')) {
+                this.$Elm.getElement('.icon').setStyle('background', null);
             }
         },
 
@@ -265,16 +266,16 @@ define('qui/controls/buttons/Select', [
          */
         open : function()
         {
-            if ( this.isDisabled() ) {
+            if (this.isDisabled()) {
                 return this;
             }
 
-            if ( document.activeElement != this.getElm() )
+            if (document.activeElement != this.getElm())
             {
                 // because onclick and mouseup makes a focus on body
                 (function() {
                     this.getElm().focus();
-                }).delay( 100, this );
+                }).delay(100, this);
 
                 return this;
             }
@@ -284,9 +285,9 @@ define('qui/controls/buttons/Select', [
                 pos     = Elm.getPosition(),
                 size    = Elm.getSize();
 
-            Elm.addClass( 'qui-select-open' );
+            Elm.addClass('qui-select-open');
 
-            this.$Menu.setAttribute( 'maxHeight', this.getAttribute('menuMaxHeight') );
+            this.$Menu.setAttribute('maxHeight', this.getAttribute('menuMaxHeight'));
 
             this.$Menu.setPosition(
                 pos.x - 20,
@@ -307,10 +308,10 @@ define('qui/controls/buttons/Select', [
             this.$Menu.show();
 
             var Option = this.$Menu.getChildren(
-                this.getAttribute( 'name' ) + this.getValue()
+                this.getAttribute('name') + this.getValue()
             );
 
-            if ( Option ) {
+            if (Option) {
                 Option.setActive();
             }
 
@@ -337,7 +338,7 @@ define('qui/controls/buttons/Select', [
         disable : function()
         {
             this.$disabled = true;
-            this.getElm().addClass( 'qui-select-disable' );
+            this.getElm().addClass('qui-select-disable');
             this.$Menu.hide();
         },
 
@@ -360,7 +361,7 @@ define('qui/controls/buttons/Select', [
         enable : function()
         {
             this.$disabled = false;
-            this.getElm().removeClass( 'qui-select-disable' );
+            this.getElm().removeClass('qui-select-disable');
         },
 
         /**
@@ -372,26 +373,26 @@ define('qui/controls/buttons/Select', [
          */
         $set : function(Item)
         {
-            this.$value = Item.getAttribute( 'value' );
+            this.$value = Item.getAttribute('value');
 
-            if ( this.$Elm.getElement( '.text' ) )
+            if (this.$Elm.getElement('.text'))
             {
-                this.$Elm.getElement( '.text' )
-                         .set( 'html', Item.getAttribute( 'text' ) );
+                this.$Elm.getElement('.text')
+                         .set('html', Item.getAttribute('text'));
             }
 
-            if ( Item.getAttribute( 'icon' ) && this.$Elm.getElement( '.icon' ) )
+            if (Item.getAttribute('icon') && this.$Elm.getElement('.icon'))
             {
-                var value = Item.getAttribute( 'icon' ),
-                    Icon  = this.$Elm.getElement( '.icon' );
+                var value = Item.getAttribute('icon'),
+                    Icon  = this.$Elm.getElement('.icon');
 
                 Icon.className = '';
-                Icon.addClass( 'icon' );
-                Icon.setStyle( 'background', null );
+                Icon.addClass('icon');
+                Icon.setStyle('background', null);
 
-                if ( Utils.isFontAwesomeClass( value ) )
+                if (Utils.isFontAwesomeClass(value))
                 {
-                    Icon.addClass( value );
+                    Icon.addClass(value);
                 } else
                 {
                     Icon.setStyle(
@@ -403,7 +404,7 @@ define('qui/controls/buttons/Select', [
 
             document.body.focus();
 
-            this.fireEvent( 'change', [ this.$value, this ] );
+            this.fireEvent('change', [this.$value, this]);
         },
 
         /**
@@ -424,7 +425,7 @@ define('qui/controls/buttons/Select', [
         $onBlur : function()
         {
             this.$Menu.hide();
-            this.getElm().removeClass( 'qui-select-open' );
+            this.getElm().removeClass('qui-select-open');
         },
 
         /**
@@ -436,32 +437,32 @@ define('qui/controls/buttons/Select', [
          */
         $onKeyUp : function(event)
         {
-            if ( typeof event === 'undefined' ) {
+            if (typeof event === 'undefined') {
                 return;
             }
 
-            if ( event.key !== 'down' &&
-                 event.key !== 'up' &&
-                 event.key !== 'enter' )
+            if (event.key !== 'down' &&
+                event.key !== 'up' &&
+                event.key !== 'enter')
             {
                 return;
             }
 
             this.$Menu.show();
 
-            if ( event.key === 'down' )
+            if (event.key === 'down')
             {
                 this.$Menu.down();
                 return;
             }
 
-            if ( event.key === 'up' )
+            if (event.key === 'up')
             {
                 this.$Menu.up();
                 return;
             }
 
-            if ( event.key === 'enter' ) {
+            if (event.key === 'enter') {
                 this.$Menu.select();
             }
         }
