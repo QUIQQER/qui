@@ -510,8 +510,6 @@ define('qui/controls/windows/Popup', [
                 height : 50
             });
 
-            this.resize();
-
             return this;
         },
 
