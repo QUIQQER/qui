@@ -279,10 +279,12 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
-            var pos  = this.$Elm.getPosition(),
-                size = this.$Elm.getSize();
+            var Elm     = this.getElm(),
+                MenuElm = this.$Menu.getElm(),
+                pos     = Elm.getPosition(),
+                size    = Elm.getSize();
 
-            this.getElm().addClass( 'qui-select-open' );
+            Elm.addClass( 'qui-select-open' );
 
             this.$Menu.setAttribute( 'maxHeight', this.getAttribute('menuMaxHeight') );
 
@@ -291,12 +293,17 @@ define('qui/controls/buttons/Select', [
                 pos.y + size.y
             );
 
-            this.$Menu.getElm().setStyle(
-                'zIndex',
-                QUIElementUtils.getComputedZIndex( this.getElm() ) + 1
-            );
+            MenuElm.setStyles({
+                zIndex : QUIElementUtils.getComputedZIndex(this.getElm()) + 1
+            });
 
+            if (size.x + 20 > 200) {
+                MenuElm.setStyles({
+                    width  : size.x + 20
+                });
+            }
 
+            this.$Menu.setAttribute('width', size.x);
             this.$Menu.show();
 
             var Option = this.$Menu.getChildren(
@@ -365,8 +372,6 @@ define('qui/controls/buttons/Select', [
          */
         $set : function(Item)
         {
-            var oldValue = this.$value;
-
             this.$value = Item.getAttribute( 'value' );
 
             if ( this.$Elm.getElement( '.text' ) )
@@ -398,9 +403,7 @@ define('qui/controls/buttons/Select', [
 
             document.body.focus();
 
-            if (oldValue != this.$value) {
-                this.fireEvent('change', [this.$value, this]);
-            }
+            this.fireEvent( 'change', [ this.$value, this ] );
         },
 
         /**
@@ -429,7 +432,7 @@ define('qui/controls/buttons/Select', [
          * if the element has the focus
          *
          * @method qui/controls/buttons/Select#$onKeyUp
-         * @param {Event} event
+         * @param {HTMLElement} event
          */
         $onKeyUp : function(event)
         {
