@@ -707,10 +707,11 @@ define('qui/controls/taskbar/Bar', [
 
             var self = this;
 
-            if ( !this.$ContextMenu )
+            if (!this.$ContextMenu)
             {
                 this.$ContextMenu = new Contextmenu({
                     name : 'taskbar-contextmenu',
+                    corner : this.getAttribute('position'),
                     events :
                     {
                         onBlur : function(Menu)
@@ -725,7 +726,7 @@ define('qui/controls/taskbar/Bar', [
                 });
 
                 this.$ContextMenu.hide();
-                this.$ContextMenu.inject( document.body );
+                this.$ContextMenu.inject(document.body);
 
                 this.$ContextMenu.appendChild(
                     new ContextmenuItem({
@@ -736,10 +737,10 @@ define('qui/controls/taskbar/Bar', [
                         {
                             onClick : function(Item)
                             {
-                                var Task = Item.getAttribute( 'Task' );
+                                var Task = Item.getAttribute('Task');
 
-                                if ( Task ) {
-                                    self.closeTask( Task );
+                                if (Task) {
+                                    self.closeTask(Task);
                                 }
                             }
                         }
@@ -753,11 +754,11 @@ define('qui/controls/taskbar/Bar', [
                         {
                             onClick : function(Item)
                             {
-                                var Task = Item.getAttribute( 'Task' );
+                                var Task = Item.getAttribute('Task');
 
-                                if ( Task )
+                                if (Task)
                                 {
-                                    self.closeOtherTasks( Task );
+                                    self.closeOtherTasks(Task);
                                     Task.focus();
                                 }
                             }
@@ -778,12 +779,19 @@ define('qui/controls/taskbar/Bar', [
                 );
             }
 
+            var Target = event.target;
 
-            this.$ContextMenu.getChildren( 'close-task' ).disable();
-            this.$ContextMenu.getChildren( 'close-other-task' ).disable();
+            if (!Target.hasClass('qui-task')) {
+                Target = Target.getParent('.qui-task');
+            }
 
-            this.$ContextMenu.setPosition( event.page.x, event.page.y )
-            this.$ContextMenu.setTitle( '---' );
+            var pos = Target.getPosition();
+
+            this.$ContextMenu.getChildren('close-task').disable();
+            this.$ContextMenu.getChildren('close-other-task').disable();
+
+            this.$ContextMenu.setPosition(pos.x, pos.y);
+            this.$ContextMenu.setTitle('---');
             this.$ContextMenu.show();
             this.$ContextMenu.focus();
 
