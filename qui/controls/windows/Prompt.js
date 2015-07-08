@@ -168,7 +168,7 @@ define('qui/controls/windows/Prompt', [
             });
 
             this.$Container.setStyle(
-                'height',
+                'maxHeight',
                 this.getAttribute( 'maxHeight' ) - 190
             );
 
