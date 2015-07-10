@@ -82,6 +82,7 @@ define('qui/controls/taskbar/Task', [
 
             var self = this;
 
+            Instance.setAttribute('closeButton', true);
             Instance.setAttribute( 'Task', this );
 
             // Instance events
@@ -399,6 +400,8 @@ define('qui/controls/taskbar/Task', [
         setInstance : function(Instance)
         {
             this.$Instance = Instance;
+
+            Instance.setAttribute('closeButton', true);
         },
 
         /**

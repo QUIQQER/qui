@@ -87,6 +87,7 @@ define('qui/controls/desktop/Panel', [
             collapseFooter : true,   // collapse footer when panel is collapsed
 
             closeable  : true, // can be the panel destroyed?
+            closeButton : false, // display a close button
             dragable   : true,  // is the panel dragable to another column?
             breadcrumb : false,
             toWindow   : false
@@ -109,6 +110,7 @@ define('qui/controls/desktop/Panel', [
             this.$Categories  = null;
             this.$Breadcrumb  = null;
             this.$ContextMenu = null;
+            this.$CloseButton = null;
 
             this.$ButtonBar     = null;
             this.$CategoryBar   = null;
@@ -117,7 +119,33 @@ define('qui/controls/desktop/Panel', [
             this.$Dropable      = null;
 
             this.addEvents({
-                onDestroy : this.$onDestroy
+                onDestroy : this.$onDestroy,
+                onSetAttribute : function(key, value) {
+
+                    if (this.$Header && key === 'closeButton') {
+
+                        if (value === true && !this.$CloseButton) {
+                            this.$CloseButton = new Button({
+                                icon: 'icon-remove',
+                                styles: {
+                                    'float': 'right'
+                                },
+                                events: {
+                                    onClick: function () {
+                                        this.destroy();
+                                    }.bind(this)
+                                }
+                            }).inject(this.$Header);
+
+                            return;
+                        }
+
+                        if (value === false && this.$CloseButton) {
+                            this.$CloseButton.destroy();
+                        }
+                    }
+
+                }.bind(this)
             });
         },
 
@@ -258,6 +286,9 @@ define('qui/controls/desktop/Panel', [
                     }).inject( this.$Icon );
                 }
             }
+
+
+            this.setAttribute('closeButton', this.getAttribute('closeButton'));
         },
 
         /**
@@ -735,6 +766,10 @@ define('qui/controls/desktop/Panel', [
 
                 onActive : function(Btn)
                 {
+                    if ( self.$ActiveCat && self.$ActiveCat == Btn ) {
+                        return;
+                    }
+
                     if ( self.$ActiveCat ) {
                         self.$ActiveCat.setNormal();
                     }
