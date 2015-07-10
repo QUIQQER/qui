@@ -60,7 +60,8 @@ define('qui/controls/messages/Handler', [
         options : {
             autosave   : true,
             autoload   : true,
-            useFavicon : false
+            useFavicon : false,
+            displayTimeMessages : 2500
         },
 
         initialize : function(params)
@@ -821,7 +822,7 @@ define('qui/controls/messages/Handler', [
                             Node.destroy();
                         }
                     });
-                }).delay( 2500 );
+                }).delay(this.getAttribute('displayTimeMessages'));
 
                 this.fireEvent( 'add', [ this, Message ] );
 
