@@ -83,7 +83,8 @@ define('qui/controls/taskbar/Task', [
             var self = this;
 
             Instance.setAttribute('closeButton', true);
-            Instance.setAttribute( 'Task', this );
+            Instance.setAttribute('collapsible', false);
+            Instance.setAttribute('Task', this);
 
             // Instance events
             Instance.addEvent('onRefresh', function() {
@@ -100,6 +101,10 @@ define('qui/controls/taskbar/Task', [
                 self.$Instance = null;
                 self.destroy();
             });
+
+            if ("disableCollapsible" in Instance) {
+                Instance.disableCollapsible();
+            }
 
             this.parent( options );
         },
