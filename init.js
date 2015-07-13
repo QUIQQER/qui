@@ -3,27 +3,25 @@
 {
     "use strict";
 
-    var i, len;
-
     var scripts  = document.getElementsByTagName('script'),
         dataMain = false,
         srcMain  = false;
 
-    for ( i = 0, len = scripts.length; i < len; i++  )
+    for (var i = 0, len = scripts.length; i < len; i++)
     {
-        if ( !scripts[ i ].getAttribute( 'src' ) ) {
+        if (!scripts[i].getAttribute('src')) {
             continue;
         }
-        
-        if ( scripts[ i ].getAttribute( 'src' ).match( 'qui/init.js' ) )
+
+        if (scripts[i].getAttribute('src').match('qui/init.js'))
         {
-            dataMain = scripts[ i ].getAttribute( 'data-main' );
-            srcMain  = scripts[ i ].getAttribute( 'src' );
+            dataMain = scripts[i].getAttribute('data-main');
+            srcMain  = scripts[i].getAttribute('src');
         }
     }
 
     // qui config
-    var baseUrl = srcMain.replace( 'qui/init.js', '' );
+    var baseUrl = srcMain.replace('qui/init.js', '');
 
     require.config({
         paths : {
@@ -31,14 +29,16 @@
         },
         map : {
             '*': {
-                'css': baseUrl +'qui/build/qui/lib/css.js'
+                'css': baseUrl +'qui/build/qui/lib/css.js',
+                'image': baseUrl +'qui/build/qui/lib/image.js',
+                'text': baseUrl +'qui/build/qui/lib/text.js'
             }
         }
     });
 
 
-    if ( dataMain ) {
-        require( [ dataMain ] );
+    if (dataMain) {
+        require([dataMain]);
     }
 
 }(this));
