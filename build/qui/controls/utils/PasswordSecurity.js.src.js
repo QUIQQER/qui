@@ -11,16 +11,13 @@ define('qui/controls/utils/PasswordSecurity', [
     'qui/controls/Control',
     'qui/Locale',
 
-    'qui/controls/utils/locale/de',
-    'qui/controls/utils/locale/en',
-
     'css!qui/controls/utils/PasswordSecurity.css'
 
 ], function(QUIControl, Locale)
 {
     "use strict";
 
-    var lg = 'qui/controls/utils/PasswordSecurity';
+    var lg = 'quiqqer/controls';
 
 
     return new Class({
@@ -244,7 +241,7 @@ define('qui/controls/utils/PasswordSecurity', [
          * main getStrength functionality from
          * http://benjaminsterling.com/password-strength-indicator-and-generator/
          *
-         * @return {Integer} 0 - 9
+         * @return {Number} 0 - 9
          */
         getStrength : function(Pass)
         {

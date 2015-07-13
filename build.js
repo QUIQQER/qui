@@ -127,9 +127,9 @@
     }, {
         name: 'qui/controls/messages/Panel'
     }, {
-        name: 'qui/lib/ElementQuery'
+        name: 'qui/lib/element-query/ElementQuery'
     }, {
-        name: 'qui/lib/ResizeSensor'
+        name: 'qui/lib/element-query/ResizeSensor'
     }, {
         name: 'qui/classes/DOM'
     }, {
