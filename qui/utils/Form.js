@@ -146,6 +146,10 @@ define('qui/utils/Form', {
             Elm = elements[i];
             n   = Elm.name;
 
+            if (n === '') {
+                continue;
+            }
+
             if ( Elm.type === 'checkbox' )
             {
                 // array
