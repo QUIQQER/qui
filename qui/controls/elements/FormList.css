@@ -1,0 +1,26 @@
+
+.qui-controls-formlist-container {
+    clear: both;
+}
+
+.qui-controls-formlist-entry {
+    border-bottom: 1px solid #dedede;
+    clear: both;
+    float: left;
+    width: 100%;
+}
+
+.qui-controls-formlist-entry:last-child {
+    border-bottom: 1px solid #fff;
+}
+
+.qui-controls-formlist-entry-delete {
+    float: left;
+    padding: 20px 0 0 0;
+}
+
+.qui-controls-formlist-entry-data {
+    float: left;
+    padding: 20px 0 0 20px;
+    width: calc(100% - 100px);
+}

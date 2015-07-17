@@ -12,7 +12,9 @@ define('qui/controls/elements/FormList', [
 
     'qui/QUI',
     'qui/controls/Control',
-    'qui/controls/buttons/Button'
+    'qui/controls/buttons/Button',
+
+    'css!qui/controls/elements/FormList.css'
 
 ], function(QUI, QUIControl, QUIButton)
 {
@@ -152,7 +154,7 @@ define('qui/controls/elements/FormList', [
         /**
          * search the date and set it to the input field
          */
-        $refreshDate : function()
+        $refreshData : function()
         {
             if ( this.$Input ) {
                 this.$Input.value = JSON.encode( this.getData() );
@@ -168,14 +170,30 @@ define('qui/controls/elements/FormList', [
         {
             var Child = new Element('div', {
                 'class' : 'qui-controls-formlist-entry',
-                html    : this.getAttribute( 'entry' )
+                html    : '<div class="qui-controls-formlist-entry-delete"></div>'+
+                          '<div class="qui-controls-formlist-entry-data">'+
+                              this.getAttribute( 'entry' ) +
+                          '</div>'
             }).inject( this.$Container );
 
+            new QUIButton({
+                icon : 'icon-trash',
+                events : {
+                    onClick : function() {
+                        Child.destroy();
+                        this.$refreshData();
+                    }.bind(this)
+                }
+            }).inject(
+                Child.getElement('.qui-controls-formlist-entry-delete')
+            );
 
             Child.getElements( 'input,select,textarea').addEvents({
-                blur   : this.$refreshDate,
-                change : this.$refreshDate
+                blur   : this.$refreshData,
+                change : this.$refreshData
             });
+
+            this.$refreshData();
 
             return Child;
         }
