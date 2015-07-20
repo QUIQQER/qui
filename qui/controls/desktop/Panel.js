@@ -342,7 +342,6 @@ define('qui/controls/desktop/Panel', [
             }
 
             var content_height = this.getAttribute( 'height' ),
-                content_width  = this.$Elm.getSize().x,
                 overflow       = 'auto';
 
             // height calc
@@ -367,15 +366,6 @@ define('qui/controls/desktop/Panel', [
                 overflow = 'hidden';
             }
 
-            // width calc
-            if ( this.$Categories.getSize().x )
-            {
-                content_width = content_width - this.$Categories.getComputedSize().totalWidth;
-            } else
-            {
-                content_width = '100%';
-            }
-
             if ( this.$CategoryBar )
             {
                 this.$Categories.setStyle( 'height', content_height );
@@ -397,8 +387,7 @@ define('qui/controls/desktop/Panel', [
                     // set proportions
                     self.$Content.setStyles({
                         overflow : overflow,
-                        height   : content_height,
-                        width    : content_width
+                        height   : content_height
                     });
 
                     self.fireEvent( 'resize', [ self ] );

@@ -99,7 +99,7 @@
     float: left;
     padding: 20px;
     position: relative;
-    width: 100%;
+    width: calc(100% - 190px);
 }
 
 .qui-panel-highlight {
