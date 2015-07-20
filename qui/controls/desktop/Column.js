@@ -592,7 +592,6 @@ define('qui/controls/desktop/Column', [
                 }
             }
 
-
         // create a new handler
             if ( count )
             {
@@ -600,15 +599,8 @@ define('qui/controls/desktop/Column', [
                     'class' : 'qui-column-hor-handle smooth'
                 });
 
-                if ( !this.$fixed ) {
-                    Handler.addClass( 'qui-column-hor-handle-enabled' );
-                }
-
-                this.$addHorResize( Handler );
-
-                Panel.setAttribute( '_Handler', Handler );
+                Panel.setAttribute('_Handler', Handler);
             }
-
 
         // new panel events
             Panel.addEvents({
@@ -655,11 +647,18 @@ define('qui/controls/desktop/Column', [
                 Panel.inject( handleList[ pos - 1 ], 'after' );
             }
 
+            if (Handler) {
+                if (!this.$fixed) {
+                    Handler.addClass('qui-column-hor-handle-enabled');
+                }
+
+                this.$addHorResize(Handler);
+            }
+
             if ( this.$__unserialize ) {
                 Panel.minimize();
             }
-
-
+            
             Panel.enableCollapsible();
 
         // drag drop?
