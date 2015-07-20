@@ -770,6 +770,7 @@ define('qui/controls/desktop/Panel', [
             });
 
             this.getCategoryBar().appendChild( Btn );
+            this.getElm().addClass('qui-panel-width-categories');
 
             return this;
         },

@@ -99,6 +99,10 @@
     float: left;
     padding: 20px;
     position: relative;
+    width: 100%;
+}
+
+.qui-panel-width-categories .qui-panel-content {
     width: calc(100% - 190px);
 }
 
