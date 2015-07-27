@@ -66,6 +66,7 @@ define('qui/controls/desktop/Panel', [
         ],
 
         options : {
+            '#id'   : false,
             name    : 'qui-desktop-panel',
             content : false,
 
