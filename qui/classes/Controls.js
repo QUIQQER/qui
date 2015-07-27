@@ -48,11 +48,11 @@ define('qui/classes/Controls', [
          */
         get : function(n)
         {
-            if ( typeof this.$controls[ n ] === 'undefined' ) {
+            if (typeof this.$controls[n] === 'undefined') {
                 return [];
             }
 
-            return this.$controls[ n ];
+            return this.$controls[n];
         },
 
         /**
@@ -64,11 +64,35 @@ define('qui/classes/Controls', [
          */
         getById : function(id)
         {
-            if ( id in this.$cids ) {
-                return this.$cids[ id ];
+            if (id in this.$cids) {
+                return this.$cids[id];
             }
 
             return false;
+        },
+
+        /**
+         * Return all QUI Controls in the HTML node Element
+         *
+         * @param {HTMLElement} Node
+         * @return {Array}
+         */
+        getControlsInElement : function(Node)
+        {
+            var i, len, Control;
+
+            var list = [];
+            var elements = Node.getElements('[data-quiid]');
+
+            for (i = 0, len = elements.length; i < len; i++) {
+                Control = this.getById(elements[i].get('data-quiid'));
+
+                if (Control) {
+                    list.push(Control);
+                }
+            }
+
+            return list;
         },
 
         /**
@@ -79,8 +103,8 @@ define('qui/classes/Controls', [
          */
         getByType : function(type)
         {
-            if ( type in this.$types ) {
-                return this.$types[ type ];
+            if (type in this.$types) {
+                return this.$types[type];
             }
 
             return [];
@@ -98,11 +122,11 @@ define('qui/classes/Controls', [
          */
         loadType : function(type, onload)
         {
-            if ( !type.match( /qui\// ) ) {
+            if (!type.match( /qui\// )) {
                 type = 'qui/'+ type;
             }
 
-            require( [ type ] , onload );
+            require([type], onload);
         },
 
         /**

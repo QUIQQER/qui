@@ -337,6 +337,28 @@ define('qui/controls/taskbar/Task', [
             this.$Elm.set( 'title', description );
             Text.set( 'html', text );
 
+            if (this.getInstance() && this.getInstance().getAttribute('displayNoTaskText')) {
+
+                Text.setStyle('display', 'none');
+
+                this.getElm().setStyles({
+                    width    : 40,
+                    maxWidth : 40,
+                    minWidth : 40
+                });
+
+            } else {
+
+                Text.setStyle('display', null);
+
+                this.getElm().setStyles({
+                    width    : null,
+                    maxWidth : null,
+                    minWidth : null
+                });
+
+            }
+
             this.fireEvent( 'refresh', [ this ] );
         },
 

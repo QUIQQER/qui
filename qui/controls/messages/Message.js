@@ -158,6 +158,7 @@ define('qui/controls/messages/Message', [
             });
 
             Destroy.addEvent('click', function() {
+                self.fireEvent('destroy', [self]);
                 Elm.destroy();
             });
 
