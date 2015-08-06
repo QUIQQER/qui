@@ -140,13 +140,18 @@ define('qui/classes/QUI', [
                 }
 
                 // parse all qui controls
-                var nodes = document.id( Parent ).getElements( '[data-qui]' ),
+                var nodes = document.id( Parent ).getElements('[data-qui]'),
                     list  = nodes.map(function(Elm) {
-                        return Elm.get( 'data-qui' );
+                        return Elm.get('data-qui');
                     });
 
+                // cleanup -> empty data-qui
                 list = list.filter(function(item) {
                     return item !== '';
+                }).clean();
+
+                nodes = nodes.filter(function(Elm) {
+                    return Elm.get('data-qui') !== '';
                 }).clean();
 
                 require(list, function()
