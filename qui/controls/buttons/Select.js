@@ -58,7 +58,8 @@ define('qui/controls/buttons/Select', [
             'class' : false,   // extra CSS Class
             menuWidth : 200,
             menuMaxHeight : 300,
-            showIcons : true
+            showIcons : false,
+            placeholder : ''
         },
 
         params : {},
@@ -69,7 +70,8 @@ define('qui/controls/buttons/Select', [
 
             this.$Menu = new QUIMenu({
                 width     : this.getAttribute('menuWidth'),
-                maxHeight : this.getAttribute('menuMaxHeight')
+                maxHeight : this.getAttribute('menuMaxHeight'),
+                showIcons : this.getAttribute('showIcons')
             });
 
             this.$Elm      = null;
@@ -109,13 +111,20 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Select = this.$Elm.getElement('select');
+
             this.$Select.setStyles({
                 height: 0,
                 left : -1000,
                 position : 'absolute',
                 top : -1000,
-                visibility : 'hidden',
+//                visibility : 'hidden'
                 width: 0
+            });
+
+            this.$Select.addEvents({
+                change : function() {
+                    self.setValue(this.value);
+                }
             });
 
             // ie8 / 9 fix
@@ -215,6 +224,15 @@ define('qui/controls/buttons/Select', [
         },
 
         /**
+         *
+         * @param text
+         */
+        setPlaceholder : function(text)
+        {
+
+        },
+
+        /**
          * Add a option to the select box
          *
          * @method qui/controls/buttons/Select#appendChild
@@ -285,9 +303,10 @@ define('qui/controls/buttons/Select', [
          * Opens the select box
          *
          * @method qui/controls/buttons/Select#open
+         * @param {DOMEvent} event
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        open : function()
+        open : function(event)
         {
             if (this.isDisabled()) {
                 return this;
@@ -303,6 +322,8 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
+            var mousedownEvent, mouseupEvent;
+
             var Elm     = this.getElm(),
                 MenuElm = this.$Menu.getElm(),
                 pos     = Elm.getPosition(document.body),
@@ -311,12 +332,7 @@ define('qui/controls/buttons/Select', [
 
             // is mobile?
             if (!!('ontouchstart' in window)) {
-
-                var evt = document.createEvent('MouseEvents');
-                evt.initMouseEvent('mousedown', true, true, window);
-
-                this.$Select.dispatchEvent(evt);
-
+                QUIElementUtils.simulateEvent(this.$Select, 'mousedown');
                 return this;
             }
 

@@ -4,138 +4,146 @@
  *
  * @module qui/utils/Elements
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require qui/classes/utils/SimulateEvent
  */
 
-define('qui/utils/Elements', {
+define('qui/utils/Elements', [
 
-    /**
-     * checks if the element is in the viewport
-     *
-     * @method qui/utils/Elements#isInViewport
-     * @param {HTMLElement} el
-     */
-    isInViewport : function(el)
-    {
-        "use strict";
+    'qui/classes/utils/SimulateEvent'
 
-        var rect = el.getBoundingClientRect();
+], function(SimulateEvent) {
 
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    },
+    "use strict";
 
-    /**
-     * Return the z-index of an Element
-     *
-     * @method qui/utils/Elements#getComputedZIndex
-     * @return {Number}
-     */
-    getComputedZIndex : function(Elm)
-    {
-        "use strict";
+    return {
 
-        var i, z, len, max = 0;
-        var parents = Elm.getParents();
-
-        for ( i = 0, len = parents.length; i < len; i++)
+        /**
+         * checks if the element is in the viewport
+         *
+         * @method qui/utils/Elements#isInViewport
+         * @param {HTMLElement} el
+         */
+        isInViewport: function (el)
         {
-            z = parents[ i ].getStyle( 'zIndex' );
+            var rect = el.getBoundingClientRect();
 
-            if ( z == 'auto' ) {
-                continue;
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        },
+
+        /**
+         * Return the z-index of an Element
+         *
+         * @method qui/utils/Elements#getComputedZIndex
+         * @return {Number}
+         */
+        getComputedZIndex: function (Elm)
+        {
+            var i, z, len, max = 0;
+            var parents = Elm.getParents();
+
+            for (i = 0, len = parents.length; i < len; i++) {
+                z = parents[i].getStyle('zIndex');
+
+                if (z == 'auto') {
+                    continue;
+                }
+
+                if (z > max) {
+                    max = z;
+                }
             }
 
-            if ( z > max ) {
-                 max = z;
+            return max;
+        },
+
+        /**
+         * Return the index of the child from its parent
+         *
+         * @param {HTMLElement} Elm
+         * @return {Number}
+         */
+        getChildIndex: function (Elm)
+        {
+            return Array.prototype.indexOf.call(
+                Elm.getParent().children,
+                Elm
+            );
+        },
+
+        /**
+         * Return the cursor position of an input field
+         *
+         * @return {null|Number}
+         */
+        getCursorPosition: function (Input)
+        {
+            if (Input.nodeName !== 'INPUT') {
+                return null;
             }
-        }
 
-        return max;
-    },
+            if ('selectionStart' in Input) {
+                return Input.selectionStart;
+            }
 
-    /**
-     * Return the index of the child from its parent
-     *
-     * @param {HTMLElement} Elm
-     * @return {Number}
-     */
-    getChildIndex : function(Elm)
-    {
-        "use strict";
+            if (document.selection) {
+                // IE
+                Input.focus();
 
-        return Array.prototype.indexOf.call(
-            Elm.getParent().children,
-            Elm
-        );
-    },
+                var range = document.selection.createRange();
+                var rangeLen = range.text.length;
 
-    /**
-     * Return the cursor position of an input field
-     *
-     * @return {null|Number}
-     */
-    getCursorPosition : function(Input)
-    {
-        "use strict";
+                range.moveStart('character', -Input.value.length);
 
-        if ( Input.nodeName !== 'INPUT' ) {
+                return range.text.length - rangeLen;
+            }
+
             return null;
-        }
+        },
 
-        if ( 'selectionStart' in Input ) {
-            return Input.selectionStart;
-        }
-
-        if ( document.selection )
+        /**
+         * Set the cursor to the position
+         *
+         * @param {HTMLElement} Input - Input | Textarea Element
+         * @param {Number} pos - Position of the cursor
+         */
+        setCursorPosition: function (Input, pos)
         {
-            // IE
+            if (Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA') {
+                return null;
+            }
+
+            if (Input.createTextRange) {
+                var range = Input.createTextRange();
+
+                range.move('character', pos);
+                range.select();
+                return;
+            }
+
+            if (Input.selectionStart) {
+                Input.focus();
+                Input.setSelectionRange(pos + 1, pos + 1);
+                return;
+            }
+
             Input.focus();
+        },
 
-            var range    = document.selection.createRange();
-            var rangeLen = range.text.length;
-
-            range.moveStart( 'character', -Input.value.length );
-
-            return range.text.length - rangeLen;
-        }
-
-        return null;
-    },
-
-    /**
-     * Set the cursor to the position
-     *
-     * @param {HTMLElement} Input - Input | Textarea Element
-     * @param {Number} pos - Position of the cursor
-     */
-    setCursorPosition : function(Input, pos)
-    {
-        "use strict";
-
-        if ( Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA' ) {
-            return null;
-        }
-
-        if ( Input.createTextRange )
+        /**
+         * Simulate an event at an Element
+         *
+         * @param {HTMLElement} Target
+         * @param {String} eventName
+         */
+        simulateEvent: function (Target, eventName)
         {
-            var range = Input.createTextRange();
-
-            range.move( 'character', pos );
-            range.select();
-            return;
+            new SimulateEvent(Target).simulateEvent(eventName);
         }
-
-        if ( Input.selectionStart )
-        {
-            Input.focus();
-            Input.setSelectionRange( pos+1, pos+1 );
-            return;
-        }
-
-        Input.focus();
-    }
+    };
 });
