@@ -161,32 +161,7 @@ define('qui/controls/Control', [
         {
             this.$Elm = Elm;
 
-            // set options
-            var attribute, attrName, attrValue, numb;
-            var attributes = Elm.attributes;
-
-            for ( var i = 0, len = attributes.length; i < len; i++ )
-            {
-                attribute = attributes[ i ];
-                attrName  = attribute.name;
-
-                if ( !attrName.match( 'data-qui-options-' ) ) {
-                    continue;
-                }
-
-                attrValue = attribute.value;
-                numb      = Number.from( attrValue );
-
-                if ( typeOf( numb ) === 'number' ) {
-                    attrValue = numb;
-                }
-
-                this.setAttribute(
-                    attrName.replace( 'data-qui-options-', '' ),
-                    attrValue
-                );
-            }
-
+            this.$readDataOptions(Elm);
 
             this.$Elm.set( 'data-quiid', this.getId() );
             this.fireEvent( 'import', [ this, Elm ] );
@@ -211,6 +186,8 @@ define('qui/controls/Control', [
                 this.setAttribute( 'styles', Elm.styles );
             }
 
+            this.$readDataOptions(Elm);
+
             this.$Elm = this.create();
 
             this.$Elm.set( 'data-quiid', this.getId() );
@@ -221,6 +198,41 @@ define('qui/controls/Control', [
             }
 
             return this;
+        },
+
+        /**
+         * Read options from DOMNode Element
+         *
+         * @param {HTMLElement} [Elm]
+         */
+        $readDataOptions : function(Elm)
+        {
+            var _Elm = Elm || this.getElm();
+
+            var attribute, attrName, attrValue, numb;
+            var attributes = _Elm.attributes;
+
+            for ( var i = 0, len = attributes.length; i < len; i++ )
+            {
+                attribute = attributes[ i ];
+                attrName  = attribute.name;
+
+                if ( !attrName.match( 'data-qui-options-' ) ) {
+                    continue;
+                }
+
+                attrValue = attribute.value;
+                numb      = Number.from( attrValue );
+
+                if ( typeOf( numb ) === 'number' ) {
+                    attrValue = numb;
+                }
+
+                this.setAttribute(
+                    attrName.replace( 'data-qui-options-', '' ),
+                    attrValue
+                );
+            }
         },
 
         /**
