@@ -57,7 +57,8 @@ define('qui/controls/buttons/Select', [
             'style' : {},      // mootools css style attributes
             'class' : false,   // extra CSS Class
             menuWidth : 200,
-            menuMaxHeight : 300
+            menuMaxHeight : 300,
+            showIcons : true
         },
 
         params : {},
@@ -72,6 +73,7 @@ define('qui/controls/buttons/Select', [
             });
 
             this.$Elm      = null;
+            this.$Select   = null;
             this.$value    = null;
             this.$disabled = false;
 
@@ -91,7 +93,8 @@ define('qui/controls/buttons/Select', [
             this.$Elm = new Element('div.qui-select', {
                 html : '<div class="icon"></div>' +
                        '<div class="text"></div>' +
-                       '<div class="drop-icon"></div>',
+                       '<div class="drop-icon"></div>' +
+                       '<select></select>',
                 tabindex : -1,
                 styles   : {
                     outline : 0,
@@ -99,6 +102,20 @@ define('qui/controls/buttons/Select', [
                 },
 
                 'data-quiid' : this.getId()
+            });
+
+            if (this.getAttribute('showIcons') === false) {
+                this.$Elm.addClass('qui-select-no-icons');
+            }
+
+            this.$Select = this.$Elm.getElement('select');
+            this.$Select.setStyles({
+                height: 0,
+                left : -1000,
+                position : 'absolute',
+                top : -1000,
+                visibility : 'hidden',
+                width: 0
             });
 
             // ie8 / 9 fix
@@ -221,6 +238,11 @@ define('qui/controls/buttons/Select', [
                 })
             );
 
+            new Element('option', {
+                html  : text,
+                value : value
+            }).inject(this.$Select);
+
             return this;
         },
 
@@ -232,7 +254,7 @@ define('qui/controls/buttons/Select', [
          */
         firstChild : function()
         {
-            if ( !this.$Menu ) {
+            if (!this.$Menu) {
                 return false;
             }
 
@@ -248,6 +270,7 @@ define('qui/controls/buttons/Select', [
         {
             this.$value = '';
             this.$Menu.clearChildren();
+            this.$Select.set('html', '');
 
             if (this.$Elm.getElement('.text')) {
                 this.$Elm.getElement('.text').set('html', '');
@@ -272,7 +295,7 @@ define('qui/controls/buttons/Select', [
 
             if (document.activeElement != this.getElm())
             {
-                // because onclick and mouseup makes a focus on body
+                // because onclick and mouseup events makes a focus at the body
                 (function() {
                     this.getElm().focus();
                 }).delay(100, this);
@@ -282,30 +305,39 @@ define('qui/controls/buttons/Select', [
 
             var Elm     = this.getElm(),
                 MenuElm = this.$Menu.getElm(),
-                pos     = Elm.getPosition(),
-                size    = Elm.getSize();
+                pos     = Elm.getPosition(document.body),
+                size    = Elm.getSize(),
+                winSize = window.getSize();
+
+            // is mobile?
+            if (!!('ontouchstart' in window)) {
+
+                var evt = document.createEvent('MouseEvents');
+                evt.initMouseEvent('mousedown', true, true, window);
+
+                this.$Select.dispatchEvent(evt);
+
+                return this;
+            }
+
 
             Elm.addClass('qui-select-open');
 
-            this.$Menu.setAttribute('maxHeight', this.getAttribute('menuMaxHeight'));
-
-            this.$Menu.setPosition(
-                pos.x - 20,
-                pos.y + size.y
+            this.$Menu.setAttribute(
+                'maxHeight',
+                this.getAttribute('menuMaxHeight')
             );
 
-            MenuElm.setStyles({
-                zIndex : QUIElementUtils.getComputedZIndex(this.getElm()) + 1
-            });
-
-            if (size.x + 20 > 200) {
-                MenuElm.setStyles({
-                    width  : size.x + 20
-                });
-            }
+            var x = pos.x - 20,
+                y = pos.y + size.y;
 
             this.$Menu.setAttribute('width', size.x);
             this.$Menu.show();
+
+            MenuElm.setStyle('top', y);
+            MenuElm.setStyle('left', x);
+            MenuElm.setStyle('width', size.x + 20);
+            MenuElm.setStyle('zIndex', QUIElementUtils.getComputedZIndex(this.getElm()) + 1);
 
             var Option = this.$Menu.getChildren(
                 this.getAttribute('name') + this.getValue()

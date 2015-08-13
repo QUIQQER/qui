@@ -4,8 +4,8 @@
     height: 30px;
     width: 200px;
 
-    margin: 0px 2px;
-    padding: 0px 2px;
+    margin: 0 2px;
+    padding: 0 2px;
 
     border: 1px solid #c9c8c5;
     background: #fff;
@@ -33,6 +33,10 @@
     height: 30px;
     line-height: 30px;
     text-align: center;
+}
+
+.qui-select-no-icons .icon {
+    display: none;
 }
 
 .qui-select .text {
