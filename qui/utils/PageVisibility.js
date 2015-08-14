@@ -53,13 +53,19 @@ define('qui/utils/PageVisibility', [
                 switch (type)
                 {
                     case 'hidden':
+                        VisibilityHelper._isVisible = false;
                         VisibilityHelper.fireEvent( 'hide' );
                         break;
 
                     case 'visible':
+                        VisibilityHelper._isVisible = true;
                         VisibilityHelper.fireEvent( 'visible' );
                         break;
                 }
+            },
+
+            isVisible : function() {
+                return VisibilityHelper._isVisible;
             }
         }
     });
@@ -99,6 +105,8 @@ define('qui/utils/PageVisibility', [
             type: document[ hidden ] ? "blur" : "focus"
         });
     }
+
+    VisibilityHelper._isVisible = true;
 
     return VisibilityHelper;
 });

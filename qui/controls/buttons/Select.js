@@ -303,10 +303,9 @@ define('qui/controls/buttons/Select', [
          * Opens the select box
          *
          * @method qui/controls/buttons/Select#open
-         * @param {DOMEvent} event
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        open : function(event)
+        open : function()
         {
             if (this.isDisabled()) {
                 return this;
@@ -322,13 +321,10 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
-            var mousedownEvent, mouseupEvent;
-
             var Elm     = this.getElm(),
                 MenuElm = this.$Menu.getElm(),
                 pos     = Elm.getPosition(document.body),
-                size    = Elm.getSize(),
-                winSize = window.getSize();
+                size    = Elm.getSize();
 
             // is mobile?
             if (!!('ontouchstart' in window)) {
@@ -354,6 +350,7 @@ define('qui/controls/buttons/Select', [
             MenuElm.setStyle('left', x);
             MenuElm.setStyle('width', size.x + 20);
             MenuElm.setStyle('zIndex', QUIElementUtils.getComputedZIndex(this.getElm()) + 1);
+            MenuElm.addClass('qui-select-container');
 
             var Option = this.$Menu.getChildren(
                 this.getAttribute('name') + this.getValue()
