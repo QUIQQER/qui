@@ -1,4 +1,3 @@
-
 /**
  * QUI Control - Select Box DropDown
  *
@@ -15,7 +14,6 @@
  * @event onChange [value, this]
  * @event onClick [this, event]
  */
-
 define('qui/controls/buttons/Select', [
 
     'qui/controls/Control',
@@ -26,11 +24,10 @@ define('qui/controls/buttons/Select', [
 
     'css!qui/controls/buttons/Select.css'
 
-], function(Control, Utils, QUIMenu, QUIMenuItem, QUIElementUtils)
-{
+], function (Control, Utils, QUIMenu, QUIMenuItem, QUIElementUtils) {
     "use strict";
 
-    document.id( document.body ).set( 'tabindex', -1 );
+    document.id(document.body).set('tabindex', -1);
 
     /**
      * @class qui/controls/buttons/Select
@@ -40,10 +37,10 @@ define('qui/controls/buttons/Select', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/buttons/Select',
+        Extends: Control,
+        Type   : 'qui/controls/buttons/Select',
 
-        Binds : [
+        Binds: [
             'open',
             'set',
             '$set',
@@ -52,32 +49,33 @@ define('qui/controls/buttons/Select', [
             '$onKeyUp'
         ],
 
-        options : {
-            name    : 'select-box',
-            'style' : {},      // mootools css style attributes
-            'class' : false,   // extra CSS Class
-            menuWidth : 200,
-            menuMaxHeight : 300,
-            showIcons : false,
-            placeholder : ''
+        options: {
+            name         : 'select-box',
+            'style'      : {},      // mootools css style attributes
+            'class'      : false,   // extra CSS Class
+            menuWidth    : 200,
+            menuMaxHeight: 300,
+            showIcons    : false,
+            placeholder  : ''
         },
 
-        params : {},
+        params: {},
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             this.parent(options);
 
             this.$Menu = new QUIMenu({
-                width     : this.getAttribute('menuWidth'),
-                maxHeight : this.getAttribute('menuMaxHeight'),
-                showIcons : this.getAttribute('showIcons')
+                width    : this.getAttribute('menuWidth'),
+                maxHeight: this.getAttribute('menuMaxHeight'),
+                showIcons: this.getAttribute('showIcons')
             });
 
             this.$Elm      = null;
             this.$Select   = null;
             this.$value    = null;
             this.$disabled = false;
+
+            this.$children = [];
 
             this.addEvent('onDestroy', this.$onDestroy);
         },
@@ -88,22 +86,21 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             var self = this;
 
             this.$Elm = new Element('div.qui-select', {
-                html : '<div class="icon"></div>' +
-                       '<div class="text"></div>' +
-                       '<div class="drop-icon"></div>' +
-                       '<select></select>',
-                tabindex : -1,
-                styles   : {
-                    outline : 0,
-                    cursor  : 'pointer'
+                html    : '<div class="icon"></div>' +
+                          '<div class="text"></div>' +
+                          '<div class="drop-icon"></div>' +
+                          '<select></select>',
+                tabindex: -1,
+                styles  : {
+                    outline: 0,
+                    cursor : 'pointer'
                 },
 
-                'data-quiid' : this.getId()
+                'data-quiid': this.getId()
             });
 
             if (this.getAttribute('showIcons') === false) {
@@ -113,23 +110,22 @@ define('qui/controls/buttons/Select', [
             this.$Select = this.$Elm.getElement('select');
 
             this.$Select.setStyles({
-                height: 0,
-                left : -1000,
-                position : 'absolute',
-                top : -1000,
-//                visibility : 'hidden'
-                width: 0
+                height  : 0,
+                left    : -1000,
+                position: 'absolute',
+                top     : -1000,
+                width   : 0
             });
 
             this.$Select.addEvents({
-                change : function() {
+                change: function () {
                     self.setValue(this.value);
                 }
             });
 
             // ie8 / 9 fix
             this.$Elm.getElements('div').addEvents({
-                click : function() {
+                click: function () {
                     self.$Elm.focus();
                 }
             });
@@ -143,17 +139,16 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Elm.addEvents({
-                focus : this.open,
-                blur  : this.$onBlur,
-                keyup : this.$onKeyUp
+                focus: this.open,
+                blur : this.$onBlur,
+                keyup: this.$onKeyUp
             });
 
             this.$Menu.inject(document.body);
             this.$Menu.hide();
 
             this.$Menu.getElm().addClass('qui-dropdown');
-            this.$Menu.getElm().addEvent('mouseleave', function()
-            {
+            this.$Menu.getElm().addEvent('mouseleave', function () {
                 var Option = self.$Menu.getChildren(
                     self.getAttribute('name') + self.getValue()
                 );
@@ -163,26 +158,34 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            if (this.$Elm.getStyle('width'))
-            {
+            if (this.$Elm.getStyle('width')) {
                 var width = this.$Elm.getStyle('width').toInt();
 
                 this.$Elm.getElement('.text').setStyles({
-                    width    : width - 50,
-                    overflow : 'hidden'
+                    width   : width - 50,
+                    overflow: 'hidden'
                 });
 
-            } else
-            {
-                (function()
-                {
+            } else {
+                (function () {
                     var width = self.$Elm.getStyle('width').toInt();
 
                     self.$Elm.getElement('.text').setStyles({
-                        width    : width - 50,
-                        overflow : 'hidden'
+                        width   : width - 50,
+                        overflow: 'hidden'
                     });
                 }).delay(300);
+            }
+
+            if (this.$children.length) {
+
+                for (var i = 0, len = this.$children.length; i < len; i++) {
+                    this.appendChild(
+                        this.$children[i].text,
+                        this.$children[i].value,
+                        this.$children[i].icon
+                    );
+                }
             }
 
             return this.$Elm;
@@ -195,15 +198,12 @@ define('qui/controls/buttons/Select', [
          * @param {String} value
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        setValue : function(value)
-        {
+        setValue: function (value) {
             var i, len;
             var children = this.$Menu.getChildren();
 
-            for (i = 0, len = children.length; i < len; i++)
-            {
-                if (children[i].getAttribute('value') == value)
-                {
+            for (i = 0, len = children.length; i < len; i++) {
+                if (children[i].getAttribute('value') == value) {
                     this.$set(children[i]);
                     return this;
                 }
@@ -218,8 +218,7 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#getValue
          * @return {String|Boolean}
          */
-        getValue : function()
-        {
+        getValue: function () {
             return this.$value;
         },
 
@@ -227,8 +226,7 @@ define('qui/controls/buttons/Select', [
          *
          * @param text
          */
-        setPlaceholder : function(text)
-        {
+        setPlaceholder: function (text) {
 
         },
 
@@ -242,23 +240,33 @@ define('qui/controls/buttons/Select', [
          * @param {String} [icon] - optional
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        appendChild : function(text, value, icon)
-        {
+        appendChild: function (text, value, icon) {
+
+            if (!this.$Elm) {
+                this.$children.push({
+                    text : text,
+                    value: value,
+                    icon : icon
+                });
+
+                return this;
+            }
+
             this.$Menu.appendChild(
                 new QUIMenuItem({
-                    name   : this.getAttribute('name') + value,
-                    text   : text,
-                    value  : value,
-                    icon   : icon || false,
-                    events : {
-                        onMouseDown : this.$set
+                    name  : this.getAttribute('name') + value,
+                    text  : text,
+                    value : value,
+                    icon  : icon || false,
+                    events: {
+                        onMouseDown: this.$set
                     }
                 })
             );
 
             new Element('option', {
-                html  : text,
-                value : value
+                html : text,
+                value: value
             }).inject(this.$Select);
 
             return this;
@@ -270,8 +278,7 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#firstChild
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
-        firstChild : function()
-        {
+        firstChild: function () {
             if (!this.$Menu) {
                 return false;
             }
@@ -284,8 +291,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#clear
          */
-        clear : function()
-        {
+        clear: function () {
             this.$value = '';
             this.$Menu.clearChildren();
             this.$Select.set('html', '');
@@ -305,16 +311,14 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#open
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        open : function()
-        {
+        open: function () {
             if (this.isDisabled()) {
                 return this;
             }
 
-            if (document.activeElement != this.getElm())
-            {
+            if (document.activeElement != this.getElm()) {
                 // because onclick and mouseup events makes a focus at the body
-                (function() {
+                (function () {
                     this.getElm().focus();
                 }).delay(100, this);
 
@@ -368,8 +372,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#close
          */
-        close : function()
-        {
+        close: function () {
             document.body.focus();
             this.$onBlur();
         },
@@ -380,8 +383,7 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#disable
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        disable : function()
-        {
+        disable: function () {
             this.$disabled = true;
             this.getElm().addClass('qui-select-disable');
             this.$Menu.hide();
@@ -392,8 +394,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#isDisabled
          */
-        isDisabled : function()
-        {
+        isDisabled: function () {
             return this.$disabled;
         },
 
@@ -403,8 +404,7 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#enable
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        enable : function()
-        {
+        enable: function () {
             this.$disabled = false;
             this.getElm().removeClass('qui-select-disable');
         },
@@ -416,18 +416,15 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$set
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $set : function(Item)
-        {
+        $set: function (Item) {
             this.$value = Item.getAttribute('value');
 
-            if (this.$Elm.getElement('.text'))
-            {
+            if (this.$Elm.getElement('.text')) {
                 this.$Elm.getElement('.text')
-                         .set('html', Item.getAttribute('text'));
+                    .set('html', Item.getAttribute('text'));
             }
 
-            if (Item.getAttribute('icon') && this.$Elm.getElement('.icon'))
-            {
+            if (Item.getAttribute('icon') && this.$Elm.getElement('.icon')) {
                 var value = Item.getAttribute('icon'),
                     Icon  = this.$Elm.getElement('.icon');
 
@@ -435,14 +432,12 @@ define('qui/controls/buttons/Select', [
                 Icon.addClass('icon');
                 Icon.setStyle('background', null);
 
-                if (Utils.isFontAwesomeClass(value))
-                {
+                if (Utils.isFontAwesomeClass(value)) {
                     Icon.addClass(value);
-                } else
-                {
+                } else {
                     Icon.setStyle(
                         'background',
-                        'url("'+ value +'") center center no-repeat'
+                        'url("' + value + '") center center no-repeat'
                     );
                 }
             }
@@ -457,8 +452,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#$onDestroy
          */
-        $onDestroy : function()
-        {
+        $onDestroy: function () {
             this.$Menu.destroy();
         },
 
@@ -467,8 +461,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#$onBlur
          */
-        $onBlur : function()
-        {
+        $onBlur: function () {
             this.$Menu.hide();
             this.getElm().removeClass('qui-select-open');
         },
@@ -480,29 +473,25 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$onKeyUp
          * @param {HTMLElement} event
          */
-        $onKeyUp : function(event)
-        {
+        $onKeyUp: function (event) {
             if (typeof event === 'undefined') {
                 return;
             }
 
             if (event.key !== 'down' &&
                 event.key !== 'up' &&
-                event.key !== 'enter')
-            {
+                event.key !== 'enter') {
                 return;
             }
 
             this.$Menu.show();
 
-            if (event.key === 'down')
-            {
+            if (event.key === 'down') {
                 this.$Menu.down();
                 return;
             }
 
-            if (event.key === 'up')
-            {
+            if (event.key === 'up') {
                 this.$Menu.up();
                 return;
             }
