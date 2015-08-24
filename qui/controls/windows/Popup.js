@@ -1,4 +1,3 @@
-
 /**
  * A popup window
  *
@@ -23,8 +22,7 @@
  * @event onResizeBegin [ self ]
  */
 
-define('qui/controls/windows/Popup', [
-
+var needle = [
     'qui/QUI',
     'qui/controls/Control',
     'qui/controls/utils/Background',
@@ -35,11 +33,23 @@ define('qui/controls/windows/Popup', [
     'qui/controls/windows/locale/de',
     'qui/controls/windows/locale/en',
 
-    'css!qui/controls/windows/Popup.css',
-    'css!qui/controls/buttons/Button.css'
+    'css!qui/controls/windows/Popup.css'
+];
 
-], function(QUI, Control, Background, Loader, Locale, Utils)
-{
+if (!("QUI" in window) || !window.QUI.getAttribute('control-buttons-dont-load-css')) {
+    needle.push('css!qui/controls/buttons/Button.css');
+}
+
+
+define('qui/controls/windows/Popup', needle, function (
+    QUI,
+    Control,
+    Background,
+    Loader,
+    Locale,
+    Utils
+) {
+
     "use strict";
 
     /**
@@ -49,33 +59,32 @@ define('qui/controls/windows/Popup', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/windows/Popup',
+        Extends: Control,
+        Type   : 'qui/controls/windows/Popup',
 
-        Binds : [
+        Binds: [
             'resize',
             'cancel'
         ],
 
-        options : {
-            maxWidth  : 900,	// {integer} [optional]max width of the window
-            maxHeight : 600,	// {integer} [optional]max height of the window
-            content   : false,	// {string} [optional] content of the window
-            icon      : false,	// {false|string} [optional] icon of the window
-            title     : false,	// {false|string} [optional] title of the window
-            'class'   : false,
-            backgroundClosable : true, // {bool} [optional] closes the window on click? standard = true
+        options: {
+            maxWidth          : 900,	// {integer} [optional]max width of the window
+            maxHeight         : 600,	// {integer} [optional]max height of the window
+            content           : false,	// {string} [optional] content of the window
+            icon              : false,	// {false|string} [optional] icon of the window
+            title             : false,	// {false|string} [optional] title of the window
+            'class'           : false,
+            backgroundClosable: true, // {bool} [optional] closes the window on click? standard = true
 
             // buttons
-            buttons          : true, // {bool} [optional] show the bottom button line
-            closeButton      : true, // {bool} show the close button
-            closeButtonText  : Locale.get( 'qui/controls/windows/Popup', 'btn.close' ),
-            titleCloseButton : true  // {bool} show the title close button
+            buttons         : true, // {bool} [optional] show the bottom button line
+            closeButton     : true, // {bool} show the close button
+            closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
+            titleCloseButton: true  // {bool} show the title close button
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.$Elm     = null;
             this.$Content = null;
@@ -97,9 +106,8 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
-            if ( this.$Elm ) {
+        create: function () {
+            if (this.$Elm) {
                 return this.$Elm;
             }
 
@@ -107,116 +115,111 @@ define('qui/controls/windows/Popup', [
 
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
-                html    : '<div class="qui-window-popup-title box">'+
-                              '<div class="qui-window-popup-title-icon"></div>' +
-                              '<div class="qui-window-popup-title-text"></div>' +
+                html    : '<div class="qui-window-popup-title box">' +
+                          '<div class="qui-window-popup-title-icon"></div>' +
+                          '<div class="qui-window-popup-title-text"></div>' +
                           '</div>' +
-                          '<div class="qui-window-popup-content box"></div>'+
+                          '<div class="qui-window-popup-content box"></div>' +
                           '<div class="qui-window-popup-buttons box"></div>',
-                tabindex : -1,
-                styles : {
-                    opacity : 0
+                tabindex: -1,
+                styles  : {
+                    opacity: 0
                 }
             });
 
-            this.$FX = moofx( this.$Elm );
+            this.$FX = moofx(this.$Elm);
 
-            this.$Title     = this.$Elm.getElement( '.qui-window-popup-title' );
-            this.$Icon      = this.$Elm.getElement( '.qui-window-popup-title-icon' );
-            this.$TitleText = this.$Elm.getElement( '.qui-window-popup-title-text' );
-            this.$Content   = this.$Elm.getElement( '.qui-window-popup-content' );
-            this.$Buttons   = this.$Elm.getElement( '.qui-window-popup-buttons' );
+            this.$Title     = this.$Elm.getElement('.qui-window-popup-title');
+            this.$Icon      = this.$Elm.getElement('.qui-window-popup-title-icon');
+            this.$TitleText = this.$Elm.getElement('.qui-window-popup-title-text');
+            this.$Content   = this.$Elm.getElement('.qui-window-popup-content');
+            this.$Buttons   = this.$Elm.getElement('.qui-window-popup-buttons');
 
             this.$Content.setStyle('opacity', 0);
 
-            if ( this.getAttribute( 'titleCloseButton' ) )
-            {
+            if (this.getAttribute('titleCloseButton')) {
                 new Element('div', {
-                    'class' : 'icon-remove fa fa-remove',
-                    styles  : {
-                        cursor : 'pointer',
-                        'float' : 'right',
+                    'class': 'icon-remove fa fa-remove',
+                    styles : {
+                        cursor    : 'pointer',
+                        'float'   : 'right',
                         lineHeight: 17,
-                        width : 17
+                        width     : 17
                     },
-                    events :
-                    {
-                        click : function() {
+                    events : {
+                        click: function () {
                             self.cancel();
                         }
                     }
-                }).inject( this.$Title );
+                }).inject(this.$Title);
             }
 
             // icon
-            var path = this.getAttribute( 'icon' );
+            var path = this.getAttribute('icon');
 
-            if ( path && Utils.isFontAwesomeClass( path )  )
-            {
-                this.$Icon.addClass( path );
+            if (path && Utils.isFontAwesomeClass(path)) {
+                this.$Icon.addClass(path);
 
-            } else if ( path  )
-            {
+            } else if (path) {
                 new Element('img', {
-                    src : path
-                }).inject( this.$Icon );
+                    src: path
+                }).inject(this.$Icon);
             }
 
             // title
-            if ( this.getAttribute( 'title' ) ) {
-                this.$TitleText.set( 'html', this.getAttribute( 'title' ) );
+            if (this.getAttribute('title')) {
+                this.$TitleText.set('html', this.getAttribute('title'));
             }
 
-            if ( !this.getAttribute( 'title' ) && !this.getAttribute( 'icon' ) ) {
-                this.$Title.setStyle( 'display', 'none' );
+            if (!this.getAttribute('title') && !this.getAttribute('icon')) {
+                this.$Title.setStyle('display', 'none');
             }
 
 
             // bottom buttons
-            if ( this.getAttribute( 'buttons' ) && this.getAttribute('closeButton') )
-            {
+            if (this.getAttribute('buttons') && this.getAttribute('closeButton')) {
                 var Submit = new Element('button', {
-                    html    : '<span>'+ this.getAttribute( 'closeButtonText' ) +'</span>',
-                    'class' : 'qui-button btn-red',
-                    events  : {
-                        click : this.cancel
+                    html   : '<span>' + this.getAttribute('closeButtonText') + '</span>',
+                    'class': 'qui-button btn-red',
+                    events : {
+                        click: this.cancel
                     },
                     styles : {
-                        display     : 'inline',
-                        'float'     : 'none',
-                        width       : 150,
-                        textAlign   : 'center'
+                        display  : 'inline',
+                        'float'  : 'none',
+                        width    : 150,
+                        textAlign: 'center'
                     }
                 });
 
-                Submit.inject( this.$Buttons );
+                Submit.inject(this.$Buttons);
 
 
                 this.$Buttons.setStyles({
-                    'float'   : 'left',
-                    height    : 50,
-                    margin    : '0 auto',
-                    opacity   : 0,
-                    textAlign : 'center',
-                    width     : '100%'
+                    'float'  : 'left',
+                    height   : 50,
+                    margin   : '0 auto',
+                    opacity  : 0,
+                    textAlign: 'center',
+                    width    : '100%'
                 });
             }
 
-            if ( !this.getAttribute( 'buttons' ) ) {
-                this.$Buttons.setStyle( 'display', 'none' );
+            if (!this.getAttribute('buttons')) {
+                this.$Buttons.setStyle('display', 'none');
             }
 
-            if ( this.getAttribute( 'content' ) ) {
-                this.setContent( this.getAttribute( 'content' ) );
+            if (this.getAttribute('content')) {
+                this.setContent(this.getAttribute('content'));
             }
 
-            if ( this.getAttribute( 'class' ) ) {
-                this.$Elm.addClass( this.getAttribute( 'class' ) );
+            if (this.getAttribute('class')) {
+                this.$Elm.addClass(this.getAttribute('class'));
             }
 
-            this.Loader.inject( this.$Elm );
+            this.Loader.inject(this.$Elm);
 
-            this.fireEvent( 'create', [ this ] );
+            this.fireEvent('create', [this]);
 
             return this.$Elm;
         },
@@ -226,31 +229,28 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#refresh
          */
-        refresh : function()
-        {
+        refresh: function () {
             // icon
-            var path = this.getAttribute( 'icon' );
+            var path = this.getAttribute('icon');
 
-            if ( path && Utils.isFontAwesomeClass( path )  )
-            {
-                this.$Icon.addClass( path );
+            if (path && Utils.isFontAwesomeClass(path)) {
+                this.$Icon.addClass(path);
 
-            } else if ( path  )
-            {
-                this.$Icon.set( 'html', '' );
+            } else if (path) {
+                this.$Icon.set('html', '');
 
                 new Element('img', {
-                    src : path
-                }).inject( this.$Icon );
+                    src: path
+                }).inject(this.$Icon);
             }
 
             // title
-            if ( this.getAttribute( 'title' ) ) {
-                this.$TitleText.set( 'html', this.getAttribute( 'title' ) );
+            if (this.getAttribute('title')) {
+                this.$TitleText.set('html', this.getAttribute('title'));
             }
 
-            if ( !this.getAttribute( 'title' ) && !this.getAttribute( 'icon' ) ) {
-                this.$Title.setStyle( 'display', 'none' );
+            if (!this.getAttribute('title') && !this.getAttribute('icon')) {
+                this.$Title.setStyle('display', 'none');
             }
         },
 
@@ -259,12 +259,10 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#open
          */
-        open : function(callback)
-        {
+        open: function (callback) {
             this.Background.create();
 
-            if ( this.getAttribute( 'backgroundClosable' ) )
-            {
+            if (this.getAttribute('backgroundClosable')) {
                 this.Background.getElm().addEvent(
                     'click',
                     this.cancel
@@ -272,24 +270,24 @@ define('qui/controls/windows/Popup', [
             }
 
             this.Background.show();
-            this.inject( document.body );
+            this.inject(document.body);
 
             // touch body fix
             this.$oldBodyStyle = {
-                overflow : document.body.style.overflow,
-                position : document.body.style.position,
-                width    : document.body.style.width,
-                top      : document.body.style.top,
-                scroll   : document.body.getScroll()
+                overflow: document.body.style.overflow,
+                position: document.body.style.position,
+                width   : document.body.style.width,
+                top     : document.body.style.top,
+                scroll  : document.body.getScroll()
             };
 
             document.body.setStyles({
-                width : document.body.getSize().x
+                width: document.body.getSize().x
             });
 
             document.body.setStyles({
-                overflow : 'hidden',
-                position : 'absolute'
+                overflow: 'hidden',
+                position: 'absolute'
             });
 
             new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
@@ -297,15 +295,15 @@ define('qui/controls/windows/Popup', [
             this.$opened = true;
             this.getElm().setStyle('position', 'fixed');
 
-            this.fireEvent( 'openBegin', [ this ] );
+            this.fireEvent('openBegin', [this]);
 
-            this.resize(true, function() {
+            this.resize(true, function () {
                 this.fireEvent('open', [this]);
 
                 if (typeof callback === 'function') {
                     callback();
                 }
-            }.bind( this ));
+            }.bind(this));
         },
 
         /**
@@ -315,9 +313,8 @@ define('qui/controls/windows/Popup', [
          * @param {Boolean} [withfx] - deprecated
          * @param {Function} [callback]
          */
-        resize : function(withfx, callback)
-        {
-            if ( !this.$Elm ) {
+        resize: function (withfx, callback) {
+            if (!this.$Elm) {
                 return;
             }
 
@@ -340,7 +337,7 @@ define('qui/controls/windows/Popup', [
                 height = this.getAttribute('maxHeight');
             }
 
-            var top = (doc_size.y - height) / 2;
+            var top  = (doc_size.y - height) / 2;
             var left = (doc_size.x - width) / 2;
 
             if (top < 0) {
@@ -363,16 +360,15 @@ define('qui/controls/windows/Popup', [
             }
 
             this.$FX.animate({
-                height  : height,
-                width   : width,
-                left    : left,
-                top     : top,
-                opacity : 1
+                height : height,
+                width  : width,
+                left   : left,
+                top    : top,
+                opacity: 1
             }, {
-                duration : 300,
-                equation : 'ease-out',
-                callback : function()
-                {
+                duration: 300,
+                equation: 'ease-out',
+                callback: function () {
                     // content height
                     var content_height = self.$Elm.getSize().y -
                                          self.$Buttons.getSize().y -
@@ -380,7 +376,7 @@ define('qui/controls/windows/Popup', [
 
                     self.$Content.setStyles({
                         height : content_height,
-                        opacity : null
+                        opacity: null
                     });
 
                     self.$Buttons.setStyle('opacity', null);
@@ -400,18 +396,16 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#close
          */
-        close : function()
-        {
-            window.removeEvent( 'resize', this.resize );
+        close: function () {
+            window.removeEvent('resize', this.resize);
 
             // set old body attributes
-            if ( typeof this.$oldBodyStyle !== 'undefined' )
-            {
+            if (typeof this.$oldBodyStyle !== 'undefined') {
                 document.body.setStyles({
-                    overflow : this.$oldBodyStyle.overflow || null,
-                    position : this.$oldBodyStyle.position || null,
-                    width    : this.$oldBodyStyle.width || null,
-                    top      : this.$oldBodyStyle.top || null
+                    overflow: this.$oldBodyStyle.overflow || null,
+                    position: this.$oldBodyStyle.position || null,
+                    width   : this.$oldBodyStyle.width || null,
+                    top     : this.$oldBodyStyle.top || null
                 });
 
                 document.body.scrollTo(
@@ -429,18 +423,17 @@ define('qui/controls/windows/Popup', [
             var self = this;
 
             this.$FX.animate({
-                top     : this.$Elm.getPosition().y + 100,
-                opacity : 0
+                top    : this.$Elm.getPosition().y + 100,
+                opacity: 0
             }, {
-                duration : 200,
-                equation : 'ease-out',
-                callback : function()
-                {
-                    self.fireEvent( 'close', [ self ] );
+                duration: 200,
+                equation: 'ease-out',
+                callback: function () {
+                    self.fireEvent('close', [self]);
 
                     self.$Elm.destroy();
 
-                    self.Background.hide(function() {
+                    self.Background.hide(function () {
                         self.Background.destroy();
                     });
                 }
@@ -452,9 +445,8 @@ define('qui/controls/windows/Popup', [
          *
          * @method qui/controls/windows/Popup#cancel
          */
-        cancel : function()
-        {
-            this.fireEvent( 'cancel', [ this ] );
+        cancel: function () {
+            this.fireEvent('cancel', [this]);
             this.close();
         },
 
@@ -464,8 +456,7 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#getContent
          * @return {HTMLElement} DIV
          */
-        getContent : function()
-        {
+        getContent: function () {
             return this.$Content;
         },
 
@@ -475,9 +466,8 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#setContent
          * @return {String} html
          */
-        setContent : function(html)
-        {
-            this.getContent().set( 'html', html );
+        setContent: function (html) {
+            this.getContent().set('html', html);
         },
 
         /**
@@ -487,27 +477,26 @@ define('qui/controls/windows/Popup', [
          * @param {Object} Elm - {} or qui/controls/buttons/Button
          * @return {Object} qui/controls/windows/Popup
          */
-        addButton : function(Elm)
-        {
+        addButton: function (Elm) {
             if (!this.$Buttons) {
                 return this;
             }
 
             var Node = Elm;
 
-            Elm.inject( this.$Buttons, 'top' );
+            Elm.inject(this.$Buttons, 'top');
 
-            if ( typeOf( Elm ) != 'element' ) {
+            if (typeOf(Elm) != 'element') {
                 Node = Elm.getElm();
             }
 
             Node.setStyles({
-                display : 'inline',
-                'float' : 'none'
+                display: 'inline',
+                'float': 'none'
             });
 
             this.$Buttons.setStyles({
-                height : 50
+                height: 50
             });
 
             return this;
@@ -519,13 +508,12 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#hideButtons
          * @return {Object} qui/controls/windows/Popup
          */
-        hideButtons : function()
-        {
-            if ( !this.$Buttons ) {
+        hideButtons: function () {
+            if (!this.$Buttons) {
                 return this;
             }
 
-            this.$Buttons.setStyle( 'display', 'none' );
+            this.$Buttons.setStyle('display', 'none');
         },
 
         /**
@@ -534,13 +522,12 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#showButtons
          * @return {Object} qui/controls/windows/Popup
          */
-        showButtons : function()
-        {
+        showButtons: function () {
             if (!this.$Buttons) {
                 return this;
             }
 
-            this.$Buttons.setStyle( 'display', '' );
+            this.$Buttons.setStyle('display', '');
         },
 
         /**
@@ -549,12 +536,11 @@ define('qui/controls/windows/Popup', [
          * @param {String} name - name of the button
          * @returns {Boolean|Object} - qui/controls/buttons/Button
          */
-        getButton : function(name)
-        {
+        getButton: function (name) {
             var list = this.$Buttons.getElements('[data-quiid]');
 
             for (var i = 0, len = list.length; i < len; i++) {
-                Control = QUI.Controls.getById( list[i].get('data-quiid') );
+                Control = QUI.Controls.getById(list[i].get('data-quiid'));
 
                 if (Control && Control.getAttribute('name') == name) {
                     return Control;
@@ -570,59 +556,56 @@ define('qui/controls/windows/Popup', [
          * @method qui/controls/windows/Popup#openSheet
          * @param {Function} onfinish - callback function
          */
-        openSheet : function(onfinish)
-        {
+        openSheet: function (onfinish) {
             var Sheet = new Element('div', {
-                'class' : 'qui-window-popup-sheet box',
-                html    : '<div class="qui-window-popup-sheet-content box"></div>' +
-                          '<div class="qui-window-popup-sheet-buttons box">' +
-                              '<div class="back button btn-white">' +
-                                  '<span>' +
-                                      Locale.get(
-                                          'qui/controls/windows/Popup',
-                                          'btn.back'
-                                      ) +
-                                  '</span>' +
-                              '</div>' +
-                          '</div>',
+                'class': 'qui-window-popup-sheet box',
+                html   : '<div class="qui-window-popup-sheet-content box"></div>' +
+                         '<div class="qui-window-popup-sheet-buttons box">' +
+                         '<div class="back button btn-white">' +
+                         '<span>' +
+                         Locale.get(
+                             'qui/controls/windows/Popup',
+                             'btn.back'
+                         ) +
+                         '</span>' +
+                         '</div>' +
+                         '</div>',
                 styles : {
-                    left : '-110%'
+                    left: '-110%'
                 }
-            }).inject( this.$Elm  );
+            }).inject(this.$Elm);
 
-            Sheet.getElement( '.back' ).addEvent(
+            Sheet.getElement('.back').addEvent(
                 'click',
-                function() {
-                    Sheet.fireEvent( 'close' );
+                function () {
+                    Sheet.fireEvent('close');
                 }
             );
 
-            Sheet.addEvent('close', function()
-            {
-                moofx( Sheet ).animate({
-                    left : '-100%'
+            Sheet.addEvent('close', function () {
+                moofx(Sheet).animate({
+                    left: '-100%'
                 }, {
-                    callback : function() {
+                    callback: function () {
                         Sheet.destroy();
                     }
                 });
             });
 
             // heights
-            var Content = Sheet.getElement( '.qui-window-popup-sheet-content' );
+            var Content = Sheet.getElement('.qui-window-popup-sheet-content');
 
             Content.setStyles({
-                height : Sheet.getSize().y - 80
+                height: Sheet.getSize().y - 80
             });
 
 
-
             // effect
-            moofx( Sheet ).animate({
-                left : 0
+            moofx(Sheet).animate({
+                left: 0
             }, {
-                callback : function() {
-                    onfinish( Content, Sheet );
+                callback: function () {
+                    onfinish(Content, Sheet);
                 }
             });
         }

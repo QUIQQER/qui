@@ -9,8 +9,7 @@
  * @require qui/utils/Controls
  * @require qui/utils/NoSelect
  * @require qui/utils/Elements
- *
- * @require css!qui/controls/buttons/Button.css
+ * @require [css!qui/controls/buttons/Button.css]
  *
  * @event onClick
  * @event onCreate
@@ -31,16 +30,20 @@
  * @event onEnable
  */
 
-define('qui/controls/buttons/Button', [
-
+var needle = [
     'qui/controls/Control',
     'qui/utils/Controls',
     'qui/utils/NoSelect',
-    'qui/controls/contextmenu/Item',
+    'qui/controls/contextmenu/Item'
+];
 
-    'css!qui/controls/buttons/Button.css'
+if (!("QUI" in window) ||
+    !window.QUI.getAttribute('control-buttons-dont-load-css')) {
+    needle.push('css!qui/controls/buttons/Button.css');
+}
 
-], function(Control, Utils, NoSelect, ContextMenuItem)
+
+define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect, ContextMenuItem)
 {
     "use strict";
 
