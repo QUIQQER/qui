@@ -50,13 +50,14 @@ define('qui/controls/buttons/Select', [
         ],
 
         options: {
-            name         : 'select-box',
-            'style'      : {},      // mootools css style attributes
-            'class'      : false,   // extra CSS Class
-            menuWidth    : 200,
-            menuMaxHeight: 300,
-            showIcons    : false,
-            placeholder  : ''
+            name           : 'select-box',
+            'style'        : {},      // mootools css style attributes
+            'class'        : false,   // extra CSS Class
+            menuWidth      : 200,
+            menuMaxHeight  : 300,
+            showIcons      : true,
+            placeholderText: false,
+            placeholderIcon: false
         },
 
         params: {},
@@ -70,12 +71,18 @@ define('qui/controls/buttons/Select', [
                 showIcons: this.getAttribute('showIcons')
             });
 
-            this.$Elm      = null;
-            this.$Select   = null;
             this.$value    = null;
             this.$disabled = false;
 
+            this.$Elm    = null;
+            this.$Select = null;
+            this.$Text   = null;
+            this.$Icon   = null;
+
             this.$children = [];
+
+            this.$placeholderText = this.getAttribute('placeholderText');
+            this.$placeholderIcon = this.getAttribute('placeholderIcon');
 
             this.addEvent('onDestroy', this.$onDestroy);
         },
@@ -102,6 +109,9 @@ define('qui/controls/buttons/Select', [
 
                 'data-quiid': this.getId()
             });
+
+            this.$Text = this.$Elm.getElement('.text');
+            this.$Icon = this.$Elm.getElement('.icon');
 
             if (this.getAttribute('showIcons') === false) {
                 this.$Elm.addClass('qui-select-no-icons');
@@ -144,10 +154,14 @@ define('qui/controls/buttons/Select', [
                 keyup: this.$onKeyUp
             });
 
+            this.$placeholderText = this.getAttribute('placeholderText');
+            this.$placeholderIcon = this.getAttribute('placeholderIcon');
+
             this.$Menu.inject(document.body);
             this.$Menu.hide();
 
             this.$Menu.getElm().addClass('qui-dropdown');
+
             this.$Menu.getElm().addEvent('mouseleave', function () {
                 var Option = self.$Menu.getChildren(
                     self.getAttribute('name') + self.getValue()
@@ -158,24 +172,15 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            if (this.$Elm.getStyle('width')) {
-                var width = this.$Elm.getStyle('width').toInt();
+            if (this.$placeholderText && this.$placeholderText !== '') {
 
-                this.$Elm.getElement('.text').setStyles({
-                    width   : width - 50,
-                    overflow: 'hidden'
-                });
-
-            } else {
-                (function () {
-                    var width = self.$Elm.getStyle('width').toInt();
-
-                    self.$Elm.getElement('.text').setStyles({
-                        width   : width - 50,
-                        overflow: 'hidden'
-                    });
-                }).delay(300);
+                this.appendChild(
+                    this.$placeholderText,
+                    '',
+                    this.$placeholderIcon || false
+                );
             }
+
 
             if (this.$children.length) {
 
@@ -199,6 +204,7 @@ define('qui/controls/buttons/Select', [
          * @return {Object} this (qui/controls/buttons/Select)
          */
         setValue: function (value) {
+
             var i, len;
             var children = this.$Menu.getChildren();
 
@@ -209,7 +215,46 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
+            if (!this.$Text) {
+                return this;
+            }
+
+            // placeholder
+            this.$Text.set('html', this.$placeholderText);
+
+            var Icon = this.$Elm.getElement('.icon');
+
+            if (this.$placeholderIcon && this.$placeholderIcon !== '') {
+
+                Icon.className = '';
+                Icon.addClass('icon');
+                Icon.setStyle('background', null);
+
+                if (Utils.isFontAwesomeClass(this.$placeholderIcon)) {
+                    Icon.addClass(this.$placeholderIcon);
+
+                } else {
+                    Icon.setStyle(
+                        'background',
+                        'url("' + this.$placeholderIcon + '") center center no-repeat'
+                    );
+                }
+
+            } else if (Icon) {
+                Icon.className = '';
+                Icon.addClass('icon');
+                Icon.setStyle('background', null);
+            }
+
             return this;
+        },
+
+        /**
+         * Reset the value
+         */
+        resetValue: function () {
+            this.$value = '';
+            this.setValue('');
         },
 
         /**
@@ -223,11 +268,13 @@ define('qui/controls/buttons/Select', [
         },
 
         /**
-         *
-         * @param text
+         * Set the placeholder text / image
+         * @param {String} text - Text
+         * @param {String} icon - Image : eq. "fa fa-home"
          */
-        setPlaceholder: function (text) {
-
+        setPlaceholder: function (text, icon) {
+            this.$placeholderText = text;
+            this.$placeholderIcon = icon;
         },
 
         /**
@@ -292,17 +339,19 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#clear
          */
         clear: function () {
-            this.$value = '';
+
             this.$Menu.clearChildren();
             this.$Select.set('html', '');
 
-            if (this.$Elm.getElement('.text')) {
-                this.$Elm.getElement('.text').set('html', '');
+            if (this.$Text) {
+                this.$Text.set('html', '');
             }
 
-            if (this.$Elm.getElement('.icon')) {
-                this.$Elm.getElement('.icon').setStyle('background', null);
+            if (this.$Icon) {
+                this.$Icon.setStyle('background', null);
             }
+
+            this.resetValue();
         },
 
         /**
@@ -419,23 +468,21 @@ define('qui/controls/buttons/Select', [
         $set: function (Item) {
             this.$value = Item.getAttribute('value');
 
-            if (this.$Elm.getElement('.text')) {
-                this.$Elm.getElement('.text')
-                    .set('html', Item.getAttribute('text'));
+            if (this.$Text) {
+                this.$Text.set('html', Item.getAttribute('text'));
             }
 
-            if (Item.getAttribute('icon') && this.$Elm.getElement('.icon')) {
-                var value = Item.getAttribute('icon'),
-                    Icon  = this.$Elm.getElement('.icon');
+            if (Item.getAttribute('icon') && this.$Icon) {
+                var value = Item.getAttribute('icon');
 
-                Icon.className = '';
-                Icon.addClass('icon');
-                Icon.setStyle('background', null);
+                this.$Icon.className = '';
+                this.$Icon.addClass('icon');
+                this.$Icon.setStyle('background', null);
 
                 if (Utils.isFontAwesomeClass(value)) {
-                    Icon.addClass(value);
+                    this.$Icon.addClass(value);
                 } else {
-                    Icon.setStyle(
+                    this.$Icon.setStyle(
                         'background',
                         'url("' + value + '") center center no-repeat'
                     );

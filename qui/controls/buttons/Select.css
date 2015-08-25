@@ -43,10 +43,15 @@
     float: left;
     height: 30px;
     line-height: 30px;
+    overflow: hidden;
+    padding-left: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc( 100% - 46px);
 }
 
-.qui-select-open {
-
+.qui-select-no-icons .text {
+    width: calc( 100% - 16px);
 }
 
 .qui-select-disable {

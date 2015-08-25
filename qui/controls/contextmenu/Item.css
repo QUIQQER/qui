@@ -46,6 +46,10 @@
     width: calc( 100% - 30px );
 }
 
+.no-icon .qui-contextitem-text {
+    width: 100%;
+}
+
 .qui-contextitem-active {
     background-color: #393f48;
     color: #FFFFFF;
