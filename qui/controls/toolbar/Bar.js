@@ -682,7 +682,9 @@ define('qui/controls/toolbar/Bar', [
                     return this;
 
                 default:
-                    return this;
+                    if (!QUI.Controls.isControl(Itm)) {
+                        return this;
+                    }
             }
 
             Itm.setParent( this );
