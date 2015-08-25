@@ -658,12 +658,12 @@ define('qui/controls/desktop/Panel', [
          * This is a button top of the panel
          *
          * @method qui/controls/desktop/Panel#addButton
-         * @param {Object} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Seperator | Object params
+         * @param {Object|HTMLElement} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Seperator | Object params
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         addButton : function(Btn)
         {
-            if ( !QUI.Controls.isControl( Btn ) )
+            if ( !QUI.Controls.isControl( Btn ) && typeOf(Btn) !== 'element' )
             {
                 if ( Btn.type == 'seperator' ||
                      Btn.type == 'QUI\\Controls\\Buttons\\Seperator' )
