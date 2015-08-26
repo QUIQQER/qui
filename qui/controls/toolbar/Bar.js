@@ -17,6 +17,7 @@
 
 define('qui/controls/toolbar/Bar', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
@@ -24,7 +25,7 @@ define('qui/controls/toolbar/Bar', [
 
     'css!qui/controls/toolbar/Bar.css'
 
-], function(Control, ContextMenu, ContextMenuItem, Button)
+], function(QUI, Control, ContextMenu, ContextMenuItem, Button)
 {
     "use strict";
 
@@ -682,7 +683,9 @@ define('qui/controls/toolbar/Bar', [
                     return this;
 
                 default:
-                    return this;
+                    if (!QUI.Controls.isControl(Itm)) {
+                        return this;
+                    }
             }
 
             Itm.setParent( this );
