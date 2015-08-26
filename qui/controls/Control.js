@@ -143,6 +143,10 @@ define('qui/controls/Control', [
 
             this.fireEvent( 'inject', [ this ] );
 
+            (function() {
+                this.$Elm.fireEvent('load');
+            }).delay(200, this);
+
             return this;
         },
 
@@ -165,6 +169,10 @@ define('qui/controls/Control', [
 
             this.$Elm.set( 'data-quiid', this.getId() );
             this.fireEvent( 'import', [ this, Elm ] );
+
+            (function() {
+                this.$Elm.fireEvent('load');
+            }).delay(200, this);
 
             return this;
         },
