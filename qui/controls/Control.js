@@ -144,7 +144,15 @@ define('qui/controls/Control', [
             this.fireEvent( 'inject', [ this ] );
 
             (function() {
-                this.$Elm.fireEvent('load');
+                try
+                {
+                    this.$Elm.fireEvent('load');
+                } catch (e) {
+                    if (this.getElm()) {
+                        this.getElm().fireEvent('load');
+                    }
+                }
+
             }).delay(200, this);
 
             return this;
@@ -170,9 +178,14 @@ define('qui/controls/Control', [
             this.$Elm.set( 'data-quiid', this.getId() );
             this.fireEvent( 'import', [ this, Elm ] );
 
-            (function() {
+            try
+            {
                 this.$Elm.fireEvent('load');
-            }).delay(200, this);
+            } catch (e) {
+                if (this.getElm()) {
+                    this.getElm().fireEvent('load');
+                }
+            }
 
             return this;
         },
