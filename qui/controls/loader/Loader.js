@@ -5,6 +5,7 @@
  * @module qui/controls/loader/Loader
  * @author www.pcsg.de (Henning Leutz)
  *
+ * @require qui/QUI
  * @require qui/controls/Control
  * @require qui/Locale
  * @require css!qui/controls/loader/Loader.css

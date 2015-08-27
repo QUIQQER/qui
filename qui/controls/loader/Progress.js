@@ -5,6 +5,7 @@
  * @module qui/controls/loader/Progress
  * @author www.pcsg.de (Henning Leutz)
  *
+ * @require qui/QUI
  * @require qui/controls/Control
  * @require css!qui/controls/loader/Progress.css
  *
