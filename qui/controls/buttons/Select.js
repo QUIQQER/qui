@@ -68,11 +68,17 @@ define('qui/controls/buttons/Select', [
             this.$Menu = new QUIMenu({
                 width    : this.getAttribute('menuWidth'),
                 maxHeight: this.getAttribute('menuMaxHeight'),
-                showIcons: this.getAttribute('showIcons')
+                showIcons: this.getAttribute('showIcons'),
+                events   : {
+                    onHide: function () {
+                        this.$opened = false;
+                    }.bind(this)
+                }
             });
 
             this.$value    = null;
             this.$disabled = false;
+            this.$opened   = false;
 
             this.$Elm    = null;
             this.$Select = null;
@@ -150,6 +156,7 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm.addEvents({
                 focus: this.open,
+                click: this.open,
                 blur : this.$onBlur,
                 keyup: this.$onKeyUp
             });
@@ -365,6 +372,10 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
+            if (this.$opened) {
+                return this;
+            }
+
             if (document.activeElement != this.getElm()) {
                 // because onclick and mouseup events makes a focus at the body
                 (function () {
@@ -373,6 +384,8 @@ define('qui/controls/buttons/Select', [
 
                 return this;
             }
+
+            this.$opened = true;
 
             var Elm     = this.getElm(),
                 MenuElm = this.$Menu.getElm(),
@@ -422,10 +435,12 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#close
          */
         close: function () {
-            if (document.activeElement == this.getElm()) {
-                document.body.focus();
+
+            if (this.$opened === false) {
+                return this;
             }
 
+            this.$opened = false;
             this.$onBlur();
         },
 
@@ -492,11 +507,7 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
-            if (document.activeElement == this.getElm()) {
-                document.body.focus();
-            } else {
-                this.$onBlur();
-            }
+            this.$onBlur();
 
             this.fireEvent('change', [this.$value, this]);
         },
