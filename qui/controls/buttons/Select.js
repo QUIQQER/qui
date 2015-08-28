@@ -422,7 +422,10 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#close
          */
         close: function () {
-            document.body.focus();
+            if (document.activeElement == this.getElm()) {
+                document.body.focus();
+            }
+
             this.$onBlur();
         },
 
@@ -489,7 +492,11 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
-            document.body.focus();
+            if (document.activeElement == this.getElm()) {
+                document.body.focus();
+            } else {
+                this.$onBlur();
+            }
 
             this.fireEvent('change', [this.$value, this]);
         },
