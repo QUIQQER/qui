@@ -1,4 +1,3 @@
-
 /**
  * The main message class
  *
@@ -19,8 +18,7 @@ define('qui/controls/messages/Message', [
 
     'css!qui/controls/messages/Message.css'
 
-], function(Control, Locale)
-{
+], function (Control, Locale) {
     "use strict";
 
     /**
@@ -30,31 +28,28 @@ define('qui/controls/messages/Message', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/messages/Message',
+        Extends: Control,
+        Type   : 'qui/controls/messages/Message',
 
         options: {
-            message  : '',
-            code     : 0,
-            time     : false,
-            cssclass : false,
-            styles   : false
+            message : '',
+            code    : 0,
+            time    : false,
+            cssclass: false,
+            styles  : false
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.$elements = [];
 
-            if ( !this.getAttribute( 'time' ) )
-            {
-                this.setAttribute( 'time', new Date() );
-            } else
-            {
+            if (!this.getAttribute('time')) {
+                this.setAttribute('time', new Date());
+            } else {
                 this.setAttribute(
                     'time',
-                    new Date( this.getAttribute( 'time' ) )
+                    new Date(this.getAttribute('time'))
                 );
             }
         },
@@ -65,21 +60,20 @@ define('qui/controls/messages/Message', [
          * @method qui/controls/messages/Message#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             this.$Elm = this.createMessageElement();
 
-            var Destroy = this.$Elm.getElement( '.messages-message-destroy' );
+            var Destroy = this.$Elm.getElement('.messages-message-destroy');
 
             Destroy.set({
-                title : Locale.get( 'quiqqer/qui', 'msg-handler-close-msg' )
+                title: Locale.get('quiqqer/qui', 'msg-handler-close-msg')
             });
 
-            Destroy.removeEvents( 'click' );
+            Destroy.removeEvents('click');
 
             Destroy.addEvent(
                 'click',
-                this.destroy.bind( this )
+                this.destroy.bind(this)
             );
 
             return this.$Elm;
@@ -92,9 +86,8 @@ define('qui/controls/messages/Message', [
          * @method qui/controls/messages/Message#getMessage
          * @return {String}
          */
-        getMessage : function()
-        {
-            return this.getAttribute( 'message' );
+        getMessage: function () {
+            return this.getAttribute('message');
         },
 
         /**
@@ -104,9 +97,8 @@ define('qui/controls/messages/Message', [
          * @method qui/controls/messages/Message#getCode
          * @return {Number}
          */
-        getCode : function()
-        {
-            return this.getAttribute( 'code' );
+        getCode: function () {
+            return this.getAttribute('code');
         },
 
         /**
@@ -115,54 +107,57 @@ define('qui/controls/messages/Message', [
          * @method qui/controls/messages/Message#createMessageElement
          * @return {HTMLElement}
          */
-        createMessageElement : function()
-        {
+        createMessageElement: function () {
             var self = this,
-                Time = this.getAttribute( 'time' );
+                Time = this.getAttribute('time');
 
             //var time = Time.toLocaleDateString() +' '+ Time.toLocaleTimeString();
 
             var time = ('0' + Time.getDate()).slice(-2) + '.' +
-                       ('0' + (Time.getMonth()+1)).slice(-2) + '.'+
+                       ('0' + (Time.getMonth() + 1)).slice(-2) + '.' +
                        Time.getFullYear();
 
+            var hours = ('0' + Time.getHours()).slice(-2);
+            var seconds = ('0' + Time.getSeconds()).slice(-2);
+
+            time = time +' '+ hours +':'+ seconds;
+
             var Elm = new Element('div', {
-                'class' : 'messages-message box',
-                html    : '<div class="messages-message-header">' +
-                              '<span>' + time + '</span>' +
-                              '<span class="messages-message-destroy icon-remove-circle"></span>' +
-                          '</div>' +
-                          '<div class="messages-message-text">' +
-                              this.getAttribute( 'message' ) +
-                          '</div>',
-                events :
-                {
-                    click : function() {
-                        self.fireEvent( 'click', [ self ] );
+                'class': 'messages-message box',
+                html   : '<div class="messages-message-header">' +
+                         '<span>' + time + '</span>' +
+                         '<span class="messages-message-destroy icon-remove-circle"></span>' +
+                         '</div>' +
+                         '<div class="messages-message-text">' +
+                         this.getAttribute('message') +
+                         '</div>',
+                events : {
+                    click: function () {
+                        self.fireEvent('click', [self]);
                     }
                 }
             });
 
-            if ( this.getAttribute( 'styles' ) ) {
-                Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                Elm.setStyles(this.getAttribute('styles'));
             }
 
-            if ( this.getAttribute( 'cssclass' ) ) {
-                Elm.addClass( this.getAttribute( 'cssclass' ) );
+            if (this.getAttribute('cssclass')) {
+                Elm.addClass(this.getAttribute('cssclass'));
             }
 
-            var Destroy = Elm.getElement( '.messages-message-destroy' );
+            var Destroy = Elm.getElement('.messages-message-destroy');
 
             Destroy.set({
-                title : Locale.get( 'qui/controls/messages', 'message.close' )
+                title: Locale.get('qui/controls/messages', 'message.close')
             });
 
-            Destroy.addEvent('click', function() {
+            Destroy.addEvent('click', function () {
                 self.fireEvent('destroy', [self]);
                 Elm.destroy();
             });
 
-            this.$elements.push( Elm );
+            this.$elements.push(Elm);
 
             return Elm;
         }
