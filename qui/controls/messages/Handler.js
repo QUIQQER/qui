@@ -389,8 +389,7 @@ define('qui/controls/messages/Handler', [
 
             this.$onResize();
 
-            window.addEvent('resize', this.$onResize);
-
+            QUI.addEvent('resize', this.$onResize);
 
             moofx(Container).animate({
                 left: 0

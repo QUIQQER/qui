@@ -22,3 +22,7 @@
 .qui-toolbar-button .qui-button-drop {
     display: none;
 }
+
+.qui-toolbar--responsive .qui-button-text {
+    display: none;
+}

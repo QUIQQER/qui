@@ -1,4 +1,3 @@
-
 /**
  * A Tool / Tabbar
  *
@@ -25,8 +24,7 @@ define('qui/controls/toolbar/Bar', [
 
     'css!qui/controls/toolbar/Bar.css'
 
-], function(QUI, Control, ContextMenu, ContextMenuItem, Button)
-{
+], function (QUI, Control, ContextMenu, ContextMenuItem, Button) {
     "use strict";
 
     /**
@@ -38,27 +36,26 @@ define('qui/controls/toolbar/Bar', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/toolbar/Bar',
+        Extends: Control,
+        Type   : 'qui/controls/toolbar/Bar',
 
-        Binds : [
+        Binds: [
             'toLeft',
             'toRight',
             '$onMousewheel'
         ],
 
-        options : {
-            height        : false,
-            slide         : true,
-            'menu-button' : true,
-            mousewheel    : true,
-            type          : 'tabbar',
-            width         : false,
-            vertical      : false
+        options: {
+            height       : false,
+            slide        : true,
+            'menu-button': true,
+            mousewheel   : true,
+            type         : 'tabbar',
+            width        : false,
+            vertical     : false
         },
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             this.Fx   = null;
             this.$Elm = null;
             this.Tabs = null;
@@ -75,7 +72,7 @@ define('qui/controls/toolbar/Bar', [
             this.moveLeft  = null;
             this.moveRight = null;
 
-            this.parent( options );
+            this.parent(options);
         },
 
         /**
@@ -83,34 +80,33 @@ define('qui/controls/toolbar/Bar', [
          *
          * @method qui/controls/toolbar/Bar#destroy
          */
-        destroy : function()
-        {
+        destroy: function () {
             var i, len;
 
-            for ( i = 0, len = this.items.length; i < len; i++ ) {
+            for (i = 0, len = this.items.length; i < len; i++) {
                 this.items[i].destroy();
             }
 
-            for ( i = 0, len = this.btns.length; i < len; i++ ) {
+            for (i = 0, len = this.btns.length; i < len; i++) {
                 this.btns[i].destroy();
             }
 
             this.items = [];
             this.btns  = [];
 
-            if ( this.$Elm ) {
+            if (this.$Elm) {
                 this.$Elm.destroy();
             }
 
-            if ( this.BtnLeft ) {
+            if (this.BtnLeft) {
                 this.BtnLeft.destroy();
             }
 
-            if ( this.BtnRight ) {
+            if (this.BtnRight) {
                 this.BtnRight.destroy();
             }
 
-            if ( this.Menu ) {
+            if (this.Menu) {
                 this.Menu.destroy();
             }
 
@@ -131,9 +127,8 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#refresh
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        refresh : function()
-        {
-            if ( !this.$Elm ) {
+        refresh: function () {
+            if (!this.$Elm) {
                 return this;
             }
 
@@ -142,32 +137,27 @@ define('qui/controls/toolbar/Bar', [
             var items = this.items;
 
             // items create
-            this.Tabs.set( 'html', '' );
+            this.Tabs.set('html', '');
 
-            for ( i = 0, len = items.length; i < len; i++ )
-            {
+            for (i = 0, len = items.length; i < len; i++) {
                 Itm = items[i];
-                Itm.inject( this.Tabs );
+                Itm.inject(this.Tabs);
 
                 this.Menu.appendChild(
-                    this.$addContextMenuItm( Itm )
+                    this.$addContextMenuItm(Itm)
                 );
             }
 
-            if ( this.getAttribute( 'menu-button' ) === true )
-            {
+            if (this.getAttribute('menu-button') === true) {
                 this.Menu.show();
-            } else
-            {
+            } else {
                 this.Menu.hide();
             }
 
-            if ( this.getAttribute( 'slide' ) === true )
-            {
+            if (this.getAttribute('slide') === true) {
                 this.BtnLeft.show();
                 this.BtnRight.show();
-            } else
-            {
+            } else {
                 this.BtnLeft.hide();
                 this.BtnRight.hide();
             }
@@ -183,10 +173,8 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
-            if ( this.$Elm )
-            {
+        create: function () {
+            if (this.$Elm) {
                 this.refresh();
 
                 return this.$Elm;
@@ -194,67 +182,66 @@ define('qui/controls/toolbar/Bar', [
 
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-toolbar',
-                'data-quiid' : this.getId(),
+                'class'     : 'qui-toolbar',
+                'data-quiid': this.getId(),
 
-                'html' : '<div class="qui-toolbar-container">' +
-                    '<div class="qui-toolbar-tabs"></div>' +
-                '</div>'
+                'html': '<div class="qui-toolbar-container">' +
+                        '<div class="qui-toolbar-tabs"></div>' +
+                        '</div>'
             });
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            this.Tabs      = this.$Elm.getElement( '.qui-toolbar-tabs' );
-            this.Container = this.$Elm.getElement( '.qui-toolbar-container' );
+            this.Tabs      = this.$Elm.getElement('.qui-toolbar-tabs');
+            this.Container = this.$Elm.getElement('.qui-toolbar-container');
 
-            if ( this.getAttribute( 'mousewheel' ) )
-            {
+            if (this.getAttribute('mousewheel')) {
                 this.Container.addEvents({
-                    mousewheel : this.$onMousewheel
+                    mousewheel: this.$onMousewheel
                 });
             }
 
             // left / right
             this.BtnLeft = new Button({
-                name    : 'toLeft',
-                'class' : 'qui-toolbar-button icon-chevron-left fa fa-icon-chevron-left',
-                events  : {
-                    onClick : this.toLeft
+                name   : 'toLeft',
+                'class': 'qui-toolbar-button icon-chevron-left fa fa-icon-chevron-left',
+                events : {
+                    onClick: this.toLeft
                 }
             });
 
             this.BtnRight = new Button({
-                name    : 'toRight',
-                'class' : 'qui-toolbar-button icon-chevron-right fa fa-icon-chevron-right',
-                events  : {
-                    onClick : this.toRight
+                name   : 'toRight',
+                'class': 'qui-toolbar-button icon-chevron-right fa fa-icon-chevron-right',
+                events : {
+                    onClick: this.toRight
                 }
             });
 
             // create the left context menu
             this.Menu = new Button({
-                'class' : 'qui-toolbar-button icon-chevron-down fa fa-icon-chevron-down'
+                'class': 'qui-toolbar-button icon-chevron-down fa fa-icon-chevron-down'
             });
 
-            this.Menu.setParent( this );
-            this.Menu.inject( this.$Elm, 'top' );
+            this.Menu.setParent(this);
+            this.Menu.inject(this.$Elm, 'top');
 
             // create the slide buttons
-            this.BtnLeft.inject( this.$Elm, 'top' );
-            this.BtnRight.inject( this.$Elm );
+            this.BtnLeft.inject(this.$Elm, 'top');
+            this.BtnRight.inject(this.$Elm);
 
             this.Tabs.setStyles({
-                'float'  : 'left',
-                left     : 0,
-                position : 'relative',
-                top      : 0
+                'float' : 'left',
+                left    : 0,
+                position: 'relative',
+                top     : 0
             });
 
             this.refresh();
 
-            this.Fx = moofx( this.Tabs );
+            this.Fx = moofx(this.Tabs);
 
             return this.$Elm;
         },
@@ -265,26 +252,24 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#clear
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        clear : function()
-        {
-            if ( !this.Tabs )
-            {
-                this.fireEvent( 'clear', [ this ] );
+        clear: function () {
+            if (!this.Tabs) {
+                this.fireEvent('clear', [this]);
 
                 return this;
             }
 
             var i, len;
 
-            for ( i = 0, len = this.items.length; i < len; i++ ) {
-                this.items[ i ].destroy();
+            for (i = 0, len = this.items.length; i < len; i++) {
+                this.items[i].destroy();
             }
 
-            for ( i = 0, len = this.btns.length; i < len; i++ ) {
-                this.btns[ i ].destroy();
+            for (i = 0, len = this.btns.length; i < len; i++) {
+                this.btns[i].destroy();
             }
 
-            this.Tabs.set( 'html', '' );
+            this.Tabs.set('html', '');
 
             delete this.items;
             delete this.Active;
@@ -294,22 +279,21 @@ define('qui/controls/toolbar/Bar', [
             this.Active = null;
 
 
-            if ( this.Menu )
-            {
+            if (this.Menu) {
                 this.Menu.clear();
                 this.Menu.setDisable();
             }
 
-            if ( this.moveLeft ) {
+            if (this.moveLeft) {
                 this.moveLeft.setDisable();
             }
 
-            if ( this.moveRight ) {
+            if (this.moveRight) {
                 this.moveRight.setDisable();
             }
 
-            this.Tabs.setStyle( 'left', 0 );
-            this.fireEvent( 'clear', [ this ] );
+            this.Tabs.setStyle('left', 0);
+            this.fireEvent('clear', [this]);
 
             return this;
         },
@@ -320,11 +304,10 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#hide
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        hide : function()
-        {
+        hide: function () {
             this.$Elm.setStyles({
-                'height'   : 0,
-                'overflow' : 'hidden'
+                'height'  : 0,
+                'overflow': 'hidden'
             });
 
             return this;
@@ -336,10 +319,9 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#show
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        show : function()
-        {
-            this.$Elm.setStyle( 'height', null );
-            this.$Elm.setStyle( 'overflow', null );
+        show: function () {
+            this.$Elm.setStyle('height', null);
+            this.$Elm.setStyle('overflow', null);
 
             return this;
         },
@@ -350,14 +332,13 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#toLeft
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toLeft : function()
-        {
-            if ( !this.Fx ) {
+        toLeft: function () {
+            if (!this.Fx) {
                 return this;
             }
 
             this.Fx.animate({
-                left : 0
+                left: 0
             });
 
             return this;
@@ -369,16 +350,15 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#toRight
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toRight : function()
-        {
+        toRight: function () {
             var left = this.Tabs.offsetLeft - 150;
 
-            if ( left < ((this.Tabs.offsetWidth-150) * -1) ) {
+            if (left < ((this.Tabs.offsetWidth - 150) * -1)) {
                 left = 0;
             }
 
             this.Fx.animate({
-                left : left
+                left: left
             });
 
             return this;
@@ -389,24 +369,23 @@ define('qui/controls/toolbar/Bar', [
          *
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollUp : function()
-        {
-            if ( !this.getAttribute( 'vertical' ) ) {
+        scrollUp: function () {
+            if (!this.getAttribute('vertical')) {
                 return this;
             }
 
 
-            var top = this.Tabs.getStyle( 'top').toInt() + 150;
+            var top = this.Tabs.getStyle('top').toInt() + 150;
 
-            if ( top >= 0 ) {
+            if (top >= 0) {
                 top = 0;
             }
 
             this.Fx.animate({
-                top : top
+                top: top
             }, {
-                duration : 250,
-                equation : 'ease-out'
+                duration: 250,
+                equation: 'ease-out'
             });
 
 
@@ -418,9 +397,8 @@ define('qui/controls/toolbar/Bar', [
          *
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollDown : function()
-        {
-            if ( !this.getAttribute( 'vertical' ) ) {
+        scrollDown: function () {
+            if (!this.getAttribute('vertical')) {
                 return this;
             }
 
@@ -428,22 +406,22 @@ define('qui/controls/toolbar/Bar', [
             var tabsSize = this.Tabs.getSize(),
                 conSize  = this.Container.getSize();
 
-            if ( conSize.y >= tabsSize.y ) {
+            if (conSize.y >= tabsSize.y) {
                 return this;
             }
 
             var maxScroll = conSize.y - tabsSize.y,
-                top       = this.Tabs.getStyle( 'top' ).toInt() - 150;
+                top       = this.Tabs.getStyle('top').toInt() - 150;
 
-            if ( maxScroll > top ) {
+            if (maxScroll > top) {
                 top = maxScroll;
             }
 
             this.Fx.animate({
-                top : top
+                top: top
             }, {
-                duration : 250,
-                equation : 'ease-out'
+                duration: 250,
+                equation: 'ease-out'
             });
 
             return this;
@@ -456,22 +434,20 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Tab - qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toTab : function(Tab)
-        {
-            if ( this.getAttribute( 'slide' ) === false ) {
+        toTab: function (Tab) {
+            if (this.getAttribute('slide') === false) {
                 return this;
             }
 
-            if ( !this.$Elm ) {
+            if (!this.$Elm) {
                 return this;
             }
 
             // this.Fx.stop();
 
-            if ( Tab == this.firstChild() )
-            {
+            if (Tab == this.firstChild()) {
                 this.Fx.animate({
-                    left : 0
+                    left: 0
                 });
 
                 return this;
@@ -480,28 +456,26 @@ define('qui/controls/toolbar/Bar', [
             var needle;
 
             var TabElm    = Tab.getElm(),
-                Container = this.$Elm.getElement( '.qui-toolbar-container' ),
-                Tabs      = this.$Elm.getElement( '.qui-toolbar-tabs' ),
+                Container = this.$Elm.getElement('.qui-toolbar-container'),
+                Tabs      = this.$Elm.getElement('.qui-toolbar-tabs'),
 
-                left      = Tabs.getStyle( 'left' ).toInt() + TabElm.offsetLeft,
+                left      = Tabs.getStyle('left').toInt() + TabElm.offsetLeft,
                 pos       = TabElm.offsetLeft + TabElm.offsetWidth;
 
-            if ( left < 0 )
-            {
+            if (left < 0) {
                 this.Fx.animate({
-                    left : Tabs.getStyle('left').toInt() + ( left*-1 ) + 20
+                    left: Tabs.getStyle('left').toInt() + ( left * -1 ) + 20
                 });
 
                 return this;
             }
 
             // verschieben nach links
-            if ( pos > Container.offsetWidth )
-            {
+            if (pos > Container.offsetWidth) {
                 needle = pos - Container.offsetWidth;
 
                 this.Fx.animate({
-                    left : (needle + 20) * -1
+                    left: (needle + 20) * -1
                 });
 
                 return this;
@@ -516,9 +490,8 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#firstChild
          * @return {Object} qui/controls/Control
          */
-        firstChild : function()
-        {
-            return this.items[ 0 ];
+        firstChild: function () {
+            return this.items[0];
         },
 
         /**
@@ -527,9 +500,8 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#lastChild
          * @return {Object} qui/controls/Control
          */
-        lastChild : function()
-        {
-            return this.items[ this.items.length - 1 ];
+        lastChild: function () {
+            return this.items[this.items.length - 1];
         },
 
         /**
@@ -540,10 +512,9 @@ define('qui/controls/toolbar/Bar', [
          *                          if no name given, all children will be return
          * @return {Array}
          */
-        getChildren : function(name)
-        {
-            if ( typeof name !== 'undefined' ) {
-                return this.getElement( name );
+        getChildren: function (name) {
+            if (typeof name !== 'undefined') {
+                return this.getElement(name);
             }
 
             return this.items;
@@ -555,8 +526,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#count
          * @return {Number}
          */
-        count : function()
-        {
+        count: function () {
             return this.items.length;
         },
 
@@ -567,23 +537,20 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Child - qui/controls/Control
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        removeChild : function(Child)
-        {
+        removeChild: function (Child) {
             var i, len;
 
             var nitms     = [],
                 itms      = this.items,
-                childname = Child.getAttribute( 'name' );
+                childname = Child.getAttribute('name');
 
-            for ( i = 0, len = itms.length; i < len; i++ )
-            {
-                if ( itms[ i ].getAttribute( 'name' ) != childname )
-                {
-                    nitms.push( itms[ i ] );
+            for (i = 0, len = itms.length; i < len; i++) {
+                if (itms[i].getAttribute('name') != childname) {
+                    nitms.push(itms[i]);
                     continue;
                 }
 
-                itms[ i ].destroy();
+                itms[i].destroy();
             }
 
             this.items = nitms;
@@ -600,28 +567,25 @@ define('qui/controls/toolbar/Bar', [
          *
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        moveChildToPos : function(Child, pos)
-        {
+        moveChildToPos: function (Child, pos) {
             // Array anpassen
             var nitems = [],
                 itms   = this.items;
 
-            for ( var i = 0, len = itms.length; i < len; i++ )
-            {
-                if ( Child == itms[ i ] )
-                {
-                    itms[ i ].destroy();
+            for (var i = 0, len = itms.length; i < len; i++) {
+                if (Child == itms[i]) {
+                    itms[i].destroy();
                     continue;
                 }
 
-                nitems.push( itms[ i ] );
+                nitems.push(itms[i]);
             }
 
-            nitems.splice(pos-1, 0, Child);
+            nitems.splice(pos - 1, 0, Child);
 
             // Element nach dem davor schieben
-            if ( pos-2 >= 0 ) {
-                nitems[ pos-2 ].getElm().inject( Child.create(), 'after' );
+            if (pos - 2 >= 0) {
+                nitems[pos - 2].getElm().inject(Child.create(), 'after');
             }
 
             this.items = nitems;
@@ -636,17 +600,14 @@ define('qui/controls/toolbar/Bar', [
          * @param {String} name - name of the wanted Element
          * @return {null|Object} null | qui/controls/Control
          */
-        getElement : function(name)
-        {
+        getElement: function (name) {
             var i, len;
             var items = this.items;
 
-            for ( i = 0, len = items.length; i < len; i++ )
-            {
-                if ( items[ i ] &&
-                     items[ i ].getAttribute( 'name' ) == name )
-                {
-                    return items[ i ];
+            for (i = 0, len = items.length; i < len; i++) {
+                if (items[i] &&
+                    items[i].getAttribute('name') == name) {
+                    return items[i];
                 }
             }
 
@@ -660,26 +621,24 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Itm - qui/controls/buttons/Button | qui/controls/buttons/Seperator | qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        appendChild : function(Itm)
-        {
-            if ( typeof Itm === 'undefined' ) {
+        appendChild: function (Itm) {
+            if (typeof Itm === 'undefined') {
                 return this;
             }
 
             var self = this,
-                type = typeOf( Itm );
+                type = typeOf(Itm);
 
-            switch ( type )
-            {
+            switch (type) {
                 case 'qui/controls/buttons/Button':
                 case 'qui/controls/buttons/Select':
                 case 'qui/controls/buttons/Seperator':
                 case 'qui/controls/toolbar/Tab':
                     // nothing
-                break;
+                    break;
 
                 case 'element':
-                    Itm.inject( this.Tabs );
+                    Itm.inject(this.Tabs);
                     return this;
 
                 default:
@@ -688,25 +647,23 @@ define('qui/controls/toolbar/Bar', [
                     }
             }
 
-            Itm.setParent( this );
+            Itm.setParent(this);
 
-            if ( type == 'qui/controls/toolbar/Tab' )
-            {
-                Itm.addEvent('click', function(Item) {
-                    self.toTab( Item );
+            if (type == 'qui/controls/toolbar/Tab') {
+                Itm.addEvent('click', function (Item) {
+                    self.toTab(Item);
                 });
             }
 
 
-            this.fireEvent( 'appendChild', [ this, Itm ] );
+            this.fireEvent('appendChild', [this, Itm]);
 
             // Falls Toolbar eine Tabbar ist, Buttons an vorletzter Stelle
-            if ( this.getAttribute( 'type' ) === 'tabbar' &&
-                 Itm.getType() === 'qui/controls/buttons/Button' )
-            {
-                this.btns.push( Itm );
+            if (this.getAttribute('type') === 'tabbar' &&
+                Itm.getType() === 'qui/controls/buttons/Button') {
+                this.btns.push(Itm);
 
-                Itm.inject( this.BtnRight.getElm(), 'before' );
+                Itm.inject(this.BtnRight.getElm(), 'before');
 
                 var Con = this.Container,
                     Btn = Itm.getElm();
@@ -720,33 +677,34 @@ define('qui/controls/toolbar/Bar', [
             }
 
             // start the normal toolbar
-            this.items.push( Itm );
+            this.items.push(Itm);
 
-            if ( !this.$Elm ) {
+            if (!this.$Elm) {
                 return this;
             }
 
-            Itm.inject( this.Tabs );
+            Itm.inject(this.Tabs);
 
-            if ( this.Menu )
-            {
+            if (this.Menu) {
                 this.Menu.appendChild(
-                    this.$addContextMenuItm( Itm )
+                    this.$addContextMenuItm(Itm)
                 );
             }
 
             // neue Breite berechnen
-            this.resize();
+            if (this.$Elm) {
+                this.resize();
+            }
 
-            if ( this.Menu ) {
+            if (this.Menu) {
                 this.Menu.setEnable();
             }
 
-            if ( this.BtnLeft ) {
+            if (this.BtnLeft) {
                 this.BtnLeft.setEnable();
             }
 
-            if ( this.BtnRight ) {
+            if (this.BtnRight) {
                 this.BtnRight.setEnable();
             }
 
@@ -760,14 +718,12 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Child - qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        setItemActive : function(Child)
-        {
-            if ( this.Active )
-            {
+        setItemActive: function (Child) {
+            if (this.Active) {
                 this.Active.leave();
                 this.Active.setNormal();
 
-                if ( this.Active.getAttribute('ContextMenuItem') ) {
+                if (this.Active.getAttribute('ContextMenuItem')) {
                     this.Active.getAttribute('ContextMenuItem').getElm().setStyle('fontWeight', '');
                 }
             }
@@ -775,7 +731,7 @@ define('qui/controls/toolbar/Bar', [
             this.Active = Child;
             this.Active.setActive();
 
-            if ( this.Active.getAttribute('ContextMenuItem') ) {
+            if (this.Active.getAttribute('ContextMenuItem')) {
                 this.Active.getAttribute('ContextMenuItem').getElm().setStyle('fontWeight', 'bold');
             }
 
@@ -788,8 +744,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#getActive
          * @return {null|Object} null | qui/controls/Control
          */
-        getActive : function()
-        {
+        getActive: function () {
             return this.Active;
         },
 
@@ -799,71 +754,85 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#resize
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        resize : function()
-        {
-            if ( !this.getElm() ) {
+        resize: function () {
+            if (!this.getElm()) {
                 return this;
             }
 
             var width = 0;
 
             // tab width
-            if ( this.getAttribute( 'vertical' ) )
-            {
-                if ( this.getAttribute('width') )
-                {
+            if (this.getAttribute('vertical')) {
+                if (this.getAttribute('width')) {
                     width = this.getAttribute('width');
 
-                    this.Tabs.setStyle( 'width', width );
-                    this.Container.setStyle( 'width', width );
-                    this.getElm().setStyle( 'width', width );
+                    this.Tabs.setStyle('width', width);
+                    this.Container.setStyle('width', width);
+                    this.getElm().setStyle('width', width);
                 }
 
-            } else
-            {
+            } else {
+                // standard toolbar
                 var i, len;
 
                 var cwidth = 0,
                     itms   = this.Tabs.getChildren();
 
-                if ( this.getAttribute('width') &&
-                     this.getAttribute('width').toString().contains('%') === false )
-                {
-                    for ( i = 0, len = itms.length; i < len; i++ ) {
-                        width = width + ( itms[ i ].getSize().x.toInt() ) + 30;
+                if (this.getAttribute('width') &&
+                    this.getAttribute('width').toString().contains('%') === false) {
+                    for (i = 0, len = itms.length; i < len; i++) {
+                        width = width + ( itms[i].getSize().x.toInt() ) + 30;
                     }
 
                     cwidth = ( this.getAttribute('width') ).toInt();
 
-                    if ( this.getAttribute('slide') )
-                    {
+                    if (this.getAttribute('slide')) {
                         cwidth = cwidth -
-                        this.BtnLeft.getElm().getComputedSize().totalWidth -
-                        this.BtnRight.getElm().getComputedSize().totalWidth;
+                                 this.BtnLeft.getElm().getComputedSize().totalWidth -
+                                 this.BtnRight.getElm().getComputedSize().totalWidth;
                     }
 
-                    if ( this.getAttribute('menu-button') ) {
+                    if (this.getAttribute('menu-button')) {
                         cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
                     }
 
-                } else
-                {
+                } else {
                     cwidth = '100%';
 
-                    if ( !this.getAttribute( 'menu-button' ) &&
-                         !this.getAttribute( 'slide' ) )
-                    {
+                    if (!this.getAttribute('menu-button') && !this.getAttribute('slide')) {
                         width = '100%';
                     }
                 }
 
-                this.Tabs.setStyle( 'width', width );
-                this.Container.setStyle( 'width', cwidth );
-                this.getElm().setStyle( 'width', this.getAttribute( 'width' ) );
+                this.Tabs.setStyle('width', width);
+                this.Container.setStyle('width', cwidth);
+                this.getElm().setStyle('width', this.getAttribute('width'));
+
+                // responsive check
+                var containerSize = this.Tabs.getSize();
+                var elmSize       = this.getElm().getSize();
+
+                console.info(this.Tabs);
+                console.info(this.Container.getScrollSize());
+                console.info(this.Tabs.get('text'));
+                console.log(containerSize);
+
+                if (width == '100%' &&
+                    (containerSize.x > elmSize.x || containerSize.y > elmSize.y)
+                ) {
+                    console.log('responsive');
+
+                    this.Tabs.addClass('qui-toolbar--responsive');
+                } else {
+
+                    console.log('none');
+
+                    this.Tabs.removeClass('qui-toolbar--responsive');
+                }
             }
 
-            if ( this.getAttribute( 'height' ) ) {
-                this.Container.setStyle( 'height', this.getAttribute( 'height' ) );
+            if (this.getAttribute('height')) {
+                this.Container.setStyle('height', this.getAttribute('height'));
             }
 
             return this;
@@ -876,24 +845,22 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} qui/controls/contextmenu/Item
          * @ignore
          */
-        $addContextMenuItm : function(Itm)
-        {
+        $addContextMenuItm: function (Itm) {
             var MenuItem = new ContextMenuItem(
                 Itm.getAttributes()
             );
 
-            MenuItem.setAttribute( 'TAB', Itm );
-            MenuItem.setAttribute( 'Toolbar', this );
+            MenuItem.setAttribute('TAB', Itm);
+            MenuItem.setAttribute('Toolbar', this);
 
-            Itm.setAttribute( 'ContextMenuItem', MenuItem );
+            Itm.setAttribute('ContextMenuItem', MenuItem);
 
-            MenuItem.addEvent('onMouseDown', function(Itm)
-            {
-                var Tab     = Itm.getAttribute( 'TAB' ),
-                    Toolbar = Itm.getAttribute( 'Toolbar' );
+            MenuItem.addEvent('onMouseDown', function (Itm) {
+                var Tab     = Itm.getAttribute('TAB'),
+                    Toolbar = Itm.getAttribute('Toolbar');
 
                 Tab.click();
-                Toolbar.toTab( Tab );
+                Toolbar.toTab(Tab);
             });
 
             return MenuItem;
@@ -903,17 +870,15 @@ define('qui/controls/toolbar/Bar', [
          * on : mousewheel event
          * @param {DOMEvent} event - DOM Event
          */
-        $onMousewheel : function(event)
-        {
+        $onMousewheel: function (event) {
             // Mousewheel UP
-            if ( event.wheel > 0 )
-            {
+            if (event.wheel > 0) {
                 this.scrollUp();
                 return;
             }
 
             // Mousewheel DOWN
-            if ( event.wheel < 0 ) {
+            if (event.wheel < 0) {
                 this.scrollDown();
             }
         }

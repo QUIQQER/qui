@@ -1,4 +1,3 @@
-
 /**
  * The Main Class for the Main QUI Object
  *
@@ -12,6 +11,7 @@
  * @require qui/lib/polyfills/Promise
  *
  * @event onError : if there is an error
+ * @event onResize : globale window resize event
  */
 
 define('qui/classes/QUI', [
@@ -21,10 +21,11 @@ define('qui/classes/QUI', [
     'qui/classes/Controls',
     'qui/classes/Windows',
     'qui/classes/storage/Storage',
-    'qui/lib/polyfills/Promise'
+    'qui/utils/Functions',
+    'qui/lib/polyfills/Promise',
+    'qui/lib/polyfills/AnimationFrame'
 
-], function(require, DOM, Controls, Windows, Storage)
-{
+], function (require, DOM, Controls, Windows, Storage, QUIFunctionUtils) {
     "use strict";
 
     /**
@@ -36,42 +37,68 @@ define('qui/classes/QUI', [
      */
     return new Class({
 
-        Extends : DOM,
-        Type    : 'qui/classes/QUI',
+        Extends: DOM,
+        Type   : 'qui/classes/QUI',
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             /**
              * defaults
              */
             this.setAttributes({
-                'debug'       : false,
-                'fetchErrors' : true
+                'debug'      : false,
+                'fetchErrors': true
             });
 
-            this.parent( options );
+            this.parent(options);
+
+            this.$winSize = {
+                x: 0,
+                y: 0
+            };
 
             // error handling
-            if ( this.getAttribute('fetchErrors') )
-            {
+            if (this.getAttribute('fetchErrors')) {
                 var self = this;
 
-                require.onError = function(requireType, requireModules)
-                {
+                require.onError = function (requireType, requireModules) {
                     self.trigger(
-                        'ERROR :'+ requireType +'\n'+
-                        'Require :'+ requireModules
+                        'ERROR :' + requireType + '\n' +
+                        'Require :' + requireModules
                     );
                 };
 
-                window.onerror = this.trigger.bind( this );
+                window.onerror = this.trigger.bind(this);
             }
 
             this.Controls = new Controls();
-            this.Windows = new Windows();
+            this.Windows  = new Windows();
             this.Storage  = new Storage();
 
+            // global resize event
+            if (typeof window !== 'undefined') {
+
+                window.addEvent('resize', QUIFunctionUtils.debounce(function () {
+
+                    window.requestAnimationFrame(function () {
+                        this.$winSize = window.getSize();
+                        this.fireEvent('resize', [this]);
+                    }.bind(this));
+
+                }.bind(this), 100));
+            }
+
             this.MessageHandler = null;
+        },
+
+        /**
+         * Return the current win size
+         * Please use QUI.getWinSize() and make not 1000 document.getSize() calls
+         *
+         * @method qui/classes/QUI#getWindowSize
+         * @returns {{x: number, y: number}|*}
+         */
+        getWindowSize: function () {
+            return this.$winSize;
         },
 
         /**
@@ -82,31 +109,28 @@ define('qui/classes/QUI', [
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
          * @deprecated
          */
-        namespace : function()
-        {
+        namespace: function () {
             var tlen;
 
-            var a = arguments,
-                o = this,
-                i = 0,
-                j = 0,
+            var a    = arguments,
+                o    = this,
+                i    = 0,
+                j    = 0,
 
                 len  = a.length,
                 tok  = null,
                 name = null;
 
             // iterate on the arguments
-            for ( ; i < len; i = i + 1 )
-            {
-                tok  = a[ i ].split( "." );
+            for (; i < len; i = i + 1) {
+                tok  = a[i].split(".");
                 tlen = tok.length;
 
                 // iterate on the object tokens
-                for ( j = 0; j < tlen; j = j + 1 )
-                {
-                    name = tok[j];
-                    o[ name ] = o[ name ] || {};
-                    o = o[ name ];
+                for (j = 0; j < tlen; j = j + 1) {
+                    name    = tok[j];
+                    o[name] = o[name] || {};
+                    o       = o[name];
                 }
             }
 
@@ -120,19 +144,16 @@ define('qui/classes/QUI', [
          * @param {Function} [callback] - optional
          * @return Promise
          */
-        parse : function(Parent, callback)
-        {
-            return new Promise(function(resolve, reject)
-            {
-                if ( typeof Parent === 'undefined' ) {
+        parse: function (Parent, callback) {
+            return new Promise(function (resolve, reject) {
+                if (typeof Parent === 'undefined') {
                     Parent = document.body;
                 }
 
-                if ( typeOf( Parent ) !== 'element' )
-                {
+                if (typeOf(Parent) !== 'element') {
                     resolve();
 
-                    if ( typeof callback !== 'undefined' ) {
+                    if (typeof callback !== 'undefined') {
                         callback();
                     }
 
@@ -140,57 +161,52 @@ define('qui/classes/QUI', [
                 }
 
                 // parse all qui controls
-                var nodes = document.id( Parent ).getElements('[data-qui]'),
-                    list  = nodes.map(function(Elm) {
+                var nodes = document.id(Parent).getElements('[data-qui]'),
+                    list  = nodes.map(function (Elm) {
                         return Elm.get('data-qui');
                     });
 
                 // cleanup -> empty data-qui
-                list = list.filter(function(item) {
+                list = list.filter(function (item) {
                     return item !== '';
                 }).clean();
 
-                nodes = nodes.filter(function(Elm) {
+                nodes = nodes.filter(function (Elm) {
                     return Elm.get('data-qui') !== '';
                 }).clean();
 
-                require(list, function()
-                {
+                require(list, function () {
                     var i, len, Cls, Elm;
 
                     var formNodes = {
-                        'TEXTAREA' : true,
-                        'INPUT'    : true
+                        'TEXTAREA': true,
+                        'INPUT'   : true
                     };
 
-                    for ( i = 0, len = list.length; i < len; i++ )
-                    {
-                        Cls = arguments[ i ];
-                        Elm = nodes[ i ];
+                    for (i = 0, len = list.length; i < len; i++) {
+                        Cls = arguments[i];
+                        Elm = nodes[i];
 
                         // already initialized
                         if (Elm.get('data-quiid')) {
                             continue;
                         }
 
-                        if (typeof formNodes[ Elm.nodeName ] !== 'undefined' ||
-                            Elm.get('html').trim() !== '')
-                        {
-                            new Cls().imports( Elm );
-                        } else
-                        {
-                            new Cls().replaces( Elm );
+                        if (typeof formNodes[Elm.nodeName] !== 'undefined' ||
+                            Elm.get('html').trim() !== '') {
+                            new Cls().imports(Elm);
+                        } else {
+                            new Cls().replaces(Elm);
                         }
                     }
 
                     resolve();
 
-                    if ( typeof callback !== 'undefined' ) {
+                    if (typeof callback !== 'undefined') {
                         callback();
                     }
 
-                }, function(err)
-                {
+                }, function (err) {
                     reject(err);
                 });
             });
@@ -204,9 +220,8 @@ define('qui/classes/QUI', [
          * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
          * @return {Object} this (qui/classes/QUI)
          */
-        triggerError : function(Exception)
-        {
-            return this.trigger( Exception.getMessage(), '', 0 );
+        triggerError: function (Exception) {
+            return this.trigger(Exception.getMessage(), '', 0);
         },
 
         /**
@@ -220,14 +235,13 @@ define('qui/classes/QUI', [
          *
          * @return {Object} this (qui/classes/QUI)
          */
-        trigger : function(msg, url, linenumber)
-        {
+        trigger: function (msg, url, linenumber) {
             /*
-            var message = msg +"\n"+
-                          "File: "+ url +"\n"+
-                          "Linenumber: "+ linenumber;
-            */
-            this.fireEvent( 'error', [ msg, url, linenumber ] );
+             var message = msg +"\n"+
+             "File: "+ url +"\n"+
+             "Linenumber: "+ linenumber;
+             */
+            this.fireEvent('error', [msg, url, linenumber]);
 
             return this;
         },
@@ -239,14 +253,11 @@ define('qui/classes/QUI', [
          * @param {Function} [callback] - optional, callback function
          * @return Promise
          */
-        getMessageHandler : function(callback)
-        {
+        getMessageHandler: function (callback) {
             var self = this;
 
-            return new Promise(function(resolve, reject)
-            {
-                if (typeof self.$execGetMessageHandler !== 'undefined' && !self.MessageHandler)
-                {
+            return new Promise(function (resolve, reject) {
+                if (typeof self.$execGetMessageHandler !== 'undefined' && !self.MessageHandler) {
                     self.$execGetMessageHandler = true;
 
                     (function () {
@@ -258,25 +269,23 @@ define('qui/classes/QUI', [
 
                 self.$execGetMessageHandler = true;
 
-                if (self.MessageHandler)
-                {
-                    if ( typeOf(callback)=== 'function' ) {
-                        callback( self.MessageHandler );
+                if (self.MessageHandler) {
+                    if (typeOf(callback) === 'function') {
+                        callback(self.MessageHandler);
                     }
 
-                    resolve( self.MessageHandler );
+                    resolve(self.MessageHandler);
                     return;
                 }
 
-                require(['qui/controls/messages/Handler'], function(Handler)
-                {
+                require(['qui/controls/messages/Handler'], function (Handler) {
                     self.MessageHandler = new Handler();
 
-                    if ( typeOf(callback)=== 'function' ) {
-                        callback( self.MessageHandler );
+                    if (typeOf(callback) === 'function') {
+                        callback(self.MessageHandler);
                     }
 
-                    resolve( self.MessageHandler );
+                    resolve(self.MessageHandler);
                 }, reject);
             });
         },
@@ -287,10 +296,9 @@ define('qui/classes/QUI', [
          * @method qui/classes/QUI#getControls
          * @param {Function} callback
          */
-        getControls : function(callback)
-        {
-            if ( this.Controls ) {
-                callback( this.Controls );
+        getControls: function (callback) {
+            if (this.Controls) {
+                callback(this.Controls);
             }
         }
     });

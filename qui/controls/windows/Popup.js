@@ -97,7 +97,7 @@ define('qui/controls/windows/Popup', needle, function (
 
             QUI.Windows.register(this);
 
-            window.addEvent('resize', this.resize);
+            QUI.addEvent('resize', this.resize);
         },
 
         /**
@@ -397,7 +397,7 @@ define('qui/controls/windows/Popup', needle, function (
          * @method qui/controls/windows/Popup#close
          */
         close: function () {
-            window.removeEvent('resize', this.resize);
+            QUI.removeEvent('resize', this.resize);
 
             // set old body attributes
             if (typeof this.$oldBodyStyle !== 'undefined') {
