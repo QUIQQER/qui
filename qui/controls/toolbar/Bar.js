@@ -128,6 +128,7 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         refresh: function () {
+
             if (!this.$Elm) {
                 return this;
             }
@@ -755,6 +756,7 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         resize: function () {
+
             if (!this.getElm()) {
                 return this;
             }
@@ -809,24 +811,16 @@ define('qui/controls/toolbar/Bar', [
                 this.getElm().setStyle('width', this.getAttribute('width'));
 
                 // responsive check
+                this.Tabs.removeClass('qui-toolbar--responsive');
+
                 var containerSize = this.Tabs.getSize();
                 var elmSize       = this.getElm().getSize();
-
-                console.info(this.Tabs);
-                console.info(this.Container.getScrollSize());
-                console.info(this.Tabs.get('text'));
-                console.log(containerSize);
 
                 if (width == '100%' &&
                     (containerSize.x > elmSize.x || containerSize.y > elmSize.y)
                 ) {
-                    console.log('responsive');
-
                     this.Tabs.addClass('qui-toolbar--responsive');
                 } else {
-
-                    console.log('none');
-
                     this.Tabs.removeClass('qui-toolbar--responsive');
                 }
             }

@@ -4,6 +4,7 @@
 
 .qui-toolbar {
     float: left;
+    overflow: hidden;
 }
 
 .qui-toolbar-container {
