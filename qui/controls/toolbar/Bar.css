@@ -24,6 +24,14 @@
     display: none;
 }
 
-.qui-toolbar--responsive .qui-button-text {
+.qui-toolbar--mobile .qui-button-text {
     display: none;
+}
+
+.qui-toolbar--mobile .qui-button--no-icon .qui-button-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 30px  !important;
 }

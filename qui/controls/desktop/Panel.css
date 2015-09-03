@@ -164,6 +164,11 @@
     background: #d1d4da;
 }
 
+.qui-panel-buttons .qui-button:disabled {
+    background: transparent;
+    color: #ccc;
+}
+
 .qui-panel-buttons .qui-button-text-image {
     line-height: 50px;
 }

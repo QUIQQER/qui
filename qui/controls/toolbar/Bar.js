@@ -631,13 +631,6 @@ define('qui/controls/toolbar/Bar', [
                 type = typeOf(Itm);
 
             switch (type) {
-                case 'qui/controls/buttons/Button':
-                case 'qui/controls/buttons/Select':
-                case 'qui/controls/buttons/Seperator':
-                case 'qui/controls/toolbar/Tab':
-                    // nothing
-                    break;
-
                 case 'element':
                     Itm.inject(this.Tabs);
                     return this;
@@ -655,7 +648,6 @@ define('qui/controls/toolbar/Bar', [
                     self.toTab(Item);
                 });
             }
-
 
             this.fireEvent('appendChild', [this, Itm]);
 
@@ -761,6 +753,8 @@ define('qui/controls/toolbar/Bar', [
                 return this;
             }
 
+            var i, len;
+
             var width = 0;
 
             // tab width
@@ -775,8 +769,6 @@ define('qui/controls/toolbar/Bar', [
 
             } else {
                 // standard toolbar
-                var i, len;
-
                 var cwidth = 0,
                     itms   = this.Tabs.getChildren();
 
@@ -811,7 +803,8 @@ define('qui/controls/toolbar/Bar', [
                 this.getElm().setStyle('width', this.getAttribute('width'));
 
                 // responsive check
-                this.Tabs.removeClass('qui-toolbar--responsive');
+                //var wasMobile = this.Tabs.hasClass('.qui-toolbar--mobile');
+                this.Tabs.removeClass('qui-toolbar--mobile');
 
                 var containerSize = this.Tabs.getSize();
                 var elmSize       = this.getElm().getSize();
@@ -819,9 +812,10 @@ define('qui/controls/toolbar/Bar', [
                 if (width == '100%' &&
                     (containerSize.x > elmSize.x || containerSize.y > elmSize.y)
                 ) {
-                    this.Tabs.addClass('qui-toolbar--responsive');
+                    this.Tabs.addClass('qui-toolbar--mobile');
+
                 } else {
-                    this.Tabs.removeClass('qui-toolbar--responsive');
+                    this.Tabs.removeClass('qui-toolbar--mobile');
                 }
             }
 

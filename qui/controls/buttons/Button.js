@@ -1,4 +1,3 @@
-
 /**
  * QUI Control - Button
  *
@@ -37,14 +36,12 @@ var needle = [
     'qui/controls/contextmenu/Item'
 ];
 
-if (!("QUI" in window) ||
-    !window.QUI.getAttribute('control-buttons-dont-load-css')) {
+if (!("QUI" in window) || !window.QUI.getAttribute('control-buttons-dont-load-css')) {
     needle.push('css!qui/controls/buttons/Button.css');
 }
 
 
-define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect, ContextMenuItem)
-{
+define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect, ContextMenuItem) {
     "use strict";
 
     /**
@@ -72,55 +69,53 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/buttons/Button',
+        Extends: Control,
+        Type   : 'qui/controls/buttons/Button',
 
-        Binds : [
+        Binds: [
             'onSetAttribute'
         ],
 
-        options : {
-            'type'      : 'button',
-            'image'     : false,   // (@depricated) use the icon attribute
-            'icon'      : false,   // icon top of the text
-            'style'     : {},      // mootools css style attributes
-            'textimage' : false,   // Image left from text
-            'text'      : false,   // Button text
-            'title'     : false,
-            'class'     : false,    // extra CSS Class
-            'buttonCSSClass' : true, // should have the button the qui-button css class?
-            'menuCorner'     : 'top',
-            'dropDownIcon'   : true
+        options: {
+            'type'          : 'button',
+            'image'         : false,   // (@depricated) use the icon attribute
+            'icon'          : false,   // icon top of the text
+            'style'         : {},      // mootools css style attributes
+            'textimage'     : false,   // Image left from text
+            'text'          : false,   // Button text
+            'title'         : false,
+            'class'         : false,    // extra CSS Class
+            'buttonCSSClass': true, // should have the button the qui-button css class?
+            'menuCorner'    : 'top',
+            'dropDownIcon'  : true
         },
 
-        params : {},
+        params: {},
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             options = options || {};
 
-            this.parent( options );
+            this.parent(options);
 
             this.$Menu  = null;
             this.$Drop  = null;
             this.$items = [];
 
 
-            if ( options.events ) {
+            if (options.events) {
                 delete options.events;
             }
 
             this.setAttributes(
-                this.initV2( options )
+                this.initV2(options)
             );
 
             this.addEvent('onSetAttribute', this.onSetAttribute);
-            this.addEvent('onDestroy', function()
-            {
-                if ( this.$Menu ) {
+            this.addEvent('onDestroy', function () {
+                if (this.$Menu) {
                     this.$Menu.destroy();
                 }
-            }.bind( this ));
+            }.bind(this));
         },
 
         /**
@@ -130,24 +125,20 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @param {Object} options
          * @ignore
          */
-        initV2: function(options)
-        {
-            if ( typeof options.onclick !== 'undefined' )
-            {
-                if ( typeOf( options.onclick ) === 'string' )
-                {
-                    options.onclick = function(p) {
-                        eval(p +'(this);');
-                    }.bind(this, [ options.onclick ]);
+        initV2: function (options) {
+            if (typeof options.onclick !== 'undefined') {
+                if (typeOf(options.onclick) === 'string') {
+                    options.onclick = function (p) {
+                        eval(p + '(this);');
+                    }.bind(this, [options.onclick]);
                 }
 
-                this.addEvent( 'onClick', options.onclick );
+                this.addEvent('onClick', options.onclick);
                 delete options.onclick;
             }
 
-            if ( typeof options.oncreate !== 'undefined' )
-            {
-                this.addEvent( 'onCreate', options.oncreate );
+            if (typeof options.oncreate !== 'undefined') {
+                this.addEvent('onCreate', options.oncreate);
                 delete options.oncreate;
             }
 
@@ -160,34 +151,35 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             var self = this;
 
             var Elm = new Element('button', {
-                'type' : this.getAttribute('type'),
-                'data-status' : 0,
-                'data-quiid'  : this.getId()
+                'type'       : this.getAttribute('type'),
+                'data-status': 0,
+                'data-quiid' : this.getId()
             });
 
-            if ( this.getAttribute( 'buttonCSSClass' ) ) {
-                Elm.addClass( 'qui-button' );
+            Elm.addClass('qui-button--no-icon');
+
+            if (this.getAttribute('buttonCSSClass')) {
+                Elm.addClass('qui-button');
             }
 
-            if ( this.getAttribute( 'width' ) ) {
-                Elm.setStyle( 'width', this.getAttribute( 'width' ) );
+            if (this.getAttribute('width')) {
+                Elm.setStyle('width', this.getAttribute('width'));
             }
 
-            if ( this.getAttribute('height') ) {
-                Elm.setStyle( 'height', this.getAttribute( 'height' ) );
+            if (this.getAttribute('height')) {
+                Elm.setStyle('height', this.getAttribute('height'));
             }
 
-            if ( this.getAttribute( 'styles' ) ) {
-                Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                Elm.setStyles(this.getAttribute('styles'));
             }
 
-            if ( this.getAttribute( 'class' ) ) {
-                Elm.addClass( this.getAttribute( 'class' ) );
+            if (this.getAttribute('class')) {
+                Elm.addClass(this.getAttribute('class'));
             }
 
             Elm.style.outline = 0;
@@ -195,68 +187,61 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
 
             Elm.addEvents({
 
-                click : function(event)
-                {
-                    if ( self.isDisabled() ) {
+                click: function (event) {
+                    if (self.isDisabled()) {
                         return;
                     }
 
-                    self.onclick( event );
+                    self.onclick(event);
                 },
 
-                mouseenter : function()
-                {
-                    if ( self.isDisabled() ) {
+                mouseenter: function () {
+                    if (self.isDisabled()) {
                         return;
                     }
 
-                    if ( !self.isActive() ) {
-                        self.getElm().addClass( 'qui-button-over' );
+                    if (!self.isActive()) {
+                        self.getElm().addClass('qui-button-over');
                     }
 
-                    self.fireEvent( 'enter', [ self ] );
+                    self.fireEvent('enter', [self]);
                 },
 
-                mouseleave : function()
-                {
-                    if ( self.isDisabled() ) {
+                mouseleave: function () {
+                    if (self.isDisabled()) {
                         return;
                     }
 
-                    if ( !self.isActive() ) {
-                        self.getElm().removeClass( 'qui-button-over' );
+                    if (!self.isActive()) {
+                        self.getElm().removeClass('qui-button-over');
                     }
 
-                    self.fireEvent( 'leave', [ self ] );
+                    self.fireEvent('leave', [self]);
                 },
 
-                mousedown : function(event)
-                {
-                    if ( self.isDisabled() ) {
+                mousedown: function (event) {
+                    if (self.isDisabled()) {
                         return;
                     }
 
-                    self.fireEvent( 'mousedown', [ self, event ] );
+                    self.fireEvent('mousedown', [self, event]);
 
                 },
 
-                mouseup : function(event)
-                {
-                    if ( self.isDisabled() ) {
+                mouseup: function (event) {
+                    if (self.isDisabled()) {
                         return;
                     }
 
-                    self.fireEvent( 'mouseup', [ self, event ] );
+                    self.fireEvent('mouseup', [self, event]);
                 },
 
-                blur : function(event)
-                {
-                    self.fireEvent( 'blur', [ self, event ] );
+                blur: function (event) {
+                    self.fireEvent('blur', [self, event]);
                 },
 
-                focus : function(event)
-                {
-                    self.fireEvent( 'focus', [ self, event ] );
+                focus: function (event) {
+                    self.fireEvent('focus', [self, event]);
                 }
             });
 
@@ -264,31 +249,31 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
 
 
             // Elemente aufbauen
-            if ( this.getAttribute( 'icon' ) ) {
-                this.setAttribute( 'icon', this.getAttribute( 'icon' ) );
+            if (this.getAttribute('icon')) {
+                this.setAttribute('icon', this.getAttribute('icon'));
             }
 
-            if ( !this.getAttribute( 'icon' ) && this.getAttribute( 'image' ) ) {
-                this.setAttribute( 'icon', this.getAttribute( 'image' ) );
+            if (!this.getAttribute('icon') && this.getAttribute('image')) {
+                this.setAttribute('icon', this.getAttribute('image'));
             }
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.setAttribute( 'styles', this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.setAttribute('styles', this.getAttribute('styles'));
             }
 
-            if ( this.getAttribute( 'textimage' ) ) {
-                this.setAttribute( 'textimage', this.getAttribute( 'textimage' ) );
+            if (this.getAttribute('textimage')) {
+                this.setAttribute('textimage', this.getAttribute('textimage'));
             }
 
-            if ( this.getAttribute( 'text' ) ) {
-                this.setAttribute( 'text', this.getAttribute( 'text' ) );
+            if (this.getAttribute('text')) {
+                this.setAttribute('text', this.getAttribute('text'));
             }
 
-            if ( this.getAttribute( 'title' ) ) {
-                this.$Elm.setAttribute( 'title', this.getAttribute( 'title' ) );
+            if (this.getAttribute('title')) {
+                this.$Elm.setAttribute('title', this.getAttribute('title'));
             }
 
-            if ( this.getAttribute( 'disabled' ) ) {
+            if (this.getAttribute('disabled')) {
                 this.disable();
             }
 
@@ -297,26 +282,23 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
             var i;
             var len = this.$items.length;
 
-            if ( len )
-            {
-                this.getContextMenu(function(Menu)
-                {
-                    for ( i = 0; i < len; i++ ) {
-                        Menu.appendChild( self.$items[i] );
+            if (len) {
+                this.getContextMenu(function (Menu) {
+                    for (i = 0; i < len; i++) {
+                        Menu.appendChild(self.$items[i]);
                     }
 
-                    if ( self.getAttribute( 'dropDownIcon' ) )
-                    {
+                    if (self.getAttribute('dropDownIcon')) {
                         self.$Drop = new Element('div', {
-                            'class' : 'qui-button-drop icon-chevron-down fa fa-chevron-down'
-                        }).inject( self.$Elm );
+                            'class': 'qui-button-drop icon-chevron-down fa fa-chevron-down'
+                        }).inject(self.$Elm);
                     }
                 });
             }
 
-            this.fireEvent( 'create', [ this ] );
+            this.fireEvent('create', [this]);
 
-            NoSelect.disable( Elm );
+            NoSelect.disable(Elm);
 
             return this.$Elm;
         },
@@ -327,24 +309,22 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#onclick
          * @param {DOMEvent} event
          */
-        click : function(event)
-        {
-            if ( this.isDisabled() ) {
+        click: function (event) {
+            if (this.isDisabled()) {
                 return;
             }
 
-            this.getElm().addClass( 'qui-button--click' );
-            this.fireEvent( 'click', [ this, event ] );
+            this.getElm().addClass('qui-button--click');
+            this.fireEvent('click', [this, event]);
 
-            this.getElm().removeClass.delay( 300, this.getElm(), 'qui-button--click' );
+            this.getElm().removeClass.delay(300, this.getElm(), 'qui-button--click');
         },
 
         /**
          * @see #click()
          */
-        onclick : function(event)
-        {
-            this.click( event );
+        onclick: function (event) {
+            this.click(event);
         },
 
         /**
@@ -352,22 +332,21 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          *
          * @method qui/controls/buttons/Button#setActive
          */
-        setActive : function()
-        {
-            if ( this.isDisabled() ) {
+        setActive: function () {
+            if (this.isDisabled()) {
                 return;
             }
 
             var Elm = this.getElm();
 
-            if ( !Elm ) {
+            if (!Elm) {
                 return;
             }
 
-            Elm.addClass( 'qui-button-active' );
-            Elm.set( 'data-status', 1 );
+            Elm.addClass('qui-button-active');
+            Elm.set('data-status', 1);
 
-            this.fireEvent( 'active', [ this ] );
+            this.fireEvent('active', [this]);
         },
 
         /**
@@ -376,13 +355,12 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#isActive
          * @return {Boolean}
          */
-        isActive : function()
-        {
-            if ( !this.getElm() ) {
+        isActive: function () {
+            if (!this.getElm()) {
                 return false;
             }
 
-            return this.getElm().get( 'data-status' ) == 1;
+            return this.getElm().get('data-status') == 1;
         },
 
         /**
@@ -392,20 +370,19 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#disable
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        disable : function()
-        {
+        disable: function () {
             var Elm = this.getElm();
 
-            if ( !Elm ) {
+            if (!Elm) {
                 return this;
             }
 
             Elm.set({
-                'data-status' : -1,
-                'disabled'    : 'disabled'
+                'data-status': -1,
+                'disabled'   : 'disabled'
             });
 
-            this.fireEvent( 'disable', [ this ] );
+            this.fireEvent('disable', [this]);
 
             return this;
         },
@@ -415,8 +392,7 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#setDisable
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        setDisable : function()
-        {
+        setDisable: function () {
             return this.disable();
         },
 
@@ -426,9 +402,8 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#isDisabled
          * @return {Boolean}
          */
-        isDisabled : function()
-        {
-            if ( !this.getElm() ) {
+        isDisabled: function () {
+            if (!this.getElm()) {
                 return false;
             }
 
@@ -441,15 +416,14 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#setEnable
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        enable : function()
-        {
-            if ( !this.getElm() ) {
+        enable: function () {
+            if (!this.getElm()) {
                 return this;
             }
 
             this.getElm().set({
-                'data-status' : 0,
-                'disabled'    : null
+                'data-status': 0,
+                'disabled'   : null
             });
 
             this.setNormal();
@@ -463,8 +437,7 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#setEnable
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        setEnable : function()
-        {
+        setEnable: function () {
             return this.enable();
         },
 
@@ -475,27 +448,26 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#setNormal
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        setNormal : function()
-        {
-            if ( this.isDisabled() ) {
+        setNormal: function () {
+            if (this.isDisabled()) {
                 return this;
             }
 
-            if ( !this.getElm() ) {
+            if (!this.getElm()) {
                 return this;
             }
 
             var Elm = this.getElm();
 
             Elm.set({
-                'data-status' : 0,
-                'disabled'    : null
+                'data-status': 0,
+                'disabled'   : null
             });
 
-            Elm.removeClass( 'qui-button-active' );
-            Elm.removeClass( 'qui-button-over' );
+            Elm.removeClass('qui-button-active');
+            Elm.removeClass('qui-button-over');
 
-            this.fireEvent( 'normal', [ this ] );
+            this.fireEvent('normal', [this]);
 
             return this;
         },
@@ -508,31 +480,28 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @param {Object} Itm - qui/controls/contextmenu/Item | object
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        appendChild : function(Itm)
-        {
+        appendChild: function (Itm) {
             if (typeOf(Itm) == 'object') {
                 Itm = new ContextMenuItem(Itm);
             }
 
-            this.$items.push( Itm );
+            this.$items.push(Itm);
 
-            Itm.setAttribute( 'Button', this );
+            Itm.setAttribute('Button', this);
 
-            if ( !this.$Elm ) {
+            if (!this.$Elm) {
                 return this;
             }
 
             var self = this;
 
-            this.getContextMenu(function(Menu)
-            {
-                Menu.appendChild( Itm );
+            this.getContextMenu(function (Menu) {
+                Menu.appendChild(Itm);
 
-                if ( self.getAttribute( 'dropDownIcon' ) && !self.$Drop )
-                {
+                if (self.getAttribute('dropDownIcon') && !self.$Drop) {
                     self.$Drop = new Element('div', {
-                        'class' : 'qui-button-drop icon-chevron-down fa fa-chevron-down'
-                    }).inject( self.$Elm );
+                        'class': 'qui-button-drop icon-chevron-down fa fa-chevron-down'
+                    }).inject(self.$Elm);
                 }
             });
 
@@ -545,8 +514,7 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#getChildren
          * @return {Array}
          */
-        getChildren : function()
-        {
+        getChildren: function () {
             return this.$items;
         },
 
@@ -556,9 +524,8 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @method qui/controls/buttons/Button#clear
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        clear : function()
-        {
-            this.getContextMenu(function(Menu) {
+        clear: function () {
+            this.getContextMenu(function (Menu) {
                 Menu.clearChildren();
             });
 
@@ -575,21 +542,18 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          * @param {Function} callback - callback function( {qui/controls/contextmenu/Menu} )
          * @return {Object} this (qui/controls/buttons/Button)
          */
-        getContextMenu : function(callback)
-        {
-            if ( this.$Menu && typeof this.$createContextMenu === 'undefined' )
-            {
-                callback( this.$Menu );
+        getContextMenu: function (callback) {
+            if (this.$Menu && typeof this.$createContextMenu === 'undefined') {
+                callback(this.$Menu);
                 return this;
             }
 
             var self = this;
 
-            if ( typeof this.$createContextMenu !== 'undefined' )
-            {
-                (function() {
-                    self.getContextMenu( callback );
-                }).delay( 10 );
+            if (typeof this.$createContextMenu !== 'undefined') {
+                (function () {
+                    self.getContextMenu(callback);
+                }).delay(10);
 
                 return this;
             }
@@ -597,19 +561,17 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
 
             this.$createContextMenu = true;
 
-            require(['qui/controls/contextmenu/Menu'], function(Menu)
-            {
+            require(['qui/controls/contextmenu/Menu'], function (Menu) {
                 self.$Menu = new Menu({
-                    name   : self.getAttribute('name') +'-menu',
-                    corner : self.getAttribute('menuCorner')
+                    name  : self.getAttribute('name') + '-menu',
+                    corner: self.getAttribute('menuCorner')
                 });
 
-                self.$Menu.inject( document.body );
+                self.$Menu.inject(document.body);
 
                 self.addEvents({
-                    onClick : function()
-                    {
-                        if ( self.isDisabled() ) {
+                    onClick: function () {
+                        if (self.isDisabled()) {
                             return;
                         }
 
@@ -619,14 +581,12 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
                             mpos  = self.getAttribute('menuCorner'),
                             msize = self.$Menu.getElm().getComputedSize();
 
-                        if ( mpos.contains( 'bottom' ) )
-                        {
+                        if (mpos.contains('bottom')) {
                             self.$Menu.setPosition(
                                 pos.x - 20,
                                 pos.y - size.y - msize.totalHeight + 10
                             );
-                        } else
-                        {
+                        } else {
                             self.$Menu.setPosition(
                                 pos.x - 20,
                                 pos.y + size.y + 10
@@ -637,17 +597,16 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
                         self.$Elm.focus();
                     },
 
-                    onBlur : function()
-                    {
+                    onBlur: function () {
                         self.$Menu.hide();
                     }
                 });
 
-                self.$Menu.setParent( self );
+                self.$Menu.setParent(self);
 
                 delete self.$createContextMenu;
 
-                callback( self.$Menu );
+                callback(self.$Menu);
             });
         },
 
@@ -661,125 +620,125 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
          *
          * @ignore
          */
-        onSetAttribute : function(k, value)
-        {
+        onSetAttribute: function (k, value) {
             var Elm = this.getElm();
 
             //this.options[k] = value;
 
-            if ( !Elm ) {
+            if (!Elm) {
                 return;
             }
 
             // onclick overwrite
-            if ( k === 'onclick' )
-            {
+            if (k === 'onclick') {
                 this.removeEvents('click');
 
-                this.addEvent('click', function(p)
-                {
-                    eval(p +'(this);');
-                }.bind( this, [value] ));
+                this.addEvent('click', function (p) {
+                    eval(p + '(this);');
+                }.bind(this, [value]));
 
                 return;
             }
 
-            if ( k == 'image' ) {
+            if (k == 'image') {
                 k = 'icon';
             }
 
             // Image
-            if ( k === 'icon' )
-            {
-                if ( !Elm.getElement('.image-container') )
-                {
+            if (k === 'icon') {
+                if (!Elm.getElement('.image-container')) {
                     new Element('div.image-container', {
-                        align : 'center'
-                    }).inject( Elm );
+                        align: 'center'
+                    }).inject(Elm);
                 }
 
                 var Image = Elm.getElement('.image-container');
 
-                Image.set( 'html', '' );
+                Image.set('html', '');
 
-                if ( Utils.isFontAwesomeClass( value ) )
-                {
+                if (Utils.isFontAwesomeClass(value)) {
                     new Element('span', {
-                        'class' : value
-                    }).inject( Image );
-                } else
-                {
+                        'class': value
+                    }).inject(Image);
+                } else {
                     new Element('img.qui-button-image', {
-                        src    : value,
-                        styles : {
-                            'display' : 'block' // only image, fix
+                        src   : value,
+                        styles: {
+                            'display': 'block' // only image, fix
                         }
-                    }).inject( Image );
+                    }).inject(Image);
                 }
 
                 return;
             }
 
             // Style Attributes
-            if ( k === "styles" )
-            {
-                Elm.setStyles( value );
+            if (k === "styles") {
+                Elm.setStyles(value);
                 return;
             }
 
             // Text
-            if ( k === "title" )
-            {
-                Elm.setAttribute( 'title', value );
+            if (k === "title") {
+                Elm.set('title', value);
                 return;
             }
 
             // Text and Text-Image
-            if ( k !== 'textimage' && k !== 'text' ) {
+            if (k !== 'textimage' && k !== 'text') {
                 return;
             }
 
             // Text + Text Image
-            if ( !Elm.getElement('.qui-button-text') ) {
-                new Element('span.qui-button-text').inject( Elm );
+            if (!Elm.getElement('.qui-button-text')) {
+                new Element('span.qui-button-text').inject(Elm);
             }
 
             var Txt = Elm.getElement('.qui-button-text');
 
             // Text
-            if ( k === 'text' ) {
-                Txt.set( 'html', value );
+            if (k === 'text') {
+                Txt.set('html', value);
+
+                if (!Elm.getAttribute('title')) {
+                    Elm.set('title', value);
+                }
             }
 
-            if ( k === 'textimage' )
-            {
+            if (k === 'textimage') {
                 var Img;
 
-                if ( Elm.getElement('.qui-button-text-image') ) {
+                if (Elm.getElement('.qui-button-text-image')) {
                     Elm.getElement('.qui-button-text-image').destroy();
+                    Elm.addClass('qui-button--no-icon');
                 }
 
-                if ( Utils.isFontAwesomeClass( value ) )
-                {
+                if (Utils.isFontAwesomeClass(value)) {
+
+                    Elm.removeClass('qui-button--no-icon');
+
                     Img = new Element('span', {
-                        'class'  : 'qui-button-text-image '+ value,
+                        'class': 'qui-button-text-image ' + value,
                         styles : {
                             'margin-right': 0
                         }
-                    }).inject( Txt, 'before' );
-                } else
-                {
+                    }).inject(Txt, 'before');
+
+                } else {
+
+                    Elm.removeClass('qui-button--no-icon');
+
                     Img = new Element('img', {
-                        'class' : 'qui-button-text-image',
-                        src     : value,
-                        styles  : {
+                        'class': 'qui-button-text-image',
+                        src    : value,
+                        styles : {
                             'margin-right': 0
                         }
-                    }).inject( Txt, 'before' );
+                    }).inject(Txt, 'before');
                 }
 
-                if ( this.getAttribute('text') ) {
-                    Img.setStyle( 'margin-right', null );
+                if (this.getAttribute('text')) {
+                    Img.setStyle('margin-right', null);
                 }
             }
         }
