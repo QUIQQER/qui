@@ -284,11 +284,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 );
             }
 
-            setTimeout(function(){
-                // Hide the address bar!
-                window.scrollTo(0, 1);
-            }, 0);
-
             this.Background.show();
             this.inject(document.body);
 
