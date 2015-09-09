@@ -29,6 +29,7 @@ var needle = [
     'qui/controls/loader/Loader',
     'qui/Locale',
     'qui/utils/Controls',
+    'qui/utils/Functions',
 
     'qui/controls/windows/locale/de',
     'qui/controls/windows/locale/en',
@@ -41,14 +42,13 @@ if (!("QUI" in window) || !window.QUI.getAttribute('control-buttons-dont-load-cs
 }
 
 
-define('qui/controls/windows/Popup', needle, function (
-    QUI,
-    Control,
-    Background,
-    Loader,
-    Locale,
-    Utils
-) {
+define('qui/controls/windows/Popup', needle, function (QUI,
+                                                       Control,
+                                                       Background,
+                                                       Loader,
+                                                       Locale,
+                                                       Utils,
+                                                       FunctionsUtils) {
 
     "use strict";
 
@@ -86,18 +86,33 @@ define('qui/controls/windows/Popup', needle, function (
         initialize: function (options) {
             this.parent(options);
 
+            var self = this;
+
             this.$Elm     = null;
             this.$Content = null;
             this.$Buttons = null;
             this.$FX      = false;
             this.$opened  = false;
+            this.$scroll  = false;
 
             this.Background = new Background();
             this.Loader     = new Loader();
 
+
+            this.$__scrollDelay = FunctionsUtils.debounce(function () {
+                self.$scroll = false;
+            }, 300);
+
+            this.$__scrollSpy = function () {
+                self.$scroll = true;
+            };
+
             QUI.Windows.register(this);
 
             QUI.addEvent('resize', this.resize);
+
+            window.addEvent('touchstart', this.$__scrollSpy);
+            window.addEvent('touchend', this.$__scrollDelay);
         },
 
         /**
@@ -269,6 +284,11 @@ define('qui/controls/windows/Popup', needle, function (
                 );
             }
 
+            setTimeout(function(){
+                // Hide the address bar!
+                window.scrollTo(0, 1);
+            }, 0);
+
             this.Background.show();
             this.inject(document.body);
 
@@ -278,11 +298,13 @@ define('qui/controls/windows/Popup', needle, function (
                 position: document.body.style.position,
                 width   : document.body.style.width,
                 top     : document.body.style.top,
-                scroll  : document.body.getScroll()
+                scroll  : document.body.getScroll(),
+                minWidth: document.body.style.minWidth
             };
 
             document.body.setStyles({
-                width: document.body.getSize().x
+                width   : document.body.getSize().x,
+                minWidth: document.body.getSize().x
             });
 
             document.body.setStyles({
@@ -315,6 +337,10 @@ define('qui/controls/windows/Popup', needle, function (
          */
         resize: function (withfx, callback) {
             if (!this.$Elm) {
+                return;
+            }
+
+            if (this.$scroll) {
                 return;
             }
 
@@ -398,6 +424,9 @@ define('qui/controls/windows/Popup', needle, function (
          */
         close: function () {
             QUI.removeEvent('resize', this.resize);
+
+            window.removeEvent('touchstart', this.$__scrollSpy);
+            window.removeEvent('touchend', this.$__scrollDelay);
 
             // set old body attributes
             if (typeof this.$oldBodyStyle !== 'undefined') {
