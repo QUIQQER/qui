@@ -232,6 +232,10 @@
     display: none;
 }
 
+.qui-panel-categories-minimize+.qui-panel-content {
+    width: calc(100% - 50px);
+}
+
 .qui-panel-categories .qui-button-active {
     background: #C3C3C3 !important;
     color: #222;
