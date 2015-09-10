@@ -36,7 +36,8 @@ define('qui/controls/messages/Message', [
             code    : 0,
             time    : false,
             cssclass: false,
-            styles  : false
+            styles  : false,
+            hideTime: false
         },
 
         initialize: function (options) {
@@ -117,15 +118,15 @@ define('qui/controls/messages/Message', [
                        ('0' + (Time.getMonth() + 1)).slice(-2) + '.' +
                        Time.getFullYear();
 
-            var hours = ('0' + Time.getHours()).slice(-2);
+            var hours   = ('0' + Time.getHours()).slice(-2);
             var seconds = ('0' + Time.getSeconds()).slice(-2);
 
-            time = time +' '+ hours +':'+ seconds;
+            time = time + ' ' + hours + ':' + seconds;
 
             var Elm = new Element('div', {
                 'class': 'messages-message box',
                 html   : '<div class="messages-message-header">' +
-                         '<span>' + time + '</span>' +
+                         '<span class="messages-message-header-time">' + time + '</span>' +
                          '<span class="messages-message-destroy icon-remove-circle"></span>' +
                          '</div>' +
                          '<div class="messages-message-text">' +
@@ -144,6 +145,12 @@ define('qui/controls/messages/Message', [
 
             if (this.getAttribute('cssclass')) {
                 Elm.addClass(this.getAttribute('cssclass'));
+            }
+
+            if (this.getAttribute('hideTime')) {
+                Elm.getElement(
+                    '.messages-message-header-time'
+                ).setStyle('display', 'none');
             }
 
             var Destroy = Elm.getElement('.messages-message-destroy');
