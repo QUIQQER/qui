@@ -50,14 +50,15 @@ define('qui/controls/buttons/Select', [
         ],
 
         options: {
-            name           : 'select-box',
-            'style'        : {},      // mootools css style attributes
-            'class'        : false,   // extra CSS Class
-            menuWidth      : 200,
-            menuMaxHeight  : 300,
-            showIcons      : true,
-            placeholderText: false,
-            placeholderIcon: false
+            name                 : 'select-box',
+            'style'              : {},      // mootools css style attributes
+            'class'              : false,   // extra CSS Class
+            menuWidth            : 200,
+            menuMaxHeight        : 300,
+            showIcons            : true,
+            placeholderText      : false,
+            placeholderIcon      : false,
+            placeholderSelectable: true // placeholder is standard selectable menu child
         },
 
         params: {},
@@ -179,15 +180,17 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            if (this.$placeholderText && this.$placeholderText !== '') {
-
-                this.appendChild(
-                    this.$placeholderText,
-                    '',
-                    this.$placeholderIcon || false
-                );
+            if (this.getAttribute('placeholderSelectable')) {
+                if (this.$placeholderText && this.$placeholderText !== '') {
+                    this.appendChild(
+                        this.$placeholderText,
+                        '',
+                        this.$placeholderIcon || false
+                    );
+                }
             }
 
+            this.selectPlaceholder();
 
             if (this.$children.length) {
 
@@ -222,11 +225,26 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
+            this.selectPlaceholder();
+
+            return this;
+        },
+
+        /**
+         * Sets placeholder as current value
+         *
+         * @returns {void}
+         */
+        selectPlaceholder : function()
+        {
             if (!this.$Text) {
-                return this;
+                return;
             }
 
-            // placeholder
+            if (!this.$placeholderText || this.$placeholderText === '') {
+                return;
+            }
+
             this.$Text.set('html', this.$placeholderText);
 
             var Icon = this.$Elm.getElement('.icon');
@@ -252,8 +270,6 @@ define('qui/controls/buttons/Select', [
                 Icon.addClass('icon');
                 Icon.setStyle('background', null);
             }
-
-            return this;
         },
 
         /**
@@ -356,6 +372,17 @@ define('qui/controls/buttons/Select', [
 
             if (this.$Icon) {
                 this.$Icon.setStyle('background', null);
+            }
+
+            // re-append placeholder item
+            if (this.getAttribute('placeholderSelectable')) {
+                if (this.$placeholderText && this.$placeholderText !== '') {
+                    this.appendChild(
+                        this.$placeholderText,
+                        '',
+                        this.$placeholderIcon || false
+                    );
+                }
             }
 
             this.resetValue();
