@@ -418,6 +418,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#close
          */
         close: function () {
+
             QUI.removeEvent('resize', this.resize);
 
             window.removeEvent('touchstart', this.$__scrollSpy);
@@ -429,7 +430,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     overflow: this.$oldBodyStyle.overflow || null,
                     position: this.$oldBodyStyle.position || null,
                     width   : this.$oldBodyStyle.width || null,
-                    top     : this.$oldBodyStyle.top || null
+                    top     : this.$oldBodyStyle.top || null,
+                    minWidth: this.$oldBodyStyle.minWidth || null
                 });
 
                 document.body.scrollTo(
@@ -456,6 +458,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     self.fireEvent('close', [self]);
 
                     self.$Elm.destroy();
+                    self.destroy();
 
                     self.Background.hide(function () {
                         self.Background.destroy();
