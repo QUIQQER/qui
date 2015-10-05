@@ -1,4 +1,3 @@
-
 /**
  * QUI windows coordinator
  *
@@ -8,14 +7,12 @@
  * @require require
  * @require qui/classes/DOM
  */
-
 define('qui/classes/Windows', [
 
     'require',
     'qui/classes/DOM'
 
-], function(require, DOM)
-{
+], function (require, DOM) {
     "use strict";
 
     /**
@@ -26,17 +23,16 @@ define('qui/classes/Windows', [
     return new Class({
 
         Extends: DOM,
-        Type: 'qui/classes/Windows',
+        Type   : 'qui/classes/Windows',
 
-        Binds : [
+        Binds: [
             '$onWindowOpen',
             '$onWindowClose',
             '$onWindowDestroy'
         ],
 
-        initialize: function ()
-        {
-            this.$windows = [];
+        initialize: function () {
+            this.$windows       = {};
             this.$currentWindow = null;
         },
 
@@ -45,15 +41,14 @@ define('qui/classes/Windows', [
          *
          * @param {Object} Popup - qui/controls/windows/Popup
          */
-        register : function(Popup)
-        {
+        register: function (Popup) {
             Popup.addEvents({
-                onOpenBegin : this.$onWindowOpen,
-                onDestroy   : this.$onWindowDestroy,
-                onClose     : this.$onWindowClose
+                onOpenBegin: this.$onWindowOpen,
+                onDestroy  : this.$onWindowDestroy,
+                onClose    : this.$onWindowClose
             });
 
-            this.$windows.push(Popup);
+            this.$windows[Popup.getId()] = Popup;
         },
 
         /**
@@ -61,14 +56,11 @@ define('qui/classes/Windows', [
          *
          * @param {Object} Popup - qui/controls/windows/Popup
          */
-        $onWindowOpen : function(Popup)
-        {
-            if (this.$currentWindow) {
-                var groundIndex = this.$currentWindow.getElm().getStyle('zIndex');
+        $onWindowOpen: function (Popup) {
+            var maxIndex = this.$getmaxWindowZIndex();
 
-                Popup.Background.getElm().setStyle('zIndex', groundIndex+1);
-                Popup.getElm().setStyle('zIndex', groundIndex+2);
-            }
+            Popup.Background.getElm().setStyle('zIndex', maxIndex + 1);
+            Popup.getElm().setStyle('zIndex', maxIndex + 2);
 
             this.$currentWindow = Popup;
         },
@@ -78,10 +70,13 @@ define('qui/classes/Windows', [
          *
          * @param {Object} Popup - qui/controls/windows/Popup
          */
-        $onWindowDestroy : function(Popup)
-        {
+        $onWindowDestroy: function (Popup) {
             if (this.$currentWindow == Popup) {
                 this.$currentWindow = null;
+            }
+
+            if (Popup.getId() in this.$windows) {
+                delete this.$windows[Popup.getId()];
             }
         },
 
@@ -90,11 +85,34 @@ define('qui/classes/Windows', [
          *
          * @param {Object} Popup - qui/controls/windows/Popup
          */
-        $onWindowClose : function(Popup)
-        {
+        $onWindowClose: function (Popup) {
             if (this.$currentWindow == Popup) {
                 this.$currentWindow = null;
             }
+        },
+
+        /**
+         * Return the max window index
+         *
+         * @return {Number}
+         */
+        $getmaxWindowZIndex: function () {
+            var i, index;
+            var currentIndex = 0;
+
+            for (i in this.$windows) {
+                if (!this.$windows.hasOwnProperty(i)) {
+                    continue;
+                }
+
+                index = this.$windows[i].getElm().getStyle('zIndex').toInt();
+
+                if (currentIndex < index) {
+                    currentIndex = index;
+                }
+            }
+
+            return currentIndex;
         },
 
         /**
@@ -107,9 +125,8 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        openAlert : function(params)
-        {
-            return this.createAlert(params).then(function(Alert) {
+        openAlert: function (params) {
+            return this.createAlert(params).then(function (Alert) {
                 Alert.open();
 
                 return Alert;
@@ -122,9 +139,8 @@ define('qui/classes/Windows', [
          * @param {Object} params - confirm box params
          * @returns {Promise}
          */
-        openConfirm : function(params)
-        {
-            return this.createConfirm(params).then(function(Confirm) {
+        openConfirm: function (params) {
+            return this.createConfirm(params).then(function (Confirm) {
                 Confirm.open();
 
                 return Confirm;
@@ -137,9 +153,8 @@ define('qui/classes/Windows', [
          * @param {Object} params - popup box params
          * @returns {Promise}
          */
-        openPopup : function(params)
-        {
-            return this.createPopup(params).then(function(Popup) {
+        openPopup: function (params) {
+            return this.createPopup(params).then(function (Popup) {
                 Popup.open();
 
                 return Popup;
@@ -152,9 +167,8 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        openPrompt : function(params)
-        {
-            return this.createPrompt(params).then(function(Prompt) {
+        openPrompt: function (params) {
+            return this.createPrompt(params).then(function (Prompt) {
                 Prompt.open();
 
                 return Prompt;
@@ -167,9 +181,8 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        openSubmit : function(params)
-        {
-            return this.createAlert(params).then(function(Alert) {
+        openSubmit: function (params) {
+            return this.createAlert(params).then(function (Alert) {
                 Alert.open();
 
                 return Alert;
@@ -186,10 +199,9 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        createAlert : function(params)
-        {
-            return new Promise(function(response, reject) {
-                require(['qui/controls/windows/Alert'], function(Alert) {
+        createAlert: function (params) {
+            return new Promise(function (response, reject) {
+                require(['qui/controls/windows/Alert'], function (Alert) {
                     response(new Alert(params));
                 }, reject);
             });
@@ -201,10 +213,9 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        createConfirm : function(params)
-        {
-            return new Promise(function(response, reject) {
-                require(['qui/controls/windows/Confirm'], function(Confirm) {
+        createConfirm: function (params) {
+            return new Promise(function (response, reject) {
+                require(['qui/controls/windows/Confirm'], function (Confirm) {
                     response(new Confirm(params));
                 }, reject);
             });
@@ -216,10 +227,9 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        createPopup : function(params)
-        {
-            return new Promise(function(response, reject) {
-                require(['qui/controls/windows/Popup'], function(Popup) {
+        createPopup: function (params) {
+            return new Promise(function (response, reject) {
+                require(['qui/controls/windows/Popup'], function (Popup) {
                     response(new Popup(params));
                 }, reject);
             });
@@ -231,10 +241,9 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        createPrompt : function(params)
-        {
-            return new Promise(function(response, reject) {
-                require(['qui/controls/windows/Prompt'], function(Prompt) {
+        createPrompt: function (params) {
+            return new Promise(function (response, reject) {
+                require(['qui/controls/windows/Prompt'], function (Prompt) {
                     response(new Prompt(params));
                 }, reject);
             });
@@ -246,10 +255,9 @@ define('qui/classes/Windows', [
          * @param {Object} params - alert box params
          * @returns {Promise}
          */
-        createSubmit : function(params)
-        {
-            return new Promise(function(response, reject) {
-                require(['qui/controls/windows/Submit'], function(Submit) {
+        createSubmit: function (params) {
+            return new Promise(function (response, reject) {
+                require(['qui/controls/windows/Submit'], function (Submit) {
                     response(new Submit(params));
                 }, reject);
             });
