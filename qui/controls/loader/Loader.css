@@ -1,6 +1,7 @@
 
 .qui-loader {
-    background: rgba(255,255,255, 0.7);
+    background: rgba(255, 255, 255, 0.7);
+    cursor: wait;
     height: 100%;
     left: 0;
     position: absolute;
