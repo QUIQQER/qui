@@ -10,8 +10,7 @@
  * @event onClick [{self}]
  */
 
-define('qui/controls/utils/Background', ['qui/controls/Control'], function(Control)
-{
+define('qui/controls/utils/Background', ['qui/controls/Control'], function (Control) {
     "use strict";
 
     /**
@@ -21,19 +20,18 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/utils/Background',
+        Extends: Control,
+        Type   : 'qui/controls/utils/Background',
 
-        options : {
-            styles  : false,
-            animate : true
+        options: {
+            styles : false,
+            animate: true
         },
 
-        initialize : function(params)
-        {
-            this.parent( params );
+        initialize: function (params) {
+            this.parent(params);
 
-            this.$FX = moofx( this.$Elm );
+            this.$FX = moofx(this.$Elm);
         },
 
         /**
@@ -43,41 +41,39 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
          * @method qui/controls/utils/Background#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             var self = this;
 
-            if ( this.$Elm ) {
+            if (this.$Elm) {
                 return this.$Elm;
             }
 
             this.$Elm = new Element('div', {
-                'class' : 'qui-background',
-                styles  : {
-                    backgroundColor : '#000000',
-                    position : 'fixed',
-                    width    : '100%',
-                    height   : '100%',
-                    top      : 0,
-                    left     : 0,
-                    zIndex   : 1000,
-                    opacity  : 0,
-                    display  : 'none'
+                'class': 'qui-background',
+                styles : {
+                    backgroundColor: '#000000',
+                    position       : 'fixed',
+                    width          : '100%',
+                    height         : '100%',
+                    top            : 0,
+                    left           : 0,
+                    zIndex         : 1000,
+                    opacity        : 0,
+                    display        : 'none'
                 },
-                events :
-                {
-                    click : function() {
-                        self.fireEvent( 'click', [ self ] );
+                events : {
+                    click: function () {
+                        self.fireEvent('click', [self]);
                     }
                 }
             });
 
-            this.$FX = moofx( this.$Elm );
+            this.$FX = moofx(this.$Elm);
 
-            document.body.appendChild( this.$Elm );
+            document.body.appendChild(this.$Elm);
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
             return this.$Elm;
@@ -88,28 +84,26 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
          *
          * @param {Function} [callback] - callback function
          */
-        show : function(callback)
-        {
-            this.$Elm.setStyle( 'display', null );
+        show: function (callback) {
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            this.$Elm.setStyle('display', null);
+
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            if ( this.getAttribute( 'animate' ) === false )
-            {
-                this.$Elm.set( 'opacity', 0.6 );
+            if (this.getAttribute('animate') === false) {
+                this.$Elm.set('opacity', 0.6);
                 return;
             }
 
 
             this.$FX.animate({
-                opacity : 0.6
+                opacity: 0.6
             }, {
-                duration : 200,
-                callback : function()
-                {
-                    if ( typeof callback === 'function' ) {
+                duration: 200,
+                callback: function () {
+                    if (typeof callback === 'function') {
                         callback();
                     }
                 }
@@ -121,30 +115,30 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function(Contr
          *
          * @param {Function} [callback] - callback function
          */
-        hide : function(callback)
-        {
-            if ( this.getAttribute( 'animate' ) === false )
-            {
-                this.$Elm.set( 'opacity', 0 );
+        hide: function (callback) {
 
-                if ( typeof callback === 'function' ) {
+            if (this.getAttribute('animate') === false) {
+                this.$Elm.setStyle('opacity', 0);
+                this.$Elm.setStyle('display', 'none');
+
+                if (typeof callback === 'function') {
                     callback();
                 }
 
                 return;
             }
 
-
             this.$FX.animate({
-                opacity : 0
+                opacity: 0
             }, {
-                duration : 200,
-                callback : function()
-                {
-                    if ( typeof callback === 'function' ) {
+                duration: 200,
+                callback: function () {
+                    this.$Elm.setStyle('display', 'none');
+
+                    if (typeof callback === 'function') {
                         callback();
                     }
-                }
+                }.bind(this)
             });
         }
     });

@@ -104,15 +104,19 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }, 300);
 
             this.$__scrollSpy = function () {
-                self.$scroll = true;
+                if (this.$opened) {
+                    self.$scroll = true;
+                }
             };
 
             QUI.Windows.register(this);
 
-            QUI.addEvent('resize', this.resize);
-
-            window.addEvent('touchstart', this.$__scrollSpy);
-            window.addEvent('touchend', this.$__scrollDelay);
+            this.addEvents({
+                onDestroy : function() {
+                    self.Loader.destroy();
+                    self.Background.destroy();
+                }
+            });
         },
 
         /**
@@ -273,8 +277,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * Open the popup
          *
          * @method qui/controls/windows/Popup#open
+         * @return Promise
          */
         open: function (callback) {
+
             this.Background.create();
 
             if (this.getAttribute('backgroundClosable')) {
@@ -286,6 +292,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.Background.show();
             this.inject(document.body);
+
+            QUI.addEvent('resize', this.resize);
+
+            window.addEvent('touchstart', this.$__scrollSpy);
+            window.addEvent('touchend', this.$__scrollDelay);
+
 
             // touch body fix
             this.$oldBodyStyle = {
@@ -307,19 +319,28 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 position: 'absolute'
             });
 
+            this.$opened = true;
+
             new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
 
-            this.$opened = true;
             this.getElm().setStyle('position', 'fixed');
 
             this.fireEvent('openBegin', [this]);
 
-            this.resize(true, function () {
-                this.fireEvent('open', [this]);
+            return new Promise(function(resolve) {
 
-                if (typeof callback === 'function') {
-                    callback();
-                }
+                this.resize(true, function () {
+
+                    this.fireEvent('open', [this]);
+
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+
+                    resolve();
+
+                }.bind(this));
+
             }.bind(this));
         },
 
@@ -372,7 +393,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.$Elm.setStyle('left', left);
             }
 
-            if (pos.y === 0) {
+            if (pos.y === 0 && top !== 0) {
                 this.$Elm.setStyle('top', top - 50);
             }
 
@@ -416,6 +437,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * Close the popup
          *
          * @method qui/controls/windows/Popup#close
+         * @return Promise
          */
         close: function () {
 
@@ -442,29 +464,32 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.$opened = false;
 
-            if (!this.$Elm) {
-                return;
-            }
+            return new Promise(function(resolve) {
 
-            var self = this;
-
-            this.$FX.animate({
-                top    : this.$Elm.getPosition().y + 100,
-                opacity: 0
-            }, {
-                duration: 200,
-                equation: 'ease-out',
-                callback: function () {
-                    self.fireEvent('close', [self]);
-
-                    self.$Elm.destroy();
-                    self.destroy();
-
-                    self.Background.hide(function () {
-                        self.Background.destroy();
-                    });
+                if (!this.$Elm) {
+                    resolve();
+                    return;
                 }
-            });
+
+                var self = this;
+
+                this.$FX.animate({
+                    top    : this.$Elm.getPosition().y + 100,
+                    opacity: 0
+                }, {
+                    duration: 200,
+                    equation: 'ease-out',
+                    callback: function () {
+                        self.fireEvent('close', [self]);
+
+                        self.$Elm.destroy();
+                        self.Background.hide();
+
+                        resolve();
+                    }
+                });
+
+            }.bind(this));
         },
 
         /**
