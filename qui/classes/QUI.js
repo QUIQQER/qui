@@ -99,6 +99,14 @@ define('qui/classes/QUI', [
                     }.bind(this));
 
                 }.bind(this), 100));
+
+                window.addEvent('domready', function() {
+                    this.$winSize = window.getSize();
+
+                    if (this.$winSize.x === 0 || this.$winSize.y === 0) {
+                        this.$winSize = document.getSize();
+                    }
+                }.bind(this));
             }
 
             this.MessageHandler = null;
