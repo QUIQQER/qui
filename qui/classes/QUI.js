@@ -77,10 +77,24 @@ define('qui/classes/QUI', [
             // global resize event
             if (typeof window !== 'undefined') {
 
+                window.requestAnimationFrame(function () {
+                    this.$winSize = window.getSize();
+
+                    if (this.$winSize.x === 0 || this.$winSize.y === 0) {
+                        this.$winSize = document.getSize();
+                    }
+
+                }.bind(this));
+
                 window.addEvent('resize', QUIFunctionUtils.debounce(function () {
 
                     window.requestAnimationFrame(function () {
                         this.$winSize = window.getSize();
+
+                        if (this.$winSize.x === 0 || this.$winSize.y === 0) {
+                            this.$winSize = document.getSize();
+                        }
+
                         this.fireEvent('resize', [this]);
                     }.bind(this));
 
