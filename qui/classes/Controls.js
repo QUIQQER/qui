@@ -13,10 +13,9 @@ define('qui/classes/Controls', [
 
     'require',
     'qui/classes/DOM',
-    'qui/lib/element-query/ElementQuery',
-    'qui/lib/element-query/ResizeSensor'
+    'qui/lib/element-query/ElementQuery'
 
-], function(require, DOM)
+], function(require, DOM, ElementQuery)
 {
     "use strict";
 
@@ -36,7 +35,7 @@ define('qui/classes/Controls', [
             this.$cids     = {};
             this.$types    = {};
 
-            this.ElementQueries = new ElementQueries();
+            this.ElementQueries = new ElementQuery();
         },
 
         /**

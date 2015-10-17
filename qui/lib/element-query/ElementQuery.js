@@ -8,13 +8,17 @@
  * https://github.com/marcj/css-element-queries/issues/28#issuecomment-67327416
  */
 
-(function() {
+define('qui/lib/element-query/ElementQuery', [
+    'qui/lib/element-query/ResizeSensor'
+], function(ResizeSensor) {
+    "use strict";
+
     /**
      *
      * @type {Function}
      * @constructor
      */
-    var ElementQueries = this.ElementQueries = function() {
+    var ElementQueries = window.ElementQueries = function() {
 
         this.sheetList    = {};
         this.withTracking = false;
@@ -376,6 +380,8 @@
     } else {
         window.attachEvent('onload', ElementQueries.init);
     }
+
     domLoaded(ElementQueries.init);
 
-})();
+    return ElementQueries;
+});
