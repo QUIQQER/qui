@@ -567,7 +567,17 @@ define('qui/controls/messages/Handler', [
 
             params.messages = messages;
 
-            window.localStorage.setItem('messageHandler', JSON.encode(params));
+            try {
+                if ("localStorage" in window) {
+                    window.localStorage.setItem(
+                        'messageHandler',
+                        JSON.encode(params)
+                    );
+                }
+
+            } catch (e) {
+                // maybe QUOTA_REACHED
+            }
         },
 
         /**
