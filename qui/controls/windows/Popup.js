@@ -112,7 +112,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             QUI.Windows.register(this);
 
             this.addEvents({
-                onDestroy : function() {
+                onDestroy: function () {
                     self.Loader.destroy();
                     self.Background.destroy();
                 }
@@ -327,7 +327,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.fireEvent('openBegin', [this]);
 
-            return new Promise(function(resolve) {
+            return new Promise(function (resolve) {
 
                 this.resize(true, function () {
 
@@ -464,7 +464,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.$opened = false;
 
-            return new Promise(function(resolve) {
+            return new Promise(function (resolve) {
 
                 if (!this.$Elm) {
                     resolve();
@@ -483,6 +483,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         self.fireEvent('close', [self]);
 
                         self.$Elm.destroy();
+                        self.$Elm = null;
+
                         self.Background.hide();
 
                         resolve();
