@@ -30,6 +30,7 @@ var needle = [
     'qui/Locale',
     'qui/utils/Controls',
     'qui/utils/Functions',
+    'qui/utils/System',
 
     'qui/controls/windows/locale/de',
     'qui/controls/windows/locale/en',
@@ -48,7 +49,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                                                        Loader,
                                                        Locale,
                                                        Utils,
-                                                       FunctionsUtils) {
+                                                       FunctionsUtils,
+                                                       SystemUtils) {
 
     "use strict";
 
@@ -319,9 +321,23 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 position: 'absolute'
             });
 
-            this.$opened = true;
+            // ios 4 detection
+            var ios = SystemUtils.iOSversion();
 
-            new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
+            if (ios && ios[0] <= 9) {
+
+                document.body.setStyles({
+                    overflow           : 'hidden',
+                    position           : 'fixed',
+                    top                : document.body.getScroll().y * -1,
+                    '-webkit-transform': 'translateZ(0)'
+                });
+
+            } else {
+                new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
+            }
+
+            this.$opened = true;
 
             this.getElm().setStyle('position', 'fixed');
 
@@ -329,17 +345,28 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             return new Promise(function (resolve) {
 
-                this.resize(true, function () {
+                var __execute = (function () {
+                    this.resize(true, function () {
 
-                    this.fireEvent('open', [this]);
+                        this.fireEvent('open', [this]);
 
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
 
-                    resolve();
+                        resolve();
 
+                    }.bind(this));
                 }.bind(this));
+
+
+                if (ios && ios[0] <= 9) {
+                    // ios rendering bugs because of overflow hidden ... *sigh*
+                    __execute.delay(200, this);
+                    return;
+                }
+
+                __execute();
 
             }.bind(this));
         },
@@ -401,6 +428,14 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.$Elm.setStyle('width', width);
             }
 
+
+            // ios fix
+            var ios = SystemUtils.iOSversion();
+
+            if (ios && ios[0] <= 9) {
+                top = top + (document.body.getStyle('top').toInt() * -1);
+            }
+
             this.$FX.animate({
                 height : height,
                 width  : width,
@@ -455,6 +490,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     top     : this.$oldBodyStyle.top || null,
                     minWidth: this.$oldBodyStyle.minWidth || null
                 });
+
+                // ios fix
+                var ios = SystemUtils.iOSversion();
+
+                if (ios && ios[0] <= 9) {
+                    document.body.setStyles({
+                        '-webkit-transform': null
+                    });
+                }
+
 
                 document.body.scrollTo(
                     this.$oldBodyStyle.scroll.x,
