@@ -1,18 +1,19 @@
 @CHARSET "UTF-8";
 
 .qui-window-popup {
-    background : #FFFFFF;
+    background: #FFFFFF;
     overflow: hidden;
-    position : fixed;
-    top : 50px;
-    z-index : 100000;
+    position: fixed;
+    top: 50px;
+    z-index: 100000;
+    -webkit-transform: translateZ(0);
 }
 
 .qui-window-popup-title {
     background: #DDDDDD;
     clear: both;
     float: left;
-    padding : 10px;
+    padding: 10px;
     width: 100%;
 }
 
@@ -32,20 +33,37 @@
     float: left;
     overflow: auto;
     outline: none;
-    padding : 20px;
+    padding: 20px;
     width: 100%;
     z-index: 1;
 
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0);
 }
 
 .qui-window-popup-buttons,
 .qui-window-popup-sheet-buttons {
+    background: #dddddd;
     clear: both;
     padding: 10px 0;
+    position: relative;
     text-align: center;
     width: 100%;
     z-index: 1;
+    -webkit-transform: translateZ(0);
+}
+
+.qui-window-popup-buttons:after,
+.qui-window-popup-sheet-buttons:after{
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0px, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0;
+    content: "";
+    height: 5px;
+    left: 0;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
 }
 
 .qui-window-popup-buttons button {
@@ -61,6 +79,7 @@
     top: 0;
     width: 100%;
     z-index: 10;
+    -webkit-transform: translateZ(0);
 }
 
 .qui-window-popupsheet-buttons .back {
