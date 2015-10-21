@@ -27,8 +27,13 @@ define('qui/controls/elements/ColorPicker', [
 
         Binds: [
             'clear',
+            'reset',
             '$onImport'
         ],
+
+        options: {
+            defaultcolor: false
+        },
 
         initialize: function (options) {
 
@@ -38,6 +43,7 @@ define('qui/controls/elements/ColorPicker', [
             this.$Color          = null;
             this.$ColorContainer = null;
             this.$Clear          = null;
+            this.$Default        = null;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -66,6 +72,17 @@ define('qui/controls/elements/ColorPicker', [
                 name: '',
                 type: 'hidden'
             }).inject(this.$Elm);
+
+            if (this.getAttribute('defaultcolor')) {
+                this.$Default = new QUIButton({
+                    icon  : 'fa fa-refresh icon-refresh',
+                    events: {
+                        onClick: this.reset
+                    }
+                }).inject(this.$Elm);
+
+                this.$Default.getElm().addClass('qui-controls-resetbutton');
+            }
 
             this.$Clear = new QUIButton({
                 icon  : 'fa fa-close icon-remove',
@@ -163,6 +180,13 @@ define('qui/controls/elements/ColorPicker', [
          */
         getValue: function () {
             return this.$Input.value;
+        },
+
+        /**
+         * Set the default icon
+         */
+        reset: function () {
+            this.setValue(this.getAttribute('defaultcolor'));
         }
     });
 });

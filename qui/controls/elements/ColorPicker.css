@@ -21,3 +21,7 @@
 .qui-controls-colorpicker-clearButton {
     border-radius: 0 3px 3px 0;
 }
+
+.qui-controls-resetbutton {
+    border-radius: 0;
+}
