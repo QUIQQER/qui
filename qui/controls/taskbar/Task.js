@@ -1,4 +1,3 @@
-
 /**
  * A task for the taskbar
  *
@@ -33,8 +32,7 @@ define('qui/controls/taskbar/Task', [
 
     'css!qui/controls/taskbar/Task.css'
 
-], function(QUI, Control, QUIDragDrop, Utils)
-{
+], function (QUI, Control, QUIDragDrop, Utils) {
     "use strict";
 
     /**
@@ -47,36 +45,34 @@ define('qui/controls/taskbar/Task', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/taskbar/Task',
+        Extends: Control,
+        Type   : 'qui/controls/taskbar/Task',
 
-        Binds : [
+        Binds: [
             'close',
             'click',
             '$onDestroy'
         ],
 
-        options : {
-            name      : 'qui-task',
-            icon      : false,
-            text      : '',
-            cssClass  : '',
-            closeable : true,
-            dragable  : true
+        options: {
+            name     : 'qui-task',
+            icon     : false,
+            text     : '',
+            cssClass : '',
+            closeable: true,
+            dragable : true
         },
 
-        initialize : function(Instance, options)
-        {
+        initialize: function (Instance, options) {
             this.$Instance = Instance || null;
             this.$Elm      = null;
 
             this.addEvents({
-                onDestroy : this.$onDestroy
+                onDestroy: this.$onDestroy
             });
 
-            if ( typeof Instance === 'undefined' )
-            {
-                this.parent( options );
+            if (typeof Instance === 'undefined') {
+                this.parent(options);
                 return;
             }
 
@@ -87,17 +83,16 @@ define('qui/controls/taskbar/Task', [
             Instance.setAttribute('Task', this);
 
             // Instance events
-            Instance.addEvent('onRefresh', function() {
+            Instance.addEvent('onRefresh', function () {
                 self.refresh();
             });
 
-            Instance.addEvent('onSetAttribute', function() {
+            Instance.addEvent('onSetAttribute', function () {
                 self.refresh();
             });
 
 
-            Instance.addEvent('onDestroy', function()
-            {
+            Instance.addEvent('onDestroy', function () {
                 self.$Instance = null;
                 self.destroy();
             });
@@ -106,7 +101,7 @@ define('qui/controls/taskbar/Task', [
                 Instance.disableCollapsible();
             }
 
-            this.parent( options );
+            this.parent(options);
         },
 
         /**
@@ -115,12 +110,11 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#serialize
          * @return {Object}
          */
-        serialize : function()
-        {
+        serialize: function () {
             return {
-                attributes : this.getAttributes(),
-                type       : this.getType(),
-                instance   : this.getInstance() ? this.getInstance().serialize() : ''
+                attributes: this.getAttributes(),
+                type      : this.getType(),
+                instance  : this.getInstance() ? this.getInstance().serialize() : ''
             };
         },
 
@@ -131,24 +125,22 @@ define('qui/controls/taskbar/Task', [
          * @param {Object} data
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        unserialize : function(data)
-        {
-            this.setAttributes( data.attributes );
+        unserialize: function (data) {
+            this.setAttributes(data.attributes);
 
             var instance = data.instance;
 
-            if ( !instance ) {
+            if (!instance) {
                 return this;
             }
 
-            require([ instance.type ], function(Modul)
-            {
-                var Instance = new Modul( data.instance );
-                    Instance.unserialize( data.instance );
+            require([instance.type], function (Modul) {
+                var Instance = new Modul(data.instance);
+                Instance.unserialize(data.instance);
 
-                this.initialize( Instance, data.attributes );
+                this.initialize(Instance, data.attributes);
 
-            }.bind( this ));
+            }.bind(this));
         },
 
         /**
@@ -157,9 +149,8 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/buttons/Button#getElm
          * @return {HTMLElement} DOM-Node Element
          */
-        create : function()
-        {
-            if ( this.$Elm ) {
+        create: function () {
+            if (this.$Elm) {
                 return this.$Elm;
             }
 
@@ -169,92 +160,90 @@ define('qui/controls/taskbar/Task', [
                 'class' : 'qui-task box',
                 html    : '<span class="qui-task-icon"></span>' +
                           '<span class="qui-task-text"></span>',
-                styles : {
+                styles  : {
                     outline: 'none'
                 },
-                tabindex : -1,
-                events   :
-                {
-                    click : self.click,
+                tabindex: -1,
+                events  : {
+                    click: self.click,
 
-                    focus : function(event) {
-                        self.fireEvent( 'focus', [ self, event ] );
+                    focus: function (event) {
+                        self.fireEvent('focus', [self, event]);
                     },
 
-                    blur : function(event) {
-                        self.fireEvent( 'blur', [ self, event ] );
+                    blur: function (event) {
+                        self.fireEvent('blur', [self, event]);
                     },
 
-                    contextmenu : function(event)
-                    {
-                        self.fireEvent( 'contextMenu', [ self, event ] );
+                    contextmenu: function (event) {
+                        self.fireEvent('contextMenu', [self, event]);
 
                         event.stop();
+                    },
+
+                    mousedown : function(event) {
+                        if (event.event.button) {
+                            self.click(event);
+                        }
                     }
+
                 }
             });
 
-            if ( this.getAttribute( 'dragable' ) )
-            {
+            if (this.getAttribute('dragable')) {
                 var DragDropParent = null;
 
                 new QUIDragDrop(this.$Elm, {
-                    dropables : '.qui-task-drop',
-                    events    :
-                    {
-                        onStart : function(Dragable, Element, event) {
-                            self.fireEvent( 'dragDropStart', [ self, Element, event ] );
+                    dropables: '.qui-task-drop',
+                    events   : {
+                        onStart: function (Dragable, Element, event) {
+                            self.fireEvent('dragDropStart', [self, Element, event]);
                         },
 
-                        onComplete : function() {
-                            self.fireEvent( 'dragDropComplete', [ self ] );
+                        onComplete: function () {
+                            self.fireEvent('dragDropComplete', [self]);
                         },
 
-                        onDrag : function(Dragable, Element, event)
-                        {
-                            self.fireEvent( 'drag', [ self, event ] );
+                        onDrag: function (Dragable, Element, event) {
+                            self.fireEvent('drag', [self, event]);
 
-                            if ( DragDropParent ) {
-                                DragDropParent.fireEvent( 'dragDropDrag', [ self, event ] );
+                            if (DragDropParent) {
+                                DragDropParent.fireEvent('dragDropDrag', [self, event]);
                             }
                         },
 
-                        onEnter : function(Dragable, Element, Dropable)
-                        {
-                            var quiid = Dropable.get( 'data-quiid' );
+                        onEnter: function (Dragable, Element, Dropable) {
+                            var quiid = Dropable.get('data-quiid');
 
-                            if ( !quiid ) {
+                            if (!quiid) {
                                 return;
                             }
 
-                            DragDropParent = QUI.Controls.getById( quiid );
+                            DragDropParent = QUI.Controls.getById(quiid);
 
-                            if ( !DragDropParent ) {
+                            if (!DragDropParent) {
                                 return;
                             }
 
-                            if ( DragDropParent ) {
-                                DragDropParent.fireEvent( 'dragDropEnter', [ self, Element ] );
+                            if (DragDropParent) {
+                                DragDropParent.fireEvent('dragDropEnter', [self, Element]);
                             }
                         },
 
-                        onLeave : function(Dragable, Element)
-                        {
-                            if ( DragDropParent )
-                            {
-                                DragDropParent.fireEvent( 'dragDropLeave', [ self, Element ] );
+                        onLeave: function (Dragable, Element) {
+                            if (DragDropParent) {
+                                DragDropParent.fireEvent('dragDropLeave', [self, Element]);
                                 DragDropParent = null;
                             }
                         },
 
-                        onDrop : function(Dragable, Element, Dropable, event)
-                        {
-                            if ( !Dropable ) {
+                        onDrop: function (Dragable, Element, Dropable, event) {
+                            if (!Dropable) {
                                 return;
                             }
 
-                            if ( DragDropParent ) {
-                                DragDropParent.fireEvent( 'dragDropDrop', [ self, Element, Dropable, event ] );
+                            if (DragDropParent) {
+                                DragDropParent.fireEvent('dragDropDrop', [self, Element, Dropable, event]);
                             }
                         }
                     }
@@ -262,24 +251,23 @@ define('qui/controls/taskbar/Task', [
             }
 
 
-            if ( this.getAttribute( 'cssClass' ) ) {
-                this.$Elm.addClass( this.getAttribute( 'cssClass' ) );
+            if (this.getAttribute('cssClass')) {
+                this.$Elm.addClass(this.getAttribute('cssClass'));
             }
 
-            if ( this.getAttribute('closeable') )
-            {
+            if (this.getAttribute('closeable')) {
                 new Element('div', {
-                    'class' : 'qui-task-close',
-                    'html'  : '<span class="icon-remove"></span>',
-                    events  : {
-                        click : this.close
+                    'class': 'qui-task-close',
+                    'html' : '<span class="icon-remove"></span>',
+                    events : {
+                        click: this.close
                     }
-                }).inject( this.$Elm );
+                }).inject(this.$Elm);
             }
 
             // exist serialize data?
-            if ( typeof this.$serialize !== 'undefined' ) {
-                this.unserialize( this.$serialize );
+            if (typeof this.$serialize !== 'undefined') {
+                this.unserialize(this.$serialize);
             }
 
             this.refresh();
@@ -292,59 +280,54 @@ define('qui/controls/taskbar/Task', [
          *
          * @method qui/controls/taskbar/Task#refresh
          */
-        refresh : function()
-        {
-            if ( !this.$Elm )
-            {
-                this.fireEvent( 'refresh', [ this ] );
+        refresh: function () {
+            if (!this.$Elm) {
+                this.fireEvent('refresh', [this]);
                 return;
             }
 
-            var Icon = this.$Elm.getElement( '.qui-task-icon' ),
-                Text = this.$Elm.getElement( '.qui-task-text' );
+            var Icon = this.$Elm.getElement('.qui-task-icon'),
+                Text = this.$Elm.getElement('.qui-task-text');
 
-            if ( this.getIcon() )
-            {
+            if (this.getIcon()) {
                 var icon = this.getIcon();
 
                 Icon.className = 'qui-task-icon';
-                Icon.setStyle( 'background-image', null );
+                Icon.setStyle('background-image', null);
 
-                if ( Utils.isFontAwesomeClass( icon ) )
-                {
-                    Icon.addClass( icon );
-                } else
-                {
-                    Icon.setStyle( 'background-image', 'url("'+ icon +'")' );
+                if (Utils.isFontAwesomeClass(icon)) {
+                    Icon.addClass(icon);
+                } else {
+                    Icon.setStyle('background-image', 'url("' + icon + '")');
                 }
             }
 
             var description = this.getDescription(),
                 text        = this.getText();
 
-            if ( !text ) {
+            if (!text) {
                 text = '';
             }
 
-            if ( !description && text) {
+            if (!description && text) {
                 description = text;
             }
 
-            if ( !description ) {
+            if (!description) {
                 description = '';
             }
 
-            this.$Elm.set( 'title', description );
-            Text.set( 'html', text );
+            this.$Elm.set('title', description);
+            Text.set('html', text);
 
             if (this.getInstance() && this.getInstance().getAttribute('displayNoTaskText')) {
 
                 Text.setStyle('display', 'none');
 
                 this.getElm().setStyles({
-                    width    : 40,
-                    maxWidth : 40,
-                    minWidth : 40
+                    width   : 40,
+                    maxWidth: 40,
+                    minWidth: 40
                 });
 
             } else {
@@ -352,14 +335,14 @@ define('qui/controls/taskbar/Task', [
                 Text.setStyle('display', null);
 
                 this.getElm().setStyles({
-                    width    : null,
-                    maxWidth : null,
-                    minWidth : null
+                    width   : null,
+                    maxWidth: null,
+                    minWidth: null
                 });
 
             }
 
-            this.fireEvent( 'refresh', [ this ] );
+            this.fireEvent('refresh', [this]);
         },
 
         /**
@@ -368,13 +351,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#refresh
          * @return {String|Boolean}
          */
-        getIcon : function()
-        {
-            if ( !this.getInstance() ) {
+        getIcon: function () {
+            if (!this.getInstance()) {
                 return '';
             }
 
-            return this.getInstance().getAttribute( 'icon' );
+            return this.getInstance().getAttribute('icon');
         },
 
         /**
@@ -383,13 +365,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#getText
          * @return {String|Boolean}
          */
-        getText : function()
-        {
-            if ( !this.getInstance() ) {
+        getText: function () {
+            if (!this.getInstance()) {
                 return '';
             }
 
-            return this.getInstance().getAttribute( 'title' );
+            return this.getInstance().getAttribute('title');
         },
 
         /**
@@ -398,13 +379,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#getDescription
          * @return {String|Boolean}
          */
-        getDescription : function()
-        {
-            if ( !this.getInstance() ) {
+        getDescription: function () {
+            if (!this.getInstance()) {
                 return '';
             }
 
-            return this.getInstance().getAttribute( 'description' );
+            return this.getInstance().getAttribute('description');
         },
 
         /**
@@ -413,8 +393,7 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#getInstance
          * @return {Object} qui/controls/Control
          */
-        getInstance : function()
-        {
+        getInstance: function () {
             return this.$Instance;
         },
 
@@ -424,8 +403,7 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#setInstance
          * @param {Object} Instance - qui/controls/Control
          */
-        setInstance : function(Instance)
-        {
+        setInstance: function (Instance) {
             this.$Instance = Instance;
 
             Instance.setAttribute('closeButton', true);
@@ -437,11 +415,10 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#getTaskbar
          * @return {Object} qui/controls/taskbar/Taskbar
          */
-        getTaskbar : function()
-        {
+        getTaskbar: function () {
             var Taskbar = this.getParent();
 
-            if ( typeOf( Taskbar ) == "qui/controls/taskbar/Group" ) {
+            if (typeOf(Taskbar) == "qui/controls/taskbar/Group") {
                 Taskbar = Taskbar.getParent();
             }
 
@@ -454,14 +431,13 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#activate
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        activate : function()
-        {
-            if ( this.isActive() || !this.$Elm ) {
+        activate: function () {
+            if (this.isActive() || !this.$Elm) {
                 return this;
             }
 
-            this.$Elm.addClass( 'active' );
-            this.fireEvent( 'activate', [ this ] );
+            this.$Elm.addClass('active');
+            this.fireEvent('activate', [this]);
 
             return this;
         },
@@ -472,18 +448,16 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#normalize
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        normalize : function()
-        {
-            if ( this.$Elm )
-            {
-                this.$Elm.removeClass( 'active' );
-                this.$Elm.removeClass( 'highlight' );
-                this.$Elm.removeClass( 'select' );
+        normalize: function () {
+            if (this.$Elm) {
+                this.$Elm.removeClass('active');
+                this.$Elm.removeClass('highlight');
+                this.$Elm.removeClass('select');
 
-                this.$Elm.setStyle( 'display', null );
+                this.$Elm.setStyle('display', null);
             }
 
-            this.fireEvent( 'normalize', [ this ] );
+            this.fireEvent('normalize', [this]);
 
             return this;
         },
@@ -494,13 +468,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#highlight
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        highlight : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.addClass( 'highlight' );
+        highlight: function () {
+            if (this.$Elm) {
+                this.$Elm.addClass('highlight');
             }
 
-            this.fireEvent( 'highlight', [ this ] );
+            this.fireEvent('highlight', [this]);
 
             return this;
         },
@@ -511,13 +484,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#highlight
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        deHighlight : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.removeClass( 'highlight' );
+        deHighlight: function () {
+            if (this.$Elm) {
+                this.$Elm.removeClass('highlight');
             }
 
-            this.fireEvent( 'deHighlight', [ this ] );
+            this.fireEvent('deHighlight', [this]);
 
             return this;
         },
@@ -528,10 +500,9 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#hide
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        hide : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.setStyle( 'display', 'none' );
+        hide: function () {
+            if (this.$Elm) {
+                this.$Elm.setStyle('display', 'none');
             }
 
             return this;
@@ -543,13 +514,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#isActive
          * @return {Boolean}
          */
-        isActive : function()
-        {
-            if ( !this.$Elm ) {
+        isActive: function () {
+            if (!this.$Elm) {
                 return false;
             }
 
-            return this.$Elm.hasClass( 'active' );
+            return this.$Elm.hasClass('active');
         },
 
         /**
@@ -558,11 +528,10 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#click
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        click : function(event)
-        {
-            this.fireEvent( 'click', [ this, event ] );
+        click: function (event) {
+            this.fireEvent('click', [this, event]);
 
-            if ( !this.isActive() ) {
+            if (!this.isActive()) {
                 this.activate();
             }
 
@@ -575,9 +544,8 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#close
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        close : function(event)
-        {
-            this.fireEvent( 'close', [ this, event ] );
+        close: function (event) {
+            this.fireEvent('close', [this, event]);
             this.destroy();
 
             return this;
@@ -589,9 +557,8 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#focus
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        focus : function()
-        {
-            if ( this.$Elm ) {
+        focus: function () {
+            if (this.$Elm) {
                 this.$Elm.focus();
             }
 
@@ -604,13 +571,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#select
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        select : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.addClass( 'select' );
+        select: function () {
+            if (this.$Elm) {
+                this.$Elm.addClass('select');
             }
 
-            this.fireEvent( 'select', [ this ] );
+            this.fireEvent('select', [this]);
 
             return this;
         },
@@ -621,10 +587,9 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#isSelected
          * @return {Boolean}
          */
-        isSelected : function()
-        {
-            if ( this.$Elm ) {
-                return this.$Elm.hasClass( 'select' );
+        isSelected: function () {
+            if (this.$Elm) {
+                return this.$Elm.hasClass('select');
             }
 
             return false;
@@ -636,13 +601,12 @@ define('qui/controls/taskbar/Task', [
          * @method qui/controls/taskbar/Task#unselect
          * @return {Object} this (qui/controls/taskbar/Task)
          */
-        unselect : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.removeClass( 'select' );
+        unselect: function () {
+            if (this.$Elm) {
+                this.$Elm.removeClass('select');
             }
 
-            this.fireEvent( 'unselect', [ this ] );
+            this.fireEvent('unselect', [this]);
 
             return this;
         },
@@ -652,16 +616,14 @@ define('qui/controls/taskbar/Task', [
          *
          * @method qui/controls/taskbar/Task#$onDestroy
          */
-        $onDestroy : function()
-        {
-            if ( this.getInstance() ) {
+        $onDestroy: function () {
+            if (this.getInstance()) {
                 this.getInstance().destroy();
             }
 
             this.$Instance = null;
 
-            if ( typeof this.$Elm !== 'undefined' && this.$Elm )
-            {
+            if (typeof this.$Elm !== 'undefined' && this.$Elm) {
                 this.$Elm.destroy();
                 this.$Elm = null;
             }
