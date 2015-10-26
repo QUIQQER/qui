@@ -160,13 +160,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (this.getAttribute('titleCloseButton')) {
                 new Element('div', {
-                    'class': 'icon-remove fa fa-remove',
-                    styles : {
-                        cursor    : 'pointer',
-                        'float'   : 'right',
-                        lineHeight: 17,
-                        width     : 17
-                    },
+                    'class': 'icon-remove fa fa-remove qui-window-popup-title-close',
                     events : {
                         click: function () {
                             self.cancel();
