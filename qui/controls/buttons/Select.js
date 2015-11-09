@@ -554,6 +554,14 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$onBlur
          */
         $onBlur: function () {
+
+            // ie11 focus fix
+            if (document.activeElement == this.$Menu.getElm() ||
+                document.activeElement == this.$Menu.$Container) {
+                this.focus();
+                return;
+            }
+
             this.$Menu.hide();
             this.getElm().removeClass('qui-select-open');
         },
