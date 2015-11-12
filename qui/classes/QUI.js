@@ -77,14 +77,13 @@ define('qui/classes/QUI', [
             // global resize event
             if (typeof window !== 'undefined') {
 
-                var win = document.id(window),
-                    doc = document.id(document);
+                var win = document.id(window);
 
                 win.requestAnimationFrame(function () {
                     this.$winSize = win.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                        this.$winSize = doc.getSize();
+                        this.$winSize = document.getSize();
                     }
 
                 }.bind(this));
@@ -95,7 +94,7 @@ define('qui/classes/QUI', [
                         this.$winSize = win.getSize();
 
                         if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                            this.$winSize = doc.getSize();
+                            this.$winSize = document.getSize();
                         }
 
                         this.fireEvent('resize', [this]);
@@ -107,7 +106,7 @@ define('qui/classes/QUI', [
                     this.$winSize = win.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                        this.$winSize = doc.getSize();
+                        this.$winSize = document.getSize();
                     }
                 }.bind(this));
             }
