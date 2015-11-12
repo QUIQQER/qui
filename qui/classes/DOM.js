@@ -1,4 +1,3 @@
-
 /**
  * The DOM class emulate similar methods
  * like a DOMNode to a normal Object
@@ -13,8 +12,7 @@
  * @event onSetAttribute [key, value]
  */
 
-define('qui/classes/DOM', function()
-{
+define('qui/classes/DOM', function () {
     "use strict";
 
     window.$quistorage = {};
@@ -32,30 +30,27 @@ define('qui/classes/DOM', function()
      */
     return new Class({
 
-        Implements : [ Options, Events ],
-        Type       : 'qui/classes/DOM',
+        Implements: [Options, Events],
+        Type      : 'qui/classes/DOM',
 
-        options : {},
-        $uid    : null,
+        options: {},
+        $uid   : null,
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             options = options || {};
 
-            if ( options.events )
-            {
-                this.addEvents( options.events );
+            if (options.events) {
+                this.addEvents(options.events);
                 delete options.events;
             }
 
-            if ( options.methods )
-            {
-                Object.append( this, options.methods );
+            if (options.methods) {
+                Object.append(this, options.methods);
                 delete options.methods;
             }
 
-            this.setAttributes( options );
-            this.fireEvent( 'init', [ this ] );
+            this.setAttributes(options);
+            this.fireEvent('init', [this]);
         },
 
         /**
@@ -65,13 +60,12 @@ define('qui/classes/DOM', function()
          * @return {String} Type of the Object
          * @ignore
          */
-        $family : function()
-        {
-            if ( typeof this.Type !== 'undefined' ) {
+        $family: function () {
+            if (typeof this.Type !== 'undefined') {
                 return this.Type;
             }
 
-            return typeOf( this );
+            return typeOf(this);
         },
 
         /**
@@ -80,9 +74,8 @@ define('qui/classes/DOM', function()
          * @method qui/classes/DOM#getId
          * @return {String} Object ID
          */
-        getId : function()
-        {
-            if ( !this.$uid ) {
+        getId: function () {
+            if (!this.$uid) {
                 this.$uid = String.uniqueID();
             }
 
@@ -95,9 +88,8 @@ define('qui/classes/DOM', function()
          * @method qui/classes/DOM#getType
          * @return {String} The type of the object
          */
-        getType : function()
-        {
-            return typeOf( this );
+        getType: function () {
+            return typeOf(this);
         },
 
         /**
@@ -112,23 +104,25 @@ define('qui/classes/DOM', function()
          *
          * @return {Object} this (qui/classes/DOM)
          */
-        setAttribute : function(k, v)
-        {
-            this.fireEvent('setAttribute', [ k, v ]);
+        setAttribute: function (k, v) {
+            this.fireEvent('setAttribute', [k, v]);
 
-            if ( typeof this.options[ k ] !== 'undefined' )
-            {
-                this.options[ k ] = v;
+            if (typeof this.options[k] !== 'undefined') {
+                this.options[k] = v;
                 return this;
             }
 
-            var oid = Slick.uidOf( this );
+            var oid = Slick.uidOf(this);
 
-            if ( typeof window.$quistorage[ oid ] === 'undefined' ) {
-                window.$quistorage[ oid ] = {};
+            if (typeof window.$quistorage === 'undefined') {
+                window.$quistorage = {};
             }
 
-            window.$quistorage[ oid ][ k ] = v;
+            if (typeof window.$quistorage[oid] === 'undefined') {
+                window.$quistorage[oid] = {};
+            }
+
+            window.$quistorage[oid][k] = v;
 
             return this;
         },
@@ -138,15 +132,14 @@ define('qui/classes/DOM', function()
          *
          * @method qui/classes/DOM#destroy
          */
-        destroy : function()
-        {
-            this.fireEvent( 'destroy', [ this ] );
+        destroy: function () {
+            this.fireEvent('destroy', [this]);
 
             // storage clear
-            var oid = Slick.uidOf( this );
+            var oid = Slick.uidOf(this);
 
-            if ( oid in window.$quistorage ) {
-                delete window.$quistorage[ oid ];
+            if (oid in window.$quistorage) {
+                delete window.$quistorage[oid];
             }
 
             this.removeEvents();
@@ -158,9 +151,8 @@ define('qui/classes/DOM', function()
          * @see qui/classes/DOM#setAttributes()
          * @method qui/classes/DOM#setOptions
          */
-        setOptions : function(options)
-        {
-            this.setAttributes( options );
+        setOptions: function (options) {
+            this.setAttributes(options);
         },
 
         /**
@@ -176,14 +168,12 @@ define('qui/classes/DOM', function()
          *   attr2 : []
          * })
          */
-        setAttributes : function(attributes)
-        {
+        setAttributes: function (attributes) {
             attributes = attributes || {};
 
-            for ( var k in attributes )
-            {
-                if ( attributes.hasOwnProperty( k ) ) {
-                    this.setAttribute( k, attributes[k] );
+            for (var k in attributes) {
+                if (attributes.hasOwnProperty(k)) {
+                    this.setAttribute(k, attributes[k]);
                 }
             }
 
@@ -198,20 +188,19 @@ define('qui/classes/DOM', function()
          * @param {String} k - name of the attribute
          * @return {String|Boolean|Array|Object} attribute
          */
-        getAttribute : function(k)
-        {
-            if ( k in this.options ) {
-                return this.options[ k ];
+        getAttribute: function (k) {
+            if (k in this.options) {
+                return this.options[k];
             }
 
-            var oid = Slick.uidOf( this );
+            var oid = Slick.uidOf(this);
 
-            if ( typeof window.$quistorage[ oid ] === 'undefined' ) {
+            if (typeof window.$quistorage[oid] === 'undefined') {
                 return false;
             }
 
-            if ( typeof window.$quistorage[ oid ][ k ] !== 'undefined' ) {
-                return window.$quistorage[ oid ][ k ];
+            if (typeof window.$quistorage[oid][k] !== 'undefined') {
+                return window.$quistorage[oid][k];
             }
 
             return false;
@@ -224,8 +213,7 @@ define('qui/classes/DOM', function()
          * @see qui/classes/DOM#getAttributes()
          * @deprecated
          */
-        getAllAttributes : function()
-        {
+        getAllAttributes: function () {
             return this.getAttributes();
         },
 
@@ -235,8 +223,7 @@ define('qui/classes/DOM', function()
          * @method qui/classes/DOM#getAttributes
          * @return {Object} attributes
          */
-        getAttributes : function()
-        {
+        getAttributes: function () {
             return this.options;
         },
 
@@ -245,12 +232,11 @@ define('qui/classes/DOM', function()
          *
          * @return {Object}
          */
-        getStorageAttributes : function()
-        {
-            var oid = Slick.uidOf( this );
+        getStorageAttributes: function () {
+            var oid = Slick.uidOf(this);
 
-            if ( oid in window.$quistorage  ) {
-                return window.$quistorage[ oid ];
+            if (oid in window.$quistorage) {
+                return window.$quistorage[oid];
             }
 
             return {};
@@ -263,15 +249,14 @@ define('qui/classes/DOM', function()
          * @param {String} k - wanted attribute
          * @return {Boolean} true or false
          */
-        existAttribute : function(k)
-        {
-            if ( typeof this.options[ k ] !== 'undefined' ) {
+        existAttribute: function (k) {
+            if (typeof this.options[k] !== 'undefined') {
                 return true;
             }
 
-            var oid = Slick.uidOf( this );
+            var oid = Slick.uidOf(this);
 
-            return window.$quistorage[ oid ] && window.$quistorage[ oid ][ k ];
+            return window.$quistorage[oid] && window.$quistorage[oid][k];
         },
 
         /**
@@ -281,14 +266,13 @@ define('qui/classes/DOM', function()
          * @param {String} eventname - wanted event
          * @return {Array|Boolean} Event list
          */
-        getEvents : function(eventname)
-        {
-            if ( typeof this.$events === 'undefined') {
+        getEvents: function (eventname) {
+            if (typeof this.$events === 'undefined') {
                 return false;
             }
 
-            if ( typeof this.$events[ eventname ] !== 'undefined') {
-                return this.$events[ eventname ];
+            if (typeof this.$events[eventname] !== 'undefined') {
+                return this.$events[eventname];
             }
 
             return false;
