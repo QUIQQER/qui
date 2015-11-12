@@ -77,22 +77,25 @@ define('qui/classes/QUI', [
             // global resize event
             if (typeof window !== 'undefined') {
 
-                window.requestAnimationFrame(function () {
-                    this.$winSize = window.getSize();
+                var win = document.id(window),
+                    doc = document.id(document);
+
+                win.requestAnimationFrame(function () {
+                    this.$winSize = win.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                        this.$winSize = document.getSize();
+                        this.$winSize = doc.getSize();
                     }
 
                 }.bind(this));
 
-                window.addEvent('resize', QUIFunctionUtils.debounce(function () {
+                win.addEvent('resize', QUIFunctionUtils.debounce(function () {
 
-                    window.requestAnimationFrame(function () {
-                        this.$winSize = window.getSize();
+                    win.requestAnimationFrame(function () {
+                        this.$winSize = win.getSize();
 
                         if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                            this.$winSize = document.getSize();
+                            this.$winSize = doc.getSize();
                         }
 
                         this.fireEvent('resize', [this]);
@@ -100,11 +103,11 @@ define('qui/classes/QUI', [
 
                 }.bind(this), 100));
 
-                window.addEvent('domready', function() {
-                    this.$winSize = window.getSize();
+                win.addEvent('domready', function() {
+                    this.$winSize = win.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
-                        this.$winSize = document.getSize();
+                        this.$winSize = doc.getSize();
                     }
                 }.bind(this));
             }
