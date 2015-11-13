@@ -1,4 +1,3 @@
-
 /**
  * QUI control Manager
  *
@@ -7,6 +6,7 @@
  *
  * @require require
  * @require qui/classes/DOM
+ * @require qui/lib/element-query/ElementQuery
  */
 
 define('qui/classes/Controls', [
@@ -15,8 +15,7 @@ define('qui/classes/Controls', [
     'qui/classes/DOM',
     'qui/lib/element-query/ElementQuery'
 
-], function(require, DOM, ElementQuery)
-{
+], function (require, DOM, ElementQuery) {
     "use strict";
 
     /**
@@ -26,14 +25,13 @@ define('qui/classes/Controls', [
      */
     return new Class({
 
-        Extends : DOM,
-        Type    : 'qui/classes/Controls',
+        Extends: DOM,
+        Type: 'qui/classes/Controls',
 
-        initialize : function()
-        {
+        initialize: function () {
             this.$controls = {};
-            this.$cids     = {};
-            this.$types    = {};
+            this.$cids = {};
+            this.$types = {};
 
             this.ElementQueries = new ElementQuery();
         },
@@ -45,8 +43,7 @@ define('qui/classes/Controls', [
          * @param {String} n - Name of the Control
          * @return {Array} All Controls with the needle name
          */
-        get : function(n)
-        {
+        get: function (n) {
             if (typeof this.$controls[n] === 'undefined') {
                 return [];
             }
@@ -61,8 +58,7 @@ define('qui/classes/Controls', [
          * @param {String|Number} id - ID of the wanted Control
          * @return {Object|Boolean} (qui/controls/Control) a QUI control, based on qui/controls/Control or false
          */
-        getById : function(id)
-        {
+        getById: function (id) {
             if (id in this.$cids) {
                 return this.$cids[id];
             }
@@ -76,8 +72,7 @@ define('qui/classes/Controls', [
          * @param {HTMLElement} Node
          * @return {Array}
          */
-        getControlsInElement : function(Node)
-        {
+        getControlsInElement: function (Node) {
             var i, len, Control;
 
             var list = [];
@@ -100,8 +95,7 @@ define('qui/classes/Controls', [
          * @method qui/classes/Controls#getByType
          * @return {Array}
          */
-        getByType : function(type)
-        {
+        getByType: function (type) {
             if (type in this.$types) {
                 return this.$types[type];
             }
@@ -119,10 +113,9 @@ define('qui/classes/Controls', [
          * @example QUI.Controls.loadType('qui/controls/taskbar/Task', function(Modul) { })
          * @deprecated
          */
-        loadType : function(type, onload)
-        {
-            if (!type.match( /qui\// )) {
-                type = 'qui/'+ type;
+        loadType: function (type, onload) {
+            if (!type.match(/qui\//)) {
+                type = 'qui/' + type;
             }
 
             require([type], onload);
@@ -134,9 +127,8 @@ define('qui/classes/Controls', [
          * @method qui/controls/Control#isControl
          * @return {Boolean} Obj - true or false
          */
-        isControl : function(Obj)
-        {
-            if ( typeof Obj === 'undefined' || !Obj ) {
+        isControl: function (Obj) {
+            if (typeof Obj === 'undefined' || !Obj) {
                 return false;
             }
 
@@ -149,31 +141,30 @@ define('qui/classes/Controls', [
          * @method qui/controls/Control#add
          * @param {Object} Control - (qui/controls/Control)
          */
-        add : function(Control)
-        {
+        add: function (Control) {
             var s = this,
-                n = Control.getAttribute( 'name' ),
-                t = typeOf( Control );
+                n = Control.getAttribute('name'),
+                t = typeOf(Control);
 
-            if ( !n || n === '' ) {
+            if (!n || n === '') {
                 n = '#unknown';
             }
 
-            if ( typeof this.$controls[ n ] === 'undefined' ) {
-                this.$controls[ n ] = [];
+            if (typeof this.$controls[n] === 'undefined') {
+                this.$controls[n] = [];
             }
 
-            if ( typeof this.$types[ t ] === 'undefined' ) {
-                this.$types[ t ] = [];
+            if (typeof this.$types[t] === 'undefined') {
+                this.$types[t] = [];
             }
 
-            this.$controls[ n ].push( Control );
-            this.$types[ t ].push( Control );
+            this.$controls[n].push(Control);
+            this.$types[t].push(Control);
 
-            this.$cids[ Control.getId() ] = Control;
+            this.$cids[Control.getId()] = Control;
 
-            Control.addEvent('onDestroy', function() {
-                s.destroy( Control );
+            Control.addEvent('onDestroy', function () {
+                s.destroy(Control);
             });
         },
 
@@ -183,54 +174,49 @@ define('qui/classes/Controls', [
          * @method qui/controls/Control#destroy
          * @param {Object} Control - (qui/controls/Control)
          */
-        destroy : function(Control)
-        {
-            var n  = Control.getAttribute( 'name' ),
-                t  = typeOf( Control ),
+        destroy: function (Control) {
+            var n = Control.getAttribute('name'),
+                t = typeOf(Control),
                 id = Control.getId();
 
-            if ( !n || n === '' ) {
+            if (!n || n === '') {
                 n = '#unknown';
             }
 
-            if ( typeof this.$cids[ id ] !== 'undefined' ) {
-                delete this.$cids[ id ];
+            if (typeof this.$cids[id] !== 'undefined') {
+                delete this.$cids[id];
             }
 
             var i, len;
             var tmp = [];
 
             // refresh controls
-            if ( typeof this.$controls[ n ] !== 'undefined' )
-            {
-                for ( i = 0, len = this.$controls[ n ].length; i < len; i++ )
-                {
-                    if ( id !== this.$controls[ n ][ i ].getId() ) {
-                        tmp.push( this.$controls[ n ][ i ] );
+            if (typeof this.$controls[n] !== 'undefined') {
+                for (i = 0, len = this.$controls[n].length; i < len; i++) {
+                    if (id !== this.$controls[n][i].getId()) {
+                        tmp.push(this.$controls[n][i]);
                     }
                 }
 
-                this.$controls[ n ] = tmp;
+                this.$controls[n] = tmp;
 
-                if ( !tmp.length ) {
-                    delete this.$controls[ n ];
+                if (!tmp.length) {
+                    delete this.$controls[n];
                 }
             }
 
             // refresh types
             tmp = [];
 
-            if ( typeof this.$types[ t ] !== 'undefined' )
-            {
-                for ( i = 0, len = this.$types[ t ].length; i < len; i++ )
-                {
-                    if ( id !== this.$types[ t ][ i ].getId() ) {
-                        tmp.push( this.$types[ t ][ i ] );
+            if (typeof this.$types[t] !== 'undefined') {
+                for (i = 0, len = this.$types[t].length; i < len; i++) {
+                    if (id !== this.$types[t][i].getId()) {
+                        tmp.push(this.$types[t][i]);
                     }
                 }
             }
 
-            this.$types[ t ] = tmp;
+            this.$types[t] = tmp;
         }
     });
 });

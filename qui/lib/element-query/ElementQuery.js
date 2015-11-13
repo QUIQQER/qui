@@ -10,7 +10,7 @@
 
 define('qui/lib/element-query/ElementQuery', [
     'qui/lib/element-query/ResizeSensor'
-], function(ResizeSensor) {
+], function (ResizeSensor) {
     "use strict";
 
     /**
@@ -18,9 +18,9 @@ define('qui/lib/element-query/ElementQuery', [
      * @type {Function}
      * @constructor
      */
-    var ElementQueries = window.ElementQueries = function() {
+    var ElementQueries = function () {
 
-        this.sheetList    = {};
+        this.sheetList = {};
         this.withTracking = false;
         var elements = [];
 
@@ -81,14 +81,14 @@ define('qui/lib/element-query/ElementQuery', [
          * @constructor
          */
         function SetupInformation(element) {
-            this.element   = element;
-            this.options   = {};
+            this.element = element;
+            this.options = {};
             var key, option, width = 0, height = 0, value, actualValue, attrValues, attrValue, attrName;
 
             /**
              * @param {Object} option {mode: 'min|max', property: 'width|height', value: '123px'}
              */
-            this.addOption = function(option) {
+            this.addOption = function (option) {
                 var idx = [option.mode, option.property, option.value].join(',');
                 this.options[idx] = option;
             };
@@ -98,7 +98,7 @@ define('qui/lib/element-query/ElementQuery', [
             /**
              * Extracts the computed width/height and sets to min/max- attribute.
              */
-            this.call = function() {
+            this.call = function () {
                 // extract current dimensions
                 width = this.element.offsetWidth;
                 height = this.element.offsetHeight;
@@ -106,7 +106,7 @@ define('qui/lib/element-query/ElementQuery', [
                 attrValues = {};
 
                 for (key in this.options) {
-                    if (!this.options.hasOwnProperty(key)){
+                    if (!this.options.hasOwnProperty(key)) {
                         continue;
                     }
                     option = this.options[key];
@@ -126,7 +126,7 @@ define('qui/lib/element-query/ElementQuery', [
                     }
 
                     if (!attrValues[attrName]) attrValues[attrName] = '';
-                    if (attrValue && -1 === (' '+attrValues[attrName]+' ').indexOf(' ' + attrValue + ' ')) {
+                    if (attrValue && -1 === (' ' + attrValues[attrName] + ' ').indexOf(' ' + attrValue + ' ')) {
                         attrValues[attrName] += ' ' + attrValue;
                     }
                 }
@@ -151,7 +151,7 @@ define('qui/lib/element-query/ElementQuery', [
             } else {
                 element.elementQueriesSetupInformation = new SetupInformation(element);
                 element.elementQueriesSetupInformation.addOption(options);
-                element.elementQueriesSensor = new ResizeSensor(element, function() {
+                element.elementQueriesSensor = new ResizeSensor(element, function () {
                     element.elementQueriesSetupInformation.call();
                 });
             }
@@ -206,14 +206,12 @@ define('qui/lib/element-query/ElementQuery', [
         /**
          * @param {CssRule[]|String} rules
          */
-        function readRules(rules)
-        {
+        function readRules(rules) {
             if (!rules) {
                 return;
             }
 
-            if ('string' === typeof rules)
-            {
+            if ('string' === typeof rules) {
                 rules = rules.toLowerCase();
 
                 if (-1 !== rules.indexOf('min-width') || -1 !== rules.indexOf('max-width')) {
@@ -225,26 +223,21 @@ define('qui/lib/element-query/ElementQuery', [
 
             var selector = '';
 
-            for ( var i = 0, j = rules.length; i < j; i++ )
-            {
-                if ( 1 === rules[i].type )
-                {
+            for (var i = 0, j = rules.length; i < j; i++) {
+                if (1 === rules[i].type) {
                     selector = rules[i].selectorText || rules[i].cssText;
 
-                    if ( -1 !== selector.indexOf('min-height') ||
-                         -1 !== selector.indexOf('max-height'))
-                    {
+                    if (-1 !== selector.indexOf('min-height') ||
+                        -1 !== selector.indexOf('max-height')) {
                         extractQuery(selector);
 
-                    } else if ( -1 !== selector.indexOf('min-width') ||
-                                -1 !== selector.indexOf('max-width'))
-                    {
+                    } else if (-1 !== selector.indexOf('min-width') ||
+                               -1 !== selector.indexOf('max-width')) {
                         extractQuery(selector);
                     }
 
-                } else if ( 4 === rules[i].type )
-                {
-                    readRules( rules[i].cssRules || rules[i].rules );
+                } else if (4 === rules[i].type) {
+                    readRules(rules[i].cssRules || rules[i].rules);
                 }
             }
         }
@@ -255,28 +248,25 @@ define('qui/lib/element-query/ElementQuery', [
          * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
          *                               (no garbage collection possible if you don not call .detach() first)
          */
-        this.init = function(withTracking)
-        {
+        this.init = function (withTracking) {
             var i, j, Sheet;
             this.withTracking = withTracking;
 
-            for ( i = 0, j = document.styleSheets.length; i < j; i++ )
-            {
-                try
-                {
+            for (i = 0, j = document.styleSheets.length; i < j; i++) {
+                try {
                     Sheet = document.styleSheets[i];
 
-                    if ( typeof Sheet.href === 'string' &&
-                         typeof this.sheetList[ Sheet.href ] !== 'undefined' )
-                    {
+                    if (typeof Sheet.href === 'string' &&
+                        typeof this.sheetList[Sheet.href] !== 'undefined') {
                         continue;
                     }
 
-                    readRules( Sheet.cssText || Sheet.cssRules || Sheet.rules );
+                    readRules(Sheet.cssText || Sheet.cssRules || Sheet.rules);
 
-                    this.sheetList[ Sheet.href ] = true;
+                    this.sheetList[Sheet.href] = true;
 
-                } catch ( e ) {}
+                } catch (e) {
+                }
             }
         };
 
@@ -285,15 +275,15 @@ define('qui/lib/element-query/ElementQuery', [
          * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
          *                               (no garbage collection possible if you don not call .detach() first)
          */
-        this.update = function(withTracking) {
+        this.update = function (withTracking) {
             this.withTracking = withTracking;
             this.init();
         };
 
-        this.detach = function() {
+        this.detach = function () {
             if (!this.withTracking) {
                 throw 'withTracking is not enabled. We can not detach elements since we don not store it.' +
-                'Use ElementQueries.withTracking = true; before domready.';
+                      'Use ElementQueries.withTracking = true; before domready.';
             }
 
             var element;
@@ -310,7 +300,7 @@ define('qui/lib/element-query/ElementQuery', [
      * @param {Boolean} withTracking allows and requires you to use detach, since we store internally all used elements
      *                               (no garbage collection possible if you don not call .detach() first)
      */
-    ElementQueries.update = function(withTracking) {
+    ElementQueries.update = function (withTracking) {
         ElementQueries.instance.update(withTracking);
     };
 
@@ -319,7 +309,7 @@ define('qui/lib/element-query/ElementQuery', [
      *
      * @param {HTMLElement} element
      */
-    ElementQueries.detach = function(element) {
+    ElementQueries.detach = function (element) {
         if (element.elementQueriesSetupInformation) {
             element.elementQueriesSensor.detach();
             delete element.elementQueriesSetupInformation;
@@ -332,47 +322,12 @@ define('qui/lib/element-query/ElementQuery', [
 
     ElementQueries.withTracking = false;
 
-    ElementQueries.init = function() {
+    ElementQueries.init = function () {
         if (!ElementQueries.instance) {
             ElementQueries.instance = new ElementQueries();
         }
 
         ElementQueries.instance.init(ElementQueries.withTracking);
-    };
-
-    var domLoaded = function (callback) {
-        /* Internet Explorer */
-        /*@cc_on
-         @if (@_win32 || @_win64)
-         document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
-         var iesLoad = document.getElementById('ieScriptLoad');
-         if ( !iesLoad ) {
-         document.addEvent('ready', function() {
-         callback();
-         });
-         } else {
-         iesLoad.onreadystatechange = function() {
-         if (this.readyState == 'complete') {
-         callback();
-         }
-         };
-         }
-         @end @*/
-        /* Mozilla, Chrome, Opera */
-        if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', callback, false);
-        }
-        /* Safari, iCab, Konqueror */
-        if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
-            var DOMLoadTimer = setInterval(function () {
-                if (/loaded|complete/i.test(document.readyState)) {
-                    callback();
-                    clearInterval(DOMLoadTimer);
-                }
-            }, 10);
-        }
-        /* Other web browsers */
-        window.onload = callback;
     };
 
     if (window.addEventListener) {
@@ -381,7 +336,11 @@ define('qui/lib/element-query/ElementQuery', [
         window.attachEvent('onload', ElementQueries.init);
     }
 
-    domLoaded(ElementQueries.init);
+    window.addEvent('domready', function () {
+        ElementQueries.init();
+    });
+
+    window.ElementQueries = ElementQueries;
 
     return ElementQueries;
 });
