@@ -8,7 +8,6 @@
  * @require qui/classes/DOM
  * @require qui/lib/element-query/ElementQuery
  */
-
 define('qui/classes/Controls', [
 
     'require',
