@@ -1,0 +1,23 @@
+
+.qui-suggests-container {
+    background: #fff;
+    border: 1px solid #dedede;
+    left: 0;
+    position: absolute;
+    z-index: 10;
+}
+
+.qui-suggests-container ul {
+    list-style-type: none;
+}
+
+.qui-suggests-container li {
+    float: left;
+    padding: 5px;
+    width: 100%;
+}
+
+.qui-suggests-container-active,
+.qui-suggests-container li:hover {
+    background: rgba(0,0,0,0.2);
+}
