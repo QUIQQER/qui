@@ -67,6 +67,8 @@ define('qui/controls/input/Suggest', [
          * @returns {HTMLInputElement}
          */
         create: function () {
+            var self = this;
+
             this.$Elm = new Element('div', {
                 styles: {
                     display : 'inline-block',
@@ -94,6 +96,24 @@ define('qui/controls/input/Suggest', [
                 styles : {
                     display: 'none'
                 }
+            });
+
+            this.$Suggests.addEvent('mouseup', function (event) {
+                if (event.target.nodeName != 'LI') {
+                    return;
+                }
+
+                if (self.$Active) {
+                    self.$Active.removeClass('qui-suggests-container-active');
+                }
+
+                self.$Active = event.target;
+                self.$Active.addClass('qui-suggests-container-active');
+                self.select();
+            });
+
+            this.$Suggests.addEvent('mousedown', function(event) {
+                event.stop();
             });
 
             this.$Suggests.inject(this.$Elm);
@@ -129,8 +149,7 @@ define('qui/controls/input/Suggest', [
 
             this.$open = true;
 
-            var self      = this,
-                inputSize = this.$Input.getSize();
+            var inputSize = this.$Input.getSize();
 
             this.$Suggests.setStyles({
                 display: null,
@@ -139,23 +158,6 @@ define('qui/controls/input/Suggest', [
                 width  : inputSize.x
             });
 
-            this.$Suggests.addEvent('mouseup', function (event) {
-                if (event.target.nodeName != 'LI') {
-                    return;
-                }
-
-                if (self.$Active) {
-                    self.$Active.removeClass('qui-suggests-container-active');
-                }
-
-                self.$Active = event.target;
-                self.$Active.addClass('qui-suggests-container-active');
-                self.select();
-            });
-
-            this.$Suggests.addEvent('mousedown', function(event) {
-                event.stop();
-            });
 
             this.fireEvent('showBegin', [this]);
 
