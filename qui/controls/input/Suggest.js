@@ -153,6 +153,10 @@ define('qui/controls/input/Suggest', [
                 self.select();
             });
 
+            this.$Suggests.addEvent('mousedown', function(event) {
+                event.stop();
+            });
+
             this.fireEvent('showBegin', [this]);
 
             this.$SuggestFX.animate({
