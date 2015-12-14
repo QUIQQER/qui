@@ -3,21 +3,33 @@
     background: #fff;
     border: 1px solid #dedede;
     left: 0;
+    max-height: 300px;
+    overflow: auto;
     position: absolute;
     z-index: 10;
 }
 
 .qui-suggests-container ul {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .qui-suggests-container li {
+    border-bottom: 1px solid #eeeeee;
+    cursor: pointer;
+    clear: both;
     float: left;
     padding: 5px;
     width: 100%;
 }
 
+.qui-suggests-container li:last-child {
+    border-bottom: none;
+}
+
 .qui-suggests-container-active,
 .qui-suggests-container li:hover {
-    background: rgba(0,0,0,0.2);
+    background-color: #2F8FC6;
+    color: #FFFFFF;
 }

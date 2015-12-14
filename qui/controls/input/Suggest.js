@@ -44,9 +44,11 @@ define('qui/controls/input/Suggest', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$Input = null;
-            this.$Delay = null;
-            this.$data  = [];
+            this.$Input  = null;
+            this.$Delay  = null;
+            this.$Scroll = null;
+            this.$Loader = null;
+            this.$data   = [];
 
             this.$Suggests = null;
             this.$open     = false;
@@ -83,21 +85,18 @@ define('qui/controls/input/Suggest', [
             }
 
             this.$Input.setStyles({
-                display: 'block'
+                display: 'inline'
             });
-
-            var inputSize = this.$Input.getComputedSize();
 
             this.$Suggests = new Element('div', {
                 'class': 'qui-suggests-container',
                 styles : {
-                    display: 'none',
-                    top    : inputSize.totalHeight,
-                    width  : inputSize.width
+                    display: 'none'
                 }
             });
 
             this.$Suggests.inject(this.$Elm);
+            this.$Scroll = new Fx.Scroll(this.$Suggests);
 
             this.bindElementEvents();
 
@@ -121,11 +120,34 @@ define('qui/controls/input/Suggest', [
                 return;
             }
 
+            if (!this.$data.length) {
+                return;
+            }
+
             this.$open = true;
+
+            var self      = this,
+                inputSize = this.$Input.getSize();
 
             this.$Suggests.setStyles({
                 display: null,
-                opacity: 0
+                opacity: 0,
+                top    : inputSize.y,
+                width  : inputSize.x
+            });
+
+            this.$Suggests.addEvent('mouseup', function (event) {
+                if (event.target.nodeName != 'LI') {
+                    return;
+                }
+
+                if (self.$Active) {
+                    self.$Active.removeClass('qui-suggests-container-active');
+                }
+
+                self.$Active = event.target;
+                self.$Active.addClass('qui-suggests-container-active');
+                self.select();
             });
 
             this.fireEvent('showBegin', [this]);
@@ -210,6 +232,9 @@ define('qui/controls/input/Suggest', [
             this.$Active.removeClass('qui-suggests-container-active');
             this.$Active = Next;
             this.$Active.addClass('qui-suggests-container-active');
+
+            this.$Scroll.stop();
+            this.$Scroll.toElement(this.$Active, 'y');
         },
 
         /**
@@ -243,6 +268,9 @@ define('qui/controls/input/Suggest', [
             this.$Active.removeClass('qui-suggests-container-active');
             this.$Active = Prev;
             this.$Active.addClass('qui-suggests-container-active');
+
+            this.$Scroll.stop();
+            this.$Scroll.toElement(this.$Active, 'y');
         },
 
         /**
@@ -273,6 +301,34 @@ define('qui/controls/input/Suggest', [
 
             this.$Suggests.set('html', html);
             this.fireEvent('refresh', this);
+        },
+
+        /**
+         * Show an loader over the input element
+         */
+        showLoader: function () {
+            if (!this.$Loader) {
+                this.$Loader = new Element('span', {
+                    'class': 'icon-spinner icon-spin fa fa-spinner fa-spin',
+                    styles : {
+                        position: 'absolute',
+                        right   : 0,
+                        top     : 0,
+                        width   : 30
+                    }
+                }).inject(this.$Elm);
+            }
+
+            this.$Loader.setStyle('display', null);
+        },
+
+        /**
+         * Hide the loader, if a loader exists
+         */
+        hideLoader: function () {
+            if (this.$Loader) {
+                this.$Loader.setStyle('display', 'none');
+            }
         },
 
         /**
@@ -359,6 +415,7 @@ define('qui/controls/input/Suggest', [
          */
         clearOptions: function () {
             this.options = [];
+            this.hideSuggest();
             this.$Suggests.set('html', '');
         },
 
@@ -384,16 +441,12 @@ define('qui/controls/input/Suggest', [
         /**
          * Set multible option entries
          *
-         * @param {Object} data
+         * @param {array} data
          */
         addOptions: function (data) {
-            var i, text, value, icon;
+            var text, value, icon;
 
-            for (i in data) {
-                if (!data.hasOwnProperty(i)) {
-                    continue;
-                }
-
+            for (var i = 0, len = data.length; i < len; i++) {
                 text  = data[i].text || '';
                 value = data[i].value || '';
                 icon  = data[i].icon || '';
@@ -404,6 +457,8 @@ define('qui/controls/input/Suggest', [
                     icon : icon
                 });
             }
+
+            this.refreshSuggest();
         }
     });
 });
