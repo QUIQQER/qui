@@ -50,9 +50,10 @@ define('qui/controls/input/Suggest', [
             this.$Loader = null;
             this.$data   = [];
 
-            this.$Suggests = null;
-            this.$open     = false;
-            this.$Active   = null;
+            this.$SuggestFX = null;
+            this.$Suggests  = null;
+            this.$open      = false;
+            this.$Active    = null;
 
             this.addEvents({
                 onImport: this.$onImport,
@@ -96,7 +97,9 @@ define('qui/controls/input/Suggest', [
             });
 
             this.$Suggests.inject(this.$Elm);
-            this.$Scroll = new Fx.Scroll(this.$Suggests);
+
+            this.$Scroll    = new Fx.Scroll(this.$Suggests);
+            this.$SuggestFX = moofx(this.$Suggests);
 
             this.bindElementEvents();
 
@@ -152,7 +155,7 @@ define('qui/controls/input/Suggest', [
 
             this.fireEvent('showBegin', [this]);
 
-            moofx(this.$Suggests).animate({
+            this.$SuggestFX.animate({
                 opacity: 1
             }, {
                 duration: 200,
@@ -166,13 +169,16 @@ define('qui/controls/input/Suggest', [
          * Hide suggests
          */
         hideSuggest: function () {
-            moofx(this.$Suggests).animate({
+
+            this.$open = false;
+
+            this.$SuggestFX.animate({
                 opacity: 0
             }, {
                 duration: 200,
                 callback: function () {
                     this.$Suggests.setStyle('display', 'none');
-                    this.$open = false;
+
                 }.bind(this)
             });
         },
@@ -419,7 +425,7 @@ define('qui/controls/input/Suggest', [
          * Clear all options
          */
         clearOptions: function () {
-            this.options = [];
+            this.$data = [];
             this.hideSuggest();
             this.$Suggests.set('html', '');
         },
