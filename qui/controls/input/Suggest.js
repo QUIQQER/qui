@@ -68,7 +68,7 @@ define('qui/controls/input/Suggest', [
         create: function () {
             this.$Elm = new Element('div', {
                 styles: {
-                    display : 'inline',
+                    display : 'inline-block',
                     position: 'relative'
                 }
             });
@@ -308,13 +308,18 @@ define('qui/controls/input/Suggest', [
          */
         showLoader: function () {
             if (!this.$Loader) {
+                var size = this.$Input.getSize();
+
                 this.$Loader = new Element('span', {
                     'class': 'icon-spinner icon-spin fa fa-spinner fa-spin',
                     styles : {
-                        position: 'absolute',
-                        right   : 0,
-                        top     : 0,
-                        width   : 30
+                        height    : size.y,
+                        lineHeight: size.y,
+                        position  : 'absolute',
+                        right     : 0,
+                        textAlign : 'center',
+                        top       : 0,
+                        width     : size.y
                     }
                 }).inject(this.$Elm);
             }
