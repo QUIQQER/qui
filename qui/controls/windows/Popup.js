@@ -296,15 +296,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
 
             // touch body fix
-            this.$oldBodyStyle = {
-                overflow: document.body.style.overflow,
-                position: document.body.style.position,
-                width   : document.body.style.width,
-                top     : document.body.style.top,
-                scroll  : document.body.getScroll(),
-                minWidth: document.body.style.minWidth
-            };
-
             document.body.setStyles({
                 width   : document.body.getSize().x,
                 minWidth: document.body.getSize().x
@@ -328,7 +319,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 });
 
             } else {
-                new Fx.Scroll(document.body).set(0, this.$oldBodyStyle.scroll.y);
+                new Fx.Scroll(document.body).set(0, document.body.getScroll().y);
             }
 
             this.$opened = true;
@@ -476,13 +467,15 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             window.removeEvent('touchend', this.$__scrollDelay);
 
             // set old body attributes
-            if (typeof this.$oldBodyStyle !== 'undefined') {
+            if (!QUI.Windows.getLength()) {
+                var oldStyle = QUI.Windows.$oldBodyStyle;
+
                 document.body.setStyles({
-                    overflow: this.$oldBodyStyle.overflow || null,
-                    position: this.$oldBodyStyle.position || null,
-                    width   : this.$oldBodyStyle.width || null,
-                    top     : this.$oldBodyStyle.top || null,
-                    minWidth: this.$oldBodyStyle.minWidth || null
+                    overflow: oldStyle.overflow || null,
+                    position: oldStyle.position || null,
+                    width   : oldStyle.width || null,
+                    top     : oldStyle.top || null,
+                    minWidth: oldStyle.minWidth || null
                 });
 
                 // ios fix
@@ -496,8 +489,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
 
                 document.body.scrollTo(
-                    this.$oldBodyStyle.scroll.x,
-                    this.$oldBodyStyle.scroll.y
+                    oldStyle.scroll.x,
+                    oldStyle.scroll.y
                 );
             }
 
@@ -541,6 +534,14 @@ define('qui/controls/windows/Popup', needle, function (QUI,
         cancel: function () {
             this.fireEvent('cancel', [this]);
             this.close();
+        },
+
+        /**
+         * Is th window opened?
+         * @returns {boolean}
+         */
+        isOpened: function () {
+            return this.$opened;
         },
 
         /**

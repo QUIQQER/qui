@@ -34,6 +34,28 @@ define('qui/classes/Windows', [
         initialize: function () {
             this.$windows       = {};
             this.$currentWindow = null;
+
+            this.$oldBodyStyle = {
+                overflow: document.body.style.overflow,
+                position: document.body.style.position,
+                width   : document.body.style.width,
+                top     : document.body.style.top,
+                scroll  : document.body.getScroll(),
+                minWidth: document.body.style.minWidth
+            };
+
+            require(['qui/QUI'], function (QUI) {
+                QUI.addEvent('onResize', function () {
+                    this.$oldBodyStyle = {
+                        overflow: document.body.style.overflow,
+                        position: document.body.style.position,
+                        width   : document.body.style.width,
+                        top     : document.body.style.top,
+                        scroll  : document.body.getScroll(),
+                        minWidth: document.body.style.minWidth
+                    };
+                }.bind(this));
+            }.bind(this));
         },
 
         /**
@@ -49,6 +71,16 @@ define('qui/classes/Windows', [
             });
 
             this.$windows[Popup.getId()] = Popup;
+        },
+
+        /**
+         * Return the initialized window length
+         * how many windows / popups exists?
+         *
+         * @return {Number}
+         */
+        getLength: function () {
+            return Object.getLength(this.$windows);
         },
 
         /**
@@ -88,6 +120,26 @@ define('qui/classes/Windows', [
         $onWindowClose: function (Popup) {
             if (this.$currentWindow == Popup) {
                 this.$currentWindow = null;
+            }
+
+            var oneIsOpened = false;
+            for (var i = 0, len = this.$windows.length; i < len; i++) {
+                if (this.$windows[i].isOpened()) {
+                    oneIsOpened = true;
+                    break;
+                }
+            }
+
+            if (oneIsOpened === false) {
+                var oldStyle = this.$oldBodyStyle;
+
+                document.body.setStyles({
+                    overflow: oldStyle.overflow || null,
+                    position: oldStyle.position || null,
+                    width   : oldStyle.width || null,
+                    top     : oldStyle.top || null,
+                    minWidth: oldStyle.minWidth || null
+                });
             }
         },
 
@@ -264,5 +316,3 @@ define('qui/classes/Windows', [
         }
     });
 });
-
-
