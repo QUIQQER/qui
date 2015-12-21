@@ -424,6 +424,11 @@ define('qui/controls/desktop/Tasks', [
                 equation: 'ease-out',
                 callback: function () {
                     self.resize();
+
+                    if ("focus" in Instance) {
+                        Instance.focus();
+                    }
+
                     Instance.fireEvent('show', [Instance]);
                 }
             });
