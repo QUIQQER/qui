@@ -1,4 +1,3 @@
-
 /**
  * QUI Ajax Class
  * Communication between server and client
@@ -19,8 +18,7 @@ define('qui/classes/request/Ajax', [
     'qui/controls/messages/Error',
     'qui/Locale'
 
-], function(QUI, DOM, MessageError, Locale)
-{
+], function (QUI, DOM, MessageError, Locale) {
     "use strict";
 
     /**
@@ -41,26 +39,25 @@ define('qui/classes/request/Ajax', [
      */
     return new Class({
 
-        Extends : DOM,
-        Type    : 'qui/classes/request/Ajax',
+        Extends: DOM,
+        Type   : 'qui/classes/request/Ajax',
 
-        Binds : [
+        Binds: [
             '$parseResult'
         ],
 
-        $Request : null,
-        $result  : null,
+        $Request: null,
+        $result : null,
 
-        options : {
-            method  : 'post',
-            url     : '',
-            async   : true,
-            timeout : 10000
+        options: {
+            method : 'post',
+            url    : '',
+            async  : true,
+            timeout: 10000
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
         },
 
         /**
@@ -71,36 +68,43 @@ define('qui/classes/request/Ajax', [
          * @param {Object} params - Parameters which to be sent
          * @return {Request} Request Object
          */
-        send : function(params)
-        {
+        send: function (params) {
             var self = this;
 
-            params = self.parseParams( params || {} );
+            params = self.parseParams(params || {});
 
-            self.setAttribute( 'params', params );
+            self.setAttribute('params', params);
 
             self.$Request = new Request({
-                url     : self.getAttribute('url'),
-                method  : self.getAttribute('method'),
-                async   : self.getAttribute('async'),
-                timeout : self.getAttribute('timeout'),
+                url    : self.getAttribute('url'),
+                method : self.getAttribute('method'),
+                async  : self.getAttribute('async'),
+                timeout: self.getAttribute('timeout'),
 
-                onProgress : function() {
-                    self.fireEvent( 'progress', [ self ] );
+                onProgress: function () {
+                    self.fireEvent('progress', [self]);
                 },
 
-                onComplete : function() {
-                    self.fireEvent( 'complete', [ self ] );
+                onComplete: function () {
+                    self.fireEvent('complete', [self]);
                 },
 
-                onSuccess : self.$parseResult,
+                onSuccess: self.$parseResult,
 
-                onCancel : function() {
-                    self.fireEvent( 'cancel', [ self ] );
+                onCancel: function () {
+                    self.fireEvent('cancel', [self]);
                 }
             });
 
-            self.$Request.send( Object.toQueryString( params ) );
+            var query       = Object.toQueryString(params),
+                strlenCheck = parseInt(query.length) +
+                              parseInt(self.getAttribute('url').length);
+
+            if (strlenCheck > 2000) {
+                self.$Request.options.method = 'post';
+            }
+
+            self.$Request.send(query);
 
             return self.$Request;
         },
@@ -110,8 +114,7 @@ define('qui/classes/request/Ajax', [
          *
          * @method qui/classes/request/Ajax#cancel
          */
-        cancel : function()
-        {
+        cancel: function () {
             this.$Request.cancel();
         },
 
@@ -121,9 +124,8 @@ define('qui/classes/request/Ajax', [
          * @method qui/classes/request/Ajax#destroy
          * @fires onDestroy
          */
-        destroy : function()
-        {
-            this.fireEvent( 'destroy', [ this ] );
+        destroy: function () {
+            this.fireEvent('destroy', [this]);
         },
 
         /**
@@ -137,8 +139,7 @@ define('qui/classes/request/Ajax', [
          * Ajax.send( myparams );
          * var result = Ajax.getResult();
          */
-        getResult : function()
-        {
+        getResult: function () {
             return this.$result;
         },
 
@@ -151,57 +152,52 @@ define('qui/classes/request/Ajax', [
          * @param {Object} params - params that will be send
          * @return {Object} Param list
          */
-        parseParams : function(params)
-        {
+        parseParams: function (params) {
             var k, type_of, value;
 
             var result = {};
 
-            if ( typeof params.lang === 'undefined' &&
-                 typeof Locale !== 'undefined' )
-            {
+            if (typeof params.lang === 'undefined' &&
+                typeof Locale !== 'undefined') {
                 params.lang = Locale.getCurrent();
             }
 
-            for ( k in params )
-            {
-                if ( !params.hasOwnProperty( k ) ) {
+            for (k in params) {
+                if (!params.hasOwnProperty(k)) {
                     continue;
                 }
 
-                if ( typeof params[ k ] === 'undefined' ) {
+                if (typeof params[k] === 'undefined') {
                     continue;
                 }
 
-                type_of = typeOf( params[ k ] );
+                type_of = typeOf(params[k]);
 
-                if ( type_of != 'string' &&
-                     type_of != 'number' &&
-                     type_of != 'array' )
-                {
+                if (type_of != 'string' &&
+                    type_of != 'number' &&
+                    type_of != 'array') {
                     continue;
                 }
 
-                if ( k != '_rf' && type_of == 'array' ) {
+                if (k != '_rf' && type_of == 'array') {
                     continue;
                 }
 
                 // if _rf is no array, make an array to it
-                if ( k == '_rf' )
-                {
-                    if ( typeOf( params[ k ] ) != 'array' ) {
-                        params[ k ] = [ params[ k ] ];
+                if (k == '_rf') {
+                    if (typeOf(params[k]) != 'array') {
+                        params[k] = [params[k]];
                     }
 
-                    params[ k ] = JSON.encode( params[ k ] );
+                    params[k] = JSON.encode(params[k]);
                 }
 
-                value = params[ k ].toString();
+                value = params[k].toString();
                 value = value.replace(/\+/g, '%2B');
                 value = value.replace(/\&/g, '%26');
                 value = value.replace(/\'/g, '%27');
 
-                result[ k ] = value;
+                result[k] = value;
             }
 
             return result;
@@ -217,33 +213,30 @@ define('qui/classes/request/Ajax', [
          *
          * @ignore
          */
-        $parseResult : function(responseText)
-        {
+        $parseResult: function (responseText) {
             var i;
 
             var str   = responseText || '',
                 len   = str.length,
                 start = 9,
-                end   = len-10;
+                end   = len - 10;
 
-            if ( !str.match('<quiqqer>') || !str.match('</quiqqer>') )
-            {
+            if (!str.match('<quiqqer>') || !str.match('</quiqqer>')) {
                 return this.fireEvent('error', [
                     new MessageError({
-                        message : 'No QUIQQER XML',
-                        code    : 500
+                        message: 'No QUIQQER XML',
+                        code   : 500
                     }),
                     this
                 ]);
             }
 
-            if ( str.substring(0, start) != '<quiqqer>' ||
-                 str.substring(end, len) != '</quiqqer>' )
-            {
+            if (str.substring(0, start) != '<quiqqer>' ||
+                str.substring(end, len) != '</quiqqer>') {
                 return this.fireEvent('error', [
                     new MessageError({
-                        message : 'No QUIQQER XML',
-                        code    :  500
+                        message: 'No QUIQQER XML',
+                        code   : 500
                     }),
                     this
                 ]);
@@ -252,92 +245,84 @@ define('qui/classes/request/Ajax', [
             // callback
             var res, func;
 
-            var result = eval( '('+ str.substring( start, end ) +')' ),
-                params = this.getAttribute( 'params' ),
-                rfs    = JSON.decode( params._rf || [] ),
+            var result       = eval('(' + str.substring(start, end) + ')'),
+                params       = this.getAttribute('params'),
+                rfs          = JSON.decode(params._rf || []),
 
                 event_params = [];
 
             this.$result = result;
 
             // exist messages?
-            if ( result.message_handler &&
-                 result.message_handler.length )
-            {
+            if (result.message_handler &&
+                result.message_handler.length) {
                 var messages = result.message_handler;
 
-                QUI.getMessageHandler(function(MH)
-                {
+                QUI.getMessageHandler(function (MH) {
                     var i, len;
 
-                    var func_add_to_mh = function(Message) {
-                        MH.add( Message );
+                    var func_add_to_mh = function (Message) {
+                        MH.add(Message);
                     };
 
-                    for ( i = 0, len = messages.length; i < len; i++ )
-                    {
+                    for (i = 0, len = messages.length; i < len; i++) {
                         // parse time for javascript date
-                        if ( "time" in messages[ i ] ) {
-                            messages[ i ].time = messages[ i ] * 1000;
+                        if ("time" in messages[i]) {
+                            messages[i].time = messages[i] * 1000;
                         }
 
-                        MH.parse( messages[ i ], func_add_to_mh );
+                        MH.parse(messages[i], func_add_to_mh);
                     }
                 });
             }
 
             // exist a main exception?
-            if ( result.Exception )
-            {
+            if (result.Exception) {
                 return this.fireEvent('error', [
                     new MessageError({
-                        message : result.Exception.message || '',
-                        code    : result.Exception.code || 0,
-                        type    : result.Exception.type || 'Exception'
+                        message: result.Exception.message || '',
+                        code   : result.Exception.code || 0,
+                        type   : result.Exception.type || 'Exception'
                     }),
                     this
                 ]);
             }
 
             // check the single function
-            for ( i = 0, len = rfs.length; i < len; i++ )
-            {
-                func = rfs[ i ];
-                res  = result[ func ];
+            for (i = 0, len = rfs.length; i < len; i++) {
+                func = rfs[i];
+                res  = result[func];
 
-                if ( !res )
-                {
-                    event_params.push( null );
+                if (!res) {
+                    event_params.push(null);
                     continue;
                 }
 
-                if ( res.Exception )
-                {
+                if (res.Exception) {
                     this.fireEvent('error', [
                         new MessageError({
-                            message : res.Exception.message || '',
-                            code    : res.Exception.code || 0,
-                            type    : res.Exception.type || 'Exception'
+                            message: res.Exception.message || '',
+                            code   : res.Exception.code || 0,
+                            type   : res.Exception.type || 'Exception'
                         }),
                         this
                     ]);
 
-                    event_params.push( null );
+                    event_params.push(null);
                     continue;
                 }
 
-                if ( typeof res.result !== 'undefined' )
-                {
-                    event_params.push( res.result );
+                if (typeof res.result !== 'undefined') {
+                    event_params.push(res.result);
                     continue;
                 }
 
-                event_params.push( null );
+                event_params.push(null);
             }
 
-            event_params.push( this );
+            event_params.push(this);
 
-            this.fireEvent( 'success', event_params );
+            this.fireEvent('success', event_params);
         }
     });
 });
