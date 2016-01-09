@@ -1,13 +1,17 @@
 
 .qui-panel-sheet {
     background: #F8F8F8;
-    border: none
+    border: none;
     height: 100%;
     left: 0;
     position: absolute;
     top: 0;
     width: 100%;
     z-index: 5;
+}
+
+.qui-panel-sheet-body {
+    overflow: auto;
 }
 
 .qui-panel-sheet-header {
@@ -33,8 +37,8 @@
     height: 40px;
     margin: 0;
 
-            box-shadow: none;
-       -moz-box-shadow: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
     -webkit-box-shadow: none;
 }
 
