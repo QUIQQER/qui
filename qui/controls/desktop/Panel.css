@@ -166,6 +166,7 @@
 
 .qui-panel-buttons .qui-button:disabled {
     background: transparent;
+    box-shadow: none;
     color: #ccc;
 }
 
