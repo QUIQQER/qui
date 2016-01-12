@@ -10,15 +10,15 @@
  * @event onOpen [this]
  * @event onClose [this]
  */
-
 define('qui/controls/desktop/panels/Sheet', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/buttons/Button',
 
     'css!qui/controls/desktop/panels/Sheet.css'
 
-], function (Control, Button) {
+], function (QUI, Control, Button) {
     "use strict";
 
     /**
@@ -42,12 +42,31 @@ define('qui/controls/desktop/panels/Sheet', [
             title      : '',
             closeButton: {
                 textimage: 'icon-remove fa fa-remove',
-                text     : 'schließen / abbrechen'
+                text     : false
             }
         },
 
         initialize: function (options) {
+            this.setAttribute(
+                'closeButton',
+                {
+                    textimage: 'icon-remove fa fa-remove',
+                    text     : false
+                }
+            );
+
+            if (QUI.getAttribute('control-desktop-panel-sheet-closetext')) {
+                this.setAttribute(
+                    'closeButton',
+                    {
+                        textimage: 'icon-remove fa fa-remove',
+                        text     : QUI.getAttribute('control-desktop-panel-sheet-closetext')
+                    }
+                );
+            }
+
             this.parent(options);
+
 
             this.$Elm     = null;
             this.$Header  = null;
