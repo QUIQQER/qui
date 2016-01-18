@@ -4,11 +4,14 @@
  * @module qui/controls/desktop/panels/Sheet
  * @author www.pcsg.de (Henning Leutz)
  *
+ * @require qui/QUI
  * @require qui/controls/Control
  * @require qui/controls/buttons/Button
+ * @require css!qui/controls/desktop/panels/Sheet.css
  *
  * @event onOpen [this]
  * @event onClose [this]
+ * @event onResize [this]
  */
 define('qui/controls/desktop/panels/Sheet', [
 
@@ -146,6 +149,13 @@ define('qui/controls/desktop/panels/Sheet', [
         },
 
         /**
+         * resize the sheet
+         */
+        resize: function () {
+            this.fireEvent('resize', [this]);
+        },
+
+        /**
          * Return the panel content
          *
          * @method qui/controls/desktop/panels/Sheet#getContent
@@ -212,7 +222,7 @@ define('qui/controls/desktop/panels/Sheet', [
          *
          * @method qui/controls/desktop/panels/Sheet#show
          * @param {Function} [callback] - optional, callback function
-         * @return {Object} this (qui/controls/desktop/panels/Sheet)
+         * @return {Promise}
          */
         show: function (callback) {
             var self   = this,
@@ -241,30 +251,34 @@ define('qui/controls/desktop/panels/Sheet', [
             }
 
 
-            var button_size = this.getButtons().getSize(),
-                header_size = this.$Header.getSize();
+            return new Promise(function (resolve) {
 
-            this.getBody().setStyles({
-                'float': 'left',
-                height : size.y - button_size.y - header_size.y,
-                width  : '100%'
-            });
+                var button_size = this.getButtons().getSize(),
+                    header_size = this.$Header.getSize();
+
+                this.getBody().setStyles({
+                    'float': 'left',
+                    height : size.y - button_size.y - header_size.y,
+                    width  : '100%'
+                });
 
 
-            this.$FX.animate({
-                left: 0
-            }, {
-                equation: 'ease-out',
-                callback: function () {
-                    if (typeOf(callback) === 'function') {
-                        callback();
+                this.$FX.animate({
+                    left: 0
+                }, {
+                    equation: 'ease-out',
+                    callback: function () {
+                        self.$fxComplete();
+
+                        if (typeOf(callback) === 'function') {
+                            callback();
+                        }
+
+                        resolve();
                     }
+                });
 
-                    self.$fxComplete();
-                }
-            });
-
-            return this;
+            }.bind(this));
         },
 
         /**
@@ -272,7 +286,7 @@ define('qui/controls/desktop/panels/Sheet', [
          *
          * @method qui/controls/desktop/panels/Sheet#hide
          * @param {Function} [callback] - optional, callback function
-         * @return {Object} this (qui/controls/desktop/panels/Sheet)
+         * @return {Promise}
          */
         hide: function (callback) {
             var self   = this,
@@ -282,24 +296,27 @@ define('qui/controls/desktop/panels/Sheet', [
 
             Elm.setStyle('boxShadow', '0 6px 20px 0 rgba(0, 0, 0, 0.19)');
 
+            return new Promise(function (resolve) {
 
-            this.$FX.animate({
-                left   : (size.x + 50) * -1,
-                opacity: 0
-            }, {
-                equation: 'ease-out',
-                callback: function () {
-                    if (typeOf(callback) === 'function') {
-                        callback();
+                self.$FX.animate({
+                    left   : (size.x + 50) * -1,
+                    opacity: 0
+                }, {
+                    equation: 'ease-out',
+                    callback: function () {
+                        self.$fxComplete();
+
+                        Elm.setStyle('display', 'none');
+
+                        if (typeOf(callback) === 'function') {
+                            callback();
+                        }
+
+                        resolve();
                     }
+                });
 
-                    self.$fxComplete();
-
-                    Elm.setStyle('display', 'none');
-                }
             });
-
-            return this;
         },
 
         /**

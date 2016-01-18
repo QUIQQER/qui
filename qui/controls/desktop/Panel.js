@@ -888,7 +888,22 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} qui/controls/panels/Sheet
          */
         createSheet: function (options) {
-            return new PanelSheet(options).inject(this.$Elm);
+            var self  = this,
+                Sheet = new PanelSheet(options);
+
+            var resize = function () {
+                Sheet.resize();
+            };
+
+            Sheet.addEvent('onDestroy', function () {
+                self.removeEvent('onResize', resize);
+            });
+
+            this.addEvent('onResize', resize);
+
+            Sheet.inject(this.$Elm);
+
+            return Sheet;
         },
 
         /**
