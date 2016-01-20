@@ -128,131 +128,143 @@ define('qui/controls/loader/Loader', [
          * Shows the loader
          *
          * @method controls/loader/Loader#show
+         * @return {Promise}
          */
         show: function (str) {
-            this.$status = 1;
+            return new Promise(function (resolve) {
+                this.$status = 1;
 
-            if (!this.$Elm) {
-                return;
-            }
+                if (!this.$Elm) {
+                    resolve();
+                    return;
+                }
 
-            if (!this.$Elm.getParent()) {
-                return;
-            }
+                if (!this.$Elm.getParent()) {
+                    resolve();
+                    return;
+                }
 
-            if (this.$Close) {
-                this.$Close.destroy();
-                this.$Close = null;
+                if (this.$Close) {
+                    this.$Close.destroy();
+                    this.$Close = null;
 
-                this.$Elm.set({
-                    html: '<div class="qui-loader-message"></div>' +
-                          '<div class="qui-loader-inner"></div>'
+                    this.$Elm.set({
+                        html: '<div class="qui-loader-message"></div>' +
+                              '<div class="qui-loader-inner"></div>'
+                    });
+
+                    this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
+                    this.$Message = this.$Elm.getElement('.qui-loader-message');
+                }
+
+                var self = this,
+                    size = this.$Elm.measure(function () {
+                        return this.getSize();
+                    });
+
+                this.$Message.set('html', '');
+
+                if (typeof str !== 'undefined') {
+                    this.$Message.set({
+                        html  : str,
+                        styles: {
+                            top: (size.y + 20) / 2
+                        }
+                    });
+                }
+
+                // must be showed, because, hide can be triggered -> no async showed
+                this.$Elm.setStyle('display', '');
+
+                this.$FX.animate({
+                    opacity: 0.8
+                }, {
+                    duration: 200
                 });
 
-                this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
-                this.$Message = this.$Elm.getElement('.qui-loader-message');
-            }
+                // load animation
+                var animationData = false,
+                    animationType = false;
 
-            var self = this,
-                size = this.$Elm.measure(function () {
-                    return this.getSize();
-                });
+                if (this.getAttribute('type') &&
+                    this.getAttribute('type') in this.$animations) {
+                    animationData = this.$animations[this.getAttribute('type')];
+                    animationType = this.getAttribute('type');
+                }
 
-            this.$Message.set('html', '');
+                if (!animationType &&
+                    QUI.getAttribute('control-loader-type') &&
+                    QUI.getAttribute('control-loader-type') in this.$animations) {
+                    animationData = this.$animations[QUI.getAttribute('control-loader-type')];
+                    animationType = QUI.getAttribute('control-loader-type');
+                }
 
-            if (typeof str !== 'undefined') {
-                this.$Message.set({
-                    html  : str,
-                    styles: {
-                        top: (size.y + 20) / 2
+                if (!animationType) {
+                    animationData = this.$animations.standard;
+                    animationType = 'standard';
+                }
+
+                require(animationData.files, function () {
+                    if (self.$status === 0) {
+                        self.hide();
+                        resolve();
+                        return;
                     }
-                });
-            }
 
-            // must be showed, because, hide can be triggered -> no async showed
-            this.$Elm.setStyle('display', '');
+                    self.$Inner.set('html', '');
 
-            this.$FX.animate({
-                opacity: 0.8
-            });
+                    var i, len, Child;
 
+                    var Parent = new Element('div', {
+                        'class': 'qui-loader-inner-' + animationType
+                    }).inject(self.$Inner);
 
-            // load animation
-            var animationData = false,
-                animationType = false;
+                    var color = self.getAttribute('color');
 
-            if (this.getAttribute('type') &&
-                this.getAttribute('type') in this.$animations) {
-                animationData = this.$animations[this.getAttribute('type')];
-                animationType = this.getAttribute('type');
-            }
-
-            if (!animationType &&
-                QUI.getAttribute('control-loader-type') &&
-                QUI.getAttribute('control-loader-type') in this.$animations) {
-                animationData = this.$animations[QUI.getAttribute('control-loader-type')];
-                animationType = QUI.getAttribute('control-loader-type');
-            }
-
-            if (!animationType) {
-                animationData = this.$animations.standard;
-                animationType = 'standard';
-            }
-
-            require(animationData.files, function () {
-                if (self.$status === 0) {
-                    self.hide();
-                    return;
-                }
-
-                self.$Inner.set('html', '');
-
-                var i, len, Child;
-
-                var Parent = new Element('div', {
-                    'class': 'qui-loader-inner-' + animationType
-                }).inject(self.$Inner);
-
-                var color = self.getAttribute('color');
-
-                if (!color) {
-                    color = QUI.getAttribute('control-loader-color');
-                }
-
-                for (i = 0, len = animationData.children; i < len; i++) {
-                    Child = new Element('div', {
-                        'class': 'control-background'
-                    }).inject(Parent);
-
-                    if (color) {
-                        Child.setStyle('background', color);
+                    if (!color) {
+                        color = QUI.getAttribute('control-loader-color');
                     }
-                }
 
-                var ElmParent = self.$Elm.getParent();
+                    for (i = 0, len = animationData.children; i < len; i++) {
+                        Child = new Element('div', {
+                            'class': 'control-background'
+                        }).inject(Parent);
 
-                if (ElmParent && !ElmParent.hasClass('qui-window-popup')) {
-                    ElmParent.addClass('qui-loader-parent');
-                }
+                        if (color) {
+                            Child.setStyle('background', color);
+                        }
+                    }
 
-                if (self.$status === 0) {
-                    self.hide();
-                    return;
-                }
+                    var ElmParent = self.$Elm.getParent();
 
-                if (!self.getAttribute('closetime')) {
-                    return;
-                }
+                    if (ElmParent && !ElmParent.hasClass('qui-window-popup')) {
+                        ElmParent.addClass('qui-loader-parent');
+                    }
 
-                // sicherheitsabfrage nach 10 sekunden
-                if (self.$delay) {
-                    clearTimeout(self.$delay);
-                }
+                    if (self.$status === 0) {
+                        self.hide();
+                        resolve();
+                        return;
+                    }
 
-                self.$delay = (function () {
-                    self.showCloseButton();
-                }).delay(self.getAttribute('closetime'), self);
-            });
+                    if (!self.getAttribute('closetime')) {
+                        resolve();
+                        return;
+                    }
+
+                    // sicherheitsabfrage nach 10 sekunden
+                    if (self.$delay) {
+                        clearTimeout(self.$delay);
+                    }
+
+                    self.$delay = (function () {
+                        self.showCloseButton();
+                    }).delay(self.getAttribute('closetime'), self);
+
+                    resolve();
+                });
+
+            }.bind(this));
         },
 
         /**
@@ -260,40 +272,52 @@ define('qui/controls/loader/Loader', [
          *
          * @method controls/loader/Loader#hide
          * @param {Function} [callback] - callback function, trigger at animation end
+         * @return {Promise}
          */
         hide: function (callback) {
-            this.$status = 0;
+            return new Promise(function (resolve) {
+                this.$status = 0;
 
-            if (this.$delay) {
-                clearTimeout(this.$delay);
-            }
-
-            if (!this.$Elm) {
-                return;
-            }
-
-            if (!this.$FX) {
-                this.$Elm.setStyle('display', 'none');
-
-                if (typeof callback === 'function') {
-                    callback();
+                if (this.$delay) {
+                    clearTimeout(this.$delay);
                 }
 
-                return;
-            }
-
-            var self = this;
-
-            this.$FX.animate({
-                opacity: 0
-            }, function () {
-                self.$Elm.setStyle('display', 'none');
-                self.$status = 0;
-
-                if (typeof callback === 'function') {
-                    callback();
+                if (!this.$Elm) {
+                    resolve();
+                    return;
                 }
-            });
+
+                if (!this.$FX) {
+                    this.$Elm.setStyle('display', 'none');
+
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+
+                    resolve();
+
+                    return;
+                }
+
+                var self = this;
+
+                this.$FX.animate({
+                    opacity: 0
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        self.$Elm.setStyle('display', 'none');
+                        self.$status = 0;
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+
+                        resolve();
+                    }
+                });
+
+            }.bind(this));
         },
 
         /**
