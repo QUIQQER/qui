@@ -40,7 +40,7 @@ define('qui/controls/Control', [
     return new Class({
 
         Extends: DOM,
-        Type: 'qui/controls/Control',
+        Type   : 'qui/controls/Control',
 
         $Parent: false,
 
@@ -103,7 +103,8 @@ define('qui/controls/Control', [
                 delete window.$quistorage[oid];
             }
 
-            this.removeEvents();
+            // cant use this.removeEvents, here was/is a mootools bug
+            delete this.$events;
         },
 
         /**
@@ -222,14 +223,14 @@ define('qui/controls/Control', [
 
             for (var i = 0, len = attributes.length; i < len; i++) {
                 attribute = attributes[i];
-                attrName = attribute.name;
+                attrName  = attribute.name;
 
                 if (!attrName.match('data-qui-options-')) {
                     continue;
                 }
 
                 attrValue = attribute.value;
-                numb = Number.from(attrValue);
+                numb      = Number.from(attrValue);
 
                 if (typeOf(numb) === 'number') {
                     attrValue = numb;
@@ -255,7 +256,7 @@ define('qui/controls/Control', [
         serialize: function () {
             return {
                 attributes: this.getAttributes(),
-                type: this.getType()
+                type      : this.getType()
             };
         },
 
@@ -316,7 +317,7 @@ define('qui/controls/Control', [
          * @return {String}
          */
         getPath: function () {
-            var path = '/' + this.getAttribute('name'),
+            var path   = '/' + this.getAttribute('name'),
                 Parent = this.getParent();
 
             if (!Parent) {
@@ -434,15 +435,15 @@ define('qui/controls/Control', [
 
             var Sheet = new Element('div', {
                 'class': 'qui-sheet qui-box',
-                html: '<div class="qui-sheet-content box"></div>' +
-                      '<div class="qui-sheet-buttons box">' +
-                      '<div class="qui-sheet-buttons-back qui-button btn-white">' +
-                      '<span>' +
-                      Locale.get('qui/controls/Control', 'btn.back') +
-                      '</span>' +
-                      '</div>' +
-                      '</div>',
-                styles: {
+                html   : '<div class="qui-sheet-content box"></div>' +
+                         '<div class="qui-sheet-buttons box">' +
+                         '<div class="qui-sheet-buttons-back qui-button btn-white">' +
+                         '<span>' +
+                         Locale.get('qui/controls/Control', 'btn.back') +
+                         '</span>' +
+                         '</div>' +
+                         '</div>',
+                styles : {
                     left: '-110%'
                 }
             }).inject(this.$Elm);
@@ -460,7 +461,7 @@ define('qui/controls/Control', [
                 self.getElm().setStyle('overflow', oldOverflow);
 
                 moofx(Sheet).animate({
-                    left: '-100%',
+                    left   : '-100%',
                     opacity: 0
                 }, {
                     equation: 'ease-in',
