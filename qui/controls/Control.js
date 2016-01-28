@@ -94,6 +94,16 @@ define('qui/controls/Control', [
                 this.$Elm.destroy();
             }
 
+            // destroy internal qui controls
+            var controls   = QUI.Controls.getControlsInElement(this.$Elm),
+                controlIds = controls.map(function (InnerControl) {
+                    return InnerControl.getId();
+                });
+
+            controlIds.each(function (InnerControl) {
+                QUI.Controls.destroy(InnerControl);
+            });
+
             this.$Elm = null;
 
             // storage clear
@@ -198,6 +208,7 @@ define('qui/controls/Control', [
 
             this.$readDataOptions(Elm);
 
+            this.fireEvent('replace', [this, Elm]);
             this.$Elm = this.create();
 
             this.$Elm.set('data-quiid', this.getId());
@@ -216,10 +227,10 @@ define('qui/controls/Control', [
          * @param {HTMLElement} [Elm]
          */
         $readDataOptions: function (Elm) {
-            var _Elm = Elm || this.getElm();
+            var TempElm = Elm || this.getElm();
 
             var attribute, attrName, attrValue, numb;
-            var attributes = _Elm.attributes;
+            var attributes = TempElm.attributes;
 
             for (var i = 0, len = attributes.length; i < len; i++) {
                 attribute = attributes[i];

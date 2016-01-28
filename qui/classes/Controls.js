@@ -25,12 +25,12 @@ define('qui/classes/Controls', [
     return new Class({
 
         Extends: DOM,
-        Type: 'qui/classes/Controls',
+        Type   : 'qui/classes/Controls',
 
         initialize: function () {
             this.$controls = {};
-            this.$cids = {};
-            this.$types = {};
+            this.$cids     = {};
+            this.$types    = {};
 
             this.ElementQueries = new ElementQuery();
         },
@@ -74,7 +74,11 @@ define('qui/classes/Controls', [
         getControlsInElement: function (Node) {
             var i, len, Control;
 
-            var list = [];
+            if (!Node) {
+                return [];
+            }
+
+            var list     = [];
             var elements = Node.getElements('[data-quiid]');
 
             for (i = 0, len = elements.length; i < len; i++) {
@@ -174,8 +178,17 @@ define('qui/classes/Controls', [
          * @param {Object} Control - (qui/controls/Control)
          */
         destroy: function (Control) {
-            var n = Control.getAttribute('name'),
-                t = typeOf(Control),
+
+            if (typeOf(Control) === 'string') {
+                Control = this.getById(Control);
+            }
+
+            if (this.isControl(Control) === false) {
+                return;
+            }
+
+            var n  = Control.getAttribute('name'),
+                t  = typeOf(Control),
                 id = Control.getId();
 
             if (!n || n === '') {
