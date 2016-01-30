@@ -144,8 +144,7 @@ define('qui/controls/contextmenu/Menu', [
 
             this.$__activeSubMenu = false;
 
-            var Parent = this.$Elm.getParent(),
-                Elm    = this.$Elm;
+            var Elm = this.$Elm;
 
             if (this.getAttribute('corner')) {
                 Elm.removeClass('qui-context-corner-top');
@@ -191,7 +190,50 @@ define('qui/controls/contextmenu/Menu', [
                 height : 0
             });
 
-            var scrollSize = Elm.getScrollSize();
+            this.refresh();
+
+            if (this.$Active) {
+                this.$Active.setActive();
+            }
+
+            this.fireEvent('show', [this]);
+
+            return this;
+        },
+
+        /**
+         * Hide the Menu, set the display style to none
+         *
+         * @method qui/controls/contextmenu/Menu#hide
+         * @return {Object} this (qui/controls/contextmenu/Menu)
+         */
+        hide: function () {
+            // hide children menus
+            var children = this.getChildren();
+
+            for (var i = 0, len = children.length; i < len; i++) {
+                if (children[i].$Menu) {
+                    children[i].$Menu.hide();
+                }
+            }
+
+            this.getElm().setStyles({
+                display: 'none'
+            });
+
+            this.fireEvent('hide', [this]);
+
+            return this;
+        },
+
+        /**
+         * refresh the menu
+         */
+        refresh: function () {
+
+            var Elm        = this.getElm(),
+                Parent     = Elm.getParent(),
+                scrollSize = Elm.getScrollSize();
 
             this.$Container.setStyle('height', scrollSize.y + 5);
 
@@ -238,39 +280,6 @@ define('qui/controls/contextmenu/Menu', [
                     this.$Elm.setStyle('top', body_size.y - scrollSize.y - 50);
                 }
             }
-
-            if (this.$Active) {
-                this.$Active.setActive();
-            }
-
-            this.fireEvent('show', [this]);
-
-            return this;
-        },
-
-        /**
-         * Hide the Menu, set the display style to none
-         *
-         * @method qui/controls/contextmenu/Menu#hide
-         * @return {Object} this (qui/controls/contextmenu/Menu)
-         */
-        hide: function () {
-            // hide children menus
-            var children = this.getChildren();
-
-            for (var i = 0, len = children.length; i < len; i++) {
-                if (children[i].$Menu) {
-                    children[i].$Menu.hide();
-                }
-            }
-
-            this.getElm().setStyles({
-                display: 'none'
-            });
-
-            this.fireEvent('hide', [this]);
-
-            return this;
         },
 
         /**
