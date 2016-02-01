@@ -107,6 +107,7 @@ define('qui/controls/buttons/Select', [
                 html    : '<div class="icon"></div>' +
                           '<div class="text"></div>' +
                           '<div class="drop-icon"></div>' +
+                          '<div class="qui-select-click-event"></div>' +
                           '<select></select>',
                 tabindex: -1,
                 styles  : {
@@ -115,6 +116,33 @@ define('qui/controls/buttons/Select', [
                 },
 
                 'data-quiid': this.getId()
+            });
+
+            var EventClick = this.$Elm.getElement('.qui-select-click-event');
+
+            EventClick.setStyles({
+                left    : 0,
+                height  : '100%',
+                position: 'absolute',
+                top     : 0,
+                width   : '100%',
+                zIndex  : 2
+            });
+
+            // es lebe die touch geräte \(^^)/
+            EventClick.addEvents({
+                click     : function (event) {
+                    if (!!('ontouchstart' in window)) {
+                        event.stop();
+                    }
+                },
+                touchstart: function (event) {
+                    if (!!('ontouchstart' in window)) {
+                        event.stop();
+                    }
+
+                    self.$Elm.focus();
+                }
             });
 
             this.$Text = this.$Elm.getElement('.text');
@@ -127,11 +155,13 @@ define('qui/controls/buttons/Select', [
             this.$Select = this.$Elm.getElement('select');
 
             this.$Select.setStyles({
-                height  : 0,
-                left    : -1000,
+                height  : 30,
+                left    : 0,
+                opacity : 0,
                 position: 'absolute',
-                top     : -1000,
-                width   : 0
+                top     : 0,
+                zIndex  : 1,
+                width   : 'auto'
             });
 
             this.$Select.addEvents({
@@ -235,8 +265,7 @@ define('qui/controls/buttons/Select', [
          *
          * @returns {void}
          */
-        selectPlaceholder : function()
-        {
+        selectPlaceholder: function () {
             if (!this.$Text) {
                 return;
             }

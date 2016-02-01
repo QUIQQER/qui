@@ -9,14 +9,15 @@
 
     border: 1px solid #c9c8c5;
     background: #fff;
+    position: relative;
 
     -webkit-transition: all 0.2s ease;
-       -moz-transition: all 0.2s ease;
-        -ms-transition: all 0.2s ease;
-         -o-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
 
-            border-radius: 3px;
-       -moz-border-radius: 3px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
 
@@ -47,11 +48,11 @@
     padding-left: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: calc( 100% - 46px);
+    width: calc(100% - 46px);
 }
 
 .qui-select-no-icons .text {
-    width: calc( 100% - 16px);
+    width: calc(100% - 16px);
 }
 
 .qui-select-disable {
