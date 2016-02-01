@@ -3,19 +3,19 @@
 select,
 input,
 textarea {
-    border-radius: 3px;
-    border: 2px solid #DEDEDE;
+    border-radius: 2px;
+    border: 1px solid #DEDEDE;
     cursor: text;
     padding: 7px;
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 
     -webkit-transition: all 0.2s ease;
-       -moz-transition: all 0.2s ease;
-        -ms-transition: all 0.2s ease;
-         -o-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
 }
 
 select {
@@ -25,14 +25,14 @@ select {
 select:focus,
 input:focus,
 textarea:focus {
-    border: 2px solid #a4a9ae;
+    border: 1px solid #a4a9ae;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
 select:hover,
 input:hover,
 textarea:hover {
-    border: 2px solid #a4a9ae;
+    border: 1px solid #a4a9ae;
 }
 
 input[type="range"],
@@ -45,7 +45,7 @@ select:disabled,
 input:disabled,
 textarea:disabled {
     background: transparent;
-    border: 2px solid transparent;
+    border: 1px solid transparent;
     color: #8F9399;
     cursor: default;
 }
