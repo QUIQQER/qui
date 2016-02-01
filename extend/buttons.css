@@ -1,4 +1,3 @@
-
 /* Button Styles
 
    inspiration from: http://www.webdesignerwall.com/demo/css-buttons.html
@@ -11,23 +10,23 @@ a.button:hover {
 
 .button {
     border: none;
-    cursor : pointer;
+    cursor: pointer;
     float: left;
 
-        border-radius: 3px;
-   -moz-border-radius: 3px;
- -khtml-border-radius: 3px;
--webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
 
-            box-shadow: 0 0 2px #999;
-       -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
     -webkit-box-shadow: 0 0 2px #999;
 
     -webkit-transition: all 0.2s ease;
-       -moz-transition: all 0.2s ease;
-        -ms-transition: all 0.2s ease;
-         -o-transition: all 0.2s ease;
-            transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .button span {
@@ -43,12 +42,12 @@ img.qui-button-text-image {
 }
 
 span.qui-button-text-image {
-    padding: 5px 0;
+    padding: 0;
 }
 
 .button:hover {
-            box-shadow: 0 0 3px #999;
-       -moz-box-shadow: 0 0 3px #999;
+    box-shadow: 0 0 3px #999;
+    -moz-box-shadow: 0 0 3px #999;
     -webkit-box-shadow: 0 0 3px #999;
 }
 
@@ -78,7 +77,7 @@ span.qui-button-text-image {
 .btn-black:active {
     color: #666;
     background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#444));
-    background: -moz-linear-gradient(top,  #000,  #444);
+    background: -moz-linear-gradient(top, #000, #444);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666');
 }
 
@@ -96,7 +95,7 @@ span.qui-button-text-image {
 .btn-grey:active {
     color: #afafaf;
     background: -webkit-gradient(linear, left top, left bottom, from(#575757), to(#888));
-    background: -moz-linear-gradient(top,  #575757,  #888);
+    background: -moz-linear-gradient(top, #575757, #888);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#575757', endColorstr='#888888');
 }
 
@@ -114,7 +113,7 @@ span.qui-button-text-image {
 .btn-white:active {
     color: #999;
     background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
-    background: -moz-linear-gradient(top,  #ededed,  #fff);
+    background: -moz-linear-gradient(top, #ededed, #fff);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
 }
 
@@ -132,7 +131,7 @@ span.qui-button-text-image {
 .btn-silver:active {
     color: #999;
     background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
-    background: -moz-linear-gradient(top,  #ededed,  #fff);
+    background: -moz-linear-gradient(top, #ededed, #fff);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
 }
 
@@ -146,14 +145,14 @@ span.qui-button-text-image {
 .btn-orange:hover {
     background: #f47c20;
     background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-    background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+    background: -moz-linear-gradient(top, #f88e11, #f06015);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
 }
 
 .btn-orange:active {
     color: #fcd3a5;
     background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-    background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+    background: -moz-linear-gradient(top, #f47a20, #faa51a);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
 
@@ -171,7 +170,7 @@ span.qui-button-text-image {
 .btn-red:active {
     color: #de898c;
     background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
-    background: -moz-linear-gradient(top,  #aa1317,  #ed1c24);
+    background: -moz-linear-gradient(top, #aa1317, #ed1c24);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
 }
 
@@ -189,7 +188,7 @@ span.qui-button-text-image {
 .btn-blue:active {
     color: #80bed6;
     background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-    background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+    background: -moz-linear-gradient(top, #0078a5, #00adee);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 
@@ -207,7 +206,7 @@ span.qui-button-text-image {
 .btn-rosy:active {
     color: #dca4ab;
     background: -webkit-gradient(linear, left top, left bottom, from(#bf404f), to(#f16c7c));
-    background: -moz-linear-gradient(top,  #bf404f,  #f16c7c);
+    background: -moz-linear-gradient(top, #bf404f, #f16c7c);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bf404f', endColorstr='#f16c7c');
 }
 
@@ -225,7 +224,7 @@ span.qui-button-text-image {
 .btn-green:active {
     color: #a9c08c;
     background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
-    background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
+    background: -moz-linear-gradient(top, #4e7d0e, #7db72f);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
 }
 
@@ -243,6 +242,6 @@ span.qui-button-text-image {
 .btn-pink:active {
     color: #f3c3d9;
     background: -webkit-gradient(linear, left top, left bottom, from(#f171ab), to(#feb1d3));
-    background: -moz-linear-gradient(top,  #f171ab,  #feb1d3);
+    background: -moz-linear-gradient(top, #f171ab, #feb1d3);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f171ab', endColorstr='#feb1d3');
 }
