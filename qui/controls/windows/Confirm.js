@@ -1,4 +1,3 @@
-
 /**
  * Submit Window
  *
@@ -22,8 +21,7 @@ define('qui/controls/windows/Confirm', [
 
     'css!qui/controls/windows/Confirm.css'
 
-], function(QUIPopup, QUIButton, Utils)
-{
+], function (QUIPopup, QUIButton, Utils) {
     "use strict";
 
     /**
@@ -38,41 +36,40 @@ define('qui/controls/windows/Confirm', [
      */
     return new Class({
 
-        Extends : QUIPopup,
-        Type    : 'qui/controls/windows/Confirm',
+        Extends: QUIPopup,
+        Type   : 'qui/controls/windows/Confirm',
 
-        Binds : [
+        Binds: [
             '$onOpen'
         ],
 
         options: {
-            'maxHeight' : 300,
-            'autoclose' : true,
+            'maxHeight': 300,
+            'autoclose': true,
 
-            'information' : false,
-            'title'       : '...',
-            'texticon'    : 'icon-remove fa fa-remove',
-            'icon'        : 'icon-remove fa fa-remove',
+            'information': false,
+            'title'      : '...',
+            'texticon'   : 'icon-remove fa fa-remove',
+            'icon'       : 'icon-remove fa fa-remove',
 
-            cancel_button : {
-                text      : 'Cancel',
-                textimage : 'icon-remove fa fa-remove'
+            cancel_button: {
+                text     : 'Cancel',
+                textimage: 'icon-remove fa fa-remove'
             },
-            ok_button : {
-                text      : 'OK',
-                textimage : 'icon-ok  fa fa-check'
+            ok_button    : {
+                text     : 'OK',
+                textimage: 'icon-ok  fa fa-check'
             }
         },
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             var self = this;
 
-            this.parent( options );
+            this.parent(options);
 
             // defaults
             if (this.getAttribute('name') === false) {
-                this.setAttribute('name', 'win'+ new Date().getMilliseconds());
+                this.setAttribute('name', 'win' + new Date().getMilliseconds());
             }
 
             if (this.getAttribute('width') === false) {
@@ -85,49 +82,47 @@ define('qui/controls/windows/Confirm', [
 
             // on set attribute event
             // if attributes were set after creation
-            this.addEvent('onSetAttribute', function(attr, value)
-            {
+            this.addEvent('onSetAttribute', function (attr, value) {
+                if (!self.$Body) {
+                    return;
+                }
+
                 if (!self.$Body.getElement('.textbody')) {
                     return;
                 }
 
-                if (attr == 'texticon')
-                {
+                if (attr == 'texticon') {
                     var Texticon = self.$Body.getElement('.texticon'),
                         Textbody = self.$Body.getElement('.textbody');
 
-                    if (!Texticon)
-                    {
+                    if (!Texticon) {
                         Texticon = new Element('div.texticon');
                         Texticon.inject(Textbody, 'before');
                     }
 
                     Textbody.set({
-                        styles : {
-                            width    : null,
-                            fontSize : null
+                        styles: {
+                            width   : null,
+                            fontSize: null
                         },
-                        src : null
+                        src   : null
                     });
 
                     Texticon.className = 'texticon';
 
-                    if (Utils.isFontAwesomeClass(value))
-                    {
+                    if (Utils.isFontAwesomeClass(value)) {
                         Texticon.addClass(value);
                         Texticon.setStyles({
-                            fontSize : 50
+                            fontSize: 50
                         });
-                    } else
-                    {
+                    } else {
                         Texticon.src = value;
                     }
 
                     return;
                 }
 
-                if (attr == 'information')
-                {
+                if (attr == 'information') {
                     self.$Body
                         .getElement('.information')
                         .set('html', value);
@@ -135,8 +130,7 @@ define('qui/controls/windows/Confirm', [
                     return;
                 }
 
-                if (attr == 'text')
-                {
+                if (attr == 'text') {
                     self.$Body
                         .getElement('.text')
                         .set('html', value);
@@ -153,8 +147,7 @@ define('qui/controls/windows/Confirm', [
          *
          * @method qui/controls/windows/Confirm#open
          */
-        open : function()
-        {
+        open: function () {
             this.create();
 
             var self    = this,
@@ -165,65 +158,61 @@ define('qui/controls/windows/Confirm', [
             });
 
             this.$Body = new Element('div.submit-body', {
-                html   : '<div class="textbody">' +
-                             '<h2 class="text">&nbsp;</h2>' +
-                             '<div class="information">&nbsp;</div>' +
-                         '</div>',
-                styles : {
+                html  : '<div class="textbody">' +
+                        '<h2 class="text">&nbsp;</h2>' +
+                        '<div class="information">&nbsp;</div>' +
+                        '</div>',
+                styles: {
                     'float': 'left',
                     width  : '100%'
                 }
             });
 
-            this.$Body.inject( Content );
+            this.$Body.inject(Content);
 
-            if ( this.getAttribute( 'texticon' ) ) {
-                this.setAttribute( 'texticon', this.getAttribute( 'texticon' ) );
+            if (this.getAttribute('texticon')) {
+                this.setAttribute('texticon', this.getAttribute('texticon'));
             }
 
-            if ( this.getAttribute( 'text' ) ) {
-                this.setAttribute( 'text', this.getAttribute( 'text' ) );
+            if (this.getAttribute('text')) {
+                this.setAttribute('text', this.getAttribute('text'));
             }
 
-            if ( this.getAttribute( 'information' ) ) {
-                this.setAttribute( 'information', this.getAttribute( 'information' ) );
+            if (this.getAttribute('information')) {
+                this.setAttribute('information', this.getAttribute('information'));
             }
 
-            if ( !this.getAttribute( 'texticon' ) &&
-                 !this.getAttribute( 'text' ) &&
-                 !this.getAttribute( 'information' ) )
-            {
+            if (!this.getAttribute('texticon') && !this.getAttribute('text') && !this.getAttribute('information')) {
                 this.$Body.destroy();
             }
 
 
-            this.$Buttons.set( 'html', '' );
+            this.$Buttons.set('html', '');
 
             this.addButton(
                 new QUIButton({
-                    name      : 'cancel',
-                    text      : this.getAttribute( 'cancel_button' ).text,
-                    textimage : this.getAttribute( 'cancel_button' ).textimage,
-                    styles    : {
-                        'float' : 'none'
+                    name     : 'cancel',
+                    text     : this.getAttribute('cancel_button').text,
+                    textimage: this.getAttribute('cancel_button').textimage,
+                    styles   : {
+                        'float': 'none'
                     },
-                    events : {
-                        onClick : this.cancel
+                    events   : {
+                        onClick: this.cancel
                     }
                 })
             );
 
             this.addButton(
                 new QUIButton({
-                    name      : 'submit',
-                    text      : this.getAttribute( 'ok_button' ).text,
-                    textimage : this.getAttribute( 'ok_button' ).textimage,
-                    styles    : {
-                        'float' : 'none'
+                    name     : 'submit',
+                    text     : this.getAttribute('ok_button').text,
+                    textimage: this.getAttribute('ok_button').textimage,
+                    styles   : {
+                        'float': 'none'
                     },
-                    events :
-                    {
-                        onClick : function() {
+                    events   : {
+                        onClick: function () {
                             self.submit();
                         }
                     }
@@ -238,11 +227,10 @@ define('qui/controls/windows/Confirm', [
          *
          * @method qui/controls/windows/Confirm#submit
          */
-        submit : function()
-        {
-            this.fireEvent( 'submit', [ this ] );
+        submit: function () {
+            this.fireEvent('submit', [this]);
 
-            if ( this.getAttribute( 'autoclose' ) ) {
+            if (this.getAttribute('autoclose')) {
                 this.close();
             }
         }
