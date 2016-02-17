@@ -11,7 +11,6 @@
  * @require qui/controls/contextmenu/Item
  * @require css!qui/controls/sitemap/Item.css
  */
-
 define('qui/controls/sitemap/Item', [
 
     'qui/QUI',

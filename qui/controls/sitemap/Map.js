@@ -9,7 +9,6 @@
  * @require qui/controls/sitemap/Item
  * @require css!qui/controls/sitemap/Map.css
  */
-
 define('qui/controls/sitemap/Map', [
 
     'qui/QUI',
@@ -223,7 +222,9 @@ define('qui/controls/sitemap/Map', [
          */
         deselectAllChildren: function () {
             for (var i in this.$sels) {
-                this.$sels[i].deselect();
+                if (this.$sels.hasOwnProperty(i)) {
+                    this.$sels[i].deselect();
+                }
             }
 
             this.$sels = {};
