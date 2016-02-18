@@ -455,7 +455,9 @@ define('qui/controls/Control', [
                          '</div>' +
                          '</div>',
                 styles : {
-                    left: '-110%'
+                    display: 'none',
+                    left   : -20,
+                    opacity: 0
                 }
             }).inject(this.$Elm);
 
@@ -472,10 +474,10 @@ define('qui/controls/Control', [
                 self.getElm().setStyle('overflow', oldOverflow);
 
                 moofx(Sheet).animate({
-                    left   : '-100%',
+                    left   : -20,
                     opacity: 0
                 }, {
-                    equation: 'ease-in',
+                    duration: 200,
                     callback: function () {
                         Sheet.destroy();
                     }
@@ -486,21 +488,28 @@ define('qui/controls/Control', [
             var Content = Sheet.getElement('.qui-sheet-content');
 
             Content.setStyles({
-                height: Sheet.getSize().y - 50
+                height: 'calc(100% - 50px)'
             });
 
             this.getElm().setStyle('overflow', 'hidden');
 
             if (options.buttons === false) {
                 Sheet.getElement('.qui-sheet-buttons').destroy();
+
+                Content.setStyles({
+                    height: '100%'
+                });
             }
 
 
             // effect
+            Sheet.setStyle('display', null);
+
             moofx(Sheet).animate({
-                left: 0
+                left   : 0,
+                opacity: 1
             }, {
-                equation: 'ease-out',
+                duration: 200,
                 callback: function () {
                     onfinish(Content, Sheet);
                 }

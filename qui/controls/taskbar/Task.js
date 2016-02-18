@@ -181,7 +181,7 @@ define('qui/controls/taskbar/Task', [
                         event.stop();
                     },
 
-                    mousedown : function(event) {
+                    mousedown: function (event) {
                         if (event.event.button) {
                             self.click(event);
                         }

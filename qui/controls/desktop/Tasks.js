@@ -391,47 +391,61 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
          */
         $activateTask: function (Task) {
-            if (typeof Task === 'undefined') {
-                return;
-            }
+            return new Promise(function (resolve) {
+                if (typeof Task === 'undefined') {
+                    return resolve();
+                }
 
-            if (this.$Active && this.$Active.getType() != 'qui/controls/taskbar/Group') {
-                var _Tmp     = this.$Active;
+                var OldTask = false;
+
+                if (this.$Active && this.$Active.getType() != 'qui/controls/taskbar/Group') {
+                    OldTask      = this.$Active;
+                    this.$Active = Task;
+                }
+
                 this.$Active = Task;
 
-                this.$normalizeTask(_Tmp);
-            }
-
-            this.$Active = Task;
-
-            if (!Task.getInstance()) {
-                return;
-            }
-
-            var Instance = Task.getInstance(),
-                Elm      = Instance.getElm(),
-                self     = this;
-
-            Elm.setStyles({
-                display: null,
-                opacity: 0
-            });
-
-            moofx(Elm).animate({
-                left   : 0,
-                opacity: 1
-            }, {
-                equation: 'ease-out',
-                callback: function () {
-                    self.resize();
-
-                    if ("focus" in Instance) {
-                        Instance.focus();
+                if (!Task.getInstance()) {
+                    if (OldTask) {
+                        return this.$normalizeTask(OldTask).then(resolve);
                     }
 
-                    Instance.fireEvent('show', [Instance]);
+                    return resolve();
                 }
-            });
+
+                var Instance = Task.getInstance(),
+                    Elm      = Instance.getElm(),
+                    self     = this;
+
+                Elm.setStyles({
+                    display: null,
+                    left   : -50,
+                    opacity: 0
+                });
+
+                moofx(Elm).animate({
+                    left   : 0,
+                    opacity: 1
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        self.resize();
+
+                        if ("focus" in Instance) {
+                            Instance.focus();
+                        }
+
+                        Instance.fireEvent('show', [Instance]);
+
+                        if (OldTask) {
+                            self.$normalizeTask(OldTask).then(resolve);
+                            return;
+                        }
+
+                        resolve();
+                    }
+                });
+            }.bind(this));
         },
 
         /**
@@ -442,25 +456,30 @@ define('qui/controls/desktop/Tasks', [
          *
          * @method qui/controls/desktop/Tasks#$destroyTask
          * @param {Object} Task - qui/controls/taskbar/Task
+         * @return {Promise}
          */
         $destroyTask: function (Task) {
-            if (!Task.getInstance()) {
-                return;
-            }
-
-            var Instance = Task.getInstance(),
-                Elm      = Instance.getElm();
-
-            moofx(Elm).animate({
-                left   : (this.$Container.getSize().x + 10) * -1,
-                opacity: 0
-            }, {
-                callback: function () {
-                    (function () {
-                        Instance.destroy();
-                    }).delay(100);
+            return new Promise(function (resolve) {
+                if (!Task.getInstance()) {
+                    return resolve();
                 }
-            });
+
+                var Instance = Task.getInstance(),
+                    Elm      = Instance.getElm();
+
+                moofx(Elm).animate({
+                    left   : -50,
+                    opacity: 0
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        (function () {
+                            Instance.destroy();
+                            resolve();
+                        }).delay(100);
+                    }
+                });
+            }.bind(this));
         },
 
         /**
@@ -508,27 +527,30 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Task - qui/controls/taskbar/Task
          */
         $normalizeTask: function (Task) {
-            if (Task == this.$Active) {
-                return;
-            }
+            return new Promise(function (resolve) {
+                if (Task == this.$Active) {
+                    return resolve();
+                }
 
-            if (!Task.getInstance()) {
-                return;
-            }
+                if (!Task.getInstance()) {
+                    return resolve();
+                }
 
-            var Instance = Task.getInstance(),
-                Elm      = Instance.getElm();
+                var Instance = Task.getInstance(),
+                    Elm      = Instance.getElm();
 
+                moofx(Elm).animate({
+                    left   : -50,
+                    opacity: 0
+                }, {
+                    duration: 200,
+                    callback: function (Elm) {
+                        Elm.setStyle('display', 'none');
+                        resolve();
+                    }.bind(this, Elm)
+                });
 
-            moofx(Elm).animate({
-                left   : (this.$Container.getSize().x + 10) * -1,
-                opacity: 0
-            }, {
-                equation: 'ease-out',
-                callback: function (Elm) {
-                    Elm.setStyle('display', 'none');
-                }.bind(this, Elm)
-            });
+            }.bind(this));
         },
 
         /**

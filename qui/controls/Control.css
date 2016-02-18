@@ -1,9 +1,9 @@
 @CHARSET "UTF-8";
 
 * {
--webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-        box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .qui-control {
@@ -16,9 +16,9 @@
     position: relative;
     width: 100%;
 
--webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-        box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* sheet for control
@@ -46,7 +46,6 @@
 .qui-sheet {
     background: #FFFFFF;
     height: 100%;
-    left: 0;
     position: absolute;
     top: 0;
     width: 100%;
