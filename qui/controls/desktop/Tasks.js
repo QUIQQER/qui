@@ -17,7 +17,6 @@
  * @event onResize [this]
  * @event onRefresh [this]
  */
-
 define('qui/controls/desktop/Tasks', [
 
     'qui/QUI',
@@ -74,17 +73,16 @@ define('qui/controls/desktop/Tasks', [
 
             this.addEvents({
                 onInject: function () {
-                    (function () {
-                        // exist serialize data
-                        if (this.$__serialize) {
-                            this.unserialize(this.$__serialize);
-                            this.$__serialize = null;
-                        }
-
-                        this.$__unserialize = false;
-
-                    }).delay(20, this);
-
+                    //(function () {
+                    //    // exist serialize data
+                    //    if (this.$__serialize) {
+                    //        this.unserialize(this.$__serialize);
+                    //        this.$__serialize = null;
+                    //    }
+                    //
+                    //    this.$__unserialize = false;
+                    //
+                    //}).delay(20, this);
                 }.bind(this)
             });
 
@@ -396,55 +394,56 @@ define('qui/controls/desktop/Tasks', [
                     return resolve();
                 }
 
-                var OldTask = false;
+                var OldTask = false,
+                    Prom    = Promise.resolve();
 
                 if (this.$Active && this.$Active.getType() != 'qui/controls/taskbar/Group') {
                     OldTask      = this.$Active;
                     this.$Active = Task;
+
+                    Prom = this.$normalizeTask(OldTask);
                 }
 
-                this.$Active = Task;
+                Prom.then(function () {
+                    this.$Active = Task;
 
-                if (!Task.getInstance()) {
-                    if (OldTask) {
-                        return this.$normalizeTask(OldTask).then(resolve);
+                    if (!Task.getInstance()) {
+                        return resolve();
                     }
 
-                    return resolve();
-                }
+                    var Instance = Task.getInstance(),
+                        Elm      = Instance.getElm(),
+                        self     = this;
 
-                var Instance = Task.getInstance(),
-                    Elm      = Instance.getElm(),
-                    self     = this;
+                    Elm.setStyles({
+                        display: null,
+                        left   : -20,
+                        opacity: 0
+                    });
 
-                Elm.setStyles({
-                    display: null,
-                    left   : -50,
-                    opacity: 0
-                });
+                    moofx(Elm).animate({
+                        left   : 0,
+                        opacity: 1
+                    }, {
+                        duration: 200,
+                        callback: function () {
+                            self.resize();
 
-                moofx(Elm).animate({
-                    left   : 0,
-                    opacity: 1
-                }, {
-                    duration: 200,
-                    callback: function () {
-                        self.resize();
+                            if ("focus" in Instance) {
+                                Instance.focus();
+                            }
 
-                        if ("focus" in Instance) {
-                            Instance.focus();
+                            Instance.fireEvent('show', [Instance]);
+
+                            if (OldTask) {
+                                self.$normalizeTask(OldTask).then(resolve);
+                                return;
+                            }
+
+                            resolve();
                         }
-
-                        Instance.fireEvent('show', [Instance]);
-
-                        if (OldTask) {
-                            self.$normalizeTask(OldTask).then(resolve);
-                            return;
-                        }
-
-                        resolve();
-                    }
-                });
+                    });
+                }.bind(this));
             }.bind(this));
         },
 
@@ -797,7 +796,6 @@ define('qui/controls/desktop/Tasks', [
                 IParent = Task.getTaskbar().getParent();
             }
 
-
             // clear old tasks parent binds
             if (IParent && IParent.getType() == 'qui/controls/desktop/Tasks') {
                 IParent.$removeTask(Task);
@@ -816,8 +814,8 @@ define('qui/controls/desktop/Tasks', [
             });
 
             // not the best solution
-            Instance.__destroy = Instance.destroy;
-            Instance.destroy   = this.$onInstanceDestroy.bind(this, Instance);
+            Instance.tasksPanelDestroy = Instance.destroy;
+            Instance.destroy           = this.$onInstanceDestroy.bind(this, Instance);
 
             // delete the own task destroy event
             // so the tasks panel can destroy the instance
@@ -868,7 +866,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#$onInstanceDestroy
          */
         $onInstanceDestroy: function (Instance) {
-            Instance.__destroy();
+            Instance.tasksPanelDestroy();
 
             var Task = Instance.getAttribute('Task');
 
