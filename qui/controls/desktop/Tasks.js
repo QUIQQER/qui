@@ -137,6 +137,7 @@ define('qui/controls/desktop/Tasks', [
                 this.$Taskbar.addEvent('onUnserializeFinish', function () {
                     if (self.firstChild()) {
                         self.firstChild().click();
+                        self.$Active = self.firstChild();
                     }
 
                     self.$__unserialize = false;
@@ -537,6 +538,8 @@ define('qui/controls/desktop/Tasks', [
 
                 var Instance = Task.getInstance(),
                     Elm      = Instance.getElm();
+
+                Task.normalize();
 
                 moofx(Elm).animate({
                     left   : -50,
