@@ -273,7 +273,9 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * Open the popup
          *
          * @method qui/controls/windows/Popup#open
-         * @return Promise
+         *
+         * @param {Function} [callback] - callback function
+         * @return {Promise}
          */
         open: function (callback) {
 
@@ -324,13 +326,17 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.$opened = true;
 
-            this.getElm().setStyle('position', 'fixed');
+            this.getElm().setStyles({
+                position: 'fixed',
+                top     : 0,
+                width   : this.getOpeningWidth()
+            });
 
             this.fireEvent('openBegin', [this]);
 
             return new Promise(function (resolve) {
 
-                var __execute = (function () {
+                var execute = (function () {
                     this.resize(true, function () {
 
                         this.fireEvent('open', [this]);
@@ -347,11 +353,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
                 if (ios && ios[0] <= 9) {
                     // ios rendering bugs because of overflow hidden ... *sigh*
-                    __execute.delay(200, this);
+                    execute.delay(200, this);
                     return;
                 }
 
-                __execute();
+                execute();
 
             }.bind(this));
         },
@@ -380,16 +386,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             var self     = this,
                 doc_size = document.body.getSize(),
-                width    = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-                height   = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-            if (width > this.getAttribute('maxWidth')) {
-                width = this.getAttribute('maxWidth');
-            }
-
-            if (height > this.getAttribute('maxHeight')) {
-                height = this.getAttribute('maxHeight');
-            }
+                height   = this.getOpeningHeight(),
+                width    = this.getOpeningWidth();
 
             var top  = (doc_size.y - height) / 2;
             var left = (doc_size.x - width) / 2;
@@ -413,7 +411,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.$Elm.setStyle('width', width);
             }
 
-
             // ios fix
             var ios = SystemUtils.iOSversion();
 
@@ -423,13 +420,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.$FX.animate({
                 height : height,
-                width  : width,
                 left   : left,
+                opacity: 1,
                 top    : top,
-                opacity: 1
+                width  : width
             }, {
-                duration: 300,
-                equation: 'ease-out',
+                duration: 200,
                 callback: function () {
                     // content height
                     var content_height = self.$Elm.getSize().y -
@@ -457,7 +453,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * Close the popup
          *
          * @method qui/controls/windows/Popup#close
-         * @return Promise
+         * @return {Promise}
          */
         close: function () {
 
@@ -510,7 +506,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     opacity: 0
                 }, {
                     duration: 200,
-                    equation: 'ease-out',
                     callback: function () {
                         self.fireEvent('close', [self]);
 
@@ -642,6 +637,36 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             return false;
+        },
+
+        /**
+         * Return the opening width
+         *
+         * @returns {number}
+         */
+        getOpeningWidth: function () {
+            var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+            if (width > this.getAttribute('maxWidth')) {
+                width = this.getAttribute('maxWidth');
+            }
+
+            return width;
+        },
+
+        /**
+         * Return the opening height
+         *
+         * @returns {number}
+         */
+        getOpeningHeight: function () {
+            var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+            if (height > this.getAttribute('maxHeight')) {
+                height = this.getAttribute('maxHeight');
+            }
+
+            return height;
         },
 
         /**
