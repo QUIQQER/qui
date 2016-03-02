@@ -35,14 +35,28 @@ define('qui/classes/Windows', [
             this.$windows       = {};
             this.$currentWindow = null;
 
-            this.$oldBodyStyle = {
-                overflow: document.body.style.overflow,
-                position: document.body.style.position,
-                width   : document.body.style.width,
-                top     : document.body.style.top,
-                scroll  : document.body.getScroll(),
-                minWidth: document.body.style.minWidth
-            };
+            if (typeof document.body !== 'undefined' &&
+                typeof document.body.style !== 'undefined') {
+                this.$oldBodyStyle = {
+                    overflow: document.body.style.overflow,
+                    position: document.body.style.position,
+                    width   : document.body.style.width,
+                    top     : document.body.style.top,
+                    scroll  : document.body.getScroll(),
+                    minWidth: document.body.style.minWidth
+                };
+            } else {
+                window.addEvent('domready', function () {
+                    this.$oldBodyStyle = {
+                        overflow: document.body.style.overflow,
+                        position: document.body.style.position,
+                        width   : document.body.style.width,
+                        top     : document.body.style.top,
+                        scroll  : document.body.getScroll(),
+                        minWidth: document.body.style.minWidth
+                    };
+                }.bind(this));
+            }
 
             require(['qui/QUI'], function (QUI) {
                 QUI.addEvent('onResize', function () {
