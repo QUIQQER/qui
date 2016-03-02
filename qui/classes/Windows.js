@@ -35,8 +35,7 @@ define('qui/classes/Windows', [
             this.$windows       = {};
             this.$currentWindow = null;
 
-            if (typeof document.body !== 'undefined' &&
-                typeof document.body.style !== 'undefined') {
+            try {
                 this.$oldBodyStyle = {
                     overflow: document.body.style.overflow,
                     position: document.body.style.position,
@@ -45,7 +44,7 @@ define('qui/classes/Windows', [
                     scroll  : document.body.getScroll(),
                     minWidth: document.body.style.minWidth
                 };
-            } else {
+            } catch (e) {
                 window.addEvent('domready', function () {
                     this.$oldBodyStyle = {
                         overflow: document.body.style.overflow,
