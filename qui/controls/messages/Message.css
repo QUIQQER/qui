@@ -32,6 +32,10 @@
     font-size: 12px;
 }
 
+.messages-message-text {
+    word-break: break-all;
+}
+
 /* Message colors
  ================================================================= */
 
