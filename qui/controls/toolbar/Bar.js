@@ -13,7 +13,6 @@
  * @event onClear [ this ]
  * @event onAppendChild [ this, Itm ]
  */
-
 define('qui/controls/toolbar/Bar', [
 
     'qui/QUI',
@@ -738,7 +737,19 @@ define('qui/controls/toolbar/Bar', [
          * @return {null|Object} null | qui/controls/Control
          */
         getActive: function () {
-            return this.Active;
+            if (this.Active) {
+                return this.Active;
+            }
+
+            var i, len;
+            var items = this.items;
+
+            for (i = 0, len = items.length; i < len; i++) {
+                if (items[i].isActive()) {
+                    this.Active = items[i];
+                    return this.Active;
+                }
+            }
         },
 
         /**
