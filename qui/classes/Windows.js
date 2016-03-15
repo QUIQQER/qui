@@ -36,29 +36,25 @@ define('qui/classes/Windows', [
             this.$currentWindow = null;
 
             try {
-                this.$oldBodyStyle = {
-                    overflow: document.body.style.overflow,
-                    position: document.body.style.position,
-                    width   : document.body.style.width,
-                    top     : document.body.style.top,
-                    scroll  : document.body.getScroll(),
-                    minWidth: document.body.style.minWidth
-                };
+                this.calcWindowSize();
             } catch (e) {
                 window.addEvent('domready', function () {
-                    this.$oldBodyStyle = {
-                        overflow: document.body.style.overflow,
-                        position: document.body.style.position,
-                        width   : document.body.style.width,
-                        top     : document.body.style.top,
-                        scroll  : document.body.getScroll(),
-                        minWidth: document.body.style.minWidth
-                    };
+                    this.calcWindowSize();
                 }.bind(this));
             }
 
             require(['qui/QUI'], function (QUI) {
                 QUI.addEvent('onResize', function () {
+                    var openWindows = Object.map(this.$windows, function (Win) {
+                        return Win.isOpened() ? 1 : 0;
+                    });
+
+                    var sum = Object.values(openWindows).sum();
+
+                    if (sum) {
+                        return;
+                    }
+
                     this.$oldBodyStyle = {
                         overflow: document.body.style.overflow,
                         position: document.body.style.position,
@@ -69,6 +65,20 @@ define('qui/classes/Windows', [
                     };
                 }.bind(this));
             }.bind(this));
+        },
+
+        /**
+         * calculate the window size
+         */
+        calcWindowSize: function () {
+            this.$oldBodyStyle = {
+                overflow: document.body.style.overflow,
+                position: document.body.style.position,
+                width   : document.body.style.width,
+                top     : document.body.style.top,
+                scroll  : document.body.getScroll(),
+                minWidth: document.body.style.minWidth
+            };
         },
 
         /**
