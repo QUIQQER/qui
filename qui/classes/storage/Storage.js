@@ -1,4 +1,3 @@
-
 /**
  * Use Local storage, with fallbacks
  * if local storage not exist, it loads the polyfill
@@ -12,17 +11,18 @@
  * @require qui/classes/DOM
  * @require [optional] qui/classes/storage/Polyfill
  */
-
 var needle = ['qui/classes/DOM'];
 
-if ( typeof window.localStorage === 'undefined' ||
-     typeof window.sessionStorage === 'undefined')
-{
-    needle.push( 'qui/classes/storage/Polyfill' );
+try {
+    if (typeof window.localStorage === 'undefined' ||
+        typeof window.sessionStorage === 'undefined') {
+        needle.push('qui/classes/storage/Polyfill');
+    }
+} catch (e) {
+    console.error('Please allow cookies.');
 }
 
-define('qui/classes/storage/Storage', needle, function(QDOM)
-{
+define('qui/classes/storage/Storage', needle, function (QDOM) {
     "use strict";
 
     /**
@@ -34,10 +34,10 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
      */
     return new Class({
 
-        Extends : QDOM,
-        Type    : 'qui/classes/storage/Storage',
+        Extends: QDOM,
+        Type   : 'qui/classes/storage/Storage',
 
-        $data : {},
+        $data: {},
 
         /**
          * Set the value of a key
@@ -46,15 +46,12 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          * @param {String} key
          * @param {String|Number|Boolean} value
          */
-        set : function(key, value)
-        {
-            try
-            {
-                window.localStorage.setItem( key, value );
+        set: function (key, value) {
+            try {
+                window.localStorage.setItem(key, value);
 
-            } catch ( e )
-            {
-                this.$data[ key ] = value;
+            } catch (e) {
+                this.$data[key] = value;
             }
         },
 
@@ -65,19 +62,16 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          * @param {String} key
          * @return {String|Number|Boolean} the wanted storage
          */
-        get : function(key)
-        {
-            try
-            {
-                return window.localStorage.getItem( key );
+        get: function (key) {
+            try {
+                return window.localStorage.getItem(key);
 
-            } catch ( e )
-            {
+            } catch (e) {
 
             }
 
-            if ( typeof this.$data[ key ] !== 'undefined' ) {
-                return this.$data[ key ];
+            if (typeof this.$data[key] !== 'undefined') {
+                return this.$data[key];
             }
 
             return null;
@@ -89,19 +83,16 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          * @method qui/classes/storage/Storage#remove
          * @param {String} key
          */
-        remove : function(key)
-        {
-            try
-            {
-                window.localStorage.removeItem( key );
+        remove: function (key) {
+            try {
+                window.localStorage.removeItem(key);
 
-            } catch ( e )
-            {
+            } catch (e) {
 
             }
 
-            if ( typeof this.$data[ key ] !== 'undefined' ) {
-                delete this.$data[ key ];
+            if (typeof this.$data[key] !== 'undefined') {
+                delete this.$data[key];
             }
         },
 
@@ -110,16 +101,13 @@ define('qui/classes/storage/Storage', needle, function(QDOM)
          *
          * @method qui/classes/storage/Storage#clear
          */
-        clear : function()
-        {
+        clear: function () {
             this.$data = {};
 
-            try
-            {
+            try {
                 window.localStorage.clear();
 
-            } catch ( e )
-            {
+            } catch (e) {
 
             }
         }
