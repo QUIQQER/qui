@@ -699,7 +699,7 @@ define('qui/controls/messages/Handler', [
             // spam detection - 1000 ms - same message - dont show it
             // mor wants: 1 second
             var lastIndex = this.$messages.length - 1;
-
+            
             if (lastIndex && typeof this.$messages[lastIndex] !== 'undefined') {
 
                 var LastMessage = this.$messages[this.$messages.length - 1];
@@ -709,7 +709,7 @@ define('qui/controls/messages/Handler', [
                     var LastTime = LastMessage.getAttribute('time'),
                         Now      = new Date();
 
-                    Now.setMilliseconds(1000);
+                    Now.setSeconds(5);
 
                     if (Now < LastTime) {
                         return this;
