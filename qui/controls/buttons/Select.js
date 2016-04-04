@@ -716,7 +716,7 @@ define('qui/controls/buttons/Select', [
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
-                            if (!text.match(value)) {
+                            if (!text.toString().match(value)) {
                                 Child.hide();
                             } else {
                                 Child.show();
