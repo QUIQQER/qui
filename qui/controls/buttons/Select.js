@@ -46,7 +46,9 @@ define('qui/controls/buttons/Select', [
             '$set',
             '$onDestroy',
             '$onBlur',
-            '$onKeyUp'
+            '$onKeyUp',
+            '$disableScroll',
+            '$enableScroll'
         ],
 
         options: {
@@ -474,6 +476,9 @@ define('qui/controls/buttons/Select', [
             MenuElm.setStyle('zIndex', QUIElementUtils.getComputedZIndex(this.getElm()) + 1);
             MenuElm.addClass('qui-select-container');
 
+            MenuElm.addEvent('mouseenter', this.$disableScroll);
+            MenuElm.addEvent('mouseleave', this.$enableScroll);
+
             var Option = this.$Menu.getChildren(
                 this.getAttribute('name') + this.getValue()
             );
@@ -591,6 +596,9 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
+            this.$Menu.removeEvent('mouseenter', this.$disableScroll);
+            this.$Menu.removeEvent('mouseleave', this.$enableScroll);
+
             this.$Menu.hide();
             this.getElm().removeClass('qui-select-open');
         },
@@ -627,6 +635,29 @@ define('qui/controls/buttons/Select', [
 
             if (event.key === 'enter') {
                 this.$Menu.select();
+            }
+        },
+
+        /**
+         * Disable the scrolling to the window
+         */
+        $disableScroll: function () {
+            var x = window.scrollX;
+            var y = window.scrollY;
+
+            this.$windowScroll = function () {
+                window.scrollTo(x, y);
+            };
+
+            window.addEvent('scroll', this.$windowScroll);
+        },
+
+        /**
+         * Enable the scrolling to the window
+         */
+        $enableScroll: function () {
+            if (typeof this.$windowScroll !== 'undefined') {
+                window.removeEvent('scroll', this.$windowScroll);
             }
         }
     });
