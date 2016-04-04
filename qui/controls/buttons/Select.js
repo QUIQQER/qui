@@ -48,7 +48,9 @@ define('qui/controls/buttons/Select', [
             '$onBlur',
             '$onKeyUp',
             '$disableScroll',
-            '$enableScroll'
+            '$enableScroll',
+            '$showSearch',
+            '$hideSearch'
         ],
 
         options: {
@@ -58,6 +60,7 @@ define('qui/controls/buttons/Select', [
             menuWidth            : 200,
             menuMaxHeight        : 300,
             showIcons            : true,
+            searchable           : false,
             placeholderText      : false,
             placeholderIcon      : false,
             placeholderSelectable: true // placeholder is standard selectable menu child
@@ -87,6 +90,7 @@ define('qui/controls/buttons/Select', [
             this.$Select = null;
             this.$Text   = null;
             this.$Icon   = null;
+            this.$Search = null;
 
             this.$children = [];
 
@@ -479,6 +483,10 @@ define('qui/controls/buttons/Select', [
             MenuElm.addEvent('mouseenter', this.$disableScroll);
             MenuElm.addEvent('mouseleave', this.$enableScroll);
 
+            if (this.getAttribute('searchable')) {
+                document.body.addEvent('keydown', this.$showSearch);
+            }
+
             var Option = this.$Menu.getChildren(
                 this.getAttribute('name') + this.getValue()
             );
@@ -568,6 +576,7 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
+            this.$hideSearch();
             this.$onBlur();
 
             this.fireEvent('change', [this.$value, this]);
@@ -589,18 +598,28 @@ define('qui/controls/buttons/Select', [
          */
         $onBlur: function () {
 
-            // ie11 focus fix
-            if (document.activeElement == this.$Menu.getElm() ||
-                document.activeElement == this.$Menu.$Container) {
-                this.focus();
-                return;
-            }
+            // we need a delay, becaus between the blur and the focus, the activeElement is body
+            (function () {
+                if (document.activeElement == this.$Search) {
+                    return;
+                }
 
-            this.$Menu.removeEvent('mouseenter', this.$disableScroll);
-            this.$Menu.removeEvent('mouseleave', this.$enableScroll);
+                // ie11 focus fix
+                if (document.activeElement == this.$Menu.getElm() ||
+                    document.activeElement == this.$Menu.$Container) {
+                    this.focus();
+                    return;
+                }
 
-            this.$Menu.hide();
-            this.getElm().removeClass('qui-select-open');
+                this.$Menu.removeEvent('mouseenter', this.$disableScroll);
+                this.$Menu.removeEvent('mouseleave', this.$enableScroll);
+
+                document.body.removeEvent('keydown', this.$showSearch);
+
+                this.$Menu.hide();
+
+                this.getElm().removeClass('qui-select-open');
+            }).delay(100, this);
         },
 
         /**
@@ -659,6 +678,75 @@ define('qui/controls/buttons/Select', [
             if (typeof this.$windowScroll !== 'undefined') {
                 window.removeEvent('scroll', this.$windowScroll);
             }
+        },
+
+        /**
+         * DropDown Search
+         */
+
+        /**
+         * Show the search
+         */
+        $showSearch: function (event) {
+            if (this.$Search) {
+                return;
+            }
+
+            var self     = this,
+                children = this.$Menu.getChildren(),
+                value    = event.key;
+
+            var found = children.filter(function (Child) {
+                return Child.getAttribute('text').toString().substr(0, 1) == value;
+            });
+
+            if (!found.length) {
+                return;
+            }
+
+            this.$Search = new Element('input', {
+                'class': 'qui-select-search',
+                events : {
+                    blur : this.$hideSearch,
+                    keyup: function (event) {
+                        var value    = this.value,
+                            Menu     = self.$Menu,
+                            children = Menu.getChildren();
+
+                        children.each(function (Child) {
+                            var text = Child.getAttribute('text');
+
+                            if (!text.match(value)) {
+                                Child.hide();
+                            } else {
+                                Child.show();
+                            }
+                        });
+
+                        self.$Menu.show();
+                    }
+                }
+            }).inject(this.getElm());
+
+            this.$Search.focus();
+        },
+
+        /**
+         * hide the search
+         */
+        $hideSearch: function () {
+            if (!this.$Search) {
+                return;
+            }
+
+            this.$Search.destroy();
+            this.$Search = null;
+
+            this.$Menu.getChildren().each(function (Child) {
+                Child.show();
+            });
+
+            this.$onBlur();
         }
     });
 });
