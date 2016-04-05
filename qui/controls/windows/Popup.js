@@ -364,7 +364,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
                 if (ios) {
                     // ios rendering bugs because of overflow hidden ... *sigh*
-                    execute.delay(200, this);
+                    execute.delay(250, this);
                     return;
                 }
 
