@@ -10,9 +10,10 @@
 define('qui/classes/Windows', [
 
     'require',
-    'qui/classes/DOM'
+    'qui/classes/DOM',
+    'qui/utils/System'
 
-], function (require, DOM) {
+], function (require, DOM, SystemUtils) {
     "use strict";
 
     /**
@@ -55,14 +56,7 @@ define('qui/classes/Windows', [
                         return;
                     }
 
-                    this.$oldBodyStyle = {
-                        overflow: document.body.style.overflow,
-                        position: document.body.style.position,
-                        width   : document.body.style.width,
-                        top     : document.body.style.top,
-                        scroll  : document.body.getScroll(),
-                        minWidth: document.body.style.minWidth
-                    };
+                    this.calcWindowSize();
                 }.bind(this));
             }.bind(this));
         },
@@ -165,13 +159,20 @@ define('qui/classes/Windows', [
                 });
 
                 // ios fix
-                require(['qui/utils/System'], function (SystemUtils) {
-                    var ios = SystemUtils.iOSversion();
+                var ios = SystemUtils.iOSversion();
 
-                    if (ios) {
-                        document.body.addClass('__body__ios_fix');
-                    }
-                });
+                if (ios) {
+                    document.body.setStyles({
+                        '-webkit-transform': null,
+                        'transform'        : null
+                    });
+                }
+
+                // scroll to old scroll pos
+                document.body.scrollTo(
+                    oldStyle.scroll.x,
+                    oldStyle.scroll.y
+                );
             }
         },
 

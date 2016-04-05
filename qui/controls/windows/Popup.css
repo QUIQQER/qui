@@ -1,9 +1,5 @@
 @CHARSET "UTF-8";
 
-.__body__ios_fix * {
-    -webkit-transform: translate3d(0, 0, 0);
-}
-
 .qui-window-popup {
     background: #FFFFFF;
     overflow: hidden;

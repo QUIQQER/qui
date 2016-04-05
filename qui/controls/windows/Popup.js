@@ -298,6 +298,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
 
             // touch body fix
+            QUI.Windows.calcWindowSize();
+
             document.body.setStyles({
                 width   : document.body.getSize().x,
                 minWidth: document.body.getSize().x
@@ -311,13 +313,22 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             // ios 4 detection
             var ios = SystemUtils.iOSversion();
 
-            if (ios && ios[0] <= 9) {
+            if (ios) {
 
                 document.body.setStyles({
                     overflow           : 'hidden',
                     position           : 'fixed',
                     top                : document.body.getScroll().y * -1,
                     '-webkit-transform': 'translateZ(0)'
+                });
+
+                var Background = this.Background.getElm();
+
+                Background.setStyle('opacity', 0);
+                Background.setStyle('top', document.body.getStyle('top').toInt() * -1);
+
+                moofx(this.Background.getElm()).animate({
+                    opacity: 0.6
                 });
 
             } else {
@@ -351,7 +362,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 }.bind(this));
 
 
-                if (ios && ios[0] <= 9) {
+                if (ios) {
                     // ios rendering bugs because of overflow hidden ... *sigh*
                     execute.delay(200, this);
                     return;
@@ -414,7 +425,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             // ios fix
             var ios = SystemUtils.iOSversion();
 
-            if (ios && ios[0] <= 9) {
+            if (ios) {
                 top = top + (document.body.getStyle('top').toInt() * -1);
             }
 
@@ -463,32 +474,33 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             window.removeEvent('touchend', this.$__scrollDelay);
 
             // set old body attributes
-            if (!QUI.Windows.getLength()) {
-                var oldStyle = QUI.Windows.$oldBodyStyle;
-
-                document.body.setStyles({
-                    overflow: oldStyle.overflow || null,
-                    position: oldStyle.position || null,
-                    width   : oldStyle.width || null,
-                    top     : oldStyle.top || null,
-                    minWidth: oldStyle.minWidth || null
-                });
-
-                // ios fix
-                var ios = SystemUtils.iOSversion();
-
-                if (ios && ios[0] <= 9) {
-                    document.body.setStyles({
-                        '-webkit-transform': null
-                    });
-                }
-
-
-                document.body.scrollTo(
-                    oldStyle.scroll.x,
-                    oldStyle.scroll.y
-                );
-            }
+            //if (!QUI.Windows.getLength()) {
+            //    var oldStyle = QUI.Windows.$oldBodyStyle;
+            //
+            //    document.body.setStyles({
+            //        overflow: oldStyle.overflow || null,
+            //        position: oldStyle.position || null,
+            //        width   : oldStyle.width || null,
+            //        top     : oldStyle.top || null,
+            //        minWidth: oldStyle.minWidth || null
+            //    });
+            //
+            //    // ios fix
+            //    var ios = SystemUtils.iOSversion();
+            //
+            //    if (ios) {
+            //        document.body.setStyles({
+            //            '-webkit-transform': null,
+            //            'transform'        : null
+            //        });
+            //    }
+            //
+            //
+            //    document.body.scrollTo(
+            //        oldStyle.scroll.x,
+            //        oldStyle.scroll.y
+            //    );
+            //}
 
             this.$opened = false;
 
@@ -512,9 +524,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         self.$Elm.destroy();
                         self.$Elm = null;
 
-                        self.Background.hide();
-
-                        resolve();
+                        self.Background.hide(function () {
+                            self.destroy();
+                            resolve();
+                        });
                     }
                 });
 
