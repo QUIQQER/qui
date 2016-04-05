@@ -163,6 +163,15 @@ define('qui/classes/Windows', [
                     top     : oldStyle.top || null,
                     minWidth: oldStyle.minWidth || null
                 });
+
+                // ios fix
+                require(['qui/utils/System'], function (SystemUtils) {
+                    var ios = SystemUtils.iOSversion();
+
+                    if (ios) {
+                        document.body.addClass('__body__ios_fix');
+                    }
+                });
             }
         },
 
