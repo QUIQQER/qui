@@ -88,7 +88,8 @@ define('qui/classes/QUI', [
 
                 }.bind(this));
 
-                win.addEvent('resize', QUIFunctionUtils.debounce(function () {
+                // resize calc -> window sizes
+                var resize = QUIFunctionUtils.debounce(function () {
 
                     win.requestAnimationFrame(function () {
                         this.$winSize = win.getSize();
@@ -100,9 +101,14 @@ define('qui/classes/QUI', [
                         this.fireEvent('resize', [this]);
                     }.bind(this));
 
-                }.bind(this), 100));
+                }.bind(this), 100);
 
-                win.addEvent('domready', function() {
+
+                // add events
+                win.addEvent('resize', resize);
+                win.addEvent('orientationchange', resize);
+
+                win.addEvent('domready', function () {
                     this.$winSize = win.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {

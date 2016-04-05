@@ -427,6 +427,14 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (ios) {
                 top = top + (document.body.getStyle('top').toInt() * -1);
+
+                // background ios fix - orientation change
+                var Background = this.Background.getElm();
+
+                Background.setStyles({
+                    top  : document.body.getStyle('top').toInt() * -1,
+                    width: doc_size.x
+                });
             }
 
             this.$FX.animate({
