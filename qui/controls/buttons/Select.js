@@ -604,6 +604,10 @@ define('qui/controls/buttons/Select', [
                     return;
                 }
 
+                if (document.activeElement == this.getElm()) {
+                    return;
+                }
+
                 // ie11 focus fix
                 if (document.activeElement == this.$Menu.getElm() ||
                     document.activeElement == this.$Menu.$Container) {
@@ -661,13 +665,23 @@ define('qui/controls/buttons/Select', [
          * Disable the scrolling to the window
          */
         $disableScroll: function () {
-            var x = window.scrollX;
-            var y = window.scrollY;
+            var x = window.scrollX || window.pageXOffset;
+            var y = window.scrollY || window.pageYOffset;
 
             this.$windowScroll = function () {
                 window.scrollTo(x, y);
             };
 
+            //this.$windowMouseWheel = function (event) {
+            //    event.stop();
+            //
+            //    console.warn(event.event.deltaY);
+            //    console.warn(event.deltaY);
+            //
+            //    this.$Menu;
+            //}.bind(this);
+
+            //window.addEvent('mousewheel', this.$windowMouseWheel);
             window.addEvent('scroll', this.$windowScroll);
         },
 
@@ -678,6 +692,10 @@ define('qui/controls/buttons/Select', [
             if (typeof this.$windowScroll !== 'undefined') {
                 window.removeEvent('scroll', this.$windowScroll);
             }
+
+            //if (typeof this.$windowMouseWheel !== 'undefined') {
+            //    window.removeEvent('mousewheel', this.$windowMouseWheel);
+            //}
         },
 
         /**
