@@ -498,6 +498,10 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
             this.getContextMenu(function (Menu) {
                 Menu.appendChild(Itm);
 
+                Itm.addEvent('click', function(Itm) {
+                    self.fireEvent('change', [self, Itm]);
+                });
+
                 if (self.getAttribute('dropDownIcon') && !self.$Drop) {
                     self.$Drop = new Element('div', {
                         'class': 'qui-button-drop icon-chevron-down fa fa-chevron-down'
