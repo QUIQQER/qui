@@ -640,6 +640,20 @@ define('qui/controls/toolbar/Bar', [
                     }
             }
 
+            Itm.addEvent('onDestroy', function () {
+                var newItems = [],
+                    items    = self.items;
+
+                for (var i = 0, len = items.length; i < len; i++) {
+                    if (items[i] != Itm) {
+                        newItems.push(items[i]);
+                    }
+                }
+
+                self.items = newItems;
+            });
+
+
             Itm.setParent(this);
 
             if (type == 'qui/controls/toolbar/Tab') {
