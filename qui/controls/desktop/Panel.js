@@ -660,16 +660,22 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} qui/controls/toolbar/Bar
          */
         getButtonBar: function () {
-            if (!this.$ButtonBar) {
-                this.$Buttons.setStyle('display', null);
-
-                this.$ButtonBar = new Toolbar({
-                    slide        : false,
-                    type         : 'buttons',
-                    'menu-button': false,
-                    mousewheel   : false
-                }).inject(this.$Buttons);
+            if (this.$ButtonBar) {
+                return this.$ButtonBar;
             }
+
+            if (!this.$Buttons) {
+                this.$Buttons = this.$Elm.getElement('.qui-panel-buttons')
+            }
+
+            this.$Buttons.setStyle('display', null);
+
+            this.$ButtonBar = new Toolbar({
+                slide        : false,
+                type         : 'buttons',
+                'menu-button': false,
+                mousewheel   : false
+            }).inject(this.$Buttons);
 
             return this.$ButtonBar;
         },
