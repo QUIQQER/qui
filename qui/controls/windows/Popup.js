@@ -101,6 +101,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.Loader     = new Loader();
 
 
+            // button texts
+            var closeText = 'Close';
+
+            if (QUI.getAttribute('control-windows-popup-closetext')) {
+                closeText = QUI.getAttribute('control-windows-popup-closetext');
+            }
+
+            this.setAttribute('closeButtonText', closeText);
+
+
             this.$__scrollDelay = FunctionsUtils.debounce(function () {
                 self.$scroll = false;
             }, 300);

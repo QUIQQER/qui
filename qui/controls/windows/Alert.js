@@ -1,4 +1,3 @@
-
 /**
  * Alert Box
  *
@@ -15,8 +14,7 @@ define('qui/controls/windows/Alert', [
 
     'css!qui/controls/windows/Alert.css'
 
-], function(Popup)
-{
+], function (Popup) {
     "use strict";
 
     /**
@@ -26,23 +24,22 @@ define('qui/controls/windows/Alert', [
      */
     return new Class({
 
-        Extends : Popup,
-        Type    : 'qui/controls/windows/Alert',
+        Extends: Popup,
+        Type   : 'qui/controls/windows/Alert',
 
-        Binds : [
+        Binds: [
             '$onCreate'
         ],
 
-        options : {
-            maxHeight : 300,
-            icon      : 'icon-bell fa fa-bell',
-            title     : 'Alert'
+        options: {
+            maxHeight: 300,
+            icon     : 'icon-bell fa fa-bell',
+            title    : 'Alert'
         },
 
-        initialize : function(params)
-        {
-            this.parent( params );
-            this.addEvent( 'onCreate', this.$onCreate );
+        initialize: function (params) {
+            this.parent(params);
+            this.addEvent('onCreate', this.$onCreate);
         },
 
         /**
@@ -50,9 +47,8 @@ define('qui/controls/windows/Alert', [
          *
          * @method qui/controls/windows/Alert#$onCreate
          */
-        $onCreate : function()
-        {
-            this.getElm().addClass( 'qui-windows-alert' );
+        $onCreate: function () {
+            this.getElm().addClass('qui-windows-alert');
         }
     });
 });

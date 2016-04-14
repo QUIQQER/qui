@@ -15,13 +15,14 @@
 
 define('qui/controls/windows/Confirm', [
 
+    'qui/QUI',
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',
     'qui/utils/Controls',
 
     'css!qui/controls/windows/Confirm.css'
 
-], function (QUIPopup, QUIButton, Utils) {
+], function (QUI, QUIPopup, QUIButton, Utils) {
     "use strict";
 
     /**
@@ -53,12 +54,12 @@ define('qui/controls/windows/Confirm', [
             'icon'       : 'icon-remove fa fa-remove',
 
             cancel_button: {
-                text     : 'Cancel',
+                text     : false,
                 textimage: 'icon-remove fa fa-remove'
             },
             ok_button    : {
-                text     : 'OK',
-                textimage: 'icon-ok  fa fa-check'
+                text     : false,
+                textimage: 'icon-ok fa fa-check'
             }
         },
 
@@ -79,6 +80,32 @@ define('qui/controls/windows/Confirm', [
             if (this.getAttribute('height') === false) {
                 this.setAttribute('height', 240);
             }
+
+            // button texts
+            var cancelText   = 'Cancel',
+                submitText   = 'Ok',
+                cancelButton = this.getAttribute('cancel_button'),
+                submitButton = this.getAttribute('ok_button');
+
+            if (QUI.getAttribute('control-windows-confirm-canceltext')) {
+                cancelText = QUI.getAttribute('control-windows-confirm-canceltext');
+            }
+
+            if (QUI.getAttribute('control-windows-confirm-submittext')) {
+                submitText = QUI.getAttribute('control-windows-confirm-submittext');
+            }
+
+            if (cancelButton.text === false) {
+                cancelButton.text = cancelText;
+            }
+
+            if (submitButton.text === false) {
+                submitButton.text = submitText;
+            }
+
+            this.setAttribute('cancel_button', cancelButton);
+            this.setAttribute('ok_button', submitButton);
+
 
             // on set attribute event
             // if attributes were set after creation
