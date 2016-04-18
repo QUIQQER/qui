@@ -13,7 +13,6 @@
  * @event onError : if there is an error
  * @event onResize : globale window resize event
  */
-
 define('qui/classes/QUI', [
 
     'require',
@@ -73,6 +72,10 @@ define('qui/classes/QUI', [
             this.Controls = new Controls();
             this.Windows  = new Windows();
             this.Storage  = new Storage();
+            this.Progress = null;
+
+            this.$moduleLoaded  = 0;
+            this.$moduleLoading = 0;
 
             // global resize event
             if (typeof window !== 'undefined') {
@@ -88,8 +91,7 @@ define('qui/classes/QUI', [
 
                 }.bind(this));
 
-                // resize calc -> window sizes
-                var resize = QUIFunctionUtils.debounce(function () {
+                win.addEvent('resize', QUIFunctionUtils.debounce(function () {
 
                     win.requestAnimationFrame(function () {
                         this.$winSize = win.getSize();
@@ -101,12 +103,7 @@ define('qui/classes/QUI', [
                         this.fireEvent('resize', [this]);
                     }.bind(this));
 
-                }.bind(this), 100);
-
-
-                // add events
-                win.addEvent('resize', resize);
-                win.addEvent('orientationchange', resize);
+                }.bind(this), 100));
 
                 win.addEvent('domready', function () {
                     this.$winSize = win.getSize();
@@ -114,6 +111,28 @@ define('qui/classes/QUI', [
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
                     }
+
+                    require([
+                        'qui/controls/loader/Progress'
+                    ], function (Progress) {
+
+                        this.Progress = new Progress({
+                            styles: {
+                                left    : 0,
+                                position: 'fixed',
+                                top     : 0
+                            },
+                            events: {
+                                onProgress: function (ProgressBar, percent) {
+                                    if (percent == 100) {
+                                        ProgressBar.hide();
+                                    }
+                                }
+                            }
+                        }).inject(document.body);
+
+                    }.bind(this));
+
                 }.bind(this));
             }
 
@@ -175,6 +194,8 @@ define('qui/classes/QUI', [
          * @return Promise
          */
         parse: function (Parent, callback) {
+            var self = this;
+
             return new Promise(function (resolve, reject) {
                 if (typeof Parent === 'undefined') {
                     Parent = document.body;
@@ -205,6 +226,22 @@ define('qui/classes/QUI', [
                     return Elm.get('data-qui') !== '';
                 }).clean();
 
+
+                self.$moduleLoading = self.$moduleLoading + list.length;
+
+                if (self.Progress) {
+                    var max    = parseInt(self.$moduleLoading),
+                        loaded = parseInt(self.$moduleLoaded);
+
+                    if (!loaded) {
+                        loaded = 1;
+                    }
+
+                    self.Progress.set(
+                        Math.round((loaded * 100) / max)
+                    );
+                }
+
                 require(list, function () {
                     var i, len, Cls, Elm;
 
@@ -229,6 +266,12 @@ define('qui/classes/QUI', [
                             new Cls().replaces(Elm);
                         }
                     }
+
+                    self.$moduleLoaded = self.$moduleLoaded + list.length;
+
+                    self.Progress.set(
+                        Math.round((self.$moduleLoaded * 100) / max)
+                    );
 
                     resolve();
 
