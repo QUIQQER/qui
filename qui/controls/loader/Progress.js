@@ -9,10 +9,11 @@
  * @require qui/controls/Control
  * @require css!qui/controls/loader/Progress.css
  *
+ * @event onProgress [self, percent]
+ *
  * Global QUI Attribute
  * - control-loader-color
  */
-
 define('qui/controls/loader/Progress', [
 
     'qui/QUI',
@@ -97,11 +98,16 @@ define('qui/controls/loader/Progress', [
          * @param {Number} step - percentage step (0 - 100)
          */
         set: function (step) {
-            var width   = this.$Elm.getSize().x,
-                newSize = (( width / 100 ) * step).round();
+            var self    = this,
+                width   = this.$Elm.getSize().x,
+                newSize = ((width / 100) * step).round();
 
             this.$BarFX.animate({
                 width: newSize
+            }, {
+                callback: function () {
+                    self.fireEvent('progress', [self, step]);
+                }
             });
         },
 
