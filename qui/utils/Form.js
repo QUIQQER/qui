@@ -4,7 +4,6 @@
  * @module qui/utils/Form
  * @author www.pcsg.de (Henning Leutz)
  */
-
 define('qui/utils/Form', {
 
     /**
@@ -43,7 +42,7 @@ define('qui/utils/Form', {
                 form.getElements('[name="' + k + '"]').set('checked', false);
             }
 
-            if (Elm.length && ( Elm[0].type === 'checkbox' || Elm[0].type === 'radio' )) {
+            if (Elm.length && (Elm[0].type === 'checkbox' || Elm[0].type === 'radio')) {
                 form.getElements('[name="' + k + '"]').set('checked', false);
             }
         }
@@ -66,7 +65,7 @@ define('qui/utils/Form', {
                     continue;
                 }
 
-                Elm.checked = ( (data[k]).toInt() ? true : false );
+                Elm.checked = ((data[k]).toInt() ? true : false);
                 continue;
             }
 
@@ -214,7 +213,7 @@ define('qui/utils/Form', {
 
             el.focus();
 
-            range      = document.selection.createRange();
+            range = document.selection.createRange();
             range.collapse(false);
             range.text = text;
             range.select();

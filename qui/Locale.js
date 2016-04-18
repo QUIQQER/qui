@@ -1,4 +1,3 @@
-
 /**
  * The QUI Locale Object
  *
@@ -8,11 +7,10 @@
  * @require qui/classes/Locale
  */
 
-define('qui/Locale', ['qui/classes/Locale'], function(QUILocale)
-{
+define('qui/Locale', ['qui/classes/Locale'], function (QUILocale) {
     "use strict";
 
-    if ( typeof window.QUILocale === 'undefined' ) {
+    if (typeof window.QUILocale === 'undefined') {
         window.QUILocale = new QUILocale();
     }
 

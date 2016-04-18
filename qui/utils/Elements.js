@@ -1,4 +1,3 @@
-
 /**
  * Helper for DOMNode Elements
  *
@@ -7,12 +6,11 @@
  *
  * @require qui/classes/utils/SimulateEvent
  */
-
 define('qui/utils/Elements', [
 
     'qui/classes/utils/SimulateEvent'
 
-], function(SimulateEvent) {
+], function (SimulateEvent) {
 
     "use strict";
 
@@ -24,8 +22,7 @@ define('qui/utils/Elements', [
          * @method qui/utils/Elements#isInViewport
          * @param {HTMLElement} el
          */
-        isInViewport: function (el)
-        {
+        isInViewport: function (el) {
             var rect = el.getBoundingClientRect();
 
             return (
@@ -42,10 +39,9 @@ define('qui/utils/Elements', [
          * @method qui/utils/Elements#getComputedZIndex
          * @return {Number}
          */
-        getComputedZIndex: function (Elm)
-        {
+        getComputedZIndex: function (Elm) {
             var i, z, len, max = 0;
-            var parents = Elm.getParents();
+            var parents        = Elm.getParents();
 
             for (i = 0, len = parents.length; i < len; i++) {
                 z = parents[i].getStyle('zIndex');
@@ -68,8 +64,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Elm
          * @return {Number}
          */
-        getChildIndex: function (Elm)
-        {
+        getChildIndex: function (Elm) {
             return Array.prototype.indexOf.call(
                 Elm.getParent().children,
                 Elm
@@ -81,8 +76,7 @@ define('qui/utils/Elements', [
          *
          * @return {null|Number}
          */
-        getCursorPosition: function (Input)
-        {
+        getCursorPosition: function (Input) {
             if (Input.nodeName !== 'INPUT') {
                 return null;
             }
@@ -95,7 +89,7 @@ define('qui/utils/Elements', [
                 // IE
                 Input.focus();
 
-                var range = document.selection.createRange();
+                var range    = document.selection.createRange();
                 var rangeLen = range.text.length;
 
                 range.moveStart('character', -Input.value.length);
@@ -112,8 +106,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Input - Input | Textarea Element
          * @param {Number} pos - Position of the cursor
          */
-        setCursorPosition: function (Input, pos)
-        {
+        setCursorPosition: function (Input, pos) {
             if (Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA') {
                 return null;
             }
@@ -141,8 +134,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Target
          * @param {String} eventName
          */
-        simulateEvent: function (Target, eventName)
-        {
+        simulateEvent: function (Target, eventName) {
             new SimulateEvent(Target).simulateEvent(eventName);
         }
     };

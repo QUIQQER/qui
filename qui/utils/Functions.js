@@ -1,11 +1,9 @@
-
 /**
  * Helper for <form> nodes
  *
  * @module qui/utils/Functions
  * @author www.pcsg.de (Henning Leutz)
  */
-
 define('qui/utils/Functions', {
 
     /**
@@ -21,18 +19,16 @@ define('qui/utils/Functions', {
      *
      * @returns {Function}
      */
-    debounce : function(func, wait, immediate)
-    {
+    debounce: function (func, wait, immediate) {
         "use strict";
 
         var timeout;
 
-        return function()
-        {
+        return function () {
             var context = this,
-                args = arguments;
+                args    = arguments;
 
-            var later = function() {
+            var later = function () {
                 timeout = null;
                 if (!immediate) {
                     func.apply(context, args);
@@ -58,20 +54,18 @@ define('qui/utils/Functions', {
      *
      * @returns {Function}
      */
-    once : function(func, context)
-    {
+    once: function (func, context) {
         "use strict";
 
         var result;
 
-        return function() {
-            if(func) {
+        return function () {
+            if (func) {
                 result = func.apply(context || this, arguments);
-                func = null;
+                func   = null;
             }
 
             return result;
         };
     }
-
 });

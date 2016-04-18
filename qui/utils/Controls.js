@@ -1,4 +1,3 @@
-
 /**
  * Utils for the controls
  * Helps the controls
@@ -9,8 +8,7 @@
  * @require qui/QUI
  */
 
-define('qui/utils/Controls', ['qui/QUI'], function(QUI)
-{
+define('qui/utils/Controls', ['qui/QUI'], function (QUI) {
     "use strict";
 
     return {
@@ -22,13 +20,12 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI)
          * @param {String} icon - FontAweomse icon-class or an image path
          * @returns {Boolean}
          */
-        isFontAwesomeClass : function(icon)
-        {
-            if ( !icon ) {
+        isFontAwesomeClass: function (icon) {
+            if (!icon) {
                 return false;
             }
 
-            return ( icon.match( /icon-/ ) || icon.match( /fa-/ ) ) && !icon.match( /\./ ) ? true : false;
+            return (icon.match(/icon-/) || icon.match(/fa-/)) && !icon.match(/\./) ? true : false;
         },
 
         /**
@@ -37,19 +34,18 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI)
          * @method qui/utils/Controls#highlight
          * @param {HTMLElement} Element
          */
-        highlight : function(Element)
-        {
-            if ( !Element ) {
+        highlight: function (Element) {
+            if (!Element) {
                 return;
             }
 
-            var quiid = Element.get( 'data-quiid' );
+            var quiid = Element.get('data-quiid');
 
-            if ( !quiid ) {
+            if (!quiid) {
                 return;
             }
 
-            QUI.Controls.getById( quiid ).highlight();
+            QUI.Controls.getById(quiid).highlight();
         },
 
         /**
@@ -58,19 +54,18 @@ define('qui/utils/Controls', ['qui/QUI'], function(QUI)
          * @method qui/utils/Controls#normalize
          * @param {HTMLElement} Element
          */
-        normalize : function(Element)
-        {
-            if ( !Element ) {
+        normalize: function (Element) {
+            if (!Element) {
                 return;
             }
 
-            var quiid = Element.get( 'data-quiid' );
+            var quiid = Element.get('data-quiid');
 
-            if ( !quiid ) {
+            if (!quiid) {
                 return;
             }
 
-            QUI.Controls.getById( quiid ).normalize();
+            QUI.Controls.getById(quiid).normalize();
         }
 
     };

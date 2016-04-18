@@ -1,4 +1,3 @@
-
 /**
  * Utils for objects
  * Helps with objects -> {}
@@ -6,7 +5,6 @@
  * @module qui/utils/Object
  * @author www.pcsg.de (Henning Leutz)
  */
-
 define('qui/utils/Object', {
 
     /**
@@ -18,8 +16,7 @@ define('qui/utils/Object', {
      * @param {Object} second - Second Object
      * @return {Object}
      */
-    combine : function(first, second)
-    {
+    combine: function (first, second) {
         "use strict";
 
         first  = first || {};
@@ -38,19 +35,17 @@ define('qui/utils/Object', {
      * @param {Object} obj
      * @returns {Boolean}
      */
-    existsValue : function( namespace, obj )
-    {
+    existsValue: function (namespace, obj) {
         "use strict";
 
-        var parts = namespace.split( '.' );
+        var parts = namespace.split('.');
 
-        for ( var i = 0, len = parts.length; i < len; ++i )
-        {
-            if ( typeof obj[ parts[ i ] ] === 'undefined' ) {
+        for (var i = 0, len = parts.length; i < len; ++i) {
+            if (typeof obj[parts[i]] === 'undefined') {
                 return false;
             }
 
-            obj = obj[ parts[ i ] ];
+            obj = obj[parts[i]];
         }
 
         return true;
@@ -66,19 +61,17 @@ define('qui/utils/Object', {
      * @param {Object} obj
      * @returns {String|Boolean|Number|Object}
      */
-    getValue : function( namespace, obj )
-    {
+    getValue: function (namespace, obj) {
         "use strict";
 
-        var parts = namespace.split( '.' );
+        var parts = namespace.split('.');
 
-        for ( var i = 0, len = parts.length; i < len; ++i )
-        {
-            if ( typeof obj[ parts[ i ] ] === 'undefined' ) {
+        for (var i = 0, len = parts.length; i < len; ++i) {
+            if (typeof obj[parts[i]] === 'undefined') {
                 return undefined;
             }
 
-            obj = obj[ parts[ i ] ];
+            obj = obj[parts[i]];
         }
 
         return obj;
@@ -93,8 +86,7 @@ define('qui/utils/Object', {
      *
      * @return {Object}
      */
-    namespace : function extend( namespace, obj )
-    {
+    namespace: function extend (namespace, obj) {
         "use strict";
 
         var pl, i;
@@ -103,14 +95,13 @@ define('qui/utils/Object', {
 
         pl = parts.length;
 
-        for ( i = 0; i < pl; i++ )
-        {
+        for (i = 0; i < pl; i++) {
             //create a property if it doesnt exist
-            if ( typeof parent[ parts[ i ] ] === 'undefined' ) {
-                parent[ parts[ i ] ] = {};
+            if (typeof parent[parts[i]] === 'undefined') {
+                parent[parts[i]] = {};
             }
 
-            parent = parent[ parts[ i ] ];
+            parent = parent[parts[i]];
         }
 
         return parent;
