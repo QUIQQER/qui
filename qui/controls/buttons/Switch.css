@@ -21,11 +21,15 @@
     -ms-transform: scale(1.1);
     -o-transform: scale(1.1);
     transform: scale(1.1);
-    -webkit-transition: 0.15s ;
+    -webkit-transition: 0.15s;
     -moz-transition: 0.15s;
     -ms-transition: 0.15s;
     -o-transition: 0.15s;
     transition: 0.15s;
+}
+
+.qui-switch-button-disabled {
+    opacity: 0.5;
 }
 
 .qui-switch:hover .qui-switch-button {
@@ -52,11 +56,11 @@
     color: #fff;
     display: inline-block;
     float: left;
-    padding: 0 0.55em 0 0.4em ;
+    padding: 0 0.55em 0 0.4em;
     text-align: center;
     text-shadow: 0 0 15px #fff;
     z-index: 2;
-    -webkit-transition: 0.15s ;
+    -webkit-transition: 0.15s;
     -moz-transition: 0.15s;
     -ms-transition: 0.15s;
     -o-transition: 0.15s;
@@ -71,7 +75,7 @@
     text-align: center;
     text-shadow: 0 0 5px #dedede;
     z-index: 3;
-    -webkit-transition: 0.15s ;
+    -webkit-transition: 0.15s;
     -moz-transition: 0.15s;
     -ms-transition: 0.15s;
     -o-transition: 0.15s;
