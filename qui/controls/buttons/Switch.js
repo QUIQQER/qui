@@ -56,8 +56,7 @@ define('qui/controls/buttons/Switch', [
             this.$status        = this.getAttribute('status');
             this.$triggerEvents = true;
             this.$disabled      = false;
-
-            this.$activeColor = '#0069b4';
+            this.$activeColor   = '#0069b4';
 
             this.addEvents({
                 onInject      : this.$onInject,
@@ -67,27 +66,37 @@ define('qui/controls/buttons/Switch', [
 
         /**
          * resize the switch
+         *
+         * @return {Promise}
          */
         resize: function () {
-            this.$Button.setStyle('width', this.$ButtonTextOff.getSize().x);
+            return new Promise(function (resolve) {
 
-            this.$triggerEvents = false;
+                this.$Button.setStyle('width', this.$ButtonTextOff.getSize().x);
 
-            if (this.getStatus()) {
-                this.on();
-            } else {
-                this.off();
-            }
+                this.$triggerEvents = false;
 
-            this.$triggerEvents = true;
+                var Prom = Promise.resolve();
 
-            moofx(this.$Elm).animate({
-                opacity: 1
-            }, {
-                callback: function () {
-                    this.$Elm.setStyle('opacity', null);
-                }.bind(this)
-            });
+                if (this.getStatus()) {
+                    Prom = this.on();
+                } else {
+                    Prom = this.off();
+                }
+
+                this.$triggerEvents = true;
+
+                Prom.then(function () {
+                    moofx(this.$Elm).animate({
+                        opacity: 1
+                    }, {
+                        callback: function () {
+                            this.$Elm.setStyle('opacity', null);
+                            resolve();
+                        }.bind(this)
+                    });
+                }.bind(this));
+            }.bind(this));
         },
 
         /**
@@ -169,15 +178,26 @@ define('qui/controls/buttons/Switch', [
          * event : on inject
          */
         $onInject: function () {
-            var self = this;
-
             this.$Button.setStyle('left', 0);
-            this.$Elm.setStyle('background', this.$activeColor);
 
             // fix for real resize
             (function () {
-                self.resize();
-            }).delay(100);
+                var wasDisabled = this.$disabled;
+
+                this.enable();
+
+                this.resize().then(function () {
+                    this.$Elm.setStyle('background', this.$activeColor);
+
+                    if (wasDisabled) {
+                        this.setSilentOff().then(function () {
+                            this.disable();
+                            this.$Elm.setStyle('background', this.$activeColor);
+                        }.bind(this));
+                    }
+
+                }.bind(this));
+            }).delay(100, this);
         },
 
         /**
@@ -191,24 +211,29 @@ define('qui/controls/buttons/Switch', [
 
         /**
          * Change the status of the Button
+         *
+         * @return {Promise}
          */
         toggle: function () {
             if (this.$status) {
-                this.off();
-            } else {
-                this.on();
+                return this.off();
             }
+
+            return this.on();
         },
 
         /**
          * Set the "on" status
+         *
+         * @return {Promise}
          */
         on: function () {
             if (this.$disabled) {
-                return;
+                return Promise.resolve();
             }
 
-            this.$status = 1;
+            this.$status      = 1;
+            this.$activeColor = '#0069b4';
 
             if (this.$triggerEvents) {
                 this.fireEvent('statusOn', [this]);
@@ -216,39 +241,45 @@ define('qui/controls/buttons/Switch', [
             }
 
             if (!this.$Elm) {
-                return;
+                return Promise.resolve();
             }
 
-            // Send the "on" switch status
-            this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '1'));
+            return new Promise(function (resolve) {
+                // Send the "on" switch status
+                this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '1'));
 
-            var textWidth = this.$ButtonTextOff.getSize().x;
+                var textWidth = this.$ButtonTextOff.getSize().x;
 
-            this.$FxElm.animate({
-                background: this.$activeColor
-            }, {
-                duration: 200,
-                equation: 'cubic-bezier(1,0,0,0)'
-            });
+                this.$FxElm.animate({
+                    background: this.$activeColor
+                }, {
+                    duration: 200,
+                    equation: 'cubic-bezier(1,0,0,0)'
+                });
 
-            this.$FxButton.animate({
-                left : 0,
-                width: textWidth
-            }, {
-                duration: 350,
-                equation: 'cubic-bezier(0.34,1.31,0.7,1)'
-            });
+                this.$FxButton.animate({
+                    left : 0,
+                    width: textWidth
+                }, {
+                    duration: 350,
+                    equation: 'cubic-bezier(0.34,1.31,0.7,1)',
+                    callback: resolve
+                });
+            }.bind(this));
         },
 
         /**
          * Set the "off" status
+         *
+         * @return {Promise}
          */
         off: function () {
             if (this.$disabled) {
-                return;
+                return Promise.resolve();
             }
 
-            this.$status = 0;
+            this.$status      = 0;
+            this.$activeColor = '#ffffff';
 
             if (this.$triggerEvents) {
                 this.fireEvent('statusOff', [this]);
@@ -256,47 +287,58 @@ define('qui/controls/buttons/Switch', [
             }
 
             if (!this.$Elm) {
-                return;
+                return Promise.resolve();
             }
 
-            // Send the "off" switch status
-            this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '0'));
+            return new Promise(function (resolve) {
+                // Send the "off" switch status
+                this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '0'));
 
-            var onWidth  = this.$ButtonTextOn.getSize().x,
-                offWidth = this.$ButtonTextOff.getSize().x;
+                var onWidth  = this.$ButtonTextOn.getSize().x,
+                    offWidth = this.$ButtonTextOff.getSize().x;
 
-            this.$FxElm.animate({
-                background: '#fff'
-            }, {
-                duration: 10,
-                equation: 'cubic-bezier(0,0,1,1)'
-            });
+                this.$FxElm.animate({
+                    background: this.$activeColor
+                }, {
+                    duration: 10,
+                    equation: 'cubic-bezier(0,0,1,1)'
+                });
 
-            this.$FxButton.animate({
-                left : offWidth,
-                width: onWidth
-            }, {
-                duration: 350,
-                equation: 'cubic-bezier(0.34,1.31,0.7,1)'
-            });
+                this.$FxButton.animate({
+                    left : offWidth,
+                    width: onWidth
+                }, {
+                    duration: 350,
+                    equation: 'cubic-bezier(0.34,1.31,0.7,1)',
+                    callback: resolve
+                });
+            }.bind(this));
         },
 
         /**
          * Set status to "on" without triggering any events
+         *
+         * @return {Promise}
          */
         setSilentOn: function () {
             this.$triggerEvents = false;
-            this.on();
-            this.$triggerEvents = true;
+
+            return this.on().then(function () {
+                this.$triggerEvents = true;
+            }.bind(this));
         },
 
         /**
          * Set status to "off" without triggering any events
+         *
+         * @return {Promise}
          */
         setSilentOff: function () {
             this.$triggerEvents = false;
-            this.off();
-            this.$triggerEvents = true;
+
+            return this.off().then(function () {
+                this.$triggerEvents = true;
+            }.bind(this));
         },
 
         /**
@@ -313,7 +355,7 @@ define('qui/controls/buttons/Switch', [
          */
         disable: function () {
             this.$disabled    = true;
-            this.$activeColor = '#999';
+            this.$activeColor = '#ddd';
             this.getElm().addClass('qui-switch-button-disabled');
         },
 

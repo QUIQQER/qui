@@ -29,6 +29,8 @@
 }
 
 .qui-switch-button-disabled {
+    background: #ddd;
+    color: #999;
     opacity: 0.5;
 }
 
@@ -44,6 +46,15 @@
 .qui-switch:hover .qui-switch-on,
 .qui-switch:hover .qui-switch-off {
     text-shadow: none;
+}
+
+.qui-switch-button-disabled:hover .qui-switch-button {
+    box-shadow: 0 0 10px -2px #585858;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .qui-switch-text-on,
