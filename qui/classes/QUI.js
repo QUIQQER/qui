@@ -72,10 +72,6 @@ define('qui/classes/QUI', [
             this.Controls = new Controls();
             this.Windows  = new Windows();
             this.Storage  = new Storage();
-            this.Progress = null;
-
-            this.$moduleLoaded  = 0;
-            this.$moduleLoading = 0;
 
             // global resize event
             if (typeof window !== 'undefined') {
@@ -111,28 +107,6 @@ define('qui/classes/QUI', [
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
                     }
-
-                    require([
-                        'qui/controls/loader/Progress'
-                    ], function (Progress) {
-
-                        this.Progress = new Progress({
-                            styles: {
-                                left    : 0,
-                                position: 'fixed',
-                                top     : 0
-                            },
-                            events: {
-                                onProgress: function (ProgressBar, percent) {
-                                    if (percent == 100) {
-                                        ProgressBar.hide();
-                                    }
-                                }
-                            }
-                        }).inject(document.body);
-
-                    }.bind(this));
-
                 }.bind(this));
             }
 
@@ -226,22 +200,6 @@ define('qui/classes/QUI', [
                     return Elm.get('data-qui') !== '';
                 }).clean();
 
-
-                self.$moduleLoading = self.$moduleLoading + list.length;
-
-                if (self.Progress) {
-                    var max    = parseInt(self.$moduleLoading),
-                        loaded = parseInt(self.$moduleLoaded);
-
-                    if (!loaded) {
-                        loaded = 1;
-                    }
-
-                    self.Progress.set(
-                        Math.round((loaded * 100) / max)
-                    );
-                }
-
                 require(list, function () {
                     var i, len, Cls, Elm;
 
@@ -266,12 +224,6 @@ define('qui/classes/QUI', [
                             new Cls().replaces(Elm);
                         }
                     }
-
-                    self.$moduleLoaded = self.$moduleLoaded + list.length;
-
-                    self.Progress.set(
-                        Math.round((self.$moduleLoaded * 100) / max)
-                    );
 
                     resolve();
 
