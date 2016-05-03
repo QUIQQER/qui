@@ -227,6 +227,8 @@ define('qui/controls/Control', [
                 this.$Elm.replaces(Elm);
             }
 
+            this.fireEvent('inject', [this]);
+
             return this;
         },
 
