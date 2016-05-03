@@ -138,9 +138,12 @@ define('qui/controls/buttons/Select', [
             // es lebe die touch geräte \(^^)/
             EventClick.addEvents({
                 click     : function (event) {
-                    if (!!('ontouchstart' in window)) {
-                        event.stop();
-                    }
+                    // if (!!('ontouchstart' in window)) {
+                    //     event.stop();
+                    // }
+
+                    event.stop();
+                    self.$Elm.focus();
                 },
                 touchstart: function (event) {
                     if (!!('ontouchstart' in window)) {
