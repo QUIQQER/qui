@@ -254,7 +254,7 @@ define('qui/controls/buttons/Select', [
          */
         setValue: function (value) {
 
-            var i, len;
+            var i, len, childvalue;
             var children = this.$Menu.getChildren();
 
             for (i = 0, len = children.length; i < len; i++) {
@@ -266,9 +266,24 @@ define('qui/controls/buttons/Select', [
 
             if (typeOf(value) === 'boolean') {
                 value = value.toString();
-                
+
                 for (i = 0, len = children.length; i < len; i++) {
                     if (children[i].getAttribute('value') == value) {
+                        this.$set(children[i]);
+                        return this;
+                    }
+                }
+            }
+
+            if (typeOf(value) === 'string') {
+                childvalue = children[i].getAttribute('value');
+
+                if (typeOf(childvalue) === 'boolean') {
+                    childvalue = childvalue.toString();
+                }
+
+                for (i = 0, len = children.length; i < len; i++) {
+                    if (childvalue == value) {
                         this.$set(children[i]);
                         return this;
                     }
