@@ -389,14 +389,15 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#resize
          * @param {Boolean} [withfx] - deprecated
          * @param {Function} [callback]
+         * @return {Promise}
          */
         resize: function (withfx, callback) {
             if (!this.$Elm) {
-                return;
+                return Promise.resolve();
             }
 
             if (this.$scroll) {
-                return;
+                return Promise.resolve();
             }
 
             if (!this.$opened) {
@@ -447,35 +448,41 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 });
             }
 
-            this.$FX.animate({
-                height : height,
-                left   : left,
-                opacity: 1,
-                top    : top,
-                width  : width
-            }, {
-                duration: 200,
-                callback: function () {
-                    // content height
-                    var content_height = self.$Elm.getSize().y -
-                                         self.$Buttons.getSize().y -
-                                         self.$Title.getSize().y;
+            return new Promise(function (resolve) {
 
-                    self.$Content.setStyles({
-                        height : content_height,
-                        opacity: null
-                    });
+                this.$FX.animate({
+                    height : height,
+                    left   : left,
+                    opacity: 1,
+                    top    : top,
+                    width  : width
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        // content height
+                        var content_height = self.$Elm.getSize().y -
+                                             self.$Buttons.getSize().y -
+                                             self.$Title.getSize().y;
 
-                    self.$Buttons.setStyle('opacity', null);
+                        self.$Content.setStyles({
+                            height : content_height,
+                            opacity: null
+                        });
 
-                    //self.$Elm.focus();
-                    self.fireEvent('resize', [self]);
+                        self.$Buttons.setStyle('opacity', null);
 
-                    if (typeof callback === 'function') {
-                        callback();
+                        //self.$Elm.focus();
+                        self.fireEvent('resize', [self]);
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+
+                        resolve();
                     }
-                }
-            });
+                });
+
+            }.bind(this));
         },
 
         /**
