@@ -264,6 +264,17 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
+            if (typeOf(value) === 'boolean') {
+                value = value.toString();
+                
+                for (i = 0, len = children.length; i < len; i++) {
+                    if (children[i].getAttribute('value') == value) {
+                        this.$set(children[i]);
+                        return this;
+                    }
+                }
+            }
+
             this.selectPlaceholder();
 
             return this;
