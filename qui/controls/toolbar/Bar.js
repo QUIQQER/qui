@@ -266,11 +266,15 @@ define('qui/controls/toolbar/Bar', [
             var i, len;
 
             for (i = 0, len = this.items.length; i < len; i++) {
-                this.items[i].destroy();
+                if (this.items[i]) {
+                    this.items[i].destroy();
+                }
             }
 
             for (i = 0, len = this.btns.length; i < len; i++) {
-                this.btns[i].destroy();
+                if (this.btns[i]) {
+                    this.btns[i].destroy();
+                }
             }
 
             this.Tabs.set('html', '');
