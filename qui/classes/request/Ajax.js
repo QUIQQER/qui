@@ -244,11 +244,16 @@ define('qui/classes/request/Ajax', [
 
             // callback
             var res, func;
+            var result = {};
 
-            var result       = eval('(' + str.substring(start, end) + ')'),
-                params       = this.getAttribute('params'),
+            try {
+                result = JSON.decode(str.substring(start, end));
+            } catch (e) {
+                result = eval('(' + str.substring(start, end) + ')');
+            }
+
+            var params       = this.getAttribute('params'),
                 rfs          = JSON.decode(params._rf || []),
-
                 event_params = [];
 
             this.$result = result;
