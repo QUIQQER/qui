@@ -370,8 +370,40 @@ define('qui/controls/contextmenu/Menu', [
          * @return {Object|Boolean} Child (qui/controls/contextmenu/Item) | false
          */
         firstChild: function () {
-            if (this.$items[0]) {
-                return this.$items[0];
+            for (var i = 0, len = this.$items.length; i <= len; i++) {
+                if (!this.$items[i]) {
+                    continue;
+                }
+
+                if (!this.$items[i].isHidden()) {
+                    return this.$items[i];
+                }
+            }
+
+            return false;
+        },
+
+        /**
+         * Return the first child Element
+         *
+         * @method qui/controls/contextmenu/Menu#firstChild
+         * @return {Object|Boolean} Child (qui/controls/contextmenu/Item) | false
+         */
+        lastChild: function () {
+            var i = this.$items.length;
+
+            for (; i >= 0; i--) {
+                if (i === 0) {
+                    return false;
+                }
+
+                if (!this.$items[i]) {
+                    continue;
+                }
+
+                if (!this.$items[i].isHidden()) {
+                    return this.$items[i];
+                }
             }
 
             return false;
@@ -489,13 +521,17 @@ define('qui/controls/contextmenu/Menu', [
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         getNext: function (Item) {
-            for (var i = 0, len = this.$items.length; i < len; i++) {
-                if (this.$items[i] != Item) {
+            var active = this.$items.filter(function(Child) {
+                return !Child.isHidden();
+            });
+
+            for (var i = 0, len = active.length; i < len; i++) {
+                if (active[i] != Item) {
                     continue;
                 }
 
-                if (typeof this.$items[i + 1] !== 'undefined') {
-                    return this.$items[i + 1];
+                if (typeof active[i + 1] !== 'undefined') {
+                    return active[i + 1];
                 }
             }
 
@@ -510,15 +546,19 @@ define('qui/controls/contextmenu/Menu', [
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
         getPrevious: function (Item) {
-            var i = this.$items.length - 1;
+            var active = this.$items.filter(function(Child) {
+                return !Child.isHidden();
+            });
+
+            var i = active.length - 1;
 
             for (; i >= 0; i--) {
                 if (i === 0) {
                     return false;
                 }
 
-                if (this.$items[i] == Item) {
-                    return this.$items[i - 1];
+                if (active[i] == Item) {
+                    return active[i - 1];
                 }
             }
 
@@ -571,11 +611,16 @@ define('qui/controls/contextmenu/Menu', [
                 return;
             }
 
-            var len = this.$items.length;
+            var Last,
+                len = this.$items.length;
 
             // select last element if nothing is active
             if (!this.$Active) {
-                this.$items[len - 1].setActive();
+                Last = this.lastChild();
+                if (Last) {
+                    Last.setActive();
+                    this.$Active = Last;
+                }
                 return;
             }
 
@@ -584,10 +629,15 @@ define('qui/controls/contextmenu/Menu', [
             this.$Active.setNormal();
 
             if (!Prev) {
-                this.$items[len - 1].setActive();
+                Last = this.lastChild();
+                if (Last) {
+                    Last.setActive();
+                    this.$Active = Last;
+                }
                 return;
             }
 
+            this.$Active = Prev;
             Prev.setActive();
         },
 
@@ -601,9 +651,15 @@ define('qui/controls/contextmenu/Menu', [
                 return;
             }
 
+            var First;
+
             // select first element if nothing is selected
             if (!this.$Active) {
-                this.$items[0].setActive();
+                First = this.firstChild();
+                if (First) {
+                    First.setActive();
+                    this.$Active = First;
+                }
                 return;
             }
 
@@ -612,10 +668,15 @@ define('qui/controls/contextmenu/Menu', [
             this.$Active.setNormal();
 
             if (!Next) {
-                this.$items[0].setActive();
+                First = this.firstChild();
+                if (First) {
+                    First.setActive();
+                    this.$Active = First;
+                }
                 return;
             }
 
+            this.$Active = Next;
             Next.setActive();
         },
 

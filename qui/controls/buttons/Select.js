@@ -677,7 +677,19 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
+            var Elm     = this.getElm(),
+                MenuElm = this.$Menu.getElm(),
+                pos     = Elm.getPosition(document.body),
+                size    = Elm.getSize();
+
+            var x = pos.x - 20,
+                y = pos.y + size.y;
+
+            this.$Menu.setAttribute('width', size.x);
             this.$Menu.show();
+
+            MenuElm.setStyle('top', y);
+            MenuElm.setStyle('left', x);
 
             if (event.key === 'down') {
                 this.$Menu.down();
@@ -760,6 +772,8 @@ define('qui/controls/buttons/Select', [
                 events : {
                     blur : this.$hideSearch,
                     keyup: function (event) {
+                        event.stop();
+
                         var value    = this.value,
                             Menu     = self.$Menu,
                             children = Menu.getChildren();
@@ -774,7 +788,34 @@ define('qui/controls/buttons/Select', [
                             }
                         });
 
+                        var Elm     = self.getElm(),
+                            MenuElm = self.$Menu.getElm(),
+                            pos     = Elm.getPosition(document.body),
+                            size    = Elm.getSize();
+
+                        var x = pos.x - 20,
+                            y = pos.y + size.y;
+
+                        self.$Menu.setAttribute('width', size.x);
                         self.$Menu.show();
+
+                        MenuElm.setStyle('top', y);
+                        MenuElm.setStyle('left', x);
+
+
+                        if (event.key === 'down') {
+                            self.$Menu.down();
+                            return;
+                        }
+
+                        if (event.key === 'up') {
+                            self.$Menu.up();
+                            return;
+                        }
+
+                        if (event.key === 'enter') {
+                            self.$Menu.select();
+                        }
                     }
                 }
             }).inject(this.getElm());
