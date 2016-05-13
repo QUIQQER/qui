@@ -282,7 +282,7 @@ define('qui/controls/buttons/Select', [
                     if (typeOf(childvalue) === 'boolean') {
                         childvalue = childvalue.toString();
                     }
-                    
+
                     if (childvalue == value) {
                         this.$set(children[i]);
                         return this;
