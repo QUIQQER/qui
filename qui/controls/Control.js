@@ -40,7 +40,7 @@ define('qui/controls/Control', [
     return new Class({
 
         Extends: DOM,
-        Type: 'qui/controls/Control',
+        Type   : 'qui/controls/Control',
 
         $Parent: false,
 
@@ -95,7 +95,7 @@ define('qui/controls/Control', [
             }
 
             // destroy internal qui controls
-            var controls = QUI.Controls.getControlsInElement(this.$Elm),
+            var controls   = QUI.Controls.getControlsInElement(this.$Elm),
                 controlIds = controls.map(function (InnerControl) {
                     return InnerControl.getId();
                 });
@@ -245,14 +245,14 @@ define('qui/controls/Control', [
 
             for (var i = 0, len = attributes.length; i < len; i++) {
                 attribute = attributes[i];
-                attrName = attribute.name;
+                attrName  = attribute.name;
 
                 if (!attrName.match('data-qui-options-')) {
                     continue;
                 }
 
                 attrValue = attribute.value;
-                numb = Number.from(attrValue);
+                numb      = Number.from(attrValue);
 
                 if (typeOf(numb) === 'number') {
                     attrValue = numb;
@@ -278,7 +278,7 @@ define('qui/controls/Control', [
         serialize: function () {
             return {
                 attributes: this.getAttributes(),
-                type: this.getType()
+                type      : this.getType()
             };
         },
 
@@ -339,7 +339,7 @@ define('qui/controls/Control', [
          * @return {String}
          */
         getPath: function () {
-            var path = '/' + this.getAttribute('name'),
+            var path   = '/' + this.getAttribute('name'),
                 Parent = this.getParent();
 
             if (!Parent) {
@@ -440,6 +440,26 @@ define('qui/controls/Control', [
         },
 
         /**
+         * set css styles
+         *
+         * @param {Object} styles
+         */
+        setStyles: function (styles) {
+            this.getElm().setStyles(styles);
+        },
+
+        /**
+         * set css style
+         *
+         * @param {String} key
+         * @param {String|Number} value
+         */
+        setStyle: function (key, value) {
+            this.getElm().setStyle(key, value);
+        },
+
+
+        /**
          * create and open a new sheet
          *
          * @method qui/controls/Control#openSheet
@@ -457,17 +477,17 @@ define('qui/controls/Control', [
 
             var Sheet = new Element('div', {
                 'class': 'qui-sheet qui-box',
-                html: '<div class="qui-sheet-content box"></div>' +
-                '<div class="qui-sheet-buttons box">' +
-                '<div class="qui-sheet-buttons-back qui-button btn-white">' +
-                '<span>' +
-                Locale.get('qui/controls/Control', 'btn.back') +
-                '</span>' +
-                '</div>' +
-                '</div>',
-                styles: {
+                html   : '<div class="qui-sheet-content box"></div>' +
+                         '<div class="qui-sheet-buttons box">' +
+                         '<div class="qui-sheet-buttons-back qui-button btn-white">' +
+                         '<span>' +
+                         Locale.get('qui/controls/Control', 'btn.back') +
+                         '</span>' +
+                         '</div>' +
+                         '</div>',
+                styles : {
                     display: 'none',
-                    left: -20,
+                    left   : -20,
                     opacity: 0
                 }
             }).inject(this.$Elm);
@@ -485,7 +505,7 @@ define('qui/controls/Control', [
                 self.getElm().setStyle('overflow', oldOverflow);
 
                 moofx(Sheet).animate({
-                    left: -20,
+                    left   : -20,
                     opacity: 0
                 }, {
                     duration: 200,
@@ -517,7 +537,7 @@ define('qui/controls/Control', [
             Sheet.setStyle('display', null);
 
             moofx(Sheet).animate({
-                left: 0,
+                left   : 0,
                 opacity: 1
             }, {
                 duration: 200,
