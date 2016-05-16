@@ -760,7 +760,7 @@ define('qui/controls/buttons/Select', [
                 value    = event.key;
 
             var found = children.filter(function (Child) {
-                return Child.getAttribute('text').toString().substr(0, 1) == value;
+                return Child.getAttribute('text').toString().substr(0, 1).toLowerCase() == value;
             });
 
             if (!found.length) {
@@ -774,14 +774,14 @@ define('qui/controls/buttons/Select', [
                     keyup: function (event) {
                         event.stop();
 
-                        var value    = this.value,
+                        var value    = this.value.toLowerCase(),
                             Menu     = self.$Menu,
                             children = Menu.getChildren();
 
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
-                            if (!text.toString().match(value)) {
+                            if (!text.toString().toLowerCase().match(value)) {
                                 Child.hide();
                             } else {
                                 Child.show();
