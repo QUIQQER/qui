@@ -5,8 +5,8 @@
  *
  * Credits
  * -------
- * Tsvetan Tsvetkov (ttsvetko)
- * Alex Gibson (alexgibson)
+ * Tsvetan Tsvetkov (ttsvetko) (https://github.com/Nickersoft/push.js)
+ * Alex Gibson (alexgibson) (https://github.com/Nickersoft/push.js)
  * www.pcsg.de (Henning Leutz)
  *
  * License
@@ -41,22 +41,22 @@ define('qui/classes/utils/Push', function () {
 
     return function () {
 
-        var self               = this,
-            isUndefined        = function (obj) {
+        var self = this,
+            isUndefined = function (obj) {
                 return obj === undefined;
             },
-            isString           = function (obj) {
+            isString = function (obj) {
                 return obj && obj.constructor === String;
             },
-            isFunction         = function (obj) {
+            isFunction = function (obj) {
                 return obj && obj.constructor === Function;
             },
 
-            /* Whether Push has permission to notify */
-            hasPermission      = false,
+        /* Whether Push has permission to notify */
+            hasPermission = false,
 
-            /* List of active notifications */
-            notifications      = [],
+        /* List of active notifications */
+            notifications = [],
 
             /**
              * Closes a notification
@@ -82,7 +82,7 @@ define('qui/classes/utils/Push', function () {
              * Updates the notification count
              * @return {void}
              */
-            updateCount        = function () {
+            updateCount = function () {
                 self.count = notifications.length;
             },
 
@@ -90,7 +90,7 @@ define('qui/classes/utils/Push', function () {
              * Callback function for the 'create' method
              * @return {void}
              */
-            create_callback    = function (title, options) {
+            create_callback = function (title, options) {
                 var notification;
                 /* Set empty settings if none are specified */
                 options = options || {};
@@ -103,7 +103,7 @@ define('qui/classes/utils/Push', function () {
                         {
                             icon: (isString(options.icon) || isUndefined(options.icon)) ? options.icon : options.icon.x32,
                             body: options.body,
-                            tag : options.tag
+                            tag: options.tag
                         }
                     );
 
@@ -186,13 +186,13 @@ define('qui/classes/utils/Push', function () {
              * Permission types
              * @enum {String}
              */
-            Permission         = {
+            Permission = {
                 DEFAULT: 'default',
                 GRANTED: 'granted',
-                DENIED : 'denied'
+                DENIED: 'denied'
             },
 
-            Permissions        = [Permission.GRANTED, Permission.DEFAULT, Permission.DENIED];
+            Permissions = [Permission.GRANTED, Permission.DEFAULT, Permission.DENIED];
 
         /* Allow enums to be accessible from Push object */
         self.Permission = Permission;
@@ -305,14 +305,14 @@ define('qui/classes/utils/Push', function () {
 
                     /* Safari, Chrome */ !!(w.Notification ||
 
-                                            /* Chrome & ff-html5notifications plugin */
-                                            w.webkitNotifications ||
+                /* Chrome & ff-html5notifications plugin */
+                w.webkitNotifications ||
 
-                                            /* Firefox Mobile */
-                                            navigator.mozNotification ||
+                /* Firefox Mobile */
+                navigator.mozNotification ||
 
-                                            /* IE9+ */
-                                            (w.external && w.external.msIsSiteMode() !== undefined));
+                /* IE9+ */
+                (w.external && w.external.msIsSiteMode() !== undefined));
 
             } catch (e) {
             }
