@@ -5,11 +5,12 @@
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require require
- * @require qui/controls/Control',
- * @require qui/controls/messages/Favico',
- * @require qui/Locale',
- * @require qui/classes/storage/Storage',
- * @require css!qui/controls/messages/Handler'
+ * @require qui/controls/Control
+ * @require qui/controls/messages/Favico
+ * @require qui/classes/utils/Push
+ * @require qui/Locale
+ * @require qui/classes/storage/Storage
+ * @require css!qui/controls/messages/Handler.css
  *
  * @event onAdd [ {this}, {qui/controls/messages/Message} ]
  * @event onAddAttention [ {this}, {qui/controls/messages/Attention} ]
@@ -20,19 +21,23 @@
  * @event onClear [ {this} ]
  * @event onClearNewMessages [ {this} ]
  * @event onLoad [ {this} ]
+ *
+ *
+ * icons are from:
+ * http://www.softicons.com/toolbar-icons/simplicio-icons-by-neurovit/2
  */
-
 define('qui/controls/messages/Handler', [
 
     'require',
     'qui/controls/Control',
     'qui/controls/messages/Favico',
+    'qui/classes/utils/Push',
     'qui/Locale',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function (require, Control, Favico, Locale) {
+], function (require, Control, Favico, Push, Locale) {
     "use strict";
 
     /**
@@ -70,6 +75,7 @@ define('qui/controls/messages/Handler', [
 
             this.Favico  = null;
             this.$Parent = null;
+            this.Push    = new Push();
 
             // ie 9 and lower can't change the favicon
             if (!Browser.ie || ( Browser.ie && Browser.version > 9 )) {
@@ -368,7 +374,7 @@ define('qui/controls/messages/Handler', [
 
             // sizes
             var Messages = Container.getElement(
-                    '.message-handler-container-messages'
+                '.message-handler-container-messages'
                 ),
 
                 Close    = Container.getElement(
@@ -699,7 +705,7 @@ define('qui/controls/messages/Handler', [
             // spam detection - 1000 ms - same message - dont show it
             // mor wants: 1 second
             var lastIndex = this.$messages.length - 1;
-            
+
             if (lastIndex && typeof this.$messages[lastIndex] !== 'undefined') {
 
                 var LastMessage = this.$messages[this.$messages.length - 1];
@@ -974,6 +980,141 @@ define('qui/controls/messages/Handler', [
             });
 
             return this;
+        },
+
+        /**
+         * Pushs a attention message
+         *
+         * @param {String} title
+         * @param {String} message
+         * @param {Number} [timeout]
+         */
+        pushAttention: function (title, message, timeout) {
+            title   = title || '';
+            message = message || '';
+
+            if (typeof timeout === 'undefined') {
+                timeout = 5000;
+            }
+
+            var path = requirejs.s.contexts._.config.paths.qui;
+
+            this.Push.create(title, {
+                body   : message,
+                icon   : {
+                    x16: path + '/controls/messages/images/attention_16.png',
+                    x32: path + '/controls/messages/images/attention_32.png'
+                },
+                timeout: timeout
+            });
+        },
+
+        /**
+         * Pushs a attention message
+         *
+         * @param {String} title
+         * @param {String} message
+         * @param {Number|Boolean} [timeout]
+         */
+        pushError: function (title, message, timeout) {
+            title   = title || '';
+            message = message || '';
+
+            if (typeof timeout === 'undefined') {
+                timeout = 5000;
+            }
+
+            var path = requirejs.s.contexts._.config.paths.qui;
+
+
+            this.Push.create(title, {
+                body   : message,
+                icon   : {
+                    x16: path + '/controls/messages/images/error_16.png',
+                    x32: path + '/controls/messages/images/error_32.png'
+                },
+                timeout: timeout
+            });
+        },
+
+        /**
+         * Pushs a exception
+         *
+         * @param {DOMException|Object} Exception
+         * @param {Number|Boolean} [timeout]
+         */
+        pushException: function (Exception, timeout) {
+            var title   = Exception.getCode();
+            var message = Exception.getMessage();
+
+            if (typeof timeout === 'undefined') {
+                timeout = 5000;
+            }
+
+            var path = requirejs.s.contexts._.config.paths.qui;
+
+            this.Push.create(title, {
+                body   : message,
+                icon   : {
+                    x16: path + '/controls/messages/images/error_16.png',
+                    x32: path + '/controls/messages/images/error_32.png'
+                },
+                timeout: timeout
+            });
+        },
+
+        /**
+         * Pushs a information message
+         *
+         * @param {String} title
+         * @param {String} message
+         * @param {Number|Boolean} [timeout]
+         */
+        pushInformation: function (title, message, timeout) {
+            title   = title || '';
+            message = message || '';
+
+            if (typeof timeout === 'undefined') {
+                timeout = 5000;
+            }
+
+            var path = requirejs.s.contexts._.config.paths.qui;
+
+            this.Push.create(title, {
+                body   : message,
+                icon   : {
+                    x16: path + '/controls/messages/images/information_16.png',
+                    x32: path + '/controls/messages/images/information_32.png'
+                },
+                timeout: timeout
+            });
+        },
+
+        /**
+         * Pushs a success message
+         *
+         * @param {String} title
+         * @param {String} message
+         * @param {Number|Boolean} [timeout]
+         */
+        pushSuccess: function (title, message, timeout) {
+            title   = title || '';
+            message = message || '';
+
+            if (typeof timeout === 'undefined') {
+                timeout = 5000;
+            }
+
+            var path = requirejs.s.contexts._.config.paths.qui;
+
+            this.Push.create(title, {
+                body   : message,
+                icon   : {
+                    x16: path + '/controls/messages/images/success_16.png',
+                    x32: path + '/controls/messages/images/success_32.png'
+                },
+                timeout: timeout
+            });
         },
 
         /**

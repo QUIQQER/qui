@@ -1,4 +1,3 @@
-
 /** NameRobot Message Handler
 
     @author NameRobot (Henning Leutz)
@@ -24,25 +23,24 @@
 .message-handler-line_hover,
 .message-handler-line:hover {
     background-color: rgb(85, 105, 120);
-    background-color: rgba(0,0,0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
-
 
 /** Message Handler Box
  ======================================================== */
 
 .message-handler {
-    font: 12px/16px 'Droid Sans',sans-serif;
+    font: 12px/16px 'Droid Sans', sans-serif;
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     z-index: 110;
     width: 300px;
     height: 100%;
 
- -webkit-box-shadow: 0px 5px 20px #5f5f5f;
-    -moz-box-shadow: 0px 5px 20px #5f5f5f;
-         box-shadow: 0px 5px 20px #5f5f5f;
+    -webkit-box-shadow: 0 5px 20px #5f5f5f;
+    -moz-box-shadow: 0 5px 20px #5f5f5f;
+    box-shadow: 0 5px 20px #5f5f5f;
 }
 
 .message-handler .closer {
@@ -69,25 +67,25 @@
 
 .message-handler .buttons {
     position: absolute;
-    left : 0px;
-    top  : 0px;
+    left: 0;
+    top: 0;
     height: 35px;
     width: 280px;
     padding: 5px;
 
     background: rgb(85, 105, 120);
-    background: rgba(0,0,0, 0.7);
+    background: rgba(0, 0, 0, 0.7);
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /** Message
  ======================================================== */
 
 .m-h-message {
-    font: 12px/16px 'Droid Sans',sans-serif;
+    font: 12px/16px 'Droid Sans', sans-serif;
     position: relative;
     float: left;
     clear: both;
@@ -101,26 +99,26 @@
     border-radius: 2px;
 
     -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .message-handler .m-h-message {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-        filter: alpha(opacity=80);
+    filter: alpha(opacity=80);
 
     -khtml-opacity: 0.8;
-      -moz-opacity: 0.8;
-           opacity: 0.8;
+    -moz-opacity: 0.8;
+    opacity: 0.8;
 }
 
 .m-h-message:hover {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-        filter: alpha(opacity=100);
+    filter: alpha(opacity=100);
 
     -khtml-opacity: 1;
-      -moz-opacity: 1;
-           opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
 }
 
 .m-h-message span {
@@ -157,18 +155,21 @@
 
 /** Message colors */
 .message-error {
-    background: #F2D4CE url('images/error.png') no-repeat 5px 5px;
+    background: #F2D4CE url('images/error_16.png') no-repeat 5px 5px;
     border-color: #AE432E !important;
 }
+
 .message-attention {
-    background: #FAF6D4 url('images/attention.png') no-repeat 5px 5px;
+    background: #FAF6D4 url('images/attention_16.png') no-repeat 5px 5px;
     border-color: #E6C26E !important;
 }
+
 .message-success {
-    background: #D9E6C3 url('images/success.png') no-repeat 5px 5px;
+    background: #D9E6C3 url('images/success_16.png') no-repeat 5px 5px;
     border-color: #77AB13 !important;
 }
+
 .message-information {
-    background: #CEE6F2 url('images/information.png') no-repeat 5px 5px;
+    background: #CEE6F2 url('images/information_16.png') no-repeat 5px 5px;
     border-color: #058DC7 !important;
 }
