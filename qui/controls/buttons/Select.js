@@ -82,9 +82,10 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            this.$value    = null;
-            this.$disabled = false;
-            this.$opened   = false;
+            this.$value      = null;
+            this.$disabled   = false;
+            this.$opened     = false;
+            this.$wasfocused = false;
 
             this.$Elm    = null;
             this.$Select = null;
@@ -137,17 +138,27 @@ define('qui/controls/buttons/Select', [
 
             // es lebe die touch geräte \(^^)/
             EventClick.addEvents({
+                mousedown : function () {
+                    self.$wasfocused = self.isFocused();
+                },
                 click     : function (event) {
-                    if (!!('ontouchstart' in window)) {
-                        event.stop();
+                    event.stop();
+
+                    if (self.$wasfocused) {
+                        self.open();
+                        return;
                     }
 
-                    event.stop();
                     self.$Elm.focus();
                 },
                 touchstart: function (event) {
                     if (!!('ontouchstart' in window)) {
                         event.stop();
+                    }
+
+                    if (self.isFocused()) {
+                        self.open();
+                        return;
                     }
 
                     self.$Elm.focus();
@@ -176,6 +187,9 @@ define('qui/controls/buttons/Select', [
             this.$Select.addEvents({
                 change: function () {
                     self.setValue(this.value);
+                },
+                focus : function () {
+                    self.$Elm.focus();
                 }
             });
 
@@ -196,7 +210,7 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm.addEvents({
                 focus: this.open,
-                click: this.open,
+                // click: this.open,
                 blur : this.$onBlur,
                 keyup: this.$onKeyUp
             });
@@ -253,7 +267,6 @@ define('qui/controls/buttons/Select', [
          * @return {Object} this (qui/controls/buttons/Select)
          */
         setValue: function (value) {
-
             var i, len, childvalue;
             var children = this.$Menu.getChildren();
 
@@ -375,7 +388,6 @@ define('qui/controls/buttons/Select', [
          * @return {Object} this (qui/controls/buttons/Select)
          */
         appendChild: function (text, value, icon) {
-
             if (!this.$Elm) {
                 this.$children.push({
                     text : text,
@@ -430,7 +442,6 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#clear
          */
         clear: function () {
-
             this.$Menu.clearChildren();
             this.$Select.set('html', '');
 
@@ -457,6 +468,31 @@ define('qui/controls/buttons/Select', [
         },
 
         /**
+         * Is the select focused?
+         *
+         * @returns {boolean}
+         */
+        isFocused: function () {
+            var Active = document.activeElement;
+
+            if (Active == this.$Search) {
+                return true;
+            }
+
+            if (Active == this.getElm()) {
+                return true;
+            }
+
+            // ie11 focus fix
+            if (Active == this.$Menu.getElm() ||
+                Active == this.$Menu.$Container) {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
          * Opens the select box
          *
          * @method qui/controls/buttons/Select#open
@@ -468,6 +504,7 @@ define('qui/controls/buttons/Select', [
             }
 
             if (this.$opened) {
+                this.close();
                 return this;
             }
 
@@ -537,13 +574,12 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#close
          */
         close: function () {
-
             if (this.$opened === false) {
                 return this;
             }
 
             this.$opened = false;
-            this.$onBlur();
+            this.$onMenuHide();
         },
 
         /**
@@ -610,7 +646,7 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$hideSearch();
-            this.$onBlur();
+            this.$onMenuHide();
 
             this.fireEvent('change', [this.$value, this]);
         },
@@ -630,7 +666,6 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$onBlur
          */
         $onBlur: function () {
-
             // we need a delay, becaus between the blur and the focus, the activeElement is body
             (function () {
                 if (document.activeElement == this.$Search) {
@@ -648,15 +683,26 @@ define('qui/controls/buttons/Select', [
                     return;
                 }
 
-                this.$Menu.removeEvent('mouseenter', this.$disableScroll);
-                this.$Menu.removeEvent('mouseleave', this.$enableScroll);
-
-                document.body.removeEvent('keydown', this.$showSearch);
-
-                this.$Menu.hide();
-
-                this.getElm().removeClass('qui-select-open');
+                this.$onMenuHide();
             }).delay(100, this);
+        },
+
+        /**
+         * event : on menu hide
+         * helper for blur events
+         *
+         * @method qui/controls/buttons/Select#$onMenuHide
+         */
+        $onMenuHide: function () {
+
+            this.$Menu.removeEvent('mouseenter', this.$disableScroll);
+            this.$Menu.removeEvent('mouseleave', this.$enableScroll);
+
+            document.body.removeEvent('keydown', this.$showSearch);
+
+            this.$Menu.hide();
+
+            this.getElm().removeClass('qui-select-open');
         },
 
         /**
@@ -760,7 +806,7 @@ define('qui/controls/buttons/Select', [
                 value    = event.key;
 
             var found = children.filter(function (Child) {
-                return Child.getAttribute('text').toString().substr(0, 1).toLowerCase() == value;
+                return Child.getAttribute('text').toString().substr(0, 1) == value;
             });
 
             if (!found.length) {
@@ -774,14 +820,14 @@ define('qui/controls/buttons/Select', [
                     keyup: function (event) {
                         event.stop();
 
-                        var value    = this.value.toLowerCase(),
+                        var value    = this.value,
                             Menu     = self.$Menu,
                             children = Menu.getChildren();
 
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
-                            if (!text.toString().toLowerCase().match(value)) {
+                            if (!text.toString().match(value)) {
                                 Child.hide();
                             } else {
                                 Child.show();
