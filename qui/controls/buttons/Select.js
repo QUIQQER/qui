@@ -541,6 +541,18 @@ define('qui/controls/buttons/Select', [
             var x = pos.x - 20,
                 y = pos.y + size.y;
 
+            var overflow  = document.documentElement.getStyle('overflow'),
+                overflowX = document.documentElement.getStyle('overflow-x'),
+                overflowY = document.documentElement.getStyle('overflow-y');
+
+            // overflow ist hidden, daher müssen wir anders berechnen
+            if (overflow == 'hidden' || overflowX == 'hidden' || overflowY == 'hidden') {
+                console.warn(
+                    'Don\'t use overflow:hidden at the HTML Node (documentElement).' +
+                    'There is a bug when the height specified in %, eq: height: 100%'
+                );
+            }
+
             this.$Menu.setAttribute('width', size.x);
             this.$Menu.show();
 
