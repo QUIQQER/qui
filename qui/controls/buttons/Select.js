@@ -817,8 +817,10 @@ define('qui/controls/buttons/Select', [
                 children = this.$Menu.getChildren(),
                 value    = event.key;
 
+            value = value.toString().toLowerCase();
+
             var found = children.filter(function (Child) {
-                return Child.getAttribute('text').toString().substr(0, 1) == value;
+                return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) == value;
             });
 
             if (!found.length) {
@@ -836,10 +838,12 @@ define('qui/controls/buttons/Select', [
                             Menu     = self.$Menu,
                             children = Menu.getChildren();
 
+                        value = value.toString().toLowerCase();
+
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
-                            if (!text.toString().match(value)) {
+                            if (!text.toString().toLowerCase().match(value)) {
                                 Child.hide();
                             } else {
                                 Child.show();
