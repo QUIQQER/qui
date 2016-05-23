@@ -138,10 +138,10 @@ define('qui/controls/buttons/Select', [
 
             // es lebe die touch geräte \(^^)/
             EventClick.addEvents({
-                mousedown : function () {
+                mousedown: function () {
                     self.$wasfocused = self.isFocused();
                 },
-                click     : function (event) {
+                click    : function (event) {
                     event.stop();
 
                     if (self.$wasfocused) {
@@ -151,9 +151,13 @@ define('qui/controls/buttons/Select', [
 
                     self.$Elm.focus();
                 },
+
                 touchstart: function (event) {
                     if (!!('ontouchstart' in window)) {
                         event.stop();
+                        self.$Elm.focus();
+                        self.$Select.focus();
+                        return;
                     }
 
                     if (self.isFocused()) {
@@ -162,6 +166,13 @@ define('qui/controls/buttons/Select', [
                     }
 
                     self.$Elm.focus();
+                },
+
+                touchend: function (event) {
+                    if (!!('ontouchstart' in window)) {
+                        event.stop();
+
+                    }
                 }
             });
 
@@ -189,6 +200,10 @@ define('qui/controls/buttons/Select', [
                     self.setValue(this.value);
                 },
                 focus : function () {
+                    if (!!('ontouchstart' in window)) {
+                        QUIElementUtils.simulateEvent(self.$Select, 'mousedown');
+                        return;
+                    }
                     self.$Elm.focus();
                 }
             });
@@ -499,6 +514,12 @@ define('qui/controls/buttons/Select', [
          * @return {Object} this (qui/controls/buttons/Select)
          */
         open: function () {
+            // touch events
+            // is mobile?
+            if (!!('ontouchstart' in window)) {
+                return this;
+            }
+
             if (this.isDisabled()) {
                 return this;
             }
@@ -523,12 +544,6 @@ define('qui/controls/buttons/Select', [
                 MenuElm = this.$Menu.getElm(),
                 pos     = Elm.getPosition(document.body),
                 size    = Elm.getSize();
-
-            // is mobile?
-            if (!!('ontouchstart' in window)) {
-                QUIElementUtils.simulateEvent(this.$Select, 'mousedown');
-                return this;
-            }
 
 
             Elm.addClass('qui-select-open');
@@ -678,6 +693,11 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$onBlur
          */
         $onBlur: function () {
+            // touch devises
+            if (!!('ontouchstart' in window)) {
+                return;
+            }
+
             // we need a delay, becaus between the blur and the focus, the activeElement is body
             (function () {
                 if (document.activeElement == this.$Search) {
