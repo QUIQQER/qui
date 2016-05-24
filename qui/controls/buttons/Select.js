@@ -545,7 +545,7 @@ define('qui/controls/buttons/Select', [
                 MenuElm       = this.$Menu.getElm(),
                 pos           = Elm.getPosition(document.body),
                 size          = Elm.getSize(),
-                winSize       = QUI.getWindowSize(),
+                winSize       = QUI.getBodySize(),
                 menuMaxHeight = this.getAttribute('menuMaxHeight');
 
             Elm.addClass('qui-select-open');

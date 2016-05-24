@@ -56,6 +56,11 @@ define('qui/classes/QUI', [
                 y: 0
             };
 
+            this.$bodySize = {
+                x: 0,
+                y: 0
+            };
+
             // error handling
             if (this.getAttribute('fetchErrors')) {
                 var self = this;
@@ -77,10 +82,12 @@ define('qui/classes/QUI', [
             // global resize event
             if (typeof window !== 'undefined') {
 
-                var win = document.id(window);
+                var win  = document.id(window);
+                var body = document.id(document.body);
 
                 win.requestAnimationFrame(function () {
-                    this.$winSize = win.getSize();
+                    this.$winSize  = win.getSize();
+                    this.$bodySize = body.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
@@ -91,7 +98,8 @@ define('qui/classes/QUI', [
                 win.addEvent('resize', QUIFunctionUtils.debounce(function () {
 
                     win.requestAnimationFrame(function () {
-                        this.$winSize = win.getSize();
+                        this.$winSize  = win.getSize();
+                        this.$bodySize = body.getSize();
 
                         if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                             this.$winSize = document.getSize();
@@ -103,7 +111,8 @@ define('qui/classes/QUI', [
                 }.bind(this), 100));
 
                 win.addEvent('domready', function () {
-                    this.$winSize = win.getSize();
+                    this.$winSize  = win.getSize();
+                    this.$bodySize = body.getSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
@@ -123,6 +132,17 @@ define('qui/classes/QUI', [
          */
         getWindowSize: function () {
             return this.$winSize;
+        },
+
+        /**
+         * Return the current body size
+         * Please use QUI.getBodySize() and make not 1000 document.body.getSize() calls
+         *
+         * @method qui/classes/QUI#getBodySize
+         * @returns {{x: number, y: number}|*}
+         */
+        getBodySize: function () {
+            return this.$bodySize;
         },
 
         /**
