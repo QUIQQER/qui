@@ -20,11 +20,12 @@ define('qui/classes/QUI', [
     'qui/classes/Controls',
     'qui/classes/Windows',
     'qui/classes/storage/Storage',
+    'qui/classes/utils/Animate',
     'qui/utils/Functions',
     'qui/lib/polyfills/Promise',
     'qui/lib/polyfills/AnimationFrame'
 
-], function (require, DOM, Controls, Windows, Storage, QUIFunctionUtils) {
+], function (require, DOM, Controls, Windows, Storage, Animate, QUIFunctionUtils) {
     "use strict";
 
     /**
@@ -325,6 +326,16 @@ define('qui/classes/QUI', [
             if (this.Controls) {
                 callback(this.Controls);
             }
+        },
+
+        /**
+         * Return fx animation object for the node
+         *
+         * @param {HTMLElement} Node
+         * @return {Object}
+         */
+        fx: function (Node) {
+            return new Animate(Node);
         }
     });
 });
