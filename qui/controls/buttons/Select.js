@@ -16,6 +16,7 @@
  */
 define('qui/controls/buttons/Select', [
 
+    'qui/QUI',
     'qui/controls/Control',
     'qui/utils/Controls',
     'qui/controls/contextmenu/Menu',
@@ -24,7 +25,7 @@ define('qui/controls/buttons/Select', [
 
     'css!qui/controls/buttons/Select.css'
 
-], function (Control, Utils, QUIMenu, QUIMenuItem, QUIElementUtils) {
+], function (QUI, Control, Utils, QUIMenu, QUIMenuItem, QUIElementUtils) {
     "use strict";
 
     document.id(document.body).set('tabindex', -1);
@@ -540,18 +541,20 @@ define('qui/controls/buttons/Select', [
 
             this.$opened = true;
 
-            var Elm     = this.getElm(),
-                MenuElm = this.$Menu.getElm(),
-                pos     = Elm.getPosition(document.body),
-                size    = Elm.getSize();
-
+            var Elm           = this.getElm(),
+                MenuElm       = this.$Menu.getElm(),
+                pos           = Elm.getPosition(document.body),
+                size          = Elm.getSize(),
+                winSize       = QUI.getWindowSize(),
+                menuMaxHeight = this.getAttribute('menuMaxHeight');
 
             Elm.addClass('qui-select-open');
 
-            this.$Menu.setAttribute(
-                'maxHeight',
-                this.getAttribute('menuMaxHeight')
-            );
+            if (winSize.y - pos.y - size.y - 20 < menuMaxHeight) {
+                menuMaxHeight = winSize.y - pos.y - size.y - 20;
+            }
+
+            this.$Menu.setAttribute('maxHeight', menuMaxHeight);
 
             var x = pos.x - 20,
                 y = pos.y + size.y;
