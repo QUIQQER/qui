@@ -262,12 +262,15 @@ define('qui/controls/desktop/Panel', [
                 var path = this.getAttribute('icon');
 
                 if (Utils.isFontAwesomeClass(path)) {
-                    var css = this.$Icon.className;
-                    css     = css.replace(/\bicon-\S+/g, '');
+                    var css     = this.$Icon.className;
+                    var FA_RX   = new RegExp('\\bfa-\\S+', 'g');
+                    var ICON_RX = new RegExp('\\bicon-\\S+', 'g');
+
+                    css = css.replace(ICON_RX, '');
+                    css = css.replace(FA_RX, '');
 
                     this.$Icon.className = css;
                     this.$Icon.addClass(path);
-
                 } else {
                     new Element('img', {
                         src: path
