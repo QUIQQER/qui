@@ -187,7 +187,7 @@ define('qui/controls/buttons/Select', [
             this.$Select = this.$Elm.getElement('select');
 
             this.$Select.setStyles({
-                height  : 30,
+                height  : 28,
                 left    : 0,
                 opacity : 0,
                 position: 'absolute',
@@ -705,7 +705,7 @@ define('qui/controls/buttons/Select', [
             (function () {
                 if (document.activeElement == this.$Search) {
                     event.stop();
-                    this.focus();
+                    this.$Search.focus();
                     return;
                 }
 
