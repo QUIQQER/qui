@@ -89,7 +89,8 @@ define('qui/classes/QUI', [
                     this.$winSize = win.getSize();
 
                     if (typeof body !== 'undefined') {
-                        this.$bodySize = body.getSize();
+                        this.$bodySize   = body.getSize();
+                        this.$bodyScroll = body.getScrollSize();
                     }
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
@@ -101,8 +102,9 @@ define('qui/classes/QUI', [
                 win.addEvent('resize', QUIFunctionUtils.debounce(function () {
 
                     win.requestAnimationFrame(function () {
-                        this.$winSize  = win.getSize();
-                        this.$bodySize = body.getSize();
+                        this.$winSize    = win.getSize();
+                        this.$bodySize   = body.getSize();
+                        this.$bodyScroll = body.getScrollSize();
 
                         if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                             this.$winSize = document.getSize();
@@ -114,8 +116,9 @@ define('qui/classes/QUI', [
                 }.bind(this), 100));
 
                 win.addEvent('domready', function () {
-                    this.$winSize  = win.getSize();
-                    this.$bodySize = body.getSize();
+                    this.$winSize    = win.getSize();
+                    this.$bodySize   = body.getSize();
+                    this.$bodyScroll = body.getScrollSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
@@ -146,6 +149,17 @@ define('qui/classes/QUI', [
          */
         getBodySize: function () {
             return this.$bodySize;
+        },
+
+        /**
+         * Return the current body scrll size
+         * Please use QUI.getBodyScrollSize() and make not 1000 document.body.getSize() calls
+         *
+         * @method qui/classes/QUI#getBodySize
+         * @returns {{x: number, y: number}|*}
+         */
+        getBodyScrollSize: function () {
+            return this.$bodyScroll;
         },
 
         /**
