@@ -193,7 +193,7 @@ define('qui/controls/buttons/Select', [
                 position: 'absolute',
                 top     : 0,
                 zIndex  : 1,
-                width   : 'auto'
+                width   : '100%'
             });
 
             this.$Select.addEvents({
@@ -695,7 +695,7 @@ define('qui/controls/buttons/Select', [
          *
          * @method qui/controls/buttons/Select#$onBlur
          */
-        $onBlur: function () {
+        $onBlur: function (event) {
             // touch devises
             if (!!('ontouchstart' in window)) {
                 return;
@@ -704,17 +704,23 @@ define('qui/controls/buttons/Select', [
             // we need a delay, becaus between the blur and the focus, the activeElement is body
             (function () {
                 if (document.activeElement == this.$Search) {
+                    event.stop();
+                    this.focus();
                     return;
                 }
 
                 if (document.activeElement == this.getElm()) {
+                    event.stop();
                     return;
                 }
 
                 // ie11 focus fix
                 if (document.activeElement == this.$Menu.getElm() ||
                     document.activeElement == this.$Menu.$Container) {
-                    this.focus();
+                    event.stop();
+
+                    this.$opened = false;
+                    this.getElm().focus();
                     return;
                 }
 
@@ -791,37 +797,77 @@ define('qui/controls/buttons/Select', [
          * Disable the scrolling to the window
          */
         $disableScroll: function () {
-            var x = window.scrollX || window.pageXOffset;
-            var y = window.scrollY || window.pageYOffset;
-
-            this.$windowScroll = function () {
-                window.scrollTo(x, y);
-            };
-
-            //this.$windowMouseWheel = function (event) {
-            //    event.stop();
+            //var x = window.scrollX || window.pageXOffset;
+            //var y = window.scrollY || window.pageYOffset;
             //
-            //    console.warn(event.event.deltaY);
-            //    console.warn(event.deltaY);
-            //
-            //    this.$Menu;
-            //}.bind(this);
+            //this.$windowScroll = function () {
+            //    window.scrollTo(x, y);
+            //};
 
-            //window.addEvent('mousewheel', this.$windowMouseWheel);
-            window.addEvent('scroll', this.$windowScroll);
+            var IE       = false,
+                Scroll   = null,
+                heightIE = 5;
+
+            if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+                navigator.appVersion.indexOf('Trident/') > 0) {
+                IE       = true;
+                Scroll   = new Fx.Scroll(this.$Menu.$Container, {
+                    duration: 250
+                });
+                heightIE = this.getElm().getSize().y;
+            }
+
+            this.$windowMouseWheel = function (event) {
+                if (IE) {
+                    event.stop();
+
+                    var scrollTop = this.$Menu.$Container.scrollTop;
+
+                    // up
+                    if (event.wheel > 0) {
+                        Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
+                        return;
+                    }
+
+                    if (event.wheel < 0) {
+                        Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
+                    }
+
+                    return;
+                }
+
+                // up
+                if (event.wheel == 1 && scrollTop === 0) {
+                    event.stop();
+                }
+
+                // down
+                if (event.wheel == -1) {
+                    var max    = this.$Menu.$Container.getScrollSize().y;
+                    var height = this.$Menu.$Container.getSize().y;
+
+                    if (max - height < scrollTop) {
+                        event.stop();
+                    }
+                }
+
+            }.bind(this);
+
+            window.addEvent('mousewheel', this.$windowMouseWheel);
+            //window.addEvent('scroll', this.$windowScroll);
         },
 
         /**
          * Enable the scrolling to the window
          */
         $enableScroll: function () {
-            if (typeof this.$windowScroll !== 'undefined') {
-                window.removeEvent('scroll', this.$windowScroll);
-            }
-
-            //if (typeof this.$windowMouseWheel !== 'undefined') {
-            //    window.removeEvent('mousewheel', this.$windowMouseWheel);
+            //if (typeof this.$windowScroll !== 'undefined') {
+            //    window.removeEvent('scroll', this.$windowScroll);
             //}
+
+            if (typeof this.$windowMouseWheel !== 'undefined') {
+                window.removeEvent('mousewheel', this.$windowMouseWheel);
+            }
         },
 
         /**
