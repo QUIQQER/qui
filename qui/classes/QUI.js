@@ -86,8 +86,11 @@ define('qui/classes/QUI', [
                 var body = document.id(document.body);
 
                 win.requestAnimationFrame(function () {
-                    this.$winSize  = win.getSize();
-                    this.$bodySize = body.getSize();
+                    this.$winSize = win.getSize();
+
+                    if (typeof body !== 'undefined') {
+                        this.$bodySize = body.getSize();
+                    }
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
