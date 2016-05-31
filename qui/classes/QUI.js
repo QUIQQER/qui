@@ -88,7 +88,7 @@ define('qui/classes/QUI', [
                 win.requestAnimationFrame(function () {
                     this.$winSize = win.getSize();
 
-                    if (typeof body !== 'undefined') {
+                    if (typeof body !== 'undefined' && body) {
                         this.$bodySize   = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
                     }
@@ -100,8 +100,11 @@ define('qui/classes/QUI', [
                 }.bind(this));
 
                 win.addEvent('resize', QUIFunctionUtils.debounce(function () {
-
                     win.requestAnimationFrame(function () {
+                        if (typeof body === 'undefined' || !body) {
+                            body = document.id(document.body);
+                        }
+
                         this.$winSize    = win.getSize();
                         this.$bodySize   = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
@@ -112,11 +115,15 @@ define('qui/classes/QUI', [
 
                         this.fireEvent('resize', [this]);
                     }.bind(this));
-
                 }.bind(this), 100));
 
                 win.addEvent('domready', function () {
-                    this.$winSize    = win.getSize();
+                    this.$winSize = win.getSize();
+
+                    if (typeof body === 'undefined' || !body) {
+                        body = document.id(document.body);
+                    }
+
                     this.$bodySize   = body.getSize();
                     this.$bodyScroll = body.getScrollSize();
 
