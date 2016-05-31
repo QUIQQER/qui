@@ -797,74 +797,34 @@ define('qui/controls/buttons/Select', [
          * Disable the scrolling to the window
          */
         $disableScroll: function () {
-            //var x = window.scrollX || window.pageXOffset;
-            //var y = window.scrollY || window.pageYOffset;
-            //
-            //this.$windowScroll = function () {
-            //    window.scrollTo(x, y);
-            //};
-
-            var IE       = false,
-                Scroll   = null,
-                heightIE = 5;
-
-            if (navigator.userAgent.indexOf('MSIE') !== -1 ||
-                navigator.appVersion.indexOf('Trident/') > 0) {
-                IE       = true;
+            var heightIE = this.getElm().getSize().y,
                 Scroll   = new Fx.Scroll(this.$Menu.$Container, {
                     duration: 250
                 });
-                heightIE = this.getElm().getSize().y;
-            }
 
             this.$windowMouseWheel = function (event) {
-                if (IE) {
-                    event.stop();
+                event.stop();
 
-                    var scrollTop = this.$Menu.$Container.scrollTop;
+                var scrollTop = this.$Menu.$Container.scrollTop;
 
-                    // up
-                    if (event.wheel > 0) {
-                        Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
-                        return;
-                    }
-
-                    if (event.wheel < 0) {
-                        Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
-                    }
-
+                // up
+                if (event.wheel > 0) {
+                    Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
                     return;
                 }
 
-                // up
-                if (event.wheel == 1 && scrollTop === 0) {
-                    event.stop();
+                if (event.wheel < 0) {
+                    Scroll.set(0, scrollTop + (heightIE * event.wheel * -1));
                 }
-
-                // down
-                if (event.wheel == -1) {
-                    var max    = this.$Menu.$Container.getScrollSize().y;
-                    var height = this.$Menu.$Container.getSize().y;
-
-                    if (max - height < scrollTop) {
-                        event.stop();
-                    }
-                }
-
             }.bind(this);
 
             window.addEvent('mousewheel', this.$windowMouseWheel);
-            //window.addEvent('scroll', this.$windowScroll);
         },
 
         /**
          * Enable the scrolling to the window
          */
         $enableScroll: function () {
-            //if (typeof this.$windowScroll !== 'undefined') {
-            //    window.removeEvent('scroll', this.$windowScroll);
-            //}
-
             if (typeof this.$windowMouseWheel !== 'undefined') {
                 window.removeEvent('mousewheel', this.$windowMouseWheel);
             }
