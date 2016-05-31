@@ -846,7 +846,7 @@ define('qui/controls/buttons/Select', [
                 children = this.$Menu.getChildren(),
                 value    = event.key;
 
-            value = value.toString().replace(' ', '').toLowerCase();
+            value = value.toString().replace(/ /g, '').toLowerCase();
 
             var found = children.filter(function (Child) {
                 return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) == value;
@@ -872,7 +872,7 @@ define('qui/controls/buttons/Select', [
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
-                            if (!text.toString().toLowerCase().replace(' ', '').match(value)) {
+                            if (!text.toString().toLowerCase().replace(/ /g, '').match(value)) {
                                 Child.hide();
                             } else {
                                 Child.show();
