@@ -22,13 +22,13 @@
  * @event onClearNewMessages [ {this} ]
  * @event onLoad [ {this} ]
  *
- *
  * icons are from:
  * http://www.softicons.com/toolbar-icons/simplicio-icons-by-neurovit/2
  */
 define('qui/controls/messages/Handler', [
 
     'require',
+    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/messages/Favico',
     'qui/classes/utils/Push',
@@ -37,7 +37,7 @@ define('qui/controls/messages/Handler', [
 
     'css!qui/controls/messages/Handler.css'
 
-], function (require, Control, Favico, Push, Locale) {
+], function (require, QUI, Control, Favico, Push, Locale) {
     "use strict";
 
     /**
@@ -78,7 +78,7 @@ define('qui/controls/messages/Handler', [
             this.Push    = new Push();
 
             // ie 9 and lower can't change the favicon
-            if (!Browser.ie || ( Browser.ie && Browser.version > 9 )) {
+            if (!Browser.ie || (Browser.ie && Browser.version > 9)) {
                 try {
                     this.Favico = new Favico({
                         animation: 'fade'
@@ -707,11 +707,9 @@ define('qui/controls/messages/Handler', [
             var lastIndex = this.$messages.length - 1;
 
             if (lastIndex && typeof this.$messages[lastIndex] !== 'undefined') {
-
                 var LastMessage = this.$messages[this.$messages.length - 1];
 
                 if (LastMessage.getAttribute('message') == Message.getAttribute('message')) {
-
                     var LastTime = LastMessage.getAttribute('time'),
                         Now      = new Date();
 
