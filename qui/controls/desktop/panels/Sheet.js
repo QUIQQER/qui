@@ -18,10 +18,11 @@ define('qui/controls/desktop/panels/Sheet', [
     'qui/QUI',
     'qui/controls/Control',
     'qui/controls/buttons/Button',
+    'qui/utils/Controls',
 
     'css!qui/controls/desktop/panels/Sheet.css'
 
-], function (QUI, Control, Button) {
+], function (QUI, Control, Button, Utils) {
     "use strict";
 
     /**
@@ -50,29 +51,24 @@ define('qui/controls/desktop/panels/Sheet', [
         },
 
         initialize: function (options) {
-            this.setAttribute(
-                'closeButton',
-                {
-                    textimage: 'icon-remove fa fa-remove',
-                    text     : false
-                }
-            );
+            this.setAttribute('closeButton', {
+                textimage: 'icon-remove fa fa-remove',
+                text     : false
+            });
 
             if (QUI.getAttribute('control-desktop-panel-sheet-closetext')) {
-                this.setAttribute(
-                    'closeButton',
-                    {
-                        textimage: 'icon-remove fa fa-remove',
-                        text     : QUI.getAttribute('control-desktop-panel-sheet-closetext')
-                    }
-                );
+                this.setAttribute('closeButton', {
+                    textimage: 'icon-remove fa fa-remove',
+                    text     : QUI.getAttribute('control-desktop-panel-sheet-closetext')
+                });
             }
 
             this.parent(options);
 
-
             this.$Elm     = null;
             this.$Header  = null;
+            this.$Title   = null;
+            this.$Icon    = null;
             this.$Body    = null;
             this.$Buttons = null;
             this.$FX      = null;
@@ -88,7 +84,10 @@ define('qui/controls/desktop/panels/Sheet', [
             this.$Elm = new Element('div.qui-panel-sheet', {
                 'data-quiid': this.getId(),
 
-                html: '<div class="qui-panel-sheet-header box"></div>' +
+                html: '<div class="qui-panel-sheet-header box">' +
+                      '     <div class="qui-panel-sheet-header-icon"></div>' +
+                      '     <div class="qui-panel-sheet-header-title"></div>' +
+                      '</div>' +
                       '<div class="qui-panel-sheet-body box"></div>' +
                       '<div class="qui-panel-sheet-btn-container box">' +
                       '<div class="qui-panel-sheet-buttons"></div>' +
@@ -105,6 +104,8 @@ define('qui/controls/desktop/panels/Sheet', [
             }
 
             this.$Header  = this.$Elm.getElement('.qui-panel-sheet-header');
+            this.$Title   = this.$Elm.getElement('.qui-panel-sheet-header-title');
+            this.$Icon    = this.$Elm.getElement('.qui-panel-sheet-header-icon');
             this.$Body    = this.$Elm.getElement('.qui-panel-sheet-body');
             this.$Buttons = this.$Elm.getElement('.qui-panel-sheet-btn-container');
 
@@ -116,7 +117,27 @@ define('qui/controls/desktop/panels/Sheet', [
                 this.$Header.setStyle('display', 'none');
             }
 
-            this.$Header.set('html', this.getAttribute('title'));
+            this.$Title.set('html', this.getAttribute('title'));
+
+            if (this.getAttribute('icon')) {
+                var path = this.getAttribute('icon');
+
+                if (Utils.isFontAwesomeClass(path)) {
+                    var css     = this.$Icon.className;
+                    var FA_RX   = new RegExp('\\bfa-\\S+', 'g');
+                    var ICON_RX = new RegExp('\\bicon-\\S+', 'g');
+
+                    css = css.replace(ICON_RX, '');
+                    css = css.replace(FA_RX, '');
+
+                    this.$Icon.className = css;
+                    this.$Icon.addClass(path);
+                } else {
+                    new Element('img', {
+                        src: path
+                    }).inject(this.$Icon);
+                }
+            }
 
             // header close button
             new Button({
@@ -232,14 +253,14 @@ define('qui/controls/desktop/panels/Sheet', [
 
             Elm.setStyles({
                 boxShadow : '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-                left      : (size.x + 50) * -1,
                 height    : size.y,
+                left      : -100,
                 visibility: null
             });
 
             Elm.setStyles({
                 display: null,
-                opacity: 1
+                opacity: 0
             });
 
             if (!this.getAttribute('buttons')) {
@@ -264,8 +285,10 @@ define('qui/controls/desktop/panels/Sheet', [
 
 
                 this.$FX.animate({
-                    left: 0
+                    left   : 0,
+                    opacity: 1
                 }, {
+                    duration: 300,
                     equation: 'ease-out',
                     callback: function () {
                         self.$fxComplete();
@@ -289,19 +312,18 @@ define('qui/controls/desktop/panels/Sheet', [
          * @return {Promise}
          */
         hide: function (callback) {
-            var self   = this,
-                Elm    = this.getElm(),
-                Parent = Elm.getParent(),
-                size   = Parent.getSize();
+            var self = this,
+                Elm  = this.getElm();
 
             Elm.setStyle('boxShadow', '0 6px 20px 0 rgba(0, 0, 0, 0.19)');
 
             return new Promise(function (resolve) {
 
                 self.$FX.animate({
-                    left   : (size.x + 50) * -1,
+                    left   : -100,
                     opacity: 0
                 }, {
+                    duration: 300,
                     equation: 'ease-out',
                     callback: function () {
                         self.$fxComplete();
