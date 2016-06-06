@@ -448,6 +448,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 });
             }
 
+            // content height
+            var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+
+            self.$Content.setStyles({
+                height: 'calc(100% - ' + containerHeight + 'px)'
+            });
+
             return new Promise(function (resolve) {
 
                 this.$FX.animate({
@@ -477,7 +484,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         if (typeof callback === 'function') {
                             callback();
                         }
-
+                        console.warn(2);
                         resolve();
                     }
                 });
