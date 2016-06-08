@@ -64,7 +64,8 @@ define('qui/controls/messages/Handler', [
             autosave           : true,
             autoload           : true,
             useFavicon         : false,
-            displayTimeMessages: 2500
+            displayTimeMessages: 2500,
+            showMessages       : true
         },
 
         initialize: function (params) {
@@ -736,6 +737,10 @@ define('qui/controls/messages/Handler', [
 
             // message handler is closed
             if (!Messages) {
+                if (!this.getAttribute('showMessages')) {
+                    return this;
+                }
+
                 this.$newMessages++;
                 this.refreshFavicon();
 
