@@ -46,17 +46,9 @@ define('qui/classes/Windows', [
 
             require(['qui/QUI'], function (QUI) {
                 QUI.addEvent('onResize', function () {
-                    var openWindows = Object.map(this.$windows, function (Win) {
-                        return Win.isOpened() ? 1 : 0;
-                    });
-
-                    var sum = Object.values(openWindows).sum();
-
-                    if (sum) {
-                        return;
+                    if (!this.openedWindowsLength()) {
+                        this.calcWindowSize();
                     }
-
-                    this.calcWindowSize();
                 }.bind(this));
             }.bind(this));
         },
@@ -65,6 +57,10 @@ define('qui/classes/Windows', [
          * calculate the window size
          */
         calcWindowSize: function () {
+            if (this.openedWindowsLength()) {
+                return;
+            }
+
             this.$oldBodyStyle = {
                 overflow: document.body.style.overflow,
                 position: document.body.style.position,
@@ -98,6 +94,19 @@ define('qui/classes/Windows', [
          */
         getLength: function () {
             return Object.getLength(this.$windows);
+        },
+
+        /**
+         * return the number of the opened windows
+         *
+         * @returns {Number}
+         */
+        openedWindowsLength: function () {
+            var openWindows = Object.map(this.$windows, function (Win) {
+                return Win.isOpened() ? 1 : 0;
+            });
+
+            return Object.values(openWindows).sum();
         },
 
         /**
@@ -139,15 +148,7 @@ define('qui/classes/Windows', [
                 this.$currentWindow = null;
             }
 
-            var oneIsOpened = false;
-            for (var i = 0, len = this.$windows.length; i < len; i++) {
-                if (this.$windows[i].isOpened()) {
-                    oneIsOpened = true;
-                    break;
-                }
-            }
-
-            if (oneIsOpened === false) {
+            if (!this.openedWindowsLength()) {
                 var oldStyle = this.$oldBodyStyle;
 
                 document.body.setStyles({
