@@ -769,6 +769,8 @@ define('qui/controls/desktop/Panel', [
                         }.bind(this)
                     }
                 }).inject(this.$Categories);
+
+                this.resize();
             }
 
             return this.$CategoryBar;
