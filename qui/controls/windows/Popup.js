@@ -484,7 +484,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         if (typeof callback === 'function') {
                             callback();
                         }
-                        console.warn(2);
+
                         resolve();
                     }
                 });
