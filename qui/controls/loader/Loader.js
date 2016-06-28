@@ -53,7 +53,7 @@ define('qui/controls/loader/Loader', [
             this.$status = 0;
 
             this.addEvent('onDestroy', function () {
-                if (this.$Elm.getParent()) {
+                if (this.$Elm && this.$Elm.getParent()) {
                     this.$Elm.getParent().removeClass('qui-loader-parent');
                 }
             });
