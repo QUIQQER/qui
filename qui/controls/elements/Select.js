@@ -417,7 +417,7 @@ define('qui/controls/elements/Select', [
 
 
                     new Element('span', {
-                        'class': this.getAttribute('icon'),
+                        'class': data[i].icon || this.getAttribute('icon'),
                         styles : {
                             marginRight: 5
                         }
