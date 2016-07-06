@@ -2,7 +2,7 @@
 
 .qui-elements-select {
     float: left;
-    padding: 2px;
+    padding: 0;
     position: relative;
     width: 100%;
 }
@@ -31,10 +31,10 @@
 }
 
 .qui-elements-select-list-search-loader {
-    bottom: 2px;
+    bottom: -1px;
     font-size: 14px;
     height: 30px;
-    left: 2px;
+    left: 1px;
     line-height: 30px;
     position: absolute;
     text-align: center;

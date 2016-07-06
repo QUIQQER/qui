@@ -54,16 +54,17 @@ define('qui/controls/elements/Select', [
         ],
 
         options: {
-            max        : false, // max entries
-            multiple   : true,  // select more than one entry?
-            name       : '',    // string
-            styles     : {
+            max         : false, // max entries
+            multiple    : true,  // select more than one entry?
+            searchbutton: true,
+            name        : '',    // string
+            styles      : {
                 height: 120
             },
-            label      : false, // text string or a <label> DOMNode Element
-            icon       : 'fa fa-angle-right',
-            placeholder: 'Suche...',
-            child      : 'qui/controls/elements/SelectItem' // child type
+            label       : false, // text string or a <label> DOMNode Element
+            icon        : 'fa fa-angle-right',
+            placeholder : 'Suche...',
+            child       : 'qui/controls/elements/SelectItem' // child type
         },
 
         initialize: function (options, Input) {
@@ -109,10 +110,6 @@ define('qui/controls/elements/Select', [
                 }).inject(this.$Elm);
             } else {
                 this.$Elm.wraps(this.$Input);
-            }
-
-            if (this.getAttribute('styles')) {
-                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
             this.$Input.set({
@@ -180,6 +177,7 @@ define('qui/controls/elements/Select', [
                 }
             }).inject(this.$Elm);
 
+
             this.$DropDown = new Element('div', {
                 'class': 'qui-elements-list-dropdown',
                 styles : {
@@ -188,6 +186,7 @@ define('qui/controls/elements/Select', [
                 }
             }).inject(document.body);
 
+            // settings
             if (this.getAttribute('label')) {
                 var Label = this.getAttribute('label');
 
@@ -210,6 +209,14 @@ define('qui/controls/elements/Select', [
                 }
             }
 
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
+            }
+
+            if (!this.getAttribute('searchbutton')) {
+                this.$SearchButton.setStyle('display', 'none');
+                this.$Search.setStyle('width', '100%');
+            }
 
             // load values
             if (this.$Input.value || this.$Input.value !== '') {
@@ -231,6 +238,34 @@ define('qui/controls/elements/Select', [
 
             this.$Elm = null;
             this.create();
+        },
+
+        /**
+         * Refresh the display
+         */
+        refresh: function () {
+            if (!this.getAttribute('max') ||
+                parseInt(this.getAttribute('max')) != 1) {
+                return;
+            }
+
+            this.$Elm.setStyle('height', 30);
+            this.$List.setStyles({
+                height  : 30,
+                overflow: 'hidden'
+            });
+
+            // max 1 und count entries
+            if (this.$values.length === 1) {
+                this.$Search.setStyle('display', 'none');
+                this.$Icon.setStyle('display', 'none');
+                this.$List.setStyle('display', null);
+                return;
+            }
+
+            this.$Search.setStyle('display', null);
+            this.$Icon.setStyle('display', null);
+            this.$List.setStyle('display', 'none');
         },
 
         /**
@@ -415,6 +450,7 @@ define('qui/controls/elements/Select', [
 
                 this.fireEvent('addItem', [this, id]);
                 this.$refreshValues();
+                this.refresh();
 
             }.bind(this));
 
@@ -561,6 +597,7 @@ define('qui/controls/elements/Select', [
             );
 
             this.$refreshValues();
+            this.refresh();
         },
 
         /**

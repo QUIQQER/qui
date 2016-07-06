@@ -4,8 +4,8 @@
     cursor: default;
     float: left;
     font-size: 14px;
-    line-height: 20px;
-    padding: 5px;
+    line-height: 30px;
+    padding: 0;
     width: 100%;
 }
 
@@ -15,7 +15,7 @@
 
 .qui-elements-selectItem-icon {
     float: left;
-    line-height: 20px;
+    line-height: 30px;
     text-align: center;
     width: 30px;
 }
@@ -24,19 +24,19 @@
     float: left;
     line-height: 20px;
     overflow: hidden;
-    padding: 0 10px 0 0;
+    padding: 5px 10px 5px 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: calc(100% - 50px);
+    width: calc(100% - 60px);
 }
 
 .qui-elements-selectItem-destroy {
     cursor: pointer;
     float: left;
-    line-height: 20px;
+    line-height: 30px;
     text-align: center;
     visibility: hidden;
-    width: 20px;
+    width: 30px;
 }
 
 .qui-elements-selectItem:hover .qui-elements-selectItem-destroy {
