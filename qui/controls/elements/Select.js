@@ -220,7 +220,11 @@ define('qui/controls/elements/Select', [
 
             // load values
             if (this.$Input.value || this.$Input.value !== '') {
-                this.addItem(this.$Input.value);
+                var values = this.$Input.value.split(',');
+
+                for (var i = 0, len = values.length; i < len; i++) {
+                    this.addItem(values[i]);
+                }
             }
 
             return this.$Elm;
@@ -438,6 +442,10 @@ define('qui/controls/elements/Select', [
          * @return {Object} this (qui/controls/elements/Select)
          */
         addItem: function (id) {
+            if (id === false || id === '') {
+                return this;
+            }
+
             require([this.getAttribute('child')], function (Child) {
                 new Child({
                     id    : id,
