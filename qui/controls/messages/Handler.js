@@ -714,7 +714,7 @@ define('qui/controls/messages/Handler', [
                     var LastTime = LastMessage.getAttribute('time'),
                         Now      = new Date();
 
-                    Now.setSeconds(5);
+                    Now.setSeconds(Now.getSeconds() - 2);
 
                     if (Now < LastTime) {
                         return this;
