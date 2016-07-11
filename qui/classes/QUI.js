@@ -229,7 +229,8 @@ define('qui/classes/QUI', [
 
                     return;
                 }
-
+                console.log('parse');
+                console.log(Parent);
                 // parse all qui controls
                 var nodes = document.id(Parent).getElements('[data-qui]'),
                     list  = nodes.map(function (Elm) {
@@ -250,7 +251,8 @@ define('qui/classes/QUI', [
 
                     var formNodes = {
                         'TEXTAREA': true,
-                        'INPUT'   : true
+                        'INPUT'   : true,
+                        'SELECT'  : true
                     };
 
                     for (i = 0, len = list.length; i < len; i++) {
