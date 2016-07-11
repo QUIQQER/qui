@@ -117,9 +117,9 @@ define('qui/controls/messages/Message', [
                        Time.getFullYear();
 
             var hours   = ('0' + Time.getHours()).slice(-2);
-            var seconds = ('0' + Time.getSeconds()).slice(-2);
+            var minutes = ('0' + Time.getMinutes()).slice(-2);
 
-            time = time + ' ' + hours + ':' + seconds;
+            time = time + ' ' + hours + ':' + minutes;
 
             var Elm = new Element('div', {
                 'class': 'messages-message box',
