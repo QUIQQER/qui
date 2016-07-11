@@ -229,8 +229,7 @@ define('qui/classes/QUI', [
 
                     return;
                 }
-                console.log('parse');
-                console.log(Parent);
+                
                 // parse all qui controls
                 var nodes = document.id(Parent).getElements('[data-qui]'),
                     list  = nodes.map(function (Elm) {
