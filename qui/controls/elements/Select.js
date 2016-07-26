@@ -580,6 +580,19 @@ define('qui/controls/elements/Select', [
         },
 
         /**
+         * Removes all children
+         *
+         * @method qui/controls/elements/Select#clear
+         */
+        clear: function() {
+            this.$values = [];
+            this.$List.set('html', '');
+            this.$refreshValues();
+
+            this.fireEvent('clear', [this]);
+        },
+
+        /**
          * Write the ids to the real input field
          *
          * @method qui/controls/elements/Select#$refreshValues
