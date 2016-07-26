@@ -4,11 +4,14 @@
  * @module qui/controls/windows/Popup
  * @author www.pcsg.de (Henning Leutz)
  *
+ * @require qui/QUI
  * @require qui/controls/Control
  * @require qui/controls/utils/Background
  * @require qui/controls/loader/Loader
  * @require qui/Locale
  * @require qui/utils/Controls
+ * @require qui/utils/Functions
+ * @require qui/utils/System
  * @require qui/controls/windows/locale/de
  * @require qui/controls/windows/locale/en
  * @require css!qui/controls/windows/Popup.css
@@ -288,7 +291,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @return {Promise}
          */
         open: function (callback) {
-
             this.Background.create();
 
             if (this.getAttribute('backgroundClosable')) {
@@ -499,46 +501,14 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @return {Promise}
          */
         close: function () {
-
             QUI.removeEvent('resize', this.resize);
 
             window.removeEvent('touchstart', this.$__scrollSpy);
             window.removeEvent('touchend', this.$__scrollDelay);
 
-            // set old body attributes
-            //if (!QUI.Windows.getLength()) {
-            //    var oldStyle = QUI.Windows.$oldBodyStyle;
-            //
-            //    document.body.setStyles({
-            //        overflow: oldStyle.overflow || null,
-            //        position: oldStyle.position || null,
-            //        width   : oldStyle.width || null,
-            //        top     : oldStyle.top || null,
-            //        minWidth: oldStyle.minWidth || null
-            //    });
-            //
-            //    // ios fix
-            //    var ios = SystemUtils.iOSversion();
-            //
-            //    if (ios) {
-            //        document.body.setStyles({
-            //            '-webkit-transform': null,
-            //            'transform'        : null
-            //        });
-            //    }
-            //
-            //
-            //    document.body.scrollTo(
-            //        oldStyle.scroll.x,
-            //        oldStyle.scroll.y
-            //    );
-            //}
-
-            this.$opened = false;
-
             return new Promise(function (resolve) {
-
                 if (!this.$Elm) {
+                    this.$opened = false;
                     resolve();
                     return;
                 }
@@ -551,8 +521,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 }, {
                     duration: 200,
                     callback: function () {
-                        self.fireEvent('close', [self]);
-
                         self.$Elm.destroy();
                         self.$Elm = null;
 
@@ -560,6 +528,9 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                             self.destroy();
                             resolve();
                         });
+
+                        self.$opened = false;
+                        self.fireEvent('close', [self]);
                     }
                 });
 

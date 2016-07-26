@@ -6,6 +6,7 @@
  *
  * @require require
  * @require qui/classes/DOM
+ * @require qui/utils/System
  */
 define('qui/classes/Windows', [
 
