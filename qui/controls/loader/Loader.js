@@ -131,6 +131,8 @@ define('qui/controls/loader/Loader', [
          * @return {Promise}
          */
         show: function (str) {
+            this.fireEvent('show', [this]);
+
             return new Promise(function (resolve) {
                 this.$status = 1;
 
@@ -275,6 +277,8 @@ define('qui/controls/loader/Loader', [
          * @return {Promise}
          */
         hide: function (callback) {
+            this.fireEvent('hide', [this]);
+
             return new Promise(function (resolve) {
                 this.$status = 0;
 
