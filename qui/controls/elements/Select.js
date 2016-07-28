@@ -14,6 +14,7 @@
  * @event onAddItem [ this, id ]
  * @event onChange [ this ]
  * @event onSearchButtonClick [ this, Button ]
+ * @event onCreate [ this ]
  */
 define('qui/controls/elements/Select', [
 
@@ -227,6 +228,8 @@ define('qui/controls/elements/Select', [
                     this.addItem(values[i]);
                 }
             }
+
+            this.fireEvent('create', [this]);
 
             return this.$Elm;
         },
