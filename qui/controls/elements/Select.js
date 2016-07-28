@@ -64,7 +64,8 @@ define('qui/controls/elements/Select', [
             label       : false, // text string or a <label> DOMNode Element
             icon        : 'fa fa-angle-right',
             placeholder : 'Suche...',
-            child       : 'qui/controls/elements/SelectItem' // child type
+            child       : 'qui/controls/elements/SelectItem', // child type
+            showIds     : true // display the ids in the search result list or not
         },
 
         initialize: function (options, Input) {
@@ -350,7 +351,7 @@ define('qui/controls/elements/Select', [
             }
 
             search.then(function (result) {
-                var i, len, nam, Entry,
+                var i, len, str, Entry,
                     func_mousedown, func_mouseover,
 
                     data     = result,
@@ -400,17 +401,21 @@ define('qui/controls/elements/Select', [
 
                 // create
                 for (i = 0, len = data.length; i < len; i++) {
-                    nam = data[i].title;
+                    str = data[i].title;
 
                     if (value) {
-                        nam = nam.toString().replace(
+                        str = str.toString().replace(
                             new RegExp('(' + value + ')', 'gi'),
                             '<span class="mark">$1</span>'
                         );
                     }
 
+                    if (this.getAttribute('showIds')) {
+                        str = str + ' (' + data[i].id + ')';
+                    }
+
                     Entry = new Element('div', {
-                        html     : '<span>' + nam + ' (' + data[i].id + ')</span>',
+                        html     : '<span>' + str + '</span>',
                         'class'  : 'qui-elements-list-dropdown-entry',
                         'data-id': data[i].id,
                         events   : {
@@ -449,6 +454,7 @@ define('qui/controls/elements/Select', [
             require([this.getAttribute('child')], function (Child) {
                 new Child({
                     id    : id,
+                    Parent: this,
                     events: {
                         onDestroy: this.$onItemDestroy
                     }
@@ -584,7 +590,7 @@ define('qui/controls/elements/Select', [
          *
          * @method qui/controls/elements/Select#clear
          */
-        clear: function() {
+        clear: function () {
             this.$values = [];
             this.$List.set('html', '');
             this.$refreshValues();
