@@ -4,6 +4,8 @@
  * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/input/Range
  *
+ * based on http://refreshless.com/nouislider/
+ *
  * @require qui/QUI
  * @require qui/controls/Control
  * @require css!qui/controls/input/Range.css
@@ -12,10 +14,12 @@ define('qui/controls/input/Range', [
 
     'qui/QUI',
     'qui/controls/Control',
+    URL_OPT_DIR + 'bin/nouislider/distribute/nouislider.min.js',
 
-    'css!qui/controls/input/Range.css'
+    'css!qui/controls/input/Range.css',
+    'css!' + URL_OPT_DIR + 'bin/nouislider/distribute/nouislider.min.css'
 
-], function (QUI, QUIControl) {
+], function (QUI, QUIControl, noUiSlider) {
     "use strict";
 
     /**
@@ -34,19 +38,14 @@ define('qui/controls/input/Range', [
             name   : '',
             value  : '',
             step   : 1,
-            display: true,
-            range  : false
+            display: true
         },
 
         initialize: function (options) {
             this.parent(options);
 
-            this.$Input     = null;
-            this.$FromInput = null;
-            this.$ToInput   = null;
-
-            this.$FromDisplay = null;
-            this.$ToDisplay   = null;
+            this.$Input   = null;
+            this.$Display = null;
         },
 
         /**
@@ -57,75 +56,59 @@ define('qui/controls/input/Range', [
         create: function () {
             this.parent();
 
-
-            var self = this;
-
             this.$Elm.addClass('qui-control-input-range');
+            this.$Elm.set('html', '<div class="qui-control-input-range-bar"></div>');
 
-            this.$Input = new Element('input', {
-                type: 'hidden'
-            }).inject(this.$Elm);
+            this.$BarContainer = this.$Elm.getElement('.qui-control-input-range-bar');
 
-            this.$FromDisplay = new Element('div', {
-                'class': 'qui-control-input-range-display',
-                html   : this.getAttribute('min')
-            }).inject(this.$Elm);
-
-            this.$FromInput = new Element('input', {
-                type   : 'range',
-                'class': 'qui-control-input-range-input',
-                value  : this.getAttribute('min'),
-                min    : this.getAttribute('min'),
-                max    : this.getAttribute('max'),
-                step   : this.getAttribute('step'),
-                name   : this.getAttribute('name')
-            }).inject(this.$Elm);
-
-            console.log(this.getAttribute('min'));
-
-            if (this.getAttribute('styles')) {
-                this.$Elm.setStyles(this.getAttribute('styles'));
-            }
-
-            if (this.getAttribute('range')) {
-                this.$ToInput = new Element('input', {
-                    type   : 'range',
-                    'class': 'qui-control-input-range-input',
-                    value  : this.getAttribute('max'),
-                    min    : this.getAttribute('min'),
-                    max    : this.getAttribute('max'),
-                    step   : this.getAttribute('step'),
-                    name   : this.getAttribute('name')
-                }).inject(this.$Elm);
-
-                this.$ToDisplay = new Element('div', {
-                    'class': 'qui-control-input-range-display',
-                    html   : this.getAttribute('max'),
-                    styles : {
-                        'float': 'right'
-                    }
-                }).inject(this.$Elm);
-
-                this.$Elm.addClass('qui-control-input-range__range');
-            }
-
-            if (this.getAttribute('display') === false) {
-                this.$Display.setStyle('display', 'none');
-            }
-
-            // input events
-            this.$FromInput.addEvent('change', function () {
-                self.setValue(this.value);
+            noUiSlider.create(this.$BarContainer, {
+                start  : [20, 80], // Handle start position
+                step   : 10, // Slider moves in increments of '10'
+                margin : 20, // Handles must be more than '20' apart
+                connect: true, // Display a colored bar between the handles
+                range  : { // Slider can select '0' to '100'
+                    'min': this.getAttribute('min'),
+                    'max': this.getAttribute('max')
+                }
             });
 
-            this.$FromDisplay.addEvent('change', function () {
-                self.setValue(this.value);
-            });
+            this.$BarContainer.getElement('.noUi-connect').setStyle('background', '#d9232b');
 
 
-            if (this.getAttribute('value') !== false) {
-                this.setValue(this.getAttribute('value'));
-            }
+            // this.$Elm.set(
+            //     'html',
+            //
+            //     '<input type="range" class="qui-contro-input-range-input" />' +
+            //     '<input type="text" class="qui-contro-input-range-display" />'
+            // );
+            //
+            // this.$Input   = this.$Elm.getElement('input[type="range"]');
+            // this.$Display = this.$Elm.getElement('input[type="text"]');
+            //
+            // this.$Input.set({
+            //     min : this.getAttribute('min'),
+            //     max : this.getAttribute('max'),
+            //     step: this.getAttribute('step'),
+            //     name: this.getAttribute('name')
+            // });
+            //
+            // if (this.getAttribute('display') === false) {
+            //     this.$Display.setStyle('display', 'none');
+            // }
+            //
+            // // input events
+            // this.$Input.addEvent('change', function () {
+            //     self.setValue(this.value);
+            // });
+            //
+            // this.$Display.addEvent('change', function () {
+            //     self.setValue(this.value);
+            // });
+            //
+            //
+            // if (this.getAttribute('value') !== false) {
+            //     this.setValue(this.getAttribute('value'));
+            // }
 
             return this.$Elm;
         },
@@ -135,12 +118,12 @@ define('qui/controls/input/Range', [
          * @param {String|Number} value
          */
         setValue: function (value) {
-            if (this.$FromInput && this.$FromInput.value !== value) {
-                this.$FromInput.value = value;
+            if (this.$Input && this.$Input.value !== value) {
+                this.$Input.value = value;
             }
 
-            if (this.$FromDisplay && this.$FromDisplay.value !== value) {
-                this.$FromDisplay.value = value;
+            if (this.$Display && this.$Display.value !== value) {
+                this.$Display.value = value;
             }
 
             this.fireEvent('change');
@@ -151,7 +134,7 @@ define('qui/controls/input/Range', [
          * @returns {String|Number|Boolean}
          */
         getValue: function () {
-            return this.$FromInput ? this.$FromInput.value : false;
+            return this.$Input ? this.$Input.value : false;
         },
 
         /**
@@ -159,7 +142,7 @@ define('qui/controls/input/Range', [
          * @returns {HTMLInputElement|null}
          */
         getRangeElm: function () {
-            return this.$FromInput;
+            return this.$Input;
         }
     });
 });
