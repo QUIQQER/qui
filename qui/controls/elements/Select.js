@@ -20,6 +20,7 @@ define('qui/controls/elements/Select', [
 
     'qui/QUI',
     'qui/controls/Control',
+    'qui/controls/loader/Loader',
     'qui/controls/buttons/Button',
     'qui/controls/elements/SelectItem',
     'Ajax',
@@ -27,7 +28,7 @@ define('qui/controls/elements/Select', [
 
     'css!qui/controls/elements/Select.css'
 
-], function (QUI, QUIControl, QUIButton, SelectItem, Ajax, QUILocale) {
+], function (QUI, QUIControl, QUILoader, QUIButton, SelectItem, Ajax, QUILocale) {
     "use strict";
 
     /**
@@ -105,6 +106,8 @@ define('qui/controls/elements/Select', [
                 'class'     : 'qui-elements-select',
                 'data-quiid': this.getId()
             });
+
+            this.Loader = new QUILoader().inject(this.$Elm);
 
             if (!this.$Input) {
                 this.$Input = new Element('input', {
@@ -529,9 +532,11 @@ define('qui/controls/elements/Select', [
 
             // First Element
             if (!Active) {
-                this.$DropDown.getFirst().addClass(
-                    'qui-elements-list-dropdown-entry-hover'
-                );
+                if (this.$DropDown.getFirst()) {
+                    this.$DropDown.getFirst().addClass(
+                        'qui-elements-list-dropdown-entry-hover'
+                    );
+                }
 
                 return this;
             }

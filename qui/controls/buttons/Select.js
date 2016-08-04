@@ -51,7 +51,8 @@ define('qui/controls/buttons/Select', [
             '$disableScroll',
             '$enableScroll',
             '$showSearch',
-            '$hideSearch'
+            '$hideSearch',
+            '$onItemChange'
         ],
 
         options: {
@@ -64,7 +65,9 @@ define('qui/controls/buttons/Select', [
             searchable           : false,
             placeholderText      : false,
             placeholderIcon      : false,
-            placeholderSelectable: true // placeholder is standard selectable menu child
+            placeholderSelectable: true, // placeholder is standard selectable menu child
+            multiple             : false,
+            checkable            : false
         },
 
         params: {},
@@ -76,6 +79,7 @@ define('qui/controls/buttons/Select', [
                 width    : this.getAttribute('menuWidth'),
                 maxHeight: this.getAttribute('menuMaxHeight'),
                 showIcons: this.getAttribute('showIcons'),
+                multiple : this.getAttribute('multiple'),
                 events   : {
                     onHide: function () {
                         this.$opened = false;
@@ -196,6 +200,8 @@ define('qui/controls/buttons/Select', [
                 width   : '100%'
             });
 
+            this.$Select.set('multiple', this.getAttribute('multiple'));
+
             this.$Select.addEvents({
                 change: function () {
                     self.setValue(this.value);
@@ -257,6 +263,11 @@ define('qui/controls/buttons/Select', [
                         this.$placeholderIcon || false
                     );
                 }
+            }
+
+            if (this.getAttribute('multiple')) {
+                this.$value = [];
+                this.$Icon.setStyle('display', 'none');
             }
 
             this.selectPlaceholder();
@@ -369,6 +380,11 @@ define('qui/controls/buttons/Select', [
          * Reset the value
          */
         resetValue: function () {
+            if (this.getAttribute('multiple')) {
+                this.$value = [];
+                return;
+            }
+
             this.$value = '';
             this.setValue('');
         },
@@ -416,12 +432,14 @@ define('qui/controls/buttons/Select', [
 
             this.$Menu.appendChild(
                 new QUIMenuItem({
-                    name  : this.getAttribute('name') + value,
-                    text  : text,
-                    value : value,
-                    icon  : icon || false,
-                    events: {
-                        onMouseDown: this.$set
+                    name     : this.getAttribute('name') + value,
+                    text     : text,
+                    value    : value,
+                    icon     : icon || false,
+                    checkable: this.getAttribute('checkable'),
+                    events   : {
+                        onMouseDown: this.$set,
+                        onChange   : this.$onItemChange
                     }
                 })
             );
@@ -436,6 +454,53 @@ define('qui/controls/buttons/Select', [
             }).inject(this.$Select);
 
             return this;
+        },
+
+        /**
+         * Return all menu items
+         *
+         * @returns {Array}
+         */
+        getChildren: function () {
+            return this.$Menu.getChildren();
+        },
+
+        /**
+         * un select a children
+         *
+         * @param {String} value - value of the child
+         */
+        unselectChild: function (value) {
+            var children = this.$Menu.getChildren().filter(function (Child) {
+                return Child.getAttribute('value') == value;
+            });
+
+            if (!children.length) {
+                return;
+            }
+
+            for (var i = 0, len = children.length; i < len; i++) {
+                children[i].uncheck();
+            }
+        },
+
+        /**
+         * select a children
+         *
+         * @param {String} value - value of the child
+         */
+        selectChild: function (value) {
+            var children = this.$Menu.getChildren().filter(function (Child) {
+                return Child.getAttribute('value') == value;
+            });
+
+            if (!children.length) {
+                return;
+            }
+
+            for (var i = 0, len = children.length; i < len; i++) {
+                children[i].check();
+            }
         },
 
         /**
@@ -556,7 +621,7 @@ define('qui/controls/buttons/Select', [
 
             this.$Menu.setAttribute('maxHeight', menuMaxHeight);
 
-            var x = pos.x - 20,
+            var x = pos.x,
                 y = pos.y + size.y;
 
             var overflow  = document.documentElement.getStyle('overflow'),
@@ -571,12 +636,12 @@ define('qui/controls/buttons/Select', [
                 );
             }
 
-            this.$Menu.setAttribute('width', size.x);
+            this.$Menu.setAttribute('width', size.x + 1);
             this.$Menu.show();
 
             MenuElm.setStyle('top', y);
             MenuElm.setStyle('left', x);
-            MenuElm.setStyle('width', size.x + 20);
+            MenuElm.setStyle('width', size.x + 1);
             MenuElm.setStyle('zIndex', QUIElementUtils.getComputedZIndex(this.getElm()) + 1);
             MenuElm.addClass('qui-select-container');
 
@@ -652,13 +717,11 @@ define('qui/controls/buttons/Select', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $set: function (Item) {
-            this.$value = Item.getAttribute('value');
-
-            if (this.$Text) {
+            if (this.$Text && !this.getAttribute('checkable')) {
                 this.$Text.set('html', Item.getAttribute('text'));
             }
 
-            if (Item.getAttribute('icon') && this.$Icon) {
+            if (Item.getAttribute('icon') && this.$Icon && !this.getAttribute('checkable')) {
                 var value = Item.getAttribute('icon');
 
                 this.$Icon.className = '';
@@ -675,10 +738,48 @@ define('qui/controls/buttons/Select', [
                 }
             }
 
-            this.$hideSearch();
-            this.$onMenuHide();
+            if (!this.getAttribute('checkable')) {
+                this.$hideSearch();
+                this.$onMenuHide();
+            }
 
-            this.fireEvent('change', [this.$value, this]);
+            if (!this.getAttribute('multiple')) {
+                this.$value = Item.getAttribute('value');
+                this.fireEvent('change', [this.$value, this]);
+                return;
+            }
+
+            // multiple
+            // checkboxes need a delay -.-
+            (function (Item) {
+                if (Item.isChecked()) {
+                    this.$value.push(Item.getAttribute('value'));
+                    this.fireEvent('change', [this.$value, this]);
+                    return;
+                }
+
+                this.$value.erase(Item.getAttribute('value'));
+                this.fireEvent('change', [this.$value, this]);
+            }).delay(200, this, [Item]);
+        },
+
+        /**
+         * event: item change
+         * @param {Object} Item (qui/controls/contextmenu/Item)
+         */
+        $onItemChange: function (Item) {
+            var value = Item.getAttribute('value');
+
+            if (!Item.isChecked()) {
+                this.$value.erase(value);
+                return;
+            }
+
+            if (this.$value.contains(value)) {
+                return;
+            }
+
+            this.$value.push(value);
         },
 
         /**
@@ -735,7 +836,6 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#$onMenuHide
          */
         $onMenuHide: function () {
-
             this.$Menu.removeEvent('mouseenter', this.$disableScroll);
             this.$Menu.removeEvent('mouseleave', this.$enableScroll);
 

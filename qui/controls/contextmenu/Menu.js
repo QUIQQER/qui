@@ -12,7 +12,6 @@
  * @event onMouseEnter
  * @event onMouseLeave
  */
-
 define('qui/controls/contextmenu/Menu', [
 
     'qui/QUI',
@@ -37,28 +36,28 @@ define('qui/controls/contextmenu/Menu', [
     return new Class({
 
         Extends: Control,
-        Type: 'qui/controls/contextmenu/Menu',
+        Type   : 'qui/controls/contextmenu/Menu',
 
         Binds: [
             '$keyup'
         ],
 
         options: {
-            styles: null,   // mootools css styles
-            width: 200,    // menü width
-            title: false,  // title of the menu (optional) : String
-            shadow: true,   // menü with shadow (true) or not (false)
-            corner: false,  // corner for the menü
+            styles   : null,   // mootools css styles
+            width    : 200,    // menü width
+            title    : false,  // title of the menu (optional) : String
+            shadow   : true,   // menü with shadow (true) or not (false)
+            corner   : false,  // corner for the menü
             maxHeight: false, // max height of the menu
-            dragable: false,
+            dragable : false,
             showIcons: true
         },
 
         initialize: function (options) {
             this.parent(options);
 
-            this.$items = [];
-            this.$Title = null;
+            this.$items  = [];
+            this.$Title  = null;
             this.$Active = null;
 
             this.$__activeSubMenu = false;
@@ -74,14 +73,14 @@ define('qui/controls/contextmenu/Menu', [
             var self = this;
 
             this.$Elm = new Element('div.qui-contextmenu', {
-                html: '<div class="qui-contextmenu-container"></div>',
-                tabindex: -1,
-                styles: {
-                    display: 'none',
-                    outline: 'none',
+                html        : '<div class="qui-contextmenu-container"></div>',
+                tabindex    : -1,
+                styles      : {
+                    display       : 'none',
+                    outline       : 'none',
                     '-moz-outline': 'none'
                 },
-                events: {
+                events      : {
                     blur: function () {
                         this.fireEvent('blur', [this]);
                     }.bind(this),
@@ -95,7 +94,7 @@ define('qui/controls/contextmenu/Menu', [
                     mouseleave: function () {
                         self.fireEvent('mouseLeave', [self]);
                     },
-                    mousedown: function (event) {
+                    mousedown : function (event) {
                         event.stop();
                     }
                 },
@@ -187,7 +186,7 @@ define('qui/controls/contextmenu/Menu', [
 
             Elm.setStyles({
                 display: '',
-                height: 0
+                height : 0
             });
 
             this.refresh();
@@ -231,8 +230,8 @@ define('qui/controls/contextmenu/Menu', [
          */
         refresh: function () {
 
-            var Elm = this.getElm(),
-                Parent = Elm.getParent(),
+            var Elm        = this.getElm(),
+                Parent     = Elm.getParent(),
                 scrollSize = Elm.getScrollSize();
 
             this.$Container.setStyle('height', scrollSize.y + 5);
@@ -246,7 +245,7 @@ define('qui/controls/contextmenu/Menu', [
                     });
 
                     this.$Container.setStyles({
-                        height: this.getAttribute('maxHeight'),
+                        height  : this.getAttribute('maxHeight'),
                         overflow: 'auto'
                     });
 
@@ -269,7 +268,7 @@ define('qui/controls/contextmenu/Menu', [
             this.setAttribute('menuPosLeft', false);
 
             if (Parent.nodeName === 'BODY') {
-                var elm_pos = Elm.getPosition(),
+                var elm_pos   = Elm.getPosition(),
                     body_size = Parent.getSize();
 
                 if (elm_pos.x + scrollSize.x + 50 > body_size.x) {
@@ -310,7 +309,7 @@ define('qui/controls/contextmenu/Menu', [
             if (this.$Elm) {
                 this.$Elm.setStyles({
                     left: x,
-                    top: y
+                    top : y
                 });
             }
 
@@ -585,7 +584,7 @@ define('qui/controls/contextmenu/Menu', [
             }
 
             var Last;
-            
+
             // select last element if nothing is active
             if (!this.$Active) {
                 Last = this.lastChild();

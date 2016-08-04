@@ -15,10 +15,10 @@
  * @event onActive [ {self} ]
  * @event onNormal [ {self} ]
  * @event onClick [ {self} ]
+ * @event onChange [ {self} ]
  * @event onMouseDown [ {self}, {DOMEvent} ]
  * @event onMouseUp[ {self}, {DOMEvent} ]
  */
-
 define('qui/controls/contextmenu/Item', [
 
     'qui/QUI',
@@ -63,11 +63,12 @@ define('qui/controls/contextmenu/Item', [
         ],
 
         options: {
-            text    : '',
-            icon    : '',
-            styles  : null,
-            showIcon: true,
-            dragable: false // parent class .qui-contextitem-dropable
+            text     : '',
+            icon     : '',
+            styles   : null,
+            showIcon : true,
+            dragable : false, // parent class .qui-contextitem-dropable
+            checkable: false  // icon is a checkbox
         },
 
         initialize: function (options) {
@@ -89,6 +90,7 @@ define('qui/controls/contextmenu/Item', [
             this.$Menu      = null;
             this.$Text      = null;
             this.$Icon      = null;
+            this.$Checkbox  = null;
 
             this.$__childOpend = false;
 
@@ -158,6 +160,15 @@ define('qui/controls/contextmenu/Item', [
                 mouseup  : this.$onMouseUp
             });
 
+
+            if (this.getAttribute('checkable')) {
+                this.$Checkbox = new Element('input', {
+                    type: 'checkbox'
+                }).inject(this.$Icon);
+
+                this.setAttribute('icon', false);
+                this.setAttribute('showIcon', true);
+            }
 
             if (this.getAttribute('icon') && this.getAttribute('icon') !== '') {
                 var icon = this.getAttribute('icon');
@@ -262,18 +273,7 @@ define('qui/controls/contextmenu/Item', [
          * event : on inject
          */
         $onInject: function () {
-//            var Icon = this.$Container.getElement( '.qui-contextitem-icon' ),
-//                Text = this.$Container.getElement( '.qui-contextitem-text' );
-//
-//            var iconSize = Icon.measure(function() {
-//                return this.getComputedSize();
-//            });
-//
-//            var elmSize = this.$Container.measure(function() {
-//                return this.getComputedSize();
-//            });
-//
-//            Text.setStyle( 'width', elmSize.width - iconSize.totalWidth );
+
         },
 
         /**
@@ -370,6 +370,34 @@ define('qui/controls/contextmenu/Item', [
          */
         isDisabled: function () {
             return this.$disabled;
+        },
+
+        /**
+         * check the child
+         * if the child has a checkbox
+         */
+        check: function () {
+            this.setActive();
+
+            if (this.$Checkbox) {
+                this.$Checkbox.checked = true;
+            }
+
+            this.fireEvent('change', [this]);
+        },
+
+        /**
+         * uncheck the child
+         * if the child has a checkbox
+         */
+        uncheck: function () {
+            this.setNormal();
+
+            if (this.$Checkbox) {
+                this.$Checkbox.checked = false;
+            }
+
+            this.fireEvent('change', [this]);
         },
 
         /**
@@ -477,6 +505,24 @@ define('qui/controls/contextmenu/Item', [
         },
 
         /**
+         * is the item checked
+         *
+         * @method qui/controls/contextmenu/Item#isChecked
+         * @return {boolean}
+         */
+        isChecked: function () {
+            if (!this.getAttribute('checkable')) {
+                return false;
+            }
+
+            if (!this.$Checkbox) {
+                return false;
+            }
+
+            return this.$Checkbox.checked;
+        },
+
+        /**
          * Create the Context Menu if not exist
          *
          * @method qui/controls/contextmenu/Item#getContextMenu
@@ -546,7 +592,7 @@ define('qui/controls/contextmenu/Item', [
                 return;
             }
 
-            if (key == 'icon') {
+            if (key == 'icon' && value) {
                 this.$Icon.className = 'qui-contextitem-icon';
                 this.$Icon.setStyle('background-image', null);
 
@@ -590,7 +636,19 @@ define('qui/controls/contextmenu/Item', [
                 return;
             }
 
+            // toggle checkbox
+            if (this.$Checkbox && this.getAttribute('checkable')) {
+                if (event.target !== this.$Checkbox) {
+                    this.$Checkbox.checked = !this.$Checkbox.checked;
+                }
+            }
+
             this.fireEvent('click', [this, event]);
+            this.fireEvent('change', [this]);
+
+            if (this.getAttribute('checkable')) {
+                return;
+            }
 
             var Parent = this.getParent();
 

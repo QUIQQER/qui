@@ -4,7 +4,7 @@
     height: 30px;
     width: 200px;
 
-    margin: 0 2px;
+    margin: 0;
     padding: 0 2px;
 
     border: 1px solid #c9c8c5;
@@ -64,4 +64,8 @@
     position: absolute;
     left: 0;
     top: 0;
+}
+
+.qui-select-container .qui-contextmenu-container {
+    margin-left: 1px !important;
 }

@@ -1,4 +1,3 @@
-
 /**
  * Input range
  *
@@ -9,7 +8,6 @@
  * @require qui/controls/Control
  * @require css!qui/controls/input/Range.css
  */
-
 define('qui/controls/input/Range', [
 
     'qui/QUI',
@@ -17,8 +15,7 @@ define('qui/controls/input/Range', [
 
     'css!qui/controls/input/Range.css'
 
-], function(QUI, QUIControl)
-{
+], function (QUI, QUIControl) {
     "use strict";
 
     /**
@@ -29,23 +26,27 @@ define('qui/controls/input/Range', [
     return new Class({
 
         Extends: QUIControl,
-        Type: 'qui/controls/input/Range',
+        Type   : 'qui/controls/input/Range',
 
-        options : {
-            min : 0,
-            max : 100,
-            name : '',
-            value : '',
-            step : 1,
-            display : true
+        options: {
+            min    : 0,
+            max    : 100,
+            name   : '',
+            value  : '',
+            step   : 1,
+            display: true,
+            range  : false
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
-            this.$Input = null;
-            this.$Display = null;
+            this.$Input     = null;
+            this.$FromInput = null;
+            this.$ToInput   = null;
+
+            this.$FromDisplay = null;
+            this.$ToDisplay   = null;
         },
 
         /**
@@ -53,48 +54,77 @@ define('qui/controls/input/Range', [
          *
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             this.parent();
 
 
             var self = this;
 
-            this.$Elm.addClass( 'qui-contro-input-range' );
+            this.$Elm.addClass('qui-control-input-range');
 
-            this.$Elm.set(
-                'html',
+            this.$Input = new Element('input', {
+                type: 'hidden'
+            }).inject(this.$Elm);
 
-                '<input type="range" class="qui-contro-input-range-input" />' +
-                '<input type="text" class="qui-contro-input-range-display" />'
-            );
+            this.$FromDisplay = new Element('div', {
+                'class': 'qui-control-input-range-display',
+                html   : this.getAttribute('min')
+            }).inject(this.$Elm);
 
-            this.$Input = this.$Elm.getElement('input[type="range"]');
-            this.$Display = this.$Elm.getElement('input[type="text"]');
+            this.$FromInput = new Element('input', {
+                type   : 'range',
+                'class': 'qui-control-input-range-input',
+                value  : this.getAttribute('min'),
+                min    : this.getAttribute('min'),
+                max    : this.getAttribute('max'),
+                step   : this.getAttribute('step'),
+                name   : this.getAttribute('name')
+            }).inject(this.$Elm);
 
-            this.$Input.set({
-                min : this.getAttribute('min'),
-                max : this.getAttribute('max'),
-                step : this.getAttribute('step'),
-                name : this.getAttribute('name')
-            });
+            console.log(this.getAttribute('min'));
 
-            if ( this.getAttribute('display') === false ) {
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
+            }
+
+            if (this.getAttribute('range')) {
+                this.$ToInput = new Element('input', {
+                    type   : 'range',
+                    'class': 'qui-control-input-range-input',
+                    value  : this.getAttribute('max'),
+                    min    : this.getAttribute('min'),
+                    max    : this.getAttribute('max'),
+                    step   : this.getAttribute('step'),
+                    name   : this.getAttribute('name')
+                }).inject(this.$Elm);
+
+                this.$ToDisplay = new Element('div', {
+                    'class': 'qui-control-input-range-display',
+                    html   : this.getAttribute('max'),
+                    styles : {
+                        'float': 'right'
+                    }
+                }).inject(this.$Elm);
+
+                this.$Elm.addClass('qui-control-input-range__range');
+            }
+
+            if (this.getAttribute('display') === false) {
                 this.$Display.setStyle('display', 'none');
             }
 
             // input events
-            this.$Input.addEvent('change', function() {
-                self.setValue( this.value );
+            this.$FromInput.addEvent('change', function () {
+                self.setValue(this.value);
             });
 
-            this.$Display.addEvent('change', function() {
-                self.setValue( this.value );
+            this.$FromDisplay.addEvent('change', function () {
+                self.setValue(this.value);
             });
 
 
-            if ( this.getAttribute('value') !== false ) {
-                this.setValue( this.getAttribute('value') );
+            if (this.getAttribute('value') !== false) {
+                this.setValue(this.getAttribute('value'));
             }
 
             return this.$Elm;
@@ -104,14 +134,13 @@ define('qui/controls/input/Range', [
          * set the value
          * @param {String|Number} value
          */
-        setValue : function(value)
-        {
-            if ( this.$Input && this.$Input.value !== value ) {
-                this.$Input.value = value;
+        setValue: function (value) {
+            if (this.$FromInput && this.$FromInput.value !== value) {
+                this.$FromInput.value = value;
             }
 
-            if ( this.$Display && this.$Display.value !== value ) {
-                this.$Display.value = value;
+            if (this.$FromDisplay && this.$FromDisplay.value !== value) {
+                this.$FromDisplay.value = value;
             }
 
             this.fireEvent('change');
@@ -121,18 +150,16 @@ define('qui/controls/input/Range', [
          * Return the value
          * @returns {String|Number|Boolean}
          */
-        getValue : function()
-        {
-            return this.$Input ? this.$Input.value : false;
+        getValue: function () {
+            return this.$FromInput ? this.$FromInput.value : false;
         },
 
         /**
          * Return the INPUT DOMNode Element, if created
          * @returns {HTMLInputElement|null}
          */
-        getRangeElm : function()
-        {
-            return this.$Input;
+        getRangeElm: function () {
+            return this.$FromInput;
         }
     });
 });
