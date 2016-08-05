@@ -117,10 +117,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                          '<div class="text"></div>' +
-                          '<div class="drop-icon"></div>' +
-                          '<div class="qui-select-click-event"></div>' +
-                          '<select></select>',
+                '<div class="text"></div>' +
+                '<div class="drop-icon"></div>' +
+                '<div class="qui-select-click-event"></div>' +
+                '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -133,13 +133,15 @@ define('qui/controls/buttons/Select', [
             var EventClick = this.$Elm.getElement('.qui-select-click-event');
 
             EventClick.setStyles({
-                left    : 0,
                 height  : '100%',
+                left    : 0,
                 position: 'absolute',
                 top     : 0,
                 width   : '100%',
                 zIndex  : 2
             });
+
+            var touchStartY, touchEndY, touchStartYTime, touchEndYTime;
 
             // es lebe die touch geräte \(^^)/
             EventClick.addEvents({
@@ -158,26 +160,24 @@ define('qui/controls/buttons/Select', [
                 },
 
                 touchstart: function (event) {
-                    if (!!('ontouchstart' in window)) {
-                        event.stop();
-                        self.$Elm.focus();
-                        self.$Select.focus();
-                        return;
-                    }
-
-                    if (self.isFocused()) {
-                        self.open();
-                        return;
-                    }
-
-                    self.$Elm.focus();
+                    touchStartY     = event.changedTouches[0].clientY;
+                    touchStartYTime = Date.now();
                 },
 
                 touchend: function (event) {
-                    if (!!('ontouchstart' in window)) {
-                        event.stop();
+                    touchEndY     = event.changedTouches[0].clientY;
+                    touchEndYTime = Date.now();
 
+                    var diff  = Math.abs(touchStartY - touchEndY);
+                    var delay = (touchEndYTime - touchStartYTime) / 1000;
+
+                    if (diff > 30 || delay > 0.5) {
+                        return;
                     }
+
+                    event.stop();
+
+                    QUIElementUtils.simulateEvent(self.$Select, 'mousedown');
                 }
             });
 
@@ -208,7 +208,6 @@ define('qui/controls/buttons/Select', [
                 },
                 focus : function () {
                     if (!!('ontouchstart' in window)) {
-                        QUIElementUtils.simulateEvent(self.$Select, 'mousedown');
                         return;
                     }
                     self.$Elm.focus();
