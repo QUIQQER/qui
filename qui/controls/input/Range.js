@@ -1,5 +1,6 @@
 /**
  * Input range
+ * - only usable in quiqqer/quiqqer
  *
  * @author www.pcsg.de (Henning Leutz)
  * @module qui/controls/input/Range
@@ -8,7 +9,10 @@
  *
  * @require qui/QUI
  * @require qui/controls/Control
+ * @require URL_OPT_DIR + bin/nouislider/distribute/nouislider.min.js
+ *
  * @require css!qui/controls/input/Range.css
+ * @require css! + URL_OPT_DIR + bin/nouislider/distribute/nouislider.min.css
  */
 define('qui/controls/input/Range', [
 
@@ -33,19 +37,24 @@ define('qui/controls/input/Range', [
         Type   : 'qui/controls/input/Range',
 
         options: {
-            min    : 0,
-            max    : 100,
-            name   : '',
-            value  : '',
-            step   : 1,
-            display: true
+            min      : 0,
+            max      : 100,
+            name     : '',
+            step     : 1,
+            display  : true,
+            Formatter: false // callable function to format the display message
         },
 
         initialize: function (options) {
             this.parent(options);
 
-            this.$Input   = null;
-            this.$Display = null;
+            this.$BarContainer = null;
+            this.$Text         = null;
+
+            this.$value = {
+                from: '',
+                to  : ''
+            };
         },
 
         /**
@@ -57,20 +66,60 @@ define('qui/controls/input/Range', [
             this.parent();
 
             this.$Elm.addClass('qui-control-input-range');
-            this.$Elm.set('html', '<div class="qui-control-input-range-bar"></div>');
+
+            this.$Elm.set(
+                'html',
+                '<div class="qui-control-input-range-bar"></div>' +
+                '<div class="qui-control-input-range-text"></div>'
+            );
 
             this.$BarContainer = this.$Elm.getElement('.qui-control-input-range-bar');
+            this.$Text         = this.$Elm.getElement('.qui-control-input-range-text');
+
+            this.$value = {
+                from: this.getAttribute('min'),
+                to  : this.getAttribute('max')
+            };
 
             noUiSlider.create(this.$BarContainer, {
-                start  : [20, 80], // Handle start position
-                step   : 10, // Slider moves in increments of '10'
+                start  : [this.getAttribute('min'), this.getAttribute('max')],
+                step   : this.getAttribute('step'),
                 margin : 20, // Handles must be more than '20' apart
                 connect: true, // Display a colored bar between the handles
-                range  : { // Slider can select '0' to '100'
-                    'min': this.getAttribute('min'),
-                    'max': this.getAttribute('max')
+                range  : {
+                    min: this.getAttribute('min'),
+                    max: this.getAttribute('max')
                 }
             });
+
+            var Formatter = this.getAttribute('Formatter');
+
+            var timerChangeEvent = null;
+            var fireChangeEvent  = function () {
+                this.fireEvent('change');
+            }.bind(this);
+
+            this.$BarContainer.noUiSlider.on('update', function (values, handle) {
+                if (handle) {
+                    this.$value.to = values[handle];
+                } else {
+                    this.$value.from = values[handle];
+                }
+
+                var message = 'From: ' + this.$value.from + ' to ' + this.$value.to;
+
+                if (typeof Formatter === 'function') {
+                    message = Formatter(this.$value);
+                }
+
+                this.$Text.set('html', message);
+
+                if (timerChangeEvent) {
+                    clearTimeout(timerChangeEvent);
+                }
+
+                timerChangeEvent = fireChangeEvent.delay(200);
+            }.bind(this));
 
             this.$BarContainer.getElement('.noUi-connect').setStyle('background', '#d9232b');
 
@@ -131,18 +180,10 @@ define('qui/controls/input/Range', [
 
         /**
          * Return the value
-         * @returns {String|Number|Boolean}
+         * @returns {Object}
          */
         getValue: function () {
-            return this.$Input ? this.$Input.value : false;
-        },
-
-        /**
-         * Return the INPUT DOMNode Element, if created
-         * @returns {HTMLInputElement|null}
-         */
-        getRangeElm: function () {
-            return this.$Input;
+            return this.$value;
         }
     });
 });

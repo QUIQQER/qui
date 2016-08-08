@@ -4,24 +4,19 @@
     width: 100%;
 }
 
-/*.qui-control-input-range-input {*/
-    /*cursor: pointer;*/
-    /*float: left;*/
-    /*height: 30px;*/
-    /*left: 50px;*/
-    /*overflow: hidden;*/
-    /*pointer-events: none;*/
-    /*position: absolute;*/
-    /*width: calc(100% - 50px);*/
-/*}*/
+.qui-control-input-range-bar {
+    float: left;
+    margin: 0 0 0 20px;
+    position: relative;
+    top: 5px;
+    width: calc(100% - 40px);
+}
 
-/*.qui-control-input-range-display {*/
-    /*float: left;*/
-    /*height: 30px;*/
-    /*text-align: center;*/
-    /*width: 50px;*/
-/*}*/
-
-/*.qui-control-input-range__range .qui-control-input-range-input {*/
-    /*width: calc(100% - 100px);*/
-/*}*/
+.qui-control-input-range-text {
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    top: 5px;
+    width: 100%;
+}
