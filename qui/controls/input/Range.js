@@ -42,7 +42,8 @@ define('qui/controls/input/Range', [
             name     : '',
             step     : 1,
             display  : true,
-            Formatter: false // callable function to format the display message
+            Formatter: false, // callable function to format the display message
+            range    : false  // ui slider range
         },
 
         initialize: function (options) {
@@ -81,15 +82,21 @@ define('qui/controls/input/Range', [
                 to  : this.getAttribute('max')
             };
 
+            var range = this.getAttribute('range');
+
+            if (!range) {
+                range = {
+                    min: this.getAttribute('min'),
+                    max: this.getAttribute('max')
+                };
+            }
+
             noUiSlider.create(this.$BarContainer, {
                 start  : [this.getAttribute('min'), this.getAttribute('max')],
                 step   : this.getAttribute('step'),
                 margin : 20, // Handles must be more than '20' apart
                 connect: true, // Display a colored bar between the handles
-                range  : {
-                    min: this.getAttribute('min'),
-                    max: this.getAttribute('max')
-                }
+                range  : range
             });
 
             var Formatter = this.getAttribute('Formatter');
@@ -163,18 +170,41 @@ define('qui/controls/input/Range', [
         },
 
         /**
+         *
+         * @param {Object} range - noUiSlider range -> http://refreshless.com/nouislider/slider-values/
+         */
+        setRange: function (range) {
+            this.$BarContainer.noUiSlider.updateOptions({
+                range: range
+            });
+        },
+
+        /**
          * set the value
-         * @param {String|Number} value
+         * @param {String|Number|Array} value
          */
         setValue: function (value) {
-            if (this.$Input && this.$Input.value !== value) {
-                this.$Input.value = value;
-            }
+            this.$BarContainer.noUiSlider.set(value);
+            this.fireEvent('change');
+        },
 
-            if (this.$Display && this.$Display.value !== value) {
-                this.$Display.value = value;
-            }
+        /**
+         * set the from value
+         *
+         * @param {String|Number} value
+         */
+        setFrom: function (value) {
+            this.$BarContainer.noUiSlider.set([null, value]);
+            this.fireEvent('change');
+        },
 
+        /**
+         * set the to value
+         *
+         * @param {String|Number} value
+         */
+        setTo: function (value) {
+            this.$BarContainer.noUiSlider.set([value, null]);
             this.fireEvent('change');
         },
 
