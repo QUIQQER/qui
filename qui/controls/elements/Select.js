@@ -291,6 +291,7 @@ define('qui/controls/elements/Select', [
 
             this.cancelSearch();
 
+            this.$calcDropDownPosition();
             this.$Icon.set('html', '<span class="fa fa-spinner fa-spin"></span>');
 
             this.$DropDown.set({
