@@ -405,6 +405,8 @@ define('qui/controls/elements/Select', [
                     this.addClass('qui-elements-list-dropdown-entry-hover');
                 };
 
+                this.$calcDropDownPosition();
+
                 // create
                 for (i = 0, len = data.length; i < len; i++) {
                     str = data[i].title;
