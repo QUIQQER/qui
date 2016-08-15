@@ -42,8 +42,12 @@ define('qui/controls/input/Range', [
             name     : '',
             step     : 1,
             display  : true,
-            Formatter: false, // callable function to format the display message
-            range    : false  // ui slider range
+            Formatter: false,  // callable function to format the display message
+            range    : false,  // ui slider range
+            snap     : false,  // When a non-linear slider has been configured,
+                               // the snap option can be set to true
+                               // to force the slider to jump between the specified values.
+            connect  : true    // Display a colored bar between the handles
         },
 
         initialize: function (options) {
@@ -94,9 +98,10 @@ define('qui/controls/input/Range', [
             noUiSlider.create(this.$BarContainer, {
                 start  : [this.getAttribute('min'), this.getAttribute('max')],
                 step   : this.getAttribute('step'),
-                margin : 20, // Handles must be more than '20' apart
-                connect: true, // Display a colored bar between the handles
-                range  : range
+                margin : 0, // Handles must be more than '20' apart
+                connect: this.getAttribute('connect'),
+                range  : range,
+                snap   : this.getAttribute('snap')
             });
 
             var Formatter = this.getAttribute('Formatter');
