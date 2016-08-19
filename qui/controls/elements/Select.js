@@ -497,9 +497,11 @@ define('qui/controls/elements/Select', [
 
             // Last Element
             if (!Active) {
-                this.$DropDown.getLast().addClass(
-                    'qui-elements-list-dropdown-entry-hover'
-                );
+                if (this.$DropDown.getLast()) {
+                    this.$DropDown.getLast().addClass(
+                        'qui-elements-list-dropdown-entry-hover'
+                    );
+                }
 
                 return this;
             }
