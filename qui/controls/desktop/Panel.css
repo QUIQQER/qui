@@ -151,6 +151,10 @@
     box-shadow: none;
 }
 
+.qui-panel-buttons .qui-button-switch-switch {
+    padding-top: 17px;
+}
+
 .qui-panel-buttons button.qui-button-active {
     background: #C3C3C3 !important;
     color: #222;

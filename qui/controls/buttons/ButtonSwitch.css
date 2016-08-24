@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+.qui-button-switch {
+    background: #ededed;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #999;
+    color: #606060;
+    cursor: pointer;
+    float: left;
+    line-height: 30px;
+    outline: none;
+    margin: 0;
+    padding: 0 10px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.qui-button-switch,
+.qui-button-switch:active,
+.qui-button-switch:hover {
+    background: #0069B4;
+    color: #FFFFFF;
+
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.qui-button-switch::-moz-focus-inner {
+    border: none;
+}
+
+.qui-button-switch:disabled {
+    cursor: default;
+    background: #efefef;
+    background: rgba(239, 239, 239, 0.5);
+    color: #bbb;
+
+    box-shadow: 0 0 2px #aaa;
+    -moz-box-shadow: 0 0 2px #aaa;
+    -webkit-box-shadow: 0 0 2px #aaa;
+}
+
+.qui-button-switch[disabled]:hover {
+    background: #efefef;
+    background: rgba(239, 239, 239, 0.5);
+    color: #bbb;
+
+    box-shadow: 0 0 2px #aaa;
+    -moz-box-shadow: 0 0 2px #aaa;
+    -webkit-box-shadow: 0 0 2px #aaa;
+}
+
+.qui-button-switch-switch {
+    float: left;
+    font-size: 10px;
+    margin-right: 2px;
+    padding-top: 7px;
+}
+
+.qui-button-switch-text {
+    float: left;;
+    margin: 0 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.qui-button-switch--click {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}

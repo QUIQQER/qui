@@ -53,10 +53,12 @@ define('qui/controls/buttons/Switch', [
             this.$FxElm    = false;
             this.$FxButton = false;
 
+            this.$loaded        = false;
             this.$status        = this.getAttribute('status');
             this.$triggerEvents = true;
             this.$disabled      = false;
             this.$activeColor   = '#0069b4';
+
 
             this.addEvents({
                 onInject      : this.$onInject,
@@ -119,7 +121,8 @@ define('qui/controls/buttons/Switch', [
                               '<div class="qui-switch-button"></div>' +
                               '<input type="hidden" />',
                 styles      : {
-                    opacity: 0
+                    background: this.$activeColor,
+                    opacity   : 0
                 },
                 'data-quiid': this.getId()
             });
@@ -187,15 +190,21 @@ define('qui/controls/buttons/Switch', [
                 this.enable();
 
                 this.resize().then(function () {
-                    this.$Elm.setStyle('background', this.$activeColor);
-
                     if (wasDisabled) {
-                        this.setSilentOff().then(function () {
+                        return this.setSilentOff().then(function () {
                             this.disable();
                             this.$Elm.setStyle('background', this.$activeColor);
+                            this.$loaded = true;
                         }.bind(this));
                     }
 
+                    if (!this.$status) {
+                        this.$loaded = true;
+                        return this.setSilentOff();
+                    }
+
+                    this.$Elm.setStyle('background', this.$activeColor);
+                    this.$loaded = true;
                 }.bind(this));
             }).delay(100, this);
         },
@@ -234,6 +243,10 @@ define('qui/controls/buttons/Switch', [
 
             this.$status      = 1;
             this.$activeColor = '#0069b4';
+
+            if (!this.$loaded) {
+                return Promise.resolve();
+            }
 
             if (this.$triggerEvents) {
                 this.fireEvent('statusOn', [this]);
@@ -280,6 +293,10 @@ define('qui/controls/buttons/Switch', [
 
             this.$status      = 0;
             this.$activeColor = '#ffffff';
+
+            if (!this.$loaded) {
+                return Promise.resolve();
+            }
 
             if (this.$triggerEvents) {
                 this.fireEvent('statusOff', [this]);
