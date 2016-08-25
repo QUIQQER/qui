@@ -76,17 +76,7 @@ define('qui/controls/buttons/Switch', [
 
                 this.$Button.setStyle('width', this.$ButtonTextOff.getSize().x);
 
-                this.$triggerEvents = false;
-
-                var Prom = Promise.resolve();
-
-                if (this.getStatus()) {
-                    Prom = this.on();
-                } else {
-                    Prom = this.off();
-                }
-
-                this.$triggerEvents = true;
+                var Prom = this.getStatus() ? this.setSilentOn() : this.setSilentOff();
 
                 Prom.then(function () {
                     moofx(this.$Elm).animate({
@@ -181,32 +171,32 @@ define('qui/controls/buttons/Switch', [
          * event : on inject
          */
         $onInject: function () {
+            var size = this.$Elm.getSize();
+
+            if (size.x === 0 && size.y === 0) {
+                this.$onInject.delay(100, this);
+                return;
+            }
+
             this.$Button.setStyle('left', 0);
+            this.$Button.setStyle('width', this.$ButtonTextOff.getSize().x);
+            this.$Elm.setStyle('opacity', null);
 
-            // fix for real resize
-            (function () {
-                var wasDisabled = this.$disabled;
-
-                this.enable();
-
-                this.resize().then(function () {
+            var wasDisabled = this.$disabled,
+                lastCall    = function () {
                     if (wasDisabled) {
-                        return this.setSilentOff().then(function () {
-                            this.disable();
-                            this.$Elm.setStyle('background', this.$activeColor);
-                            this.$loaded = true;
-                        }.bind(this));
+                        this.disable();
                     }
+                }.bind(this);
 
-                    if (!this.$status) {
-                        this.$loaded = true;
-                        return this.setSilentOff();
-                    }
+            this.enable();
+            this.$loaded = true;
 
-                    this.$Elm.setStyle('background', this.$activeColor);
-                    this.$loaded = true;
-                }.bind(this));
-            }).delay(100, this);
+            if (!this.$status) {
+                return this.setSilentOff().then(lastCall);
+            }
+
+            return this.setSilentOn().then(lastCall);
         },
 
         /**
@@ -261,8 +251,6 @@ define('qui/controls/buttons/Switch', [
                 // Send the "on" switch status
                 this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '1'));
 
-                var textWidth = this.$ButtonTextOff.getSize().x;
-
                 this.$FxElm.animate({
                     background: this.$activeColor
                 }, {
@@ -272,7 +260,7 @@ define('qui/controls/buttons/Switch', [
 
                 this.$FxButton.animate({
                     left : 0,
-                    width: textWidth
+                    width: this.$ButtonTextOff.getSize().x
                 }, {
                     duration: 350,
                     equation: 'cubic-bezier(0.34,1.31,0.7,1)',

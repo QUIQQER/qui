@@ -31,17 +31,18 @@ define('qui/controls/buttons/ButtonSwitch', [
         ],
 
         options: {
-            status: 0,
-            text  : false,   // Button text
-            title : false,
-            styles: false
+            status  : 0,
+            text    : false,   // Button text
+            title   : false,
+            styles  : false,
+            disabled: false
         },
 
         initialize: function (options) {
             this.parent(options);
 
             this.$Switch   = null;
-            this.$disabled = false;
+            this.$disabled = this.getAttribute('disabled');
 
             this.addEvents({
                 onInject      : this.$onInject,
@@ -99,6 +100,19 @@ define('qui/controls/buttons/ButtonSwitch', [
             } else {
                 this.$Switch.off();
             }
+
+            if (this.$disabled) {
+                this.disable();
+            }
+        },
+
+        /**
+         * Refresh the display / rendering - on / off button
+         */
+        resize: function () {
+            if (this.$Switch) {
+                this.$Switch.resize();
+            }
         },
 
         /**
@@ -121,34 +135,58 @@ define('qui/controls/buttons/ButtonSwitch', [
 
         /**
          * Set the status to on
+         *
+         * @return {Promise}
          */
         on: function () {
             if (this.$disabled) {
-                return;
+                return Promise.resolve();
             }
 
             if (this.$Switch.getStatus()) {
-                return;
+                return Promise.resolve();
             }
 
-            this.$Switch.on();
-            this.fireEvent('change', [this]);
+            this.$Switch.on().then(function () {
+                this.fireEvent('change', [this]);
+            }.bind(this));
         },
 
         /**
          * Set the status to off
+         *
+         * @return {Promise}
          */
         off: function () {
             if (this.$disabled) {
-                return;
+                return Promise.resolve();
             }
 
             if (!this.$Switch.getStatus()) {
-                return;
+                return Promise.resolve();
             }
 
-            this.$Switch.off();
-            this.fireEvent('change', [this]);
+            return this.$Switch.off().then(function () {
+                this.fireEvent('change', [this]);
+            }.bind(this));
+        },
+
+        /**
+         * Set status to "on" without triggering any events
+         *
+         * @returns {Promise}
+         */
+        setSilentOn: function () {
+            return this.$Switch.setSilentOn();
+        },
+
+        /**
+         * Set status to "off" without triggering any events
+         *
+         * @returns {Promise}
+         */
+        setSilentOff: function () {
+            return this.$Switch.setSilentOff();
         },
 
         /**
