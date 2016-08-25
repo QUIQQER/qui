@@ -75,6 +75,7 @@ define('qui/controls/buttons/ButtonSwitch', [
             );
 
             this.$Elm.getElement('.qui-button-switch--click').addEvent('click', this.toggle);
+            this.$Elm.addEvent('click', this.toggle);
 
             if (this.getAttribute('text')) {
                 this.$Text.set('html', this.getAttribute('text'));
