@@ -33,7 +33,13 @@ define('qui/controls/elements/SelectItem', [
             this.$Destroy = null;
 
             this.addEvents({
-                onInject: this.$onInject
+                onInject      : this.$onInject,
+                onSetAttribute: function (attribute, value) {
+                    if (attribute === 'icon' && this.$Icon) {
+                        this.$Icon.className = 'qui-elements-selectItem-icon';
+                        this.$Icon.addClass(value);
+                    }
+                }.bind(this)
             });
         },
 
