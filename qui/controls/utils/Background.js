@@ -25,7 +25,8 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
 
         options: {
             styles : false,
-            animate: true
+            animate: true,
+            opacity: 0.6
         },
 
         initialize: function (params) {
@@ -93,13 +94,13 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
             }
 
             if (this.getAttribute('animate') === false) {
-                this.$Elm.set('opacity', 0.6);
+                this.$Elm.set('opacity', this.getAttribute('opacity'));
                 return;
             }
 
 
             this.$FX.animate({
-                opacity: 0.6
+                opacity: this.getAttribute('opacity')
             }, {
                 duration: 200,
                 callback: function () {
