@@ -40,19 +40,19 @@ define('qui/classes/request/Ajax', [
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/classes/request/Ajax',
+        Type: 'qui/classes/request/Ajax',
 
         Binds: [
             '$parseResult'
         ],
 
         $Request: null,
-        $result : null,
+        $result: null,
 
         options: {
-            method : 'post',
-            url    : '',
-            async  : true,
+            method: 'post',
+            url: '',
+            async: true,
             timeout: 10000
         },
 
@@ -76,9 +76,9 @@ define('qui/classes/request/Ajax', [
             self.setAttribute('params', params);
 
             self.$Request = new Request({
-                url    : self.getAttribute('url'),
-                method : self.getAttribute('method'),
-                async  : self.getAttribute('async'),
+                url: self.getAttribute('url'),
+                method: self.getAttribute('method'),
+                async: self.getAttribute('async'),
                 timeout: self.getAttribute('timeout'),
 
                 onProgress: function () {
@@ -96,9 +96,9 @@ define('qui/classes/request/Ajax', [
                 }
             });
 
-            var query       = Object.toQueryString(params),
+            var query = Object.toQueryString(params),
                 strlenCheck = parseInt(query.length) +
-                              parseInt(self.getAttribute('url').length);
+                    parseInt(self.getAttribute('url').length);
 
             if (strlenCheck > 2000) {
                 self.$Request.options.method = 'post';
@@ -192,12 +192,7 @@ define('qui/classes/request/Ajax', [
                     params[k] = JSON.encode(params[k]);
                 }
 
-                value = params[k].toString();
-                value = value.replace(/\+/g, '%2B');
-                value = value.replace(/\&/g, '%26');
-                value = value.replace(/\'/g, '%27');
-
-                result[k] = value;
+                result[k] = params[k].toString();
             }
 
             return result;
@@ -216,16 +211,16 @@ define('qui/classes/request/Ajax', [
         $parseResult: function (responseText) {
             var i;
 
-            var str   = responseText || '',
-                len   = str.length,
+            var str = responseText || '',
+                len = str.length,
                 start = 9,
-                end   = len - 10;
+                end = len - 10;
 
             if (!str.match('<quiqqer>') || !str.match('</quiqqer>')) {
                 return this.fireEvent('error', [
                     new MessageError({
                         message: 'No QUIQQER XML',
-                        code   : 500
+                        code: 500
                     }),
                     this
                 ]);
@@ -236,7 +231,7 @@ define('qui/classes/request/Ajax', [
                 return this.fireEvent('error', [
                     new MessageError({
                         message: 'No QUIQQER XML',
-                        code   : 500
+                        code: 500
                     }),
                     this
                 ]);
@@ -252,8 +247,8 @@ define('qui/classes/request/Ajax', [
                 result = eval('(' + str.substring(start, end) + ')');
             }
 
-            var params       = this.getAttribute('params'),
-                rfs          = JSON.decode(params._rf || []),
+            var params = this.getAttribute('params'),
+                rfs = JSON.decode(params._rf || []),
                 event_params = [];
 
             this.$result = result;
@@ -286,8 +281,8 @@ define('qui/classes/request/Ajax', [
                 return this.fireEvent('error', [
                     new MessageError({
                         message: result.Exception.message || '',
-                        code   : result.Exception.code || 0,
-                        type   : result.Exception.type || 'Exception'
+                        code: result.Exception.code || 0,
+                        type: result.Exception.type || 'Exception'
                     }),
                     this
                 ]);
@@ -296,7 +291,7 @@ define('qui/classes/request/Ajax', [
             // check the single function
             for (i = 0, len = rfs.length; i < len; i++) {
                 func = rfs[i];
-                res  = result[func];
+                res = result[func];
 
                 if (!res) {
                     event_params.push(null);
@@ -307,8 +302,8 @@ define('qui/classes/request/Ajax', [
                     this.fireEvent('error', [
                         new MessageError({
                             message: res.Exception.message || '',
-                            code   : res.Exception.code || 0,
-                            type   : res.Exception.type || 'Exception'
+                            code: res.Exception.code || 0,
+                            type: res.Exception.type || 'Exception'
                         }),
                         this
                     ]);
