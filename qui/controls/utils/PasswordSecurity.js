@@ -9,8 +9,7 @@
 define('qui/controls/utils/PasswordSecurity', [
 
     'qui/controls/Control',
-    'qui/Locale',
-
+    'Locale',
     'css!qui/controls/utils/PasswordSecurity.css'
 
 ], function(QUIControl, Locale)
