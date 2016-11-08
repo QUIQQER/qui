@@ -41,6 +41,7 @@ define('qui/controls/input/Range', [
             max      : 100,
             name     : '',
             step     : 1,
+            start    : false, // handle count, one handle = [0], two handles [0,0], three handles [0,0,0]
             display  : true,
             Formatter: false,  // callable function to format the display message
             range    : false,  // ui slider range
@@ -87,6 +88,7 @@ define('qui/controls/input/Range', [
             };
 
             var range = this.getAttribute('range');
+            var start = this.getAttribute('start');
 
             if (!range) {
                 range = {
@@ -95,8 +97,12 @@ define('qui/controls/input/Range', [
                 };
             }
 
+            if (!start) {
+                start = [this.getAttribute('min'), this.getAttribute('max')];
+            }
+
             noUiSlider.create(this.$BarContainer, {
-                start  : [this.getAttribute('min'), this.getAttribute('max')],
+                start  : start,
                 step   : this.getAttribute('step'),
                 margin : 0, // Handles must be more than '20' apart
                 connect: this.getAttribute('connect'),
@@ -133,43 +139,7 @@ define('qui/controls/input/Range', [
                 timerChangeEvent = fireChangeEvent.delay(200);
             }.bind(this));
 
-            this.$BarContainer.getElement('.noUi-connect').setStyle('background', '#d9232b');
-
-
-            // this.$Elm.set(
-            //     'html',
-            //
-            //     '<input type="range" class="qui-contro-input-range-input" />' +
-            //     '<input type="text" class="qui-contro-input-range-display" />'
-            // );
-            //
-            // this.$Input   = this.$Elm.getElement('input[type="range"]');
-            // this.$Display = this.$Elm.getElement('input[type="text"]');
-            //
-            // this.$Input.set({
-            //     min : this.getAttribute('min'),
-            //     max : this.getAttribute('max'),
-            //     step: this.getAttribute('step'),
-            //     name: this.getAttribute('name')
-            // });
-            //
-            // if (this.getAttribute('display') === false) {
-            //     this.$Display.setStyle('display', 'none');
-            // }
-            //
-            // // input events
-            // this.$Input.addEvent('change', function () {
-            //     self.setValue(this.value);
-            // });
-            //
-            // this.$Display.addEvent('change', function () {
-            //     self.setValue(this.value);
-            // });
-            //
-            //
-            // if (this.getAttribute('value') !== false) {
-            //     this.setValue(this.getAttribute('value'));
-            // }
+            this.$BarContainer.getElements('.noUi-connect').setStyle('background', '#d9232b');
 
             return this.$Elm;
         },
