@@ -195,7 +195,7 @@ define('qui/controls/buttons/Select', [
                 opacity : 0,
                 position: 'absolute',
                 top     : 0,
-                zIndex  : 1,
+                zIndex  : 2,
                 width   : '100%'
             });
 
