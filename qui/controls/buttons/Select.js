@@ -117,10 +117,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                '<div class="text"></div>' +
-                '<div class="drop-icon"></div>' +
-                '<div class="qui-select-click-event"></div>' +
-                '<select></select>',
+                          '<div class="text"></div>' +
+                          '<div class="drop-icon"></div>' +
+                          '<div class="qui-select-click-event"></div>' +
+                          '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -176,7 +176,6 @@ define('qui/controls/buttons/Select', [
                     }
 
                     event.stop();
-
                     QUIElementUtils.simulateEvent(self.$Select, 'mousedown');
                 }
             });
@@ -202,8 +201,23 @@ define('qui/controls/buttons/Select', [
 
             this.$Select.set('multiple', this.getAttribute('multiple'));
 
+            // ios fix
+            new Element('optgroup', {
+                disabled: true,
+                hidden  : true
+            }).inject(this.$Select);
+
             this.$Select.addEvents({
                 change: function () {
+                    if (self.getAttribute('multiple')) {
+                        var selected = self.$Select.getElements('option:selected')
+                            .map(function (Option) {
+                                return Option.value;
+                            });
+
+                        self.setValues(selected);
+                        return;
+                    }
                     self.setValue(this.value);
                 },
                 focus : function () {
@@ -335,6 +349,31 @@ define('qui/controls/buttons/Select', [
         },
 
         /**
+         * Set multiple values
+         * @param {Array} values
+         */
+        setValues: function (values) {
+            var i, len;
+            var children  = this.$Menu.getChildren(),
+                valueList = {};
+
+            for (i = 0, len = values.length; i < len; i++) {
+                valueList[values] = true;
+            }
+
+            for (i = 0, len = children.length; i < len; i++) {
+                if (children[i].getAttribute('value') in valueList) {
+                    children[i].check();
+                } else {
+                    children[i].uncheck();
+                }
+            }
+
+            this.$value = values;
+            this.fireEvent('change', [this.$value, this]);
+        },
+
+        /**
          * Sets placeholder as current value
          *
          * @returns {void}
@@ -353,21 +392,18 @@ define('qui/controls/buttons/Select', [
             var Icon = this.$Elm.getElement('.icon');
 
             if (this.$placeholderIcon && this.$placeholderIcon !== '') {
-
                 Icon.className = '';
                 Icon.addClass('icon');
                 Icon.setStyle('background', null);
 
                 if (Utils.isFontAwesomeClass(this.$placeholderIcon)) {
                     Icon.addClass(this.$placeholderIcon);
-
                 } else {
                     Icon.setStyle(
                         'background',
                         'url("' + this.$placeholderIcon + '") center center no-repeat'
                     );
                 }
-
             } else if (Icon) {
                 Icon.className = '';
                 Icon.addClass('icon');
