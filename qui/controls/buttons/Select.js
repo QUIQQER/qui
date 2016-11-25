@@ -199,6 +199,10 @@ define('qui/controls/buttons/Select', [
                 width   : '100%'
             });
 
+            if (!('ontouchstart' in window)) {
+                this.$Select.setStyle('zIndex', 1);
+            }
+
             this.$Select.set('multiple', this.getAttribute('multiple'));
 
             // ios fix
