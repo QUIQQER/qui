@@ -56,6 +56,11 @@ define('qui/classes/QUI', [
                 y: 0
             };
 
+            this.$winScroll = {
+                x: 0,
+                y: 0
+            };
+
             this.$bodySize = {
                 x: 0,
                 y: 0
@@ -86,7 +91,8 @@ define('qui/classes/QUI', [
                 var body = document.id(document.body);
 
                 win.requestAnimationFrame(function () {
-                    this.$winSize = win.getSize();
+                    this.$winSize   = win.getSize();
+                    this.$winScroll = win.getScroll();
 
                     if (typeof body !== 'undefined' && body) {
                         this.$bodySize   = body.getSize();
@@ -96,7 +102,6 @@ define('qui/classes/QUI', [
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
                     }
-
                 }.bind(this));
 
                 win.addEvent('resize', QUIFunctionUtils.debounce(function () {
@@ -106,6 +111,7 @@ define('qui/classes/QUI', [
                         }
 
                         this.$winSize    = win.getSize();
+                        this.$winScroll  = win.getScroll();
                         this.$bodySize   = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
 
@@ -118,7 +124,8 @@ define('qui/classes/QUI', [
                 }.bind(this), 100));
 
                 win.addEvent('domready', function () {
-                    this.$winSize = win.getSize();
+                    this.$winSize   = win.getSize();
+                    this.$winScroll = win.getScroll();
 
                     if (typeof body === 'undefined' || !body) {
                         body = document.id(document.body);
@@ -131,6 +138,27 @@ define('qui/classes/QUI', [
                         this.$winSize = document.getSize();
                     }
                 }.bind(this));
+
+                // scroll events
+                if ("addEventListener" in win) {
+                    win.addEventListener('scroll', function () {
+                        win.requestAnimationFrame(function () {
+                            this.$winScroll = win.getScroll();
+                            this.fireEvent('scroll');
+                        }.bind(this));
+                    }.bind(this), {
+                        passive: true,
+                        capture: true,
+                        once   : true
+                    });
+                } else if ("attachEvent" in win) {
+                    win.attachEvent('scroll', function () {
+                        win.requestAnimationFrame(function () {
+                            this.$winScroll = win.getScroll();
+                            this.fireEvent('scroll');
+                        }.bind(this));
+                    }.bind(this));
+                }
             }
 
             this.MessageHandler = null;
@@ -167,6 +195,17 @@ define('qui/classes/QUI', [
          */
         getBodyScrollSize: function () {
             return this.$bodyScroll;
+        },
+
+        /**
+         * Return the current scroll position
+         * Please use QUI.getScroll() and make not 1000 window.getScroll() calls
+         *
+         * @method qui/classes/QUI#getScroll
+         * @returns {{x: number, y: number}|*}
+         */
+        getScroll: function () {
+            return this.$winScroll;
         },
 
         /**
@@ -229,7 +268,7 @@ define('qui/classes/QUI', [
 
                     return;
                 }
-                
+
                 // parse all qui controls
                 var nodes = document.id(Parent).getElements('[data-qui]'),
                     list  = nodes.map(function (Elm) {
