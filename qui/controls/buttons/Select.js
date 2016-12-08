@@ -793,6 +793,7 @@ define('qui/controls/buttons/Select', [
             (function (Item) {
                 if (Item.isChecked()) {
                     this.$value.push(Item.getAttribute('value'));
+                    this.$value = this.$value.unique();
                     this.fireEvent('change', [this.$value, this]);
                     return;
                 }
