@@ -149,7 +149,7 @@ define('qui/classes/QUI', [
                     }.bind(this), {
                         passive: true,
                         capture: true,
-                        once   : true
+                        once   : false
                     });
                 } else if ("attachEvent" in win) {
                     win.attachEvent('scroll', function () {
