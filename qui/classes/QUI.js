@@ -66,6 +66,8 @@ define('qui/classes/QUI', [
                 y: 0
             };
 
+            this.$isScrolling = false;
+
             // error handling
             if (this.getAttribute('fetchErrors')) {
                 var self = this;
@@ -140,11 +142,25 @@ define('qui/classes/QUI', [
                 }.bind(this));
 
                 // scroll events
+                var scrollDelay        = 200;
+                var isScrollingTimeout = null;
+
                 if ("addEventListener" in win) {
                     win.addEventListener('scroll', function () {
                         win.requestAnimationFrame(function () {
-                            this.$winScroll = win.getScroll();
+                            this.$isScrolling = true;
+                            this.$winScroll   = win.getScroll();
                             this.fireEvent('scroll');
+
+                            // isScrolls Flag
+                            if (isScrollingTimeout) {
+                                clearTimeout(isScrollingTimeout);
+                            }
+
+                            isScrollingTimeout = (function () {
+                                this.$isScrolling = false;
+                            }).delay(scrollDelay, this);
+
                         }.bind(this));
                     }.bind(this), {
                         passive: true,
@@ -154,8 +170,18 @@ define('qui/classes/QUI', [
                 } else if ("attachEvent" in win) {
                     win.attachEvent('scroll', function () {
                         win.requestAnimationFrame(function () {
-                            this.$winScroll = win.getScroll();
+                            this.$isScrolling = true;
+                            this.$winScroll   = win.getScroll();
                             this.fireEvent('scroll');
+
+                            // isScrolls Flag
+                            if (isScrollingTimeout) {
+                                clearTimeout(isScrollingTimeout);
+                            }
+
+                            isScrollingTimeout = (function () {
+                                this.$isScrolling = false;
+                            }).delay(scrollDelay, this);
                         }.bind(this));
                     }.bind(this));
                 }
@@ -206,6 +232,15 @@ define('qui/classes/QUI', [
          */
         getScroll: function () {
             return this.$winScroll;
+        },
+
+        /**
+         * Is being scrolled?
+         *
+         * @returns {boolean}
+         */
+        isScrolling: function () {
+            return this.$isScrolling;
         },
 
         /**
