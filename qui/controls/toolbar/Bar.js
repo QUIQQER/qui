@@ -41,6 +41,8 @@ define('qui/controls/toolbar/Bar', [
         Binds: [
             'toLeft',
             'toRight',
+            'scrollUp',
+            'scrollDown',
             '$onMousewheel'
         ],
 
@@ -62,8 +64,11 @@ define('qui/controls/toolbar/Bar', [
 
             this.Container = null;
             this.Active    = null;
-            this.BtnLeft   = null;
-            this.BtnRight  = null;
+
+            this.BtnLeft        = null;
+            this.BtnRight       = null;
+            this.$BtnScrollUp   = null;
+            this.$BtnScrollDown = null;
 
             this.items = [];
             this.btns  = [];
@@ -224,6 +229,37 @@ define('qui/controls/toolbar/Bar', [
                 }
             });
 
+            // up down
+            if (this.getAttribute('vertical')) {
+                this.$BtnScrollUp = new Button({
+                    name   : 'scrollUp',
+                    'class': 'qui-toolbar-button qui-toolbar-button-scrollUp',
+                    text   : '<span class="fa fa-chevron-up"></span>',
+                    events : {
+                        onClick: function () {
+                            this.scrollUp(300);
+                        }.bind(this)
+                    }
+                });
+
+                this.$BtnScrollDown = new Button({
+                    name   : 'scrollDown',
+                    'class': 'qui-toolbar-button qui-toolbar-button-scrollDown',
+                    text   : '<span class="fa fa-chevron-down"></span>',
+                    events : {
+                        onClick: function () {
+                            this.scrollDown(300);
+                        }.bind(this)
+                    }
+                });
+
+                this.$BtnScrollUp.inject(this.$Elm, 'top');
+                this.$BtnScrollDown.inject(this.$Elm);
+
+                this.$BtnScrollUp.hide();
+                this.$BtnScrollDown.hide();
+            }
+
             // create the left context menu
             this.Menu = new Button({
                 'class': 'qui-toolbar-button icon-chevron-down fa fa-icon-chevron-down'
@@ -375,15 +411,17 @@ define('qui/controls/toolbar/Bar', [
         /**
          * Scroll ths bar up
          *
+         * @param {Number} move - pixel to move
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollUp: function () {
+        scrollUp: function (move) {
             if (!this.getAttribute('vertical')) {
                 return this;
             }
 
+            move = move || 150;
 
-            var top = this.Tabs.getStyle('top').toInt() + 150;
+            var top = this.Tabs.getStyle('top').toInt() + move;
 
             if (top >= 0) {
                 top = 0;
@@ -392,7 +430,7 @@ define('qui/controls/toolbar/Bar', [
             this.Fx.animate({
                 top: top
             }, {
-                duration: 250,
+                duration: 200,
                 equation: 'ease-out'
             });
 
@@ -403,12 +441,15 @@ define('qui/controls/toolbar/Bar', [
         /**
          * scroll the bar down
          *
+         * @param {Number} move - pixel to move
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollDown: function () {
+        scrollDown: function (move) {
             if (!this.getAttribute('vertical')) {
                 return this;
             }
+
+            move = move || 150;
 
 
             var tabsSize = this.Tabs.getSize(),
@@ -419,7 +460,7 @@ define('qui/controls/toolbar/Bar', [
             }
 
             var maxScroll = conSize.y - tabsSize.y,
-                top       = this.Tabs.getStyle('top').toInt() - 150;
+                top       = this.Tabs.getStyle('top').toInt() - move;
 
             if (maxScroll > top) {
                 top = maxScroll;
@@ -428,7 +469,7 @@ define('qui/controls/toolbar/Bar', [
             this.Fx.animate({
                 top: top
             }, {
-                duration: 250,
+                duration: 200,
                 equation: 'ease-out'
             });
 
@@ -781,7 +822,6 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         resize: function () {
-
             if (!this.getElm()) {
                 return this;
             }
@@ -854,6 +894,22 @@ define('qui/controls/toolbar/Bar', [
 
             if (this.getAttribute('height')) {
                 this.Container.setStyle('height', this.getAttribute('height'));
+            }
+
+            if (this.getAttribute('vertical')) {
+                this.$Elm.setStyle('height', this.getAttribute('height'));
+
+                var sizeY   = this.Container.getSize().y,
+                    scrollY = this.Container.getScrollSize().y;
+
+                if (sizeY < scrollY) {
+                    this.Container.setStyle('height', 'calc(100% - 60px)');
+                    this.$BtnScrollUp.show();
+                    this.$BtnScrollDown.show();
+                } else {
+                    this.$BtnScrollUp.hide();
+                    this.$BtnScrollDown.hide();
+                }
             }
 
             return this;

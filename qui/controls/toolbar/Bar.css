@@ -1,4 +1,3 @@
-
 /** QUI Tool / Tabbar
  ================================================================= */
 
@@ -33,5 +32,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 30px  !important;
+    width: 30px !important;
+}
+
+.qui-toolbar-button-scrollUp,
+.qui-toolbar-button-scrollDown {
+    height: 30px;
 }
