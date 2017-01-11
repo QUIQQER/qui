@@ -65,7 +65,7 @@ define('qui/utils/Form', {
                     continue;
                 }
 
-                Elm.checked = ((data[k]).toInt() ? true : false);
+                Elm.checked = !!parseInt(data[k]);
                 continue;
             }
 
@@ -131,12 +131,12 @@ define('qui/utils/Form', {
 
         var i, n, len, Elm;
 
-        var result   = {},
+        var result = {},
             elements = form.elements;
 
         for (i = 0, len = elements.length; i < len; i++) {
             Elm = elements[i];
-            n   = Elm.name;
+            n = Elm.name;
 
             if (n === '') {
                 continue;
@@ -156,7 +156,7 @@ define('qui/utils/Form', {
                     continue;
                 }
 
-                result[n] = Elm.checked ? true : false;
+                result[n] = !!Elm.checked;
                 continue;
             }
 
@@ -204,12 +204,12 @@ define('qui/utils/Form', {
         if (typeof el.selectionStart != "undefined" &&
             typeof el.selectionEnd != "undefined") {
 
-            endIndex          = el.selectionEnd;
-            el.value          = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
+            endIndex = el.selectionEnd;
+            el.value = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
             el.selectionStart = el.selectionEnd = endIndex + text.length;
 
         } else if (typeof document.selection != "undefined" &&
-                   typeof document.selection.createRange != "undefined") {
+            typeof document.selection.createRange != "undefined") {
 
             el.focus();
 

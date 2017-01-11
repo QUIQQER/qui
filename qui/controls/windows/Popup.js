@@ -203,26 +203,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.$Title.setStyle('display', 'none');
             }
 
-
             // bottom buttons
-            if (this.getAttribute('buttons') && this.getAttribute('closeButton')) {
-                var Submit = new Element('button', {
-                    html   : '<span>' + this.getAttribute('closeButtonText') + '</span>',
-                    'class': 'qui-button btn-red',
-                    events : {
-                        click: this.cancel
-                    },
-                    styles : {
-                        display  : 'inline',
-                        'float'  : 'none',
-                        width    : 150,
-                        textAlign: 'center'
-                    }
-                });
-
-                Submit.inject(this.$Buttons);
-
-
+            if (this.getAttribute('buttons')) {
                 this.$Buttons.setStyles({
                     'float'  : 'left',
                     height   : 50,
@@ -231,9 +213,25 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     textAlign: 'center',
                     width    : '100%'
                 });
-            }
 
-            if (!this.getAttribute('buttons')) {
+                if (this.getAttribute('closeButton')) {
+                    var Submit = new Element('button', {
+                        html   : '<span>' + this.getAttribute('closeButtonText') + '</span>',
+                        'class': 'qui-button btn-red',
+                        events : {
+                            click: this.cancel
+                        },
+                        styles : {
+                            display  : 'inline',
+                            'float'  : 'none',
+                            width    : 150,
+                            textAlign: 'center'
+                        }
+                    });
+
+                    Submit.inject(this.$Buttons);
+                }
+            } else {
                 this.$Buttons.setStyle('display', 'none');
             }
 
