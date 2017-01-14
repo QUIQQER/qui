@@ -258,7 +258,7 @@ define('qui/controls/taskbar/Task', [
             if (this.getAttribute('closeable')) {
                 new Element('div', {
                     'class': 'qui-task-close',
-                    'html' : '<span class="icon-remove"></span>',
+                    'html' : '<span class="icon-remove fa fa-close"></span>',
                     events : {
                         click: this.close
                     }

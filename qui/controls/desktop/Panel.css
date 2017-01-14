@@ -43,6 +43,11 @@
     margin: 0;
 }
 
+.qui-panel-header button .fa-close {
+    font-size: 16px;
+    line-height: 30px;
+}
+
 .qui-panel-header .qui-buttons-seperator {
     border-left: 1px solid #FFFFFF;
     float: left;
