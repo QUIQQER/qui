@@ -45,20 +45,20 @@ define('qui/controls/desktop/panels/Sheet', [
             buttons    : true,
             title      : '',
             closeButton: {
-                textimage: 'icon-remove fa fa-remove',
+                textimage: 'icon-remove fa fa-close',
                 text     : false
             }
         },
 
         initialize: function (options) {
             this.setAttribute('closeButton', {
-                textimage: 'icon-remove fa fa-remove',
+                textimage: 'icon-remove fa fa-close',
                 text     : false
             });
 
             if (QUI.getAttribute('control-desktop-panel-sheet-closetext')) {
                 this.setAttribute('closeButton', {
-                    textimage: 'icon-remove fa fa-remove',
+                    textimage: 'icon-remove fa fa-close',
                     text     : QUI.getAttribute('control-desktop-panel-sheet-closetext')
                 });
             }
@@ -141,7 +141,7 @@ define('qui/controls/desktop/panels/Sheet', [
 
             // header close button
             new Button({
-                icon  : 'icon-remove fa fa-remove',
+                icon  : 'icon-remove fa fa-close',
                 styles: {
                     'float': 'right'
                 },

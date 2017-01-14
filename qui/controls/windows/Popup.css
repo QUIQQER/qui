@@ -26,6 +26,7 @@
 .qui-window-popup-title-close {
     cursor: pointer;
     float: right;
+    font-size: 20px;
     height: 40px;
     line-height: 40px;
     position: absolute;
