@@ -51,7 +51,7 @@ define('qui/controls/desktop/Tasks', [
 
         options: {
             name: 'taskpanel',
-            icon: 'icon-tasks',
+            icon: 'icon-tasks fa fa-tasks',
 
             // header
             header: true,    // true to create a panel header when panel is created
@@ -239,7 +239,7 @@ define('qui/controls/desktop/Tasks', [
                 'class': 'qui-taskpanel-header',
                 html   : '<div class="qui-taskpanel-header-text"></div>' +
                          '<div class="qui-taskpanel-header-icon">' +
-                         '<span class="icon-chevron-down"></span>' +
+                         '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
                          '</div>',
                 styles : {
                     display: 'none'
