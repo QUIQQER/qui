@@ -125,7 +125,7 @@ define('qui/controls/messages/Message', [
                 'class': 'messages-message box',
                 html   : '<div class="messages-message-header">' +
                          '<span class="messages-message-header-time">' + time + '</span>' +
-                         '<span class="messages-message-destroy icon-remove-circle"></span>' +
+                         '<span class="messages-message-destroy icon-remove-circle fa fa-close"></span>' +
                          '</div>' +
                          '<div class="messages-message-text">' +
                          this.getAttribute('message').replace(/\n/g, '<br />') +
