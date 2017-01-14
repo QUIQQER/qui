@@ -41,9 +41,9 @@ define('qui/controls/buttons/Switch', [
             status: true,
 
             switchTextOn     : '',
-            switchTextOnIcon : 'icon-ok',
+            switchTextOnIcon : 'icon-ok fa fa-check',
             switchTextOff    : '',
-            switchTextOffIcon: 'icon-remove'
+            switchTextOffIcon: 'icon-remove fa fa-close'
         },
 
         initialize: function (options) {
