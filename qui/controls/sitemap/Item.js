@@ -342,7 +342,7 @@ define('qui/controls/sitemap/Item', [
                 return this;
             }
 
-            this.removeIcon('icon-remove');
+            this.removeIcon('fa-remove');
 
             return this;
         },
@@ -358,9 +358,7 @@ define('qui/controls/sitemap/Item', [
                 return this;
             }
 
-            var Icon = this.addIcon('icon-remove');
-
-            Icon.setStyles({
+            this.addIcon('fa fa-remove').setStyles({
                 color: 'red'
             });
 
@@ -431,7 +429,7 @@ define('qui/controls/sitemap/Item', [
                 return true;
             }
 
-            return this.$items.length ? true : false;
+            return !!this.$items.length;
         },
 
         /**
