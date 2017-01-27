@@ -23,7 +23,7 @@ define('qui/controls/elements/ColorPicker', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/elements/ColorPicker',
+        Type: 'qui/controls/elements/ColorPicker',
 
         Binds: [
             'clear',
@@ -39,11 +39,11 @@ define('qui/controls/elements/ColorPicker', [
 
             this.parent(options);
 
-            this.$Input          = null;
-            this.$Color          = null;
+            this.$Input = null;
+            this.$Color = null;
             this.$ColorContainer = null;
-            this.$Clear          = null;
-            this.$Default        = null;
+            this.$Clear = null;
+            this.$Default = null;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -59,7 +59,7 @@ define('qui/controls/elements/ColorPicker', [
 
             this.$Elm = new Element('div', {
                 'class': 'qui-controls-colorpicker',
-                html   : '<div class="qui-controls-colorpicker-colorContainer"></div>'
+                html: '<div class="qui-controls-colorpicker-colorContainer"></div>'
             });
 
             if (!this.$Color) {
@@ -75,7 +75,7 @@ define('qui/controls/elements/ColorPicker', [
 
             if (this.getAttribute('defaultcolor')) {
                 this.$Default = new QUIButton({
-                    icon  : 'fa fa-refresh icon-refresh',
+                    icon: 'fa fa-refresh icon-refresh',
                     events: {
                         onClick: this.reset
                     }
@@ -85,7 +85,7 @@ define('qui/controls/elements/ColorPicker', [
             }
 
             this.$Clear = new QUIButton({
-                icon  : 'fa fa-close icon-remove',
+                icon: 'fa fa-close icon-remove',
                 events: {
                     onClick: this.clear
                 }
@@ -127,12 +127,12 @@ define('qui/controls/elements/ColorPicker', [
 
             this.$Input.set({
                 name: this.$Color.get('name'),
-                id  : this.$Color.get('id')
+                id: this.$Color.get('id')
             });
 
             this.$Color.set({
                 name: null,
-                id  : null
+                id: null
             });
 
             var realValue = this.$Color.get('data-realvalue');
@@ -171,6 +171,24 @@ define('qui/controls/elements/ColorPicker', [
             this.$Input.value = this.$Color.value;
 
             this.$ColorContainer.setStyle('backgroundColor', this.$Color.value);
+
+            // text color calc
+            var rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+
+            var r = parseInt(rgb[1], 16),
+                g = parseInt(rgb[2], 16),
+                b = parseInt(rgb[3], 16);
+
+            var textColor = '#000000',
+                gc = r * 0.299 + g * 0.587 + b * 0.114; // grey color
+
+            if (gc < 186) {
+                textColor = '#ffffff';
+            }
+
+            // invert color
+            this.$ColorContainer.setStyle('color', textColor);
+            this.$ColorContainer.set('html', this.$Input.value);
         },
 
         /**
