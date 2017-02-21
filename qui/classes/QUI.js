@@ -294,7 +294,9 @@ define('qui/classes/QUI', [
                     Parent = document.body;
                 }
 
-                if (typeOf(Parent) !== 'element') {
+                if (typeOf(Parent) !== 'element' &&
+                    typeOf(Parent) !== 'elements'
+                ) {
                     resolve();
 
                     if (typeof callback !== 'undefined') {
@@ -305,10 +307,21 @@ define('qui/classes/QUI', [
                 }
 
                 // parse all qui controls
-                var nodes = document.id(Parent).getElements('[data-qui]'),
-                    list  = nodes.map(function (Elm) {
-                        return Elm.get('data-qui');
+                var nodes = [];
+
+                if (typeOf(Parent) === 'elements') {
+                    Parent.getElements('[data-qui]').each(function(elements) {
+                        Array.combine(nodes, elements.filter(function(Node) {
+                            return Node;
+                        }));
                     });
+                } else {
+                    nodes = document.id(Parent).getElements('[data-qui]');
+                }
+
+                var list = nodes.map(function (Elm) {
+                    return Elm.get('data-qui');
+                });
 
                 // cleanup -> empty data-qui
                 list = list.filter(function (item) {
