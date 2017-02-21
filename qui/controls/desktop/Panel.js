@@ -125,6 +125,7 @@ define('qui/controls/desktop/Panel', [
                         if (value === true && !this.$CloseButton) {
                             this.$CloseButton = new Button({
                                 icon  : 'icon-remove fa fa-close',
+                                name  : 'close',
                                 styles: {
                                     'float': 'right'
                                 },
