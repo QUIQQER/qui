@@ -42,7 +42,7 @@ define('qui/controls/elements/Select', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/elements/Select',
+        Type: 'qui/controls/elements/Select',
 
         Binds: [
             'close',
@@ -56,27 +56,27 @@ define('qui/controls/elements/Select', [
         ],
 
         options: {
-            max         : false, // max entries
-            multiple    : true,  // select more than one entry?
+            max: false, // max entries
+            multiple: true,  // select more than one entry?
             searchbutton: true,
-            name        : '',    // string
-            styles      : {
+            name: '',    // string
+            styles: {
                 height: 120
             },
-            label       : false, // text string or a <label> DOMNode Element
-            icon        : 'fa fa-angle-right',
-            placeholder : 'Suche...',
-            child       : 'qui/controls/elements/SelectItem', // child type
-            showIds     : true // display the ids in the search result list or not
+            label: false, // text string or a <label> DOMNode Element
+            icon: 'fa fa-angle-right',
+            placeholder: 'Suche...',
+            child: 'qui/controls/elements/SelectItem', // child type
+            showIds: true // display the ids in the search result list or not
         },
 
         initialize: function (options, Input) {
             this.parent(options);
 
-            this.$Input    = Input || null;
-            this.$Elm      = null;
-            this.$List     = null;
-            this.$Search   = null;
+            this.$Input = Input || null;
+            this.$Elm = null;
+            this.$List = null;
+            this.$Search = null;
             this.$DropDown = null;
 
             this.$SearchButton = null;
@@ -103,7 +103,7 @@ define('qui/controls/elements/Select', [
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class'     : 'qui-elements-select',
+                'class': 'qui-elements-select',
                 'data-quiid': this.getId()
             });
 
@@ -119,13 +119,13 @@ define('qui/controls/elements/Select', [
 
             this.$Input.set({
                 styles: {
-                    display : 'none',
-                    opacity : 0,
+                    display: 'none',
+                    opacity: 0,
                     position: 'absolute',
-                    zIndex  : 1,
-                    left    : 5,
-                    top     : 5,
-                    cursor  : 'pointer'
+                    zIndex: 1,
+                    left: 5,
+                    top: 5,
+                    cursor: 'pointer'
                 },
                 events: {
                     focus: this.$onInputFocus
@@ -139,13 +139,13 @@ define('qui/controls/elements/Select', [
 
             this.$Icon = new Element('span', {
                 'class': 'qui-elements-select-list-search-loader',
-                html   : '<span class="' + this.getAttribute('icon') + '"></span>'
+                html: '<span class="' + this.getAttribute('icon') + '"></span>'
             }).inject(this.$Elm);
 
             this.$Search = new Element('input', {
-                'class'    : 'qui-elements-select-list-search',
+                'class': 'qui-elements-select-list-search',
                 placeholder: this.getAttribute('placeholder'),
-                events     : {
+                events: {
                     keyup: function (event) {
                         if (event.key === 'down') {
                             this.down();
@@ -165,13 +165,13 @@ define('qui/controls/elements/Select', [
                         this.fireSearch();
                     }.bind(this),
 
-                    blur : this.close,
+                    blur: this.close,
                     focus: this.fireSearch
                 }
             }).inject(this.$Elm);
 
             this.$SearchButton = new QUIButton({
-                icon  : 'fa fa-search',
+                icon: 'fa fa-search',
                 styles: {
                     width: 50
                 },
@@ -185,9 +185,9 @@ define('qui/controls/elements/Select', [
 
             this.$DropDown = new Element('div', {
                 'class': 'qui-elements-list-dropdown',
-                styles : {
+                styles: {
                     display: 'none',
-                    left   : this.$Search.getPosition().x
+                    left: this.$Search.getPosition().x
                 }
             }).inject(document.body);
 
@@ -206,8 +206,8 @@ define('qui/controls/elements/Select', [
                 if (Label.get('data-desc') && Label.get('data-desc') != '&nbsp;') {
                     new Element('div', {
                         'class': 'description',
-                        html   : Label.get('data-desc'),
-                        styles : {
+                        html: Label.get('data-desc'),
+                        styles: {
                             marginBottom: 10
                         }
                     }).inject(Label, 'after');
@@ -249,6 +249,7 @@ define('qui/controls/elements/Select', [
 
             this.$Elm = null;
             this.create();
+            this.refresh();
         },
 
         /**
@@ -261,9 +262,12 @@ define('qui/controls/elements/Select', [
             }
 
             this.$Elm.setStyle('height', 30);
+            this.$Elm.setStyle('minHeight', 30);
+
             this.$List.setStyles({
-                height  : 30,
-                overflow: 'hidden'
+                height: 30,
+                overflow: 'hidden',
+                width: 'calc(100% - 50px)'
             });
 
             // max 1 und count entries
@@ -297,8 +301,8 @@ define('qui/controls/elements/Select', [
             this.$DropDown.set({
                 styles: {
                     display: '',
-                    left   : this.getElm().getPosition().x + 2,
-                    width  : this.getElm().getSize().x - 4
+                    left: this.getElm().getPosition().x + 2,
+                    width: this.getElm().getSize().x - 4
                 }
             });
 
@@ -344,7 +348,7 @@ define('qui/controls/elements/Select', [
          * @method qui/controls/elements/Select#search
          */
         search: function () {
-            var value  = this.$Search.value,
+            var value = this.$Search.value,
                 search = this.getAttribute('Search');
 
             if (!search) {
@@ -361,8 +365,8 @@ define('qui/controls/elements/Select', [
                 var i, len, str, Entry,
                     func_mousedown, func_mouseover,
 
-                    data     = result,
-                    icon     = this.getAttribute('icon'),
+                    data = result,
+                    icon = this.getAttribute('icon'),
                     DropDown = this.$DropDown;
 
                 DropDown.set('html', '');
@@ -371,12 +375,12 @@ define('qui/controls/elements/Select', [
 
                 if (!data.length) {
                     new Element('div', {
-                        html  : QUILocale.get('quiqqer/system', 'no.results'),
+                        html: QUILocale.get('quiqqer/system', 'no.results'),
                         styles: {
                             'float': 'left',
                             'clear': 'both',
                             padding: 5,
-                            margin : 5
+                            margin: 5
                         }
                     }).inject(DropDown);
 
@@ -424,11 +428,11 @@ define('qui/controls/elements/Select', [
                     }
 
                     Entry = new Element('div', {
-                        html     : '<span>' + str + '</span>',
-                        'class'  : 'qui-elements-list-dropdown-entry',
+                        html: '<span>' + str + '</span>',
+                        'class': 'qui-elements-list-dropdown-entry',
                         'data-id': data[i].id,
-                        events   : {
-                            mousedown : func_mousedown,
+                        events: {
+                            mousedown: func_mousedown,
                             mouseenter: func_mouseover
                         }
                     }).inject(DropDown);
@@ -436,7 +440,7 @@ define('qui/controls/elements/Select', [
 
                     new Element('span', {
                         'class': data[i].icon || this.getAttribute('icon'),
-                        styles : {
+                        styles: {
                             marginRight: 5
                         }
                     }).inject(Entry, 'top');
@@ -460,9 +464,14 @@ define('qui/controls/elements/Select', [
                 return this;
             }
 
+            if (this.getAttribute('max') === 1 && this.$values.length) {
+                this.$List.set('html', '');
+                this.$values = [];
+            }
+
             require([this.getAttribute('child')], function (Child) {
                 new Child({
-                    id    : id,
+                    id: id,
                     Parent: this,
                     events: {
                         onDestroy: this.$onItemDestroy
@@ -657,7 +666,7 @@ define('qui/controls/elements/Select', [
          * Calculate the dropdown position
          */
         $calcDropDownPosition: function () {
-            var size      = this.$DropDown.getSize();
+            var size = this.$DropDown.getSize();
             var searchPos = this.$Search.getPosition();
 
             this.$DropDown.setStyles({
