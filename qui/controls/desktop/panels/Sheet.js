@@ -85,13 +85,13 @@ define('qui/controls/desktop/panels/Sheet', [
                 'data-quiid': this.getId(),
 
                 html: '<div class="qui-panel-sheet-header box">' +
-                      '     <div class="qui-panel-sheet-header-icon"></div>' +
-                      '     <div class="qui-panel-sheet-header-title"></div>' +
-                      '</div>' +
-                      '<div class="qui-panel-sheet-body box"></div>' +
-                      '<div class="qui-panel-sheet-btn-container box">' +
-                      '<div class="qui-panel-sheet-buttons"></div>' +
-                      '</div>',
+                '     <div class="qui-panel-sheet-header-icon"></div>' +
+                '     <div class="qui-panel-sheet-header-title"></div>' +
+                '</div>' +
+                '<div class="qui-panel-sheet-body box"></div>' +
+                '<div class="qui-panel-sheet-btn-container box">' +
+                '<div class="qui-panel-sheet-buttons"></div>' +
+                '</div>',
 
                 styles: {
                     visibility: 'hidden',
@@ -154,6 +154,7 @@ define('qui/controls/desktop/panels/Sheet', [
             var closeButton = this.getAttribute('closeButton');
 
             var CloseButton = new Button({
+                name     : 'close',
                 text     : closeButton.text || 'schließen / abbrechen',
                 textimage: closeButton.textimage || false,
                 events   : {
