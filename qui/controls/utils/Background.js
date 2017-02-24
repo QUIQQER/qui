@@ -84,63 +84,72 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
          * Show the background
          *
          * @param {Function} [callback] - callback function
+         * @return {Promise}
          */
         show: function (callback) {
+            return new Promise(function (resolve) {
+                this.$Elm.setStyle('display', null);
 
-            this.$Elm.setStyle('display', null);
-
-            if (this.getAttribute('styles')) {
-                this.$Elm.setStyles(this.getAttribute('styles'));
-            }
-
-            if (this.getAttribute('animate') === false) {
-                this.$Elm.set('opacity', this.getAttribute('opacity'));
-                return;
-            }
-
-
-            this.$FX.animate({
-                opacity: this.getAttribute('opacity')
-            }, {
-                duration: 200,
-                callback: function () {
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                if (this.getAttribute('styles')) {
+                    this.$Elm.setStyles(this.getAttribute('styles'));
                 }
-            });
+
+                if (this.getAttribute('animate') === false) {
+                    this.$Elm.set('opacity', this.getAttribute('opacity'));
+                    return resolve();
+                }
+
+
+                this.$FX.animate({
+                    opacity: this.getAttribute('opacity')
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+
+                        resolve();
+                    }
+                });
+            }.bind(this));
         },
 
         /**
          * Hide the background
          *
          * @param {Function} [callback] - callback function
+         * @return {Promise}
          */
         hide: function (callback) {
-
-            if (this.getAttribute('animate') === false) {
-                this.$Elm.setStyle('opacity', 0);
-                this.$Elm.setStyle('display', 'none');
-
-                if (typeof callback === 'function') {
-                    callback();
-                }
-
-                return;
-            }
-
-            this.$FX.animate({
-                opacity: 0
-            }, {
-                duration: 200,
-                callback: function () {
+            return new Promise(function (resolve) {
+                if (this.getAttribute('animate') === false) {
+                    this.$Elm.setStyle('opacity', 0);
                     this.$Elm.setStyle('display', 'none');
 
                     if (typeof callback === 'function') {
                         callback();
                     }
-                }.bind(this)
-            });
+
+                    resolve();
+                    return;
+                }
+
+                this.$FX.animate({
+                    opacity: 0
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        this.$Elm.setStyle('display', 'none');
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+
+                        resolve();
+                    }.bind(this)
+                });
+            }.bind(this));
         }
     });
 });
