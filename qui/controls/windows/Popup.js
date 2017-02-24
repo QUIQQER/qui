@@ -20,6 +20,7 @@
  * @event onOpen [ self ]
  * @event onOpenBegin [ self ]
  * @event onClose [ self ]
+ * @event onCloseBegin [ self ]
  * @event onCreate [ self ]
  * @event onResize [ self ]
  * @event onResizeBegin [ self ]
@@ -513,6 +514,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 }
 
                 var self = this;
+
+                this.fireEvent('closeBegin', [self]);
 
                 this.$FX.animate({
                     top    : this.$Elm.getPosition().y + 100,
