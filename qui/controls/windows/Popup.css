@@ -24,6 +24,7 @@
 }
 
 .qui-window-popup-title-close {
+    background: transparent !important;
     border: none;
     cursor: pointer;
     float: right;
@@ -38,7 +39,7 @@
 }
 
 .qui-window-popup-title-close:hover {
-    background: #c3c3c3;
+    background: #c3c3c3 !important;
     color: #222;
 }
 
