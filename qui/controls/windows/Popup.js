@@ -150,11 +150,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">' +
-                          '<div class="qui-window-popup-title-icon"></div>' +
-                          '<div class="qui-window-popup-title-text"></div>' +
-                          '</div>' +
-                          '<div class="qui-window-popup-content box"></div>' +
-                          '<div class="qui-window-popup-buttons box"></div>',
+                '<div class="qui-window-popup-title-icon"></div>' +
+                '<div class="qui-window-popup-title-text"></div>' +
+                '</div>' +
+                '<div class="qui-window-popup-content box"></div>' +
+                '<div class="qui-window-popup-buttons box"></div>',
                 tabindex: -1,
                 styles  : {
                     opacity: 0
@@ -172,8 +172,9 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Content.setStyle('opacity', 0);
 
             if (this.getAttribute('titleCloseButton')) {
-                new Element('div', {
-                    'class': 'icon-remove fa fa-close qui-window-popup-title-close',
+                new Element('button', {
+                    name   : 'close',
+                    'class': 'fa fa-close qui-window-popup-title-close',
                     events : {
                         click: function () {
                             self.cancel();
@@ -468,8 +469,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     callback: function () {
                         // content height
                         var content_height = self.$Elm.getSize().y -
-                                             self.$Buttons.getSize().y -
-                                             self.$Title.getSize().y;
+                            self.$Buttons.getSize().y -
+                            self.$Title.getSize().y;
 
                         self.$Content.setStyles({
                             height : content_height,
@@ -694,16 +695,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var Sheet = new Element('div', {
                 'class': 'qui-window-popup-sheet box',
                 html   : '<div class="qui-window-popup-sheet-content box"></div>' +
-                         '<div class="qui-window-popup-sheet-buttons box">' +
-                         '<div class="back button btn-white">' +
-                         '<span>' +
-                         Locale.get(
-                             'qui/controls/windows/Popup',
-                             'btn.back'
-                         ) +
-                         '</span>' +
-                         '</div>' +
-                         '</div>',
+                '<div class="qui-window-popup-sheet-buttons box">' +
+                '<div class="back button btn-white">' +
+                '<span>' +
+                Locale.get(
+                    'qui/controls/windows/Popup',
+                    'btn.back'
+                ) +
+                '</span>' +
+                '</div>' +
+                '</div>',
                 styles : {
                     left: '-110%'
                 }
