@@ -1,0 +1,20 @@
+.qui-loader-inner-fa-circle-o-notch,
+.qui-loader-inner-fa-gear,
+.qui-loader-inner-fa-refresh,
+.qui-loader-inner-fa-spinner {
+    left: 0;
+    height: 100%;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+.qui-loader-inner-fa-circle-o-notch .fa-spin,
+.qui-loader-inner-fa-gear .fa-spin,
+.qui-loader-inner-fa-refresh .fa-spin,
+.qui-loader-inner-fa-spinner .fa-spin {
+    font-size: 50px;
+    position: absolute;
+    top: calc(50% - 50px);
+}
