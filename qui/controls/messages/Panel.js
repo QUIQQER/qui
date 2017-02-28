@@ -1,4 +1,3 @@
-
 /**
  * Message-Manager Panel
  * The panel displays the messages
@@ -20,8 +19,7 @@ define('qui/controls/messages/Panel', [
 
     'css!qui/controls/messages/Panel.css'
 
-], function(QUI, QUIPanel, Locale)
-{
+], function (QUI, QUIPanel, Locale) {
     "use strict";
 
     /**
@@ -31,10 +29,10 @@ define('qui/controls/messages/Panel', [
      */
     return new Class({
 
-        Extends : QUIPanel,
-        Type    : 'qui/controls/messages/Panel',
+        Extends: QUIPanel,
+        Type   : 'qui/controls/messages/Panel',
 
-        Binds : [
+        Binds: [
             '$onCreate',
             '$onOpen',
             '$toggleButton',
@@ -42,23 +40,28 @@ define('qui/controls/messages/Panel', [
             '$onMessageHandlerClear'
         ],
 
-        options : {
-            title : 'Nachrichten',
-            icon  : 'icon-bullhorn',
+        options: {
+            title: 'Nachrichten',
+            icon : 'fa fa-bullhorn',
 
-            showSucces      : true,
-            showInformation : true,
-            showAttention   : true,
-            showError       : true
+            showSucces     : true,
+            showInformation: true,
+            showAttention  : true,
+            showError      : true
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
+
+            // defaults
+            this.setAttributes({
+                title: this.getAttribute('title'),
+                icon : 'fa fa-bullhorn'
+            });
 
             this.addEvents({
-                onCreate : this.$onCreate,
-                onOpen   : this.$onOpen
+                onCreate: this.$onCreate,
+                onOpen  : this.$onOpen
             });
         },
 
@@ -67,64 +70,61 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#$onCreate
          */
-        $onCreate : function()
-        {
+        $onCreate: function () {
             var self = this;
 
             this.Loader.show();
 
-            this.getButtonBar().getElm().addClass( 'qui-controls-messages-panel-buttons' );
+            this.getButtonBar().getElm().addClass('qui-controls-messages-panel-buttons');
 
             this.addButton({
-                name   : 'ok',
-                icon   : 'icon-ok fa fa-check',
-                title  : Locale.get( 'qui/controls/messages', 'handler.button.success' ),
-                alt    : Locale.get( 'qui/controls/messages', 'handler.button.success' ),
-                events : {
-                    onClick : self.$toggleButton
+                name  : 'ok',
+                icon  : 'icon-ok fa fa-check',
+                title : Locale.get('qui/controls/messages', 'handler.button.success'),
+                alt   : Locale.get('qui/controls/messages', 'handler.button.success'),
+                events: {
+                    onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name   : 'information',
-                icon   : 'icon-info-sign fa fa-info',
-                title  : Locale.get( 'qui/controls/messages', 'handler.button.information' ),
-                alt    : Locale.get( 'qui/controls/messages', 'handler.button.information' ),
-                events : {
-                    onClick : self.$toggleButton
+                name  : 'information',
+                icon  : 'icon-info-sign fa fa-info',
+                title : Locale.get('qui/controls/messages', 'handler.button.information'),
+                alt   : Locale.get('qui/controls/messages', 'handler.button.information'),
+                events: {
+                    onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name   : 'attention',
-                icon   : 'icon-warning-sign fa fa-warning',
-                title  : Locale.get( 'qui/controls/messages', 'handler.button.attention' ),
-                alt    : Locale.get( 'qui/controls/messages', 'handler.button.attention' ),
-                events : {
-                    onClick : self.$toggleButton
+                name  : 'attention',
+                icon  : 'icon-warning-sign fa fa-warning',
+                title : Locale.get('qui/controls/messages', 'handler.button.attention'),
+                alt   : Locale.get('qui/controls/messages', 'handler.button.attention'),
+                events: {
+                    onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name   : 'error',
-                icon   : 'icon-bolt fa fa-bolt',
-                title  : Locale.get( 'qui/controls/messages', 'handler.button.error' ),
-                alt    : Locale.get( 'qui/controls/messages', 'handler.button.error' ),
-                events : {
-                    onClick : self.$toggleButton
+                name  : 'error',
+                icon  : 'icon-bolt fa fa-bolt',
+                title : Locale.get('qui/controls/messages', 'handler.button.error'),
+                alt   : Locale.get('qui/controls/messages', 'handler.button.error'),
+                events: {
+                    onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name   : 'clear',
-                icon   : 'icon-trash fa fa-trash',
-                title  : Locale.get( 'qui/controls/messages', 'handler.button.clear' ),
-                alt    : Locale.get( 'qui/controls/messages', 'handler.button.clear' ),
-                events :
-                {
-                    onClick : function()
-                    {
-                        QUI.getMessageHandler(function(MessageHandler) {
+                name  : 'clear',
+                icon  : 'icon-trash fa fa-trash',
+                title : Locale.get('qui/controls/messages', 'handler.button.clear'),
+                alt   : Locale.get('qui/controls/messages', 'handler.button.clear'),
+                events: {
+                    onClick: function () {
+                        QUI.getMessageHandler(function (MessageHandler) {
                             MessageHandler.clear();
                         });
                     }
@@ -132,33 +132,32 @@ define('qui/controls/messages/Panel', [
             });
 
 
-            if ( this.getAttribute('showSucces') ) {
-                this.getButtons( 'ok' ).setActive();
+            if (this.getAttribute('showSucces')) {
+                this.getButtons('ok').setActive();
             }
 
-            if ( this.getAttribute('showInformation') ) {
-                this.getButtons( 'information' ).setActive();
+            if (this.getAttribute('showInformation')) {
+                this.getButtons('information').setActive();
             }
 
-            if ( this.getAttribute('showAttention') ) {
-                this.getButtons( 'attention' ).setActive();
+            if (this.getAttribute('showAttention')) {
+                this.getButtons('attention').setActive();
             }
 
-            if ( this.getAttribute('showError') ) {
-                this.getButtons( 'error' ).setActive();
+            if (this.getAttribute('showError')) {
+                this.getButtons('error').setActive();
             }
 
 
-            QUI.getMessageHandler(function(MessageHandler)
-            {
+            QUI.getMessageHandler(function (MessageHandler) {
                 MessageHandler.addEvents({
-                    onAdd   : self.$onMessageHandlerAdd,
-                    onClear : self.$onMessageHandlerClear
+                    onAdd  : self.$onMessageHandlerAdd,
+                    onClear: self.$onMessageHandlerClear
                 });
 
-                (function() {
+                (function () {
                     self.refreshMessages();
-                }).delay( 500 );
+                }).delay(500);
             });
         },
 
@@ -167,22 +166,19 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#refreshMessages
          */
-        refreshMessages : function()
-        {
+        refreshMessages: function () {
             var self = this;
 
-            QUI.getMessageHandler(function(MessageHandler)
-            {
+            QUI.getMessageHandler(function (MessageHandler) {
                 var Content  = self.getContent(),
                     messages = MessageHandler.getMessages();
 
-                Content.set( 'html', '' );
+                Content.set('html', '');
 
-                for ( var i = 0, len = messages.length; i < len; i++ )
-                {
+                for (var i = 0, len = messages.length; i < len; i++) {
                     self.$onMessageHandlerAdd(
                         MessageHandler,
-                        messages[ i ],
+                        messages[i],
                         false
                     );
                 }
@@ -199,78 +195,64 @@ define('qui/controls/messages/Panel', [
          * @param {Object} Message - qui/controls/messages/Message
          * @param {Boolean} [animate] - optional, animate the message or not; default = true
          */
-        $onMessageHandlerAdd : function(MessageHandler, Message, animate)
-        {
+        $onMessageHandlerAdd: function (MessageHandler, Message, animate) {
             var type = Message.getType();
 
-            if ( typeof animate === 'undefined' ) {
+            if (typeof animate === 'undefined') {
                 animate = true;
             }
 
             // refresh title if closed
-            if ( !this.isOpen() && this.$Title )
-            {
+            if (!this.isOpen() && this.$Title) {
                 var Span = this.$Title.getElement(
                     '.qui-controls-messages-panel-titleinfo'
                 );
 
-                if ( !Span )
-                {
+                if (!Span) {
                     Span = new Element('span', {
-                        'class' : 'qui-controls-messages-panel-titleinfo'
-                    }).inject( this.$Title );
+                        'class': 'qui-controls-messages-panel-titleinfo'
+                    }).inject(this.$Title);
                 }
 
-                QUI.getMessageHandler(function(MessageHandler)
-                {
+                QUI.getMessageHandler(function (MessageHandler) {
                     var count = MessageHandler.getNewMessages();
 
-                    if ( count )
-                    {
-                        Span.setStyle( 'display', null );
-                        Span.set( 'html', count );
+                    if (count) {
+                        Span.setStyle('display', null);
+                        Span.set('html', count);
                         return;
                     }
 
-                    Span.setStyle( 'display', 'none' );
+                    Span.setStyle('display', 'none');
                 });
 
-                this.$Title.addClass( 'qui-controls-messages-panel-title' );
+                this.$Title.addClass('qui-controls-messages-panel-title');
             }
 
-            if ( type == 'qui/controls/messages/Success' &&
-                 !this.getAttribute('showSucces') )
-            {
+            if (type == 'qui/controls/messages/Success' && !this.getAttribute('showSucces')) {
                 return;
             }
 
-            if ( type == 'qui/controls/messages/Information' &&
-                 !this.getAttribute('showInformation') )
-            {
+            if (type == 'qui/controls/messages/Information' && !this.getAttribute('showInformation')) {
                 return;
             }
 
-            if ( type == 'qui/controls/messages/Attention' &&
-                 !this.getAttribute('showAttention') )
-            {
+            if (type == 'qui/controls/messages/Attention' && !this.getAttribute('showAttention')) {
                 return;
             }
 
-            if ( type == 'qui/controls/messages/Error' &&
-                 !this.getAttribute('showError') )
-            {
+            if (type == 'qui/controls/messages/Error' && !this.getAttribute('showError')) {
                 return;
             }
 
 
             var MessageElm = Message.createMessageElement();
 
-            MessageElm.inject( this.getContent(), 'top' );
+            MessageElm.inject(this.getContent(), 'top');
 
-            if ( animate )
-            {
-                MessageElm.addClass( 'animated' );
-                MessageElm.addClass( 'flash' );
+            if (animate) {
+                MessageElm.addClass('animated');
+                MessageElm.addClass('flash');
             }
         },
 
@@ -279,9 +261,8 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#$onMessageHandlerClear
          */
-        $onMessageHandlerClear : function()
-        {
-            this.getContent().set( 'html', '' );
+        $onMessageHandlerClear: function () {
+            this.getContent().set('html', '');
         },
 
         /**
@@ -290,33 +271,29 @@ define('qui/controls/messages/Panel', [
          * @method qui/controls/messages/Panel#$toggleButton
          * @param {Object} Btn - qui/controls/buttons/Button
          */
-        $toggleButton : function(Btn)
-        {
-            if ( Btn.isActive() )
-            {
+        $toggleButton: function (Btn) {
+            if (Btn.isActive()) {
                 Btn.setNormal();
-            } else
-            {
+            } else {
                 Btn.setActive();
             }
 
-            switch ( Btn.getAttribute( 'name' ) )
-            {
+            switch (Btn.getAttribute('name')) {
                 case 'ok':
-                    this.setAttribute( 'showSucces', Btn.isActive() );
-                break;
+                    this.setAttribute('showSucces', Btn.isActive());
+                    break;
 
                 case 'information':
-                    this.setAttribute( 'showInformation', Btn.isActive() );
-                break;
+                    this.setAttribute('showInformation', Btn.isActive());
+                    break;
 
                 case 'attention':
-                    this.setAttribute( 'showAttention', Btn.isActive() );
-                break;
+                    this.setAttribute('showAttention', Btn.isActive());
+                    break;
 
                 case 'error':
-                    this.setAttribute( 'showError', Btn.isActive() );
-                break;
+                    this.setAttribute('showError', Btn.isActive());
+                    break;
 
                 default:
                     return;
@@ -328,17 +305,16 @@ define('qui/controls/messages/Panel', [
         /**
          * event : on open
          */
-        $onOpen : function()
-        {
-            QUI.getMessageHandler(function(MessageHandler) {
+        $onOpen: function () {
+            QUI.getMessageHandler(function (MessageHandler) {
                 MessageHandler.clearNewMessages();
             });
 
-            if ( !this.$Title ) {
+            if (!this.$Title) {
                 return;
             }
 
-            this.$Title.getElements( '.qui-controls-messages-panel-titleinfo').destroy();
+            this.$Title.getElements('.qui-controls-messages-panel-titleinfo').destroy();
         }
     });
 });
