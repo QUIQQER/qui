@@ -87,6 +87,26 @@ define('qui/controls/loader/Loader', [
                 'pacman': {
                     children: 5,
                     files   : ['css!qui/controls/loader/Loader.pacman.css']
+                },
+
+                'fa-spinner': {
+                    children: 1,
+                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                },
+
+                'fa-gear': {
+                    children: 1,
+                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                },
+
+                'fa-refresh': {
+                    children: 1,
+                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                },
+
+                'fa-circle-o-notch': {
+                    children: 1,
+                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
                 }
             };
         },
@@ -101,7 +121,7 @@ define('qui/controls/loader/Loader', [
             this.$Elm = new Element('div', {
                 'class': 'qui-loader',
                 html   : '<div class="qui-loader-message"></div>' +
-                         '<div class="qui-loader-inner"></div>',
+                '<div class="qui-loader-inner"></div>',
                 styles : {
                     display: 'none',
                     opacity: 0.8
@@ -152,7 +172,7 @@ define('qui/controls/loader/Loader', [
 
                     this.$Elm.set({
                         html: '<div class="qui-loader-message"></div>' +
-                              '<div class="qui-loader-inner"></div>'
+                        '<div class="qui-loader-inner"></div>'
                     });
 
                     this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
@@ -225,6 +245,15 @@ define('qui/controls/loader/Loader', [
 
                     if (!color) {
                         color = QUI.getAttribute('control-loader-color');
+                    }
+
+                    if (animationType == 'fa-spinner' ||
+                        animationType == 'fa-gear' ||
+                        animationType == 'fa-refresh' ||
+                        animationType == 'fa-circle-o-notch'
+                    ) {
+                        Parent.set('html', '<span class="fa ' + animationType + ' fa-spin"></span>');
+                        Parent.setStyle('color', color);
                     }
 
                     for (i = 0, len = animationData.children; i < len; i++) {
