@@ -75,6 +75,10 @@ define('qui/controls/buttons/Select', [
         initialize: function (options) {
             this.parent(options);
 
+            if (this.getAttribute('checkable')) {
+                this.setAttribute('multiple', true);
+            }
+
             this.$Menu = new QUIMenu({
                 width    : this.getAttribute('menuWidth'),
                 maxHeight: this.getAttribute('menuMaxHeight'),
