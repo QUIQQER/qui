@@ -7,6 +7,7 @@
  * @require qui/QUI
  * @require qui/controls/Control
  * @require qui/controls/buttons/Button
+ * @require qui/utils/Controls
  * @require css!qui/controls/desktop/panels/Sheet.css
  *
  * @event onOpen [this]
@@ -174,6 +175,21 @@ define('qui/controls/desktop/panels/Sheet', [
          * resize the sheet
          */
         resize: function () {
+            var Elm    = this.getElm(),
+                Parent = Elm.getParent(),
+                size   = Parent.getSize();
+
+            Elm.setStyles({
+                height: size.y
+            });
+
+            var button_size = this.getButtons().getSize(),
+                header_size = this.$Header.getSize();
+
+            this.getBody().setStyles({
+                height: size.y - button_size.y - header_size.y
+            });
+
             this.fireEvent('resize', [this]);
         },
 
