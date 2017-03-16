@@ -6,6 +6,7 @@
  *
  * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/controls/loader/Loader
  * @require qui/controls/buttons/Button
  * @require qui/controls/elements/SelectItem
  * @require Ajax
@@ -507,8 +508,8 @@ define('qui/controls/elements/Select', [
 
             // Last Element
             if (!Active) {
-                if (this.$DropDown.getLast()) {
-                    this.$DropDown.getLast().addClass(
+                if (this.$DropDown.getLast('.qui-elements-list-dropdown-entry')) {
+                    this.$DropDown.getLast('.qui-elements-list-dropdown-entry').addClass(
                         'qui-elements-list-dropdown-entry-hover'
                     );
                 }
@@ -547,8 +548,8 @@ define('qui/controls/elements/Select', [
 
             // First Element
             if (!Active) {
-                if (this.$DropDown.getFirst()) {
-                    this.$DropDown.getFirst().addClass(
+                if (this.$DropDown.getFirst('.qui-elements-list-dropdown-entry')) {
+                    this.$DropDown.getFirst('.qui-elements-list-dropdown-entry').addClass(
                         'qui-elements-list-dropdown-entry-hover'
                     );
                 }
