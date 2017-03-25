@@ -6,7 +6,6 @@
  *
  * @require qui/QUI
  * @require qui/controls/Control
- * @require qui/controls/sitemap/Item
  * @require css!qui/controls/sitemap/Map.css
  */
 define('qui/controls/sitemap/Map', [
@@ -33,7 +32,8 @@ define('qui/controls/sitemap/Map', [
         Type   : 'qui/controls/sitemap/Map',
 
         options: {
-            multible: false // multible selection true or false
+            multible: false, // multiple selection true or false
+            multiple: false // multiple selection true or false
         },
 
         initialize: function (options) {
@@ -44,6 +44,10 @@ define('qui/controls/sitemap/Map', [
             self.$items = [];
             self.$sels  = {};
 
+            if (this.getAttribute('multible')) {
+                this.setAttribute('multiple', this.getAttribute('multible'));
+            }
+
             self.addEvent('onAppendChild', function (Parent, Child) {
                 Child.addEvents({
 
@@ -52,9 +56,9 @@ define('qui/controls/sitemap/Map', [
                     },
 
                     onSelect: function (Item, event) {
-                        if (self.getAttribute('multible') === false ||
+                        if (self.getAttribute('multiple') === false ||
                             typeof event === 'undefined' ||
-                            self.getAttribute('multible') && !event.control) {
+                            self.getAttribute('multiple') && !event.control) {
                             self.deselectAllChildren();
                         }
 
@@ -77,7 +81,8 @@ define('qui/controls/sitemap/Map', [
          */
         create: function () {
             this.$Elm = new Element('div.qui-sitemap-map', {
-                'data-quiid': this.getId()
+                'data-quiid': this.getId(),
+                'data-qui'  : 'qui/controls/sitemap/Map'
             });
 
             for (var i = 0, len = this.$items.length; i < len; i++) {
@@ -391,7 +396,7 @@ define('qui/controls/sitemap/Map', [
 
                 if (Node.get('text').match(regex)) {
                     qid = Node.getParent('.qui-sitemap-entry')
-                        .get('data-quiid');
+                              .get('data-quiid');
 
                     Item = Controls.getById(qid);
 
