@@ -60,6 +60,8 @@ define('qui/controls/buttons/Select', [
             'style'              : {},      // mootools css style attributes
             'class'              : false,   // extra CSS Class
             menuWidth            : false,
+            menuLeft             : false,
+            menuTop              : false,
             menuMaxHeight        : 300,
             showIcons            : true,
             searchable           : false,
@@ -687,6 +689,14 @@ define('qui/controls/buttons/Select', [
 
             this.$Menu.setAttribute('width', width);
             this.$Menu.show();
+
+            if (this.getAttribute('menuLeft')) {
+                x = this.getAttribute('menuLeft');
+            }
+
+            if (this.getAttribute('menuTop')) {
+                y = this.getAttribute('menuTop');
+            }
 
             MenuElm.setStyle('top', y);
             MenuElm.setStyle('left', x);
