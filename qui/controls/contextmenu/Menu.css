@@ -14,7 +14,8 @@
 }
 
 .qui-contextmenu-title {
-    background: #393f48;
+    background: #2F8FC6;
+    border-bottom: 2px solid #0069B4;
     color: #FFFFFF;
     float: left;
     overflow: hidden;
@@ -25,14 +26,14 @@
     width: 100%;
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .qui-contextmenu-shadow {
     -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 /** corners
@@ -50,10 +51,10 @@
     z-index: -1;
 
     -webkit-transform: rotate(-45deg);
-       -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-         -o-transform: rotate(-45deg);
-            transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .qui-context-corner-top.qui-contextmenu:after {
