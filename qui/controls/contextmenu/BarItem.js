@@ -1,4 +1,3 @@
-
 /**
  * Context Menu Bar Item
  *
@@ -28,8 +27,7 @@ define('qui/controls/contextmenu/BarItem', [
 
     'css!qui/controls/contextmenu/BarItem.css'
 
-], function(Control, ContextMenu, ContextMenuItem, ContextMenuSeperator)
-{
+], function (Control, ContextMenu, ContextMenuItem, ContextMenuSeperator) {
     "use strict";
 
     /**
@@ -46,10 +44,10 @@ define('qui/controls/contextmenu/BarItem', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/contextmenu/BarItem',
+        Extends: Control,
+        Type   : 'qui/controls/contextmenu/BarItem',
 
-        Binds : [
+        Binds: [
             '$onSetAttribute',
             '$onClick',
             '$onMouseEnter',
@@ -59,32 +57,31 @@ define('qui/controls/contextmenu/BarItem', [
             'appendChild'
         ],
 
-        options : {
-            text     : '',
-            icon     : '',
-            styles   : null,
-            dragable : false
+        options: {
+            text    : '',
+            icon    : '',
+            styles  : null,
+            dragable: false
         },
 
-        initialize : function(options)
-        {
+        initialize: function (options) {
             options = options || {};
 
             var items = options.items || [];
             delete options.items;
 
-            this.parent( options );
+            this.parent(options);
 
-            this.$Elm   = null;
-            this.$Menu  = null;
-            this.$show  = false;
+            this.$Elm  = null;
+            this.$Menu = null;
+            this.$show = false;
 
             this.addEvents({
-                'onSetAttribute' : this.$onSetAttribute
+                'onSetAttribute': this.$onSetAttribute
             });
 
-            if ( items.length ) {
-                this.insert( items );
+            if (items.length) {
+                this.insert(items);
             }
         },
 
@@ -94,67 +91,61 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-contextmenu-baritem smooth',
-                html         : '<span class="qui-contextmenu-baritem-text smooth"></span>',
-                'data-quiid' : this.getId(),
-                tabindex     : -1,
+                'class'     : 'qui-contextmenu-baritem smooth',
+                html        : '<span class="qui-contextmenu-baritem-text smooth"></span>',
+                'data-quiid': this.getId(),
+                tabindex    : -1,
 
-                styles : {
-                    outline : 0
+                styles: {
+                    outline: 0
                 },
 
-                events :
-                {
-                    click : this.$onClick,
+                events: {
+                    click: this.$onClick,
 
-                    blur  : function()
-                    {
+                    blur: function () {
                         self.blur();
                         return true;
                     },
 
-                    focus : function()
-                    {
+                    focus: function () {
                         self.focus();
                         return true;
                     },
 
-                    mouseenter : this.$onMouseEnter,
-                    mouseleave : this.$onMouseLeave,
+                    mouseenter: this.$onMouseEnter,
+                    mouseleave: this.$onMouseLeave,
 
-                    mousedown : function(event) {
+                    mousedown: function (event) {
                         event.stop();
                     },
-                    mouseup : function(event) {
+                    mouseup  : function (event) {
                         event.stop();
                     }
                 }
             });
 
-            if ( this.getAttribute( 'icon' ) &&
-                 this.getAttribute( 'icon' ) !== '' )
-            {
+            if (this.getAttribute('icon') &&
+                this.getAttribute('icon') !== '') {
                 this.$Elm.setStyle(
                     'background-image',
-                    'url('+ this.getAttribute( 'icon' ) +')'
+                    'url(' + this.getAttribute('icon') + ')'
                 );
             }
 
-            if ( this.getAttribute( 'text' ) &&
-                 this.getAttribute( 'text' ) !== '' )
-            {
-                this.$Elm.getElement( '.qui-contextmenu-baritem-text' )
-                         .set( 'html', this.getAttribute('text') );
+            if (this.getAttribute('text') &&
+                this.getAttribute('text') !== '') {
+                this.$Elm.getElement('.qui-contextmenu-baritem-text')
+                    .set('html', this.getAttribute('text'));
             }
 
             // Create sub menu, if it exist
-            if ( this.$Menu ) {
-                this.$Menu.inject( this.$Elm );
+            if (this.$Menu) {
+                this.$Menu.inject(this.$Elm);
             }
 
             return this.$Elm;
@@ -166,14 +157,13 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#focus
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        focus : function()
-        {
-            if ( this.$show ) {
+        focus: function () {
+            if (this.$show) {
                 return this;
             }
 
             this.$Elm.focus();
-            this.fireEvent( 'focus', [ this ] );
+            this.fireEvent('focus', [this]);
 
             this.show();
             this.setActive();
@@ -187,9 +177,8 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#blur
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        blur : function()
-        {
-            this.fireEvent( 'blur', [ this ] );
+        blur: function () {
+            this.fireEvent('blur', [this]);
 
             this.hide();
             this.setNormal();
@@ -205,25 +194,22 @@ define('qui/controls/contextmenu/BarItem', [
          * @param {Array} list
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        insert : function(list)
-        {
-            for ( var i = 0, len = list.length; i < len; i++)
-            {
-                if ( this.getAttribute( 'dragable' ) ) {
-                    list[ i ].dragable = true;
+        insert: function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                if (this.getAttribute('dragable')) {
+                    list[i].dragable = true;
                 }
 
-                if ( list[ i ].type == 'qui/controls/contextmenu/Seperator' )
-                {
+                if (list[i].type == 'qui/controls/contextmenu/Seperator') {
                     this.appendChild(
-                        new ContextMenuSeperator( list[ i ] )
+                        new ContextMenuSeperator(list[i])
                     );
 
                     continue;
                 }
 
                 this.appendChild(
-                    new ContextMenuItem( list[ i ] )
+                    new ContextMenuItem(list[i])
                 );
             }
 
@@ -236,26 +222,24 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#show
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        show : function()
-        {
-            if ( this.isActive() ) {
+        show: function () {
+            if (this.isActive()) {
                 return this;
             }
 
-            if ( this.$show ) {
+            if (this.$show) {
                 return this;
             }
 
             this.$show = true;
 
-            if ( this.getContextMenu().count() )
-            {
-                if ( this.getContextMenu().$Active ) {
+            if (this.getContextMenu().count()) {
+                if (this.getContextMenu().$Active) {
                     this.getContextMenu().$Active.setNormal();
                 }
 
                 this.getContextMenu().show();
-                this.getElm().addClass( 'bar-menu' );
+                this.getElm().addClass('bar-menu');
             }
 
             return this;
@@ -266,11 +250,10 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#hide
          */
-        hide : function()
-        {
+        hide: function () {
             this.$show = false;
 
-            this.getElm().removeClass( 'bar-menu' );
+            this.getElm().removeClass('bar-menu');
             this.getContextMenu().hide();
         },
 
@@ -281,16 +264,15 @@ define('qui/controls/contextmenu/BarItem', [
          * @param {Object} Child - qui/controls/contextmenu/Item
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        appendChild : function(Child)
-        {
-            if ( this.getAttribute( 'dragable' ) ) {
-                Child.setAttribute( 'dragable', true );
+        appendChild: function (Child) {
+            if (this.getAttribute('dragable')) {
+                Child.setAttribute('dragable', true);
             }
 
-            this.getContextMenu().appendChild( Child );
-            Child.setParent( this );
+            this.getContextMenu().appendChild(Child);
+            Child.setParent(this);
 
-            this.fireEvent( 'append', [ this, Child ] );
+            this.fireEvent('append', [this, Child]);
 
             return this;
         },
@@ -302,10 +284,9 @@ define('qui/controls/contextmenu/BarItem', [
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array}
          */
-        getChildren : function(name)
-        {
-            if ( typeof name !== 'undefined' ) {
-                return this.getContextMenu().getChildren( name );
+        getChildren: function (name) {
+            if (typeof name !== 'undefined') {
+                return this.getContextMenu().getChildren(name);
             }
 
             return this.getContextMenu().getChildren();
@@ -317,8 +298,7 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#clear
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        clear : function()
-        {
+        clear: function () {
             this.getContextMenu().clear();
 
             return this;
@@ -330,37 +310,32 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#getContextMenu
          * @return {qui/controls/contextmenu/Menu}
          */
-        getContextMenu : function()
-        {
-            if ( !this.$Menu )
-            {
+        getContextMenu: function () {
+            if (!this.$Menu) {
                 this.$Menu = new ContextMenu({
-                    name   : this.getAttribute( 'name' ) +'-menu',
-                    shadow : true,
-                    corner : 'top',
-                    events :
-                    {
-                        onShow : function(Menu)
-                        {
+                    name  : this.getAttribute('name') + '-menu',
+                    shadow: true,
+                    corner: 'top',
+                    events: {
+                        onShow: function (Menu) {
                             var children = Menu.getChildren();
 
-                            for ( var i = 0, len = children.length; i < len; i++ ) {
-                                children[ i ].setNormal();
+                            for (var i = 0, len = children.length; i < len; i++) {
+                                children[i].setNormal();
                             }
                         }
                     }
                 });
             }
 
-            if ( this.$Elm )
-            {
-                this.$Menu.inject( this.$Elm );
+            if (this.$Elm) {
+                this.$Menu.inject(this.$Elm);
                 this.$Menu.hide();
-                this.$Menu.setPosition( 0, this.$Elm.getSize().y + 20 );
+                this.$Menu.setPosition(0, this.$Elm.getSize().y + 20);
             }
 
-            if ( this.getAttribute( 'dragable' ) ) {
-                this.$Menu.setAttribute( 'dragable', true );
+            if (this.getAttribute('dragable')) {
+                this.$Menu.setAttribute('dragable', true);
             }
 
             return this.$Menu;
@@ -372,14 +347,13 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#setActive
          * @return {Object} this (qui/controls/contextmenu/BarItem)
          */
-        setActive : function()
-        {
-            if ( this.isActive() ) {
+        setActive: function () {
+            if (this.isActive()) {
                 return this;
             }
 
-            this.fireEvent( 'active', [ this ] );
-            this.$Elm.addClass( 'qui-contextmenu-baritem-active' );
+            this.fireEvent('active', [this]);
+            this.$Elm.addClass('qui-contextmenu-baritem-active');
 
             return this;
         },
@@ -390,9 +364,8 @@ define('qui/controls/contextmenu/BarItem', [
          * @method qui/controls/contextmenu/BarItem#isActive
          * @return {Boolean}
          */
-        isActive : function()
-        {
-            return this.$Elm && this.$Elm.hasClass( '.qui-contextmenu-baritem-active' );
+        isActive: function () {
+            return this.$Elm && this.$Elm.hasClass('.qui-contextmenu-baritem-active');
         },
 
         /**
@@ -400,10 +373,9 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#setNormal
          */
-        setNormal : function()
-        {
-            this.$Elm.removeClass( 'qui-contextmenu-baritem-active' );
-            this.fireEvent( 'normal', [ this ] );
+        setNormal: function () {
+            this.$Elm.removeClass('qui-contextmenu-baritem-active');
+            this.fireEvent('normal', [this]);
 
             return this;
         },
@@ -417,22 +389,20 @@ define('qui/controls/contextmenu/BarItem', [
          * @param {Boolean|Number|String|Object|Array} value
          * @ignore
          */
-        $onSetAttribute : function(key, value)
-        {
-            if ( !this.$Elm ) {
+        $onSetAttribute: function (key, value) {
+            if (!this.$Elm) {
                 return;
             }
 
-            if ( key == 'text' )
-            {
+            if (key == 'text') {
                 this.$Elm.getElement('.qui-contextmenu-baritem-text')
-                         .set('html', value);
+                    .set('html', value);
 
                 return;
             }
 
-            if ( key == 'icon' ) {
-                this.$Elm.setStyle('background-image', 'url("'+ value +'")');
+            if (key == 'icon') {
+                this.$Elm.setStyle('background-image', 'url("' + value + '")');
             }
         },
 
@@ -441,9 +411,8 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#$onClick
          */
-        $onClick : function(event)
-        {
-            this.fireEvent( 'click', [ this, event ] );
+        $onClick: function (event) {
+            this.fireEvent('click', [this, event]);
             this.focus();
         },
 
@@ -452,9 +421,8 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#$onMouseEnter
          */
-        $onMouseEnter : function()
-        {
-            this.fireEvent( 'mouseEnter', [ this ] );
+        $onMouseEnter: function () {
+            this.fireEvent('mouseEnter', [this]);
         },
 
         /**
@@ -462,9 +430,8 @@ define('qui/controls/contextmenu/BarItem', [
          *
          * @method qui/controls/contextmenu/BarItem#$onMouseLeave
          */
-        $onMouseLeave : function()
-        {
-            this.fireEvent( 'mouseLeave', [ this ] );
+        $onMouseLeave: function () {
+            this.fireEvent('mouseLeave', [this]);
         }
     });
 });
