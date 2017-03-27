@@ -59,7 +59,7 @@ define('qui/controls/buttons/Select', [
             name                 : 'select-box',
             'style'              : {},      // mootools css style attributes
             'class'              : false,   // extra CSS Class
-            menuWidth            : 200,
+            menuWidth            : false,
             menuMaxHeight        : 300,
             showIcons            : true,
             searchable           : false,
@@ -121,10 +121,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                          '<div class="text"></div>' +
-                          '<div class="drop-icon"></div>' +
-                          '<div class="qui-select-click-event"></div>' +
-                          '<select></select>',
+                '<div class="text"></div>' +
+                '<div class="drop-icon"></div>' +
+                '<div class="qui-select-click-event"></div>' +
+                '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -219,9 +219,9 @@ define('qui/controls/buttons/Select', [
                 change: function () {
                     if (self.getAttribute('multiple')) {
                         var selected = self.$Select.getElements('option:selected')
-                            .map(function (Option) {
-                                return Option.value;
-                            });
+                                           .map(function (Option) {
+                                               return Option.value;
+                                           });
 
                         self.setValues(selected);
                         return;
@@ -679,12 +679,18 @@ define('qui/controls/buttons/Select', [
                 );
             }
 
-            this.$Menu.setAttribute('width', size.x + 1);
+            var width = size.x + 1;
+
+            if (this.getAttribute('menuWidth')) {
+                width = this.getAttribute('menuWidth');
+            }
+
+            this.$Menu.setAttribute('width', width);
             this.$Menu.show();
 
             MenuElm.setStyle('top', y);
             MenuElm.setStyle('left', x);
-            MenuElm.setStyle('width', size.x + 1);
+            MenuElm.setStyle('width', width);
             MenuElm.setStyle('zIndex', QUIElementUtils.getComputedZIndex(this.getElm()) + 1);
             MenuElm.addClass('qui-select-container');
 
