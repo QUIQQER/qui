@@ -1,4 +1,3 @@
-
 /**
  * Context Menu Seperator
  *
@@ -15,8 +14,7 @@ define('qui/controls/contextmenu/Seperator', [
 
     'css!qui/controls/contextmenu/Seperator.css'
 
-], function(Control)
-{
+], function (Control) {
     "use strict";
 
     /**
@@ -31,16 +29,15 @@ define('qui/controls/contextmenu/Seperator', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/contextmenu/Seperator',
+        Extends: Control,
+        Type   : 'qui/controls/contextmenu/Seperator',
 
-        options : {
-            styles : null
+        options: {
+            styles: null
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.$Elm = null;
         },
@@ -51,14 +48,13 @@ define('qui/controls/contextmenu/Seperator', [
          * @method qui/controls/contextmenu/Seperator#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             this.$Elm = new Element('div.qui-context-seperator', {
-                'data-quiid' : this.getId()
+                'data-quiid': this.getId()
             });
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
             return this.$Elm;
@@ -70,7 +66,8 @@ define('qui/controls/contextmenu/Seperator', [
          * @method qui/controls/contextmenu/Seperator#setNormal
          * @ignore
          */
-        setNormal : function() { },
+        setNormal: function () {
+        },
 
         /**
          * if the seperator is in a baritem
@@ -78,6 +75,7 @@ define('qui/controls/contextmenu/Seperator', [
          * @method qui/controls/contextmenu/Seperator#setActive
          * @ignore
          */
-        setActive : function() { }
+        setActive: function () {
+        }
     });
 });

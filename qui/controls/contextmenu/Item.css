@@ -12,13 +12,21 @@
     width: 100%;
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 
     -webkit-transition: all 0.2s ease;
-       -moz-transition: all 0.2s ease;
-        -ms-transition: all 0.2s ease;
-         -o-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+}
+
+.qui-contextitem {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.qui-contextitem:last-child {
+    border-bottom: none;
 }
 
 .qui-contextitem.haschildren {
@@ -29,7 +37,7 @@
 .qui-contextitem-icon {
     background-repeat: no-repeat;
     background-position: center center;
-    color: #FFFFFF;
+    color: #333;
     float: left;
     height: 40px;
     line-height: 40px;
@@ -38,12 +46,12 @@
 }
 
 .qui-contextitem-text {
-    color: #FFFFFF;
+    color: #4b595e;
     float: left;
     line-height: 20px;
     padding: 10px 0 10px 10px;
     text-align: left;
-    width: calc( 100% - 30px );
+    width: calc(100% - 30px);
 }
 
 .no-icon .qui-contextitem-text {
@@ -51,8 +59,12 @@
 }
 
 .qui-contextitem-active {
-    background-color: #393f48;
-    color: #FFFFFF;
+    background-color: #d1d4da;
+    color: #000;
+}
+
+.qui-contextitem-active .qui-contextitem-text {
+    color: #000;
 }
 
 .qui-contextitem-disabled,

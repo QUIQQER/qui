@@ -136,9 +136,9 @@ define('qui/controls/contextmenu/Item', [
 
             this.$Elm = new Element('div.qui-contextitem', {
                 html: '<div class="qui-contextitem-container">' +
-                      '<span class="qui-contextitem-icon"></span>' +
-                      '<span class="qui-contextitem-text"></span>' +
-                      '</div>',
+                '<span class="qui-contextitem-icon"></span>' +
+                '<span class="qui-contextitem-text"></span>' +
+                '</div>',
 
                 'data-quiid': this.getId(),
                 tabindex    : -1,

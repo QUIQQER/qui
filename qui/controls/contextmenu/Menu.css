@@ -5,8 +5,9 @@
 }
 
 .qui-contextmenu-container {
-    background: #434a54;
-    border-radius: 5px;
+    /*background: #434a54;*/
+    background: #ffffff;
+    border-radius: 3px;
     margin-left: 20px;
     padding: 5px 0;
     position: relative;
@@ -29,9 +30,9 @@
 }
 
 .qui-contextmenu-shadow {
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 /** corners
@@ -44,7 +45,7 @@
     content: "";
     width: 20px;
     height: 20px;
-    background: #434a54;
+    background: #d1d4da;
     position: absolute;
     z-index: -1;
 

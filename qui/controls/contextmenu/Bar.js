@@ -1,4 +1,3 @@
-
 /**
  * Menu bar
  *
@@ -19,8 +18,7 @@ define('qui/controls/contextmenu/Bar', [
 
     'css!qui/controls/contextmenu/Bar.css'
 
-], function(Control, ContextBarItem)
-{
+], function (Control, ContextBarItem) {
     "use strict";
 
     /**
@@ -30,30 +28,29 @@ define('qui/controls/contextmenu/Bar', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/contextmenu/Bar',
+        Extends: Control,
+        Type   : 'qui/controls/contextmenu/Bar',
 
-        Binds : [
+        Binds: [
             '$onItemEnter',
             '$onItemLeave',
             '$onItemClick',
             '$onItemBlur'
         ],
 
-        options : {
-            styles    : null,     // mootools css styles
-            width     : 200,      // menü width
-            openening : false,    // if open status = true, onmouseover opens the baritmes
-            dragable  : false
+        options: {
+            styles   : null,     // mootools css styles
+            width    : 200,      // menü width
+            openening: false,    // if open status = true, onmouseover opens the baritmes
+            dragable : false
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
-            this.$items   = [];
-            this.$Elm     = null;
-            this.$Menu    = null;
+            this.$items = [];
+            this.$Elm   = null;
+            this.$Menu  = null;
         },
 
         /**
@@ -62,14 +59,13 @@ define('qui/controls/contextmenu/Bar', [
          * @method qui/controls/contextmenu/Bar#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             this.$Elm = new Element('div', {
-                'class' : 'qui-contextmenu-bar'
+                'class': 'qui-contextmenu-bar'
             });
 
-            if ( this.getAttribute( 'styles' ) ) {
-                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
             return this.$Elm;
@@ -82,16 +78,14 @@ define('qui/controls/contextmenu/Bar', [
          * @param {Array} list - new QUI\Controls\Contextmenu\Bar()->toArray()
          * @return {Object} this (qui/controls/contextmenu/Bar)
          */
-        insert : function(list)
-        {
-            for ( var i = 0, len = list.length; i < len; i++)
-            {
-                if ( this.getAttribute( 'dragable' ) ) {
-                    list[ i ].dragable = true;
+        insert: function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                if (this.getAttribute('dragable')) {
+                    list[i].dragable = true;
                 }
 
                 this.appendChild(
-                    new ContextBarItem( list[ i ] )
+                    new ContextBarItem(list[i])
                 );
             }
 
@@ -105,17 +99,14 @@ define('qui/controls/contextmenu/Bar', [
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array|Boolean|Object} List of children | false | qui/controls/contextmenu/Item
          */
-        getChildren : function(name)
-        {
-            if ( typeof name !== 'undefined' )
-            {
+        getChildren: function (name) {
+            if (typeof name !== 'undefined') {
                 var i, len;
                 var items = this.$items;
 
-                for ( i = 0, len = items.length; i < len; i++ )
-                {
-                    if ( items[ i ].getAttribute( 'name' ) == name ) {
-                        return items[ i ];
+                for (i = 0, len = items.length; i < len; i++) {
+                    if (items[i].getAttribute('name') == name) {
+                        return items[i];
                     }
                 }
 
@@ -131,10 +122,9 @@ define('qui/controls/contextmenu/Bar', [
          * @method qui/controls/contextmenu/Bar#firstChild
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
-        firstChild : function()
-        {
-            if ( this.$items[ 0 ] ) {
-                return this.$items[ 0 ];
+        firstChild: function () {
+            if (this.$items[0]) {
+                return this.$items[0];
             }
 
             return false;
@@ -146,8 +136,7 @@ define('qui/controls/contextmenu/Bar', [
          * @method qui/controls/contextmenu/Bar#count
          * @return {Number}
          */
-        count : function()
-        {
+        count: function () {
             return this.$items.length;
         },
 
@@ -158,30 +147,29 @@ define('qui/controls/contextmenu/Bar', [
          * @param {Object} Child - qui/controls/contextmenu/BarItem
          * @return {Object} this (qui/controls/contextmenu/Bar)
          */
-        appendChild : function(Child)
-        {
-            if ( !Child || typeof Child === 'undefined' ) {
+        appendChild: function (Child) {
+            if (!Child || typeof Child === 'undefined') {
                 return this;
             }
 
-            if ( this.getAttribute( 'dragable' ) ) {
-                Child.setAttribute( 'dragable', true );
+            if (this.getAttribute('dragable')) {
+                Child.setAttribute('dragable', true);
             }
 
-            this.$items.push( Child );
+            this.$items.push(Child);
 
             Child.addEvents({
-                onMouseEnter : this.$onItemEnter,
-                onMouseLeave : this.$onItemLeave,
-                onBlur       : this.$onItemBlur,
-                onClick      : this.$onItemClick
+                onMouseEnter: this.$onItemEnter,
+                onMouseLeave: this.$onItemLeave,
+                onBlur      : this.$onItemBlur,
+                onClick     : this.$onItemClick
             });
 
-            if ( this.$Elm ) {
-                Child.inject( this.$Elm );
+            if (this.$Elm) {
+                Child.inject(this.$Elm);
             }
 
-            Child.setParent( this );
+            Child.setParent(this);
 
             return this;
         },
@@ -192,12 +180,10 @@ define('qui/controls/contextmenu/Bar', [
          * @method qui/controls/contextmenu/Bar#clearChildren
          * @return {Object} this (qui/controls/contextmenu/Bar)
          */
-        clearChildren : function()
-        {
-            for ( var i = 0, len = this.$items.length; i < len; i++ )
-            {
-                if ( this.$items[ i ] ) {
-                    this.$items[ i ].destroy();
+        clearChildren: function () {
+            for (var i = 0, len = this.$items.length; i < len; i++) {
+                if (this.$items[i]) {
+                    this.$items[i].destroy();
                 }
             }
 
@@ -213,16 +199,14 @@ define('qui/controls/contextmenu/Bar', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
-        getNext : function(Item)
-        {
-            for ( var i = 0, len = this.$items.length; i < len; i++ )
-            {
-                if ( this.$items[ i ] != Item ) {
+        getNext: function (Item) {
+            for (var i = 0, len = this.$items.length; i < len; i++) {
+                if (this.$items[i] != Item) {
                     continue;
                 }
 
-                if ( typeof this.$items[ i + 1 ] !== 'undefined' ) {
-                    return this.$items[ i + 1 ];
+                if (typeof this.$items[i + 1] !== 'undefined') {
+                    return this.$items[i + 1];
                 }
             }
 
@@ -236,18 +220,16 @@ define('qui/controls/contextmenu/Bar', [
          * @param {Object} Item - qui/controls/contextmenu/BarItem
          * @return {Object|Boolean} - qui/controls/contextmenu/BarItem | false
          */
-        getPrevious : function(Item)
-        {
+        getPrevious: function (Item) {
             var i = this.$items.length - 1;
 
-            for ( ; i >= 0; i-- )
-            {
-                if ( i === 0 ) {
+            for (; i >= 0; i--) {
+                if (i === 0) {
                     return false;
                 }
 
-                if ( this.$items[ i ] == Item ) {
-                    return this.$items[ i - 1 ];
+                if (this.$items[i] == Item) {
+                    return this.$items[i - 1];
                 }
             }
 
@@ -260,22 +242,21 @@ define('qui/controls/contextmenu/Bar', [
          * @method qui/controls/contextmenu/Bar#$onItemEnter
          * @param {Object} Item - qui/controls/contextmenu/BarItem
          */
-        $onItemEnter : function(Item)
-        {
-            if ( this.getAttribute( 'openening' ) === false ) {
+        $onItemEnter: function (Item) {
+            if (this.getAttribute('openening') === false) {
                 return;
             }
 
-            if ( this.$Active == Item ) {
+            if (this.$Active == Item) {
                 return;
             }
 
-            if ( this.$Active ) {
+            if (this.$Active) {
                 this.$Active.blur();
             }
 
-            if ( typeof this.$delay !== 'undefined' && this.$delay ) {
-                clearTimeout( this.$delay );
+            if (typeof this.$delay !== 'undefined' && this.$delay) {
+                clearTimeout(this.$delay);
             }
 
             Item.focus();
@@ -287,8 +268,7 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#$onItemLeave
          */
-        $onItemLeave : function()
-        {
+        $onItemLeave: function () {
 
         },
 
@@ -297,9 +277,8 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#$onItemClick
          */
-        $onItemClick : function()
-        {
-            this.setAttribute( 'openening', true );
+        $onItemClick: function () {
+            this.setAttribute('openening', true);
         },
 
         /**
@@ -307,16 +286,14 @@ define('qui/controls/contextmenu/Bar', [
          *
          * @method qui/controls/contextmenu/Bar#$onItemBlur
          */
-        $onItemBlur : function()
-        {
+        $onItemBlur: function () {
             this.$Active = null;
 
-            this.$delay = function()
-            {
-                if ( !this.$Active ) {
-                    this.setAttribute( 'openening', false );
+            this.$delay = function () {
+                if (!this.$Active) {
+                    this.setAttribute('openening', false);
                 }
-            }.delay( 200, this );
+            }.delay(200, this);
         }
     });
 });
