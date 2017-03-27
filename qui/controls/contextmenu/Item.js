@@ -168,6 +168,8 @@ define('qui/controls/contextmenu/Item', [
 
                 this.setAttribute('icon', false);
                 this.setAttribute('showIcon', true);
+
+                this.$Elm.addClass('qui-contextitem__checkable');
             }
 
             if (this.getAttribute('icon') && this.getAttribute('icon') !== '') {
