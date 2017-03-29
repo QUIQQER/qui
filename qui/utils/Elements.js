@@ -53,7 +53,7 @@ define('qui/utils/Elements', [
             for (i = 0, len = parents.length; i < len; i++) {
                 z = parents[i].getStyle('zIndex');
 
-                if (z == 'auto') {
+                if (z === 'auto') {
                     continue;
                 }
 
@@ -143,6 +143,44 @@ define('qui/utils/Elements', [
          */
         simulateEvent: function (Target, eventName) {
             new SimulateEvent(Target).simulateEvent(eventName);
+        },
+
+        /**
+         * Return a list for the supported input types
+         *
+         * @returns {Object}
+         */
+        getSupportedInputTypes: function () {
+            var supported = {
+                    date  : false,
+                    number: false,
+                    time  : false,
+                    month : false,
+                    week  : false
+                },
+                tester    = document.createElement('input');
+
+            for (var i in supported) {
+                tester.type = i;
+                if (tester.type === i) {
+                    supported[i] = true;
+                }
+            }
+
+            return supported;
+        },
+
+        /**
+         * Check for supported input types
+         * isInputTypeSupported('date')
+         *
+         * @param {String} type
+         * @returns {boolean}
+         */
+        isInputTypeSupported: function (type) {
+            var supported = this.getSupportedInputTypes();
+
+            return type in supported && supported[type];
         }
     };
 });
