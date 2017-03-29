@@ -19,10 +19,10 @@ define('qui/controls/loader/Loader', [
 
     'qui/QUI',
     'qui/controls/Control',
-    'qui/Locale',
+
     'css!qui/controls/loader/Loader.css'
 
-], function (QUI, QUIControl, QUILocale) {
+], function (QUI, QUIControl) {
     "use strict";
 
     /**
@@ -40,7 +40,9 @@ define('qui/controls/loader/Loader', [
             closetime: 50000,  // seconds if the closing window showed
             styles   : false,  // extra CSS styles,
             type     : false,
-            color    : false
+            color    : false,
+
+            loaderErrorText: 'Das Fenster reagiert nicht mehr. Um fortzufahren, klicken Sie bitte hier.'
         },
 
         initialize: function (options) {
@@ -247,10 +249,10 @@ define('qui/controls/loader/Loader', [
                         color = QUI.getAttribute('control-loader-color');
                     }
 
-                    if (animationType == 'fa-spinner' ||
-                        animationType == 'fa-gear' ||
-                        animationType == 'fa-refresh' ||
-                        animationType == 'fa-circle-o-notch'
+                    if (animationType === 'fa-spinner' ||
+                        animationType === 'fa-gear' ||
+                        animationType === 'fa-refresh' ||
+                        animationType === 'fa-circle-o-notch'
                     ) {
                         Parent.set('html', '<span class="fa ' + animationType + ' fa-spin"></span>');
                         Parent.setStyle('color', color);
@@ -372,10 +374,15 @@ define('qui/controls/loader/Loader', [
                 }
             });
 
-            var self = this;
+            var self    = this;
+            var message = this.getAttribute('loaderErrorText');
+
+            if (QUI.getAttribute('control-loader-errorText')) {
+                message = QUI.getAttribute('control-loader-errorText')
+            }
 
             this.$Close = new Element('div', {
-                text  : QUILocale.get('quiqqer/controls', 'loader.close'),
+                text  : message,
                 styles: {
                     'font-weight': 'bold',
                     'text-align' : 'center',
