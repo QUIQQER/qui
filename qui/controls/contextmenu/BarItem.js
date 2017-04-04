@@ -7,7 +7,7 @@
  * @require qui/controls/Control
  * @require qui/controls/contextmenu/Menu
  * @require qui/controls/contextmenu/Item
- * @require qui/controls/contextmenu/Seperator
+ * @require qui/controls/contextmenu/Separator
  * @require css!qui/controls/contextmenu/BarItem.css
  *
  * @event onClick [ {this}, {DOMEvent} ]
@@ -23,11 +23,11 @@ define('qui/controls/contextmenu/BarItem', [
     'qui/controls/Control',
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
-    'qui/controls/contextmenu/Seperator',
+    'qui/controls/contextmenu/Separator',
 
     'css!qui/controls/contextmenu/BarItem.css'
 
-], function (Control, ContextMenu, ContextMenuItem, ContextMenuSeperator) {
+], function (Control, ContextMenu, ContextMenuItem, ContextMenuSeparator) {
     "use strict";
 
     /**
@@ -200,9 +200,9 @@ define('qui/controls/contextmenu/BarItem', [
                     list[i].dragable = true;
                 }
 
-                if (list[i].type == 'qui/controls/contextmenu/Seperator') {
+                if (list[i].type === 'qui/controls/contextmenu/Separator') {
                     this.appendChild(
-                        new ContextMenuSeperator(list[i])
+                        new ContextMenuSeparator(list[i])
                     );
 
                     continue;
