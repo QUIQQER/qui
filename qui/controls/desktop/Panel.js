@@ -9,7 +9,7 @@
  * @require qui/controls/Control
  * @require qui/controls/loader/Loader
  * @require qui/controls/toolbar/Bar
- * @require qui/controls/buttons/Seperator
+ * @require qui/controls/buttons/Separator
  * @require qui/controls/buttons/Button
  * @require qui/controls/desktop/panels/Sheet
  * @require qui/controls/breadcrumb/Bar
@@ -37,7 +37,7 @@ define('qui/controls/desktop/Panel', [
     'qui/controls/Control',
     'qui/controls/loader/Loader',
     'qui/controls/toolbar/Bar',
-    'qui/controls/buttons/Seperator',
+    'qui/controls/buttons/Separator',
     'qui/controls/buttons/Button',
     'qui/controls/desktop/panels/Sheet',
     'qui/controls/breadcrumb/Bar',
@@ -46,7 +46,7 @@ define('qui/controls/desktop/Panel', [
 
     'css!qui/controls/desktop/Panel.css'
 
-], function (QUI, Control, Loader, Toolbar, Seperator, Button, PanelSheet, BreadcrumbBar, QUIContextmenu, Utils) {
+], function (QUI, Control, Loader, Toolbar, Separator, Button, PanelSheet, BreadcrumbBar, QUIContextmenu, Utils) {
     "use strict";
 
     /**
@@ -169,10 +169,10 @@ define('qui/controls/desktop/Panel', [
                 },
 
                 html: '<div class="qui-panel-header box"></div>' +
-                      '<div class="qui-panel-buttons box"></div>' +
-                      '<div class="qui-panel-categories box"></div>' +
-                      '<div class="qui-panel-content box"></div>' +
-                      '<div class="qui-panel-footer box"></div>'
+                '<div class="qui-panel-buttons box"></div>' +
+                '<div class="qui-panel-categories box"></div>' +
+                '<div class="qui-panel-content box"></div>' +
+                '<div class="qui-panel-footer box"></div>'
             });
 
             this.Loader.inject(this.$Elm);
@@ -337,9 +337,9 @@ define('qui/controls/desktop/Panel', [
             }
 
             content_height = content_height -
-                             buttonsSize.y - 2 -
-                             this.$Footer.getSize().y - 1 -
-                             this.$Header.getSize().y;
+                buttonsSize.y - 2 -
+                this.$Footer.getSize().y - 1 -
+                this.$Header.getSize().y;
 
             if (this.$Breadcrumb) {
                 content_height = content_height - this.$Breadcrumb.getSize().y;
@@ -618,14 +618,14 @@ define('qui/controls/desktop/Panel', [
          * This is a button top of the panel
          *
          * @method qui/controls/desktop/Panel#addButton
-         * @param {Object|HTMLElement} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Seperator | Object params
+         * @param {Object|HTMLElement} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Separator | Object params
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         addButton: function (Btn) {
             if (!QUI.Controls.isControl(Btn) && typeOf(Btn) !== 'element') {
-                if (Btn.type == 'seperator' ||
-                    Btn.type == 'QUI\\Controls\\Buttons\\Seperator') {
-                    Btn = new Seperator(Btn);
+                if (Btn.type === 'separator' ||
+                    Btn.type === 'QUI\\Controls\\Buttons\\Separator') {
+                    Btn = new Separator(Btn);
                 } else {
                     Btn = new Button(Btn);
                 }
@@ -634,7 +634,7 @@ define('qui/controls/desktop/Panel', [
             this.getButtonBar().appendChild(Btn);
 
             // if first children, then resize
-            if (this.getButtonBar().count() == 1) {
+            if (this.getButtonBar().count() === 1) {
                 this.resize();
             }
 

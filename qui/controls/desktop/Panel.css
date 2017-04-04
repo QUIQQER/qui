@@ -48,7 +48,7 @@
     line-height: 30px;
 }
 
-.qui-panel-header .qui-buttons-seperator {
+.qui-panel-header .qui-buttons-separator {
     border-left: 1px solid #FFFFFF;
     float: left;
     height: 28px;
@@ -198,7 +198,7 @@
     margin: 10px;
 }
 
-.qui-panel-buttons .qui-buttons-seperator {
+.qui-panel-buttons .qui-buttons-separator {
     border-left: 2px solid #cccfd5;
     float: left;
     margin: 5px 4px 2px 7px;

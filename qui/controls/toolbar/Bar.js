@@ -667,7 +667,7 @@ define('qui/controls/toolbar/Bar', [
          * Add an Child to the toolbar
          *
          * @method qui/controls/toolbar/Bar#appendChild
-         * @param {Object} Itm - qui/controls/buttons/Button | qui/controls/buttons/Seperator | qui/controls/toolbar/Tab
+         * @param {Object} Itm - qui/controls/buttons/Button | qui/controls/buttons/Separator | qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         appendChild: function (Itm) {

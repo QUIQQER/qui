@@ -291,16 +291,16 @@ define('qui/controls/contextmenu/Item', [
 
             require([
                 'qui/controls/contextmenu/Item',
-                'qui/controls/contextmenu/Seperator'
-            ], function (ContextMenuItem, ContextMenuSeperator) {
+                'qui/controls/contextmenu/Separator'
+            ], function (ContextMenuItem, ContextMenuSeparator) {
                 for (var i = 0, len = list.length; i < len; i++) {
                     if (self.getAttribute('dragable')) {
                         list[i].dragable = true;
                     }
 
-                    if (list[i].type == 'qui/controls/contextmenu/Seperator') {
+                    if (list[i].type === 'qui/controls/contextmenu/Separator') {
                         self.appendChild(
-                            new ContextMenuSeperator(list[i])
+                            new ContextMenuSeparator(list[i])
                         );
 
                         continue;

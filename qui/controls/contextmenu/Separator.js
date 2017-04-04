@@ -1,24 +1,24 @@
 /**
- * Context Menu Seperator
+ * Context Menu Separator
  *
- * @module qui/controls/contextmenu/Seperator
+ * @module qui/controls/contextmenu/Separator
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require qui/controls/Control
- * @require css!qui/controls/contextmenu/Seperator.css
+ * @require css!qui/controls/contextmenu/Separator.css
  */
 
-define('qui/controls/contextmenu/Seperator', [
+define('qui/controls/contextmenu/Separator', [
 
     'qui/controls/Control',
 
-    'css!qui/controls/contextmenu/Seperator.css'
+    'css!qui/controls/contextmenu/Separator.css'
 
 ], function (Control) {
     "use strict";
 
     /**
-     * @class qui/controls/contextmenu/Seperator
+     * @class qui/controls/contextmenu/Separator
      *
      * @fires onClick [this]
      * @fires onMouseDown [this]
@@ -30,7 +30,7 @@ define('qui/controls/contextmenu/Seperator', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/contextmenu/Seperator',
+        Type   : 'qui/controls/contextmenu/Separator',
 
         options: {
             styles: null
@@ -45,11 +45,11 @@ define('qui/controls/contextmenu/Seperator', [
         /**
          * Create the DOMNode for the Element
          *
-         * @method qui/controls/contextmenu/Seperator#create
+         * @method qui/controls/contextmenu/Separator#create
          * @return {HTMLElement}
          */
         create: function () {
-            this.$Elm = new Element('div.qui-context-seperator', {
+            this.$Elm = new Element('div.qui-context-separator', {
                 'data-quiid': this.getId()
             });
 
@@ -61,18 +61,18 @@ define('qui/controls/contextmenu/Seperator', [
         },
 
         /**
-         * if the seperator is in a baritem
+         * if the separator is in a baritem
          *
-         * @method qui/controls/contextmenu/Seperator#setNormal
+         * @method qui/controls/contextmenu/Separator#setNormal
          * @ignore
          */
         setNormal: function () {
         },
 
         /**
-         * if the seperator is in a baritem
+         * if the separator is in a baritem
          *
-         * @method qui/controls/contextmenu/Seperator#setActive
+         * @method qui/controls/contextmenu/Separator#setActive
          * @ignore
          */
         setActive: function () {

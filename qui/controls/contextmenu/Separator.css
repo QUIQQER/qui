@@ -1,0 +1,11 @@
+
+.qui-context-separator {
+    border-top: 1px solid #CCC;
+    width: 100%;
+    float: left;
+    clear: both;
+}
+
+.qui-contextmenu .qui-context-separator {
+    border-top: 1px solid #EBEBEB;
+}
