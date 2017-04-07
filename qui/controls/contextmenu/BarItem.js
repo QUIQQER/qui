@@ -58,10 +58,11 @@ define('qui/controls/contextmenu/BarItem', [
         ],
 
         options: {
-            text    : '',
-            icon    : '',
-            styles  : null,
-            dragable: false
+            text       : '',
+            icon       : '',
+            styles     : null,
+            dragable   : false,
+            hideifempty: false
         },
 
         initialize: function (options) {
@@ -141,6 +142,10 @@ define('qui/controls/contextmenu/BarItem', [
                 this.getAttribute('text') !== '') {
                 this.$Elm.getElement('.qui-contextmenu-baritem-text')
                     .set('html', this.getAttribute('text'));
+            }
+
+            if (this.getAttribute('hideifempty') && !this.getContextMenu().count()) {
+                this.$Elm.setStyle('display', 'none');
             }
 
             // Create sub menu, if it exist
@@ -272,6 +277,10 @@ define('qui/controls/contextmenu/BarItem', [
             this.getContextMenu().appendChild(Child);
             Child.setParent(this);
 
+            if (this.getAttribute('hideifempty')) {
+                this.$Elm.setStyle('display', null);
+            }
+
             this.fireEvent('append', [this, Child]);
 
             return this;
@@ -300,6 +309,10 @@ define('qui/controls/contextmenu/BarItem', [
          */
         clear: function () {
             this.getContextMenu().clear();
+
+            if (this.getAttribute('hideifempty')) {
+                this.$Elm.setStyle('display', 'none');
+            }
 
             return this;
         },
@@ -394,15 +407,22 @@ define('qui/controls/contextmenu/BarItem', [
                 return;
             }
 
-            if (key == 'text') {
+            if (key === 'text') {
                 this.$Elm.getElement('.qui-contextmenu-baritem-text')
                     .set('html', value);
 
                 return;
             }
 
-            if (key == 'icon') {
+            if (key === 'icon') {
                 this.$Elm.setStyle('background-image', 'url("' + value + '")');
+                return;
+            }
+
+            if (key === 'hideifempty' &&
+                value === true &&
+                !this.getContextMenu().count()) {
+                this.$Elm.setStyle('display', 'none');
             }
         },
 

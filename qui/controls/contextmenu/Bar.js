@@ -105,7 +105,7 @@ define('qui/controls/contextmenu/Bar', [
                 var items = this.$items;
 
                 for (i = 0, len = items.length; i < len; i++) {
-                    if (items[i].getAttribute('name') == name) {
+                    if (items[i].getAttribute('name') === name) {
                         return items[i];
                     }
                 }
