@@ -204,7 +204,7 @@ define('qui/controls/elements/Select', [
 
                 Label.inject(this.$Elm, 'top');
 
-                if (Label.get('data-desc') && Label.get('data-desc') != '&nbsp;') {
+                if (Label.get('data-desc') && Label.get('data-desc') !== '&nbsp;') {
                     new Element('div', {
                         'class': 'description',
                         html   : Label.get('data-desc'),
@@ -251,6 +251,13 @@ define('qui/controls/elements/Select', [
             this.$Elm = null;
             this.create();
             this.refresh();
+
+            if (this.$Input !== this.$Elm) {
+                try {
+                    this.$Input.fireEvent('load');
+                } catch (e) {
+                }
+            }
         },
 
         /**
@@ -258,7 +265,7 @@ define('qui/controls/elements/Select', [
          */
         refresh: function () {
             if (!this.getAttribute('max') ||
-                parseInt(this.getAttribute('max')) != 1) {
+                parseInt(this.getAttribute('max')) !== 1) {
                 return;
             }
 
