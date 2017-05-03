@@ -178,7 +178,6 @@ define('qui/classes/Controls', [
          * @param {Object} Control - (qui/controls/Control)
          */
         destroy: function (Control) {
-
             if (typeOf(Control) === 'string') {
                 Control = this.getById(Control);
             }
