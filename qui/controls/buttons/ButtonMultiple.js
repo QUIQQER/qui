@@ -18,29 +18,29 @@ define('qui/controls/buttons/ButtonMultiple', [
     return new Class({
 
         Extends: QUIControl,
-        Type: 'qui/controls/buttons/ButtonMultiple',
+        Type   : 'qui/controls/buttons/ButtonMultiple',
 
         Binds: [
             '$onSetAttribute'
         ],
 
         options: {
-            disabled: false,
+            disabled : false,
             textimage: false,   // Image left from text
-            text: false,        // Button text
-            title: false,
-            class: false        // extra CSS Class
+            text     : false,        // Button text
+            title    : false,
+            class    : false        // extra CSS Class
         },
 
         initialize: function (options) {
             this.parent(options);
 
-            this.$Menu = null;
-            this.$Text = null;
-            this.$TextImage = null;
+            this.$Menu              = null;
+            this.$Text              = null;
+            this.$TextImage         = null;
             this.$DropDownContainer = null;
 
-            this.$items = [];
+            this.$items    = [];
             this.$disabled = false;
 
             this.addEvents({
@@ -55,12 +55,12 @@ define('qui/controls/buttons/ButtonMultiple', [
          */
         create: function () {
             this.$Elm = new Element('div', {
-                'class': 'qui-button-multiple',
+                'class'     : 'qui-button-multiple',
                 'data-quiid': this.getId(),
-                html: '<button></button>' +
+                html        : '<button></button>' +
                 '<div class="qui-button-multiple-dd">' +
                 '    <div class="qui-button-multiple-dd-line"></div>' +
-                '    <span class="fa fa-chevron-down"></span>' +
+                '    <span class="fa fa-angle-down"></span>' +
                 '</div>'
             });
 
@@ -68,7 +68,7 @@ define('qui/controls/buttons/ButtonMultiple', [
             this.$Elm.setAttribute('tabindex', "-1");
 
             // nodes
-            this.$Button = this.$Elm.getElement('button');
+            this.$Button            = this.$Elm.getElement('button');
             this.$DropDownContainer = this.$Elm.getElement('.qui-button-multiple-dd');
 
             this.$TextImage = new Element('div', {
@@ -268,7 +268,7 @@ define('qui/controls/buttons/ButtonMultiple', [
             return new Promise(function (resolve) {
                 require(['qui/controls/contextmenu/Menu'], function (Menu) {
                     this.$Menu = new Menu({
-                        name: this.getAttribute('name') + '-menu',
+                        name  : this.getAttribute('name') + '-menu',
                         corner: 'top'
                     });
 
@@ -326,7 +326,7 @@ define('qui/controls/buttons/ButtonMultiple', [
             }
 
             return this.getMenu().then(function (Menu) {
-                var pos = this.$Elm.getPosition(),
+                var pos  = this.$Elm.getPosition(),
                     size = this.$Elm.getSize();
 
                 Menu.setPosition(
