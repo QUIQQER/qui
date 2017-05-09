@@ -368,7 +368,7 @@ define('qui/controls/buttons/Select', [
                 valueList = {};
 
             for (i = 0, len = values.length; i < len; i++) {
-                valueList[values] = true;
+                valueList[values[i]] = true;
             }
 
             for (i = 0, len = children.length; i < len; i++) {
