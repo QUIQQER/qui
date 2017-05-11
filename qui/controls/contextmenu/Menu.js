@@ -147,6 +147,7 @@ define('qui/controls/contextmenu/Menu', [
 
             if (this.getAttribute('corner')) {
                 Elm.removeClass('qui-context-corner-top');
+                Elm.removeClass('qui-context-corner-topRight');
                 Elm.removeClass('qui-context-corner-bottom');
                 Elm.removeClass('qui-context-corner-left');
                 Elm.removeClass('qui-context-corner-left');
@@ -157,8 +158,16 @@ define('qui/controls/contextmenu/Menu', [
                     Elm.addClass('qui-context-corner-top');
                     break;
 
+                case 'topRight':
+                    Elm.addClass('qui-context-corner-topRight');
+                    break;
+
                 case 'bottom':
                     Elm.addClass('qui-context-corner-bottom');
+                    break;
+
+                case 'bottomRight':
+                    Elm.addClass('qui-context-corner-bottomRight');
                     break;
 
                 case 'left':
