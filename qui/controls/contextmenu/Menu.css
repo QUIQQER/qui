@@ -40,7 +40,9 @@
  * ====================================================== */
 
 .qui-context-corner-top.qui-contextmenu:after,
+.qui-context-corner-topRight.qui-contextmenu:after,
 .qui-context-corner-bottom.qui-contextmenu:after,
+.qui-context-corner-bottomRight.qui-contextmenu:after,
 .qui-context-corner-left.qui-contextmenu:after,
 .qui-context-corner-right.qui-contextmenu:after {
     content: "";
@@ -62,9 +64,19 @@
     left: 30px;
 }
 
+.qui-context-corner-topRight.qui-contextmenu:after {
+    top: -5px;
+    right: 30px;
+}
+
 .qui-context-corner-bottom.qui-contextmenu:after {
     bottom: -5px;
     left: 30px;
+}
+
+.qui-context-corner-bottomRight.qui-contextmenu:after {
+    bottom: -5px;
+    right: 30px;
 }
 
 .qui-context-corner-right.qui-contextmenu:after {
