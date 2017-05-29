@@ -674,13 +674,26 @@ define('qui/controls/buttons/Select', [
                 overflowY = document.documentElement.getStyle('overflow-y');
 
             // overflow ist hidden, daher müssen wir anders berechnen
-            if (overflow == 'hidden' || overflowX == 'hidden' || overflowY == 'hidden') {
+            if (overflow === 'hidden' || overflowX === 'hidden' || overflowY === 'hidden') {
                 console.warn(
                     'Don\'t use overflow:hidden at the HTML Node (documentElement).' +
                     'There is a bug when the height specified in %, eq: height: 100%'
                 );
             }
 
+            var Option = this.$Menu.getChildren(
+                this.getAttribute('name') + this.getValue()
+            );
+
+            if (Option) {
+                this.$Menu.getChildren().each(function (Child) {
+                    Child.setNormal();
+                });
+
+                Option.setActive();
+            }
+
+            
             var width = size.x + 1;
 
             if (this.getAttribute('menuWidth')) {
@@ -709,14 +722,6 @@ define('qui/controls/buttons/Select', [
 
             if (this.getAttribute('searchable')) {
                 document.body.addEvent('keydown', this.$showSearch);
-            }
-
-            var Option = this.$Menu.getChildren(
-                this.getAttribute('name') + this.getValue()
-            );
-
-            if (Option) {
-                Option.setActive();
             }
 
             return this;
