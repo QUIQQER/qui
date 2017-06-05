@@ -175,6 +175,10 @@ define('qui/controls/messages/Panel', [
 
                 Content.set('html', '');
 
+                messages.sort(function (a, b) {
+                    return a.options.time - b.options.time;
+                });
+
                 for (var i = 0, len = messages.length; i < len; i++) {
                     self.$onMessageHandlerAdd(
                         MessageHandler,
