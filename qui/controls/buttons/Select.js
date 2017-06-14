@@ -368,7 +368,7 @@ define('qui/controls/buttons/Select', [
                 valueList = {};
 
             for (i = 0, len = values.length; i < len; i++) {
-                valueList[values] = true;
+                valueList[values[i]] = true;
             }
 
             for (i = 0, len = children.length; i < len; i++) {
@@ -693,7 +693,7 @@ define('qui/controls/buttons/Select', [
                 Option.setActive();
             }
 
-            
+
             var width = size.x + 1;
 
             if (this.getAttribute('menuWidth')) {
