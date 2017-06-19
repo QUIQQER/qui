@@ -172,7 +172,7 @@ define('qui/controls/elements/Select', [
             }).inject(this.$Elm);
 
             this.$SearchButton = new QUIButton({
-                icon  : 'fa fa-search',
+                icon  : 'fa fa-list-alt',
                 styles: {
                     width: 50
                 },
