@@ -31,8 +31,8 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
 
         initialize: function (params) {
             this.parent(params);
-
-            this.$FX = moofx(this.$Elm);
+            
+            this.$FX = null;
         },
 
         /**
