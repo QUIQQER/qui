@@ -28,7 +28,8 @@ define('qui/controls/buttons/Separator', [
         Type   : 'qui/controls/buttons/Separator',
 
         options: {
-            height: false
+            height: false,
+            styles: false
         },
 
         initialize: function (options) {
@@ -57,6 +58,10 @@ define('qui/controls/buttons/Separator', [
 
             if (this.getAttribute('height')) {
                 this.$Elm.setStyle('height', this.getAttribute('height'));
+            }
+
+            if (this.getAttribute('styles')) {
+                this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
             this.fireEvent('create', [this]);
