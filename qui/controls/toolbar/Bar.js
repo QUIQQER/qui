@@ -195,8 +195,8 @@ define('qui/controls/toolbar/Bar', [
                 'data-quiid': this.getId(),
 
                 'html': '<div class="qui-toolbar-container">' +
-                        '<div class="qui-toolbar-tabs"></div>' +
-                        '</div>'
+                '<div class="qui-toolbar-tabs"></div>' +
+                '</div>'
             });
 
             if (this.getAttribute('styles')) {
@@ -855,8 +855,8 @@ define('qui/controls/toolbar/Bar', [
 
                     if (this.getAttribute('slide')) {
                         cwidth = cwidth -
-                                 this.BtnLeft.getElm().getComputedSize().totalWidth -
-                                 this.BtnRight.getElm().getComputedSize().totalWidth;
+                            this.BtnLeft.getElm().getComputedSize().totalWidth -
+                            this.BtnRight.getElm().getComputedSize().totalWidth;
                     }
 
                     if (this.getAttribute('menu-button')) {
@@ -882,8 +882,8 @@ define('qui/controls/toolbar/Bar', [
                 var containerSize = this.Tabs.getSize();
                 var elmSize       = this.getElm().getSize();
 
-                if (width == '100%' &&
-                    (containerSize.x > elmSize.x || containerSize.y > elmSize.y)
+                if (width === '100%' &&
+                    (containerSize.x > elmSize.x || containerSize.y > elmSize.y + 1) // +1 = because border
                 ) {
                     this.Tabs.addClass('qui-toolbar--mobile');
 
