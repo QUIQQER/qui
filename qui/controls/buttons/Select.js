@@ -278,6 +278,12 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
+            // on scroll
+            window.addEvent('scroll', function () {
+                this.close();
+            }.bind(this));
+
+
             if (this.getAttribute('placeholderSelectable')) {
                 if (this.$placeholderText && this.$placeholderText !== '') {
                     this.appendChild(
@@ -296,7 +302,6 @@ define('qui/controls/buttons/Select', [
             this.selectPlaceholder();
 
             if (this.$children.length) {
-
                 for (var i = 0, len = this.$children.length; i < len; i++) {
                     this.appendChild(
                         this.$children[i].text,
