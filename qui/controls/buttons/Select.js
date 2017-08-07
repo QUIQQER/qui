@@ -93,10 +93,11 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            this.$value      = null;
-            this.$disabled   = false;
-            this.$opened     = false;
-            this.$wasfocused = false;
+            this.$value        = null;
+            this.$disabled     = false;
+            this.$opened       = false;
+            this.$wasfocused   = false;
+            this.$mouseIsHover = false;
 
             this.$Elm    = null;
             this.$Select = null;
@@ -269,6 +270,8 @@ define('qui/controls/buttons/Select', [
             this.$Menu.getElm().addClass('qui-dropdown');
 
             this.$Menu.getElm().addEvent('mouseleave', function () {
+                self.$mouseIsHover = false;
+
                 var Option = self.$Menu.getChildren(
                     self.getAttribute('name') + self.getValue()
                 );
@@ -278,10 +281,22 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
+            this.$Menu.getElm().addEvent('mouseenter', function () {
+                self.$mouseIsHover = true;
+            });
+
             // on scroll
             window.addEvent('scroll', function () {
-                this.close();
-            }.bind(this));
+                self.close();
+            });
+
+            window.addEvent('mousewheel', function () {
+                if (self.$mouseIsHover) {
+                    return;
+                }
+
+                self.close();
+            });
 
 
             if (this.getAttribute('placeholderSelectable')) {
