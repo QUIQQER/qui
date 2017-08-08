@@ -18,3 +18,14 @@
     position: absolute;
     top: calc(50% - 50px);
 }
+
+/* IE 11 HACK to center the spinner */
+@media all and (-ms-high-contrast: none) {
+    *::-ms-backdrop,
+    .qui-loader-inner-fa-circle-o-notch .fa-spin,
+    .qui-loader-inner-fa-gear .fa-spin,
+    .qui-loader-inner-fa-refresh .fa-spin,
+    .qui-loader-inner-fa-spinner .fa-spin {
+        left: calc(50% - 50px);
+    }
+}
