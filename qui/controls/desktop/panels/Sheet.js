@@ -290,7 +290,6 @@ define('qui/controls/desktop/panels/Sheet', [
 
 
             return new Promise(function (resolve) {
-
                 var button_size = this.getButtons().getSize(),
                     header_size = this.$Header.getSize();
 
@@ -305,8 +304,7 @@ define('qui/controls/desktop/panels/Sheet', [
                     left   : 0,
                     opacity: 1
                 }, {
-                    duration: 300,
-                    equation: 'ease-out',
+                    duration: 250,
                     callback: function () {
                         self.$fxComplete();
 
