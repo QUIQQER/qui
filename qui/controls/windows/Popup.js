@@ -594,7 +594,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             Elm.inject(this.$Buttons, 'top');
 
-            if (typeOf(Elm) != 'element') {
+            if (typeOf(Elm) !== 'element') {
                 Node = Elm.getElm();
             }
 
@@ -614,28 +614,68 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * hide the button line
          *
          * @method qui/controls/windows/Popup#hideButtons
-         * @return {Object} qui/controls/windows/Popup
+         * @return {Promise}
          */
         hideButtons: function () {
-            if (!this.$Buttons) {
-                return this;
-            }
+            var self = this;
 
-            this.$Buttons.setStyle('display', 'none');
+            return new Promise(function (resolve) {
+                var buttonHeight = self.$Buttons.getSize().y;
+
+                self.$Buttons.setStyle('bottom', 0);
+                self.$Buttons.setStyle('position', 'absolute');
+
+                var containerHeight = self.$Title.getSize().y;
+
+                self.$Content.setStyle(
+                    'height',
+                    'calc(100% - ' + containerHeight + 'px)'
+                );
+
+                moofx(self.$Buttons).animate({
+                    bottom: buttonHeight * -1
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        self.$Buttons.setStyle('display', 'none');
+                        resolve();
+                    }
+                });
+            });
         },
 
         /**
          * show the button line
          *
          * @method qui/controls/windows/Popup#showButtons
-         * @return {Object} qui/controls/windows/Popup
+         * @return {Promise}
          */
         showButtons: function () {
-            if (!this.$Buttons) {
-                return this;
-            }
+            var self = this;
 
-            this.$Buttons.setStyle('display', '');
+            return new Promise(function (resolve) {
+                self.$Buttons.setStyle('display', null);
+                self.$Buttons.setStyle('display', null);
+
+                var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+
+                moofx(self.$Content).animate({
+                    height: 'calc(100% - ' + containerHeight + 'px)'
+                }, {
+                    duration: 200,
+                    callback: function () {
+                        self.$Buttons.setStyle('position', 'absolute');
+
+                        moofx(self.$Buttons).animate({
+                            bottom: 0
+                        }, {
+                            callback: function () {
+                                resolve();
+                            }
+                        });
+                    }
+                });
+            });
         },
 
         /**
@@ -650,7 +690,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             for (var i = 0, len = list.length; i < len; i++) {
                 Control = QUI.Controls.getById(list[i].get('data-quiid'));
 
-                if (Control && Control.getAttribute('name') == name) {
+                if (Control && Control.getAttribute('name') === name) {
                     return Control;
                 }
             }
