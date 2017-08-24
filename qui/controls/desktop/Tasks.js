@@ -96,7 +96,7 @@ define('qui/controls/desktop/Tasks', [
          * @return {Boolean}
          */
         isOpen: function () {
-            return this.$Header.getStyle('display') == 'none';
+            return this.$Header.getStyle('display') === 'none';
         },
 
         /**
@@ -144,7 +144,6 @@ define('qui/controls/desktop/Tasks', [
                 });
 
                 this.$Taskbar.unserialize(data.bar);
-
                 return this;
             }
 
@@ -238,9 +237,9 @@ define('qui/controls/desktop/Tasks', [
             this.$Header = new Element('div', {
                 'class': 'qui-taskpanel-header',
                 html   : '<div class="qui-taskpanel-header-text"></div>' +
-                         '<div class="qui-taskpanel-header-icon">' +
-                         '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
-                         '</div>',
+                '<div class="qui-taskpanel-header-icon">' +
+                '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
+                '</div>',
                 styles : {
                     display: 'none'
                 },
@@ -398,7 +397,7 @@ define('qui/controls/desktop/Tasks', [
                 var OldTask = false,
                     Prom    = Promise.resolve();
 
-                if (this.$Active && this.$Active.getType() != 'qui/controls/taskbar/Group') {
+                if (this.$Active && this.$Active.getType() !== 'qui/controls/taskbar/Group') {
                     OldTask      = this.$Active;
                     this.$Active = Task;
 
@@ -494,7 +493,7 @@ define('qui/controls/desktop/Tasks', [
                 Task.getId();
             }
 
-            if (this.$LastTask && this.$LastTask.getId() != tid) {
+            if (this.$LastTask && this.$LastTask.getId() !== tid) {
                 this.$LastTask.click();
                 return;
             }
@@ -505,14 +504,14 @@ define('qui/controls/desktop/Tasks', [
                 return;
             }
 
-            if (LastTask.getInstance() && LastTask.getId() != tid) {
+            if (LastTask.getInstance() && LastTask.getId() !== tid) {
                 LastTask.click();
                 return;
             }
 
             var FirstTask = this.firstChild();
 
-            if (FirstTask.getInstance() && FirstTask.getId() != tid) {
+            if (FirstTask.getInstance() && FirstTask.getId() !== tid) {
                 FirstTask.click();
             }
         },
@@ -528,7 +527,7 @@ define('qui/controls/desktop/Tasks', [
          */
         $normalizeTask: function (Task) {
             return new Promise(function (resolve) {
-                if (Task == this.$Active) {
+                if (Task === this.$Active) {
                     return resolve();
                 }
 
@@ -800,7 +799,7 @@ define('qui/controls/desktop/Tasks', [
             }
 
             // clear old tasks parent binds
-            if (IParent && IParent.getType() == 'qui/controls/desktop/Tasks') {
+            if (IParent && IParent.getType() === 'qui/controls/desktop/Tasks') {
                 IParent.$removeTask(Task);
             }
 
@@ -837,6 +836,7 @@ define('qui/controls/desktop/Tasks', [
             });
 
             if (this.$__unserialize === true) {
+                Task.getInstance().getElm().setStyle('display', 'none');
                 return;
             }
 
