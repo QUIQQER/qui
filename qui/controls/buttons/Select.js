@@ -4,13 +4,6 @@
  * @module qui/controls/buttons/Select
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/Control
- * @require qui/utils/Controls
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require qui/utils/Element
- * @require css!qui/controls/buttons/Select.css
- *
  * @event onChange [value, this]
  * @event onClick [this, event]
  */
@@ -57,6 +50,7 @@ define('qui/controls/buttons/Select', [
 
         options: {
             name                 : 'select-box',
+            title                : false,
             'style'              : {},      // mootools css style attributes
             'class'              : false,   // extra CSS Class
             menuWidth            : false,
@@ -314,6 +308,10 @@ define('qui/controls/buttons/Select', [
                 this.$Icon.setStyle('display', 'none');
             }
 
+            if (this.getAttribute('title')) {
+                this.$Elm.set('title', this.getAttribute('title'));
+            }
+
             this.selectPlaceholder();
 
             if (this.$children.length) {
@@ -341,7 +339,7 @@ define('qui/controls/buttons/Select', [
             var children = this.$Menu.getChildren();
 
             for (i = 0, len = children.length; i < len; i++) {
-                if (children[i].getAttribute('value') == value) {
+                if (children[i].getAttribute('value') === value) {
                     this.$set(children[i]);
                     return this;
                 }
@@ -351,7 +349,7 @@ define('qui/controls/buttons/Select', [
                 value = value.toString();
 
                 for (i = 0, len = children.length; i < len; i++) {
-                    if (children[i].getAttribute('value') == value) {
+                    if (children[i].getAttribute('value') === value) {
                         this.$set(children[i]);
                         return this;
                     }
@@ -366,7 +364,7 @@ define('qui/controls/buttons/Select', [
                         childvalue = childvalue.toString();
                     }
 
-                    if (childvalue == value) {
+                    if (childvalue === value) {
                         this.$set(children[i]);
                         return this;
                     }
@@ -537,7 +535,7 @@ define('qui/controls/buttons/Select', [
          */
         unselectChild: function (value) {
             var children = this.$Menu.getChildren().filter(function (Child) {
-                return Child.getAttribute('value') == value;
+                return Child.getAttribute('value') === value;
             });
 
             if (!children.length) {
@@ -556,7 +554,7 @@ define('qui/controls/buttons/Select', [
          */
         selectChild: function (value) {
             var children = this.$Menu.getChildren().filter(function (Child) {
-                return Child.getAttribute('value') == value;
+                return Child.getAttribute('value') === value;
             });
 
             if (!children.length) {
@@ -621,17 +619,17 @@ define('qui/controls/buttons/Select', [
         isFocused: function () {
             var Active = document.activeElement;
 
-            if (Active == this.$Search) {
+            if (Active === this.$Search) {
                 return true;
             }
 
-            if (Active == this.getElm()) {
+            if (Active === this.getElm()) {
                 return true;
             }
 
             // ie11 focus fix
-            if (Active == this.$Menu.getElm() ||
-                Active == this.$Menu.$Container) {
+            if (Active === this.$Menu.getElm() ||
+                Active === this.$Menu.$Container) {
                 return true;
             }
 
@@ -660,7 +658,7 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
-            if (document.activeElement != this.getElm()) {
+            if (document.activeElement !== this.getElm()) {
                 // because onclick and mouseup events makes a focus at the body
                 (function () {
                     this.getElm().focus();
@@ -889,20 +887,20 @@ define('qui/controls/buttons/Select', [
 
             // we need a delay, becaus between the blur and the focus, the activeElement is body
             (function () {
-                if (document.activeElement == this.$Search) {
+                if (document.activeElement === this.$Search) {
                     event.stop();
                     this.$Search.focus();
                     return;
                 }
 
-                if (document.activeElement == this.getElm()) {
+                if (document.activeElement === this.getElm()) {
                     event.stop();
                     return;
                 }
 
                 // ie11 focus fix
-                if (document.activeElement == this.$Menu.getElm() ||
-                    document.activeElement == this.$Menu.$Container) {
+                if (document.activeElement === this.$Menu.getElm() ||
+                    document.activeElement === this.$Menu.$Container) {
                     event.stop();
 
                     this.$opened = false;
@@ -1034,7 +1032,7 @@ define('qui/controls/buttons/Select', [
             value = value.toString().replace(/ /g, '').toLowerCase();
 
             var found = children.filter(function (Child) {
-                return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) == value;
+                return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) === value;
             });
 
             if (!found.length) {
