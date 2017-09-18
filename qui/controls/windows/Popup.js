@@ -85,7 +85,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             // buttons
             buttons         : true, // {bool} [optional] show the bottom button line
             closeButton     : true, // {bool} show the close button
-            closeButtonText : false,
+            closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
             titleCloseButton: true  // {bool} show the title close button
         },
 
@@ -110,10 +110,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (QUI.getAttribute('control-windows-popup-closetext')) {
                 closeText = QUI.getAttribute('control-windows-popup-closetext');
-            }
-
-            if (this.getAttribute('closeButtonText')) {
-                closeText = this.getAttribute('closeButtonText');
             }
 
             this.setAttribute('closeButtonText', closeText);
@@ -330,7 +326,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var ios = SystemUtils.iOSversion();
 
             if (ios) {
-
                 document.body.setStyles({
                     overflow           : 'hidden',
                     position           : 'fixed',
@@ -708,7 +703,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @returns {number}
          */
         getOpeningWidth: function () {
-            var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            var width = QUI.getWindowSize().x;
 
             if (width > this.getAttribute('maxWidth')) {
                 width = this.getAttribute('maxWidth');
@@ -723,7 +718,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @returns {number}
          */
         getOpeningHeight: function () {
-            var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            var height = QUI.getWindowSize().y;
 
             if (height > this.getAttribute('maxHeight')) {
                 height = this.getAttribute('maxHeight');
