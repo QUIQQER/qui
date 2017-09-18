@@ -85,7 +85,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             // buttons
             buttons         : true, // {bool} [optional] show the bottom button line
             closeButton     : true, // {bool} show the close button
-            closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
+            closeButtonText : false,
             titleCloseButton: true  // {bool} show the title close button
         },
 
@@ -110,6 +110,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (QUI.getAttribute('control-windows-popup-closetext')) {
                 closeText = QUI.getAttribute('control-windows-popup-closetext');
+            }
+
+            if (this.getAttribute('closeButtonText')) {
+                closeText = this.getAttribute('closeButtonText');
             }
 
             this.setAttribute('closeButtonText', closeText);
