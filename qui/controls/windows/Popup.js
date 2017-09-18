@@ -408,7 +408,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.fireEvent('resizeBegin', [this]);
 
             var self     = this,
-                doc_size = document.body.getSize(),
+                doc_size = QUI.getWindowSize(),
                 height   = this.getOpeningHeight(),
                 width    = this.getOpeningWidth();
 
