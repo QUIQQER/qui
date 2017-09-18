@@ -86,14 +86,29 @@ define('qui/classes/QUI', [
             this.Windows  = new Windows();
             this.Storage  = new Storage();
 
+            var Ghost = new Element('div', {
+                styles: {
+                    background: 'transparent',
+                    display   : 'none',
+                    height    : '100%',
+                    left      : 0,
+                    position  : 'fixed',
+                    top       : 0,
+                    width     : '100%',
+                    zIndex    : 1
+                }
+            });
+
             // global resize event
             if (typeof window !== 'undefined') {
-
                 var win  = document.id(window);
                 var body = document.id(document.body);
 
                 win.requestAnimationFrame(function () {
-                    this.$winSize   = win.getSize();
+                    Ghost.setStyle('display', null);
+                    this.$winSize = win.getSize();
+                    Ghost.setStyle('display', 'none');
+
                     this.$winScroll = win.getScroll();
 
                     if (typeof body !== 'undefined' && body) {
@@ -112,7 +127,10 @@ define('qui/classes/QUI', [
                             body = document.id(document.body);
                         }
 
-                        this.$winSize    = win.getSize();
+                        Ghost.setStyle('display', null);
+                        this.$winSize = win.getSize();
+                        Ghost.setStyle('display', 'none');
+
                         this.$winScroll  = win.getScroll();
                         this.$bodySize   = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
@@ -126,7 +144,11 @@ define('qui/classes/QUI', [
                 }.bind(this), 100));
 
                 win.addEvent('domready', function () {
-                    this.$winSize   = win.getSize();
+                    Ghost.inject(document.body);
+                    Ghost.setStyle('display', null);
+                    this.$winSize = win.getSize();
+                    Ghost.setStyle('display', 'none');
+
                     this.$winScroll = win.getScroll();
 
                     if (typeof body === 'undefined' || !body) {
@@ -310,8 +332,8 @@ define('qui/classes/QUI', [
                 var nodes = [];
 
                 if (typeOf(Parent) === 'elements') {
-                    Parent.getElements('[data-qui]').each(function(elements) {
-                        Array.combine(nodes, elements.filter(function(Node) {
+                    Parent.getElements('[data-qui]').each(function (elements) {
+                        Array.combine(nodes, elements.filter(function (Node) {
                             return Node;
                         }));
                     });
