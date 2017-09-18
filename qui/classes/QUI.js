@@ -106,7 +106,7 @@ define('qui/classes/QUI', [
 
                 win.requestAnimationFrame(function () {
                     Ghost.setStyle('display', null);
-                    this.$winSize = win.getSize();
+                    this.$winSize = Ghost.getSize();
                     Ghost.setStyle('display', 'none');
 
                     this.$winScroll = win.getScroll();
@@ -128,7 +128,7 @@ define('qui/classes/QUI', [
                         }
 
                         Ghost.setStyle('display', null);
-                        this.$winSize = win.getSize();
+                        this.$winSize = Ghost.getSize();
                         Ghost.setStyle('display', 'none');
 
                         this.$winScroll  = win.getScroll();
@@ -146,7 +146,7 @@ define('qui/classes/QUI', [
                 win.addEvent('domready', function () {
                     Ghost.inject(document.body);
                     Ghost.setStyle('display', null);
-                    this.$winSize = win.getSize();
+                    this.$winSize = Ghost.getSize();
                     Ghost.setStyle('display', 'none');
 
                     this.$winScroll = win.getScroll();
