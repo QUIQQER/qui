@@ -326,7 +326,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var ios = SystemUtils.iOSversion();
 
             if (ios) {
-
                 document.body.setStyles({
                     overflow           : 'hidden',
                     position           : 'fixed',
@@ -409,7 +408,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.fireEvent('resizeBegin', [this]);
 
             var self     = this,
-                doc_size = document.body.getSize(),
+                doc_size = QUI.getWindowSize(),
                 height   = this.getOpeningHeight(),
                 width    = this.getOpeningWidth();
 
@@ -704,7 +703,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @returns {number}
          */
         getOpeningWidth: function () {
-            var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            var width = QUI.getWindowSize().x;
 
             if (width > this.getAttribute('maxWidth')) {
                 width = this.getAttribute('maxWidth');
@@ -719,7 +718,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @returns {number}
          */
         getOpeningHeight: function () {
-            var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            var height = QUI.getWindowSize().y;
 
             if (height > this.getAttribute('maxHeight')) {
                 height = this.getAttribute('maxHeight');
