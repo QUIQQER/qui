@@ -12,7 +12,7 @@
  * @require Ajax
  * @require Locale
  *
- * @event onAddItem [ this, id ]
+ * @event onAddItem [ this, id, SelectItem ]
  * @event onChange [ this ]
  * @event onSearchButtonClick [ this, Button ]
  * @event onCreate [ this ]
@@ -446,7 +446,6 @@ define('qui/controls/elements/Select', [
                         }
                     }).inject(DropDown);
 
-
                     new Element('span', {
                         'class': data[i].icon || this.getAttribute('icon'),
                         styles : {
@@ -479,7 +478,7 @@ define('qui/controls/elements/Select', [
             }
 
             require([this.getAttribute('child')], function (Child) {
-                new Child({
+                var NewItem = new Child({
                     id    : id,
                     Parent: this,
                     events: {
@@ -489,10 +488,9 @@ define('qui/controls/elements/Select', [
 
                 this.$values.push(id);
 
-                this.fireEvent('addItem', [this, id]);
+                this.fireEvent('addItem', [this, id, NewItem]);
                 this.$refreshValues();
                 this.refresh();
-
             }.bind(this));
 
             return this;
