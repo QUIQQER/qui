@@ -65,9 +65,8 @@ define('qui/controls/desktop/Workspace', [
 
             this.Loader = null;
 
-            this.$columns = [];
-            this.$fixed   = false;
-
+            this.$columns   = [];
+            this.$fixed     = false;
             this.$dragDrops = {};
         },
 
@@ -76,7 +75,7 @@ define('qui/controls/desktop/Workspace', [
          */
         clear: function () {
             for (var i = 0, len = this.$columns.length; i < len; i++) {
-                if (typeOf(this.$columns[i]) == 'qui/controls/desktop/Column') {
+                if (typeOf(this.$columns[i]) === 'qui/controls/desktop/Column') {
                     this.$columns[i].destroy();
                 }
             }
@@ -513,6 +512,7 @@ define('qui/controls/desktop/Workspace', [
             var handlepos = Handler.getPosition().y;
 
             var DragDrop = new QUIDragDrop(Handler, {
+                delay : 50,
                 limit : {
                     x: [min, max],
                     y: [handlepos, handlepos]
@@ -564,11 +564,11 @@ define('qui/controls/desktop/Workspace', [
                         this_width = Column.getAttribute('width');
                         next_width = Sibling.getAttribute('width');
 
-                        if (placement == 'left') {
+                        if (placement === 'left') {
                             Column.setAttribute('width', this_width + change);
                             Sibling.setAttribute('width', next_width - change);
 
-                        } else if (placement == 'right') {
+                        } else if (placement === 'right') {
                             Column.setAttribute('width', this_width - change);
                             Sibling.setAttribute('width', next_width + change);
                         }
