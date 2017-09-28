@@ -142,7 +142,7 @@ define('qui/controls/taskbar/Bar', [
                 self.appendChild(Task);
                 self.$unserializedTasks++;
 
-                if (self.$unserializedTasks == tasks.length) {
+                if (self.$unserializedTasks === tasks.length) {
                     self.fireEvent('unserializeFinish', [self]);
                 }
             };
@@ -175,8 +175,8 @@ define('qui/controls/taskbar/Bar', [
                 'class'     : 'qui-taskbar qui-task-drop box',
                 'data-quiid': this.getId(),
                 html        : '<div class="qui-taskbar-container">' +
-                              '<div class="qui-taskbar-container-tasks"></div>' +
-                              '</div>',
+                '<div class="qui-taskbar-container-tasks"></div>' +
+                '</div>',
                 events      : {
                     contextmenu: this.$openContextMenu
                 }
@@ -186,11 +186,11 @@ define('qui/controls/taskbar/Bar', [
                 this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            if (this.getAttribute('position') == 'bottom') {
+            if (this.getAttribute('position') === 'bottom') {
                 this.$Elm.addClass('qui-taskbar-bottom');
             }
 
-            if (this.getAttribute('position') == 'top') {
+            if (this.getAttribute('position') === 'top') {
                 this.$Elm.addClass('qui-taskbar-top');
             }
 
@@ -349,6 +349,15 @@ define('qui/controls/taskbar/Bar', [
         },
 
         /**
+         * Return the number of the children tasks
+         *
+         * @return {Number}
+         */
+        length: function () {
+            return this.$tasks.length;
+        },
+
+        /**
          * Return the first task children
          *
          * @method qui/controls/taskbar/Bar#firstChild
@@ -441,7 +450,7 @@ define('qui/controls/taskbar/Bar', [
                 tid   = Task.getId();
 
             for (var i = 0, len = tasks.length; i < len; i++) {
-                if (tid != tasks[i].getId()) {
+                if (tid !== tasks[i].getId()) {
                     tasks[i].destroy();
                 }
             }
@@ -615,7 +624,7 @@ define('qui/controls/taskbar/Bar', [
 
             // open other task
             if (this.$LastTask &&
-                this.$LastTask.getId() == Task.getId()) {
+                this.$LastTask.getId() === Task.getId()) {
                 this.$LastTask = null;
             }
 
@@ -629,14 +638,14 @@ define('qui/controls/taskbar/Bar', [
             this.$Active = null;
 
             if (this.$LastTask &&
-                this.$LastTask.getId() != Task.getId()) {
+                this.$LastTask.getId() !== Task.getId()) {
                 this.$LastTask.click();
                 return;
             }
 
             var FirstTask = this.firstChild();
 
-            if (FirstTask && Task.getId() == FirstTask.getId()) {
+            if (FirstTask && Task.getId() === FirstTask.getId()) {
                 if (typeof this.$tasks[1] !== 'undefined') {
                     return this.$tasks[1].click();
                 }

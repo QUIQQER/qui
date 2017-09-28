@@ -7,13 +7,6 @@
  * @module qui/controls/desktop/Tasks
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/loader/Loader
- * @require qui/controls/taskbar/Bar
- * @require qui/controls/taskbar/Task
- * @require css!qui/controls/desktop/Tasks.css
- *
  * @event onResize [this]
  * @event onRefresh [this]
  */
@@ -51,14 +44,31 @@ define('qui/controls/desktop/Tasks', [
 
         options: {
             name: 'taskpanel',
-            icon: 'icon-tasks fa fa-tasks',
+            icon: 'fa fa-tasks',
 
             // header
-            header: true,    // true to create a panel header when panel is created
-            title : 'Tasks'  // the title inserted into the panel's header
+            header                 : true,     // true to create a panel header when panel is created
+            title                  : 'Tasks',  // the title inserted into the panel's header
+            limit                  : false,
+            'message.to.much.tasks': false
         },
 
         initialize: function (options) {
+            var limit   = 50;
+            var message = 'Unfortunately, too many tasks are open. Some tasks have been closed.';
+
+            if (QUI.getAttribute('control-task-panel-limit')) {
+                limit = QUI.getAttribute('control-task-panel-limit');
+            }
+
+            if (QUI.getAttribute('control-task-panel-limit-message')) {
+                message = QUI.getAttribute('control-task-panel-limit-message');
+            }
+
+            options.limit = options.limit || limit;
+
+            options['message.to.much.tasks'] = options['message.to.much.tasks'] || message;
+
             this.parent(options);
 
             this.Loader = new Loader();
@@ -319,9 +329,35 @@ define('qui/controls/desktop/Tasks', [
                 return this;
             }
 
-            this.$Taskbar.appendChild(
-                this.instanceToTask(Instance)
-            );
+            var self  = this,
+                Task  = this.instanceToTask(Instance),
+                limit = this.getAttribute('limit');
+
+            if (this.$Taskbar && limit && limit <= this.$Taskbar.length()) {
+                var First    = null,
+                    children = this.$Taskbar.getChildren(),
+                    iType    = Instance.getType();
+
+                for (var i = 0, len = children.length; i < len; i++) {
+                    if (children[i].getType() === iType) {
+                        First = children[i];
+                    }
+                }
+
+                if (First === null) {
+                    First = children[0];
+                }
+
+                if (First) {
+                    First.destroy();
+                }
+
+                QUI.getMessageHandler().then(function (MH) {
+                    MH.addInformation(self.getAttribute('message.to.much.tasks'));
+                });
+            }
+
+            this.$Taskbar.appendChild(Task);
 
             return this;
         },
