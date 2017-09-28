@@ -113,23 +113,28 @@ define('qui/controls/messages/Message', [
                 Time = this.getAttribute('time');
 
             var time = ('0' + Time.getDate()).slice(-2) + '.' +
-                       ('0' + (Time.getMonth() + 1)).slice(-2) + '.' +
-                       Time.getFullYear();
+                ('0' + (Time.getMonth() + 1)).slice(-2) + '.' +
+                Time.getFullYear();
 
             var hours   = ('0' + Time.getHours()).slice(-2);
             var minutes = ('0' + Time.getMinutes()).slice(-2);
+            var message = this.getAttribute('message');
 
             time = time + ' ' + hours + ':' + minutes;
+
+            if (typeOf(message) !== 'string') {
+                message = message.toString();
+            }
 
             var Elm = new Element('div', {
                 'class': 'messages-message box',
                 html   : '<div class="messages-message-header">' +
-                         '<span class="messages-message-header-time">' + time + '</span>' +
-                         '<span class="messages-message-destroy icon-remove-circle fa fa-close"></span>' +
-                         '</div>' +
-                         '<div class="messages-message-text">' +
-                         this.getAttribute('message').replace(/\n/g, '<br />') +
-                         '</div>',
+                '<span class="messages-message-header-time">' + time + '</span>' +
+                '<span class="messages-message-destroy icon-remove-circle fa fa-close"></span>' +
+                '</div>' +
+                '<div class="messages-message-text">' +
+                message.replace(/\n/g, '<br />') +
+                '</div>',
                 events : {
                     click: function () {
                         self.fireEvent('click', [self]);
