@@ -107,14 +107,14 @@ define('qui/controls/contextmenu/Item', [
 
             // string onClick
             if (this.getAttribute('onClick')) {
-                this.addEvent('onClick', function () {
+                this.addEvent('onClick', function (event) {
                     var func = self.getAttribute('onClick');
 
                     try {
                         if (typeof func === 'function') {
-                            func(self);
+                            func(self, event);
                         } else {
-                            eval(self.getAttribute('onClick') + '( self )');
+                            eval(self.getAttribute('onClick') + '(self, event)');
                         }
 
                     } catch (e) {
@@ -474,7 +474,7 @@ define('qui/controls/contextmenu/Item', [
          */
         getChildren: function (name) {
             if (typeof name !== 'undefined') {
-                if (name == this.getAttribute('name') + '-menu') {
+                if (name === this.getAttribute('name') + '-menu') {
                     return this.getContextMenu();
                 }
 
@@ -587,14 +587,14 @@ define('qui/controls/contextmenu/Item', [
                 return;
             }
 
-            if (key == 'text') {
+            if (key === 'text') {
                 this.$Elm.getElement('.qui-contextitem-text')
                     .set('html', value);
 
                 return;
             }
 
-            if (key == 'icon' && value) {
+            if (key === 'icon' && value) {
                 this.$Icon.className = 'qui-contextitem-icon';
                 this.$Icon.setStyle('background-image', null);
 
@@ -605,7 +605,7 @@ define('qui/controls/contextmenu/Item', [
                 }
             }
 
-            if (key == 'showIcon') {
+            if (key === 'showIcon') {
                 if (value === false) {
                     this.$Icon.setStyle('display', 'none');
                     this.$Container.addClass('no-icon');
