@@ -161,9 +161,17 @@ define('qui/utils/Elements', [
                 tester    = document.createElement('input');
 
             for (var i in supported) {
-                tester.type = i;
-                if (tester.type === i) {
-                    supported[i] = true;
+                if (!supported.hasOwnProperty(i)) {
+                    continue;
+                }
+
+                try {
+                    tester.type = i;
+
+                    if (tester.type === i) {
+                        supported[i] = true;
+                    }
+                } catch (e) {
                 }
             }
 
