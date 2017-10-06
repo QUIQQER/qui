@@ -68,7 +68,8 @@ define('qui/controls/elements/Select', [
             icon        : 'fa fa-angle-right',
             placeholder : 'Suche...',
             child       : 'qui/controls/elements/SelectItem', // child type
-            showIds     : true // display the ids in the search result list or not
+            showIds     : true, // display the ids in the search result list or not
+            asyncSearch : true  // search the results asynchronically (if set to false -> just add items without search)
         },
 
         initialize: function (options, Input) {
@@ -221,7 +222,7 @@ define('qui/controls/elements/Select', [
 
             if (!this.getAttribute('searchbutton')) {
                 this.$SearchButton.setStyle('display', 'none');
-                this.$Search.setStyle('width', '100%');
+                this.$Search.style.setProperty('width', '100%', 'important');
             }
 
             // load values
@@ -297,6 +298,10 @@ define('qui/controls/elements/Select', [
          * @method qui/controls/elements/Select#fireSearch
          */
         fireSearch: function () {
+            if (!this.getAttribute('asyncSearch')) {
+                return;
+            }
+
             if (this.$Search.value === '') {
                 return this.close();
             }
@@ -596,7 +601,6 @@ define('qui/controls/elements/Select', [
                 this.addItem(Active.get('data-id'));
             }
 
-            this.$Input.value = '';
             this.search();
         },
 
