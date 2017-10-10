@@ -106,10 +106,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
 
             // button texts
-            var closeText = 'Close';
+            var closeText = QUI.getAttribute('control-windows-popup-closetext');
 
-            if (QUI.getAttribute('control-windows-popup-closetext')) {
-                closeText = QUI.getAttribute('control-windows-popup-closetext');
+            if (this.getAttribute('closeButtonText')) {
+                closeText = this.getAttribute('closeButtonText');
             }
 
             this.setAttribute('closeButtonText', closeText);
