@@ -61,9 +61,11 @@
 }
 
 .qui-select-search {
+    border: none !important;
     position: absolute;
     left: 0;
     top: 0;
+    width: 100%;
 }
 
 .qui-select-container .qui-contextmenu-container {
