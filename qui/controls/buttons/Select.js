@@ -1035,9 +1035,9 @@ define('qui/controls/buttons/Select', [
                 return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) === value;
             });
 
-            if (!found.length) {
-                return;
-            }
+            // if (!found.length) {
+            //     return;
+            // }
 
             this.$Search = new Element('input', {
                 'class': 'qui-select-search',
@@ -1046,9 +1046,10 @@ define('qui/controls/buttons/Select', [
                     keyup: function (event) {
                         event.stop();
 
-                        var value    = this.value,
-                            Menu     = self.$Menu,
-                            children = Menu.getChildren();
+                        var value        = this.value,
+                            Menu         = self.$Menu,
+                            children     = Menu.getChildren(),
+                            displayedOne = false;
 
                         value = value.toString().toLowerCase();
 
@@ -1058,16 +1059,22 @@ define('qui/controls/buttons/Select', [
                             if (!text.toString().toLowerCase().replace(/ /g, '').match(value)) {
                                 Child.hide();
                             } else {
+                                displayedOne = true;
                                 Child.show();
                             }
                         });
+
+                        if (!displayedOne) {
+                            self.$Menu.hide();
+                            return;
+                        }
 
                         var Elm     = self.getElm(),
                             MenuElm = self.$Menu.getElm(),
                             pos     = Elm.getPosition(document.body),
                             size    = Elm.getSize();
 
-                        var x = pos.x - 20,
+                        var x = pos.x,
                             y = pos.y + size.y;
 
                         self.$Menu.setAttribute('width', size.x);
