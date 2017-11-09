@@ -46,6 +46,10 @@ define('qui/controls/messages/Message', [
 
             this.$elements = [];
 
+            if (this.getAttribute('attributes')) {
+                this.setAttributes(this.getAttribute('attributes'));
+            }
+
             if (!this.getAttribute('time')) {
                 this.setAttribute('time', new Date());
             } else {
