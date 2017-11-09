@@ -32,12 +32,13 @@ define('qui/controls/messages/Message', [
         Type   : 'qui/controls/messages/Message',
 
         options: {
-            message : '',
-            code    : 0,
-            time    : false,
-            cssclass: false,
-            styles  : false,
-            hideTime: false
+            message   : '',
+            code      : 0,
+            time      : false,
+            cssclass  : false,
+            styles    : false,
+            hideTime  : false,
+            attributes: false
         },
 
         initialize: function (options) {
