@@ -185,8 +185,6 @@ define('qui/controls/elements/FormList', [
                 change: this.$refreshData
             });
 
-            console.log(Child);
-
             QUI.parse(Child).then(function() {
                 this.$refreshData();
                 this.fireEvent('parsed', [this, Child]);
