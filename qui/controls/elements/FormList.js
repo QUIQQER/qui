@@ -34,7 +34,8 @@ define('qui/controls/elements/FormList', [
         ],
 
         options: {
-            entry: ''
+            entry: '',
+            buttonText: 'Add entry'
         },
 
         initialize: function (options) {
@@ -65,7 +66,7 @@ define('qui/controls/elements/FormList', [
             this.$Buttons   = this.$Elm.getElement('.qui-controls-formlist-buttons');
 
             new QUIButton({
-                text     : 'Eintrag hinzufügen', // #locale
+                text     : this.getAttribute('buttonText'),
                 textimage: 'icon-plus fa fa-add',
                 events   : {
                     onClick: this.$createEntry
@@ -183,6 +184,8 @@ define('qui/controls/elements/FormList', [
                 blur  : this.$refreshData,
                 change: this.$refreshData
             });
+
+            console.log(Child);
 
             QUI.parse(Child).then(function() {
                 this.$refreshData();
