@@ -254,7 +254,7 @@ define('qui/controls/Control', [
                 attrValue = attribute.value;
                 numb      = Number.from(attrValue);
 
-                if (typeOf(numb) === 'number') {
+                if (typeOf(numb) === 'number' && numb == attrValue) {
                     attrValue = numb;
                 }
 

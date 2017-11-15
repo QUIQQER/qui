@@ -32,18 +32,23 @@ define('qui/controls/messages/Message', [
         Type   : 'qui/controls/messages/Message',
 
         options: {
-            message : '',
-            code    : 0,
-            time    : false,
-            cssclass: false,
-            styles  : false,
-            hideTime: false
+            message   : '',
+            code      : 0,
+            time      : false,
+            cssclass  : false,
+            styles    : false,
+            hideTime  : false,
+            attributes: false
         },
 
         initialize: function (options) {
             this.parent(options);
 
             this.$elements = [];
+
+            if (this.getAttribute('attributes')) {
+                this.setAttributes(this.getAttribute('attributes'));
+            }
 
             if (!this.getAttribute('time')) {
                 this.setAttribute('time', new Date());

@@ -5,11 +5,6 @@
  *
  * @module qui/controls/elements/FormList
  * @author www.pcsg.de (Henning Leutz)
- *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/buttons/Button
- * @require css!qui/controls/elements/FormList.css
  */
 define('qui/controls/elements/FormList', [
 
@@ -34,7 +29,8 @@ define('qui/controls/elements/FormList', [
         ],
 
         options: {
-            entry: ''
+            entry     : '',
+            buttonText: 'Add entry'
         },
 
         initialize: function (options) {
@@ -58,14 +54,14 @@ define('qui/controls/elements/FormList', [
             this.$Elm = new Element('div', {
                 'class': 'qui-controls-formlist',
                 html   : '<div class="qui-controls-formlist-buttons"></div>' +
-                         '<div class="qui-controls-formlist-container"></div>'
+                '<div class="qui-controls-formlist-container"></div>'
             });
 
             this.$Container = this.$Elm.getElement('.qui-controls-formlist-container');
             this.$Buttons   = this.$Elm.getElement('.qui-controls-formlist-buttons');
 
             new QUIButton({
-                text     : 'Eintrag hinzufügen', // #locale
+                text     : this.getAttribute('buttonText'),
                 textimage: 'icon-plus fa fa-add',
                 events   : {
                     onClick: this.$createEntry
@@ -84,9 +80,9 @@ define('qui/controls/elements/FormList', [
 
             var nodeName = this.$Input.nodeName;
 
-            if (nodeName == 'INPUT' ||
-                nodeName == 'TEXTAREA' ||
-                nodeName == 'SELECT') {
+            if (nodeName === 'INPUT' ||
+                nodeName === 'TEXTAREA' ||
+                nodeName === 'SELECT') {
                 this.$Input.type = 'hidden';
             }
 
@@ -110,8 +106,7 @@ define('qui/controls/elements/FormList', [
 
                     for (key in value[i]) {
                         if (value[i].hasOwnProperty(key)) {
-                            Node.getElements('[name="' + key + '"]')
-                                .set('value', value[i][key]);
+                            Node.getElements('[name="' + key + '"]').set('value', value[i][key]);
                         }
                     }
                 }
@@ -162,13 +157,13 @@ define('qui/controls/elements/FormList', [
             var Child = new Element('div', {
                 'class': 'qui-controls-formlist-entry',
                 html   : '<div class="qui-controls-formlist-entry-delete"></div>' +
-                         '<div class="qui-controls-formlist-entry-data">' +
-                         this.getAttribute('entry') +
-                         '</div>'
+                '<div class="qui-controls-formlist-entry-data">' +
+                this.getAttribute('entry') +
+                '</div>'
             }).inject(this.$Container);
 
             new QUIButton({
-                icon  : 'icon-trash',
+                icon  : 'icon-trash fa fa-trash',
                 events: {
                     onClick: function () {
                         Child.destroy();
@@ -184,7 +179,10 @@ define('qui/controls/elements/FormList', [
                 change: this.$refreshData
             });
 
-            this.$refreshData();
+            QUI.parse(Child).then(function () {
+                this.$refreshData();
+                this.fireEvent('parsed', [this, Child]);
+            }.bind(this));
 
             return Child;
         }
