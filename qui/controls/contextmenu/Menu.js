@@ -150,7 +150,7 @@ define('qui/controls/contextmenu/Menu', [
                 Elm.removeClass('qui-context-corner-topRight');
                 Elm.removeClass('qui-context-corner-bottom');
                 Elm.removeClass('qui-context-corner-left');
-                Elm.removeClass('qui-context-corner-left');
+                Elm.removeClass('qui-context-corner-right');
             }
 
             switch (this.getAttribute('corner')) {
@@ -238,7 +238,6 @@ define('qui/controls/contextmenu/Menu', [
          * refresh the menu
          */
         refresh: function () {
-
             var Elm        = this.getElm(),
                 Parent     = Elm.getParent(),
                 scrollSize = Elm.getScrollSize();

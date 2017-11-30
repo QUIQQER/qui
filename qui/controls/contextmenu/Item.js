@@ -689,15 +689,19 @@ define('qui/controls/contextmenu/Item', [
 
                 if (Parent) {
                     var MenuElm   = this.$Menu.getElm(),
-
-                        elm_pos   = MenuElm.getPosition(),
-                        elm_size  = MenuElm.getSize(),
                         body_size = document.body.getSize();
 
+                    MenuElm.setStyle('opacity', 0);
+                    MenuElm.setStyle('display', null);
+
                     // show the menü left
-                    if (elm_pos.x + size.x > body_size.x) {
-                        this.$Menu.setPosition(0 - elm_size.x, 0);
+                    if (pos.x + 200 > body_size.x) {
+                        this.$Menu.setAttribute('corner', 'right');
+                        this.$Menu.setPosition(pos.x - 220, pos.y);
                     }
+
+                    MenuElm.setStyle('display', 'none');
+                    MenuElm.setStyle('opacity', null);
                 }
 
                 this.$Menu.show();
