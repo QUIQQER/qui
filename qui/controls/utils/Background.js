@@ -31,7 +31,7 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
 
         initialize: function (params) {
             this.parent(params);
-            
+
             this.$FX = null;
         },
 
@@ -140,7 +140,9 @@ define('qui/controls/utils/Background', ['qui/controls/Control'], function (Cont
                 }, {
                     duration: 200,
                     callback: function () {
-                        this.$Elm.setStyle('display', 'none');
+                        if (this.$Elm) {
+                            this.$Elm.setStyle('display', 'none');
+                        }
 
                         if (typeof callback === 'function') {
                             callback();
