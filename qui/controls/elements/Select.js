@@ -13,6 +13,7 @@
  * @require Locale
  *
  * @event onAddItem [ this, id, SelectItem ]
+ * @event onRemoveItem [ id, this ]
  * @event onChange [ this ]
  * @event onSearchButtonClick [ this, Button ]
  * @event onCreate [ this ]
@@ -652,12 +653,13 @@ define('qui/controls/elements/Select', [
          * @param {Object} Item - qui/controls/elements/SelectItem
          */
         $onItemDestroy: function (Item) {
-            this.$values = this.$values.erase(
-                Item.getAttribute('id')
-            );
+            var itemId   = Item.getAttribute('id');
+            this.$values = this.$values.erase(itemId);
 
             this.$refreshValues();
             this.refresh();
+
+            this.fireEvent('removeItem', [itemId, this]);
         },
 
         /**
