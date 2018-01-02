@@ -338,8 +338,19 @@ define('qui/controls/buttons/Select', [
             var i, len, childvalue;
             var children = this.$Menu.getChildren();
 
+            function isNumeric(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+
             for (i = 0, len = children.length; i < len; i++) {
-                if (children[i].getAttribute('value') === value) {
+                childvalue = children[i].getAttribute('value');
+
+                if (childvalue === value) {
+                    this.$set(children[i]);
+                    return this;
+                }
+
+                if (isNumeric(value) && childvalue === parseInt(value)) {
                     this.$set(children[i]);
                     return this;
                 }
