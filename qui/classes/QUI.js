@@ -181,6 +181,7 @@ define('qui/classes/QUI', [
 
                             isScrollingTimeout = (function () {
                                 this.$isScrolling = false;
+                                this.fireEvent('scrollEnd');
                             }).delay(scrollDelay, this);
 
                         }.bind(this));
@@ -203,6 +204,7 @@ define('qui/classes/QUI', [
 
                             isScrollingTimeout = (function () {
                                 this.$isScrolling = false;
+                                this.fireEvent('scrollEnd');
                             }).delay(scrollDelay, this);
                         }.bind(this));
                     }.bind(this));
