@@ -412,6 +412,14 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 height   = this.getOpeningHeight(),
                 width    = this.getOpeningWidth();
 
+            var ios = SystemUtils.iOSversion();
+
+            if (ios) {
+                if (doc_size.y > QUI.getBodySize().y) {
+                    doc_size.y = QUI.getBodySize().y;
+                }
+            }
+
             var top  = (doc_size.y - height) / 2;
             var left = (doc_size.x - width) / 2;
 
@@ -435,8 +443,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             // ios fix
-            var ios = SystemUtils.iOSversion();
-
             if (ios) {
                 top = top + (document.body.getStyle('top').toInt() * -1);
 
