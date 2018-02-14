@@ -896,10 +896,10 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
-            // we need a delay, becaus between the blur and the focus, the activeElement is body
+            // we need a delay, because between the blur and the focus, the activeElement is body
             (function () {
                 // workaround for quiqqer/qui#35
-                if (typeof event.stop === 'undefined') {
+                if (typeof event === 'undefined' || typeof event.stop === 'undefined') {
                     event = {
                         stop: function () {
                         }
