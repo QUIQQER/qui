@@ -4,7 +4,7 @@
     border: 1px solid #555;
     clear: both;
     float: left;
-    font: 12px/16px 'Droid Sans',sans-serif;
+    font: 12px/16px 'Droid Sans', sans-serif;
     margin: 3px 0 0;
     padding: 10px;
     position: relative;
@@ -33,7 +33,15 @@
 }
 
 .messages-message-text {
-    word-break: break-all;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: normal;
+    word-break: normal;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 /* Message colors
