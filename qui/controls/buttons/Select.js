@@ -191,7 +191,7 @@ define('qui/controls/buttons/Select', [
             this.$Select = this.$Elm.getElement('select');
 
             this.$Select.setStyles({
-                height  : 28,
+                height  : '100%',
                 left    : 0,
                 opacity : 0,
                 position: 'absolute',
