@@ -4,12 +4,6 @@
  * @module qui/controls/contextmenu/BarItem
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/Control
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require qui/controls/contextmenu/Separator
- * @require css!qui/controls/contextmenu/BarItem.css
- *
  * @event onClick [ {this}, {DOMEvent} ]
  * @event onFocus [ {this} ]
  * @event onBlur [ {this} ]
@@ -62,7 +56,10 @@ define('qui/controls/contextmenu/BarItem', [
             icon       : '',
             styles     : null,
             dragable   : false,
-            hideifempty: false
+            hideifempty: false,
+
+            menuStyles         : null,
+            menuContainerStyles: null
         },
 
         initialize: function (options) {
@@ -337,7 +334,11 @@ define('qui/controls/contextmenu/BarItem', [
                                 children[i].setNormal();
                             }
                         }
-                    }
+                    },
+
+                    maxHeight      : this.getAttribute('menuMaxHeight') || false,
+                    styles         : this.getAttribute('menuStyles') || false,
+                    stylesContainer: this.getAttribute('menuContainerStyles') || false
                 });
             }
 

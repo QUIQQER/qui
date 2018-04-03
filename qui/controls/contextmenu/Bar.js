@@ -4,10 +4,6 @@
  * @module qui/controls/contextmenu/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/Control
- * @require qui/controls/contextmenu/BarItem
- * @require css!qui/controls/contextmenu/Bar.css
- *
  * @event onChildClick
  */
 
@@ -42,7 +38,11 @@ define('qui/controls/contextmenu/Bar', [
             styles   : null,     // mootools css styles
             width    : 200,      // menü width
             openening: false,    // if open status = true, onmouseover opens the baritmes
-            dragable : false
+            dragable : false,
+
+            menuMaxHeight      : false,
+            menuStyles         : null,
+            menuContainerStyles: null
         },
 
         initialize: function (options) {
@@ -57,7 +57,7 @@ define('qui/controls/contextmenu/Bar', [
          * Create the DOMNode Element
          *
          * @method qui/controls/contextmenu/Bar#create
-         * @return {HTMLElement}
+         * @return {HTMLElement|Element}
          */
         create: function () {
             this.$Elm = new Element('div', {
@@ -82,6 +82,18 @@ define('qui/controls/contextmenu/Bar', [
             for (var i = 0, len = list.length; i < len; i++) {
                 if (this.getAttribute('dragable')) {
                     list[i].dragable = true;
+                }
+
+                if (this.getAttribute('menuMaxHeight')) {
+                    list[i].menuMaxHeight = this.getAttribute('menuMaxHeight');
+                }
+
+                if (this.getAttribute('menuStyles')) {
+                    list[i].menuStyles = this.getAttribute('menuStyles');
+                }
+
+                if (this.getAttribute('menuContainerStyles')) {
+                    list[i].menuContainerStyles = this.getAttribute('menuContainerStyles');
                 }
 
                 this.appendChild(
@@ -154,6 +166,18 @@ define('qui/controls/contextmenu/Bar', [
 
             if (this.getAttribute('dragable')) {
                 Child.setAttribute('dragable', true);
+            }
+
+            if (this.getAttribute('menuMaxHeight')) {
+                Child.setAttribute('menuMaxHeight', this.getAttribute('menuMaxHeight'));
+            }
+
+            if (this.getAttribute('menuStyles')) {
+                Child.setAttribute('menuStyles', this.getAttribute('menuStyles'));
+            }
+
+            if (this.getAttribute('menuContainerStyles')) {
+                Child.setAttribute('menuContainerStyles', this.getAttribute('menuContainerStyles'));
             }
 
             this.$items.push(Child);
