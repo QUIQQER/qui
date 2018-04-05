@@ -41,6 +41,7 @@ define('qui/controls/loader/Loader', [
             styles   : false,  // extra CSS styles,
             type     : false,
             color    : false,
+            opacity  : 0.8,
 
             loaderErrorText: 'Das Fenster reagiert nicht mehr. Um fortzufahren, klicken Sie bitte hier.'
         },
@@ -200,8 +201,12 @@ define('qui/controls/loader/Loader', [
                 // must be showed, because, hide can be triggered -> no async showed
                 this.$Elm.setStyle('display', '');
 
+                if (this.getAttribute('styles')) {
+                    this.$Elm.setStyles(this.getAttribute('styles'));
+                }
+
                 this.$FX.animate({
-                    opacity: 0.8
+                    opacity: this.getAttribute('opacity')
                 }, {
                     duration: 200
                 });
