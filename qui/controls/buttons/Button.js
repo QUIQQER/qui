@@ -364,7 +364,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 return false;
             }
 
-            return this.getElm().get('data-status') === 1;
+            return parseInt(this.getElm().get('data-status')) === 1;
         },
 
         /**
@@ -411,7 +411,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 return false;
             }
 
-            return this.getElm().get('data-status') === -1;
+            return parseInt(this.getElm().get('data-status')) === -1;
         },
 
         /**
