@@ -219,6 +219,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 if (this.getAttribute('closeButton')) {
                     var Submit = new Element('button', {
                         html   : '<span>' + this.getAttribute('closeButtonText') + '</span>',
+                        name   : 'close',
                         'class': 'qui-button btn-red',
                         events : {
                             click: this.cancel
