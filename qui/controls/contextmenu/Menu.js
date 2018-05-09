@@ -4,11 +4,6 @@
  * @module qui/controls/contextmenu/Menu
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/utils/Elements
- * @require css!qui/controls/contextmenu/Menu.css
- *
  * @event onMouseEnter
  * @event onMouseLeave
  */
@@ -43,14 +38,15 @@ define('qui/controls/contextmenu/Menu', [
         ],
 
         options: {
-            styles   : null,   // mootools css styles
-            width    : 200,    // menü width
-            title    : false,  // title of the menu (optional) : String
-            shadow   : true,   // menü with shadow (true) or not (false)
-            corner   : false,  // corner for the menü
-            maxHeight: false, // max height of the menu
-            dragable : false,
-            showIcons: true
+            styles         : null,   // mootools css styles
+            stylesContainer: null,   // mootools css styles, for the menu container
+            width          : 200,    // menü width
+            title          : false,  // title of the menu (optional) : String
+            shadow         : true,   // menü with shadow (true) or not (false)
+            corner         : false,  // corner for the menü
+            maxHeight      : false, // max height of the menu
+            dragable       : false,
+            showIcons      : true
         },
 
         initialize: function (options) {
@@ -109,6 +105,10 @@ define('qui/controls/contextmenu/Menu', [
 
             if (this.getAttribute('styles')) {
                 this.$Elm.setStyles(this.getAttribute('styles'));
+            }
+
+            if (this.getAttribute('stylesContainer')) {
+                this.$Container.setStyles(this.getAttribute('stylesContainer'));
             }
 
             if (this.getAttribute('title')) {

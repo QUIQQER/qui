@@ -4,14 +4,6 @@
  * @module qui/controls/elements/Select
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/loader/Loader
- * @require qui/controls/buttons/Button
- * @require qui/controls/elements/SelectItem
- * @require Ajax
- * @require Locale
- *
  * @event onAddItem [ this, id, SelectItem ]
  * @event onRemoveItem [ id, this ]
  * @event onChange [ this ]
@@ -278,6 +270,7 @@ define('qui/controls/elements/Select', [
 
             this.$Elm.setStyle('height', 30);
             this.$Elm.setStyle('minHeight', 30);
+            this.$Elm.removeClass('qui-elements-select-multiple');
 
             this.$List.setStyles({
                 height  : 30,

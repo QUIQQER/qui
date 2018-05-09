@@ -191,7 +191,7 @@ define('qui/controls/buttons/Select', [
             this.$Select = this.$Elm.getElement('select');
 
             this.$Select.setStyles({
-                height  : 28,
+                height  : '100%',
                 left    : 0,
                 opacity : 0,
                 position: 'absolute',
@@ -896,8 +896,16 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
-            // we need a delay, becaus between the blur and the focus, the activeElement is body
+            // we need a delay, because between the blur and the focus, the activeElement is body
             (function () {
+                // workaround for quiqqer/qui#35
+                if (typeof event === 'undefined' || typeof event.stop === 'undefined') {
+                    event = {
+                        stop: function () {
+                        }
+                    };
+                }
+
                 if (document.activeElement === this.$Search) {
                     event.stop();
                     this.$Search.focus();

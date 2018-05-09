@@ -70,24 +70,24 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
     return new Class({
 
         Extends: Control,
-        Type: 'qui/controls/buttons/Button',
+        Type   : 'qui/controls/buttons/Button',
 
         Binds: [
             'onSetAttribute'
         ],
 
         options: {
-            'type': 'button',
-            'image': false,   // (@depricated) use the icon attribute
-            'icon': false,   // icon top of the text
-            'style': {},      // mootools css style attributes
-            'textimage': false,   // Image left from text
-            'text': false,   // Button text
-            'title': false,
-            'class': false,    // extra CSS Class
+            'type'          : 'button',
+            'image'         : false,   // (@depricated) use the icon attribute
+            'icon'          : false,   // icon top of the text
+            'style'         : {},      // mootools css style attributes
+            'textimage'     : false,   // Image left from text
+            'text'          : false,   // Button text
+            'title'         : false,
+            'class'         : false,    // extra CSS Class
             'buttonCSSClass': true, // should have the button the qui-button css class?
-            'menuCorner': 'top',
-            'dropDownIcon': true
+            'menuCorner'    : 'top',
+            'dropDownIcon'  : true
         },
 
         params: {},
@@ -97,8 +97,8 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
             this.parent(options);
 
-            this.$Menu = null;
-            this.$Drop = null;
+            this.$Menu  = null;
+            this.$Drop  = null;
             this.$items = [];
 
 
@@ -155,9 +155,9 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
             var self = this;
 
             var Elm = new Element('button', {
-                'type': this.getAttribute('type'),
+                'type'       : this.getAttribute('type'),
                 'data-status': 0,
-                'data-quiid': this.getId()
+                'data-quiid' : this.getId()
             });
 
             Elm.addClass('qui-button--no-icon');
@@ -364,7 +364,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 return false;
             }
 
-            return this.getElm().get('data-status') == 1;
+            return parseInt(this.getElm().get('data-status')) === 1;
         },
 
         /**
@@ -383,7 +383,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
             Elm.set({
                 'data-status': -1,
-                'disabled': 'disabled'
+                'disabled'   : 'disabled'
             });
 
             this.fireEvent('disable', [this]);
@@ -411,7 +411,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 return false;
             }
 
-            return this.getElm().get('data-status') == -1;
+            return parseInt(this.getElm().get('data-status')) === -1;
         },
 
         /**
@@ -427,9 +427,10 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
             this.getElm().set({
                 'data-status': 0,
-                'disabled': null
+                'disabled'   : null
             });
 
+            this.fireEvent('enable', [this]);
             this.setNormal();
 
             return this;
@@ -465,7 +466,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
             Elm.set({
                 'data-status': 0,
-                'disabled': null
+                'disabled'   : null
             });
 
             Elm.removeClass('qui-button-active');
@@ -485,7 +486,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
          * @return {Object} this (qui/controls/buttons/Button)
          */
         appendChild: function (Itm) {
-            if (typeOf(Itm) == 'object') {
+            if (typeOf(Itm) === 'object') {
                 Itm = new ContextMenuItem(Itm);
             }
 
@@ -571,7 +572,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
             require(['qui/controls/contextmenu/Menu'], function (Menu) {
                 self.$Menu = new Menu({
-                    name: self.getAttribute('name') + '-menu',
+                    name  : self.getAttribute('name') + '-menu',
                     corner: self.getAttribute('menuCorner')
                 });
 
@@ -583,10 +584,10 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                             return;
                         }
 
-                        var pos = self.$Elm.getPosition(),
-                            size = self.$Elm.getSize(),
+                        var pos   = self.$Elm.getPosition(),
+                            size  = self.$Elm.getSize(),
 
-                            mpos = self.getAttribute('menuCorner'),
+                            mpos  = self.getAttribute('menuCorner'),
                             msize = self.$Menu.getElm().getComputedSize();
 
                         if (mpos.contains('bottom')) {
@@ -648,7 +649,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 return;
             }
 
-            if (k == 'image') {
+            if (k === 'image') {
                 k = 'icon';
             }
 
@@ -670,7 +671,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                     }).inject(Image);
                 } else {
                     new Element('img.qui-button-image', {
-                        src: value,
+                        src   : value,
                         styles: {
                             'display': 'block' // only image, fix
                         }
@@ -727,7 +728,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
                     Img = new Element('span', {
                         'class': 'qui-button-text-image ' + value,
-                        styles: {
+                        styles : {
                             'margin-right': 0
                         }
                     }).inject(Txt, 'before');
@@ -738,8 +739,8 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
                     Img = new Element('img', {
                         'class': 'qui-button-text-image',
-                        src: value,
-                        styles: {
+                        src    : value,
+                        styles : {
                             'margin-right': 0
                         }
                     }).inject(Txt, 'before');

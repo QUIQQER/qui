@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script>
+        window.onload = function () {
+            var i, len, params;
+
+            var search = window.location.search;
+            var id     = null;
+
+            search = search.replace('\?', '').split('&');
+
+            for (i = 0, len = search.length; i < len; i++) {
+                params = search[i].split('=');
+
+                if (params[0] === 'id') {
+                    id = params[1];
+                    break;
+                }
+            }
+
+            if (!id) {
+                return;
+            }
+
+            var parentWin = window.parent.window;
+            var parentDoc = window.parent.document;
+            var QUI       = window.parent.QUI;
+
+            var Control = QUI.Controls.getById(id);
+
+            Control.$loaded(window.document);
+        }
+    </script>
+</head>
+<body></body>
+</html>

@@ -95,11 +95,11 @@ define('qui/controls/windows/Confirm', [
                 submitText = QUI.getAttribute('control-windows-confirm-submittext');
             }
 
-            if (cancelButton.text === false) {
+            if (cancelButton && cancelButton.text === false) {
                 cancelButton.text = cancelText;
             }
 
-            if (submitButton.text === false) {
+            if (submitButton && submitButton.text === false) {
                 submitButton.text = submitText;
             }
 
@@ -186,9 +186,9 @@ define('qui/controls/windows/Confirm', [
 
             this.$Body = new Element('div.submit-body', {
                 html  : '<div class="textbody">' +
-                        '<h2 class="text">&nbsp;</h2>' +
-                        '<div class="information">&nbsp;</div>' +
-                        '</div>',
+                '<h2 class="text">&nbsp;</h2>' +
+                '<div class="information">&nbsp;</div>' +
+                '</div>',
                 styles: {
                     'float': 'left',
                     width  : '100%'
@@ -213,38 +213,41 @@ define('qui/controls/windows/Confirm', [
                 this.$Body.destroy();
             }
 
-
             this.$Buttons.set('html', '');
 
-            this.addButton(
-                new QUIButton({
-                    name     : 'cancel',
-                    text     : this.getAttribute('cancel_button').text,
-                    textimage: this.getAttribute('cancel_button').textimage,
-                    styles   : {
-                        'float': 'none'
-                    },
-                    events   : {
-                        onClick: this.cancel
-                    }
-                })
-            );
-
-            this.addButton(
-                new QUIButton({
-                    name     : 'submit',
-                    text     : this.getAttribute('ok_button').text,
-                    textimage: this.getAttribute('ok_button').textimage,
-                    styles   : {
-                        'float': 'none'
-                    },
-                    events   : {
-                        onClick: function () {
-                            self.submit();
+            if (this.getAttribute('cancel_button')) {
+                this.addButton(
+                    new QUIButton({
+                        name     : 'cancel',
+                        text     : this.getAttribute('cancel_button').text,
+                        textimage: this.getAttribute('cancel_button').textimage,
+                        styles   : {
+                            'float': 'none'
+                        },
+                        events   : {
+                            onClick: this.cancel
                         }
-                    }
-                })
-            );
+                    })
+                );
+            }
+
+            if (this.getAttribute('ok_button')) {
+                this.addButton(
+                    new QUIButton({
+                        name     : 'submit',
+                        text     : this.getAttribute('ok_button').text,
+                        textimage: this.getAttribute('ok_button').textimage,
+                        styles   : {
+                            'float': 'none'
+                        },
+                        events   : {
+                            onClick: function () {
+                                self.submit();
+                            }
+                        }
+                    })
+                );
+            }
 
             this.parent();
         },
