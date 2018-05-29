@@ -249,10 +249,13 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Elm.addEvents({
-                focus: this.open,
+                focus  : this.open,
                 // click: this.open,
-                blur : this.$onBlur,
-                keyup: this.$onKeyUp
+                blur   : this.$onBlur,
+                keyup  : this.$onKeyUp,
+                keydown: function (event) {
+                    event.stop();
+                }
             });
 
             this.$placeholderText = this.getAttribute('placeholderText');
@@ -710,6 +713,10 @@ define('qui/controls/buttons/Select', [
                 );
             }
 
+            if (y + MenuElm.getComputedSize().totalHeight + 20 > winSize) {
+                y = pos.y - 10 - MenuElm.getComputedSize().totalHeight;
+            }
+
             var Option = this.$Menu.getChildren(
                 this.getAttribute('name') + this.getValue()
             );
@@ -966,19 +973,21 @@ define('qui/controls/buttons/Select', [
                 return;
             }
 
-            var Elm     = this.getElm(),
-                MenuElm = this.$Menu.getElm(),
-                pos     = Elm.getPosition(document.body),
-                size    = Elm.getSize();
-
-            var x = pos.x - 20,
-                y = pos.y + size.y;
-
-            this.$Menu.setAttribute('width', size.x);
-            this.$Menu.show();
-
-            MenuElm.setStyle('top', y);
-            MenuElm.setStyle('left', x);
+            event.stop();
+            //
+            // var Elm     = this.getElm(),
+            //     MenuElm = this.$Menu.getElm(),
+            //     pos     = Elm.getPosition(document.body),
+            //     size    = Elm.getSize();
+            //
+            // var x = pos.x - 20,
+            //     y = pos.y + size.y;
+            //
+            // this.$Menu.setAttribute('width', size.x);
+            // this.$Menu.show();
+            //
+            // MenuElm.setStyle('top', y);
+            // MenuElm.setStyle('left', x);
 
             if (event.key === 'down') {
                 this.$Menu.down();
@@ -1061,8 +1070,11 @@ define('qui/controls/buttons/Select', [
             this.$Search = new Element('input', {
                 'class': 'qui-select-search',
                 events : {
-                    blur : this.$hideSearch,
-                    keyup: function (event) {
+                    blur   : this.$hideSearch,
+                    keydown: function (event) {
+                        event.stop();
+                    },
+                    keyup  : function (event) {
                         event.stop();
 
                         var value        = this.value,
@@ -1088,19 +1100,19 @@ define('qui/controls/buttons/Select', [
                             return;
                         }
 
-                        var Elm     = self.getElm(),
-                            MenuElm = self.$Menu.getElm(),
-                            pos     = Elm.getPosition(document.body),
-                            size    = Elm.getSize();
-
-                        var x = pos.x,
-                            y = pos.y + size.y;
-
-                        self.$Menu.setAttribute('width', size.x);
-                        self.$Menu.show();
-
-                        MenuElm.setStyle('top', y);
-                        MenuElm.setStyle('left', x);
+                        // var Elm     = self.getElm(),
+                        //     MenuElm = self.$Menu.getElm(),
+                        //     pos     = Elm.getPosition(document.body),
+                        //     size    = Elm.getSize();
+                        //
+                        // var x = pos.x,
+                        //     y = pos.y + size.y;
+                        //
+                        // self.$Menu.setAttribute('width', size.x);
+                        // self.$Menu.show();
+                        //
+                        // MenuElm.setStyle('top', y);
+                        // MenuElm.setStyle('left', x);
 
 
                         if (event.key === 'down') {
@@ -1119,6 +1131,8 @@ define('qui/controls/buttons/Select', [
                     }
                 }
             }).inject(this.getElm());
+
+            document.focus();
 
             this.$Search.focus();
         },
