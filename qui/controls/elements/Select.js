@@ -50,19 +50,20 @@ define('qui/controls/elements/Select', [
         ],
 
         options: {
-            max         : false, // max entries
-            multiple    : true,  // select more than one entry?
-            searchbutton: true,
-            name        : '',    // string
-            styles      : {
+            max            : false, // max entries
+            multiple       : true,  // select more than one entry?
+            searchbutton   : true,
+            name           : '',    // string
+            styles         : {
                 height: 120
             },
-            label       : false, // text string or a <label> DOMNode Element
-            icon        : 'fa fa-angle-right',
-            placeholder : 'Suche...',
-            child       : 'qui/controls/elements/SelectItem', // child type
-            showIds     : true, // display the ids in the search result list or not
-            asyncSearch : true  // search the results asynchronically (if set to false -> just add items without search)
+            label          : false, // text string or a <label> DOMNode Element
+            icon           : 'fa fa-angle-right',
+            placeholder    : 'Suche...',
+            child          : 'qui/controls/elements/SelectItem', // child type
+            showIds        : true, // display the ids in the search result list or not
+            asyncSearch    : true,  // search the results asynchronically (if set to false -> just add items without search)
+            allowDuplicates: true  // allow items with duplicate values
         },
 
         initialize: function (options, Input) {
@@ -258,6 +259,10 @@ define('qui/controls/elements/Select', [
          * Refresh the display
          */
         refresh: function () {
+            if (!this.$Elm) {
+                return;
+            }
+
             if (!this.getAttribute('max') || parseInt(this.getAttribute('max')) !== 1) {
                 this.$Elm.addClass('qui-elements-select-multiple');
                 return;
@@ -468,6 +473,10 @@ define('qui/controls/elements/Select', [
          */
         addItem: function (id) {
             if (id === false || id === '') {
+                return this;
+            }
+
+            if (!this.getAttribute('allowDuplicates') && this.$values.contains(id)) {
                 return this;
             }
 
