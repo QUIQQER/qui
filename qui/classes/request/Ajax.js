@@ -4,13 +4,7 @@
  *
  * @module qui/classes/request/Ajax
  * @author www.pcsg.de (Henning Leutz)
- *
- * @require qui/QUI
- * @require qui/classes/DOM
- * @require qui/controls/messages/Error
- * @require qui/Locale
  */
-
 define('qui/classes/request/Ajax', [
 
     'qui/QUI',
@@ -93,6 +87,18 @@ define('qui/classes/request/Ajax', [
 
                 onCancel: function () {
                     self.fireEvent('cancel', [self]);
+                },
+
+                onFailure: function (Xhr) {
+                    require(['qui/controls/messages/Error'], function (Exception) {
+                        self.fireEvent('error', [
+                            new Exception({
+                                message: Xhr.statusText,
+                                code   : Xhr.status
+                            }),
+                            self
+                        ]);
+                    });
                 }
             });
 
