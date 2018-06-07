@@ -254,6 +254,12 @@ define('qui/controls/buttons/Select', [
                 blur   : this.$onBlur,
                 keyup  : this.$onKeyUp,
                 keydown: function (event) {
+                    if (event.key !== 'down' &&
+                        event.key !== 'up' &&
+                        event.key !== 'enter') {
+                        return;
+                    }
+
                     event.stop();
                 }
             });
@@ -714,7 +720,11 @@ define('qui/controls/buttons/Select', [
             }
 
             if (y + MenuElm.getComputedSize().totalHeight + 20 > winSize) {
-                y = pos.y - 10 - MenuElm.getComputedSize().totalHeight;
+                var yTemp = pos.y - 10 - MenuElm.getComputedSize().totalHeight;
+
+                if (yTemp > 0) {
+                    y = yTemp;
+                }
             }
 
             var Option = this.$Menu.getChildren(
@@ -728,7 +738,6 @@ define('qui/controls/buttons/Select', [
 
                 Option.setActive();
             }
-
 
             var width = size.x + 1;
 
@@ -1068,10 +1077,17 @@ define('qui/controls/buttons/Select', [
             // }
 
             this.$Search = new Element('input', {
-                'class': 'qui-select-search',
-                events : {
+                'class'     : 'qui-select-search',
+                autocomplete: 'off',
+                events      : {
                     blur   : this.$hideSearch,
                     keydown: function (event) {
+                        if (event.key !== 'down' &&
+                            event.key !== 'up' &&
+                            event.key !== 'enter') {
+                            return;
+                        }
+
                         event.stop();
                     },
                     keyup  : function (event) {
@@ -1132,7 +1148,10 @@ define('qui/controls/buttons/Select', [
                 }
             }).inject(this.getElm());
 
-            document.focus();
+            try {
+                document.focus();
+            } catch (e) {
+            }
 
             this.$Search.focus();
         },
