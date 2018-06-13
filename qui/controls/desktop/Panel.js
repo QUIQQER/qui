@@ -5,18 +5,6 @@
  * @module qui/controls/desktop/Panel
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/loader/Loader
- * @require qui/controls/toolbar/Bar
- * @require qui/controls/buttons/Separator
- * @require qui/controls/buttons/Button
- * @require qui/controls/desktop/panels/Sheet
- * @require qui/controls/breadcrumb/Bar
- * @require qui/controls/contextmenu/Menu
- * @require qui/utils/Controls
- * @require css!qui/controls/desktop/Panel.css
- *
  * @event onCreate [ this ]
  * @event onOpen [ this ]
  * @event onOpenBegin [ this ]
@@ -119,12 +107,10 @@ define('qui/controls/desktop/Panel', [
             this.addEvents({
                 onDestroy     : this.$onDestroy,
                 onSetAttribute: function (key, value) {
-
                     if (this.$Header && key === 'closeButton') {
-
                         if (value === true && !this.$CloseButton) {
                             this.$CloseButton = new Button({
-                                icon  : 'icon-remove fa fa-close',
+                                icon  : 'fa fa-close',
                                 name  : 'close',
                                 styles: {
                                     'float': 'right'
@@ -143,7 +129,6 @@ define('qui/controls/desktop/Panel', [
                             this.$CloseButton.destroy();
                         }
                     }
-
                 }.bind(this)
             });
         },
@@ -332,8 +317,8 @@ define('qui/controls/desktop/Panel', [
             if (content_height.toString().match('%')) {
                 var Parent = this.$Elm.getParent() || document.body;
 
-                content_height = ( content_height ).toInt();
-                content_height = Parent.getSize().y * ( content_height / 100 );
+                content_height = (content_height).toInt();
+                content_height = Parent.getSize().y * (content_height / 100);
             }
 
             content_height = content_height -
@@ -512,7 +497,7 @@ define('qui/controls/desktop/Panel', [
                 return false;
             }
 
-            return this.$Content.getStyle('display') != 'none';
+            return this.$Content.getStyle('display') !== 'none';
         },
 
         /**
@@ -669,7 +654,7 @@ define('qui/controls/desktop/Panel', [
             }
 
             if (!this.$Buttons) {
-                this.$Buttons = this.$Elm.getElement('.qui-panel-buttons')
+                this.$Buttons = this.$Elm.getElement('.qui-panel-buttons');
             }
 
             this.$Buttons.setStyle('display', null);
@@ -1109,6 +1094,58 @@ define('qui/controls/desktop/Panel', [
                     destroy[i].destroy();
                 }
             }
+        },
+
+        /**
+         * Shows a saved animation in the panel icon
+         *
+         * @return {Promise}
+         */
+        showSavedIconAnimation: function () {
+            var self    = this,
+                oldIcon = this.getAttribute('icon');
+
+            this.setAttribute('icon', 'fa fa-spinner fa-spin');
+            this.$refresh();
+
+            return new Promise(function (resolve) {
+                (function () {
+                    self.setAttribute('icon', 'fa fa-check');
+                    self.$refresh();
+
+                    (function () {
+                        self.setAttribute('icon', oldIcon);
+                        self.$refresh();
+                        resolve();
+                    }).delay(800);
+                }).delay(200);
+            });
+        },
+
+        /**
+         * Shows an error animation in the panel icon
+         *
+         * @return {Promise}
+         */
+        showErrorIconAnimation: function () {
+            var self    = this,
+                oldIcon = this.getAttribute('icon');
+
+            this.setAttribute('icon', 'fa fa-spinner fa-spin');
+            this.$refresh();
+
+            return new Promise(function (resolve) {
+                (function () {
+                    self.setAttribute('icon', 'fa fa-bolt');
+                    self.$refresh();
+
+                    (function () {
+                        self.setAttribute('icon', oldIcon);
+                        self.$refresh();
+                        resolve();
+                    }).delay(800);
+                }).delay(200);
+            });
         }
     });
 });
