@@ -55,6 +55,7 @@ define('qui/controls/contextmenu/Menu', [
             this.$items  = [];
             this.$Title  = null;
             this.$Active = null;
+            this.$hidden = true;
 
             this.$__activeSubMenu = false;
         },
@@ -192,6 +193,7 @@ define('qui/controls/contextmenu/Menu', [
             }
 
             this.$Container.setStyle('height', 0);
+            this.$hidden = false;
 
             Elm.setStyles({
                 display: '',
@@ -225,6 +227,8 @@ define('qui/controls/contextmenu/Menu', [
                 }
             }
 
+            this.$hidden = true;
+
             this.getElm().setStyles({
                 display: 'none'
             });
@@ -232,6 +236,15 @@ define('qui/controls/contextmenu/Menu', [
             this.fireEvent('hide', [this]);
 
             return this;
+        },
+
+        /**
+         * Return the hidden status of the menu
+         *
+         * @return {boolean}
+         */
+        isHidden: function () {
+            return this.$hidden;
         },
 
         /**
@@ -266,7 +279,6 @@ define('qui/controls/contextmenu/Menu', [
                 }
 
                 scrollSize = Elm.getSize();
-
             } else {
                 Elm.setStyle('height', scrollSize.y);
             }
@@ -359,7 +371,7 @@ define('qui/controls/contextmenu/Menu', [
                 var items = this.$items;
 
                 for (i = 0, len = items.length; i < len; i++) {
-                    if (items[i].getAttribute('name') == name) {
+                    if (items[i].getAttribute('name') === name) {
                         return items[i];
                     }
                 }

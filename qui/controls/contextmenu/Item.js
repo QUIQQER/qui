@@ -4,13 +4,6 @@
  * @module qui/controls/contextmenu/Item
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control',
- * @require qui/classes/utils/DragDrop',
- * @require qui/controls/contextmenu/Menu',
- * @require qui/utils/Controls',
- * @require css!qui/controls/contextmenu/Item.css'
- *
  * @event onAppend [ {self}, {qui/controls/contextmenu/Item} ]
  * @event onActive [ {self} ]
  * @event onNormal [ {self} ]
