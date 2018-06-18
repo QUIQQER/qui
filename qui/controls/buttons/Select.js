@@ -39,6 +39,8 @@ define('qui/controls/buttons/Select', [
             'set',
             '$set',
             '$onDestroy',
+            '$onInject',
+            '$onChange',
             '$onBlur',
             '$onKeyUp',
             '$disableScroll',
@@ -63,7 +65,8 @@ define('qui/controls/buttons/Select', [
             placeholderIcon      : false,
             placeholderSelectable: true, // placeholder is standard selectable menu child
             multiple             : false,
-            checkable            : false
+            checkable            : false,
+            localeStorage        : false // name for the locale storage, if this is set, the value is stored in the locale storage
         },
 
         params: {},
@@ -105,13 +108,15 @@ define('qui/controls/buttons/Select', [
             this.$placeholderIcon = this.getAttribute('placeholderIcon');
 
             this.addEvent('onDestroy', this.$onDestroy);
+            this.addEvent('onInject', this.$onInject);
+            this.addEvent('onChange', this.$onChange);
         },
 
         /**
          * Create the DOMNode Element
          *
          * @method qui/controls/buttons/Select#create
-         * @return {HTMLElement}
+         * @return {HTMLElement|Element}
          */
         create: function () {
             var self = this;
@@ -215,14 +220,14 @@ define('qui/controls/buttons/Select', [
             this.$Select.addEvents({
                 change: function () {
                     if (self.getAttribute('multiple')) {
-                        var selected = self.$Select.getElements('option:selected')
-                                           .map(function (Option) {
-                                               return Option.value;
-                                           });
+                        var selected = self.$Select.getElements('option:selected').map(function (Option) {
+                            return Option.value;
+                        });
 
                         self.setValues(selected);
                         return;
                     }
+
                     self.setValue(this.value);
                 },
                 focus : function () {
@@ -334,6 +339,41 @@ define('qui/controls/buttons/Select', [
             }
 
             return this.$Elm;
+        },
+
+        /**
+         * event: on inject
+         */
+        $onInject: function () {
+            if (!this.getAttribute('localeStorage')) {
+                return;
+            }
+
+            var localeStorageName = this.getAttribute('localeStorage');
+            var localeData        = QUI.Storage.get(localeStorageName);
+
+            try {
+                this.setValue(
+                    JSON.decode(localeData)
+                );
+            } catch (e) {
+            }
+        },
+
+        /**
+         * event: on change
+         *
+         * @param value
+         */
+        $onChange: function (value) {
+            if (!this.getAttribute('localeStorage')) {
+                return;
+            }
+
+            QUI.Storage.set(
+                this.getAttribute('localeStorage'),
+                JSON.encode(value)
+            );
         },
 
         /**
@@ -500,6 +540,7 @@ define('qui/controls/buttons/Select', [
          * @param {String} text - Text of the child
          * @param {String} value - Value of the child
          * @param {String} [icon] - optional
+         *
          * @return {Object} this (qui/controls/buttons/Select)
          */
         appendChild: function (text, value, icon) {
@@ -648,12 +689,7 @@ define('qui/controls/buttons/Select', [
             }
 
             // ie11 focus fix
-            if (Active === this.$Menu.getElm() ||
-                Active === this.$Menu.$Container) {
-                return true;
-            }
-
-            return false;
+            return Active === this.$Menu.getElm() || Active === this.$Menu.$Container;
         },
 
         /**
@@ -1043,24 +1079,12 @@ define('qui/controls/buttons/Select', [
         /**
          * Show the search
          */
-        $showSearch: function (event) {
+        $showSearch: function () {
             if (this.$Search) {
                 return;
             }
 
-            var self     = this,
-                children = this.$Menu.getChildren(),
-                value    = event.key;
-
-            value = value.toString().replace(/ /g, '').toLowerCase();
-
-            var found = children.filter(function (Child) {
-                return Child.getAttribute('text').toString().toLowerCase().substr(0, 1) === value;
-            });
-
-            // if (!found.length) {
-            //     return;
-            // }
+            var self = this;
 
             this.$Search = new Element('input', {
                 'class'     : 'qui-select-search',
