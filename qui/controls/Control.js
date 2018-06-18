@@ -5,17 +5,11 @@
  * @module qui/controls/Control
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/Locale
- * @require qui/classes/DOM
- * @require css!qui/controls/Control.css
- *
  * @event onInject [ this ]
  * @event onHighlight [ this ]
  * @event onNormalize [ this ]
  * @event onResize [ this ]
  */
-
 define('qui/controls/Control', [
 
     'qui/QUI',
@@ -387,7 +381,7 @@ define('qui/controls/Control', [
                 return true;
             }
 
-            return this.$Elm.getStyle('display') == 'none';
+            return this.$Elm.getStyle('display') === 'none';
         },
 
         /**
@@ -478,13 +472,13 @@ define('qui/controls/Control', [
             var Sheet = new Element('div', {
                 'class': 'qui-sheet qui-box',
                 html   : '<div class="qui-sheet-content box"></div>' +
-                         '<div class="qui-sheet-buttons box">' +
-                         '<div class="qui-sheet-buttons-back qui-button btn-white">' +
-                         '<span>' +
-                         Locale.get('qui/controls/Control', 'btn.back') +
-                         '</span>' +
-                         '</div>' +
-                         '</div>',
+                '<div class="qui-sheet-buttons box">' +
+                '<div class="qui-sheet-buttons-back qui-button btn-white">' +
+                '<span>' +
+                Locale.get('qui/controls/Control', 'btn.back') +
+                '</span>' +
+                '</div>' +
+                '</div>',
                 styles : {
                     display: 'none',
                     left   : -20,

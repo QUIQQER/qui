@@ -983,20 +983,6 @@ define('qui/controls/buttons/Select', [
             }
 
             event.stop();
-            //
-            // var Elm     = this.getElm(),
-            //     MenuElm = this.$Menu.getElm(),
-            //     pos     = Elm.getPosition(document.body),
-            //     size    = Elm.getSize();
-            //
-            // var x = pos.x - 20,
-            //     y = pos.y + size.y;
-            //
-            // this.$Menu.setAttribute('width', size.x);
-            // this.$Menu.show();
-            //
-            // MenuElm.setStyle('top', y);
-            // MenuElm.setStyle('left', x);
 
             if (event.key === 'down') {
                 this.$Menu.down();
@@ -1100,6 +1086,10 @@ define('qui/controls/buttons/Select', [
 
                         value = value.toString().toLowerCase();
 
+                        var old = children.filter(function (Child) {
+                            return !Child.isHidden();
+                        });
+
                         children.each(function (Child) {
                             var text = Child.getAttribute('text');
 
@@ -1111,25 +1101,23 @@ define('qui/controls/buttons/Select', [
                             }
                         });
 
+                        var current = children.filter(function (Child) {
+                            return !Child.isHidden();
+                        });
+
                         if (!displayedOne) {
                             self.$Menu.hide();
                             return;
                         }
 
-                        // var Elm     = self.getElm(),
-                        //     MenuElm = self.$Menu.getElm(),
-                        //     pos     = Elm.getPosition(document.body),
-                        //     size    = Elm.getSize();
-                        //
-                        // var x = pos.x,
-                        //     y = pos.y + size.y;
-                        //
-                        // self.$Menu.setAttribute('width', size.x);
-                        // self.$Menu.show();
-                        //
-                        // MenuElm.setStyle('top', y);
-                        // MenuElm.setStyle('left', x);
+                        if (old < current) {
+                            self.$Menu.hide();
+                        }
 
+                        // if menu is hidden, we must recalculate and open it again
+                        if (self.$Menu.isHidden()) {
+                            self.$Menu.show();
+                        }
 
                         if (event.key === 'down') {
                             self.$Menu.down();
