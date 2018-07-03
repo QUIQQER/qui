@@ -41,6 +41,9 @@
     width: 30px;
 }
 
+/** QUIQQER field container stuff
+ ======================================================= */
+
 .field-container-field > .qui-elements-select {
     max-width: none;
     padding: 0;

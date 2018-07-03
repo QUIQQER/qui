@@ -268,12 +268,22 @@ define('qui/controls/elements/Select', [
                 return;
             }
 
-            this.$Elm.setStyle('height', 30);
-            this.$Elm.setStyle('minHeight', 30);
+            var height = 30;
+
+            if (this.$Elm.getParent().hasClass('field-container')) {
+                this.$Elm.setStyle('position', 'absolute');
+                height = this.$Elm.getParent().getSize().y;
+                this.$Elm.setStyle('position', null);
+            }
+
+            this.$Elm.addClass('qui-elements-select-single');
+
+            this.$Elm.setStyle('height', height);
+            this.$Elm.setStyle('minHeight', height);
             this.$Elm.removeClass('qui-elements-select-multiple');
 
             this.$List.setStyles({
-                height  : 30,
+                height  : height,
                 overflow: 'hidden',
                 width   : 'calc(100% - 50px)'
             });
