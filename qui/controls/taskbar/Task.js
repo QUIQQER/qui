@@ -182,7 +182,7 @@ define('qui/controls/taskbar/Task', [
                     },
 
                     mousedown: function (event) {
-                        if (event.event.button) {
+                        if (event.event.button === 0) {
                             self.click(event);
                         }
                     }
