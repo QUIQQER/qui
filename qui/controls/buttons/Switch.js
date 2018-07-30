@@ -2,18 +2,15 @@
  * QUI Control - On / Off Slide Button
  *
  * @module qui/controls/buttons/Switch
- * @author www.pcsg.de ( Michael Danielczok )
- * @author www.pcsg.de ( Henning Leutz )
- *
- * @require qui/controls/Control
- * @require css!qui/controls/buttons/Switch.css
+ * @author www.pcsg.de (Michael Danielczok)
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @event onCreate
  * @event onStatusOff
  * @event onStatusOn
  * @event onChange
+ * @event onLoad
  */
-
 define('qui/controls/buttons/Switch', [
 
     'qui/controls/Control',
@@ -101,15 +98,15 @@ define('qui/controls/buttons/Switch', [
             this.$Elm = new Element('div', {
                 'class'     : 'qui-switch',
                 html        : '<div class="qui-switch-off">' +
-                              '<div class="qui-switch-icon-off"></div>' +
-                              '<div class="qui-switch-text-off"></div>' +
-                              '</div>' +
-                              '<div class="qui-switch-on">' +
-                              '<div class="qui-switch-icon-on"></div>' +
-                              '<div class="qui-switch-text-on"></div>' +
-                              '</div>' +
-                              '<div class="qui-switch-button"></div>' +
-                              '<input type="hidden" />',
+                '<div class="qui-switch-icon-off"></div>' +
+                '<div class="qui-switch-text-off"></div>' +
+                '</div>' +
+                '<div class="qui-switch-on">' +
+                '<div class="qui-switch-icon-on"></div>' +
+                '<div class="qui-switch-text-on"></div>' +
+                '</div>' +
+                '<div class="qui-switch-button"></div>' +
+                '<input type="hidden" />',
                 styles      : {
                     background: this.$activeColor,
                     opacity   : 0
@@ -187,6 +184,8 @@ define('qui/controls/buttons/Switch', [
                     if (wasDisabled) {
                         this.disable();
                     }
+
+                    this.fireEvent('load', [this]);
                 }.bind(this);
 
             this.enable();
