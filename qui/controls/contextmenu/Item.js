@@ -148,9 +148,16 @@ define('qui/controls/contextmenu/Item', [
 
             // click events on the text
             this.$Container.addEvents({
-                click    : this.$onClick,
-                mousedown: this.$onMouseDown,
-                mouseup  : this.$onMouseUp
+                click     : this.$onClick,
+                mousedown : this.$onMouseDown,
+                mouseup   : this.$onMouseUp,
+                mouseenter: function () {
+                    if (self.$Text.getSize().x < self.$Text.getScrollSize().x) {
+                        self.$Text.set('title', self.getAttribute('text'));
+                    } else {
+                        self.$Text.set('title', null);
+                    }
+                }
             });
 
 
@@ -177,9 +184,7 @@ define('qui/controls/contextmenu/Item', [
             }
 
             if (this.getAttribute('text') && this.getAttribute('text') !== '') {
-                var Text = this.$Elm.getElement('.qui-contextitem-text');
-
-                Text.set({
+                this.$Text.set({
                     html: this.getAttribute('text')
                 });
 
@@ -268,7 +273,6 @@ define('qui/controls/contextmenu/Item', [
          * event : on inject
          */
         $onInject: function () {
-
         },
 
         /**
@@ -581,8 +585,13 @@ define('qui/controls/contextmenu/Item', [
             }
 
             if (key === 'text') {
-                this.$Elm.getElement('.qui-contextitem-text')
-                    .set('html', value);
+                this.$Text.set('html', value);
+
+                if (this.$Text.getSize().y <= this.$Text.getScrollSize().y) {
+                    this.$Text.set('title', value);
+                } else {
+                    this.$Text.set('title', null);
+                }
 
                 return;
             }
