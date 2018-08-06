@@ -283,6 +283,11 @@
     box-shadow: none !important;
 }
 
+.qui-panel-categories .qui-button:disabled {
+    background: #fff;
+    color: #dedede;
+}
+
 .qui-panel-categories .qui-button .image-container {
     font-size: 20px;
 }
