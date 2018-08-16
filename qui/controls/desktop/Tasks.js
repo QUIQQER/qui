@@ -65,6 +65,7 @@ define('qui/controls/desktop/Tasks', [
                 message = QUI.getAttribute('control-task-panel-limit-message');
             }
 
+            options       = options || {};
             options.limit = options.limit || limit;
 
             options['message.to.much.tasks'] = options['message.to.much.tasks'] || message;
