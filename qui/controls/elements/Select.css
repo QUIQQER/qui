@@ -62,6 +62,10 @@
     bottom: initial;
 }
 
+.qui-elements-select-multiple .qui-elements-select-list-search-loader {
+    bottom: -1px;
+}
+
 /** DropDown
  ======================================================= */
 
