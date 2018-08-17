@@ -103,6 +103,10 @@ define('qui/controls/elements/Select', [
                 'data-quiid': this.getId()
             });
 
+            if (!this.getAttribute('max') || parseInt(this.getAttribute('max')) !== 1) {
+                this.$Elm.addClass('qui-elements-select-multiple');
+            }
+
             this.Loader = new QUILoader().inject(this.$Elm);
 
             if (!this.$Input) {
