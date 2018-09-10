@@ -6,7 +6,7 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define('qui/controls/utils/PasswordSecurity/de', ['qui/Locale'], function(Locale)
+define('qui/controls/utils/locale/de', ['qui/Locale'], function(Locale)
 {
     "use strict";
 
@@ -16,4 +16,6 @@ define('qui/controls/utils/PasswordSecurity/de', ['qui/Locale'], function(Locale
         "html.password.strength3" : "Passwortstärke: Sicher",
         "html.password.strength4" : "Passwortstärke: Sehr sicher"
     });
+
+    return Locale;
 });
