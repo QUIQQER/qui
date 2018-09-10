@@ -64,7 +64,6 @@ define('qui/controls/utils/PasswordSecurity', [
 
             this.$Input = Input;
             this.$Input.addEvent( 'keyup', this.$keyup );
-            this.checkSecurity();
         },
 
         /**
