@@ -16,7 +16,7 @@ define('qui/controls/utils/PasswordSecurity', [
 {
     "use strict";
 
-    var lg = 'quiqqer/controls';
+    var lg = 'qui/controls/utils/PasswordSecurity';
 
 
     return new Class({
