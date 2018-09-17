@@ -1,0 +1,34 @@
+#stepped-dialog {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+#stepped-dialog.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+#steps {
+    height: 100%;
+}
+
+#stepped-dialog .step {
+    display: none;
+    flex-grow: 1;
+}
+
+#stepped-dialog .step:first-of-type {
+    display: block;
+}
+
+#stepped-dialog .step-indicator {
+    color: lightgrey;
+    margin: 0 2px;
+}
+
+#stepped-dialog .step-indicator.active {
+    color: grey;
+}

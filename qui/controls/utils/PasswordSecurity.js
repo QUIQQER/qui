@@ -9,14 +9,18 @@
 define('qui/controls/utils/PasswordSecurity', [
 
     'qui/controls/Control',
-    'Locale',
+    'qui/Locale',
+
+    'qui/controls/utils/locale/de',
+    'qui/controls/utils/locale/en',
+
     'css!qui/controls/utils/PasswordSecurity.css'
 
 ], function(QUIControl, Locale)
 {
     "use strict";
 
-    var lg = 'quiqqer/controls';
+    var lg = 'qui/controls/utils/PasswordSecurity';
 
 
     return new Class({
@@ -64,7 +68,6 @@ define('qui/controls/utils/PasswordSecurity', [
 
             this.$Input = Input;
             this.$Input.addEvent( 'keyup', this.$keyup );
-            this.checkSecurity();
         },
 
         /**
@@ -130,7 +133,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
 
                 case 2:
                     this.$Elm.set({
@@ -140,7 +143,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
 
                 case 3:
                     this.$Elm.set({
@@ -150,7 +153,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
 
                 case 4:
                     this.$Elm.set({
@@ -160,7 +163,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
 
                 case 5:
                     this.$Elm.set({
@@ -170,7 +173,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
 
                 case 6:
                     this.$Elm.set({
@@ -180,7 +183,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#000'
                         }
                     });
-                break;
+                    break;
 
                 case 7:
                     this.$Elm.set({
@@ -190,7 +193,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#000'
                         }
                     });
-                break;
+                    break;
 
                 case 8:
                     this.$Elm.set({
@@ -200,7 +203,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#000'
                         }
                     });
-                break;
+                    break;
 
                 case 9:
                     this.$Elm.set({
@@ -210,7 +213,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#000'
                         }
                     });
-                break;
+                    break;
 
                 case 10:
                     this.$Elm.set({
@@ -220,7 +223,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#000'
                         }
                     });
-                break;
+                    break;
 
                 default:
                     this.$Elm.set({
@@ -230,7 +233,7 @@ define('qui/controls/utils/PasswordSecurity', [
                             color      : '#fff'
                         }
                     });
-                break;
+                    break;
             }
 
         },
