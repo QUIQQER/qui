@@ -4,15 +4,6 @@
  * @module qui/controls/desktop/Column
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require qui/controls/desktop/Panel
- * @require qui/controls/loader/Loader
- * @require qui/classes/utils/DragDrop
- * @require css!qui/controls/desktop/Column.css
- *
  * @event onContextMenu [ {self}, {DOMEvent} ]
  */
 
@@ -293,7 +284,7 @@ define('qui/controls/desktop/Column', [
             for (i = 0, len = children.length; i < len; i++) {
                 child_type  = children[i].type;
                 child_modul = child_type.replace('QUI.', '')
-                    .replace(/\./g, '/');
+                                        .replace(/\./g, '/');
 
                 req.push(child_modul);
             }
@@ -338,6 +329,8 @@ define('qui/controls/desktop/Column', [
                         Panel.resize();
                     });
                 });
+            }, function (err) {
+                console.error(err);
             });
         },
 
@@ -590,7 +583,7 @@ define('qui/controls/desktop/Column', [
 
                 Panel.inject(this.$Content);
 
-            } else if (( pos ).toInt() === 0) {
+            } else if ((pos).toInt() === 0) {
                 if (Handler) {
                     Handler.inject(this.$Content, 'top');
                 }
@@ -1295,7 +1288,7 @@ define('qui/controls/desktop/Column', [
                 newHeight  = prevHeight + leftSpace;
 
             if (newHeight < 100) {
-                Panel.setAttribute('height', panelHeight - ( 100 - newHeight ));
+                Panel.setAttribute('height', panelHeight - (100 - newHeight));
                 Panel.resize();
 
                 newHeight = 100;
@@ -1367,8 +1360,8 @@ define('qui/controls/desktop/Column', [
                     );
 
                     height = Handler.getSize().y +
-                             Sibling.getAttribute('height') +
-                             Panel.getAttribute('height');
+                        Sibling.getAttribute('height') +
+                        Panel.getAttribute('height');
 
                     Sibling.setAttribute('height', height);
                     Sibling.setAttribute('_Handler', false);
@@ -1391,8 +1384,8 @@ define('qui/controls/desktop/Column', [
                     );
 
                     height = Handler.getSize().y +
-                             Sibling.getAttribute('height') +
-                             Panel.getAttribute('height');
+                        Sibling.getAttribute('height') +
+                        Panel.getAttribute('height');
 
                     Sibling.setAttribute('height', height);
                     Sibling.setAttribute('_Handler', false);
@@ -1416,8 +1409,8 @@ define('qui/controls/desktop/Column', [
                 );
 
                 height = Handler.getSize().y +
-                         Sibling.getAttribute('height') +
-                         Panel.getAttribute('height');
+                    Sibling.getAttribute('height') +
+                    Panel.getAttribute('height');
 
                 Sibling.setAttribute('height', height);
                 Sibling.resize();
@@ -1958,10 +1951,10 @@ define('qui/controls/desktop/Column', [
             Content.set({
                 'class': 'qui-column-settings-content',
                 html   : '<h1>Einstellungen für die Panelspalte</h1>' +
-                         '<label>' +
-                         '<input type="checkbox" name="setting_toggle" />' +
-                         'Nur immer ein Panel offen halten' +
-                         '</label>'
+                    '<label>' +
+                    '<input type="checkbox" name="setting_toggle" />' +
+                    'Nur immer ein Panel offen halten' +
+                    '</label>'
             });
 
             if (this.getAttribute('setting_toggle')) {

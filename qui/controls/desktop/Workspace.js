@@ -7,14 +7,6 @@
  * @module qui/controls/desktop/Workspace
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/loader/Loader
- * @require qui/controls/desktop/Column
- * @require qui/classes/storage/Storage
- * @require qui/utils/Math
- * @require qui/classes/utils/DragDrop
- *
  * @event onLoaded - if the workspace is loaded
  * @event onSave [ {this}, {JSON ObjectString} ]
  * @event onColumnContextMenu [ {this}, {qui/controls/desktop/Column}, {DOMEvent} ]
