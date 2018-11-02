@@ -4,13 +4,6 @@
  * @module qui/controls/taskbar/Bar
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/Control
- * @require qui/controls/taskbar/Task
- * @require qui/controls/taskbar/Group
- * @require qui/controls/buttons/Button
- * @require qui/controls/contextmenu/Item
- * @require css!qui/controls/taskbar/Bar.css
- *
  * @event onAppendChild [
  *     {qui/controls/taskbar/Bar},
  *     {qui/controls/taskbar/Task}
@@ -175,8 +168,8 @@ define('qui/controls/taskbar/Bar', [
                 'class'     : 'qui-taskbar qui-task-drop box',
                 'data-quiid': this.getId(),
                 html        : '<div class="qui-taskbar-container">' +
-                '<div class="qui-taskbar-container-tasks"></div>' +
-                '</div>',
+                    '<div class="qui-taskbar-container-tasks"></div>' +
+                    '</div>',
                 events      : {
                     contextmenu: this.$openContextMenu
                 }
@@ -297,8 +290,9 @@ define('qui/controls/taskbar/Bar', [
          *
          * @method qui/controls/taskbar/Bar#appendChild
          * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
+         * @param {String} pos - Can be 'top', 'bottom', 'after', or 'before'
          */
-        appendChild: function (Task) {
+        appendChild: function (Task, pos) {
             this.fireEvent('appendChildBegin', [this, Task]);
 
             var Parent = Task.getParent();
@@ -323,7 +317,12 @@ define('qui/controls/taskbar/Bar', [
 
 
             Task.normalize();
-            Task.inject(this.$TaskContainer);
+
+            if (typeof pos !== 'undefined') {
+                Task.inject(this.$TaskContainer, pos);
+            } else {
+                Task.inject(this.$TaskContainer);
+            }
 
             this.$tasks.push(Task);
 
@@ -505,7 +504,7 @@ define('qui/controls/taskbar/Bar', [
 
             var scrollPos = this.$Container.getScroll(),
                 size      = this.$Container.getSize(),
-                pos       = scrollPos.x - ( size.x * 0.8 ).round();
+                pos       = scrollPos.x - (size.x * 0.8).round();
 
             this.$ContainerScroll.start(pos, 0);
         },
@@ -520,7 +519,7 @@ define('qui/controls/taskbar/Bar', [
 
             var scrollPos = this.$Container.getScroll(),
                 size      = this.$Container.getSize(),
-                pos       = scrollPos.x + ( size.x * 0.8 ).round();
+                pos       = scrollPos.x + (size.x * 0.8).round();
 
             this.$ContainerScroll.start(pos, 0);
         },

@@ -248,9 +248,9 @@ define('qui/controls/desktop/Tasks', [
             this.$Header = new Element('div', {
                 'class': 'qui-taskpanel-header',
                 html   : '<div class="qui-taskpanel-header-text"></div>' +
-                '<div class="qui-taskpanel-header-icon">' +
-                '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
-                '</div>',
+                    '<div class="qui-taskpanel-header-icon">' +
+                    '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
+                    '</div>',
                 styles : {
                     display: 'none'
                 },
@@ -322,9 +322,11 @@ define('qui/controls/desktop/Tasks', [
          * Insert a control in the Taskpanel
          *
          * @method qui/controls/desktop/Tasks#appendChild
+         *
          * @param {Object} Instance - (qui/controls/Control) A QUI Control
+         * @param {String} pos - Can be 'top', 'bottom', 'after', or 'before'
          */
-        appendChild: function (Instance) {
+        appendChild: function (Instance, pos) {
             if (!this.$Taskbar) {
                 this.$tmpList.push(Instance);
                 return this;
@@ -358,7 +360,7 @@ define('qui/controls/desktop/Tasks', [
                 });
             }
 
-            this.$Taskbar.appendChild(Task);
+            this.$Taskbar.appendChild(Task, pos);
 
             return this;
         },
