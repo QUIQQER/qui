@@ -18,6 +18,8 @@
 
 define('qui/controls/taskbar/Bar', [
 
+    'qui/Locale',
+
     'qui/controls/Control',
     'qui/controls/taskbar/Task',
     'qui/controls/taskbar/Group',
@@ -25,10 +27,15 @@ define('qui/controls/taskbar/Bar', [
     'qui/controls/contextmenu/Menu',
     'qui/controls/contextmenu/Item',
 
+    'qui/controls/taskbar/locale/de',
+    'qui/controls/taskbar/locale/en',
+
     'css!qui/controls/taskbar/Bar.css'
 
-], function (Control, TaskbarTask, TaskbarGroup, Button, Contextmenu, ContextmenuItem) {
+], function (QUILocale, Control, TaskbarTask, TaskbarGroup, Button, Contextmenu, ContextmenuItem) {
     "use strict";
+
+    var lg = 'qui/controls/taskbar/Bar';
 
     /**
      * @class qui/controls/taskbar/Bar
@@ -688,7 +695,7 @@ define('qui/controls/taskbar/Bar', [
                 this.$ContextMenu.appendChild(
                     new ContextmenuItem({
                         name  : 'close-task',
-                        text  : 'Task schließen',
+                        text  : QUILocale.get(lg, 'task.close.this'),
                         icon  : 'icon-remove',
                         events: {
                             onClick: function (Item) {
@@ -703,7 +710,7 @@ define('qui/controls/taskbar/Bar', [
                 ).appendChild(
                     new ContextmenuItem({
                         name  : 'close-other-task',
-                        text  : 'Andere Tasks schließen',
+                        text  : QUILocale.get(lg, 'task.close.other'),
                         icon  : 'icon-remove-sign',
                         events: {
                             onClick: function (Item) {
@@ -719,7 +726,7 @@ define('qui/controls/taskbar/Bar', [
                 ).appendChild(
                     new ContextmenuItem({
                         name  : 'close-all-task',
-                        text  : 'Alle Tasks schließen',
+                        text  : QUILocale.get(lg, 'task.close.all'),
                         icon  : 'icon-remove-circle',
                         events: {
                             onClick: function () {
