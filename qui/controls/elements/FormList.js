@@ -129,6 +129,11 @@ define('qui/controls/elements/FormList', [
                 elmResult = {};
 
                 for (c = 0, clen = elements.length; c < clen; c++) {
+                    if (elements[c].type === 'checkbox') {
+                        elmResult[elements[c].name] = !!elements[c].checked;
+                        continue;
+                    }
+
                     elmResult[elements[c].name] = elements[c].value;
                 }
 
