@@ -124,7 +124,7 @@ define('qui/controls/loader/Loader', [
             this.$Elm = new Element('div', {
                 'class': 'qui-loader',
                 html   : '<div class="qui-loader-message"></div>' +
-                '<div class="qui-loader-inner"></div>',
+                    '<div class="qui-loader-inner"></div>',
                 styles : {
                     display: 'none',
                     opacity: 0.8
@@ -175,7 +175,7 @@ define('qui/controls/loader/Loader', [
 
                     this.$Elm.set({
                         html: '<div class="qui-loader-message"></div>' +
-                        '<div class="qui-loader-inner"></div>'
+                            '<div class="qui-loader-inner"></div>'
                     });
 
                     this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
@@ -259,7 +259,12 @@ define('qui/controls/loader/Loader', [
                         animationType === 'fa-refresh' ||
                         animationType === 'fa-circle-o-notch'
                     ) {
-                        Parent.set('html', '<span class="fa ' + animationType + ' fa-spin"></span>');
+                        // fa 5 fallback
+                        if (animationType === 'fa-circle-o-notch') {
+                            animationType = animationType + ' fa-circle-notch';
+                        }
+
+                        Parent.set('html', '<span class="fas fa ' + animationType + ' fa-spin"></span>');
                         Parent.setStyle('color', color);
                     }
 
