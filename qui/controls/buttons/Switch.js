@@ -232,6 +232,7 @@ define('qui/controls/buttons/Switch', [
 
             this.$status      = 1;
             this.$activeColor = '#0069b4';
+            this.$Elm.set('data-status', this.$status);
 
             if (!this.$loaded) {
                 return Promise.resolve();
@@ -280,6 +281,7 @@ define('qui/controls/buttons/Switch', [
 
             this.$status      = 0;
             this.$activeColor = '#ffffff';
+            this.$Elm.set('data-status', this.$status);
 
             if (!this.$loaded) {
                 return Promise.resolve();
