@@ -273,7 +273,7 @@ define('qui/controls/messages/Handler', [
             this.$Elm = new Element('div', {
                 'class': 'message-handler-control',
                 html   : '<span class="icon-info"></span>' +
-                '<span class="message-handler-count"></span>',
+                    '<span class="message-handler-count"></span>',
                 title  : Locale.get('qui/controls/messages', 'handler.open'),
                 events : {
                     click: this.open.bind(this)
@@ -308,17 +308,17 @@ define('qui/controls/messages/Handler', [
             var Container = new Element('div', {
                 'class': 'message-handler-container',
                 html   : '<div class="message-handler-container-title">' +
-                'Nachrichten' +
-                '</div>' +
-                '<div class="message-handler-container-buttons">' +
-                '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
-                '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
-                '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
-                '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
-                '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
-                '</div>' +
-                '<div class="message-handler-container-messages"></div>' +
-                '<div class="message-handler-container-close"></div>'
+                    'Nachrichten' +
+                    '</div>' +
+                    '<div class="message-handler-container-buttons">' +
+                    '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
+                    '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
+                    '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
+                    '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
+                    '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
+                    '</div>' +
+                    '<div class="message-handler-container-messages"></div>' +
+                    '<div class="message-handler-container-close"></div>'
             }).inject(Parent);
 
             // trash
@@ -724,6 +724,11 @@ define('qui/controls/messages/Handler', [
 
 
             this.$messages.push(Message);
+
+            if (this.getAttribute('customMessageHandling')) {
+                this.getAttribute('customMessageHandling')(Message, Parent);
+                return this;
+            }
 
             Message.addEvents({
                 onDestroy: this.$onMessageDestroy.bind(this),
