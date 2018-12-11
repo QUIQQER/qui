@@ -443,7 +443,7 @@ define('qui/classes/QUI', [
                     self.$execGetMessageHandler = true;
 
                     (function () {
-                        self.getMessageHandler(callback);
+                        self.getMessageHandler(callback).then(resolve);
                     }).delay(20, self);
 
                     return;
