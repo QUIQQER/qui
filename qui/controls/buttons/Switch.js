@@ -266,6 +266,11 @@ define('qui/controls/buttons/Switch', [
                     equation: 'cubic-bezier(0.34,1.31,0.7,1)',
                     callback: resolve
                 });
+
+                // just in case moofx does not call the callback
+                (function() {
+                    resolve();
+                }).delay(350);
             }.bind(this));
         },
 
@@ -318,6 +323,11 @@ define('qui/controls/buttons/Switch', [
                     equation: 'cubic-bezier(0.34,1.31,0.7,1)',
                     callback: resolve
                 });
+
+                // just in case moofx does not call the callback
+                (function() {
+                    resolve();
+                }).delay(350);
             }.bind(this));
         },
 
