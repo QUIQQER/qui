@@ -86,23 +86,23 @@ define('qui/controls/desktop/Panel', [
 
             this.Loader = new Loader();
 
-            this.$Elm     = null;
-            this.$Header  = null;
-            this.$Title   = null;
-            this.$Footer  = null;
+            this.$Elm = null;
+            this.$Header = null;
+            this.$Title = null;
+            this.$Footer = null;
             this.$Content = null;
 
-            this.$Buttons     = null;
-            this.$Categories  = null;
-            this.$Breadcrumb  = null;
+            this.$Buttons = null;
+            this.$Categories = null;
+            this.$Breadcrumb = null;
             this.$ContextMenu = null;
             this.$CloseButton = null;
 
-            this.$ButtonBar     = null;
-            this.$CategoryBar   = null;
+            this.$ButtonBar = null;
+            this.$CategoryBar = null;
             this.$BreadcrumbBar = null;
-            this.$ActiveCat     = null;
-            this.$Dropable      = null;
+            this.$ActiveCat = null;
+            this.$Dropable = null;
 
             this.addEvents({
                 onDestroy     : this.$onDestroy,
@@ -154,18 +154,18 @@ define('qui/controls/desktop/Panel', [
                 },
 
                 html: '<div class="qui-panel-header box"></div>' +
-                '<div class="qui-panel-buttons box"></div>' +
-                '<div class="qui-panel-categories box"></div>' +
-                '<div class="qui-panel-content box"></div>' +
-                '<div class="qui-panel-footer box"></div>'
+                      '<div class="qui-panel-buttons box"></div>' +
+                      '<div class="qui-panel-categories box"></div>' +
+                      '<div class="qui-panel-content box"></div>' +
+                      '<div class="qui-panel-footer box"></div>'
             });
 
             this.Loader.inject(this.$Elm);
 
-            this.$Header     = this.$Elm.getElement('.qui-panel-header');
-            this.$Footer     = this.$Elm.getElement('.qui-panel-footer');
-            this.$Content    = this.$Elm.getElement('.qui-panel-content');
-            this.$Buttons    = this.$Elm.getElement('.qui-panel-buttons');
+            this.$Header = this.$Elm.getElement('.qui-panel-header');
+            this.$Footer = this.$Elm.getElement('.qui-panel-footer');
+            this.$Content = this.$Elm.getElement('.qui-panel-content');
+            this.$Buttons = this.$Elm.getElement('.qui-panel-buttons');
             this.$Categories = this.$Elm.getElement('.qui-panel-categories');
 
             if (this.getAttribute('breadcrumb')) {
@@ -248,8 +248,8 @@ define('qui/controls/desktop/Panel', [
                 var path = this.getAttribute('icon');
 
                 if (Utils.isFontAwesomeClass(path)) {
-                    var css     = this.$Icon.className;
-                    var FA_RX   = new RegExp('\\bfa-\\S+', 'g');
+                    var css = this.$Icon.className;
+                    var FA_RX = new RegExp('\\bfa-\\S+', 'g');
                     var ICON_RX = new RegExp('\\bicon-\\S+', 'g');
 
                     css = css.replace(ICON_RX, '');
@@ -322,9 +322,9 @@ define('qui/controls/desktop/Panel', [
             }
 
             content_height = content_height -
-                buttonsSize.y - 2 -
-                this.$Footer.getSize().y - 1 -
-                this.$Header.getSize().y;
+                             buttonsSize.y - 2 -
+                             this.$Footer.getSize().y - 1 -
+                             this.$Header.getSize().y;
 
             if (this.$Breadcrumb) {
                 content_height = content_height - this.$Breadcrumb.getSize().y;
@@ -396,10 +396,10 @@ define('qui/controls/desktop/Panel', [
 
             if (this.$Collaps) {
                 this.$Collaps.removeClass('qui-panel-expand');
-                this.$Collaps.removeClass('icon-chevron-right');
+                this.$Collaps.removeClass('fa-chevron-right');
 
                 this.$Collaps.addClass('qui-panel-collapse');
-                this.$Collaps.addClass('icon-chevron-down');
+                this.$Collaps.addClass('fa-chevron-down');
             }
 
             moofx(this.$Elm).animate({
@@ -438,10 +438,10 @@ define('qui/controls/desktop/Panel', [
 
             if (this.$Collaps) {
                 this.$Collaps.removeClass('qui-panel-collapse');
-                this.$Collaps.removeClass('icon-chevron-down');
+                this.$Collaps.removeClass('fa-chevron-down');
 
                 this.$Collaps.addClass('qui-panel-expand');
-                this.$Collaps.addClass('icon-chevron-right');
+                this.$Collaps.addClass('fa-chevron-right');
             }
 
             this.$Header.addClass('qui-panel-close');
@@ -916,7 +916,7 @@ define('qui/controls/desktop/Panel', [
             var self = this;
 
             this.$Collaps = new Element('div', {
-                'class': 'qui-panel-collapse icon-chevron-down'
+                'class': 'qui-panel-collapse fa-chevron-down fa'
             }).inject(this.$Header);
 
             this.$Header.setStyle('cursor', 'pointer');
