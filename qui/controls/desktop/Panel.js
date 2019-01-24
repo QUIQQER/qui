@@ -975,6 +975,10 @@ define('qui/controls/desktop/Panel', [
 
             if (this.$Header) {
                 this.$Header.setStyle('cursor', 'default');
+
+                if (this.getAttribute('collapsible')) {
+                    this.$Header.setStyle('cursor', 'pointer');
+                }
             }
 
             if (this.$Dropable) {
