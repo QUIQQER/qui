@@ -102,7 +102,8 @@ define('qui/controls/taskbar/Bar', [
             return {
                 attributes: this.getAttributes(),
                 type      : this.getType(),
-                tasks     : tasks
+                tasks     : tasks,
+                active    : this.$Active.$Instance.getType()
             };
         },
 
