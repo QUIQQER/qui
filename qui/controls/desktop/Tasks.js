@@ -146,6 +146,26 @@ define('qui/controls/desktop/Tasks', [
 
             if (data.bar) {
                 this.$Taskbar.addEvent('onUnserializeFinish', function () {
+                    if (data.bar.active) {
+                        var children = self.$Taskbar.getChildren();
+
+                        // Find last active child (findIndex() is better supported than find())
+                        var lastActiveChildIndex = children.findIndex(function (child) {
+                            return child.$Instance.getType() == data.bar.active
+                        })
+
+                        // Open last active child
+                        if (lastActiveChildIndex > -1 && children[lastActiveChildIndex]) {
+                            var LastActiveChild = children[lastActiveChildIndex];
+                            LastActiveChild.click();
+                            self.$Active = LastActiveChild;
+
+                            self.$__unserialize = false;
+
+                            return this;
+                        }
+                    }
+
                     if (self.firstChild()) {
                         self.firstChild().click();
                         self.$Active = self.firstChild();
