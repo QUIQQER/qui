@@ -109,5 +109,41 @@ define('qui/utils/Math', {
             brutto: brutto,
             netto : netto
         };
+    },
+
+    /**
+     * Converts a given amount of bytes to a human-readable size-unit.
+     * Returns an object with the properties "value" and "unit".
+     *
+     * @example Passing "1024" will return {value: 1, unit: kB}
+     * @example Passing "1024" and "true" as the second parameter will return {value: 1, unit: Kilobyte}
+     *
+     * @param {number} bytes - The amount of Bytes to convert
+     * @param {boolean} useLongUnitNames - If set to true the units will be returned in their long form (e.g. 'Kilobytes' instead of 'kB')
+     *
+     * @return Object - Object with the properties value and unit
+     *
+     * @note Based of Andrew V.'s code from StackOverflow (see link below)
+     * @link https://stackoverflow.com/a/20732091
+     */
+    convertBytesToHumanFileSize: function (bytes, useLongUnitNames) {
+        "use strict";
+
+        var units = ['B', 'kB', 'MB', 'GB', 'TB'];
+
+        if (useLongUnitNames) {
+            units = ['Byte', 'Kilobyte', 'Megabyte', 'Terabyte'];
+        }
+
+        var factor = 0;
+
+        if (bytes > 0) {
+            factor = Math.floor(Math.log(bytes) / Math.log(1024));
+        }
+
+        var value = (bytes / Math.pow(1024, factor)).toFixed(2) * 1;
+        var unit = units[factor];
+
+        return  {value: value, unit: unit};
     }
 });
