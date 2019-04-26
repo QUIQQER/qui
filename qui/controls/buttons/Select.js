@@ -123,10 +123,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                '<div class="text"></div>' +
-                '<div class="drop-icon"></div>' +
-                '<div class="qui-select-click-event"></div>' +
-                '<select></select>',
+                    '<div class="text"></div>' +
+                    '<div class="drop-icon"></div>' +
+                    '<div class="qui-select-click-event"></div>' +
+                    '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -1045,8 +1045,6 @@ define('qui/controls/buttons/Select', [
                 });
 
             this.$windowMouseWheel = function (event) {
-                event.stop();
-
                 var scrollTop = this.$Menu.$Container.scrollTop;
 
                 // up
