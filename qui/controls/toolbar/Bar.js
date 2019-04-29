@@ -195,8 +195,8 @@ define('qui/controls/toolbar/Bar', [
                 'data-quiid': this.getId(),
 
                 'html': '<div class="qui-toolbar-container">' +
-                '<div class="qui-toolbar-tabs"></div>' +
-                '</div>'
+                    '<div class="qui-toolbar-tabs"></div>' +
+                    '</div>'
             });
 
             if (this.getAttribute('styles')) {
@@ -513,7 +513,7 @@ define('qui/controls/toolbar/Bar', [
 
             if (left < 0) {
                 this.Fx.animate({
-                    left: Tabs.getStyle('left').toInt() + ( left * -1 ) + 20
+                    left: Tabs.getStyle('left').toInt() + (left * -1) + 20
                 });
 
                 return this;
@@ -617,27 +617,25 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         moveChildToPos: function (Child, pos) {
-            // Array anpassen
-            var nitems = [],
-                itms   = this.items;
 
-            for (var i = 0, len = itms.length; i < len; i++) {
-                if (Child == itms[i]) {
-                    itms[i].destroy();
-                    continue;
-                }
+            // for (var i = 0, len = itms.length; i < len; i++) {
+            //     if (Child == itms[i]) {
+            //         //itms[i].destroy();
+            //         continue;
+            //     }
+            //
+            //     nitems.push(itms[i]);
+            // }
 
-                nitems.push(itms[i]);
+            if (pos === 0) {
+                return;
             }
 
-            nitems.splice(pos - 1, 0, Child);
+            var PosItem = this.items[pos - 1];
 
-            // Element nach dem davor schieben
-            if (pos - 2 >= 0) {
-                nitems[pos - 2].getElm().inject(Child.create(), 'after');
-            }
+            this.items.splice(pos - 1, 0, Child);
 
-            this.items = nitems;
+            Child.getElm().inject(PosItem.getElm(), 'after');
 
             return this;
         },
@@ -654,8 +652,7 @@ define('qui/controls/toolbar/Bar', [
             var items = this.items;
 
             for (i = 0, len = items.length; i < len; i++) {
-                if (items[i] &&
-                    items[i].getAttribute('name') == name) {
+                if (items[i] && items[i].getAttribute('name') === name) {
                     return items[i];
                 }
             }
@@ -705,7 +702,7 @@ define('qui/controls/toolbar/Bar', [
 
             Itm.setParent(this);
 
-            if (type == 'qui/controls/toolbar/Tab') {
+            if (type === 'qui/controls/toolbar/Tab') {
                 Itm.addEvent('click', function (Item) {
                     self.toTab(Item);
                 });
@@ -848,10 +845,10 @@ define('qui/controls/toolbar/Bar', [
                 if (this.getAttribute('width') &&
                     this.getAttribute('width').toString().contains('%') === false) {
                     for (i = 0, len = itms.length; i < len; i++) {
-                        width = width + ( itms[i].getSize().x.toInt() ) + 30;
+                        width = width + (itms[i].getSize().x.toInt()) + 30;
                     }
 
-                    cwidth = ( this.getAttribute('width') ).toInt();
+                    cwidth = (this.getAttribute('width')).toInt();
 
                     if (this.getAttribute('slide')) {
                         cwidth = cwidth -
