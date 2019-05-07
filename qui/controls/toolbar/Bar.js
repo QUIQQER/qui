@@ -136,7 +136,6 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         refresh: function () {
-
             if (!this.$Elm) {
                 return this;
             }
@@ -215,17 +214,27 @@ define('qui/controls/toolbar/Bar', [
             // left / right
             this.BtnLeft = new Button({
                 name   : 'toLeft',
-                'class': 'qui-toolbar-button icon-chevron-left fa fa-icon-chevron-left',
+                'class': 'qui-toolbar-button qui-toolbar-button-btnLeft fa fa-chevron-left',
                 events : {
                     onClick: this.toLeft
+                },
+                styles : {
+                    'flex-shrink': 0,
+                    height       : 28,
+                    width        : 30
                 }
             });
 
             this.BtnRight = new Button({
                 name   : 'toRight',
-                'class': 'qui-toolbar-button icon-chevron-right fa fa-icon-chevron-right',
+                'class': 'qui-toolbar-button qui-toolbar-button-btnRight fa fa-chevron-right',
                 events : {
                     onClick: this.toRight
+                },
+                styles : {
+                    'flex-shrink': 0,
+                    height       : 28,
+                    width        : 30
                 }
             });
 
@@ -262,13 +271,17 @@ define('qui/controls/toolbar/Bar', [
 
             // create the left context menu
             this.Menu = new Button({
-                'class': 'qui-toolbar-button icon-chevron-down fa fa-icon-chevron-down'
+                'class': 'qui-toolbar-button qui-toolbar-button-btnMenu fa fa-chevron-down',
+                styles : {
+                    'flex-shrink': 0,
+                    height       : 28,
+                    width        : 30
+                }
             });
 
             this.Menu.setParent(this);
             this.Menu.inject(this.$Elm, 'top');
 
-            // create the slide buttons
             this.BtnLeft.inject(this.$Elm, 'top');
             this.BtnRight.inject(this.$Elm);
 
@@ -494,7 +507,7 @@ define('qui/controls/toolbar/Bar', [
 
             // this.Fx.stop();
 
-            if (Tab == this.firstChild()) {
+            if (Tab === this.firstChild()) {
                 this.Fx.animate({
                     left: 0
                 });
@@ -594,7 +607,7 @@ define('qui/controls/toolbar/Bar', [
                 childname = Child.getAttribute('name');
 
             for (i = 0, len = itms.length; i < len; i++) {
-                if (itms[i].getAttribute('name') != childname) {
+                if (itms[i].getAttribute('name') !== childname) {
                     nitms.push(itms[i]);
                     continue;
                 }
@@ -675,15 +688,13 @@ define('qui/controls/toolbar/Bar', [
             var self = this,
                 type = typeOf(Itm);
 
-            switch (type) {
-                case 'element':
-                    Itm.inject(this.Tabs);
-                    return this;
+            if (!QUI.Controls.isControl(Itm)) {
+                return this;
+            }
 
-                default:
-                    if (!QUI.Controls.isControl(Itm)) {
-                        return this;
-                    }
+            if (type === 'element') {
+                Itm.inject(this.Tabs);
+                return this;
             }
 
             Itm.addEvent('onDestroy', function () {
@@ -691,7 +702,7 @@ define('qui/controls/toolbar/Bar', [
                     items    = self.items;
 
                 for (var i = 0, len = items.length; i < len; i++) {
-                    if (items[i] != Itm) {
+                    if (items[i] !== Itm) {
                         newItems.push(items[i]);
                     }
                 }
@@ -836,7 +847,6 @@ define('qui/controls/toolbar/Bar', [
                     this.Container.setStyle('width', width);
                     this.getElm().setStyle('width', width);
                 }
-
             } else {
                 // standard toolbar
                 var cwidth = 0,
@@ -859,7 +869,6 @@ define('qui/controls/toolbar/Bar', [
                     if (this.getAttribute('menu-button')) {
                         cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
                     }
-
                 } else {
                     cwidth = '100%';
 
@@ -883,7 +892,6 @@ define('qui/controls/toolbar/Bar', [
                     (containerSize.x > elmSize.x || containerSize.y > elmSize.y + 1) // +1 = because border
                 ) {
                     this.Tabs.addClass('qui-toolbar--mobile');
-
                 } else {
                     this.Tabs.removeClass('qui-toolbar--mobile');
                 }
