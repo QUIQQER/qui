@@ -35,6 +35,14 @@
     width: 30px !important;
 }
 
+.qui-toolbar-button-btnLeft {
+    margin-left: 20px !important;
+}
+
+.qui-toolbar-button-btnRight {
+    margin-left: 5px !important;
+}
+
 .qui-toolbar-button-scrollUp,
 .qui-toolbar-button-scrollDown {
     height: 30px;
