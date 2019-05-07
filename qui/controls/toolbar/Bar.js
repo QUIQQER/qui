@@ -217,11 +217,6 @@ define('qui/controls/toolbar/Bar', [
                 'class': 'qui-toolbar-button qui-toolbar-button-btnLeft fa fa-chevron-left',
                 events : {
                     onClick: this.toLeft
-                },
-                styles : {
-                    'flex-shrink': 0,
-                    height       : 28,
-                    width        : 30
                 }
             });
 
@@ -230,11 +225,6 @@ define('qui/controls/toolbar/Bar', [
                 'class': 'qui-toolbar-button qui-toolbar-button-btnRight fa fa-chevron-right',
                 events : {
                     onClick: this.toRight
-                },
-                styles : {
-                    'flex-shrink': 0,
-                    height       : 28,
-                    width        : 30
                 }
             });
 
@@ -271,12 +261,7 @@ define('qui/controls/toolbar/Bar', [
 
             // create the left context menu
             this.Menu = new Button({
-                'class': 'qui-toolbar-button qui-toolbar-button-btnMenu fa fa-chevron-down',
-                styles : {
-                    'flex-shrink': 0,
-                    height       : 28,
-                    width        : 30
-                }
+                'class': 'qui-toolbar-button qui-toolbar-button-btnMenu fa fa-chevron-down'
             });
 
             this.Menu.setParent(this);
@@ -722,8 +707,7 @@ define('qui/controls/toolbar/Bar', [
             this.fireEvent('appendChild', [this, Itm]);
 
             // Falls Toolbar eine Tabbar ist, Buttons an vorletzter Stelle
-            if (this.getAttribute('type') === 'tabbar' &&
-                Itm.getType() === 'qui/controls/buttons/Button') {
+            if (this.getAttribute('type') === 'tabbar' && Itm.getType() === 'qui/controls/buttons/Button') {
                 this.btns.push(Itm);
 
                 Itm.inject(this.BtnRight.getElm(), 'before');
@@ -861,13 +845,14 @@ define('qui/controls/toolbar/Bar', [
                     cwidth = (this.getAttribute('width')).toInt();
 
                     if (this.getAttribute('slide')) {
-                        cwidth = cwidth -
-                            this.BtnLeft.getElm().getComputedSize().totalWidth -
-                            this.BtnRight.getElm().getComputedSize().totalWidth;
+                        cwidth = cwidth - this.BtnLeft.getElm().getComputedSize().totalWidth;
+                        cwidth = cwidth - this.BtnRight.getElm().getComputedSize().totalWidth;
+                        cwidth = cwidth - 50; // paddings
                     }
 
                     if (this.getAttribute('menu-button')) {
                         cwidth = cwidth - this.Menu.getElm().getComputedSize().totalWidth;
+                        cwidth = cwidth - 5; // paddings
                     }
                 } else {
                     cwidth = '100%';
