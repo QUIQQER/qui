@@ -55,11 +55,11 @@ define('qui/controls/windows/Confirm', [
 
             cancel_button: {
                 text     : false,
-                textimage: 'icon-remove fa fa-remove'
+                textimage: 'fa fa-remove'
             },
             ok_button    : {
                 text     : false,
-                textimage: 'icon-ok fa fa-check'
+                textimage: 'fa fa-check'
             }
         },
 
@@ -118,7 +118,7 @@ define('qui/controls/windows/Confirm', [
                     return;
                 }
 
-                if (attr == 'texticon') {
+                if (attr === 'texticon') {
                     var Texticon = self.$Body.getElement('.texticon'),
                         Textbody = self.$Body.getElement('.textbody');
 
@@ -149,7 +149,7 @@ define('qui/controls/windows/Confirm', [
                     return;
                 }
 
-                if (attr == 'information') {
+                if (attr === 'information') {
                     self.$Body
                         .getElement('.information')
                         .set('html', value);
@@ -157,7 +157,7 @@ define('qui/controls/windows/Confirm', [
                     return;
                 }
 
-                if (attr == 'text') {
+                if (attr === 'text') {
                     self.$Body
                         .getElement('.text')
                         .set('html', value);
@@ -186,9 +186,9 @@ define('qui/controls/windows/Confirm', [
 
             this.$Body = new Element('div.submit-body', {
                 html  : '<div class="textbody">' +
-                '<h2 class="text">&nbsp;</h2>' +
-                '<div class="information">&nbsp;</div>' +
-                '</div>',
+                    '<h2 class="text">&nbsp;</h2>' +
+                    '<div class="information">&nbsp;</div>' +
+                    '</div>',
                 styles: {
                     'float': 'left',
                     width  : '100%'
@@ -221,6 +221,7 @@ define('qui/controls/windows/Confirm', [
                         name     : 'cancel',
                         text     : this.getAttribute('cancel_button').text,
                         textimage: this.getAttribute('cancel_button').textimage,
+                        'class'  : 'qui-button-cancel btn-light',
                         styles   : {
                             'float': 'none'
                         },
@@ -237,6 +238,7 @@ define('qui/controls/windows/Confirm', [
                         name     : 'submit',
                         text     : this.getAttribute('ok_button').text,
                         textimage: this.getAttribute('ok_button').textimage,
+                        'class'  : 'qui-button-success btn-success',
                         styles   : {
                             'float': 'none'
                         },
