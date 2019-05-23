@@ -99,11 +99,16 @@ define('qui/controls/taskbar/Bar', [
                 tasks.push(this.$tasks[i].serialize());
             }
 
+            var activeType = "";
+            if (this.$Active && this.$Active.$Instance && this.$Active.$Instance.getType()) {
+                activeType = this.$Active.$Instance.getType();
+            }
+
             return {
                 attributes: this.getAttributes(),
                 type      : this.getType(),
                 tasks     : tasks,
-                active    : this.$Active.$Instance.getType()
+                active    : activeType
             };
         },
 
