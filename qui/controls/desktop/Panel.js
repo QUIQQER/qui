@@ -279,16 +279,20 @@ define('qui/controls/desktop/Panel', [
 
             this.fireEvent('resizeBegin', [this]);
 
-            if (this.getAttribute('header') === false) {
-                this.$Header.setStyle('display', 'none');
-            } else {
-                this.$Header.setStyle('display', null);
+            if (this.$Header) {
+                if (this.getAttribute('header') === false) {
+                    this.$Header.setStyle('display', 'none');
+                } else {
+                    this.$Header.setStyle('display', null);
+                }
             }
 
-            if (this.getAttribute('footer') === false) {
-                this.$Footer.setStyle('display', 'none');
-            } else {
-                this.$Footer.setStyle('display', null);
+            if (this.$Footer) {
+                if (this.getAttribute('footer') === false) {
+                    this.$Footer.setStyle('display', 'none');
+                } else {
+                    this.$Footer.setStyle('display', null);
+                }
             }
 
             if (this.getButtonBar().count()) {
