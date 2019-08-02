@@ -260,6 +260,23 @@ define('qui/controls/elements/Select', [
         },
 
         /**
+         * Import input value string to the select
+         *
+         * @param {String} value
+         */
+        importValue: function (value) {
+            if (typeOf(value) !== 'string') {
+                return;
+            }
+
+            value = value.split(',');
+
+            for (var i = 0, len = value.length; i < len; i++) {
+                this.addItem(value[i]);
+            }
+        },
+
+        /**
          * Refresh the display
          */
         refresh: function () {
