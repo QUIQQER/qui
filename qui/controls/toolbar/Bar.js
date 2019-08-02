@@ -673,12 +673,12 @@ define('qui/controls/toolbar/Bar', [
             var self = this,
                 type = typeOf(Itm);
 
-            if (!QUI.Controls.isControl(Itm)) {
+            if (type === 'element') {
+                Itm.inject(this.Tabs);
                 return this;
             }
 
-            if (type === 'element') {
-                Itm.inject(this.Tabs);
+            if (!QUI.Controls.isControl(Itm)) {
                 return this;
             }
 

@@ -28,7 +28,7 @@ require(['qui/controls/Control'], function(Control)
 
 ## Ein Control einfügen
 
-mit _.inject()_ kann das Control in den DOM Baum eibgefügt werden.
+mit _.inject()_ kann das Control in den DOM Baum eingefügt werden.
 
 ```javascript
 
