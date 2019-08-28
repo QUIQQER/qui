@@ -159,7 +159,7 @@ define('qui/classes/request/Ajax', [
          * @return {Object} Param list
          */
         parseParams: function (params) {
-            var k, type_of, value;
+            var k, type_of;
 
             var result = {};
 
@@ -179,19 +179,19 @@ define('qui/classes/request/Ajax', [
 
                 type_of = typeOf(params[k]);
 
-                if (type_of != 'string' &&
-                    type_of != 'number' &&
-                    type_of != 'array') {
+                if (type_of !== 'string' &&
+                    type_of !== 'number' &&
+                    type_of !== 'array') {
                     continue;
                 }
 
-                if (k != '_rf' && type_of == 'array') {
+                if (k !== '_rf' && type_of === 'array') {
                     continue;
                 }
 
                 // if _rf is no array, make an array to it
-                if (k == '_rf') {
-                    if (typeOf(params[k]) != 'array') {
+                if (k === '_rf') {
+                    if (typeOf(params[k]) !== 'array') {
                         params[k] = [params[k]];
                     }
 
@@ -215,49 +215,62 @@ define('qui/classes/request/Ajax', [
          * @ignore
          */
         $parseResult: function (responseText) {
-            var i;
+            var i, len, res, func, result;
 
-            var str   = responseText || '',
-                len   = str.length,
-                start = 9,
-                end   = len - 10;
+            var event_params = [],
+                params       = this.getAttribute('params'),
+                rfs          = JSON.decode(params._rf || []);
 
-            if (!str.match('<quiqqer>') || !str.match('</quiqqer>')) {
-                return this.fireEvent('error', [
-                    new MessageError({
-                        message: 'No QUIQQER XML',
-                        code   : 500
-                    }),
-                    this
-                ]);
+            if (this.getAttribute('_rf')) {
+                rfs = this.getAttribute('_rf');
             }
 
-            if (str.substring(0, start) != '<quiqqer>' ||
-                str.substring(end, len) != '</quiqqer>') {
-                return this.fireEvent('error', [
-                    new MessageError({
-                        message: 'No QUIQQER XML',
-                        code   : 500
-                    }),
-                    this
-                ]);
+            if (typeOf(rfs) !== 'array') {
+                rfs = [rfs];
             }
 
-            // callback
-            var res, func;
-            var result = {};
+            if (!this.$result) {
+                var end;
+                var str   = responseText || '',
+                    start = 9;
 
-            try {
-                result = JSON.decode(str.substring(start, end));
-            } catch (e) {
-                result = eval('(' + str.substring(start, end) + ')');
+                len = str.length;
+                end = len - 10;
+
+                if (!str.match('<quiqqer>') || !str.match('</quiqqer>')) {
+                    return this.fireEvent('error', [
+                        new MessageError({
+                            message: 'No QUIQQER XML',
+                            code   : 500
+                        }),
+                        this
+                    ]);
+                }
+
+                if (str.substring(0, start) !== '<quiqqer>' ||
+                    str.substring(end, len) !== '</quiqqer>') {
+                    return this.fireEvent('error', [
+                        new MessageError({
+                            message: 'No QUIQQER XML',
+                            code   : 500
+                        }),
+                        this
+                    ]);
+                }
+
+                // callback
+                result = {};
+
+                try {
+                    result = JSON.decode(str.substring(start, end));
+                } catch (e) {
+                    result = eval('(' + str.substring(start, end) + ')');
+                }
+
+                this.$result = result;
+            } else {
+                result = this.$result;
             }
-
-            var params       = this.getAttribute('params'),
-                rfs          = JSON.decode(params._rf || []),
-                event_params = [];
-
-            this.$result = result;
 
             // exist messages?
             if (result.message_handler &&
