@@ -1,8 +1,12 @@
 @CHARSET "UTF-8";
 
 .messages-message {
-    border: 1px solid #555;
+    background-color: #e7e8ea;
+    border: 1px solid #dddfe2;
+    border-radius: 2px;
+    color: #464a4e;
     clear: both;
+    cursor: default;
     float: left;
     font: 12px/16px 'Droid Sans', sans-serif;
     margin: 3px 0 0;
@@ -12,11 +16,7 @@
 }
 
 .messages-message:hover {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-    filter: alpha(opacity=50);
-    -moz-opacity: 0.5;
-    -khtml-opacity: 0.5;
-    opacity: 0.5;
+    opacity: 0.75;
 }
 
 .messages-message-header {
@@ -48,26 +48,31 @@
  ================================================================= */
 
 .message-attention {
-    background: #FAF6D4;
-    border-color: #E6C26E;
+    background-color: #fcf3cf;
+    border-color: #fbeebc;
+    color: #7d6608;
 }
 
 .message-error {
-    background: #F2D4CE;
-    border-color: #AE432E;
+    background-color: #f5d2d2;
+    border-color: #f1c1c0;
+    color: #6b1110;
 }
 
 .message-information {
-    background: #CEE6F2;
-    border-color: #058DC7;
+    background-color: #daeefc;
+    border-color: #cbe7fb;
+    color: #24587e;
 }
 
 .message-success {
-    background: #D9E6C3;
-    border-color: #77AB13;
+    background-color: #dff1cc;
+    border-color: #d2ecb8;
+    color: #316100;
 }
 
 .message-loading {
-    background: #FAF6D4;
-    border-color: #E6C26E;
+    background-color: #dae5f5;
+    border-color: #cbdbf2;
+    color: #24426c;
 }
