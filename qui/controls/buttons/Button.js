@@ -4,12 +4,6 @@
  * @module qui/controls/buttons/Button
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/Control
- * @require qui/utils/Controls
- * @require qui/utils/NoSelect
- * @require qui/utils/Elements
- * @require [css!qui/controls/buttons/Button.css]
- *
  * @event onClick
  * @event onCreate
  * @event onDrawBegin
@@ -212,10 +206,7 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                         return;
                     }
 
-                    if (!self.isActive()) {
-                        self.getElm().removeClass('qui-button-over');
-                    }
-
+                    self.getElm().removeClass('qui-button-over');
                     self.fireEvent('leave', [self]);
                 },
 
@@ -319,6 +310,8 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
             }
 
             this.getElm().addClass('qui-button--click');
+            this.getElm().removeClass('qui-button-over');
+
             this.fireEvent('click', [this, event]);
 
             this.getElm().removeClass.delay(300, this.getElm(), 'qui-button--click');
