@@ -3,13 +3,6 @@
  *
  * @module qui/controls/sitemap/Item
  * @author www.pcsg.de (Henning Leutz)
- *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/utils/Controls
- * @require qui/controls/contextmenu/Menu
- * @require qui/controls/contextmenu/Item
- * @require css!qui/controls/sitemap/Item.css
  */
 define('qui/controls/sitemap/Item', [
 
@@ -132,12 +125,12 @@ define('qui/controls/sitemap/Item', [
                 title       : this.getAttribute('title'),
                 'data-value': this.getAttribute('value'),
                 'data-quiid': this.getId(),
-                html        : '<div class="qui-sitemap-entry-opener"></div>' +
-                              '<div class="qui-sitemap-entry-container">' +
-                              '<div class="qui-sitemap-entry-icon"></div>' +
-                              '<div class="qui-sitemap-entry-text">###</div>' +
-                              '</div>' +
-                              '<div class="qui-sitemap-entry-children"></div>',
+                html        : '<div class="qui-sitemap-entry-opener fa"></div>' +
+                    '<div class="qui-sitemap-entry-container">' +
+                    '<div class="qui-sitemap-entry-icon"></div>' +
+                    '<div class="qui-sitemap-entry-text">###</div>' +
+                    '</div>' +
+                    '<div class="qui-sitemap-entry-children"></div>',
                 events      : {
                     contextmenu: function (event) {
                         if (self.getAttribute('contextmenu') === false) {
@@ -209,25 +202,26 @@ define('qui/controls/sitemap/Item', [
 
             if (this.$Opener) {
                 width = width + this.$Opener.measure(function () {
-                        return this.getSize().x;
-                    });
+                    return this.getSize().x;
+                });
             }
 
             if (this.$Icons) {
                 width = width + this.$Icons.measure(function () {
-                        return this.getSize().x;
-                    });
+                    return this.getSize().x;
+                });
             }
 
             if (this.$Text) {
                 width = width + this.$Text.measure(function () {
-                        return this.getComputedSize().totalWidth;
-                    });
+                    return this.getComputedSize().totalWidth;
+                });
             }
 
             if (!width) {
                 return this;
             }
+
 
             if (this.$Elm) {
                 this.$Elm.setStyle('width', width);
@@ -383,9 +377,9 @@ define('qui/controls/sitemap/Item', [
 
                 if (size.x) {
                     var child_size = 10 +
-                                     Child.$Opener.getSize().x +
-                                     Child.$Icons.getSize().x +
-                                     Child.$Text.getSize().x;
+                        Child.$Opener.getSize().x +
+                        Child.$Icons.getSize().x +
+                        Child.$Text.getSize().x;
 
                     if (child_size > size.x) {
                         this.$Children.setStyle('width', child_size);
@@ -777,18 +771,17 @@ define('qui/controls/sitemap/Item', [
             }
 
             if (this.hasChildren() === false) {
-                this.$Opener.removeClass('qui-sitemap-entry-opener-open');
-                this.$Opener.removeClass('qui-sitemap-entry-opener-close');
+                this.$Opener.removeClass('fa-minus-square-o');
+                this.$Opener.removeClass('fa-plus-square-o');
                 return;
             }
 
             if (this.isOpen()) {
-                this.$Opener.removeClass('qui-sitemap-entry-opener-open');
-                this.$Opener.addClass('qui-sitemap-entry-opener-close');
-
+                this.$Opener.addClass('fa-minus-square-o');
+                this.$Opener.removeClass('fa-plus-square-o');
             } else {
-                this.$Opener.addClass('qui-sitemap-entry-opener-open');
-                this.$Opener.removeClass('qui-sitemap-entry-opener-close');
+                this.$Opener.removeClass('fa-minus-square-o');
+                this.$Opener.addClass('fa-plus-square-o');
             }
         },
 
@@ -805,23 +798,23 @@ define('qui/controls/sitemap/Item', [
                 return;
             }
 
-            if (key == 'icon') {
+            if (key === 'icon') {
                 this.removeIcon(this.getAttribute('icon'));
                 this.addIcon(value);
                 return;
             }
 
-            if (key == 'text') {
+            if (key === 'text') {
                 this.$Text.set('html', value);
                 this.refresh();
                 return;
             }
 
-            if (key == 'value') {
+            if (key === 'value') {
                 this.$Elm.set('data-value', value);
             }
 
-            if (key == 'hasChildren') {
+            if (key === 'hasChildren') {
                 this.options.hasChildren = value;
                 this.$setOpener();
             }
