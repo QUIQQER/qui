@@ -25,7 +25,7 @@
 .qui-elements-select-list-search {
     clear: both;
     float: left;
-    height: 30px;
+    height: 29px;
     padding-left: 30px;
     width: calc(100% - 50px) !important;
 }
