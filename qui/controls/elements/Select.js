@@ -77,8 +77,9 @@ define('qui/controls/elements/Select', [
 
             this.$SearchButton = null;
 
-            this.$search = false;
-            this.$values = [];
+            this.$search   = false;
+            this.$values   = [];
+            this.$disabled = false;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -379,6 +380,24 @@ define('qui/controls/elements/Select', [
             this.$DropDown.setStyle('display', 'none');
             this.$DropDown.set('html', '');
             this.$Search.value = '';
+        },
+
+        /**
+         * Disable the select
+         */
+        disable: function () {
+            this.$disabled        = true;
+            this.$Search.disabled = true;
+            this.$SearchButton.disable();
+        },
+
+        /**
+         * Enable the select
+         */
+        enable: function () {
+            this.$disabled        = false;
+            this.$Search.disabled = false;
+            this.$SearchButton.enable();
         },
 
         /**
