@@ -290,7 +290,7 @@ define('qui/controls/elements/Select', [
                 return;
             }
 
-            var height = 32;
+            var height = 30;
 
             if (this.$Elm.getParent().hasClass('field-container')) {
                 this.$Elm.setStyle('position', 'absolute');
@@ -299,7 +299,7 @@ define('qui/controls/elements/Select', [
             }
 
             if (!height) {
-                height = 32;
+                height = 30;
             }
 
             this.$Elm.addClass('qui-elements-select-single');
