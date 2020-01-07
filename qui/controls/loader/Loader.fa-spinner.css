@@ -15,6 +15,7 @@
 .qui-loader-inner-fa-refresh .fa-spin,
 .qui-loader-inner-fa-spinner .fa-spin {
     font-size: 50px;
+    left: calc(50% - 25px);
     position: absolute;
     top: calc(50% - 50px);
 }
