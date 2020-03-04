@@ -464,6 +464,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             });
 
             return new Promise(function (resolve) {
+                var execute = false;
 
                 this.$FX.animate({
                     height : height,
@@ -474,6 +475,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 }, {
                     duration: 200,
                     callback: function () {
+                        execute = true;
+
                         // content height
                         var content_height = self.$Elm.getSize().y -
                             self.$Buttons.getSize().y -
@@ -496,6 +499,20 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         resolve();
                     }
                 });
+
+                /**
+                 * Fallback for a bug with moofx that does not execute the callback
+                 * if the style of the element already matches the target values.
+                 */
+                setTimeout(function () {
+                    if (!execute) {
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+
+                        resolve();
+                    }
+                }, 300);
 
             }.bind(this));
         },
