@@ -21,15 +21,19 @@ define('qui/utils/Elements', [
          *
          * @method qui/utils/Elements#isInViewport
          * @param {HTMLElement|Object} rect - HTML element or a getBoundingClientRect object
+         * @param {Number} [offset] - optional
          */
-        isInViewport: function (rect) {
+        isInViewport: function (rect, offset) {
             if (typeOf(rect) === 'element') {
                 rect = rect.getBoundingClientRect();
             }
 
             var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
             var viewportWidth  = (window.innerWidth || document.documentElement.clientWidth);
-            var offset         = 50;
+            
+            if (typeof offset === 'undefined') {
+                offset = 50;
+            }
 
             // check if the element is in the viewport (or near to them)
             return (
