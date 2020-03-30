@@ -374,6 +374,12 @@ define('qui/classes/QUI', [
                             continue;
                         }
 
+                        if (Elm.get('data-qui-parsed')) {
+                            continue;
+                        }
+
+                        Elm.set('data-qui-parsed', 1);
+
                         if (typeof formNodes[Elm.nodeName] !== 'undefined' ||
                             Elm.get('html').trim() !== '') {
                             new Cls().imports(Elm);
