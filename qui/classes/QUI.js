@@ -365,7 +365,7 @@ define('qui/classes/QUI', [
                         'SELECT'  : true
                     };
 
-                    for (i = 0, len = list.length; i < len; i++) {
+                    for (i = 0, len = nodes.length; i < len; i++) {
                         Cls = arguments[i];
                         Elm = nodes[i];
 
