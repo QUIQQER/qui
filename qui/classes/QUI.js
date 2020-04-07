@@ -365,7 +365,7 @@ define('qui/classes/QUI', [
                         'SELECT'  : true
                     };
 
-                    for (i = 0, len = list.length; i < len; i++) {
+                    for (i = 0, len = nodes.length; i < len; i++) {
                         Cls = arguments[i];
                         Elm = nodes[i];
 
@@ -373,6 +373,12 @@ define('qui/classes/QUI', [
                         if (Elm.get('data-quiid')) {
                             continue;
                         }
+
+                        if (Elm.get('data-qui-parsed')) {
+                            continue;
+                        }
+
+                        Elm.set('data-qui-parsed', 1);
 
                         if (typeof formNodes[Elm.nodeName] !== 'undefined' ||
                             Elm.get('html').trim() !== '') {
