@@ -3,7 +3,7 @@
     "type": "component",
     "description": "QUIQQER-UI is a modular user interface component framework written in JavaScript",
     "license": "MIT",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "authors": [
         {
             "name": "Henning Leutz",
