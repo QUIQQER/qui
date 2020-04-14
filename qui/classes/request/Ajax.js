@@ -217,8 +217,13 @@ define('qui/classes/request/Ajax', [
         $parseResult: function (responseText) {
             var i, len, res, func, result;
 
+            var params = this.getAttribute('params');
+
+            if (!params) {
+                params = {};
+            }
+
             var event_params = [],
-                params       = this.getAttribute('params'),
                 rfs          = JSON.decode(params._rf || []);
 
             if (this.getAttribute('_rf')) {
