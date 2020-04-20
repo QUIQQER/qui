@@ -54,21 +54,6 @@ define('qui/classes/DOM', function () {
         },
 
         /**
-         * If this.TYPE is set, this.Type will be return
-         *
-         * @method qui/classes/DOM#$family
-         * @return {String} Type of the Object
-         * @ignore
-         */
-        $family: function () {
-            if (typeof this.Type !== 'undefined') {
-                return this.Type;
-            }
-
-            return typeOf(this);
-        },
-
-        /**
          * Get the Unique ID from the Object
          *
          * @method qui/classes/DOM#getId
@@ -89,6 +74,10 @@ define('qui/classes/DOM', function () {
          * @return {String} The type of the object
          */
         getType: function () {
+            if (typeof this.Type !== 'undefined') {
+                return this.Type;
+            }
+
             return typeOf(this);
         },
 
