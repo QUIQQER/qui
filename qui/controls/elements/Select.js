@@ -389,6 +389,7 @@ define('qui/controls/elements/Select', [
             this.$disabled        = true;
             this.$Search.disabled = true;
             this.$SearchButton.disable();
+            this.getElm().addClass('qui-elements-select-disabled');
         },
 
         /**
@@ -398,6 +399,7 @@ define('qui/controls/elements/Select', [
             this.$disabled        = false;
             this.$Search.disabled = false;
             this.$SearchButton.enable();
+            this.getElm().removeClass('qui-elements-select-disabled');
         },
 
         /**
