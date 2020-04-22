@@ -5,8 +5,6 @@
  * @module qui/classes/utils/DragDrop
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/classes/DOM
- *
  * @event onStart [ this, Dragable, event ]
  * @event onStop [ this, Dragable ]
  * @event onDrag [ this, Element, Droppable, event ]
@@ -234,7 +232,8 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
                 limit: limit
 
             }).start({
-                page: {
+                target: Elm,
+                page  : {
                     x: mx,
                     y: my
                 }
