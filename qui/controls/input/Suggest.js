@@ -436,7 +436,7 @@ define('qui/controls/input/Suggest', [
             this.$data = [];
             this.hideSuggest();
             this.$Suggests.set('html', '');
-            this.$Actions = null;
+            this.$Active = null;
         },
 
         /**
