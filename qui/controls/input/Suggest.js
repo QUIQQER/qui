@@ -197,11 +197,13 @@ define('qui/controls/input/Suggest', [
                 return;
             }
 
-            if (!this.$Active) {
-                return;
-            }
+            var index;
 
-            var index = parseInt(this.$Active.get('data-index'));
+            if (!this.$Active) {
+                index = 0;
+            } else {
+                index = parseInt(this.$Active.get('data-index'));
+            }
 
             if (typeof this.$data[index] === 'undefined') {
                 return;
@@ -297,16 +299,16 @@ define('qui/controls/input/Suggest', [
                 if (search) {
                     if (this.$data[i].text.match(value)) {
                         html = html + '<li data-index="' + i + '">' +
-                               this.$data[i].text +
-                               '</li>';
+                            this.$data[i].text +
+                            '</li>';
                     }
 
                     continue;
                 }
 
                 html = html + '<li data-index="' + i + '">' +
-                       this.$data[i].text +
-                       '</li>';
+                    this.$data[i].text +
+                    '</li>';
             }
 
             html = html + '</ul>';
@@ -434,6 +436,7 @@ define('qui/controls/input/Suggest', [
             this.$data = [];
             this.hideSuggest();
             this.$Suggests.set('html', '');
+            this.$Actions = null;
         },
 
         /**
