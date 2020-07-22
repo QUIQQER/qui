@@ -4,11 +4,6 @@
  * @module qui/controls/windows/Prompt
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/windows/Popup
- * @require qui/controls/buttons/Button
- * @require qui/utils/Controls
- * @require css!qui/controls/windows/Prompt.css
- *
  * @event onSubmit [ value, this ]
  * @event onEnter [ value, this ]
  * @event onCancel [ this ]

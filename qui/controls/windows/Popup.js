@@ -4,19 +4,6 @@
  * @module qui/controls/windows/Popup
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/utils/Background
- * @require qui/controls/loader/Loader
- * @require qui/Locale
- * @require qui/utils/Controls
- * @require qui/utils/Functions
- * @require qui/utils/System
- * @require qui/controls/windows/locale/de
- * @require qui/controls/windows/locale/en
- * @require css!qui/controls/windows/Popup.css
- * @require css!qui/controls/buttons/Button.css
- *
  * @event onOpen [ self ]
  * @event onOpenBegin [ self ]
  * @event onClose [ self ]

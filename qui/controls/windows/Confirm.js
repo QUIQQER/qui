@@ -4,11 +4,6 @@
  * @module qui/controls/windows/Confirm
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/controls/windows/Popup
- * @require qui/controls/buttons/Button
- * @require qui/utils/Controls
- * @require css!qui/controls/windows/Confirm.css
- *
  * @event onSubmit
  * @event onCancel
  */
@@ -249,6 +244,18 @@ define('qui/controls/windows/Confirm', [
                         }
                     })
                 );
+            }
+
+            var buttons = this.$Buttons.getElements('button');
+
+            buttons.set('tabindex', 1);
+            buttons.set('unselectable', null);
+            buttons.setStyle('outline', null);
+
+            if (buttons.length) {
+                (function () {
+                    buttons[0].focus();
+                }).delay(200);
             }
 
             this.parent();
