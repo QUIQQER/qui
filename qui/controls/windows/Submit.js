@@ -4,11 +4,6 @@
  * @module qui/controls/windows/Submit
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/windows/Popup
- * @require qui/controls/buttons/Button
- * @require css!qui/controls/windows/Submit.css
- *
  * @fires onSubmit
  * @fires onCancel
  */
@@ -106,7 +101,7 @@ define('qui/controls/windows/Submit', [
                     return;
                 }
 
-                if (attr == 'texticon') {
+                if (attr === 'texticon') {
                     Asset.image(value, {
                         onLoad: function (Node) {
                             var Texticon = this.$Body.getElement('.texticon'),
@@ -130,7 +125,7 @@ define('qui/controls/windows/Submit', [
                     return;
                 }
 
-                if (attr == 'information') {
+                if (attr === 'information') {
                     this.$Body
                         .getElement('.information')
                         .set('html', value);
@@ -138,7 +133,7 @@ define('qui/controls/windows/Submit', [
                     return;
                 }
 
-                if (attr == 'text') {
+                if (attr === 'text') {
                     this.$Body
                         .getElement('.text')
                         .set('html', value);
@@ -168,9 +163,9 @@ define('qui/controls/windows/Submit', [
 
             this.$Body = new Element('div.submit-body', {
                 html  : '<div class="textbody">' +
-                        '<h2 class="text">&nbsp;</h2>' +
-                        '<div class="information">&nbsp;</div>' +
-                        '</div>',
+                    '<h2 class="text">&nbsp;</h2>' +
+                    '<div class="information">&nbsp;</div>' +
+                    '</div>',
                 styles: {
                     'float': 'left',
                     width  : '100%'
