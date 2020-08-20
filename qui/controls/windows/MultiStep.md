@@ -9,7 +9,7 @@ Events:
 - `onShowNextStep`: gefeuert wenn der nächste Step angezeigt wurde, der angezeigte Step wird als Parameter übergeben
 - `onShowPreviousStep`: gefeuert wenn der vorige Step angezeigt wurde soll, der angezeigte Step wird als Parameter übergeben
 
-[Beispiele](../examples/index.php?file=controls/windows/alert)
+[Beispiele](../examples/index.php?file=controls/windows/multistep)
 
 
 ## Beispiel
