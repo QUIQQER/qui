@@ -48,7 +48,8 @@ define('qui/controls/input/Range', [
             snap     : false,  // When a non-linear slider has been configured,
                                // the snap option can be set to true
                                // to force the slider to jump between the specified values.
-            connect  : true    // Display a colored bar between the handles
+            connect  : true,   // Display a colored bar between the handles
+            pips     : {}      // Displays pipes and ranges for the slider
         },
 
         initialize: function (options) {
@@ -107,7 +108,8 @@ define('qui/controls/input/Range', [
                 margin : 0, // Handles must be more than '20' apart
                 connect: this.getAttribute('connect'),
                 range  : range,
-                snap   : this.getAttribute('snap')
+                snap   : this.getAttribute('snap'),
+                pips   : this.getAttribute('pips')
             });
 
             var Formatter = this.getAttribute('Formatter');
