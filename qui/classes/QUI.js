@@ -382,9 +382,19 @@ define('qui/classes/QUI', [
 
                         if (typeof formNodes[Elm.nodeName] !== 'undefined' ||
                             Elm.get('html').trim() !== '') {
-                            new Cls().imports(Elm);
+                            try {
+                                new Cls().imports(Elm);
+                            } catch (e) {
+                                console.error(Cls, i, list);
+                                console.error(e);
+                            }
                         } else {
-                            new Cls().replaces(Elm);
+                            try {
+                                new Cls().replaces(Elm);
+                            } catch (e) {
+                                console.error(Cls, i, list);
+                                console.error(e);
+                            }
                         }
                     }
 
