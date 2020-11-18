@@ -6,13 +6,6 @@
  * @module qui/controls/input/Range
  *
  * based on http://refreshless.com/nouislider/
- *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require URL_OPT_DIR + bin/nouislider/distribute/nouislider.min.js
- *
- * @require css!qui/controls/input/Range.css
- * @require css! + URL_OPT_DIR + bin/nouislider/distribute/nouislider.min.css
  */
 define('qui/controls/input/Range', [
 
@@ -102,15 +95,20 @@ define('qui/controls/input/Range', [
                 start = [this.getAttribute('min'), this.getAttribute('max')];
             }
 
-            noUiSlider.create(this.$BarContainer, {
-                start  : start,
-                step   : this.getAttribute('step'),
-                margin : 0, // Handles must be more than '20' apart
-                connect: this.getAttribute('connect'),
-                range  : range,
-                snap   : this.getAttribute('snap'),
-                pips   : this.getAttribute('pips')
-            });
+            try {
+                noUiSlider.create(this.$BarContainer, {
+                    start  : start,
+                    step   : this.getAttribute('step'),
+                    margin : 0, // Handles must be more than '20' apart
+                    connect: this.getAttribute('connect'),
+                    range  : range,
+                    snap   : this.getAttribute('snap'),
+                    pips   : this.getAttribute('pips')
+                });
+            } catch (e) {
+                console.error(e);
+                return this.$Elm;
+            }
 
             var Formatter = this.getAttribute('Formatter');
 
@@ -151,9 +149,11 @@ define('qui/controls/input/Range', [
          * @param {Object} range - noUiSlider range -> http://refreshless.com/nouislider/slider-values/
          */
         setRange: function (range) {
-            this.$BarContainer.noUiSlider.updateOptions({
-                range: range
-            });
+            if (this.$BarContainer.noUiSlider) {
+                this.$BarContainer.noUiSlider.updateOptions({
+                    range: range
+                });
+            }
         },
 
         /**
@@ -161,8 +161,10 @@ define('qui/controls/input/Range', [
          * @param {String|Number|Array} value
          */
         setValue: function (value) {
-            this.$BarContainer.noUiSlider.set(value);
-            this.fireEvent('change');
+            if (this.$BarContainer.noUiSlider) {
+                this.$BarContainer.noUiSlider.set(value);
+                this.fireEvent('change');
+            }
         },
 
         /**
@@ -171,8 +173,10 @@ define('qui/controls/input/Range', [
          * @param {String|Number} value
          */
         setFrom: function (value) {
-            this.$BarContainer.noUiSlider.set([null, value]);
-            this.fireEvent('change');
+            if (this.$BarContainer.noUiSlider) {
+                this.$BarContainer.noUiSlider.set([null, value]);
+                this.fireEvent('change');
+            }
         },
 
         /**
@@ -181,8 +185,10 @@ define('qui/controls/input/Range', [
          * @param {String|Number} value
          */
         setTo: function (value) {
-            this.$BarContainer.noUiSlider.set([value, null]);
-            this.fireEvent('change');
+            if (this.$BarContainer.noUiSlider) {
+                this.$BarContainer.noUiSlider.set([value, null]);
+                this.fireEvent('change');
+            }
         },
 
         /**
