@@ -95,6 +95,12 @@ define('qui/controls/input/Range', [
                 start = [this.getAttribute('min'), this.getAttribute('max')];
             }
 
+            var Pips = this.getAttribute('pips');
+
+            if (Object.keys(Pips).length === 0 && Pips.constructor === Object) {
+                Pips = null;
+            }
+
             try {
                 noUiSlider.create(this.$BarContainer, {
                     start  : start,
@@ -103,7 +109,7 @@ define('qui/controls/input/Range', [
                     connect: this.getAttribute('connect'),
                     range  : range,
                     snap   : this.getAttribute('snap'),
-                    pips   : this.getAttribute('pips')
+                    pips   : Pips,
                 });
             } catch (e) {
                 console.error(e);
