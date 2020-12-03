@@ -7,6 +7,14 @@
     width: 100%;
 }
 
+.qui-elements-select-disabled .qui-elements-selectItem .qui-elements-selectItem-destroy {
+    display: none !important;
+}
+
+.qui-elements-select-disabled .qui-elements-selectItem:hover {
+    background: transparent;
+}
+
 .field-container > .qui-elements-select {
     max-width: none;
     padding: 0;

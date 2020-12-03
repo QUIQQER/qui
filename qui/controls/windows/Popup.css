@@ -9,6 +9,11 @@
     -webkit-transform: translateZ(0);
 }
 
+.qui-window-popup:focus {
+    box-shadow: none;
+    outline: 0;
+}
+
 .qui-window-popup-title {
     background: #DDDDDD;
     clear: both;

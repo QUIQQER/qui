@@ -17,12 +17,13 @@ define('qui/controls/elements/Select', [
     'qui/controls/loader/Loader',
     'qui/controls/buttons/Button',
     'qui/controls/elements/SelectItem',
+    'qui/utils/Elements',
     'Ajax',
     'Locale',
 
     'css!qui/controls/elements/Select.css'
 
-], function (QUI, QUIControl, QUILoader, QUIButton, SelectItem, Ajax, QUILocale) {
+], function (QUI, QUIControl, QUILoader, QUIButton, SelectItem, QUIElementUtils, Ajax, QUILocale) {
     "use strict";
 
     /**
@@ -350,7 +351,8 @@ define('qui/controls/elements/Select', [
                 styles: {
                     display: '',
                     left   : this.getElm().getPosition().x + 2,
-                    width  : this.getElm().getSize().x - 4
+                    width  : this.getElm().getSize().x - 4,
+                    zIndex : QUIElementUtils.getComputedZIndex(this.getElm()) + 1
                 }
             });
 
@@ -389,6 +391,7 @@ define('qui/controls/elements/Select', [
             this.$disabled        = true;
             this.$Search.disabled = true;
             this.$SearchButton.disable();
+            this.getElm().addClass('qui-elements-select-disabled');
         },
 
         /**
@@ -398,6 +401,7 @@ define('qui/controls/elements/Select', [
             this.$disabled        = false;
             this.$Search.disabled = false;
             this.$SearchButton.enable();
+            this.getElm().removeClass('qui-elements-select-disabled');
         },
 
         /**
@@ -659,6 +663,7 @@ define('qui/controls/elements/Select', [
             }
 
             this.search();
+            this.close();
         },
 
         /**

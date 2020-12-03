@@ -13,6 +13,45 @@
  * @event onError : if there is an error
  * @event onResize : globale window resize event
  */
+
+// workaround for typeof() function because of mootools 1.4 / 1.5 to 1.6
+window.typeOf = function (i) {
+    "use strict";
+
+    if (i === null || i === undefined) {
+        return "null";
+    }
+
+    if (typeof i.getType === 'function') {
+        return i.getType();
+    }
+
+    if (typeof i.$family === 'function') {
+        return i.$family();
+    }
+
+    if (i.nodeName) {
+        if (i.nodeType === 1) {
+            return "element";
+        }
+
+        if (i.nodeType === 3) {
+            return (/\S/).test(i.nodeValue) ? "textnode" : "whitespace";
+        }
+    } else {
+        if (typeof i.length == "number") {
+            if (i.callee) {
+                return "arguments";
+            }
+            if ("item" in i) {
+                return "collection";
+            }
+        }
+    }
+
+    return typeof i;
+};
+
 define('qui/classes/QUI', [
 
     'require',
@@ -382,9 +421,19 @@ define('qui/classes/QUI', [
 
                         if (typeof formNodes[Elm.nodeName] !== 'undefined' ||
                             Elm.get('html').trim() !== '') {
-                            new Cls().imports(Elm);
+                            try {
+                                new Cls().imports(Elm);
+                            } catch (e) {
+                                console.error(Cls, i, list);
+                                console.error(e);
+                            }
                         } else {
-                            new Cls().replaces(Elm);
+                            try {
+                                new Cls().replaces(Elm);
+                            } catch (e) {
+                                console.error(Cls, i, list);
+                                console.error(e);
+                            }
                         }
                     }
 
