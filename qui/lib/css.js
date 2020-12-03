@@ -568,7 +568,9 @@
                 if (typeof window.QUIQQER_CSS_PREFETCHED !== 'undefined') {
                     var rurl = url.split('?')[0];
 
-                    if (typeof window.QUIQQER_CSS_PREFETCHED[rurl] !== 'undefined') {
+                    if (typeof window.QUIQQER_CSS_PREFETCHED[rurl] !== 'undefined' ||
+                        typeof window.QUIQQER_CSS_PREFETCHED[resourceId] !== 'undefined') {
+
                         loaded(new Element('div'));
                         return;
                     }
