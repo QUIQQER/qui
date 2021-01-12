@@ -254,7 +254,7 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Elm.addEvents({
-                focus  : this.open,
+                focus: this.open,
                 // click: this.open,
                 blur   : this.$onBlur,
                 keyup  : this.$onKeyUp,
@@ -862,6 +862,8 @@ define('qui/controls/buttons/Select', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $set: function (Item) {
+            this.fireEvent('changeBegin', [this.$value, this]);
+
             if (this.$Text && !this.getAttribute('checkable')) {
                 this.$Text.set('html', Item.getAttribute('text'));
             }
