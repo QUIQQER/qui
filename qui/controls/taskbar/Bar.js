@@ -655,6 +655,13 @@ define('qui/controls/taskbar/Bar', [
                 return;
             }
 
+            var LastTask = this.lastChild();
+
+            if (LastTask) {
+                LastTask.click();
+                return;
+            }
+
             var FirstTask = this.firstChild();
 
             if (FirstTask && Task.getId() === FirstTask.getId()) {
