@@ -186,7 +186,6 @@ define('qui/controls/taskbar/Task', [
                             self.click(event);
                         }
                     }
-
                 }
             });
 

@@ -802,6 +802,10 @@ define('qui/controls/messages/Handler', [
                     max = 10000;
                 }
 
+                if (max > QUI.Windows.$getmaxWindowZIndex()) {
+                    max = QUI.Windows.$getmaxWindowZIndex() + 10;
+                }
+
                 Node.setStyle('zIndex', max);
                 Node.addClass('animated');
                 Node.inject(document.body);

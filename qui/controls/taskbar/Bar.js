@@ -275,7 +275,6 @@ define('qui/controls/taskbar/Bar', [
                 this.$TaskButton.show();
 
                 this.$overflowed = true;
-
             } else {
                 this.$Container.setStyle('width', maxWidth);
 
@@ -439,9 +438,16 @@ define('qui/controls/taskbar/Bar', [
                 });
             }
 
+            var i, len, Instance;
             var tasks = this.$tasks;
 
-            for (var i = 0, len = tasks.length; i < len; i++) {
+            for (i = 0, len = tasks.length; i < len; i++) {
+                Instance = tasks[i].getInstance();
+
+                if (Instance.getAttribute('taskNotClosable') === true) {
+                    continue;
+                }
+
                 tasks[i].destroy();
             }
 
@@ -462,7 +468,7 @@ define('qui/controls/taskbar/Bar', [
                 tid   = Task.getId();
 
             for (var i = 0, len = tasks.length; i < len; i++) {
-                if (tid !== tasks[i].getId()) {
+                if (tid !== tasks[i].getId() && tasks[i].getAttribute('notClosable') === false) {
                     tasks[i].destroy();
                 }
             }
