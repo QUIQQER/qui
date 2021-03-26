@@ -56,8 +56,8 @@ define('qui/controls/buttons/Select', [
             'style'              : {},      // mootools css style attributes
             'class'              : false,   // extra CSS Class
             menuWidth            : false,
-            menuLeft             : false,
-            menuTop              : false,
+            menuLeft             : false,   // int|false - position left of the menu
+            menuTop              : false,   // int|false - position top of the menu
             menuMaxHeight        : 300,
             showIcons            : true,
             searchable           : false,
