@@ -1,208 +1,2892 @@
-// MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/9fb68ae0eba5cd0a4860a4120605fc91
-// Or build this file again with packager using: packager build More/More More/Class.Binds More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Element.Measure More/Element.Position More/Element.Shortcuts More/Fx.Scroll More/Fx.Slide More/Drag More/Drag.Move More/Tips
+/* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2020 [Valerio Proietti](https://mootools.net/).*/ 
+/*!
+Web Build: https://mootools.net/more/builder/3081747661438d26660aa27e8ec3ae88
+*/
 /*
 ---
-copyrights:
-  - [MooTools](http://mootools.net)
 
-licenses:
-  - [MIT License](http://mootools.net/license.txt)
+script: More.js
+
+name: More
+
+description: MooTools More
+
+license: MIT-style license
+
+authors:
+  - Guillermo Rauch
+  - Thomas Aylott
+  - Scott Kyle
+  - Arian Stolwijk
+  - Tim Wienk
+  - Christoph Pojer
+  - Aaron Newton
+  - Jacob Thornton
+
+requires:
+  - Core/MooTools
+
+provides: [MooTools.More]
+
 ...
 */
-MooTools.More={version:"1.4.0.1",build:"a4244edf2aa97ac8a196fc96082dd35af1abab87"};Class.Mutators.Binds=function(a){if(!this.prototype.initialize){this.implement("initialize",function(){});
-}return Array.from(a).concat(this.prototype.Binds||[]);};Class.Mutators.initialize=function(a){return function(){Array.from(this.Binds).each(function(b){var c=this[b];
-if(c){this[b]=c.bind(this);}},this);return a.apply(this,arguments);};};(function(a){Array.implement({min:function(){return Math.min.apply(null,this);},max:function(){return Math.max.apply(null,this);
-},average:function(){return this.length?this.sum()/this.length:0;},sum:function(){var b=0,c=this.length;if(c){while(c--){b+=this[c];}}return b;},unique:function(){return[].combine(this);
-},shuffle:function(){for(var c=this.length;c&&--c;){var b=this[c],d=Math.floor(Math.random()*(c+1));this[c]=this[d];this[d]=b;}return this;},reduce:function(d,e){for(var c=0,b=this.length;
-c<b;c++){if(c in this){e=e===a?this[c]:d.call(null,e,this[c],c,this);}}return e;},reduceRight:function(c,d){var b=this.length;while(b--){if(b in this){d=d===a?this[b]:c.call(null,d,this[b],b,this);
-}}return d;}});})();(function(){var b=function(c){return c!=null;};var a=Object.prototype.hasOwnProperty;Object.extend({getFromPath:function(e,f){if(typeof f=="string"){f=f.split(".");
-}for(var d=0,c=f.length;d<c;d++){if(a.call(e,f[d])){e=e[f[d]];}else{return null;}}return e;},cleanValues:function(c,e){e=e||b;for(var d in c){if(!e(c[d])){delete c[d];
-}}return c;},erase:function(c,d){if(a.call(c,d)){delete c[d];}return c;},run:function(d){var c=Array.slice(arguments,1);for(var e in d){if(d[e].apply){d[e].apply(d,c);
-}}return d;}});})();(function(){var b=null,a={},d={};var c=function(f){if(instanceOf(f,e.Set)){return f;}else{return a[f];}};var e=this.Locale={define:function(f,j,h,i){var g;
-if(instanceOf(f,e.Set)){g=f.name;if(g){a[g]=f;}}else{g=f;if(!a[g]){a[g]=new e.Set(g);}f=a[g];}if(j){f.define(j,h,i);}if(!b){b=f;}return f;},use:function(f){f=c(f);
-if(f){b=f;this.fireEvent("change",f);}return this;},getCurrent:function(){return b;},get:function(g,f){return(b)?b.get(g,f):"";},inherit:function(f,g,h){f=c(f);
-if(f){f.inherit(g,h);}return this;},list:function(){return Object.keys(a);}};Object.append(e,new Events);e.Set=new Class({sets:{},inherits:{locales:[],sets:{}},initialize:function(f){this.name=f||"";
-},define:function(i,g,h){var f=this.sets[i];if(!f){f={};}if(g){if(typeOf(g)=="object"){f=Object.merge(f,g);}else{f[g]=h;}}this.sets[i]=f;return this;},get:function(r,j,q){var p=Object.getFromPath(this.sets,r);
-if(p!=null){var m=typeOf(p);if(m=="function"){p=p.apply(null,Array.from(j));}else{if(m=="object"){p=Object.clone(p);}}return p;}var h=r.indexOf("."),o=h<0?r:r.substr(0,h),k=(this.inherits.sets[o]||[]).combine(this.inherits.locales).include("en-US");
-if(!q){q=[];}for(var g=0,f=k.length;g<f;g++){if(q.contains(k[g])){continue;}q.include(k[g]);var n=a[k[g]];if(!n){continue;}p=n.get(r,j,q);if(p!=null){return p;
-}}return"";},inherit:function(g,h){g=Array.from(g);if(h&&!this.inherits.sets[h]){this.inherits.sets[h]=[];}var f=g.length;while(f--){(h?this.inherits.sets[h]:this.inherits.locales).unshift(g[f]);
-}return this;}});})();Locale.define("en-US","Date",{months:["January","February","March","April","May","June","July","August","September","October","November","December"],months_abbr:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],days:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],days_abbr:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dateOrder:["month","date","year"],shortDate:"%m/%d/%Y",shortTime:"%I:%M%p",AM:"AM",PM:"PM",firstDayOfWeek:0,ordinal:function(a){return(a>3&&a<21)?"th":["th","st","nd","rd","th"][Math.min(a%10,4)];
-},lessThanMinuteAgo:"less than a minute ago",minuteAgo:"about a minute ago",minutesAgo:"{delta} minutes ago",hourAgo:"about an hour ago",hoursAgo:"about {delta} hours ago",dayAgo:"1 day ago",daysAgo:"{delta} days ago",weekAgo:"1 week ago",weeksAgo:"{delta} weeks ago",monthAgo:"1 month ago",monthsAgo:"{delta} months ago",yearAgo:"1 year ago",yearsAgo:"{delta} years ago",lessThanMinuteUntil:"less than a minute from now",minuteUntil:"about a minute from now",minutesUntil:"{delta} minutes from now",hourUntil:"about an hour from now",hoursUntil:"about {delta} hours from now",dayUntil:"1 day from now",daysUntil:"{delta} days from now",weekUntil:"1 week from now",weeksUntil:"{delta} weeks from now",monthUntil:"1 month from now",monthsUntil:"{delta} months from now",yearUntil:"1 year from now",yearsUntil:"{delta} years from now"});
-(function(){var a=this.Date;var f=a.Methods={ms:"Milliseconds",year:"FullYear",min:"Minutes",mo:"Month",sec:"Seconds",hr:"Hours"};["Date","Day","FullYear","Hours","Milliseconds","Minutes","Month","Seconds","Time","TimezoneOffset","Week","Timezone","GMTOffset","DayOfYear","LastMonth","LastDayOfMonth","UTCDate","UTCDay","UTCFullYear","AMPM","Ordinal","UTCHours","UTCMilliseconds","UTCMinutes","UTCMonth","UTCSeconds","UTCMilliseconds"].each(function(s){a.Methods[s.toLowerCase()]=s;
-});var p=function(u,t,s){if(t==1){return u;}return u<Math.pow(10,t-1)?(s||"0")+p(u,t-1,s):u;};a.implement({set:function(u,s){u=u.toLowerCase();var t=f[u]&&"set"+f[u];
-if(t&&this[t]){this[t](s);}return this;}.overloadSetter(),get:function(t){t=t.toLowerCase();var s=f[t]&&"get"+f[t];if(s&&this[s]){return this[s]();}return null;
-}.overloadGetter(),clone:function(){return new a(this.get("time"));},increment:function(s,u){s=s||"day";u=u!=null?u:1;switch(s){case"year":return this.increment("month",u*12);
-case"month":var t=this.get("date");this.set("date",1).set("mo",this.get("mo")+u);return this.set("date",t.min(this.get("lastdayofmonth")));case"week":return this.increment("day",u*7);
-case"day":return this.set("date",this.get("date")+u);}if(!a.units[s]){throw new Error(s+" is not a supported interval");}return this.set("time",this.get("time")+u*a.units[s]());
-},decrement:function(s,t){return this.increment(s,-1*(t!=null?t:1));},isLeapYear:function(){return a.isLeapYear(this.get("year"));},clearTime:function(){return this.set({hr:0,min:0,sec:0,ms:0});
-},diff:function(t,s){if(typeOf(t)=="string"){t=a.parse(t);}return((t-this)/a.units[s||"day"](3,3)).round();},getLastDayOfMonth:function(){return a.daysInMonth(this.get("mo"),this.get("year"));
-},getDayOfYear:function(){return(a.UTC(this.get("year"),this.get("mo"),this.get("date")+1)-a.UTC(this.get("year"),0,1))/a.units.day();},setDay:function(t,s){if(s==null){s=a.getMsg("firstDayOfWeek");
-if(s===""){s=1;}}t=(7+a.parseDay(t,true)-s)%7;var u=(7+this.get("day")-s)%7;return this.increment("day",t-u);},getWeek:function(v){if(v==null){v=a.getMsg("firstDayOfWeek");
-if(v===""){v=1;}}var x=this,u=(7+x.get("day")-v)%7,t=0,w;if(v==1){var y=x.get("month"),s=x.get("date")-u;if(y==11&&s>28){return 1;}if(y==0&&s<-2){x=new a(x).decrement("day",u);
-u=0;}w=new a(x.get("year"),0,1).get("day")||7;if(w>4){t=-7;}}else{w=new a(x.get("year"),0,1).get("day");}t+=x.get("dayofyear");t+=6-u;t+=(7+w-v)%7;return(t/7);
-},getOrdinal:function(s){return a.getMsg("ordinal",s||this.get("date"));},getTimezone:function(){return this.toString().replace(/^.*? ([A-Z]{3}).[0-9]{4}.*$/,"$1").replace(/^.*?\(([A-Z])[a-z]+ ([A-Z])[a-z]+ ([A-Z])[a-z]+\)$/,"$1$2$3");
-},getGMTOffset:function(){var s=this.get("timezoneOffset");return((s>0)?"-":"+")+p((s.abs()/60).floor(),2)+p(s%60,2);},setAMPM:function(s){s=s.toUpperCase();
-var t=this.get("hr");if(t>11&&s=="AM"){return this.decrement("hour",12);}else{if(t<12&&s=="PM"){return this.increment("hour",12);}}return this;},getAMPM:function(){return(this.get("hr")<12)?"AM":"PM";
-},parse:function(s){this.set("time",a.parse(s));return this;},isValid:function(s){if(!s){s=this;}return typeOf(s)=="date"&&!isNaN(s.valueOf());},format:function(s){if(!this.isValid()){return"invalid date";
-}if(!s){s="%x %X";}if(typeof s=="string"){s=g[s.toLowerCase()]||s;}if(typeof s=="function"){return s(this);}var t=this;return s.replace(/%([a-z%])/gi,function(v,u){switch(u){case"a":return a.getMsg("days_abbr")[t.get("day")];
-case"A":return a.getMsg("days")[t.get("day")];case"b":return a.getMsg("months_abbr")[t.get("month")];case"B":return a.getMsg("months")[t.get("month")];
-case"c":return t.format("%a %b %d %H:%M:%S %Y");case"d":return p(t.get("date"),2);case"e":return p(t.get("date"),2," ");case"H":return p(t.get("hr"),2);
-case"I":return p((t.get("hr")%12)||12,2);case"j":return p(t.get("dayofyear"),3);case"k":return p(t.get("hr"),2," ");case"l":return p((t.get("hr")%12)||12,2," ");
-case"L":return p(t.get("ms"),3);case"m":return p((t.get("mo")+1),2);case"M":return p(t.get("min"),2);case"o":return t.get("ordinal");case"p":return a.getMsg(t.get("ampm"));
-case"s":return Math.round(t/1000);case"S":return p(t.get("seconds"),2);case"T":return t.format("%H:%M:%S");case"U":return p(t.get("week"),2);case"w":return t.get("day");
-case"x":return t.format(a.getMsg("shortDate"));case"X":return t.format(a.getMsg("shortTime"));case"y":return t.get("year").toString().substr(2);case"Y":return t.get("year");
-case"z":return t.get("GMTOffset");case"Z":return t.get("Timezone");}return u;});},toISOString:function(){return this.format("iso8601");}}).alias({toJSON:"toISOString",compare:"diff",strftime:"format"});
-var k=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],h=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];var g={db:"%Y-%m-%d %H:%M:%S",compact:"%Y%m%dT%H%M%S","short":"%d %b %H:%M","long":"%B %d, %Y %H:%M",rfc822:function(s){return k[s.get("day")]+s.format(", %d ")+h[s.get("month")]+s.format(" %Y %H:%M:%S %Z");
-},rfc2822:function(s){return k[s.get("day")]+s.format(", %d ")+h[s.get("month")]+s.format(" %Y %H:%M:%S %z");},iso8601:function(s){return(s.getUTCFullYear()+"-"+p(s.getUTCMonth()+1,2)+"-"+p(s.getUTCDate(),2)+"T"+p(s.getUTCHours(),2)+":"+p(s.getUTCMinutes(),2)+":"+p(s.getUTCSeconds(),2)+"."+p(s.getUTCMilliseconds(),3)+"Z");
-}};var c=[],n=a.parse;var r=function(v,x,u){var t=-1,w=a.getMsg(v+"s");switch(typeOf(x)){case"object":t=w[x.get(v)];break;case"number":t=w[x];if(!t){throw new Error("Invalid "+v+" index: "+x);
-}break;case"string":var s=w.filter(function(y){return this.test(y);},new RegExp("^"+x,"i"));if(!s.length){throw new Error("Invalid "+v+" string");}if(s.length>1){throw new Error("Ambiguous "+v);
-}t=s[0];}return(u)?w.indexOf(t):t;};var i=1900,o=70;a.extend({getMsg:function(t,s){return Locale.get("Date."+t,s);},units:{ms:Function.from(1),second:Function.from(1000),minute:Function.from(60000),hour:Function.from(3600000),day:Function.from(86400000),week:Function.from(608400000),month:function(t,s){var u=new a;
-return a.daysInMonth(t!=null?t:u.get("mo"),s!=null?s:u.get("year"))*86400000;},year:function(s){s=s||new a().get("year");return a.isLeapYear(s)?31622400000:31536000000;
-}},daysInMonth:function(t,s){return[31,a.isLeapYear(s)?29:28,31,30,31,30,31,31,30,31,30,31][t];},isLeapYear:function(s){return((s%4===0)&&(s%100!==0))||(s%400===0);
-},parse:function(v){var u=typeOf(v);if(u=="number"){return new a(v);}if(u!="string"){return v;}v=v.clean();if(!v.length){return null;}var s;c.some(function(w){var t=w.re.exec(v);
-return(t)?(s=w.handler(t)):false;});if(!(s&&s.isValid())){s=new a(n(v));if(!(s&&s.isValid())){s=new a(v.toInt());}}return s;},parseDay:function(s,t){return r("day",s,t);
-},parseMonth:function(t,s){return r("month",t,s);},parseUTC:function(t){var s=new a(t);var u=a.UTC(s.get("year"),s.get("mo"),s.get("date"),s.get("hr"),s.get("min"),s.get("sec"),s.get("ms"));
-return new a(u);},orderIndex:function(s){return a.getMsg("dateOrder").indexOf(s)+1;},defineFormat:function(s,t){g[s]=t;return this;},defineParser:function(s){c.push((s.re&&s.handler)?s:l(s));
-return this;},defineParsers:function(){Array.flatten(arguments).each(a.defineParser);return this;},define2DigitYearStart:function(s){o=s%100;i=s-o;return this;
-}}).extend({defineFormats:a.defineFormat.overloadSetter()});var d=function(s){return new RegExp("(?:"+a.getMsg(s).map(function(t){return t.substr(0,3);
-}).join("|")+")[a-z]*");};var m=function(s){switch(s){case"T":return"%H:%M:%S";case"x":return((a.orderIndex("month")==1)?"%m[-./]%d":"%d[-./]%m")+"([-./]%y)?";
-case"X":return"%H([.:]%M)?([.:]%S([.:]%s)?)? ?%p? ?%z?";}return null;};var j={d:/[0-2]?[0-9]|3[01]/,H:/[01]?[0-9]|2[0-3]/,I:/0?[1-9]|1[0-2]/,M:/[0-5]?\d/,s:/\d+/,o:/[a-z]*/,p:/[ap]\.?m\.?/,y:/\d{2}|\d{4}/,Y:/\d{4}/,z:/Z|[+-]\d{2}(?::?\d{2})?/};
-j.m=j.I;j.S=j.M;var e;var b=function(s){e=s;j.a=j.A=d("days");j.b=j.B=d("months");c.each(function(u,t){if(u.format){c[t]=l(u.format);}});};var l=function(u){if(!e){return{format:u};
-}var s=[];var t=(u.source||u).replace(/%([a-z])/gi,function(w,v){return m(v)||w;}).replace(/\((?!\?)/g,"(?:").replace(/ (?!\?|\*)/g,",? ").replace(/%([a-z%])/gi,function(w,v){var x=j[v];
-if(!x){return v;}s.push(v);return"("+x.source+")";}).replace(/\[a-z\]/gi,"[a-z\\u00c0-\\uffff;&]");return{format:u,re:new RegExp("^"+t+"$","i"),handler:function(y){y=y.slice(1).associate(s);
-var v=new a().clearTime(),x=y.y||y.Y;if(x!=null){q.call(v,"y",x);}if("d" in y){q.call(v,"d",1);}if("m" in y||y.b||y.B){q.call(v,"m",1);}for(var w in y){q.call(v,w,y[w]);
-}return v;}};};var q=function(s,t){if(!t){return this;}switch(s){case"a":case"A":return this.set("day",a.parseDay(t,true));case"b":case"B":return this.set("mo",a.parseMonth(t,true));
-case"d":return this.set("date",t);case"H":case"I":return this.set("hr",t);case"m":return this.set("mo",t-1);case"M":return this.set("min",t);case"p":return this.set("ampm",t.replace(/\./g,""));
-case"S":return this.set("sec",t);case"s":return this.set("ms",("0."+t)*1000);case"w":return this.set("day",t);case"Y":return this.set("year",t);case"y":t=+t;
-if(t<100){t+=i+(t<o?100:0);}return this.set("year",t);case"z":if(t=="Z"){t="+00";}var u=t.match(/([+-])(\d{2}):?(\d{2})?/);u=(u[1]+"1")*(u[2]*60+(+u[3]||0))+this.getTimezoneOffset();
-return this.set("time",this-u*60000);}return this;};a.defineParsers("%Y([-./]%m([-./]%d((T| )%X)?)?)?","%Y%m%d(T%H(%M%S?)?)?","%x( %X)?","%d%o( %b( %Y)?)?( %X)?","%b( %d%o)?( %Y)?( %X)?","%Y %b( %d%o( %X)?)?","%o %b %d %X %z %Y","%T","%H:%M( ?%p)?");
-Locale.addEvent("change",function(s){if(Locale.get("Date")){b(s);}}).fireEvent("change",Locale.getCurrent());})();Date.implement({timeDiffInWords:function(a){return Date.distanceOfTimeInWords(this,a||new Date);
-},timeDiff:function(f,c){if(f==null){f=new Date;}var h=((f-this)/1000).floor().abs();var e=[],a=[60,60,24,365,0],d=["s","m","h","d","y"],g,b;for(var i=0;
-i<a.length;i++){if(i&&!h){break;}g=h;if((b=a[i])){g=(h%b);h=(h/b).floor();}e.unshift(g+(d[i]||""));}return e.join(c||":");}}).extend({distanceOfTimeInWords:function(b,a){return Date.getTimePhrase(((a-b)/1000).toInt());
-},getTimePhrase:function(f){var d=(f<0)?"Until":"Ago";if(f<0){f*=-1;}var b={minute:60,hour:60,day:24,week:7,month:52/12,year:12,eon:Infinity};var e="lessThanMinute";
-for(var c in b){var a=b[c];if(f<1.5*a){if(f>0.75*a){e=c;}break;}f/=a;e=c+"s";}f=f.round();return Date.getMsg(e+d,f).substitute({delta:f});}}).defineParsers({re:/^(?:tod|tom|yes)/i,handler:function(a){var b=new Date().clearTime();
-switch(a[0]){case"tom":return b.increment();case"yes":return b.decrement();default:return b;}}},{re:/^(next|last) ([a-z]+)$/i,handler:function(e){var f=new Date().clearTime();
-var b=f.getDay();var c=Date.parseDay(e[2],true);var a=c-b;if(c<=b){a+=7;}if(e[1]=="last"){a-=7;}return f.set("date",f.getDate()+a);}}).alias("timeAgoInWords","timeDiffInWords");
-Locale.define("en-US","Number",{decimal:".",group:",",currency:{prefix:"$ "}});Number.implement({format:function(q){var n=this;q=q?Object.clone(q):{};var a=function(i){if(q[i]!=null){return q[i];
-}return Locale.get("Number."+i);};var f=n<0,h=a("decimal"),k=a("precision"),o=a("group"),c=a("decimals");if(f){var e=a("negative")||{};if(e.prefix==null&&e.suffix==null){e.prefix="-";
-}["prefix","suffix"].each(function(i){if(e[i]){q[i]=a(i)+e[i];}});n=-n;}var l=a("prefix"),p=a("suffix");if(c!==""&&c>=0&&c<=20){n=n.toFixed(c);}if(k>=1&&k<=21){n=(+n).toPrecision(k);
-}n+="";var m;if(a("scientific")===false&&n.indexOf("e")>-1){var j=n.split("e"),b=+j[1];n=j[0].replace(".","");if(b<0){b=-b-1;m=j[0].indexOf(".");if(m>-1){b-=m-1;
-}while(b--){n="0"+n;}n="0."+n;}else{m=j[0].lastIndexOf(".");if(m>-1){b-=j[0].length-m-1;}while(b--){n+="0";}}}if(h!="."){n=n.replace(".",h);}if(o){m=n.lastIndexOf(h);
-m=(m>-1)?m:n.length;var d=n.substring(m),g=m;while(g--){if((m-g-1)%3==0&&g!=(m-1)){d=o+d;}d=n.charAt(g)+d;}n=d;}if(l){n=l+n;}if(p){n+=p;}return n;},formatCurrency:function(b){var a=Locale.get("Number.currency")||{};
-if(a.scientific==null){a.scientific=false;}a.decimals=b!=null?b:(a.decimals==null?2:a.decimals);return this.format(a);},formatPercentage:function(b){var a=Locale.get("Number.percentage")||{};
-if(a.suffix==null){a.suffix="%";}a.decimals=b!=null?b:(a.decimals==null?2:a.decimals);return this.format(a);}});(function(){var b=function(e,d){var f=[];
-Object.each(d,function(g){Object.each(g,function(h){e.each(function(i){f.push(i+"-"+h+(i=="border"?"-width":""));});});});return f;};var c=function(f,e){var d=0;
-Object.each(e,function(h,g){if(g.test(f)){d=d+h.toInt();}});return d;};var a=function(d){return !!(!d||d.offsetHeight||d.offsetWidth);};Element.implement({measure:function(h){if(a(this)){return h.call(this);
-}var g=this.getParent(),e=[];while(!a(g)&&g!=document.body){e.push(g.expose());g=g.getParent();}var f=this.expose(),d=h.call(this);f();e.each(function(i){i();
-});return d;},expose:function(){if(this.getStyle("display")!="none"){return function(){};}var d=this.style.cssText;this.setStyles({display:"block",position:"absolute",visibility:"hidden"});
-return function(){this.style.cssText=d;}.bind(this);},getDimensions:function(d){d=Object.merge({computeSize:false},d);var i={x:0,y:0};var h=function(j,e){return(e.computeSize)?j.getComputedSize(e):j.getSize();
-};var f=this.getParent("body");if(f&&this.getStyle("display")=="none"){i=this.measure(function(){return h(this,d);});}else{if(f){try{i=h(this,d);}catch(g){}}}return Object.append(i,(i.x||i.x===0)?{width:i.x,height:i.y}:{x:i.width,y:i.height});
-},getComputedSize:function(d){d=Object.merge({styles:["padding","border"],planes:{height:["top","bottom"],width:["left","right"]},mode:"both"},d);var g={},e={width:0,height:0},f;
-if(d.mode=="vertical"){delete e.width;delete d.planes.width;}else{if(d.mode=="horizontal"){delete e.height;delete d.planes.height;}}b(d.styles,d.planes).each(function(h){g[h]=this.getStyle(h).toInt();
-},this);Object.each(d.planes,function(i,h){var k=h.capitalize(),j=this.getStyle(h);if(j=="auto"&&!f){f=this.getDimensions();}j=g[h]=(j=="auto")?f[h]:j.toInt();
-e["total"+k]=j;i.each(function(m){var l=c(m,g);e["computed"+m.capitalize()]=l;e["total"+k]+=l;});},this);return Object.append(e,g);}});})();(function(b){var a=Element.Position={options:{relativeTo:document.body,position:{x:"center",y:"center"},offset:{x:0,y:0}},getOptions:function(d,c){c=Object.merge({},a.options,c);
-a.setPositionOption(c);a.setEdgeOption(c);a.setOffsetOption(d,c);a.setDimensionsOption(d,c);return c;},setPositionOption:function(c){c.position=a.getCoordinateFromValue(c.position);
-},setEdgeOption:function(d){var c=a.getCoordinateFromValue(d.edge);d.edge=c?c:(d.position.x=="center"&&d.position.y=="center")?{x:"center",y:"center"}:{x:"left",y:"top"};
-},setOffsetOption:function(f,d){var c={x:0,y:0},g=f.measure(function(){return document.id(this.getOffsetParent());}),e=g.getScroll();if(!g||g==f.getDocument().body){return;
-}c=g.measure(function(){var i=this.getPosition();if(this.getStyle("position")=="fixed"){var h=window.getScroll();i.x+=h.x;i.y+=h.y;}return i;});d.offset={parentPositioned:g!=document.id(d.relativeTo),x:d.offset.x-c.x+e.x,y:d.offset.y-c.y+e.y};
-},setDimensionsOption:function(d,c){c.dimensions=d.getDimensions({computeSize:true,styles:["padding","border","margin"]});},getPosition:function(e,d){var c={};
-d=a.getOptions(e,d);var f=document.id(d.relativeTo)||document.body;a.setPositionCoordinates(d,c,f);if(d.edge){a.toEdge(c,d);}var g=d.offset;c.left=((c.x>=0||g.parentPositioned||d.allowNegative)?c.x:0).toInt();
-c.top=((c.y>=0||g.parentPositioned||d.allowNegative)?c.y:0).toInt();a.toMinMax(c,d);if(d.relFixedPosition||f.getStyle("position")=="fixed"){a.toRelFixedPosition(f,c);
-}if(d.ignoreScroll){a.toIgnoreScroll(f,c);}if(d.ignoreMargins){a.toIgnoreMargins(c,d);}c.left=Math.ceil(c.left);c.top=Math.ceil(c.top);delete c.x;delete c.y;
-return c;},setPositionCoordinates:function(k,g,d){var f=k.offset.y,h=k.offset.x,e=(d==document.body)?window.getScroll():d.getPosition(),j=e.y,c=e.x,i=window.getSize();
-switch(k.position.x){case"left":g.x=c+h;break;case"right":g.x=c+h+d.offsetWidth;break;default:g.x=c+((d==document.body?i.x:d.offsetWidth)/2)+h;break;}switch(k.position.y){case"top":g.y=j+f;
-break;case"bottom":g.y=j+f+d.offsetHeight;break;default:g.y=j+((d==document.body?i.y:d.offsetHeight)/2)+f;break;}},toMinMax:function(c,d){var f={left:"x",top:"y"},e;
-["minimum","maximum"].each(function(g){["left","top"].each(function(h){e=d[g]?d[g][f[h]]:null;if(e!=null&&((g=="minimum")?c[h]<e:c[h]>e)){c[h]=e;}});});
-},toRelFixedPosition:function(e,c){var d=window.getScroll();c.top+=d.y;c.left+=d.x;},toIgnoreScroll:function(e,d){var c=e.getScroll();d.top-=c.y;d.left-=c.x;
-},toIgnoreMargins:function(c,d){c.left+=d.edge.x=="right"?d.dimensions["margin-right"]:(d.edge.x!="center"?-d.dimensions["margin-left"]:-d.dimensions["margin-left"]+((d.dimensions["margin-right"]+d.dimensions["margin-left"])/2));
-c.top+=d.edge.y=="bottom"?d.dimensions["margin-bottom"]:(d.edge.y!="center"?-d.dimensions["margin-top"]:-d.dimensions["margin-top"]+((d.dimensions["margin-bottom"]+d.dimensions["margin-top"])/2));
-},toEdge:function(c,d){var e={},g=d.dimensions,f=d.edge;switch(f.x){case"left":e.x=0;break;case"right":e.x=-g.x-g.computedRight-g.computedLeft;break;default:e.x=-(Math.round(g.totalWidth/2));
-break;}switch(f.y){case"top":e.y=0;break;case"bottom":e.y=-g.y-g.computedTop-g.computedBottom;break;default:e.y=-(Math.round(g.totalHeight/2));break;}c.x+=e.x;
-c.y+=e.y;},getCoordinateFromValue:function(c){if(typeOf(c)!="string"){return c;}c=c.toLowerCase();return{x:c.test("left")?"left":(c.test("right")?"right":"center"),y:c.test(/upper|top/)?"top":(c.test("bottom")?"bottom":"center")};
-}};Element.implement({position:function(d){if(d&&(d.x!=null||d.y!=null)){return(b?b.apply(this,arguments):this);}var c=this.setStyle("position","absolute").calculatePosition(d);
-return(d&&d.returnPos)?c:this.setStyles(c);},calculatePosition:function(c){return a.getPosition(this,c);}});})(Element.prototype.position);Element.implement({isDisplayed:function(){return this.getStyle("display")!="none";
-},isVisible:function(){var a=this.offsetWidth,b=this.offsetHeight;return(a==0&&b==0)?false:(a>0&&b>0)?true:this.style.display!="none";},toggle:function(){return this[this.isDisplayed()?"hide":"show"]();
-},hide:function(){var b;try{b=this.getStyle("display");}catch(a){}if(b=="none"){return this;}return this.store("element:_originalDisplay",b||"").setStyle("display","none");
-},show:function(a){if(!a&&this.isDisplayed()){return this;}a=a||this.retrieve("element:_originalDisplay")||"block";return this.setStyle("display",(a=="none")?"block":a);
-},swapClass:function(a,b){return this.removeClass(a).addClass(b);}});Document.implement({clearSelection:function(){if(window.getSelection){var a=window.getSelection();
-if(a&&a.removeAllRanges){a.removeAllRanges();}}else{if(document.selection&&document.selection.empty){try{document.selection.empty();}catch(b){}}}}});(function(){Fx.Scroll=new Class({Extends:Fx,options:{offset:{x:0,y:0},wheelStops:true},initialize:function(c,b){this.element=this.subject=document.id(c);
-this.parent(b);if(typeOf(this.element)!="element"){this.element=document.id(this.element.getDocument().body);}if(this.options.wheelStops){var d=this.element,e=this.cancel.pass(false,this);
-this.addEvent("start",function(){d.addEvent("mousewheel",e);},true);this.addEvent("complete",function(){d.removeEvent("mousewheel",e);},true);}},set:function(){var b=Array.flatten(arguments);
-if(Browser.firefox){b=[Math.round(b[0]),Math.round(b[1])];}this.element.scrollTo(b[0],b[1]);return this;},compute:function(d,c,b){return[0,1].map(function(e){return Fx.compute(d[e],c[e],b);
-});},start:function(c,d){if(!this.check(c,d)){return this;}var b=this.element.getScroll();return this.parent([b.x,b.y],[c,d]);},calculateScroll:function(g,f){var d=this.element,b=d.getScrollSize(),h=d.getScroll(),j=d.getSize(),c=this.options.offset,i={x:g,y:f};
-for(var e in i){if(!i[e]&&i[e]!==0){i[e]=h[e];}if(typeOf(i[e])!="number"){i[e]=b[e]-j[e];}i[e]+=c[e];}return[i.x,i.y];},toTop:function(){return this.start.apply(this,this.calculateScroll(false,0));
-},toLeft:function(){return this.start.apply(this,this.calculateScroll(0,false));},toRight:function(){return this.start.apply(this,this.calculateScroll("right",false));
-},toBottom:function(){return this.start.apply(this,this.calculateScroll(false,"bottom"));},toElement:function(d,e){e=e?Array.from(e):["x","y"];var c=a(this.element)?{x:0,y:0}:this.element.getScroll();
-var b=Object.map(document.id(d).getPosition(this.element),function(g,f){return e.contains(f)?g+c[f]:false;});return this.start.apply(this,this.calculateScroll(b.x,b.y));
-},toElementEdge:function(d,g,e){g=g?Array.from(g):["x","y"];d=document.id(d);var i={},f=d.getPosition(this.element),j=d.getSize(),h=this.element.getScroll(),b=this.element.getSize(),c={x:f.x+j.x,y:f.y+j.y};
-["x","y"].each(function(k){if(g.contains(k)){if(c[k]>h[k]+b[k]){i[k]=c[k]-b[k];}if(f[k]<h[k]){i[k]=f[k];}}if(i[k]==null){i[k]=h[k];}if(e&&e[k]){i[k]=i[k]+e[k];
-}},this);if(i.x!=h.x||i.y!=h.y){this.start(i.x,i.y);}return this;},toElementCenter:function(e,f,h){f=f?Array.from(f):["x","y"];e=document.id(e);var i={},c=e.getPosition(this.element),d=e.getSize(),b=this.element.getScroll(),g=this.element.getSize();
-["x","y"].each(function(j){if(f.contains(j)){i[j]=c[j]-(g[j]-d[j])/2;}if(i[j]==null){i[j]=b[j];}if(h&&h[j]){i[j]=i[j]+h[j];}},this);if(i.x!=b.x||i.y!=b.y){this.start(i.x,i.y);
-}return this;}});function a(b){return(/^(?:body|html)$/i).test(b.tagName);}})();Fx.Slide=new Class({Extends:Fx,options:{mode:"vertical",wrapper:false,hideOverflow:true,resetHeight:false},initialize:function(b,a){b=this.element=this.subject=document.id(b);
-this.parent(a);a=this.options;var d=b.retrieve("wrapper"),c=b.getStyles("margin","position","overflow");if(a.hideOverflow){c=Object.append(c,{overflow:"hidden"});
-}if(a.wrapper){d=document.id(a.wrapper).setStyles(c);}if(!d){d=new Element("div",{styles:c}).wraps(b);}b.store("wrapper",d).setStyle("margin",0);if(b.getStyle("overflow")=="visible"){b.setStyle("overflow","hidden");
-}this.now=[];this.open=true;this.wrapper=d;this.addEvent("complete",function(){this.open=(d["offset"+this.layout.capitalize()]!=0);if(this.open&&this.options.resetHeight){d.setStyle("height","");
-}},true);},vertical:function(){this.margin="margin-top";this.layout="height";this.offset=this.element.offsetHeight;},horizontal:function(){this.margin="margin-left";
-this.layout="width";this.offset=this.element.offsetWidth;},set:function(a){this.element.setStyle(this.margin,a[0]);this.wrapper.setStyle(this.layout,a[1]);
-return this;},compute:function(c,b,a){return[0,1].map(function(d){return Fx.compute(c[d],b[d],a);});},start:function(b,e){if(!this.check(b,e)){return this;
-}this[e||this.options.mode]();var d=this.element.getStyle(this.margin).toInt(),c=this.wrapper.getStyle(this.layout).toInt(),a=[[d,c],[0,this.offset]],g=[[d,c],[-this.offset,0]],f;
-switch(b){case"in":f=a;break;case"out":f=g;break;case"toggle":f=(c==0)?a:g;}return this.parent(f[0],f[1]);},slideIn:function(a){return this.start("in",a);
-},slideOut:function(a){return this.start("out",a);},hide:function(a){this[a||this.options.mode]();this.open=false;return this.set([-this.offset,0]);},show:function(a){this[a||this.options.mode]();
-this.open=true;return this.set([0,this.offset]);},toggle:function(a){return this.start("toggle",a);}});Element.Properties.slide={set:function(a){this.get("slide").cancel().setOptions(a);
-return this;},get:function(){var a=this.retrieve("slide");if(!a){a=new Fx.Slide(this,{link:"cancel"});this.store("slide",a);}return a;}};Element.implement({slide:function(d,e){d=d||"toggle";
-var b=this.get("slide"),a;switch(d){case"hide":b.hide(e);break;case"show":b.show(e);break;case"toggle":var c=this.retrieve("slide:flag",b.open);b[c?"slideOut":"slideIn"](e);
-this.store("slide:flag",!c);a=true;break;default:b.start(d,e);}if(!a){this.eliminate("slide:flag");}return this;}});var Drag=new Class({Implements:[Events,Options],options:{snap:6,unit:"px",grid:false,style:true,limit:false,handle:false,invert:false,preventDefault:false,stopPropagation:false,modifiers:{x:"left",y:"top"}},initialize:function(){var b=Array.link(arguments,{options:Type.isObject,element:function(c){return c!=null;
-}});this.element=document.id(b.element);this.document=this.element.getDocument();this.setOptions(b.options||{});var a=typeOf(this.options.handle);this.handles=((a=="array"||a=="collection")?$$(this.options.handle):document.id(this.options.handle))||this.element;
-this.mouse={now:{},pos:{}};this.value={start:{},now:{}};this.selection=(Browser.ie)?"selectstart":"mousedown";if(Browser.ie&&!Drag.ondragstartFixed){document.ondragstart=Function.from(false);
-Drag.ondragstartFixed=true;}this.bound={start:this.start.bind(this),check:this.check.bind(this),drag:this.drag.bind(this),stop:this.stop.bind(this),cancel:this.cancel.bind(this),eventStop:Function.from(false)};
-this.attach();},attach:function(){this.handles.addEvent("mousedown",this.bound.start);return this;},detach:function(){this.handles.removeEvent("mousedown",this.bound.start);
-return this;},start:function(a){var j=this.options;if(a.rightClick){return;}if(j.preventDefault){a.preventDefault();}if(j.stopPropagation){a.stopPropagation();
-}this.mouse.start=a.page;this.fireEvent("beforeStart",this.element);var c=j.limit;this.limit={x:[],y:[]};var e,g;for(e in j.modifiers){if(!j.modifiers[e]){continue;
-}var b=this.element.getStyle(j.modifiers[e]);if(b&&!b.match(/px$/)){if(!g){g=this.element.getCoordinates(this.element.getOffsetParent());}b=g[j.modifiers[e]];
-}if(j.style){this.value.now[e]=(b||0).toInt();}else{this.value.now[e]=this.element[j.modifiers[e]];}if(j.invert){this.value.now[e]*=-1;}this.mouse.pos[e]=a.page[e]-this.value.now[e];
-if(c&&c[e]){var d=2;while(d--){var f=c[e][d];if(f||f===0){this.limit[e][d]=(typeof f=="function")?f():f;}}}}if(typeOf(this.options.grid)=="number"){this.options.grid={x:this.options.grid,y:this.options.grid};
-}var h={mousemove:this.bound.check,mouseup:this.bound.cancel};h[this.selection]=this.bound.eventStop;this.document.addEvents(h);},check:function(a){if(this.options.preventDefault){a.preventDefault();
-}var b=Math.round(Math.sqrt(Math.pow(a.page.x-this.mouse.start.x,2)+Math.pow(a.page.y-this.mouse.start.y,2)));if(b>this.options.snap){this.cancel();this.document.addEvents({mousemove:this.bound.drag,mouseup:this.bound.stop});
-this.fireEvent("start",[this.element,a]).fireEvent("snap",this.element);}},drag:function(b){var a=this.options;if(a.preventDefault){b.preventDefault();
-}this.mouse.now=b.page;for(var c in a.modifiers){if(!a.modifiers[c]){continue;}this.value.now[c]=this.mouse.now[c]-this.mouse.pos[c];if(a.invert){this.value.now[c]*=-1;
-}if(a.limit&&this.limit[c]){if((this.limit[c][1]||this.limit[c][1]===0)&&(this.value.now[c]>this.limit[c][1])){this.value.now[c]=this.limit[c][1];}else{if((this.limit[c][0]||this.limit[c][0]===0)&&(this.value.now[c]<this.limit[c][0])){this.value.now[c]=this.limit[c][0];
-}}}if(a.grid[c]){this.value.now[c]-=((this.value.now[c]-(this.limit[c][0]||0))%a.grid[c]);}if(a.style){this.element.setStyle(a.modifiers[c],this.value.now[c]+a.unit);
-}else{this.element[a.modifiers[c]]=this.value.now[c];}}this.fireEvent("drag",[this.element,b]);},cancel:function(a){this.document.removeEvents({mousemove:this.bound.check,mouseup:this.bound.cancel});
-if(a){this.document.removeEvent(this.selection,this.bound.eventStop);this.fireEvent("cancel",this.element);}},stop:function(b){var a={mousemove:this.bound.drag,mouseup:this.bound.stop};
-a[this.selection]=this.bound.eventStop;this.document.removeEvents(a);if(b){this.fireEvent("complete",[this.element,b]);}}});Element.implement({makeResizable:function(a){var b=new Drag(this,Object.merge({modifiers:{x:"width",y:"height"}},a));
-this.store("resizer",b);return b.addEvent("drag",function(){this.fireEvent("resize",b);}.bind(this));}});Drag.Move=new Class({Extends:Drag,options:{droppables:[],container:false,precalculate:false,includeMargins:true,checkDroppables:true},initialize:function(b,a){this.parent(b,a);
-b=this.element;this.droppables=$$(this.options.droppables);this.container=document.id(this.options.container);if(this.container&&typeOf(this.container)!="element"){this.container=document.id(this.container.getDocument().body);
-}if(this.options.style){if(this.options.modifiers.x=="left"&&this.options.modifiers.y=="top"){var c=b.getOffsetParent(),d=b.getStyles("left","top");if(c&&(d.left=="auto"||d.top=="auto")){b.setPosition(b.getPosition(c));
-}}if(b.getStyle("position")=="static"){b.setStyle("position","absolute");}}this.addEvent("start",this.checkDroppables,true);this.overed=null;},start:function(a){if(this.container){this.options.limit=this.calculateLimit();
-}if(this.options.precalculate){this.positions=this.droppables.map(function(b){return b.getCoordinates();});}this.parent(a);},calculateLimit:function(){var j=this.element,e=this.container,d=document.id(j.getOffsetParent())||document.body,h=e.getCoordinates(d),c={},b={},k={},g={},m={};
-["top","right","bottom","left"].each(function(q){c[q]=j.getStyle("margin-"+q).toInt();b[q]=j.getStyle("border-"+q).toInt();k[q]=e.getStyle("margin-"+q).toInt();
-g[q]=e.getStyle("border-"+q).toInt();m[q]=d.getStyle("padding-"+q).toInt();},this);var f=j.offsetWidth+c.left+c.right,p=j.offsetHeight+c.top+c.bottom,i=0,l=0,o=h.right-g.right-f,a=h.bottom-g.bottom-p;
-if(this.options.includeMargins){i+=c.left;l+=c.top;}else{o+=c.right;a+=c.bottom;}if(j.getStyle("position")=="relative"){var n=j.getCoordinates(d);n.left-=j.getStyle("left").toInt();
-n.top-=j.getStyle("top").toInt();i-=n.left;l-=n.top;if(e.getStyle("position")!="relative"){i+=g.left;l+=g.top;}o+=c.left-n.left;a+=c.top-n.top;if(e!=d){i+=k.left+m.left;
-l+=((Browser.ie6||Browser.ie7)?0:k.top)+m.top;}}else{i-=c.left;l-=c.top;if(e!=d){i+=h.left+g.left;l+=h.top+g.top;}}return{x:[i,o],y:[l,a]};},getDroppableCoordinates:function(c){var b=c.getCoordinates();
-if(c.getStyle("position")=="fixed"){var a=window.getScroll();b.left+=a.x;b.right+=a.x;b.top+=a.y;b.bottom+=a.y;}return b;},checkDroppables:function(){var a=this.droppables.filter(function(d,c){d=this.positions?this.positions[c]:this.getDroppableCoordinates(d);
-var b=this.mouse.now;return(b.x>d.left&&b.x<d.right&&b.y<d.bottom&&b.y>d.top);},this).getLast();if(this.overed!=a){if(this.overed){this.fireEvent("leave",[this.element,this.overed]);
-}if(a){this.fireEvent("enter",[this.element,a]);}this.overed=a;}},drag:function(a){this.parent(a);if(this.options.checkDroppables&&this.droppables.length){this.checkDroppables();
-}},stop:function(a){this.checkDroppables();this.fireEvent("drop",[this.element,this.overed,a]);this.overed=null;return this.parent(a);}});Element.implement({makeDraggable:function(a){var b=new Drag.Move(this,a);
-this.store("dragger",b);return b;}});(function(){var a=function(c,b){return(c)?(typeOf(c)=="function"?c(b):b.get(c)):"";};this.Tips=new Class({Implements:[Events,Options],options:{onShow:function(){this.tip.setStyle("display","block");
-},onHide:function(){this.tip.setStyle("display","none");},title:"title",text:function(b){return b.get("rel")||b.get("href");},showDelay:100,hideDelay:100,className:"tip-wrap",offset:{x:16,y:16},windowPadding:{x:0,y:0},fixed:false,waiAria:true},initialize:function(){var b=Array.link(arguments,{options:Type.isObject,elements:function(c){return c!=null;
-}});this.setOptions(b.options);if(b.elements){this.attach(b.elements);}this.container=new Element("div",{"class":"tip"});if(this.options.id){this.container.set("id",this.options.id);
-if(this.options.waiAria){this.attachWaiAria();}}},toElement:function(){if(this.tip){return this.tip;}this.tip=new Element("div",{"class":this.options.className,styles:{position:"absolute",top:0,left:0}}).adopt(new Element("div",{"class":"tip-top"}),this.container,new Element("div",{"class":"tip-bottom"}));
-return this.tip;},attachWaiAria:function(){var b=this.options.id;this.container.set("role","tooltip");if(!this.waiAria){this.waiAria={show:function(c){if(b){c.set("aria-describedby",b);
-}this.container.set("aria-hidden","false");},hide:function(c){if(b){c.erase("aria-describedby");}this.container.set("aria-hidden","true");}};}this.addEvents(this.waiAria);
-},detachWaiAria:function(){if(this.waiAria){this.container.erase("role");this.container.erase("aria-hidden");this.removeEvents(this.waiAria);}},attach:function(b){$$(b).each(function(d){var f=a(this.options.title,d),e=a(this.options.text,d);
-d.set("title","").store("tip:native",f).retrieve("tip:title",f);d.retrieve("tip:text",e);this.fireEvent("attach",[d]);var c=["enter","leave"];if(!this.options.fixed){c.push("move");
-}c.each(function(h){var g=d.retrieve("tip:"+h);if(!g){g=function(i){this["element"+h.capitalize()].apply(this,[i,d]);}.bind(this);}d.store("tip:"+h,g).addEvent("mouse"+h,g);
-},this);},this);return this;},detach:function(b){$$(b).each(function(d){["enter","leave","move"].each(function(e){d.removeEvent("mouse"+e,d.retrieve("tip:"+e)).eliminate("tip:"+e);
-});this.fireEvent("detach",[d]);if(this.options.title=="title"){var c=d.retrieve("tip:native");if(c){d.set("title",c);}}},this);return this;},elementEnter:function(c,b){clearTimeout(this.timer);
-this.timer=(function(){this.container.empty();["title","text"].each(function(e){var d=b.retrieve("tip:"+e);var f=this["_"+e+"Element"]=new Element("div",{"class":"tip-"+e}).inject(this.container);
-if(d){this.fill(f,d);}},this);this.show(b);this.position((this.options.fixed)?{page:b.getPosition()}:c);}).delay(this.options.showDelay,this);},elementLeave:function(c,b){clearTimeout(this.timer);
-this.timer=this.hide.delay(this.options.hideDelay,this,b);this.fireForParent(c,b);},setTitle:function(b){if(this._titleElement){this._titleElement.empty();
-this.fill(this._titleElement,b);}return this;},setText:function(b){if(this._textElement){this._textElement.empty();this.fill(this._textElement,b);}return this;
-},fireForParent:function(c,b){b=b.getParent();if(!b||b==document.body){return;}if(b.retrieve("tip:enter")){b.fireEvent("mouseenter",c);}else{this.fireForParent(c,b);
-}},elementMove:function(c,b){this.position(c);},position:function(f){if(!this.tip){document.id(this);}var c=window.getSize(),b=window.getScroll(),g={x:this.tip.offsetWidth,y:this.tip.offsetHeight},d={x:"left",y:"top"},e={y:false,x2:false,y2:false,x:false},h={};
-for(var i in d){h[d[i]]=f.page[i]+this.options.offset[i];if(h[d[i]]<0){e[i]=true;}if((h[d[i]]+g[i]-b[i])>c[i]-this.options.windowPadding[i]){h[d[i]]=f.page[i]-this.options.offset[i]-g[i];
-e[i+"2"]=true;}}this.fireEvent("bound",e);this.tip.setStyles(h);},fill:function(b,c){if(typeof c=="string"){b.set("html",c);}else{b.adopt(c);}},show:function(b){if(!this.tip){document.id(this);
-}if(!this.tip.getParent()){this.tip.inject(document.body);}this.fireEvent("show",[this.tip,b]);},hide:function(b){if(!this.tip){document.id(this);}this.fireEvent("hide",[this.tip,b]);
-}});})();
+
+MooTools.More = {
+	version: '1.6.0',
+	build: '45b71db70f879781a7e0b0d3fb3bb1307c2521eb'
+};
+
+/*
+---
+
+script: Class.Binds.js
+
+name: Class.Binds
+
+description: Automagically binds specified methods in a class to the instance of the class.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Class
+  - MooTools.More
+
+provides: [Class.Binds]
+
+...
+*/
+
+Class.Mutators.Binds = function(binds){
+	if (!this.prototype.initialize) this.implement('initialize', function(){});
+	return Array.convert(binds).concat(this.prototype.Binds || []);
+};
+
+Class.Mutators.initialize = function(initialize){
+	return function(){
+		Array.convert(this.Binds).each(function(name){
+			var original = this[name];
+			if (original) this[name] = original.bind(this);
+		}, this);
+		return initialize.apply(this, arguments);
+	};
+};
+
+/*
+---
+
+script: Drag.js
+
+name: Drag
+
+description: The base Drag Class. Can be used to drag and resize Elements using mouse events.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+  - Tom Occhinno
+  - Jan Kassens
+
+requires:
+  - Core/Events
+  - Core/Options
+  - Core/Element.Event
+  - Core/Element.Style
+  - Core/Element.Dimensions
+  - MooTools.More
+
+provides: [Drag]
+...
+
+*/
+(function(){
+
+var Drag = this.Drag = new Class({
+
+	Implements: [Events, Options],
+
+	options: {/*
+		onBeforeStart: function(thisElement){},
+		onStart: function(thisElement, event){},
+		onSnap: function(thisElement){},
+		onDrag: function(thisElement, event){},
+		onCancel: function(thisElement){},
+		onComplete: function(thisElement, event){},*/
+		snap: 6,
+		unit: 'px',
+		grid: false,
+		style: true,
+		limit: false,
+		handle: false,
+		invert: false,
+		unDraggableTags: ['button', 'input', 'a', 'textarea', 'select', 'option'],
+		preventDefault: false,
+		stopPropagation: false,
+		compensateScroll: false,
+		modifiers: {x: 'left', y: 'top'}
+	},
+
+	initialize: function(){
+		var params = Array.link(arguments, {
+			'options': Type.isObject,
+			'element': function(obj){
+				return obj != null;
+			}
+		});
+
+		this.element = document.id(params.element);
+		this.document = this.element.getDocument();
+		this.setOptions(params.options || {});
+		var htype = typeOf(this.options.handle);
+		this.handles = ((htype == 'array' || htype == 'collection') ? $$(this.options.handle) : document.id(this.options.handle)) || this.element;
+		this.mouse = {'now': {}, 'pos': {}};
+		this.value = {'start': {}, 'now': {}};
+		this.offsetParent = (function(el){
+			var offsetParent = el.getOffsetParent();
+			var isBody = !offsetParent || (/^(?:body|html)$/i).test(offsetParent.tagName);
+			return isBody ? window : document.id(offsetParent);
+		})(this.element);
+		this.selection = 'selectstart' in document ? 'selectstart' : 'mousedown';
+
+		this.compensateScroll = {start: {}, diff: {}, last: {}};
+
+		if ('ondragstart' in document && !('FileReader' in window) && !Drag.ondragstartFixed){
+			document.ondragstart = Function.convert(false);
+			Drag.ondragstartFixed = true;
+		}
+
+		this.bound = {
+			start: this.start.bind(this),
+			check: this.check.bind(this),
+			drag: this.drag.bind(this),
+			stop: this.stop.bind(this),
+			cancel: this.cancel.bind(this),
+			eventStop: Function.convert(false),
+			scrollListener: this.scrollListener.bind(this)
+		};
+		this.attach();
+	},
+
+	attach: function(){
+		this.handles.addEvent('mousedown', this.bound.start);
+		this.handles.addEvent('touchstart', this.bound.start);
+		if (this.options.compensateScroll) this.offsetParent.addEvent('scroll', this.bound.scrollListener);
+		return this;
+	},
+
+	detach: function(){
+		this.handles.removeEvent('mousedown', this.bound.start);
+		this.handles.removeEvent('touchstart', this.bound.start);
+		if (this.options.compensateScroll) this.offsetParent.removeEvent('scroll', this.bound.scrollListener);
+		return this;
+	},
+
+	scrollListener: function(){
+
+		if (!this.mouse.start) return;
+		var newScrollValue = this.offsetParent.getScroll();
+
+		if (this.element.getStyle('position') == 'absolute'){
+			var scrollDiff = this.sumValues(newScrollValue, this.compensateScroll.last, -1);
+			this.mouse.now = this.sumValues(this.mouse.now, scrollDiff, 1);
+		} else {
+			this.compensateScroll.diff = this.sumValues(newScrollValue, this.compensateScroll.start, -1);
+		}
+		if (this.offsetParent != window) this.compensateScroll.diff = this.sumValues(this.compensateScroll.start, newScrollValue, -1);
+		this.compensateScroll.last = newScrollValue;
+		this.render(this.options);
+	},
+
+	sumValues: function(alpha, beta, op){
+		var sum = {}, options = this.options;
+		for (var z in options.modifiers){
+			if (!options.modifiers[z]) continue;
+			sum[z] = alpha[z] + beta[z] * op;
+		}
+		return sum;
+	},
+
+	start: function(event){
+		if (this.options.unDraggableTags.contains(event.target.get('tag'))) return;
+
+		var options = this.options;
+
+		if (event.rightClick) return;
+
+		if (options.preventDefault) event.preventDefault();
+		if (options.stopPropagation) event.stopPropagation();
+		this.compensateScroll.start = this.compensateScroll.last = this.offsetParent.getScroll();
+		this.compensateScroll.diff = {x: 0, y: 0};
+		this.mouse.start = event.page;
+		this.fireEvent('beforeStart', this.element);
+
+		var limit = options.limit;
+		this.limit = {x: [], y: []};
+
+		var z, coordinates, offsetParent = this.offsetParent == window ? null : this.offsetParent;
+		for (z in options.modifiers){
+			if (!options.modifiers[z]) continue;
+
+			var style = this.element.getStyle(options.modifiers[z]);
+
+			// Some browsers (IE and Opera) don't always return pixels.
+			if (style && !style.match(/px$/)){
+				if (!coordinates) coordinates = this.element.getCoordinates(offsetParent);
+				style = coordinates[options.modifiers[z]];
+			}
+
+			if (options.style) this.value.now[z] = (style || 0).toInt();
+			else this.value.now[z] = this.element[options.modifiers[z]];
+
+			if (options.invert) this.value.now[z] *= -1;
+
+			this.mouse.pos[z] = event.page[z] - this.value.now[z];
+
+			if (limit && limit[z]){
+				var i = 2;
+				while (i--){
+					var limitZI = limit[z][i];
+					if (limitZI || limitZI === 0) this.limit[z][i] = (typeof limitZI == 'function') ? limitZI() : limitZI;
+				}
+			}
+		}
+
+		if (typeOf(this.options.grid) == 'number') this.options.grid = {
+			x: this.options.grid,
+			y: this.options.grid
+		};
+
+		var events = {
+			mousemove: this.bound.check,
+			mouseup: this.bound.cancel,
+			touchmove: this.bound.check,
+			touchend: this.bound.cancel
+		};
+		events[this.selection] = this.bound.eventStop;
+		this.document.addEvents(events);
+	},
+
+	check: function(event){
+		if (this.options.preventDefault) event.preventDefault();
+		var distance = Math.round(Math.sqrt(Math.pow(event.page.x - this.mouse.start.x, 2) + Math.pow(event.page.y - this.mouse.start.y, 2)));
+		if (distance > this.options.snap){
+			this.cancel();
+			this.document.addEvents({
+				mousemove: this.bound.drag,
+				mouseup: this.bound.stop,
+				touchmove: this.bound.drag,
+				touchend: this.bound.stop
+			});
+			this.fireEvent('start', [this.element, event]).fireEvent('snap', this.element);
+		}
+	},
+
+	drag: function(event){
+		var options = this.options;
+		if (options.preventDefault) event.preventDefault();
+		this.mouse.now = this.sumValues(event.page, this.compensateScroll.diff, -1);
+
+		this.render(options);
+		this.fireEvent('drag', [this.element, event]);
+	},
+
+	render: function(options){
+		for (var z in options.modifiers){
+			if (!options.modifiers[z]) continue;
+			this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
+
+			if (options.invert) this.value.now[z] *= -1;
+			if (options.limit && this.limit[z]){
+				if ((this.limit[z][1] || this.limit[z][1] === 0) && (this.value.now[z] > this.limit[z][1])){
+					this.value.now[z] = this.limit[z][1];
+				} else if ((this.limit[z][0] || this.limit[z][0] === 0) && (this.value.now[z] < this.limit[z][0])){
+					this.value.now[z] = this.limit[z][0];
+				}
+			}
+			if (options.grid[z]) this.value.now[z] -= ((this.value.now[z] - (this.limit[z][0]||0)) % options.grid[z]);
+			if (options.style) this.element.setStyle(options.modifiers[z], this.value.now[z] + options.unit);
+			else this.element[options.modifiers[z]] = this.value.now[z];
+		}
+	},
+
+	cancel: function(event){
+		this.document.removeEvents({
+			mousemove: this.bound.check,
+			mouseup: this.bound.cancel,
+			touchmove: this.bound.check,
+			touchend: this.bound.cancel
+		});
+		if (event){
+			this.document.removeEvent(this.selection, this.bound.eventStop);
+			this.fireEvent('cancel', this.element);
+		}
+	},
+
+	stop: function(event){
+		var events = {
+			mousemove: this.bound.drag,
+			mouseup: this.bound.stop,
+			touchmove: this.bound.drag,
+			touchend: this.bound.stop
+		};
+		events[this.selection] = this.bound.eventStop;
+		this.document.removeEvents(events);
+		this.mouse.start = null;
+		if (event) this.fireEvent('complete', [this.element, event]);
+	}
+
+});
+
+})();
+
+
+Element.implement({
+
+	makeResizable: function(options){
+		var drag = new Drag(this, Object.merge({
+			modifiers: {
+				x: 'width',
+				y: 'height'
+			}
+		}, options));
+
+		this.store('resizer', drag);
+		return drag.addEvent('drag', function(){
+			this.fireEvent('resize', drag);
+		}.bind(this));
+	}
+
+});
+
+/*
+---
+
+script: Drag.Move.js
+
+name: Drag.Move
+
+description: A Drag extension that provides support for the constraining of draggables to containers and droppables.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+  - Tom Occhinno
+  - Jan Kassens
+  - Aaron Newton
+  - Scott Kyle
+
+requires:
+  - Core/Element.Dimensions
+  - Drag
+
+provides: [Drag.Move]
+
+...
+*/
+
+Drag.Move = new Class({
+
+	Extends: Drag,
+
+	options: {/*
+		onEnter: function(thisElement, overed){},
+		onLeave: function(thisElement, overed){},
+		onDrop: function(thisElement, overed, event){},*/
+		droppables: [],
+		container: false,
+		precalculate: false,
+		includeMargins: true,
+		checkDroppables: true
+	},
+
+	initialize: function(element, options){
+		this.parent(element, options);
+		element = this.element;
+
+		this.droppables = $$(this.options.droppables);
+		this.setContainer(this.options.container);
+
+		if (this.options.style){
+			if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top'){
+				var parent = element.getOffsetParent(),
+					styles = element.getStyles('left', 'top');
+				if (parent && (styles.left == 'auto' || styles.top == 'auto')){
+					element.setPosition(element.getPosition(parent));
+				}
+			}
+
+			if (element.getStyle('position') == 'static') element.setStyle('position', 'absolute');
+		}
+
+		this.addEvent('start', this.checkDroppables, true);
+		this.overed = null;
+	},
+
+	setContainer: function(container){
+		this.container = document.id(container);
+		if (this.container && typeOf(this.container) != 'element'){
+			this.container = document.id(this.container.getDocument().body);
+		}
+	},
+
+	start: function(event){
+		if (this.container) this.options.limit = this.calculateLimit();
+
+		if (this.options.precalculate){
+			this.positions = this.droppables.map(function(el){
+				return el.getCoordinates();
+			});
+		}
+
+		this.parent(event);
+	},
+
+	calculateLimit: function(){
+		var element = this.element,
+			container = this.container,
+
+			offsetParent = document.id(element.getOffsetParent()) || document.body,
+			containerCoordinates = container.getCoordinates(offsetParent),
+			elementMargin = {},
+			elementBorder = {},
+			containerMargin = {},
+			containerBorder = {},
+			offsetParentPadding = {},
+			offsetScroll = offsetParent.getScroll();
+
+		['top', 'right', 'bottom', 'left'].each(function(pad){
+			elementMargin[pad] = element.getStyle('margin-' + pad).toInt();
+			elementBorder[pad] = element.getStyle('border-' + pad).toInt();
+			containerMargin[pad] = container.getStyle('margin-' + pad).toInt();
+			containerBorder[pad] = container.getStyle('border-' + pad).toInt();
+			offsetParentPadding[pad] = offsetParent.getStyle('padding-' + pad).toInt();
+		}, this);
+
+		var width = element.offsetWidth + elementMargin.left + elementMargin.right,
+			height = element.offsetHeight + elementMargin.top + elementMargin.bottom,
+			left = 0 + offsetScroll.x,
+			top = 0 + offsetScroll.y,
+			right = containerCoordinates.right - containerBorder.right - width + offsetScroll.x,
+			bottom = containerCoordinates.bottom - containerBorder.bottom - height + offsetScroll.y;
+
+		if (this.options.includeMargins){
+			left += elementMargin.left;
+			top += elementMargin.top;
+		} else {
+			right += elementMargin.right;
+			bottom += elementMargin.bottom;
+		}
+
+		if (element.getStyle('position') == 'relative'){
+			var coords = element.getCoordinates(offsetParent);
+			coords.left -= element.getStyle('left').toInt();
+			coords.top -= element.getStyle('top').toInt();
+
+			left -= coords.left;
+			top -= coords.top;
+			if (container.getStyle('position') != 'relative'){
+				left += containerBorder.left;
+				top += containerBorder.top;
+			}
+			right += elementMargin.left - coords.left;
+			bottom += elementMargin.top - coords.top;
+
+			if (container != offsetParent){
+				left += containerMargin.left + offsetParentPadding.left;
+				if (!offsetParentPadding.left && left < 0) left = 0;
+				top += offsetParent == document.body ? 0 : containerMargin.top + offsetParentPadding.top;
+				if (!offsetParentPadding.top && top < 0) top = 0;
+			}
+		} else {
+			left -= elementMargin.left;
+			top -= elementMargin.top;
+			if (container != offsetParent){
+				left += containerCoordinates.left + containerBorder.left;
+				top += containerCoordinates.top + containerBorder.top;
+			}
+		}
+
+		return {
+			x: [left, right],
+			y: [top, bottom]
+		};
+	},
+
+	getDroppableCoordinates: function(element){
+		var position = element.getCoordinates();
+		if (element.getStyle('position') == 'fixed'){
+			var scroll = window.getScroll();
+			position.left += scroll.x;
+			position.right += scroll.x;
+			position.top += scroll.y;
+			position.bottom += scroll.y;
+		}
+		return position;
+	},
+
+	checkDroppables: function(){
+		var overed = this.droppables.filter(function(el, i){
+			el = this.positions ? this.positions[i] : this.getDroppableCoordinates(el);
+			var now = this.mouse.now;
+			return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
+		}, this).getLast();
+
+		if (this.overed != overed){
+			if (this.overed) this.fireEvent('leave', [this.element, this.overed]);
+			if (overed) this.fireEvent('enter', [this.element, overed]);
+			this.overed = overed;
+		}
+	},
+
+	drag: function(event){
+		this.parent(event);
+		if (this.options.checkDroppables && this.droppables.length) this.checkDroppables();
+	},
+
+	stop: function(event){
+		this.checkDroppables();
+		this.fireEvent('drop', [this.element, this.overed, event]);
+		this.overed = null;
+		return this.parent(event);
+	}
+
+});
+
+Element.implement({
+
+	makeDraggable: function(options){
+		var drag = new Drag.Move(this, options);
+		this.store('dragger', drag);
+		return drag;
+	}
+
+});
+
+/*
+---
+
+script: Element.Measure.js
+
+name: Element.Measure
+
+description: Extends the Element native object to include methods useful in measuring dimensions.
+
+credits: "Element.measure / .expose methods by Daniel Steigerwald License: MIT-style license. Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz"
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Element.Style
+  - Core/Element.Dimensions
+  - MooTools.More
+
+provides: [Element.Measure]
+
+...
+*/
+
+(function(){
+
+var getStylesList = function(styles, planes){
+	var list = [];
+	Object.each(planes, function(directions){
+		Object.each(directions, function(edge){
+			styles.each(function(style){
+				list.push(style + '-' + edge + (style == 'border' ? '-width' : ''));
+			});
+		});
+	});
+	return list;
+};
+
+var calculateEdgeSize = function(edge, styles){
+	var total = 0;
+	Object.each(styles, function(value, style){
+		if (style.test(edge)) total = total + value.toInt();
+	});
+	return total;
+};
+
+var isVisible = function(el){
+	return !!(!el || el.offsetHeight || el.offsetWidth);
+};
+
+
+Element.implement({
+
+	measure: function(fn){
+		if (isVisible(this)) return fn.call(this);
+		var parent = this.getParent(),
+			toMeasure = [];
+		while (!isVisible(parent) && parent != document.body){
+			toMeasure.push(parent.expose());
+			parent = parent.getParent();
+		}
+		var restore = this.expose(),
+			result = fn.call(this);
+		restore();
+		toMeasure.each(function(restore){
+			restore();
+		});
+		return result;
+	},
+
+	expose: function(){
+		if (this.getStyle('display') != 'none') return function(){};
+		var before = this.style.cssText;
+		this.setStyles({
+			display: 'block',
+			position: 'absolute',
+			visibility: 'hidden'
+		});
+		return function(){
+			this.style.cssText = before;
+		}.bind(this);
+	},
+
+	getDimensions: function(options){
+		options = Object.merge({computeSize: false}, options);
+		var dim = {x: 0, y: 0};
+
+		var getSize = function(el, options){
+			return (options.computeSize) ? el.getComputedSize(options) : el.getSize();
+		};
+
+		var parent = this.getParent('body');
+
+		if (parent && this.getStyle('display') == 'none'){
+			dim = this.measure(function(){
+				return getSize(this, options);
+			});
+		} else if (parent){
+			try { //safari sometimes crashes here, so catch it
+				dim = getSize(this, options);
+			} catch (e){}
+		}
+
+		return Object.append(dim, (dim.x || dim.x === 0) ? {
+			width: dim.x,
+			height: dim.y
+		} : {
+			x: dim.width,
+			y: dim.height
+		});
+	},
+
+	getComputedSize: function(options){
+		
+
+		options = Object.merge({
+			styles: ['padding','border'],
+			planes: {
+				height: ['top','bottom'],
+				width: ['left','right']
+			},
+			mode: 'both'
+		}, options);
+
+		var styles = {},
+			size = {width: 0, height: 0},
+			dimensions;
+
+		if (options.mode == 'vertical'){
+			delete size.width;
+			delete options.planes.width;
+		} else if (options.mode == 'horizontal'){
+			delete size.height;
+			delete options.planes.height;
+		}
+
+		getStylesList(options.styles, options.planes).each(function(style){
+			styles[style] = this.getStyle(style).toInt();
+		}, this);
+
+		Object.each(options.planes, function(edges, plane){
+
+			var capitalized = plane.capitalize(),
+				style = this.getStyle(plane);
+
+			if (style == 'auto' && !dimensions) dimensions = this.getDimensions();
+
+			style = styles[plane] = (style == 'auto') ? dimensions[plane] : style.toInt();
+			size['total' + capitalized] = style;
+
+			edges.each(function(edge){
+				var edgesize = calculateEdgeSize(edge, styles);
+				size['computed' + edge.capitalize()] = edgesize;
+				size['total' + capitalized] += edgesize;
+			});
+
+		}, this);
+
+		return Object.append(size, styles);
+	}
+
+});
+
+})();
+
+/*
+---
+
+script: Element.Position.js
+
+name: Element.Position
+
+description: Extends the Element native object to include methods useful positioning elements relative to others.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Jacob Thornton
+
+requires:
+  - Core/Options
+  - Core/Element.Dimensions
+  - Element.Measure
+
+provides: [Element.Position]
+
+...
+*/
+
+(function(original){
+
+var local = Element.Position = {
+
+	options: {/*
+		edge: false,
+		returnPos: false,
+		minimum: {x: 0, y: 0},
+		maximum: {x: 0, y: 0},
+		relFixedPosition: false,
+		ignoreMargins: false,
+		ignoreScroll: false,
+		allowNegative: false,*/
+		relativeTo: document.body,
+		position: {
+			x: 'center', //left, center, right
+			y: 'center' //top, center, bottom
+		},
+		offset: {x: 0, y: 0}
+	},
+
+	getOptions: function(element, options){
+		options = Object.merge({}, local.options, options);
+		local.setPositionOption(options);
+		local.setEdgeOption(options);
+		local.setOffsetOption(element, options);
+		local.setDimensionsOption(element, options);
+		return options;
+	},
+
+	setPositionOption: function(options){
+		options.position = local.getCoordinateFromValue(options.position);
+	},
+
+	setEdgeOption: function(options){
+		var edgeOption = local.getCoordinateFromValue(options.edge);
+		options.edge = edgeOption ? edgeOption :
+			(options.position.x == 'center' && options.position.y == 'center') ? {x: 'center', y: 'center'} :
+			{x: 'left', y: 'top'};
+	},
+
+	setOffsetOption: function(element, options){
+		var parentOffset = {x: 0, y: 0};
+		var parentScroll = {x: 0, y: 0};
+		var offsetParent = element.measure(function(){
+			return document.id(this.getOffsetParent());
+		});
+
+		if (!offsetParent || offsetParent == element.getDocument().body) return;
+
+		parentScroll = offsetParent.getScroll();
+		parentOffset = offsetParent.measure(function(){
+			var position = this.getPosition();
+			if (this.getStyle('position') == 'fixed'){
+				var scroll = window.getScroll();
+				position.x += scroll.x;
+				position.y += scroll.y;
+			}
+			return position;
+		});
+
+		options.offset = {
+			parentPositioned: offsetParent != document.id(options.relativeTo),
+			x: options.offset.x - parentOffset.x + parentScroll.x,
+			y: options.offset.y - parentOffset.y + parentScroll.y
+		};
+	},
+
+	setDimensionsOption: function(element, options){
+		options.dimensions = element.getDimensions({
+			computeSize: true,
+			styles: ['padding', 'border', 'margin']
+		});
+	},
+
+	getPosition: function(element, options){
+		var position = {};
+		options = local.getOptions(element, options);
+		var relativeTo = document.id(options.relativeTo) || document.body;
+
+		local.setPositionCoordinates(options, position, relativeTo);
+		if (options.edge) local.toEdge(position, options);
+
+		var offset = options.offset;
+		position.left = ((position.x >= 0 || offset.parentPositioned || options.allowNegative) ? position.x : 0).toInt();
+		position.top = ((position.y >= 0 || offset.parentPositioned || options.allowNegative) ? position.y : 0).toInt();
+
+		local.toMinMax(position, options);
+
+		if (options.relFixedPosition || relativeTo.getStyle('position') == 'fixed') local.toRelFixedPosition(relativeTo, position);
+		if (options.ignoreScroll) local.toIgnoreScroll(relativeTo, position);
+		if (options.ignoreMargins) local.toIgnoreMargins(position, options);
+
+		position.left = Math.ceil(position.left);
+		position.top = Math.ceil(position.top);
+		delete position.x;
+		delete position.y;
+
+		return position;
+	},
+
+	setPositionCoordinates: function(options, position, relativeTo){
+		var offsetY = options.offset.y,
+			offsetX = options.offset.x,
+			calc = (relativeTo == document.body) ? window.getScroll() : relativeTo.getPosition(),
+			top = calc.y,
+			left = calc.x,
+			winSize = window.getSize();
+
+		switch (options.position.x){
+			case 'left': position.x = left + offsetX; break;
+			case 'right': position.x = left + offsetX + relativeTo.offsetWidth; break;
+			default: position.x = left + ((relativeTo == document.body ? winSize.x : relativeTo.offsetWidth) / 2) + offsetX; break;
+		}
+
+		switch (options.position.y){
+			case 'top': position.y = top + offsetY; break;
+			case 'bottom': position.y = top + offsetY + relativeTo.offsetHeight; break;
+			default: position.y = top + ((relativeTo == document.body ? winSize.y : relativeTo.offsetHeight) / 2) + offsetY; break;
+		}
+	},
+
+	toMinMax: function(position, options){
+		var xy = {left: 'x', top: 'y'}, value;
+		['minimum', 'maximum'].each(function(minmax){
+			['left', 'top'].each(function(lr){
+				value = options[minmax] ? options[minmax][xy[lr]] : null;
+				if (value != null && ((minmax == 'minimum') ? position[lr] < value : position[lr] > value)) position[lr] = value;
+			});
+		});
+	},
+
+	toRelFixedPosition: function(relativeTo, position){
+		var winScroll = window.getScroll();
+		position.top += winScroll.y;
+		position.left += winScroll.x;
+	},
+
+	toIgnoreScroll: function(relativeTo, position){
+		var relScroll = relativeTo.getScroll();
+		position.top -= relScroll.y;
+		position.left -= relScroll.x;
+	},
+
+	toIgnoreMargins: function(position, options){
+		position.left += options.edge.x == 'right'
+			? options.dimensions['margin-right']
+			: (options.edge.x != 'center'
+				? -options.dimensions['margin-left']
+				: -options.dimensions['margin-left'] + ((options.dimensions['margin-right'] + options.dimensions['margin-left']) / 2));
+
+		position.top += options.edge.y == 'bottom'
+			? options.dimensions['margin-bottom']
+			: (options.edge.y != 'center'
+				? -options.dimensions['margin-top']
+				: -options.dimensions['margin-top'] + ((options.dimensions['margin-bottom'] + options.dimensions['margin-top']) / 2));
+	},
+
+	toEdge: function(position, options){
+		var edgeOffset = {},
+			dimensions = options.dimensions,
+			edge = options.edge;
+
+		switch (edge.x){
+			case 'left': edgeOffset.x = 0; break;
+			case 'right': edgeOffset.x = -dimensions.x - dimensions.computedRight - dimensions.computedLeft; break;
+			// center
+			default: edgeOffset.x = -(Math.round(dimensions.totalWidth / 2)); break;
+		}
+
+		switch (edge.y){
+			case 'top': edgeOffset.y = 0; break;
+			case 'bottom': edgeOffset.y = -dimensions.y - dimensions.computedTop - dimensions.computedBottom; break;
+			// center
+			default: edgeOffset.y = -(Math.round(dimensions.totalHeight / 2)); break;
+		}
+
+		position.x += edgeOffset.x;
+		position.y += edgeOffset.y;
+	},
+
+	getCoordinateFromValue: function(option){
+		if (typeOf(option) != 'string') return option;
+		option = option.toLowerCase();
+
+		return {
+			x: option.test('left') ? 'left'
+				: (option.test('right') ? 'right' : 'center'),
+			y: option.test(/upper|top/) ? 'top'
+				: (option.test('bottom') ? 'bottom' : 'center')
+		};
+	}
+
+};
+
+Element.implement({
+
+	position: function(options){
+		if (options && (options.x != null || options.y != null)){
+			return (original ? original.apply(this, arguments) : this);
+		}
+		var position = this.setStyle('position', 'absolute').calculatePosition(options);
+		return (options && options.returnPos) ? position : this.setStyles(position);
+	},
+
+	calculatePosition: function(options){
+		return local.getPosition(this, options);
+	}
+
+});
+
+})(Element.prototype.position);
+
+/*
+---
+
+script: Element.Shortcuts.js
+
+name: Element.Shortcuts
+
+description: Extends the Element native object to include some shortcut methods.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Element.Style
+  - MooTools.More
+
+provides: [Element.Shortcuts]
+
+...
+*/
+
+Element.implement({
+
+	isDisplayed: function(){
+		return this.getStyle('display') != 'none';
+	},
+
+	isVisible: function(){
+		var w = this.offsetWidth,
+			h = this.offsetHeight;
+		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.style.display != 'none';
+	},
+
+	toggle: function(){
+		return this[this.isDisplayed() ? 'hide' : 'show']();
+	},
+
+	hide: function(){
+		var d;
+		try {
+			//IE fails here if the element is not in the dom
+			d = this.getStyle('display');
+		} catch (e){}
+		if (d == 'none') return this;
+		return this.store('element:_originalDisplay', d || '').setStyle('display', 'none');
+	},
+
+	show: function(display){
+		if (!display && this.isDisplayed()) return this;
+		display = display || this.retrieve('element:_originalDisplay') || 'block';
+		return this.setStyle('display', (display == 'none') ? 'block' : display);
+	},
+
+	swapClass: function(remove, add){
+		return this.removeClass(remove).addClass(add);
+	}
+
+});
+
+Document.implement({
+
+	clearSelection: function(){
+		if (window.getSelection){
+			var selection = window.getSelection();
+			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+		} else if (document.selection && document.selection.empty){
+			try {
+				//IE fails here if selected element is not in dom
+				document.selection.empty();
+			} catch (e){}
+		}
+	}
+
+});
+
+/*
+---
+
+script: Object.Extras.js
+
+name: Object.Extras
+
+description: Extra Object generics, like getFromPath which allows a path notation to child elements.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Object
+  - MooTools.More
+
+provides: [Object.Extras]
+
+...
+*/
+
+(function(){
+
+var defined = function(value){
+	return value != null;
+};
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+Object.extend({
+
+	getFromPath: function(source, parts){
+		if (typeof parts == 'string') parts = parts.split('.');
+		for (var i = 0, l = parts.length; i < l; i++){
+			if (hasOwnProperty.call(source, parts[i])) source = source[parts[i]];
+			else return null;
+		}
+		return source;
+	},
+
+	cleanValues: function(object, method){
+		method = method || defined;
+		for (var key in object) if (!method(object[key])){
+			delete object[key];
+		}
+		return object;
+	},
+
+	erase: function(object, key){
+		if (hasOwnProperty.call(object, key)) delete object[key];
+		return object;
+	},
+
+	run: function(object){
+		var args = Array.slice(arguments, 1);
+		for (var key in object) if (object[key].apply){
+			object[key].apply(object, args);
+		}
+		return object;
+	}
+
+});
+
+})();
+
+/*
+---
+
+script: Locale.js
+
+name: Locale
+
+description: Provides methods for localization.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Arian Stolwijk
+
+requires:
+  - Core/Events
+  - Object.Extras
+  - MooTools.More
+
+provides: [Locale, Lang]
+
+...
+*/
+
+(function(){
+
+var current = null,
+	locales = {},
+	inherits = {};
+
+var getSet = function(set){
+	if (instanceOf(set, Locale.Set)) return set;
+	else return locales[set];
+};
+
+var Locale = this.Locale = {
+
+	define: function(locale, set, key, value){
+		var name;
+		if (instanceOf(locale, Locale.Set)){
+			name = locale.name;
+			if (name) locales[name] = locale;
+		} else {
+			name = locale;
+			if (!locales[name]) locales[name] = new Locale.Set(name);
+			locale = locales[name];
+		}
+
+		if (set) locale.define(set, key, value);
+
+		
+
+		if (!current) current = locale;
+
+		return locale;
+	},
+
+	use: function(locale){
+		locale = getSet(locale);
+
+		if (locale){
+			current = locale;
+
+			this.fireEvent('change', locale);
+
+			
+		}
+
+		return this;
+	},
+
+	getCurrent: function(){
+		return current;
+	},
+
+	get: function(key, args){
+		return (current) ? current.get(key, args) : '';
+	},
+
+	inherit: function(locale, inherits, set){
+		locale = getSet(locale);
+
+		if (locale) locale.inherit(inherits, set);
+		return this;
+	},
+
+	list: function(){
+		return Object.keys(locales);
+	}
+
+};
+
+Object.append(Locale, new Events);
+
+Locale.Set = new Class({
+
+	sets: {},
+
+	inherits: {
+		locales: [],
+		sets: {}
+	},
+
+	initialize: function(name){
+		this.name = name || '';
+	},
+
+	define: function(set, key, value){
+		var defineData = this.sets[set];
+		if (!defineData) defineData = {};
+
+		if (key){
+			if (typeOf(key) == 'object') defineData = Object.merge(defineData, key);
+			else defineData[key] = value;
+		}
+		this.sets[set] = defineData;
+
+		return this;
+	},
+
+	get: function(key, args, _base){
+		var value = Object.getFromPath(this.sets, key);
+		if (value != null){
+			var type = typeOf(value);
+			if (type == 'function') value = value.apply(null, Array.convert(args));
+			else if (type == 'object') value = Object.clone(value);
+			return value;
+		}
+
+		// get value of inherited locales
+		var index = key.indexOf('.'),
+			set = index < 0 ? key : key.substr(0, index),
+			names = (this.inherits.sets[set] || []).combine(this.inherits.locales).include('en-US');
+		if (!_base) _base = [];
+
+		for (var i = 0, l = names.length; i < l; i++){
+			if (_base.contains(names[i])) continue;
+			_base.include(names[i]);
+
+			var locale = locales[names[i]];
+			if (!locale) continue;
+
+			value = locale.get(key, args, _base);
+			if (value != null) return value;
+		}
+
+		return '';
+	},
+
+	inherit: function(names, set){
+		names = Array.convert(names);
+
+		if (set && !this.inherits.sets[set]) this.inherits.sets[set] = [];
+
+		var l = names.length;
+		while (l--) (set ? this.inherits.sets[set] : this.inherits.locales).unshift(names[l]);
+
+		return this;
+	}
+
+});
+
+
+
+})();
+
+/*
+---
+
+name: Locale.en-US.Date
+
+description: Date messages for US English.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Locale
+
+provides: [Locale.en-US.Date]
+
+...
+*/
+
+Locale.define('en-US', 'Date', {
+
+	months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	months_abbr: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	days_abbr: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+
+	// Culture's date order: MM/DD/YYYY
+	dateOrder: ['month', 'date', 'year'],
+	shortDate: '%m/%d/%Y',
+	shortTime: '%I:%M%p',
+	AM: 'AM',
+	PM: 'PM',
+	firstDayOfWeek: 0,
+
+	// Date.Extras
+	ordinal: function(dayOfMonth){
+		// 1st, 2nd, 3rd, etc.
+		return (dayOfMonth > 3 && dayOfMonth < 21) ? 'th' : ['th', 'st', 'nd', 'rd', 'th'][Math.min(dayOfMonth % 10, 4)];
+	},
+
+	lessThanMinuteAgo: 'less than a minute ago',
+	minuteAgo: 'about a minute ago',
+	minutesAgo: '{delta} minutes ago',
+	hourAgo: 'about an hour ago',
+	hoursAgo: 'about {delta} hours ago',
+	dayAgo: '1 day ago',
+	daysAgo: '{delta} days ago',
+	weekAgo: '1 week ago',
+	weeksAgo: '{delta} weeks ago',
+	monthAgo: '1 month ago',
+	monthsAgo: '{delta} months ago',
+	yearAgo: '1 year ago',
+	yearsAgo: '{delta} years ago',
+
+	lessThanMinuteUntil: 'less than a minute from now',
+	minuteUntil: 'about a minute from now',
+	minutesUntil: '{delta} minutes from now',
+	hourUntil: 'about an hour from now',
+	hoursUntil: 'about {delta} hours from now',
+	dayUntil: '1 day from now',
+	daysUntil: '{delta} days from now',
+	weekUntil: '1 week from now',
+	weeksUntil: '{delta} weeks from now',
+	monthUntil: '1 month from now',
+	monthsUntil: '{delta} months from now',
+	yearUntil: '1 year from now',
+	yearsUntil: '{delta} years from now'
+
+});
+
+/*
+---
+
+script: Date.js
+
+name: Date
+
+description: Extends the Date native object to include methods useful in managing dates.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Nicholas Barthelemy - https://svn.nbarthelemy.com/date-js/
+  - Harald Kirshner - mail [at] digitarald.de; http://digitarald.de
+  - Scott Kyle - scott [at] appden.com; http://appden.com
+
+requires:
+  - Core/Array
+  - Core/String
+  - Core/Number
+  - MooTools.More
+  - Locale
+  - Locale.en-US.Date
+
+provides: [Date]
+
+...
+*/
+
+(function(){
+
+var Date = this.Date;
+
+var DateMethods = Date.Methods = {
+	ms: 'Milliseconds',
+	year: 'FullYear',
+	min: 'Minutes',
+	mo: 'Month',
+	sec: 'Seconds',
+	hr: 'Hours'
+};
+
+[
+	'Date', 'Day', 'FullYear', 'Hours', 'Milliseconds', 'Minutes', 'Month', 'Seconds', 'Time', 'TimezoneOffset',
+	'Week', 'Timezone', 'GMTOffset', 'DayOfYear', 'LastMonth', 'LastDayOfMonth', 'UTCDate', 'UTCDay', 'UTCFullYear',
+	'AMPM', 'Ordinal', 'UTCHours', 'UTCMilliseconds', 'UTCMinutes', 'UTCMonth', 'UTCSeconds', 'UTCMilliseconds'
+].each(function(method){
+	Date.Methods[method.toLowerCase()] = method;
+});
+
+var pad = function(n, digits, string){
+	if (digits == 1) return n;
+	return n < Math.pow(10, digits - 1) ? (string || '0') + pad(n, digits - 1, string) : n;
+};
+
+Date.implement({
+
+	set: function(prop, value){
+		prop = prop.toLowerCase();
+		var method = DateMethods[prop] && 'set' + DateMethods[prop];
+		if (method && this[method]) this[method](value);
+		return this;
+	}.overloadSetter(),
+
+	get: function(prop){
+		prop = prop.toLowerCase();
+		var method = DateMethods[prop] && 'get' + DateMethods[prop];
+		if (method && this[method]) return this[method]();
+		return null;
+	}.overloadGetter(),
+
+	clone: function(){
+		return new Date(this.get('time'));
+	},
+
+	increment: function(interval, times){
+		interval = interval || 'day';
+		times = times != null ? times : 1;
+
+		switch (interval){
+			case 'year':
+				return this.increment('month', times * 12);
+			case 'month':
+				var d = this.get('date');
+				this.set('date', 1).set('mo', this.get('mo') + times);
+				return this.set('date', d.min(this.get('lastdayofmonth')));
+			case 'week':
+				return this.increment('day', times * 7);
+			case 'day':
+				return this.set('date', this.get('date') + times);
+		}
+
+		if (!Date.units[interval]) throw new Error(interval + ' is not a supported interval');
+
+		return this.set('time', this.get('time') + times * Date.units[interval]());
+	},
+
+	decrement: function(interval, times){
+		return this.increment(interval, -1 * (times != null ? times : 1));
+	},
+
+	isLeapYear: function(){
+		return Date.isLeapYear(this.get('year'));
+	},
+
+	clearTime: function(){
+		return this.set({hr: 0, min: 0, sec: 0, ms: 0});
+	},
+
+	diff: function(date, resolution){
+		if (typeOf(date) == 'string') date = Date.parse(date);
+
+		return ((date - this) / Date.units[resolution || 'day'](3, 3)).round(); // non-leap year, 30-day month
+	},
+
+	getLastDayOfMonth: function(){
+		return Date.daysInMonth(this.get('mo'), this.get('year'));
+	},
+
+	getDayOfYear: function(){
+		return (Date.UTC(this.get('year'), this.get('mo'), this.get('date') + 1)
+			- Date.UTC(this.get('year'), 0, 1)) / Date.units.day();
+	},
+
+	setDay: function(day, firstDayOfWeek){
+		if (firstDayOfWeek == null){
+			firstDayOfWeek = Date.getMsg('firstDayOfWeek');
+			if (firstDayOfWeek === '') firstDayOfWeek = 1;
+		}
+
+		day = (7 + Date.parseDay(day, true) - firstDayOfWeek) % 7;
+		var currentDay = (7 + this.get('day') - firstDayOfWeek) % 7;
+
+		return this.increment('day', day - currentDay);
+	},
+
+	getWeek: function(firstDayOfWeek){
+		if (firstDayOfWeek == null){
+			firstDayOfWeek = Date.getMsg('firstDayOfWeek');
+			if (firstDayOfWeek === '') firstDayOfWeek = 1;
+		}
+
+		var date = this,
+			dayOfWeek = (7 + date.get('day') - firstDayOfWeek) % 7,
+			dividend = 0,
+			firstDayOfYear;
+
+		if (firstDayOfWeek == 1){
+			// ISO-8601, week belongs to year that has the most days of the week (i.e. has the thursday of the week)
+			var month = date.get('month'),
+				startOfWeek = date.get('date') - dayOfWeek;
+
+			if (month == 11 && startOfWeek > 28) return 1; // Week 1 of next year
+
+			if (month == 0 && startOfWeek < -2){
+				// Use a date from last year to determine the week
+				date = new Date(date).decrement('day', dayOfWeek);
+				dayOfWeek = 0;
+			}
+
+			firstDayOfYear = new Date(date.get('year'), 0, 1).get('day') || 7;
+			if (firstDayOfYear > 4) dividend = -7; // First week of the year is not week 1
+		} else {
+			// In other cultures the first week of the year is always week 1 and the last week always 53 or 54.
+			// Days in the same week can have a different weeknumber if the week spreads across two years.
+			firstDayOfYear = new Date(date.get('year'), 0, 1).get('day');
+		}
+
+		dividend += date.get('dayofyear');
+		dividend += 6 - dayOfWeek; // Add days so we calculate the current date's week as a full week
+		dividend += (7 + firstDayOfYear - firstDayOfWeek) % 7; // Make up for first week of the year not being a full week
+
+		return (dividend / 7);
+	},
+
+	getOrdinal: function(day){
+		return Date.getMsg('ordinal', day || this.get('date'));
+	},
+
+	getTimezone: function(){
+		return this.toString()
+			.replace(/^.*? ([A-Z]{3}).[0-9]{4}.*$/, '$1')
+			.replace(/^.*?\(([A-Z])[a-z]+ ([A-Z])[a-z]+ ([A-Z])[a-z]+\)$/, '$1$2$3');
+	},
+
+	getGMTOffset: function(){
+		var off = this.get('timezoneOffset');
+		return ((off > 0) ? '-' : '+') + pad((off.abs() / 60).floor(), 2) + pad(off % 60, 2);
+	},
+
+	setAMPM: function(ampm){
+		ampm = ampm.toUpperCase();
+		var hr = this.get('hr');
+		if (hr > 11 && ampm == 'AM') return this.decrement('hour', 12);
+		else if (hr < 12 && ampm == 'PM') return this.increment('hour', 12);
+		return this;
+	},
+
+	getAMPM: function(){
+		return (this.get('hr') < 12) ? 'AM' : 'PM';
+	},
+
+	parse: function(str){
+		this.set('time', Date.parse(str));
+		return this;
+	},
+
+	isValid: function(date){
+		if (!date) date = this;
+		return typeOf(date) == 'date' && !isNaN(date.valueOf());
+	},
+
+	format: function(format){
+		if (!this.isValid()) return 'invalid date';
+
+		if (!format) format = '%x %X';
+		if (typeof format == 'string') format = formats[format.toLowerCase()] || format;
+		if (typeof format == 'function') return format(this);
+
+		var d = this;
+		return format.replace(/%([a-z%])/gi,
+			function($0, $1){
+				switch ($1){
+					case 'a': return Date.getMsg('days_abbr')[d.get('day')];
+					case 'A': return Date.getMsg('days')[d.get('day')];
+					case 'b': return Date.getMsg('months_abbr')[d.get('month')];
+					case 'B': return Date.getMsg('months')[d.get('month')];
+					case 'c': return d.format('%a %b %d %H:%M:%S %Y');
+					case 'd': return pad(d.get('date'), 2);
+					case 'e': return pad(d.get('date'), 2, ' ');
+					case 'H': return pad(d.get('hr'), 2);
+					case 'I': return pad((d.get('hr') % 12) || 12, 2);
+					case 'j': return pad(d.get('dayofyear'), 3);
+					case 'k': return pad(d.get('hr'), 2, ' ');
+					case 'l': return pad((d.get('hr') % 12) || 12, 2, ' ');
+					case 'L': return pad(d.get('ms'), 3);
+					case 'm': return pad((d.get('mo') + 1), 2);
+					case 'M': return pad(d.get('min'), 2);
+					case 'o': return d.get('ordinal');
+					case 'p': return Date.getMsg(d.get('ampm'));
+					case 's': return Math.round(d / 1000);
+					case 'S': return pad(d.get('seconds'), 2);
+					case 'T': return d.format('%H:%M:%S');
+					case 'U': return pad(d.get('week'), 2);
+					case 'w': return d.get('day');
+					case 'x': return d.format(Date.getMsg('shortDate'));
+					case 'X': return d.format(Date.getMsg('shortTime'));
+					case 'y': return d.get('year').toString().substr(2);
+					case 'Y': return d.get('year');
+					case 'z': return d.get('GMTOffset');
+					case 'Z': return d.get('Timezone');
+				}
+				return $1;
+			}
+		);
+	},
+
+	toISOString: function(){
+		return this.format('iso8601');
+	}
+
+}).alias({
+	toJSON: 'toISOString',
+	compare: 'diff',
+	strftime: 'format'
+});
+
+// The day and month abbreviations are standardized, so we cannot use simply %a and %b because they will get localized
+var rfcDayAbbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	rfcMonthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+var formats = {
+	db: '%Y-%m-%d %H:%M:%S',
+	compact: '%Y%m%dT%H%M%S',
+	'short': '%d %b %H:%M',
+	'long': '%B %d, %Y %H:%M',
+	rfc822: function(date){
+		return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %Z');
+	},
+	rfc2822: function(date){
+		return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %z');
+	},
+	iso8601: function(date){
+		return (
+			date.getUTCFullYear() + '-' +
+			pad(date.getUTCMonth() + 1, 2) + '-' +
+			pad(date.getUTCDate(), 2) + 'T' +
+			pad(date.getUTCHours(), 2) + ':' +
+			pad(date.getUTCMinutes(), 2) + ':' +
+			pad(date.getUTCSeconds(), 2) + '.' +
+			pad(date.getUTCMilliseconds(), 3) + 'Z'
+		);
+	}
+};
+
+var parsePatterns = [],
+	nativeParse = Date.parse;
+
+var parseWord = function(type, word, num){
+	var ret = -1,
+		translated = Date.getMsg(type + 's');
+	switch (typeOf(word)){
+		case 'object':
+			ret = translated[word.get(type)];
+			break;
+		case 'number':
+			ret = translated[word];
+			if (!ret) throw new Error('Invalid ' + type + ' index: ' + word);
+			break;
+		case 'string':
+			var match = translated.filter(function(name){
+				return this.test(name);
+			}, new RegExp('^' + word, 'i'));
+			if (!match.length) throw new Error('Invalid ' + type + ' string');
+			if (match.length > 1) throw new Error('Ambiguous ' + type);
+			ret = match[0];
+	}
+
+	return (num) ? translated.indexOf(ret) : ret;
+};
+
+var startCentury = 1900,
+	startYear = 70;
+
+Date.extend({
+
+	getMsg: function(key, args){
+		return Locale.get('Date.' + key, args);
+	},
+
+	units: {
+		ms: Function.convert(1),
+		second: Function.convert(1000),
+		minute: Function.convert(60000),
+		hour: Function.convert(3600000),
+		day: Function.convert(86400000),
+		week: Function.convert(608400000),
+		month: function(month, year){
+			var d = new Date;
+			return Date.daysInMonth(month != null ? month : d.get('mo'), year != null ? year : d.get('year')) * 86400000;
+		},
+		year: function(year){
+			year = year || new Date().get('year');
+			return Date.isLeapYear(year) ? 31622400000 : 31536000000;
+		}
+	},
+
+	daysInMonth: function(month, year){
+		return [31, Date.isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+	},
+
+	isLeapYear: function(year){
+		return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+	},
+
+	parse: function(from){
+		var t = typeOf(from);
+		if (t == 'number') return new Date(from);
+		if (t != 'string') return from;
+		from = from.clean();
+		if (!from.length) return null;
+
+		var parsed;
+		parsePatterns.some(function(pattern){
+			var bits = pattern.re.exec(from);
+			return (bits) ? (parsed = pattern.handler(bits)) : false;
+		});
+
+		if (!(parsed && parsed.isValid())){
+			parsed = new Date(nativeParse(from));
+			if (!(parsed && parsed.isValid())) parsed = new Date(from.toInt());
+		}
+		return parsed;
+	},
+
+	parseDay: function(day, num){
+		return parseWord('day', day, num);
+	},
+
+	parseMonth: function(month, num){
+		return parseWord('month', month, num);
+	},
+
+	parseUTC: function(value){
+		var localDate = new Date(value);
+		var utcSeconds = Date.UTC(
+			localDate.get('year'),
+			localDate.get('mo'),
+			localDate.get('date'),
+			localDate.get('hr'),
+			localDate.get('min'),
+			localDate.get('sec'),
+			localDate.get('ms')
+		);
+		return new Date(utcSeconds);
+	},
+
+	orderIndex: function(unit){
+		return Date.getMsg('dateOrder').indexOf(unit) + 1;
+	},
+
+	defineFormat: function(name, format){
+		formats[name] = format;
+		return this;
+	},
+
+	
+
+	defineParser: function(pattern){
+		parsePatterns.push((pattern.re && pattern.handler) ? pattern : build(pattern));
+		return this;
+	},
+
+	defineParsers: function(){
+		Array.flatten(arguments).each(Date.defineParser);
+		return this;
+	},
+
+	define2DigitYearStart: function(year){
+		startYear = year % 100;
+		startCentury = year - startYear;
+		return this;
+	}
+
+}).extend({
+	defineFormats: Date.defineFormat.overloadSetter()
+});
+
+var regexOf = function(type){
+	return new RegExp('(?:' + Date.getMsg(type).map(function(name){
+		return name.substr(0, 3);
+	}).join('|') + ')[a-z]*');
+};
+
+var replacers = function(key){
+	switch (key){
+		case 'T':
+			return '%H:%M:%S';
+		case 'x': // iso8601 covers yyyy-mm-dd, so just check if month is first
+			return ((Date.orderIndex('month') == 1) ? '%m[-./]%d' : '%d[-./]%m') + '([-./]%y)?';
+		case 'X':
+			return '%H([.:]%M)?([.:]%S([.:]%s)?)? ?%p? ?%z?';
+	}
+	return null;
+};
+
+var keys = {
+	d: /[0-2]?[0-9]|3[01]/,
+	H: /[01]?[0-9]|2[0-3]/,
+	I: /0?[1-9]|1[0-2]/,
+	M: /[0-5]?\d/,
+	s: /\d+/,
+	o: /[a-z]*/,
+	p: /[ap]\.?m\.?/,
+	y: /\d{2}|\d{4}/,
+	Y: /\d{4}/,
+	z: /Z|[+-]\d{2}(?::?\d{2})?/
+};
+
+keys.m = keys.I;
+keys.S = keys.M;
+
+var currentLanguage;
+
+var recompile = function(language){
+	currentLanguage = language;
+
+	keys.a = keys.A = regexOf('days');
+	keys.b = keys.B = regexOf('months');
+
+	parsePatterns.each(function(pattern, i){
+		if (pattern.format) parsePatterns[i] = build(pattern.format);
+	});
+};
+
+var build = function(format){
+	if (!currentLanguage) return {format: format};
+
+	var parsed = [];
+	var re = (format.source || format) // allow format to be regex
+	.replace(/%([a-z])/gi,
+		function($0, $1){
+			return replacers($1) || $0;
+		}
+	).replace(/\((?!\?)/g, '(?:') // make all groups non-capturing
+	.replace(/ (?!\?|\*)/g, ',? ') // be forgiving with spaces and commas
+	.replace(/%([a-z%])/gi,
+		function($0, $1){
+			var p = keys[$1];
+			if (!p) return $1;
+			parsed.push($1);
+			return '(' + p.source + ')';
+		}
+	).replace(/\[a-z\]/gi, '[a-z\\u00c0-\\uffff;\&]'); // handle unicode words
+
+	return {
+		format: format,
+		re: new RegExp('^' + re + '$', 'i'),
+		handler: function(bits){
+			bits = bits.slice(1).associate(parsed);
+			var date = new Date().clearTime(),
+				year = bits.y || bits.Y;
+
+			if (year != null) handle.call(date, 'y', year); // need to start in the right year
+			if ('d' in bits) handle.call(date, 'd', 1);
+			if ('m' in bits || bits.b || bits.B) handle.call(date, 'm', 1);
+
+			for (var key in bits) handle.call(date, key, bits[key]);
+			return date;
+		}
+	};
+};
+
+var handle = function(key, value){
+	if (!value) return this;
+
+	switch (key){
+		case 'a': case 'A': return this.set('day', Date.parseDay(value, true));
+		case 'b': case 'B': return this.set('mo', Date.parseMonth(value, true));
+		case 'd': return this.set('date', value);
+		case 'H': case 'I': return this.set('hr', value);
+		case 'm': return this.set('mo', value - 1);
+		case 'M': return this.set('min', value);
+		case 'p': return this.set('ampm', value.replace(/\./g, ''));
+		case 'S': return this.set('sec', value);
+		case 's': return this.set('ms', ('0.' + value) * 1000);
+		case 'w': return this.set('day', value);
+		case 'Y': return this.set('year', value);
+		case 'y':
+			value = +value;
+			if (value < 100) value += startCentury + (value < startYear ? 100 : 0);
+			return this.set('year', value);
+		case 'z':
+			if (value == 'Z') value = '+00';
+			var offset = value.match(/([+-])(\d{2}):?(\d{2})?/);
+			offset = (offset[1] + '1') * (offset[2] * 60 + (+offset[3] || 0)) + this.getTimezoneOffset();
+			return this.set('time', this - offset * 60000);
+	}
+
+	return this;
+};
+
+Date.defineParsers(
+	'%Y([-./]%m([-./]%d((T| )%X)?)?)?', // "1999-12-31", "1999-12-31 11:59pm", "1999-12-31 23:59:59", ISO8601
+	'%Y%m%d(T%H(%M%S?)?)?', // "19991231", "19991231T1159", compact
+	'%x( %X)?', // "12/31", "12.31.99", "12-31-1999", "12/31/2008 11:59 PM"
+	'%d%o( %b( %Y)?)?( %X)?', // "31st", "31st December", "31 Dec 1999", "31 Dec 1999 11:59pm"
+	'%b( %d%o)?( %Y)?( %X)?', // Same as above with month and day switched
+	'%Y %b( %d%o( %X)?)?', // Same as above with year coming first
+	'%o %b %d %X %z %Y', // "Thu Oct 22 08:11:23 +0000 2009"
+	'%T', // %H:%M:%S
+	'%H:%M( ?%p)?' // "11:05pm", "11:05 am" and "11:05"
+);
+
+Locale.addEvent('change', function(language){
+	if (Locale.get('Date')) recompile(language);
+}).fireEvent('change', Locale.getCurrent());
+
+})();
+
+/*
+---
+
+script: Fx.Scroll.js
+
+name: Fx.Scroll
+
+description: Effect to smoothly scroll any element, including the window.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+
+requires:
+  - Core/Fx
+  - Core/Element.Event
+  - Core/Element.Dimensions
+  - MooTools.More
+
+provides: [Fx.Scroll]
+
+...
+*/
+
+(function(){
+
+Fx.Scroll = new Class({
+
+	Extends: Fx,
+
+	options: {
+		offset: {x: 0, y: 0},
+		wheelStops: true
+	},
+
+	initialize: function(element, options){
+		this.element = this.subject = document.id(element);
+		this.parent(options);
+
+		if (typeOf(this.element) != 'element') this.element = document.id(this.element.getDocument().body);
+
+		if (this.options.wheelStops){
+			var stopper = this.element,
+				cancel = this.cancel.pass(false, this);
+			this.addEvent('start', function(){
+				stopper.addEvent('mousewheel', cancel);
+			}, true);
+			this.addEvent('complete', function(){
+				stopper.removeEvent('mousewheel', cancel);
+			}, true);
+		}
+	},
+
+	set: function(){
+		var now = Array.flatten(arguments);
+		this.element.scrollTo(now[0], now[1]);
+		return this;
+	},
+
+	compute: function(from, to, delta){
+		return [0, 1].map(function(i){
+			return Fx.compute(from[i], to[i], delta);
+		});
+	},
+
+	start: function(x, y){
+		if (!this.check(x, y)) return this;
+		var scroll = this.element.getScroll();
+		return this.parent([scroll.x, scroll.y], [x, y]);
+	},
+
+	calculateScroll: function(x, y){
+		var element = this.element,
+			scrollSize = element.getScrollSize(),
+			scroll = element.getScroll(),
+			size = element.getSize(),
+			offset = this.options.offset,
+			values = {x: x, y: y};
+
+		for (var z in values){
+			if (!values[z] && values[z] !== 0) values[z] = scroll[z];
+			if (typeOf(values[z]) != 'number') values[z] = scrollSize[z] - size[z];
+			values[z] += offset[z];
+		}
+
+		return [values.x, values.y];
+	},
+
+	toTop: function(){
+		return this.start.apply(this, this.calculateScroll(false, 0));
+	},
+
+	toLeft: function(){
+		return this.start.apply(this, this.calculateScroll(0, false));
+	},
+
+	toRight: function(){
+		return this.start.apply(this, this.calculateScroll('right', false));
+	},
+
+	toBottom: function(){
+		return this.start.apply(this, this.calculateScroll(false, 'bottom'));
+	},
+
+	toElement: function(el, axes){
+		axes = axes ? Array.convert(axes) : ['x', 'y'];
+		var scroll = isBody(this.element) ? {x: 0, y: 0} : this.element.getScroll();
+		var position = Object.map(document.id(el).getPosition(this.element), function(value, axis){
+			return axes.contains(axis) ? value + scroll[axis] : false;
+		});
+		return this.start.apply(this, this.calculateScroll(position.x, position.y));
+	},
+
+	toElementEdge: function(el, axes, offset){
+		axes = axes ? Array.convert(axes) : ['x', 'y'];
+		el = document.id(el);
+		var to = {},
+			position = el.getPosition(this.element),
+			size = el.getSize(),
+			scroll = this.element.getScroll(),
+			containerSize = this.element.getSize(),
+			edge = {
+				x: position.x + size.x,
+				y: position.y + size.y
+			};
+
+		['x', 'y'].each(function(axis){
+			if (axes.contains(axis)){
+				if (edge[axis] > scroll[axis] + containerSize[axis]) to[axis] = edge[axis] - containerSize[axis];
+				if (position[axis] < scroll[axis]) to[axis] = position[axis];
+			}
+			if (to[axis] == null) to[axis] = scroll[axis];
+			if (offset && offset[axis]) to[axis] = to[axis] + offset[axis];
+		}, this);
+
+		if (to.x != scroll.x || to.y != scroll.y) this.start(to.x, to.y);
+		return this;
+	},
+
+	toElementCenter: function(el, axes, offset){
+		axes = axes ? Array.convert(axes) : ['x', 'y'];
+		el = document.id(el);
+		var to = {},
+			position = el.getPosition(this.element),
+			size = el.getSize(),
+			scroll = this.element.getScroll(),
+			containerSize = this.element.getSize();
+
+		['x', 'y'].each(function(axis){
+			if (axes.contains(axis)){
+				to[axis] = position[axis] - (containerSize[axis] - size[axis]) / 2;
+			}
+			if (to[axis] == null) to[axis] = scroll[axis];
+			if (offset && offset[axis]) to[axis] = to[axis] + offset[axis];
+		}, this);
+
+		if (to.x != scroll.x || to.y != scroll.y) this.start(to.x, to.y);
+		return this;
+	}
+
+});
+
+
+
+function isBody(element){
+	return (/^(?:body|html)$/i).test(element.tagName);
+}
+
+})();
+
+/*
+---
+
+script: Fx.Slide.js
+
+name: Fx.Slide
+
+description: Effect to slide an element in and out of view.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+
+requires:
+  - Core/Fx
+  - Core/Element.Style
+  - MooTools.More
+
+provides: [Fx.Slide]
+
+...
+*/
+
+Fx.Slide = new Class({
+
+	Extends: Fx,
+
+	options: {
+		mode: 'vertical',
+		wrapper: false,
+		hideOverflow: true,
+		resetHeight: false
+	},
+
+	initialize: function(element, options){
+		element = this.element = this.subject = document.id(element);
+		this.parent(options);
+		options = this.options;
+
+		var wrapper = element.retrieve('wrapper'),
+			styles = element.getStyles('margin', 'position', 'overflow');
+
+		if (options.hideOverflow) styles = Object.append(styles, {overflow: 'hidden'});
+		if (options.wrapper) wrapper = document.id(options.wrapper).setStyles(styles);
+
+		if (!wrapper) wrapper = new Element('div', {
+			styles: styles
+		}).wraps(element);
+
+		element.store('wrapper', wrapper).setStyle('margin', 0);
+		if (element.getStyle('overflow') == 'visible') element.setStyle('overflow', 'hidden');
+
+		this.now = [];
+		this.open = true;
+		this.wrapper = wrapper;
+
+		this.addEvent('complete', function(){
+			this.open = (wrapper['offset' + this.layout.capitalize()] != 0);
+			if (this.open && this.options.resetHeight) wrapper.setStyle('height', '');
+		}, true);
+	},
+
+	vertical: function(){
+		this.margin = 'margin-top';
+		this.layout = 'height';
+		this.offset = this.element.offsetHeight;
+	},
+
+	horizontal: function(){
+		this.margin = 'margin-left';
+		this.layout = 'width';
+		this.offset = this.element.offsetWidth;
+	},
+
+	set: function(now){
+		this.element.setStyle(this.margin, now[0]);
+		this.wrapper.setStyle(this.layout, now[1]);
+		return this;
+	},
+
+	compute: function(from, to, delta){
+		return [0, 1].map(function(i){
+			return Fx.compute(from[i], to[i], delta);
+		});
+	},
+
+	start: function(how, mode){
+		if (!this.check(how, mode)) return this;
+		this[mode || this.options.mode]();
+
+		var margin = this.element.getStyle(this.margin).toInt(),
+			layout = this.wrapper.getStyle(this.layout).toInt(),
+			caseIn = [[margin, layout], [0, this.offset]],
+			caseOut = [[margin, layout], [-this.offset, 0]],
+			start;
+
+		switch (how){
+			case 'in': start = caseIn; break;
+			case 'out': start = caseOut; break;
+			case 'toggle': start = (layout == 0) ? caseIn : caseOut;
+		}
+		return this.parent(start[0], start[1]);
+	},
+
+	slideIn: function(mode){
+		return this.start('in', mode);
+	},
+
+	slideOut: function(mode){
+		return this.start('out', mode);
+	},
+
+	hide: function(mode){
+		this[mode || this.options.mode]();
+		this.open = false;
+		return this.set([-this.offset, 0]);
+	},
+
+	show: function(mode){
+		this[mode || this.options.mode]();
+		this.open = true;
+		return this.set([0, this.offset]);
+	},
+
+	toggle: function(mode){
+		return this.start('toggle', mode);
+	}
+
+});
+
+Element.Properties.slide = {
+
+	set: function(options){
+		this.get('slide').cancel().setOptions(options);
+		return this;
+	},
+
+	get: function(){
+		var slide = this.retrieve('slide');
+		if (!slide){
+			slide = new Fx.Slide(this, {link: 'cancel'});
+			this.store('slide', slide);
+		}
+		return slide;
+	}
+
+};
+
+Element.implement({
+
+	slide: function(how, mode){
+		how = how || 'toggle';
+		var slide = this.get('slide'), toggle;
+		switch (how){
+			case 'hide': slide.hide(mode); break;
+			case 'show': slide.show(mode); break;
+			case 'toggle':
+				var flag = this.retrieve('slide:flag', slide.open);
+				slide[flag ? 'slideOut' : 'slideIn'](mode);
+				this.store('slide:flag', !flag);
+				toggle = true;
+				break;
+			default: slide.start(how, mode);
+		}
+		if (!toggle) this.eliminate('slide:flag');
+		return this;
+	}
+
+});
+
+/*
+---
+
+script: Tips.js
+
+name: Tips
+
+description: Class for creating nice tips that follow the mouse cursor when hovering an element.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+  - Christoph Pojer
+  - Luis Merino
+
+requires:
+  - Core/Options
+  - Core/Events
+  - Core/Element.Event
+  - Core/Element.Style
+  - Core/Element.Dimensions
+  - MooTools.More
+
+provides: [Tips]
+
+...
+*/
+
+(function(){
+
+var read = function(option, element){
+	return (option) ? (typeOf(option) == 'function' ? option(element) : element.get(option)) : '';
+};
+
+var Tips = this.Tips = new Class({
+
+	Implements: [Events, Options],
+
+	options: {/*
+		id: null,
+		onAttach: function(element){},
+		onDetach: function(element){},
+		onBound: function(coords){},*/
+		onShow: function(){
+			this.tip.setStyle('display', 'block');
+		},
+		onHide: function(){
+			this.tip.setStyle('display', 'none');
+		},
+		title: 'title',
+		text: function(element){
+			return element.get('rel') || element.get('href');
+		},
+		showDelay: 100,
+		hideDelay: 100,
+		className: 'tip-wrap',
+		offset: {x: 16, y: 16},
+		windowPadding: {x:0, y:0},
+		fixed: false,
+		waiAria: true,
+		hideEmpty: false
+	},
+
+	initialize: function(){
+		var params = Array.link(arguments, {
+			options: Type.isObject,
+			elements: function(obj){
+				return obj != null;
+			}
+		});
+		this.setOptions(params.options);
+		if (params.elements) this.attach(params.elements);
+		this.container = new Element('div', {'class': 'tip'});
+
+		if (this.options.id){
+			this.container.set('id', this.options.id);
+			if (this.options.waiAria) this.attachWaiAria();
+		}
+	},
+
+	toElement: function(){
+		if (this.tip) return this.tip;
+
+		this.tip = new Element('div', {
+			'class': this.options.className,
+			styles: {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				display: 'none'
+			}
+		}).adopt(
+			new Element('div', {'class': 'tip-top'}),
+			this.container,
+			new Element('div', {'class': 'tip-bottom'})
+		);
+
+		return this.tip;
+	},
+
+	attachWaiAria: function(){
+		var id = this.options.id;
+		this.container.set('role', 'tooltip');
+
+		if (!this.waiAria){
+			this.waiAria = {
+				show: function(element){
+					if (id) element.set('aria-describedby', id);
+					this.container.set('aria-hidden', 'false');
+				},
+				hide: function(element){
+					if (id) element.erase('aria-describedby');
+					this.container.set('aria-hidden', 'true');
+				}
+			};
+		}
+		this.addEvents(this.waiAria);
+	},
+
+	detachWaiAria: function(){
+		if (this.waiAria){
+			this.container.erase('role');
+			this.container.erase('aria-hidden');
+			this.removeEvents(this.waiAria);
+		}
+	},
+
+	attach: function(elements){
+		$$(elements).each(function(element){
+			var title = read(this.options.title, element),
+				text = read(this.options.text, element);
+
+			element.set('title', '').store('tip:native', title).retrieve('tip:title', title);
+			element.retrieve('tip:text', text);
+			this.fireEvent('attach', [element]);
+
+			var events = ['enter', 'leave'];
+			if (!this.options.fixed) events.push('move');
+
+			events.each(function(value){
+				var event = element.retrieve('tip:' + value);
+				if (!event) event = function(event){
+					this['element' + value.capitalize()].apply(this, [event, element]);
+				}.bind(this);
+
+				element.store('tip:' + value, event).addEvent('mouse' + value, event);
+			}, this);
+		}, this);
+
+		return this;
+	},
+
+	detach: function(elements){
+		$$(elements).each(function(element){
+			['enter', 'leave', 'move'].each(function(value){
+				element.removeEvent('mouse' + value, element.retrieve('tip:' + value)).eliminate('tip:' + value);
+			});
+
+			this.fireEvent('detach', [element]);
+
+			if (this.options.title == 'title'){ // This is necessary to check if we can revert the title
+				var original = element.retrieve('tip:native');
+				if (original) element.set('title', original);
+			}
+		}, this);
+
+		return this;
+	},
+
+	elementEnter: function(event, element){
+		clearTimeout(this.timer);
+		this.timer = (function(){
+			this.container.empty();
+			var showTip = !this.options.hideEmpty;
+			['title', 'text'].each(function(value){
+				var content = element.retrieve('tip:' + value);
+				var div = this['_' + value + 'Element'] = new Element('div', {
+					'class': 'tip-' + value
+				}).inject(this.container);
+				if (content){
+					this.fill(div, content);
+					showTip = true;
+				}
+			}, this);
+			if (showTip){
+				this.show(element);
+			} else {
+				this.hide(element);
+			}
+			this.position((this.options.fixed) ? {page: element.getPosition()} : event);
+		}).delay(this.options.showDelay, this);
+	},
+
+	elementLeave: function(event, element){
+		clearTimeout(this.timer);
+		this.timer = this.hide.delay(this.options.hideDelay, this, element);
+		this.fireForParent(event, element);
+	},
+
+	setTitle: function(title){
+		if (this._titleElement){
+			this._titleElement.empty();
+			this.fill(this._titleElement, title);
+		}
+		return this;
+	},
+
+	setText: function(text){
+		if (this._textElement){
+			this._textElement.empty();
+			this.fill(this._textElement, text);
+		}
+		return this;
+	},
+
+	fireForParent: function(event, element){
+		element = element.getParent();
+		if (!element || element == document.body) return;
+		if (element.retrieve('tip:enter')) element.fireEvent('mouseenter', event);
+		else this.fireForParent(event, element);
+	},
+
+	elementMove: function(event, element){
+		this.position(event);
+	},
+
+	position: function(event){
+		if (!this.tip) document.id(this);
+
+		var size = window.getSize(), scroll = window.getScroll(),
+			tip = {x: this.tip.offsetWidth, y: this.tip.offsetHeight},
+			props = {x: 'left', y: 'top'},
+			bounds = {y: false, x2: false, y2: false, x: false},
+			obj = {};
+
+		for (var z in props){
+			obj[props[z]] = event.page[z] + this.options.offset[z];
+			if (obj[props[z]] < 0) bounds[z] = true;
+			if ((obj[props[z]] + tip[z] - scroll[z]) > size[z] - this.options.windowPadding[z]){
+				obj[props[z]] = event.page[z] - this.options.offset[z] - tip[z];
+				bounds[z+'2'] = true;
+			}
+		}
+
+		this.fireEvent('bound', bounds);
+		this.tip.setStyles(obj);
+	},
+
+	fill: function(element, contents){
+		if (typeof contents == 'string') element.set('html', contents);
+		else element.adopt(contents);
+	},
+
+	show: function(element){
+		if (!this.tip) document.id(this);
+		if (!this.tip.getParent()) this.tip.inject(document.body);
+		this.fireEvent('show', [this.tip, element]);
+	},
+
+	hide: function(element){
+		if (!this.tip) document.id(this);
+		this.fireEvent('hide', [this.tip, element]);
+	}
+
+});
+
+})();
+
+/*
+---
+
+script: Array.Extras.js
+
+name: Array.Extras
+
+description: Extends the Array native object to include useful methods to work with arrays.
+
+license: MIT-style license
+
+authors:
+  - Christoph Pojer
+  - Sebastian Markbåge
+
+requires:
+  - Core/Array
+  - MooTools.More
+
+provides: [Array.Extras]
+
+...
+*/
+
+(function(nil){
+
+Array.implement({
+
+	min: function(){
+		return Math.min.apply(null, this);
+	},
+
+	max: function(){
+		return Math.max.apply(null, this);
+	},
+
+	average: function(){
+		return this.length ? this.sum() / this.length : 0;
+	},
+
+	sum: function(){
+		var result = 0, l = this.length;
+		if (l){
+			while (l--){
+				if (this[l] != null) result += parseFloat(this[l]);
+			}
+		}
+		return result;
+	},
+
+	unique: function(){
+		return [].combine(this);
+	},
+
+	shuffle: function(){
+		for (var i = this.length; i && --i;){
+			var temp = this[i], r = Math.floor(Math.random() * ( i + 1 ));
+			this[i] = this[r];
+			this[r] = temp;
+		}
+		return this;
+	},
+
+	reduce: function(fn, value){
+		for (var i = 0, l = this.length; i < l; i++){
+			if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
+		}
+		return value;
+	},
+
+	reduceRight: function(fn, value){
+		var i = this.length;
+		while (i--){
+			if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
+		}
+		return value;
+	},
+
+	pluck: function(prop){
+		return this.map(function(item){
+			return item[prop];
+		});
+	}
+
+});
+
+})();
+
+/*
+---
+
+script: Date.Extras.js
+
+name: Date.Extras
+
+description: Extends the Date native object to include extra methods (on top of those in Date.js).
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Scott Kyle
+
+requires:
+  - Date
+
+provides: [Date.Extras]
+
+...
+*/
+
+Date.implement({
+
+	timeDiffInWords: function(to){
+		return Date.distanceOfTimeInWords(this, to || new Date);
+	},
+
+	timeDiff: function(to, separator){
+		if (to == null) to = new Date;
+		var delta = ((to - this) / 1000).floor().abs();
+
+		var vals = [],
+			durations = [60, 60, 24, 365, 0],
+			names = ['s', 'm', 'h', 'd', 'y'],
+			value, duration;
+
+		for (var item = 0; item < durations.length; item++){
+			if (item && !delta) break;
+			value = delta;
+			if ((duration = durations[item])){
+				value = (delta % duration);
+				delta = (delta / duration).floor();
+			}
+			vals.unshift(value + (names[item] || ''));
+		}
+
+		return vals.join(separator || ':');
+	}
+
+}).extend({
+
+	distanceOfTimeInWords: function(from, to){
+		return Date.getTimePhrase(((to - from) / 1000).toInt());
+	},
+
+	getTimePhrase: function(delta){
+		var suffix = (delta < 0) ? 'Until' : 'Ago';
+		if (delta < 0) delta *= -1;
+
+		var units = {
+			minute: 60,
+			hour: 60,
+			day: 24,
+			week: 7,
+			month: 52 / 12,
+			year: 12,
+			eon: Infinity
+		};
+
+		var msg = 'lessThanMinute';
+
+		for (var unit in units){
+			var interval = units[unit];
+			if (delta < 1.5 * interval){
+				if (delta > 0.75 * interval) msg = unit;
+				break;
+			}
+			delta /= interval;
+			msg = unit + 's';
+		}
+
+		delta = delta.round();
+		return Date.getMsg(msg + suffix, delta).substitute({delta: delta});
+	}
+
+}).defineParsers(
+
+	{
+		// "today", "tomorrow", "yesterday"
+		re: /^(?:tod|tom|yes)/i,
+		handler: function(bits){
+			var d = new Date().clearTime();
+			switch (bits[0]){
+				case 'tom': return d.increment();
+				case 'yes': return d.decrement();
+				default: return d;
+			}
+		}
+	},
+
+	{
+		// "next Wednesday", "last Thursday"
+		re: /^(next|last) ([a-z]+)$/i,
+		handler: function(bits){
+			var d = new Date().clearTime();
+			var day = d.getDay();
+			var newDay = Date.parseDay(bits[2], true);
+			var addDays = newDay - day;
+			if (newDay <= day) addDays += 7;
+			if (bits[1] == 'last') addDays -= 7;
+			return d.set('date', d.getDate() + addDays);
+		}
+	}
+
+).alias('timeAgoInWords', 'timeDiffInWords');
+
+/*
+---
+
+name: Locale.en-US.Number
+
+description: Number messages for US English.
+
+license: MIT-style license
+
+authors:
+  - Arian Stolwijk
+
+requires:
+  - Locale
+
+provides: [Locale.en-US.Number]
+
+...
+*/
+
+Locale.define('en-US', 'Number', {
+
+	decimal: '.',
+	group: ',',
+
+/* 	Commented properties are the defaults for Number.format
+	decimals: 0,
+	precision: 0,
+	scientific: null,
+
+	prefix: null,
+	suffic: null,
+
+	// Negative/Currency/percentage will mixin Number
+	negative: {
+		prefix: '-'
+	},*/
+
+	currency: {
+//		decimals: 2,
+		prefix: '$ '
+	}/*,
+
+	percentage: {
+		decimals: 2,
+		suffix: '%'
+	}*/
+
+});
+
+
+
+/*
+---
+name: Number.Format
+description: Extends the Number Type object to include a number formatting method.
+license: MIT-style license
+authors: [Arian Stolwijk]
+requires: [Core/Number, Locale.en-US.Number]
+# Number.Extras is for compatibility
+provides: [Number.Format, Number.Extras]
+...
+*/
+
+
+Number.implement({
+
+	format: function(options){
+		// Thanks dojo and YUI for some inspiration
+		var value = this;
+		options = options ? Object.clone(options) : {};
+		var getOption = function(key){
+			if (options[key] != null) return options[key];
+			return Locale.get('Number.' + key);
+		};
+
+		var negative = value < 0,
+			decimal = getOption('decimal'),
+			precision = getOption('precision'),
+			group = getOption('group'),
+			decimals = getOption('decimals');
+
+		if (negative){
+			var negativeLocale = getOption('negative') || {};
+			if (negativeLocale.prefix == null && negativeLocale.suffix == null) negativeLocale.prefix = '-';
+			['prefix', 'suffix'].each(function(key){
+				if (negativeLocale[key]) options[key] = getOption(key) + negativeLocale[key];
+			});
+
+			value = -value;
+		}
+
+		var prefix = getOption('prefix'),
+			suffix = getOption('suffix');
+
+		if (decimals !== '' && decimals >= 0 && decimals <= 20) value = value.toFixed(decimals);
+		if (precision >= 1 && precision <= 21) value = (+value).toPrecision(precision);
+
+		value += '';
+		var index;
+		if (getOption('scientific') === false && value.indexOf('e') > -1){
+			var match = value.split('e'),
+				zeros = +match[1];
+			value = match[0].replace('.', '');
+
+			if (zeros < 0){
+				zeros = -zeros - 1;
+				index = match[0].indexOf('.');
+				if (index > -1) zeros -= index - 1;
+				while (zeros--) value = '0' + value;
+				value = '0.' + value;
+			} else {
+				index = match[0].lastIndexOf('.');
+				if (index > -1) zeros -= match[0].length - index - 1;
+				while (zeros--) value += '0';
+			}
+		}
+
+		if (decimal != '.') value = value.replace('.', decimal);
+
+		if (group){
+			index = value.lastIndexOf(decimal);
+			index = (index > -1) ? index : value.length;
+			var newOutput = value.substring(index),
+				i = index;
+
+			while (i--){
+				if ((index - i - 1) % 3 == 0 && i != (index - 1)) newOutput = group + newOutput;
+				newOutput = value.charAt(i) + newOutput;
+			}
+
+			value = newOutput;
+		}
+
+		if (prefix) value = prefix + value;
+		if (suffix) value += suffix;
+
+		return value;
+	},
+
+	formatCurrency: function(decimals){
+		var locale = Locale.get('Number.currency') || {};
+		if (locale.scientific == null) locale.scientific = false;
+		locale.decimals = decimals != null ? decimals
+			: (locale.decimals == null ? 2 : locale.decimals);
+
+		return this.format(locale);
+	},
+
+	formatPercentage: function(decimals){
+		var locale = Locale.get('Number.percentage') || {};
+		if (locale.suffix == null) locale.suffix = '%';
+		locale.decimals = decimals != null ? decimals
+			: (locale.decimals == null ? 2 : locale.decimals);
+
+		return this.format(locale);
+	}
+
+});

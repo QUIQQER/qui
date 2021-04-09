@@ -472,13 +472,13 @@ define('qui/controls/Control', [
             var Sheet = new Element('div', {
                 'class': 'qui-sheet qui-box',
                 html   : '<div class="qui-sheet-content box"></div>' +
-                '<div class="qui-sheet-buttons box">' +
-                '<div class="qui-sheet-buttons-back qui-button btn-white">' +
-                '<span>' +
-                Locale.get('qui/controls/Control', 'btn.back') +
-                '</span>' +
-                '</div>' +
-                '</div>',
+                    '<div class="qui-sheet-buttons box">' +
+                    '<div class="qui-sheet-buttons-back qui-button btn-white">' +
+                    '<span>' +
+                    Locale.get('qui/controls/Control', 'btn.back') +
+                    '</span>' +
+                    '</div>' +
+                    '</div>',
                 styles : {
                     display: 'none',
                     left   : -20,

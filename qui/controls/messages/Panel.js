@@ -4,18 +4,13 @@
  *
  * @module qui/controls/messages/Panel
  * @author www.pcsg.de (Henning Leutz)
- *
- * @require qui/QUI
- * @require qui/controls/desktop/Panel
- * @require qui/Locale
- * @require css!qui/controls/messages/Panel.css
  */
 
 define('qui/controls/messages/Panel', [
 
     'qui/QUI',
     'qui/controls/desktop/Panel',
-    'qui/Locale',
+    'Locale',
 
     'css!qui/controls/messages/Panel.css'
 
@@ -41,7 +36,7 @@ define('qui/controls/messages/Panel', [
         ],
 
         options: {
-            title: 'Nachrichten',
+            title: Locale.get('quiqqer/qui', 'handler.panel.title'),
             icon : 'fa fa-bullhorn',
 
             showSucces     : true,
@@ -80,8 +75,8 @@ define('qui/controls/messages/Panel', [
             this.addButton({
                 name  : 'ok',
                 icon  : 'icon-ok fa fa-check',
-                title : Locale.get('qui/controls/messages', 'handler.button.success'),
-                alt   : Locale.get('qui/controls/messages', 'handler.button.success'),
+                title : Locale.get('quiqqer/qui', 'handler.button.success'),
+                alt   : Locale.get('quiqqer/qui', 'handler.button.success'),
                 events: {
                     onClick: self.$toggleButton
                 }
@@ -90,8 +85,8 @@ define('qui/controls/messages/Panel', [
             this.addButton({
                 name  : 'information',
                 icon  : 'icon-info-sign fa fa-info',
-                title : Locale.get('qui/controls/messages', 'handler.button.information'),
-                alt   : Locale.get('qui/controls/messages', 'handler.button.information'),
+                title : Locale.get('quiqqer/qui', 'handler.button.information'),
+                alt   : Locale.get('quiqqer/qui', 'handler.button.information'),
                 events: {
                     onClick: self.$toggleButton
                 }
@@ -100,8 +95,8 @@ define('qui/controls/messages/Panel', [
             this.addButton({
                 name  : 'attention',
                 icon  : 'icon-warning-sign fa fa-warning',
-                title : Locale.get('qui/controls/messages', 'handler.button.attention'),
-                alt   : Locale.get('qui/controls/messages', 'handler.button.attention'),
+                title : Locale.get('quiqqer/qui', 'handler.button.attention'),
+                alt   : Locale.get('quiqqer/qui', 'handler.button.attention'),
                 events: {
                     onClick: self.$toggleButton
                 }
@@ -110,8 +105,8 @@ define('qui/controls/messages/Panel', [
             this.addButton({
                 name  : 'error',
                 icon  : 'icon-bolt fa fa-bolt',
-                title : Locale.get('qui/controls/messages', 'handler.button.error'),
-                alt   : Locale.get('qui/controls/messages', 'handler.button.error'),
+                title : Locale.get('quiqqer/qui', 'handler.button.error'),
+                alt   : Locale.get('quiqqer/qui', 'handler.button.error'),
                 events: {
                     onClick: self.$toggleButton
                 }
@@ -120,8 +115,8 @@ define('qui/controls/messages/Panel', [
             this.addButton({
                 name  : 'clear',
                 icon  : 'icon-trash fa fa-trash',
-                title : Locale.get('qui/controls/messages', 'handler.button.clear'),
-                alt   : Locale.get('qui/controls/messages', 'handler.button.clear'),
+                title : Locale.get('quiqqer/qui', 'handler.button.clear'),
+                alt   : Locale.get('quiqqer/qui', 'handler.button.clear'),
                 events: {
                     onClick: function () {
                         QUI.getMessageHandler(function (MessageHandler) {
@@ -233,19 +228,19 @@ define('qui/controls/messages/Panel', [
                 this.$Title.addClass('qui-controls-messages-panel-title');
             }
 
-            if (type == 'qui/controls/messages/Success' && !this.getAttribute('showSucces')) {
+            if (type === 'qui/controls/messages/Success' && !this.getAttribute('showSucces')) {
                 return;
             }
 
-            if (type == 'qui/controls/messages/Information' && !this.getAttribute('showInformation')) {
+            if (type === 'qui/controls/messages/Information' && !this.getAttribute('showInformation')) {
                 return;
             }
 
-            if (type == 'qui/controls/messages/Attention' && !this.getAttribute('showAttention')) {
+            if (type === 'qui/controls/messages/Attention' && !this.getAttribute('showAttention')) {
                 return;
             }
 
-            if (type == 'qui/controls/messages/Error' && !this.getAttribute('showError')) {
+            if (type === 'qui/controls/messages/Error' && !this.getAttribute('showError')) {
                 return;
             }
 

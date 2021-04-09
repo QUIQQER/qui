@@ -151,8 +151,8 @@ define('qui/controls/desktop/Tasks', [
 
                         // Find last active child (findIndex() is better supported than find())
                         var lastActiveChildIndex = children.findIndex(function (child) {
-                            return child.$Instance.getType() == data.bar.active
-                        })
+                            return child.$Instance.getType() === data.bar.active
+                        });
 
                         // Open last active child
                         if (lastActiveChildIndex > -1 && children[lastActiveChildIndex]) {

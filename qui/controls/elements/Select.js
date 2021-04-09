@@ -663,6 +663,7 @@ define('qui/controls/elements/Select', [
             }
 
             this.search();
+            this.close();
         },
 
         /**

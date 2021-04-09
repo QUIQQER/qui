@@ -4,12 +4,6 @@
  * @module qui/controls/taskbar/Task
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/classes/utils/DragDrop
- * @require qui/utils/Controls
- * @require css!qui/controls/taskbar/Task.css
- *
  * @event onClick [this, DOMEvent]
  * @event onActivate [this]
  * @event onNormalize [this]
@@ -60,7 +54,7 @@ define('qui/controls/taskbar/Task', [
             text     : '',
             cssClass : '',
             closeable: true,
-            dragable : true
+            dragable : true  // disabled at the moment
         },
 
         initialize: function (Instance, options) {
@@ -159,7 +153,7 @@ define('qui/controls/taskbar/Task', [
             this.$Elm = new Element('div', {
                 'class' : 'qui-task box',
                 html    : '<span class="qui-task-icon"></span>' +
-                          '<span class="qui-task-text"></span>',
+                    '<span class="qui-task-text"></span>',
                 styles  : {
                     outline: 'none'
                 },
@@ -186,11 +180,10 @@ define('qui/controls/taskbar/Task', [
                             self.click(event);
                         }
                     }
-
                 }
             });
 
-            if (this.getAttribute('dragable')) {
+            if (this.getAttribute('dragable') && false) {
                 var DragDropParent = null;
 
                 new QUIDragDrop(this.$Elm, {
@@ -418,7 +411,7 @@ define('qui/controls/taskbar/Task', [
         getTaskbar: function () {
             var Taskbar = this.getParent();
 
-            if (typeOf(Taskbar) == "qui/controls/taskbar/Group") {
+            if (typeOf(Taskbar) === "qui/controls/taskbar/Group") {
                 Taskbar = Taskbar.getParent();
             }
 
@@ -529,6 +522,15 @@ define('qui/controls/taskbar/Task', [
          * @return {Object} this (qui/controls/taskbar/Task)
          */
         click: function (event) {
+            // if close is clicked
+            if (typeOf(event) === 'domevent') {
+                var Target = event.target;
+
+                if (Target.hasClass('qui-task-close') || Target.getParent('.qui-task-close')) {
+                    return;
+                }
+            }
+
             this.fireEvent('click', [this, event]);
 
             if (!this.isActive()) {
@@ -545,6 +547,10 @@ define('qui/controls/taskbar/Task', [
          * @return {Object} this (qui/controls/taskbar/Task)
          */
         close: function (event) {
+            if (typeOf(event) === 'domevent') {
+                event.stop();
+            }
+
             this.fireEvent('close', [this, event]);
             this.destroy();
 

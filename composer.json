@@ -15,9 +15,6 @@
         "email": "support@pcsg.de",
         "url": "http:\/\/www.pcsg.de"
     },
-    "require": {
-        "robloach\/component-installer": "*"
-    },
     "extra": {
         "component": {
             "files": [
