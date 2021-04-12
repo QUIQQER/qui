@@ -54,12 +54,21 @@ define('qui/utils/Form', {
     setDataToNode: function (Data, Node) {
         "use strict";
 
-        var NodeList = new Elements(
-            Node.getElementsByTagName('INPUT'),
-            Node.getElementsByTagName('SELECT'),
-            Node.getElementsByTagName('TEXTAREA'),
-            Node.getElementsByTagName('BUTTON')
-        );
+        var elements = [];
+
+        var addElements = function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                elements.push(list[i]);
+            }
+        };
+
+        // Input
+        addElements(Node.getElementsByTagName('INPUT'));
+        addElements(Node.getElementsByTagName('SELECT'));
+        addElements(Node.getElementsByTagName('TEXTAREA'));
+        addElements(Node.getElementsByTagName('BUTTON'));
+
+        var NodeList = new Elements(elements);
 
         this.$setDataToNodeList(NodeList, Data);
     },
@@ -73,12 +82,21 @@ define('qui/utils/Form', {
     getDataFromNode: function (Node) {
         "use strict";
 
-        var NodeList = new Elements(
-            Node.getElementsByTagName('INPUT'),
-            Node.getElementsByTagName('SELECT'),
-            Node.getElementsByTagName('TEXTAREA'),
-            Node.getElementsByTagName('BUTTON')
-        );
+        var elements = [];
+
+        var addElements = function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                elements.push(list[i]);
+            }
+        };
+
+        // Input
+        addElements(Node.getElementsByTagName('INPUT'));
+        addElements(Node.getElementsByTagName('SELECT'));
+        addElements(Node.getElementsByTagName('TEXTAREA'));
+        addElements(Node.getElementsByTagName('BUTTON'));
+
+        var NodeList = new Elements(elements);
 
         return this.$getDataFromNodeList(NodeList);
     },
