@@ -226,12 +226,22 @@ define('qui/utils/Form', {
 
             switch (Elm.type) {
                 case 'checkbox':
-                case 'radio':
                     if (isCollection) {
                         return Elm.checked ? Elm.value : null;
                     }
 
                     return !!Elm.checked;
+
+                case 'radio':
+                    if (Elm.name in result && result[Elm.name]) {
+                        return result[Elm.name];
+                    }
+
+                    if (Elm.checked) {
+                        return Elm.value;
+                    }
+
+                    return false;
 
                 default:
                     return Elm.value;
