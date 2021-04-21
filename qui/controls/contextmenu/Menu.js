@@ -248,6 +248,29 @@ define('qui/controls/contextmenu/Menu', [
         },
 
         /**
+         * resize the menu
+         */
+        resize: function () {
+            var Elm        = this.getElm(),
+                scrollSize = Elm.getScrollSize();
+
+            var height        = scrollSize.y + 5;
+            var childrenSizes = this.getElm().getElements('.qui-contextitem').map(function (Node) {
+                return Node.getSize().y;
+            });
+
+            var sum = childrenSizes.reduce(function (pv, cv) {
+                return pv + cv;
+            }, 0);
+
+            if (sum < height) {
+                height = sum;
+            }
+
+            this.$Container.setStyle('height', height);
+        },
+
+        /**
          * refresh the menu
          */
         refresh: function () {
