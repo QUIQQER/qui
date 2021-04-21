@@ -3,6 +3,7 @@
  *
  * @module qui/utils/Form
  * @author www.pcsg.de (Henning Leutz)
+ * @author www.pcsg.de (Patrick Müller)
  */
 define('qui/utils/Form', {
 
@@ -22,96 +23,7 @@ define('qui/utils/Form', {
             return;
         }
 
-        var i, k, len, val, Elm;
-
-        data = data || {};
-
-        // unselect checkboxes and radios
-        for (k in data) {
-            if (!data.hasOwnProperty(k)) {
-                continue;
-            }
-
-            if (typeof form.elements[k] === 'undefined') {
-                continue;
-            }
-
-            Elm = form.elements[k];
-
-            if (Elm.type === 'checkbox' || Elm.type === 'radio') {
-                form.getElements('[name="' + k + '"]').set('checked', false);
-            }
-
-            if (Elm.length && (Elm[0].type === 'checkbox' || Elm[0].type === 'radio')) {
-                form.getElements('[name="' + k + '"]').set('checked', false);
-            }
-        }
-
-        for (k in data) {
-            if (!data.hasOwnProperty(k)) {
-                continue;
-            }
-
-            if (typeof form.elements[k] === 'undefined') {
-                continue;
-            }
-
-
-            Elm = form.elements[k];
-
-            if (Elm.type === 'checkbox') {
-                if (data[k] === false || data[k] === true) {
-                    Elm.checked = data[k];
-                    continue;
-                }
-
-                Elm.checked = !!parseInt(data[k]);
-                continue;
-            }
-
-            if (Elm.type === 'text' ||
-                Elm.type === 'hidden' ||
-                Elm.nodeName === 'TEXTAREA' ||
-                Elm.nodeName === 'SELECT') {
-
-                if (typeOf(data[k]) == 'boolean') {
-                    continue;
-                }
-
-                Elm.value = data[k];
-                continue;
-            }
-
-            if (Elm.length) {
-                for (i = 0, len = Elm.length; i < len; i++) {
-                    if (Elm[i].type !== 'radio' && Elm[i].type !== 'checkbox') {
-                        continue;
-                    }
-
-                    val = Elm[i].value;
-
-                    if (typeOf(data[k]) == 'array') {
-                        if (data[k].contains(val)) {
-                            Elm[i].checked = true;
-                        }
-
-                        continue;
-                    }
-
-                    if (val == data[k]) {
-                        Elm[i].checked = true;
-                    }
-                }
-
-                continue;
-            }
-
-            if (Elm.type === 'color') {
-                Elm.set('data-realvalue', data[k]);
-            }
-
-            Elm.value = data[k];
-        }
+        this.$setDataToNodeList(new Elements(form.elements), data);
     },
 
     /**
@@ -129,60 +41,244 @@ define('qui/utils/Form', {
             return {};
         }
 
-        var i, n, len, Elm;
+        return this.$getDataFromNodeList(new Elements(form.elements));
+    },
 
-        var result = {},
-            elements = form.elements;
+    /**
+     * Set data to all children of a DOM node as if it were a form.
+     *
+     * @param {{}} Data
+     * @param {HTMLElement} Node
+     * @return {void}
+     */
+    setDataToNode: function (Data, Node) {
+        "use strict";
 
-        for (i = 0, len = elements.length; i < len; i++) {
-            Elm = elements[i];
-            n = Elm.name;
+        var elements = [];
 
-            if (n === '') {
+        var addElements = function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                elements.push(list[i]);
+            }
+        };
+
+        // Input
+        addElements(Node.getElementsByTagName('INPUT'));
+        addElements(Node.getElementsByTagName('SELECT'));
+        addElements(Node.getElementsByTagName('TEXTAREA'));
+        addElements(Node.getElementsByTagName('BUTTON'));
+
+        var NodeList = new Elements(elements);
+
+        this.$setDataToNodeList(NodeList, Data);
+    },
+
+    /**
+     * Get data from all children of a DOM node as if it were a form.
+     *
+     * @param {HTMLElement} Node
+     * @return {{}}
+     */
+    getDataFromNode: function (Node) {
+        "use strict";
+
+        var elements = [];
+
+        var addElements = function (list) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                elements.push(list[i]);
+            }
+        };
+
+        // Input
+        addElements(Node.getElementsByTagName('INPUT'));
+        addElements(Node.getElementsByTagName('SELECT'));
+        addElements(Node.getElementsByTagName('TEXTAREA'));
+        addElements(Node.getElementsByTagName('BUTTON'));
+
+        var NodeList = new Elements(elements);
+
+        return this.$getDataFromNodeList(NodeList);
+    },
+
+    /**
+     * Set Data to all nodes in NodeList.
+     *
+     * @param {Elements} NodeList
+     * @param {{}} Data
+     * @return {{}}
+     */
+    $setDataToNodeList: function (NodeList, Data) {
+        "use strict";
+
+        var j, jlen, i, k, len, Elm, elements;
+
+        Data = Data || {};
+
+        /**
+         * Returns the DOM nodes in NodeList with name "name".
+         *
+         * @param {string} name
+         * @return {boolean|HTMLElement} - Return DOM node or false if not found
+         */
+        var getElements = function (name) {
+            return NodeList.filter('*[name="' + name + '"]');
+        };
+
+        // unselect checkboxes and radios
+        for (k in Data) {
+            if (!Data.hasOwnProperty(k)) {
                 continue;
             }
 
-            if (Elm.type === 'checkbox') {
-                // array
-                if (elements[n].length) {
-                    if (typeof result[Elm.name] === 'undefined') {
-                        result[n] = [];
-                    }
+            elements = getElements(k);
 
-                    if (Elm.checked) {
-                        result[n].push(Elm.value);
+            for (i = 0, len = elements.length; i < len; i++) {
+                Elm = elements[i];
+
+                if (Elm.type === 'checkbox' || Elm.type === 'radio') {
+                    Elm.set('checked', false);
+                }
+
+                if (Elm.length && (Elm[0].type === 'checkbox' || Elm[0].type === 'radio')) {
+                    Elm.set('checked', false);
+                }
+            }
+        }
+
+        var elementValue;
+
+        for (k in Data) {
+            if (!Data.hasOwnProperty(k)) {
+                continue;
+            }
+
+            elements     = getElements(k);
+            elementValue = Data[k];
+
+            for (i = 0, len = elements.length; i < len; i++) {
+                Elm = elements[i];
+
+                if (Elm.type === 'checkbox' || Elm.type === 'radio') {
+                    if (typeOf(elementValue) === 'array') {
+                        for (j = 0, jlen = elementValue.length; j < jlen; j++) {
+                            if (Elm.value == elementValue[j]) {
+                                Elm.checked = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        if (elementValue !== false && elementValue !== true) {
+                            elementValue = !!parseInt(elementValue);
+                        }
+
+                        if (k.endsWith('[]')) {
+                            if (Elm.value == elementValue) {
+                                Elm.checked = elementValue;
+                            }
+                        } else {
+                            Elm.checked = elementValue;
+                        }
                     }
 
                     continue;
                 }
 
-                result[n] = !!Elm.checked;
-                continue;
-            }
+                if (Elm.type === 'text' ||
+                    Elm.type === 'hidden' ||
+                    Elm.nodeName === 'TEXTAREA' ||
+                    Elm.nodeName === 'SELECT') {
 
-            if (Elm.type === 'radio' && !Elm.length) {
-                if (Elm.checked) {
-                    result[n] = Elm.value;
-                }
-
-                continue;
-            }
-
-            if (Elm.type === 'radio' && Elm.length) {
-                for (i = 0, len = Elm.length; i < len; i++) {
-                    if (Elm[i].type !== 'radio') {
+                    if (typeOf(elementValue) == 'boolean') {
                         continue;
                     }
 
-                    result[Elm[i].name] = '';
-
-                    if (Elm[i].checked) {
-                        result[Elm[i].name] = Elm[i].value;
-                    }
+                    Elm.value = Data[k];
+                    continue;
                 }
+
+                if (Elm.type === 'color') {
+                    Elm.set('Data-realvalue', elementValue);
+                }
+
+                Elm.value = elementValue;
+            }
+        }
+    },
+
+    /**
+     * Reads all data from nodes in NodeList.
+     *
+     * Only reads from INPUT, SELECT, TEXTAREA or BUTTON elements.
+     *
+     * @param {Elements} NodeList
+     * @return {{}}
+     */
+    $getDataFromNodeList: function (NodeList) {
+        "use strict";
+
+        var i, name, len, Elm, elementValue;
+
+        var result = {};
+
+        var getValue = function (Elm, isCollection) {
+            isCollection = isCollection || false;
+
+            switch (Elm.type) {
+                case 'checkbox':
+                    if (isCollection) {
+                        return Elm.checked ? Elm.value : null;
+                    }
+
+                    return !!Elm.checked;
+
+                case 'radio':
+                    if (Elm.name in result && result[Elm.name]) {
+                        return result[Elm.name];
+                    }
+
+                    if (Elm.checked) {
+                        return Elm.value;
+                    }
+
+                    return false;
+
+                default:
+                    return Elm.value;
+            }
+        };
+
+        for (i = 0, len = NodeList.length; i < len; i++) {
+            Elm  = NodeList[i];
+            name = Elm.name;
+
+            if (name === '') {
+                continue;
             }
 
-            result[n] = Elm.value;
+            if (name.endsWith('[]')) {
+                if (!(name in result)) {
+                    result[name] = [];
+                }
+
+                elementValue = getValue(Elm, true);
+
+                if (elementValue === null) {
+                    continue;
+                }
+
+                result[name].push(elementValue);
+
+                continue;
+            }
+
+            elementValue = getValue(Elm);
+
+            if (elementValue === null) {
+                continue;
+            }
+
+            result[name] = elementValue;
         }
 
         return result;
@@ -204,8 +300,8 @@ define('qui/utils/Form', {
         if (typeof el.selectionStart != "undefined" &&
             typeof el.selectionEnd != "undefined") {
 
-            endIndex = el.selectionEnd;
-            el.value = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
+            endIndex          = el.selectionEnd;
+            el.value          = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
             el.selectionStart = el.selectionEnd = endIndex + text.length;
 
         } else if (typeof document.selection != "undefined" &&
