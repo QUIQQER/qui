@@ -81,7 +81,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
             titleCloseButton: true,  // {bool} show the title close button
             draggable       : true,
-            resizable       : true   // works only with buttons: true
+            resizable       : false   // works only with buttons: true
         },
 
         initialize: function (options) {
@@ -676,7 +676,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 self.$Buttons.setStyle('bottom', 0);
                 self.$Buttons.setStyle('position', 'absolute');
 
-                var containerHeight = self.$Title.getSize().y;
+                // var containerHeight = self.$Title.getSize().y;
 
                 // self.$Content.setStyle(
                 //     'height',
