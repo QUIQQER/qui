@@ -57,7 +57,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
         Binds: [
             'resize',
-            'cancel'
+            'cancel',
+            '$dragMouseDown',
+            '$dragMouseMove',
+            '$dragMouseUp'
         ],
 
         options: {
@@ -73,7 +76,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             buttons         : true, // {bool} [optional] show the bottom button line
             closeButton     : true, // {bool} show the close button
             closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
-            titleCloseButton: true  // {bool} show the title close button
+            titleCloseButton: true,  // {bool} show the title close button
+            draggable       : true
         },
 
         initialize: function (options) {
@@ -91,6 +95,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.Background = new Background();
             this.Loader     = new Loader();
 
+            this.$draging            = false;
+            this.$dragStartMousePosX = false;
+            this.$dragStartMousePosY = false;
+            this.$dragStartElmPosX   = false;
+            this.$dragStartElmPosY   = false;
+            this.$dragMaxX           = false;
+            this.$dragMaxY           = false;
 
             // button texts
             var closeText = QUI.getAttribute('control-windows-popup-closetext');
@@ -138,11 +149,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">' +
-                '<div class="qui-window-popup-title-icon"></div>' +
-                '<div class="qui-window-popup-title-text"></div>' +
-                '</div>' +
-                '<div class="qui-window-popup-content box"></div>' +
-                '<div class="qui-window-popup-buttons box"></div>',
+                    '<div class="qui-window-popup-title-icon"></div>' +
+                    '<div class="qui-window-popup-title-text"></div>' +
+                    '</div>' +
+                    '<div class="qui-window-popup-content box"></div>' +
+                    '<div class="qui-window-popup-buttons box"></div>',
                 tabindex: -1,
                 styles  : {
                     opacity: 0
@@ -158,6 +169,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Buttons   = this.$Elm.getElement('.qui-window-popup-buttons');
 
             this.$Content.setStyle('opacity', 0);
+
+            if (this.getAttribute('draggable')) {
+                this.$Title.setStyle('cursor', 'move');
+                this.$Title.addEvents({
+                    mousedown: this.$dragMouseDown
+                });
+            }
 
             if (this.getAttribute('titleCloseButton')) {
                 new Element('button', {
@@ -748,16 +766,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var Sheet = new Element('div', {
                 'class': 'qui-window-popup-sheet box',
                 html   : '<div class="qui-window-popup-sheet-content box"></div>' +
-                '<div class="qui-window-popup-sheet-buttons box">' +
-                '<div class="back button btn-white">' +
-                '<span>' +
-                Locale.get(
-                    'qui/controls/windows/Popup',
-                    'btn.back'
-                ) +
-                '</span>' +
-                '</div>' +
-                '</div>',
+                    '<div class="qui-window-popup-sheet-buttons box">' +
+                    '<div class="back button btn-white">' +
+                    '<span>' +
+                    Locale.get(
+                        'qui/controls/windows/Popup',
+                        'btn.back'
+                    ) +
+                    '</span>' +
+                    '</div>' +
+                    '</div>',
                 styles : {
                     left: '-110%'
                 }
@@ -796,6 +814,79 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     onfinish(Content, Sheet);
                 }
             });
+        },
+
+        //region drag drop
+
+        /**
+         * event: mouse down - if window has draggable true
+         * @param e
+         */
+        $dragMouseDown: function (e) {
+            e.stop();
+
+            var elmPos  = this.$Elm.getPosition();
+            var elmSize = this.$Elm.getSize();
+            var winSize = QUI.getWindowSize();
+
+            this.$draging            = true;
+            this.$dragStartMousePosX = e.client.x;
+            this.$dragStartMousePosY = e.client.y;
+
+            this.$dragStartElmPosX = elmPos.x;
+            this.$dragStartElmPosY = elmPos.y;
+
+            // detect max movement
+            this.$dragMaxX = winSize.x - elmSize.x;
+            this.$dragMaxY = winSize.y - elmSize.y;
+
+            document.addEvent('mousemove', this.$dragMouseMove);
+            document.addEvent('mouseup', this.$dragMouseUp);
+        },
+
+        /**
+         * event: mouse move - if window has draggable true
+         * @param e
+         */
+        $dragMouseMove: function (e) {
+            if (this.$draging === false) {
+                return;
+            }
+
+            e.stop();
+            var mouseX = this.$dragStartMousePosX - e.client.x;
+            var mouseY = this.$dragStartMousePosY - e.client.y;
+
+            var diffX = this.$dragStartElmPosX - mouseX;
+            var diffY = this.$dragStartElmPosY - mouseY;
+
+            if (diffX < 0) {
+                diffX = 0;
+            } else if (diffX > this.$dragMaxX) {
+                diffX = this.$dragMaxX;
+            }
+
+            if (diffY < 0) {
+                diffY = 0;
+            } else if (diffY > this.$dragMaxY) {
+                diffY = this.$dragMaxY;
+            }
+
+            this.$Elm.setStyles({
+                left: diffX,
+                top : diffY
+            });
+        },
+
+        /**
+         * event: mouse move - if window has draggable true
+         * @param e
+         */
+        $dragMouseUp: function (e) {
+            this.$draging = false;
+
+            document.removeEvent('mousemove', this.$dragMouseMove);
+            document.removeEvent('mouseup', this.$dragMouseUp);
         }
     });
 });
