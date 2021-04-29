@@ -57,7 +57,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
         Binds: [
             'resize',
-            'cancel'
+            'cancel',
+            '$dragMouseDown',
+            '$dragMouseMove',
+            '$dragMouseUp',
+            '$resizeMouseDown',
+            '$resizeMouseMove',
+            '$resizeMouseUp'
         ],
 
         options: {
@@ -73,7 +79,9 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             buttons         : true, // {bool} [optional] show the bottom button line
             closeButton     : true, // {bool} show the close button
             closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
-            titleCloseButton: true  // {bool} show the title close button
+            titleCloseButton: true,  // {bool} show the title close button
+            draggable       : true,
+            resizable       : true   // works only with buttons: true
         },
 
         initialize: function (options) {
@@ -91,6 +99,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.Background = new Background();
             this.Loader     = new Loader();
 
+            this.$draging            = false;
+            this.$dragStartMousePosX = false;
+            this.$dragStartMousePosY = false;
+            this.$dragStartElmPosX   = false;
+            this.$dragStartElmPosY   = false;
+            this.$dragMaxX           = false;
+            this.$dragMaxY           = false;
 
             // button texts
             var closeText = QUI.getAttribute('control-windows-popup-closetext');
@@ -138,11 +153,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">' +
-                '<div class="qui-window-popup-title-icon"></div>' +
-                '<div class="qui-window-popup-title-text"></div>' +
-                '</div>' +
-                '<div class="qui-window-popup-content box"></div>' +
-                '<div class="qui-window-popup-buttons box"></div>',
+                    '<div class="qui-window-popup-title-icon"></div>' +
+                    '<div class="qui-window-popup-title-text"></div>' +
+                    '</div>' +
+                    '<div class="qui-window-popup-content box"></div>' +
+                    '<div class="qui-window-popup-buttons box"></div>',
                 tabindex: -1,
                 styles  : {
                     opacity: 0
@@ -158,6 +173,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Buttons   = this.$Elm.getElement('.qui-window-popup-buttons');
 
             this.$Content.setStyle('opacity', 0);
+
+            if (this.getAttribute('draggable')) {
+                this.$Title.setStyle('cursor', 'move');
+                this.$Title.addEvents({
+                    mousedown: this.$dragMouseDown
+                });
+            }
 
             if (this.getAttribute('titleCloseButton')) {
                 new Element('button', {
@@ -220,6 +242,25 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     });
 
                     Submit.inject(this.$Buttons);
+                }
+
+                if (this.getAttribute('resizable')) {
+                    new Element('div', {
+                        html  : '<span class="fa fa-expand fa-flip-vertical"></span>',
+                        styles: {
+                            bottom    : 0,
+                            cursor    : 'se-resize',
+                            height    : 30,
+                            lineHeight: 30,
+                            position  : 'absolute',
+                            right     : 0,
+                            textAlign : 'center',
+                            width     : 30
+                        },
+                        events: {
+                            mousedown: this.$resizeMouseDown
+                        }
+                    }).inject(this.$Buttons);
                 }
             } else {
                 this.$Buttons.setStyle('display', 'none');
@@ -444,11 +485,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             // content height
-            var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+            // var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
 
-            self.$Content.setStyles({
-                height: 'calc(100% - ' + containerHeight + 'px)'
-            });
+            // self.$Content.setStyles({
+            //     height: 'calc(100% - ' + containerHeight + 'px)'
+            // });
 
             return new Promise(function (resolve) {
                 var execute = false;
@@ -465,12 +506,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         execute = true;
 
                         // content height
-                        var content_height = self.$Elm.getSize().y -
-                            self.$Buttons.getSize().y -
-                            self.$Title.getSize().y;
+                        // var content_height = self.$Elm.getSize().y -
+                        //     self.$Buttons.getSize().y -
+                        //     self.$Title.getSize().y;
 
                         self.$Content.setStyles({
-                            height : content_height,
+                            // height : content_height,
                             opacity: null
                         });
 
@@ -637,10 +678,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
                 var containerHeight = self.$Title.getSize().y;
 
-                self.$Content.setStyle(
-                    'height',
-                    'calc(100% - ' + containerHeight + 'px)'
-                );
+                // self.$Content.setStyle(
+                //     'height',
+                //     'calc(100% - ' + containerHeight + 'px)'
+                // );
 
                 moofx(self.$Buttons).animate({
                     bottom: buttonHeight * -1
@@ -666,25 +707,25 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             return new Promise(function (resolve) {
                 self.$Buttons.setStyle('display', null);
                 self.$Buttons.setStyle('display', null);
-
-                var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
-
-                moofx(self.$Content).animate({
-                    height: 'calc(100% - ' + containerHeight + 'px)'
-                }, {
-                    duration: 200,
-                    callback: function () {
-                        self.$Buttons.setStyle('position', 'absolute');
-
-                        moofx(self.$Buttons).animate({
-                            bottom: 0
-                        }, {
-                            callback: function () {
-                                resolve();
-                            }
-                        });
-                    }
-                });
+                resolve();
+                // var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+                //
+                // moofx(self.$Content).animate({
+                //     height: 'calc(100% - ' + containerHeight + 'px)'
+                // }, {
+                //     duration: 200,
+                //     callback: function () {
+                //         self.$Buttons.setStyle('position', 'absolute');
+                //
+                //         moofx(self.$Buttons).animate({
+                //             bottom: 0
+                //         }, {
+                //             callback: function () {
+                //                 resolve();
+                //             }
+                //         });
+                //     }
+                // });
             });
         },
 
@@ -748,16 +789,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var Sheet = new Element('div', {
                 'class': 'qui-window-popup-sheet box',
                 html   : '<div class="qui-window-popup-sheet-content box"></div>' +
-                '<div class="qui-window-popup-sheet-buttons box">' +
-                '<div class="back button btn-white">' +
-                '<span>' +
-                Locale.get(
-                    'qui/controls/windows/Popup',
-                    'btn.back'
-                ) +
-                '</span>' +
-                '</div>' +
-                '</div>',
+                    '<div class="qui-window-popup-sheet-buttons box">' +
+                    '<div class="back button btn-white">' +
+                    '<span>' +
+                    Locale.get(
+                        'qui/controls/windows/Popup',
+                        'btn.back'
+                    ) +
+                    '</span>' +
+                    '</div>' +
+                    '</div>',
                 styles : {
                     left: '-110%'
                 }
@@ -796,6 +837,151 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     onfinish(Content, Sheet);
                 }
             });
+        },
+
+        //region drag drop
+
+        /**
+         * event: mouse down - if window has draggable true
+         * @param e
+         */
+        $dragMouseDown: function (e) {
+            e.stop();
+
+            var elmPos  = this.$Elm.getPosition();
+            var elmSize = this.$Elm.getSize();
+            var winSize = QUI.getWindowSize();
+
+            this.$draging            = true;
+            this.$dragStartMousePosX = e.client.x;
+            this.$dragStartMousePosY = e.client.y;
+
+            this.$dragStartElmPosX = elmPos.x;
+            this.$dragStartElmPosY = elmPos.y;
+
+            // detect max movement
+            this.$dragMaxX = winSize.x - elmSize.x;
+            this.$dragMaxY = winSize.y - elmSize.y;
+
+            document.addEvent('mousemove', this.$dragMouseMove);
+            document.addEvent('mouseup', this.$dragMouseUp);
+        },
+
+        /**
+         * event: mouse move - if window has draggable true
+         * @param e
+         */
+        $dragMouseMove: function (e) {
+            if (this.$draging === false) {
+                return;
+            }
+
+            e.stop();
+            var mouseX = this.$dragStartMousePosX - e.client.x;
+            var mouseY = this.$dragStartMousePosY - e.client.y;
+
+            var diffX = this.$dragStartElmPosX - mouseX;
+            var diffY = this.$dragStartElmPosY - mouseY;
+
+            if (diffX < 0) {
+                diffX = 0;
+            } else if (diffX > this.$dragMaxX) {
+                diffX = this.$dragMaxX;
+            }
+
+            if (diffY < 0) {
+                diffY = 0;
+            } else if (diffY > this.$dragMaxY) {
+                diffY = this.$dragMaxY;
+            }
+
+            this.$Elm.setStyles({
+                left: diffX,
+                top : diffY
+            });
+        },
+
+        /**
+         * event: mouse move - if window has draggable true
+         */
+        $dragMouseUp: function () {
+            this.$draging = false;
+
+            document.removeEvent('mousemove', this.$dragMouseMove);
+            document.removeEvent('mouseup', this.$dragMouseUp);
+        },
+
+        //endregion
+
+        //region resize
+
+        /**
+         * event: mose down -> if window is resizable
+         * @param e
+         */
+        $resizeMouseDown: function (e) {
+            e.stop();
+
+            var elmSize = this.$Elm.getSize();
+
+            this.$resizing           = true;
+            this.$dragStartMousePosX = e.client.x;
+            this.$dragStartMousePosY = e.client.y;
+
+            this.$resizeElmSizeX   = elmSize.x;
+            this.$resizeElmSizeY   = elmSize.y;
+            this.$resizeOpeneningX = this.getOpeningWidth();
+            this.$resizeOpeneningY = this.getOpeningHeight();
+
+            document.addEvent('mousemove', this.$resizeMouseMove);
+            document.addEvent('mouseup', this.$resizeMouseUp);
+        },
+
+        /**
+         * event: mose move -> if window is resizable
+         * @param e
+         */
+        $resizeMouseMove: function (e) {
+            if (this.$resizing === false) {
+                return;
+            }
+
+            e.stop();
+
+            var width, height, x, y;
+
+            x = e.client.x;
+            y = e.client.y;
+
+            var diffX = x - this.$dragStartMousePosX;
+            var diffY = y - this.$dragStartMousePosY;
+
+            width  = parseInt(this.$resizeElmSizeX + diffX);
+            height = parseInt(this.$resizeElmSizeY + diffY);
+
+            if (width < this.$resizeOpeneningX) {
+                width = this.$resizeOpeneningX;
+            }
+
+            if (height < this.$resizeOpeneningY) {
+                height = this.$resizeOpeneningY;
+            }
+
+            this.$Elm.setStyles({
+                width : width,
+                height: height
+            });
+        },
+
+        /**
+         * event: mose move -> if window is resizable
+         * @param e
+         */
+        $resizeMouseUp: function (e) {
+            this.$resizing = false;
+
+            document.removeEvent('mousemove', this.$dragMouseMove);
+            document.removeEvent('mouseup', this.$dragMouseUp);
         }
     });
 });
