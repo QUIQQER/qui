@@ -81,7 +81,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
             titleCloseButton: true,  // {bool} show the title close button
             draggable       : true,
-            resizable       : false   // works only with buttons: true
+            resizable       : true   // works only with buttons: true
         },
 
         initialize: function (options) {
@@ -243,25 +243,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
                     Submit.inject(this.$Buttons);
                 }
-
-                if (this.getAttribute('resizable')) {
-                    new Element('div', {
-                        html  : '<span class="fa fa-expand fa-flip-vertical"></span>',
-                        styles: {
-                            bottom    : 0,
-                            cursor    : 'se-resize',
-                            height    : 30,
-                            lineHeight: 30,
-                            position  : 'absolute',
-                            right     : 0,
-                            textAlign : 'center',
-                            width     : 30
-                        },
-                        events: {
-                            mousedown: this.$resizeMouseDown
-                        }
-                    }).inject(this.$Buttons);
-                }
             } else {
                 this.$Buttons.setStyle('display', 'none');
             }
@@ -275,6 +256,31 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             this.Loader.inject(this.$Elm);
+
+            var isTouch = (('ontouchstart' in window)
+                || (navigator.maxTouchPoints > 0)
+                || (navigator.msMaxTouchPoints > 0));
+
+            if (this.getAttribute('resizable') && !isTouch) {
+                new Element('div', {
+                    html  : '◢',
+                    styles: {
+                        bottom    : 0,
+                        color     : '#bcbcbc',
+                        cursor    : 'se-resize',
+                        height    : 20,
+                        lineHeight: 20,
+                        position  : 'absolute',
+                        right     : 0,
+                        textAlign : 'center',
+                        width     : 16,
+                        zIndex    : 10
+                    },
+                    events: {
+                        mousedown: this.$resizeMouseDown
+                    }
+                }).inject(this.$Elm);
+            }
 
             this.fireEvent('create', [this]);
 
@@ -861,7 +867,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             // detect max movement
             this.$dragMaxX = winSize.x - elmSize.x;
-            this.$dragMaxY = winSize.y - elmSize.y;
+            this.$dragMaxY = winSize.y - this.$Title.getSize().y;
 
             document.addEvent('mousemove', this.$dragMouseMove);
             document.addEvent('mouseup', this.$dragMouseUp);
