@@ -60,7 +60,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             'cancel',
             '$dragMouseDown',
             '$dragMouseMove',
-            '$dragMouseUp'
+            '$dragMouseUp',
+            '$resizeMouseDown',
+            '$resizeMouseMove',
+            '$resizeMouseUp'
         ],
 
         options: {
@@ -77,7 +80,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             closeButton     : true, // {bool} show the close button
             closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
             titleCloseButton: true,  // {bool} show the title close button
-            draggable       : true
+            draggable       : true,
+            resizable       : true   // works only with buttons: true
         },
 
         initialize: function (options) {
@@ -238,6 +242,25 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     });
 
                     Submit.inject(this.$Buttons);
+                }
+
+                if (this.getAttribute('resizable')) {
+                    new Element('div', {
+                        html  : '<span class="fa fa-expand fa-flip-vertical"></span>',
+                        styles: {
+                            bottom    : 0,
+                            cursor    : 'se-resize',
+                            height    : 30,
+                            lineHeight: 30,
+                            position  : 'absolute',
+                            right     : 0,
+                            textAlign : 'center',
+                            width     : 30
+                        },
+                        events: {
+                            mousedown: this.$resizeMouseDown
+                        }
+                    }).inject(this.$Buttons);
                 }
             } else {
                 this.$Buttons.setStyle('display', 'none');
@@ -462,11 +485,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             // content height
-            var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+            // var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
 
-            self.$Content.setStyles({
-                height: 'calc(100% - ' + containerHeight + 'px)'
-            });
+            // self.$Content.setStyles({
+            //     height: 'calc(100% - ' + containerHeight + 'px)'
+            // });
 
             return new Promise(function (resolve) {
                 var execute = false;
@@ -483,12 +506,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         execute = true;
 
                         // content height
-                        var content_height = self.$Elm.getSize().y -
-                            self.$Buttons.getSize().y -
-                            self.$Title.getSize().y;
+                        // var content_height = self.$Elm.getSize().y -
+                        //     self.$Buttons.getSize().y -
+                        //     self.$Title.getSize().y;
 
                         self.$Content.setStyles({
-                            height : content_height,
+                            // height : content_height,
                             opacity: null
                         });
 
@@ -655,10 +678,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
                 var containerHeight = self.$Title.getSize().y;
 
-                self.$Content.setStyle(
-                    'height',
-                    'calc(100% - ' + containerHeight + 'px)'
-                );
+                // self.$Content.setStyle(
+                //     'height',
+                //     'calc(100% - ' + containerHeight + 'px)'
+                // );
 
                 moofx(self.$Buttons).animate({
                     bottom: buttonHeight * -1
@@ -684,25 +707,25 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             return new Promise(function (resolve) {
                 self.$Buttons.setStyle('display', null);
                 self.$Buttons.setStyle('display', null);
-
-                var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
-
-                moofx(self.$Content).animate({
-                    height: 'calc(100% - ' + containerHeight + 'px)'
-                }, {
-                    duration: 200,
-                    callback: function () {
-                        self.$Buttons.setStyle('position', 'absolute');
-
-                        moofx(self.$Buttons).animate({
-                            bottom: 0
-                        }, {
-                            callback: function () {
-                                resolve();
-                            }
-                        });
-                    }
-                });
+                resolve();
+                // var containerHeight = self.$Buttons.getSize().y + self.$Title.getSize().y;
+                //
+                // moofx(self.$Content).animate({
+                //     height: 'calc(100% - ' + containerHeight + 'px)'
+                // }, {
+                //     duration: 200,
+                //     callback: function () {
+                //         self.$Buttons.setStyle('position', 'absolute');
+                //
+                //         moofx(self.$Buttons).animate({
+                //             bottom: 0
+                //         }, {
+                //             callback: function () {
+                //                 resolve();
+                //             }
+                //         });
+                //     }
+                // });
             });
         },
 
@@ -880,10 +903,82 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
         /**
          * event: mouse move - if window has draggable true
+         */
+        $dragMouseUp: function () {
+            this.$draging = false;
+
+            document.removeEvent('mousemove', this.$dragMouseMove);
+            document.removeEvent('mouseup', this.$dragMouseUp);
+        },
+
+        //endregion
+
+        //region resize
+
+        /**
+         * event: mose down -> if window is resizable
          * @param e
          */
-        $dragMouseUp: function (e) {
-            this.$draging = false;
+        $resizeMouseDown: function (e) {
+            e.stop();
+
+            var elmSize = this.$Elm.getSize();
+
+            this.$resizing           = true;
+            this.$dragStartMousePosX = e.client.x;
+            this.$dragStartMousePosY = e.client.y;
+
+            this.$resizeElmSizeX   = elmSize.x;
+            this.$resizeElmSizeY   = elmSize.y;
+            this.$resizeOpeneningX = this.getOpeningWidth();
+            this.$resizeOpeneningY = this.getOpeningHeight();
+
+            document.addEvent('mousemove', this.$resizeMouseMove);
+            document.addEvent('mouseup', this.$resizeMouseUp);
+        },
+
+        /**
+         * event: mose move -> if window is resizable
+         * @param e
+         */
+        $resizeMouseMove: function (e) {
+            if (this.$resizing === false) {
+                return;
+            }
+
+            e.stop();
+
+            var width, height, x, y;
+
+            x = e.client.x;
+            y = e.client.y;
+
+            var diffX = x - this.$dragStartMousePosX;
+            var diffY = y - this.$dragStartMousePosY;
+
+            width  = parseInt(this.$resizeElmSizeX + diffX);
+            height = parseInt(this.$resizeElmSizeY + diffY);
+
+            if (width < this.$resizeOpeneningX) {
+                width = this.$resizeOpeneningX;
+            }
+
+            if (height < this.$resizeOpeneningY) {
+                height = this.$resizeOpeneningY;
+            }
+
+            this.$Elm.setStyles({
+                width : width,
+                height: height
+            });
+        },
+
+        /**
+         * event: mose move -> if window is resizable
+         * @param e
+         */
+        $resizeMouseUp: function (e) {
+            this.$resizing = false;
 
             document.removeEvent('mousemove', this.$dragMouseMove);
             document.removeEvent('mouseup', this.$dragMouseUp);

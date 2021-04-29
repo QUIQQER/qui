@@ -2,6 +2,8 @@
 
 .qui-window-popup {
     background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     position: fixed;
     top: 50px;
@@ -56,6 +58,7 @@
 .qui-window-popup-sheet-content {
     clear: both;
     float: left;
+    flex-grow: 1;
     overflow: auto;
     outline: none;
     padding: 20px;
