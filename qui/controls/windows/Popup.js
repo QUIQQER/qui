@@ -935,6 +935,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             document.addEvent('mousemove', this.$resizeMouseMove);
             document.addEvent('mouseup', this.$resizeMouseUp);
+
+            this.fireEvent('resizeBegin', [this]);
         },
 
         /**
@@ -982,6 +984,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             document.removeEvent('mousemove', this.$dragMouseMove);
             document.removeEvent('mouseup', this.$dragMouseUp);
+
+            this.fireEvent('resize', [this]);
         }
     });
 });
