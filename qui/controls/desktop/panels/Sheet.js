@@ -4,12 +4,6 @@
  * @module qui/controls/desktop/panels/Sheet
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/controls/buttons/Button
- * @require qui/utils/Controls
- * @require css!qui/controls/desktop/panels/Sheet.css
- *
  * @event onOpen [this]
  * @event onClose [this]
  * @event onResize [this]
@@ -86,13 +80,13 @@ define('qui/controls/desktop/panels/Sheet', [
                 'data-quiid': this.getId(),
 
                 html: '<div class="qui-panel-sheet-header box">' +
-                '     <div class="qui-panel-sheet-header-icon"></div>' +
-                '     <div class="qui-panel-sheet-header-title"></div>' +
-                '</div>' +
-                '<div class="qui-panel-sheet-body box"></div>' +
-                '<div class="qui-panel-sheet-btn-container box">' +
-                '<div class="qui-panel-sheet-buttons"></div>' +
-                '</div>',
+                    '     <div class="qui-panel-sheet-header-icon"></div>' +
+                    '     <div class="qui-panel-sheet-header-title"></div>' +
+                    '</div>' +
+                    '<div class="qui-panel-sheet-body box"></div>' +
+                    '<div class="qui-panel-sheet-btn-container box">' +
+                    '<div class="qui-panel-sheet-buttons"></div>' +
+                    '</div>',
 
                 styles: {
                     visibility: 'hidden',
@@ -175,6 +169,14 @@ define('qui/controls/desktop/panels/Sheet', [
          * resize the sheet
          */
         resize: function () {
+            if (!this.getElm()) {
+                return;
+            }
+
+            if (!this.getElm().getParent()) {
+                return;
+            }
+
             var Elm    = this.getElm(),
                 Parent = Elm.getParent(),
                 size   = Parent.getSize();
