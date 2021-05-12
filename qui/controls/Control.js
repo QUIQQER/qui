@@ -54,8 +54,6 @@ define('qui/controls/Control', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$inserted = false;
-
             QUI.Controls.add(this);
             QUI.Controls.ElementQueries.update();
         },
@@ -122,21 +120,25 @@ define('qui/controls/Control', [
          * @return {Object} qui/controls/Control
          */
         inject: function (Parent, pos) {
-            if (this.$inserted) {
-                return this;
-            }
-
-            this.$inserted = true;
             this.fireEvent('drawBegin', [this]);
 
             if (typeof this.$Elm === 'undefined' || !this.$Elm) {
                 this.$Elm = this.create();
             }
 
+            if (this.$Elm.getParent() === Parent) {
+                return this;
+            }
+
             if (typeof QUI !== 'undefined' &&
                 typeof QUI.Controls !== 'undefined' &&
                 QUI.Controls.isControl(Parent)) {
                 // QUI Control insertion
+
+                if (this.$Elm.getParent() === Parent.getElm()) {
+                    return this;
+                }
+
                 Parent.appendChild(this);
             } else {
                 // DOMNode insertion
@@ -173,12 +175,7 @@ define('qui/controls/Control', [
          * @return {Object} qui/controls/Control
          */
         imports: function (Elm) {
-            if (this.$inserted) {
-                return this;
-            }
-
-            this.$inserted = true;
-            this.$Elm      = Elm;
+            this.$Elm = Elm;
 
             this.$readDataOptions(Elm);
 
@@ -207,12 +204,6 @@ define('qui/controls/Control', [
             if (this.$Elm) {
                 return this.$Elm;
             }
-
-            if (this.$inserted) {
-                return this.$Elm;
-            }
-
-            this.$inserted = true;
 
             if (typeof Elm.styles !== 'undefined') {
                 this.setAttribute('styles', Elm.styles);
