@@ -134,6 +134,18 @@ define('qui/controls/desktop/Panel', [
         },
 
         /**
+         * Return ToolTip Text
+         * Can be overwritten
+         *
+         * @return {Promise}
+         */
+        getToolTipText: function () {
+            return new Promise(function (resolve) {
+                resolve(this.getAttribute('description'));
+            }.bind(this));
+        },
+
+        /**
          * Create the DOMNode Element for the panel
          *
          * @method qui/controls/desktop/Panel#create

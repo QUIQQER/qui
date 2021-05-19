@@ -99,6 +99,19 @@ define('qui/controls/taskbar/Task', [
         },
 
         /**
+         * Return the ToolTip Text
+         *
+         * @return {Promise}
+         */
+        getToolTipText: function () {
+            if (typeof this.$Instance.getToolTipText !== 'undefined') {
+                return this.$Instance.getToolTipText();
+            }
+
+            return Promise.resolve(this.getDescription());
+        },
+
+        /**
          * Return the save date, eq for the workspace
          *
          * @method qui/controls/taskbar/Task#serialize
@@ -133,7 +146,6 @@ define('qui/controls/taskbar/Task', [
                 Instance.unserialize(data.instance);
 
                 this.initialize(Instance, data.attributes);
-
             }.bind(this));
         },
 
@@ -265,6 +277,8 @@ define('qui/controls/taskbar/Task', [
 
             this.refresh();
 
+            QUI.fireEvent('quiTaskBarTaskCreate', [this]);
+
             return this.$Elm;
         },
 
@@ -314,7 +328,6 @@ define('qui/controls/taskbar/Task', [
             Text.set('html', text);
 
             if (this.getInstance() && this.getInstance().getAttribute('displayNoTaskText')) {
-
                 Text.setStyle('display', 'none');
 
                 this.getElm().setStyles({
@@ -322,9 +335,7 @@ define('qui/controls/taskbar/Task', [
                     maxWidth: 40,
                     minWidth: 40
                 });
-
             } else {
-
                 Text.setStyle('display', null);
 
                 this.getElm().setStyles({
@@ -332,7 +343,6 @@ define('qui/controls/taskbar/Task', [
                     maxWidth: null,
                     minWidth: null
                 });
-
             }
 
             this.fireEvent('refresh', [this]);
