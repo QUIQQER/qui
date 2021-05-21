@@ -11,10 +11,10 @@ define('qui/controls/input/Range', [
 
     'qui/QUI',
     'qui/controls/Control',
-    URL_OPT_DIR + 'bin/nouislider/distribute/nouislider.min.js',
+    URL_OPT_DIR + 'bin/nouislider/dist/nouislider.js',
 
     'css!qui/controls/input/Range.css',
-    'css!' + URL_OPT_DIR + 'bin/nouislider/distribute/nouislider.min.css'
+    'css!' + URL_OPT_DIR + 'bin/nouislider/dist/nouislider.css'
 
 ], function (QUI, QUIControl, noUiSlider) {
     "use strict";
@@ -41,8 +41,8 @@ define('qui/controls/input/Range', [
             snap     : false,  // When a non-linear slider has been configured,
                                // the snap option can be set to true
                                // to force the slider to jump between the specified values.
-            connect  : true,   // Display a colored bar between the handles
-            pips     : {}      // Displays pipes and ranges for the slider
+            connect: true,   // Display a colored bar between the handles
+            pips   : {}      // Displays pipes and ranges for the slider
         },
 
         initialize: function (options) {
@@ -120,7 +120,7 @@ define('qui/controls/input/Range', [
 
             var timerChangeEvent = null;
             var fireChangeEvent  = function () {
-                this.fireEvent('change');
+                this.fireEvent('change', [this]);
             }.bind(this);
 
             this.$BarContainer.noUiSlider.on('update', function (values, handle) {
@@ -169,7 +169,7 @@ define('qui/controls/input/Range', [
         setValue: function (value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set(value);
-                this.fireEvent('change');
+                this.fireEvent('change', [this]);
             }
         },
 
@@ -181,7 +181,7 @@ define('qui/controls/input/Range', [
         setFrom: function (value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set([null, value]);
-                this.fireEvent('change');
+                this.fireEvent('change', [this]);
             }
         },
 
@@ -193,7 +193,7 @@ define('qui/controls/input/Range', [
         setTo: function (value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set([value, null]);
-                this.fireEvent('change');
+                this.fireEvent('change', [this]);
             }
         },
 

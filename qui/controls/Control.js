@@ -126,10 +126,19 @@ define('qui/controls/Control', [
                 this.$Elm = this.create();
             }
 
+            if (this.$Elm.getParent() === Parent) {
+                return this;
+            }
+
             if (typeof QUI !== 'undefined' &&
                 typeof QUI.Controls !== 'undefined' &&
                 QUI.Controls.isControl(Parent)) {
                 // QUI Control insertion
+
+                if (this.$Elm.getParent() === Parent.getElm()) {
+                    return this;
+                }
+
                 Parent.appendChild(this);
             } else {
                 // DOMNode insertion

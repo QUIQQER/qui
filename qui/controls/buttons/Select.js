@@ -1129,6 +1129,8 @@ define('qui/controls/buttons/Select', [
                             return !Child.isHidden();
                         });
 
+                        self.$Menu.resize();
+
                         if (!displayedOne) {
                             self.$Menu.hide();
                             return;
