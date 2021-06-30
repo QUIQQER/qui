@@ -636,6 +636,46 @@ define('qui/controls/windows/Popup', needle, function (QUI,
         },
 
         /**
+         * Return the title DOMNode
+         *
+         * @method qui/controls/windows/Popup#getContent
+         * @return {HTMLElement} DIV
+         */
+        getTitle: function () {
+            return this.$Title;
+        },
+
+        /**
+         * set the title of the popup
+         *
+         * @method qui/controls/windows/Popup#setContent
+         * @return {String} html
+         */
+        setTitle: function (html) {
+            this.getTitle().set('html', html);
+        },
+
+        /**
+         * Return the title text DOMNode
+         *
+         * @method qui/controls/windows/Popup#getContent
+         * @return {HTMLElement} DIV
+         */
+        getTitleText: function () {
+            return this.$TitleText;
+        },
+
+        /**
+         * set the title text of the popup
+         *
+         * @method qui/controls/windows/Popup#setContent
+         * @return {String} html
+         */
+        setTitleText: function (html) {
+            this.getTitleText().set('html', html);
+        },
+
+        /**
          * Add a Element to the button bar
          *
          * @method qui/controls/windows/Popup#addButton
