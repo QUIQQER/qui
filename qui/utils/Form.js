@@ -168,16 +168,16 @@ define('qui/utils/Form', {
                             }
                         }
                     } else {
-                        if (elementValue !== false && elementValue !== true) {
-                            elementValue = !!parseInt(elementValue);
-                        }
-
-                        if (k.endsWith('[]')) {
-                            if (Elm.value == elementValue) {
-                                Elm.checked = elementValue;
+                        if (Elm.type === 'checkbox') {
+                            if (elementValue !== false && elementValue !== true) {
+                                elementValue = !!parseInt(elementValue);
                             }
-                        } else {
+
                             Elm.checked = elementValue;
+                        } else {
+                            if (Elm.value == elementValue) {
+                                Elm.checked = true;
+                            }
                         }
                     }
 
