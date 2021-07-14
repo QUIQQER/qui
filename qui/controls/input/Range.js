@@ -14,7 +14,7 @@ define('qui/controls/input/Range', [
     URL_OPT_DIR + 'bin/quiqqer-asset/nouislider/nouislider/dist/nouislider.js',
 
     'css!qui/controls/input/Range.css',
-    'css!' + URL_OPT_DIR + 'bin/quiqqer-asset/nouislider/dist/nouislider.css'
+    'css!' + URL_OPT_DIR + 'bin/quiqqer-asset/nouislider/nouislider/dist/nouislider.css'
 
 ], function (QUI, QUIControl, noUiSlider) {
     "use strict";
