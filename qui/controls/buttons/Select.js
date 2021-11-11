@@ -930,6 +930,10 @@ define('qui/controls/buttons/Select', [
         $onItemChange: function (Item) {
             let value = Item.getAttribute('value');
 
+            if (!this.$value) {
+                this.$value = [];
+            }
+
             if (!Item.isChecked()) {
                 this.$value.erase(value);
                 return;
