@@ -439,8 +439,13 @@ define('qui/controls/buttons/Select', [
         /**
          * Set multiple values
          * @param {Array} values
+         * @param {Boolean} silently - default = false, if silently = true, no events are triggered
          */
-        setValues: function (values) {
+        setValues: function (values, silently) {
+            if (typeof silently === 'undefined') {
+                silently = false;
+            }
+
             let i, len;
             let children  = this.$Menu.getChildren(),
                 valueList = {};
@@ -449,16 +454,23 @@ define('qui/controls/buttons/Select', [
                 valueList[values[i]] = true;
             }
 
+            let realValues = [];
+
             for (i = 0, len = children.length; i < len; i++) {
                 if (children[i].getAttribute('value') in valueList) {
                     children[i].check();
+                    realValues.push(children[i].getAttribute('value'));
                 } else {
                     children[i].uncheck();
                 }
             }
 
-            this.$value = values;
-            this.fireEvent('change', [this.$value, this]);
+            this.$value = realValues;
+            this.selectPlaceholder();
+
+            if (silently === false) {
+                this.fireEvent('change', [this.$value, this]);
+            }
         },
 
         /**
