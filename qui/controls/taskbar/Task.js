@@ -4,12 +4,6 @@
  * @module qui/controls/taskbar/Task
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require qui/QUI
- * @require qui/controls/Control
- * @require qui/classes/utils/DragDrop
- * @require qui/utils/Controls
- * @require css!qui/controls/taskbar/Task.css
- *
  * @event onClick [this, DOMEvent]
  * @event onActivate [this]
  * @event onNormalize [this]
@@ -60,7 +54,7 @@ define('qui/controls/taskbar/Task', [
             text     : '',
             cssClass : '',
             closeable: true,
-            dragable : true
+            dragable : true  // disabled at the moment
         },
 
         initialize: function (Instance, options) {
@@ -105,6 +99,19 @@ define('qui/controls/taskbar/Task', [
         },
 
         /**
+         * Return the ToolTip Text
+         *
+         * @return {Promise}
+         */
+        getToolTipText: function () {
+            if (typeof this.$Instance.getToolTipText !== 'undefined') {
+                return this.$Instance.getToolTipText();
+            }
+
+            return Promise.resolve(this.getDescription());
+        },
+
+        /**
          * Return the save date, eq for the workspace
          *
          * @method qui/controls/taskbar/Task#serialize
@@ -139,7 +146,6 @@ define('qui/controls/taskbar/Task', [
                 Instance.unserialize(data.instance);
 
                 this.initialize(Instance, data.attributes);
-
             }.bind(this));
         },
 
@@ -159,7 +165,7 @@ define('qui/controls/taskbar/Task', [
             this.$Elm = new Element('div', {
                 'class' : 'qui-task box',
                 html    : '<span class="qui-task-icon"></span>' +
-                          '<span class="qui-task-text"></span>',
+                    '<span class="qui-task-text"></span>',
                 styles  : {
                     outline: 'none'
                 },
@@ -186,11 +192,10 @@ define('qui/controls/taskbar/Task', [
                             self.click(event);
                         }
                     }
-
                 }
             });
 
-            if (this.getAttribute('dragable')) {
+            if (this.getAttribute('dragable') && false) {
                 var DragDropParent = null;
 
                 new QUIDragDrop(this.$Elm, {
@@ -272,6 +277,8 @@ define('qui/controls/taskbar/Task', [
 
             this.refresh();
 
+            QUI.fireEvent('quiTaskBarTaskCreate', [this]);
+
             return this.$Elm;
         },
 
@@ -321,7 +328,6 @@ define('qui/controls/taskbar/Task', [
             Text.set('html', text);
 
             if (this.getInstance() && this.getInstance().getAttribute('displayNoTaskText')) {
-
                 Text.setStyle('display', 'none');
 
                 this.getElm().setStyles({
@@ -329,9 +335,7 @@ define('qui/controls/taskbar/Task', [
                     maxWidth: 40,
                     minWidth: 40
                 });
-
             } else {
-
                 Text.setStyle('display', null);
 
                 this.getElm().setStyles({
@@ -339,7 +343,6 @@ define('qui/controls/taskbar/Task', [
                     maxWidth: null,
                     minWidth: null
                 });
-
             }
 
             this.fireEvent('refresh', [this]);
@@ -418,7 +421,7 @@ define('qui/controls/taskbar/Task', [
         getTaskbar: function () {
             var Taskbar = this.getParent();
 
-            if (typeOf(Taskbar) == "qui/controls/taskbar/Group") {
+            if (typeOf(Taskbar) === "qui/controls/taskbar/Group") {
                 Taskbar = Taskbar.getParent();
             }
 
@@ -529,6 +532,15 @@ define('qui/controls/taskbar/Task', [
          * @return {Object} this (qui/controls/taskbar/Task)
          */
         click: function (event) {
+            // if close is clicked
+            if (typeOf(event) === 'domevent') {
+                var Target = event.target;
+
+                if (Target.hasClass('qui-task-close') || Target.getParent('.qui-task-close')) {
+                    return;
+                }
+            }
+
             this.fireEvent('click', [this, event]);
 
             if (!this.isActive()) {
@@ -545,6 +557,10 @@ define('qui/controls/taskbar/Task', [
          * @return {Object} this (qui/controls/taskbar/Task)
          */
         close: function (event) {
+            if (typeOf(event) === 'domevent') {
+                event.stop();
+            }
+
             this.fireEvent('close', [this, event]);
             this.destroy();
 

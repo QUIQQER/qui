@@ -109,10 +109,8 @@ define('qui/classes/QUI', [
 
             // error handling
             if (this.getAttribute('fetchErrors')) {
-                var self = this;
-
-                require.onError = function (requireType, requireModules) {
-                    self.trigger(
+                require.onError = (requireType, requireModules) => {
+                    this.trigger(
                         'ERROR :' + requireType + '\n' +
                         'Require :' + requireModules
                     );
@@ -125,7 +123,7 @@ define('qui/classes/QUI', [
             this.Windows  = new Windows();
             this.Storage  = new Storage();
 
-            var Ghost = new Element('div', {
+            const Ghost = new Element('div', {
                 styles: {
                     background: 'transparent',
                     display   : 'none',
@@ -140,10 +138,10 @@ define('qui/classes/QUI', [
 
             // global resize event
             if (typeof window !== 'undefined') {
-                var win  = document.id(window);
-                var body = document.id(document.body);
+                let win  = document.id(window);
+                let body = document.id(document.body);
 
-                win.requestAnimationFrame(function () {
+                win.requestAnimationFrame(() => {
                     Ghost.setStyle('display', null);
                     this.$winSize = Ghost.getSize();
                     Ghost.setStyle('display', 'none');
@@ -158,9 +156,9 @@ define('qui/classes/QUI', [
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
                     }
-                }.bind(this));
+                });
 
-                win.addEvent('resize', QUIFunctionUtils.debounce(function () {
+                win.addEvent('resize', QUIFunctionUtils.debounce(() => {
                     win.requestAnimationFrame(function () {
                         if (typeof body === 'undefined' || !body) {
                             body = document.id(document.body);
@@ -180,9 +178,9 @@ define('qui/classes/QUI', [
 
                         this.fireEvent('resize', [this]);
                     }.bind(this));
-                }.bind(this), 100));
+                }, 100));
 
-                win.addEvent('domready', function () {
+                win.addEvent('domready', () => {
                     Ghost.inject(document.body);
                     Ghost.setStyle('display', null);
                     this.$winSize = Ghost.getSize();
@@ -200,15 +198,15 @@ define('qui/classes/QUI', [
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
                         this.$winSize = document.getSize();
                     }
-                }.bind(this));
+                });
 
                 // scroll events
-                var scrollDelay        = 200;
-                var isScrollingTimeout = null;
+                let scrollDelay        = 200;
+                let isScrollingTimeout = null;
 
                 if ("addEventListener" in win) {
-                    win.addEventListener('scroll', function () {
-                        win.requestAnimationFrame(function () {
+                    win.addEventListener('scroll', () => {
+                        win.requestAnimationFrame(() => {
                             this.$isScrolling = true;
                             this.$winScroll   = win.getScroll();
                             this.fireEvent('scroll');
@@ -218,20 +216,20 @@ define('qui/classes/QUI', [
                                 clearTimeout(isScrollingTimeout);
                             }
 
-                            isScrollingTimeout = (function () {
+                            isScrollingTimeout = (() => {
                                 this.$isScrolling = false;
                                 this.fireEvent('scrollEnd');
                             }).delay(scrollDelay, this);
 
-                        }.bind(this));
-                    }.bind(this), {
+                        });
+                    }, {
                         passive: true,
                         capture: true,
                         once   : false
                     });
                 } else if ("attachEvent" in win) {
-                    win.attachEvent('scroll', function () {
-                        win.requestAnimationFrame(function () {
+                    win.attachEvent('scroll', () => {
+                        win.requestAnimationFrame(() => {
                             this.$isScrolling = true;
                             this.$winScroll   = win.getScroll();
                             this.fireEvent('scroll');
@@ -241,12 +239,12 @@ define('qui/classes/QUI', [
                                 clearTimeout(isScrollingTimeout);
                             }
 
-                            isScrollingTimeout = (function () {
+                            isScrollingTimeout = (() => {
                                 this.$isScrolling = false;
                                 this.fireEvent('scrollEnd');
                             }).delay(scrollDelay, this);
-                        }.bind(this));
-                    }.bind(this));
+                        });
+                    });
                 }
             }
 
@@ -315,9 +313,9 @@ define('qui/classes/QUI', [
          * @deprecated
          */
         namespace: function () {
-            var tlen;
+            let tlen;
 
-            var a    = arguments,
+            let a    = arguments,
                 o    = this,
                 i    = 0,
                 j    = 0,
@@ -350,9 +348,9 @@ define('qui/classes/QUI', [
          * @return Promise
          */
         parse: function (Parent, callback) {
-            var self = this;
+            this.fireEvent('parseBegin', [this, Parent]);
 
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 if (typeof Parent === 'undefined') {
                     Parent = document.body;
                 }
@@ -370,7 +368,7 @@ define('qui/classes/QUI', [
                 }
 
                 // parse all qui controls
-                var nodes = [];
+                let nodes = [];
 
                 if (typeOf(Parent) === 'elements') {
                     Parent.getElements('[data-qui]').each(function (elements) {
@@ -382,7 +380,7 @@ define('qui/classes/QUI', [
                     nodes = document.id(Parent).getElements('[data-qui]');
                 }
 
-                var list = nodes.map(function (Elm) {
+                let list = nodes.map(function (Elm) {
                     return Elm.get('data-qui');
                 });
 
@@ -396,9 +394,9 @@ define('qui/classes/QUI', [
                 }).clean();
 
                 require(list, function () {
-                    var i, len, Cls, Elm;
+                    let i, len, Cls, Elm;
 
-                    var formNodes = {
+                    let formNodes = {
                         'TEXTAREA': true,
                         'INPUT'   : true,
                         'SELECT'  : true
@@ -437,13 +435,14 @@ define('qui/classes/QUI', [
                         }
                     }
 
+                    this.fireEvent('parse', [this, Parent]);
+
                     resolve();
 
                     if (typeof callback !== 'undefined') {
                         callback();
                     }
-
-                }, function (err) {
+                }.bind(this), function (err) {
                     reject(err);
                 });
             });
@@ -468,17 +467,12 @@ define('qui/classes/QUI', [
          *
          * @param {String} msg
          * @param {String} [url] - optional
-         * @param {Number} [linenumber] - optional
+         * @param {Number} [lineNumber] - optional
          *
          * @return {Object} this (qui/classes/QUI)
          */
-        trigger: function (msg, url, linenumber) {
-            /*
-             var message = msg +"\n"+
-             "File: "+ url +"\n"+
-             "Linenumber: "+ linenumber;
-             */
-            this.fireEvent('error', [msg, url, linenumber]);
+        trigger: function (msg, url, lineNumber) {
+            this.fireEvent('error', [msg, url, lineNumber]);
 
             return this;
         },
@@ -491,38 +485,36 @@ define('qui/classes/QUI', [
          * @return Promise
          */
         getMessageHandler: function (callback) {
-            var self = this;
-
-            return new Promise(function (resolve, reject) {
-                if (typeof self.$execGetMessageHandler !== 'undefined' && !self.MessageHandler) {
-                    self.$execGetMessageHandler = true;
+            return new Promise((resolve, reject) => {
+                if (typeof this.$execGetMessageHandler !== 'undefined' && !this.MessageHandler) {
+                    this.$execGetMessageHandler = true;
 
                     (function () {
-                        self.getMessageHandler(callback).then(resolve);
-                    }).delay(20, self);
+                        this.getMessageHandler(callback).then(resolve);
+                    }).delay(20, this);
 
                     return;
                 }
 
-                self.$execGetMessageHandler = true;
+                this.$execGetMessageHandler = true;
 
-                if (self.MessageHandler) {
+                if (this.MessageHandler) {
                     if (typeOf(callback) === 'function') {
-                        callback(self.MessageHandler);
+                        callback(this.MessageHandler);
                     }
 
-                    resolve(self.MessageHandler);
+                    resolve(this.MessageHandler);
                     return;
                 }
 
-                require(['qui/controls/messages/Handler'], function (Handler) {
-                    self.MessageHandler = new Handler();
+                require(['qui/controls/messages/Handler'], (Handler) => {
+                    this.MessageHandler = new Handler();
 
                     if (typeOf(callback) === 'function') {
-                        callback(self.MessageHandler);
+                        callback(this.MessageHandler);
                     }
 
-                    resolve(self.MessageHandler);
+                    resolve(this.MessageHandler);
                 }, reject);
             });
         },
