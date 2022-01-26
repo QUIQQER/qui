@@ -227,11 +227,7 @@ define('qui/controls/elements/Select', [
 
             // load values
             if (this.$Input.value || this.$Input.value !== '') {
-                var values = this.$Input.value.split(',');
-
-                for (var i = 0, len = values.length; i < len; i++) {
-                    this.addItem(values[i]);
-                }
+                this.importValue(this.$Input.value);
             }
 
             this.fireEvent('create', [this]);
