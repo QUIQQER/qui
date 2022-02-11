@@ -41,15 +41,16 @@ define('qui/controls/input/Range', [
             snap     : false,  // When a non-linear slider has been configured,
                                // the snap option can be set to true
                                // to force the slider to jump between the specified values.
-            connect: true,   // Display a colored bar between the handles
-            pips   : {}      // Displays pipes and ranges for the slider
+            connect   : true,   // Display a colored bar between the handles
+            pips      : {},     // Displays pipes and ranges for the slider
+            background: '#d9232b'
         },
 
         initialize: function (options) {
             this.parent(options);
 
             this.$BarContainer = null;
-            this.$Text         = null;
+            this.$Text = null;
 
             this.$value = {
                 from: '',
@@ -74,7 +75,7 @@ define('qui/controls/input/Range', [
             );
 
             this.$BarContainer = this.$Elm.getElement('.qui-control-input-range-bar');
-            this.$Text         = this.$Elm.getElement('.qui-control-input-range-text');
+            this.$Text = this.$Elm.getElement('.qui-control-input-range-text');
 
             this.$value = {
                 from: this.getAttribute('min'),
@@ -92,7 +93,10 @@ define('qui/controls/input/Range', [
             }
 
             if (!start) {
-                start = [this.getAttribute('min'), this.getAttribute('max')];
+                start = [
+                    this.getAttribute('min'),
+                    this.getAttribute('max')
+                ];
             }
 
             var Pips = this.getAttribute('pips');
@@ -119,7 +123,7 @@ define('qui/controls/input/Range', [
             var Formatter = this.getAttribute('Formatter');
 
             var timerChangeEvent = null;
-            var fireChangeEvent  = function () {
+            var fireChangeEvent = function () {
                 this.fireEvent('change', [this]);
             }.bind(this);
 
@@ -145,7 +149,7 @@ define('qui/controls/input/Range', [
                 timerChangeEvent = fireChangeEvent.delay(200);
             }.bind(this));
 
-            this.$BarContainer.getElements('.noUi-connect').setStyle('background', '#d9232b');
+            this.$BarContainer.getElements('.noUi-connect').setStyle('background', this.getAttribute('background'));
 
             return this.$Elm;
         },
@@ -180,7 +184,10 @@ define('qui/controls/input/Range', [
          */
         setFrom: function (value) {
             if (this.$BarContainer.noUiSlider) {
-                this.$BarContainer.noUiSlider.set([null, value]);
+                this.$BarContainer.noUiSlider.set([
+                    null,
+                    value
+                ]);
                 this.fireEvent('change', [this]);
             }
         },
@@ -192,7 +199,10 @@ define('qui/controls/input/Range', [
          */
         setTo: function (value) {
             if (this.$BarContainer.noUiSlider) {
-                this.$BarContainer.noUiSlider.set([value, null]);
+                this.$BarContainer.noUiSlider.set([
+                    value,
+                    null
+                ]);
                 this.fireEvent('change', [this]);
             }
         },
