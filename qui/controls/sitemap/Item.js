@@ -388,7 +388,7 @@ define('qui/controls/sitemap/Item', [
                         break;
 
                     case 'before':
-                        Parent.$items.splice(index - 1, 0, Child);
+                        Parent.$items.splice(index, 0, Child);
                         Child.getElm().inject(this.getElm(), where);
                         break;
                 }
