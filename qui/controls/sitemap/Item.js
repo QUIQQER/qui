@@ -221,6 +221,15 @@ define('qui/controls/sitemap/Item', [
                 });
             }
 
+            if (this.$Children && this.$items.length) {
+                this.$Children.set('html', '');
+
+                for (let i = 0, len = this.$items.length; i < len; i++) {
+                    this.$items[i].inject(this.$Children);
+                    this.$items[i].refresh();
+                }
+            }
+
             if (!width) {
                 return this;
             }
