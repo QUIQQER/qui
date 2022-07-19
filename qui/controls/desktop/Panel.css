@@ -3,6 +3,8 @@
     background: #FFFFFF;
     border-radius: 3px;
     clear: both;
+    display: flex;
+    flex-wrap: wrap;
     float: left;
     outline: none;
     overflow: hidden;
@@ -14,6 +16,7 @@
     border-bottom: 2px solid #0069B4;
     background: #2F8FC6;
     color: #FFFFFF;
+    flex-grow: 1;
     font-size: 12px;
     height: 40px;
     line-height: 40px;
@@ -21,6 +24,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
     position: relative;
+    width: 100%;
 }
 
 .qui-panel-close {
@@ -129,6 +133,7 @@
 
 .qui-panel-buttons {
     background: #e1e4e9;
+    flex-grow: 1;
     height: 50px;
     position: relative;
     width: 100%;
