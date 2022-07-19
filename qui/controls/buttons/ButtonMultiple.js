@@ -35,12 +35,12 @@ define('qui/controls/buttons/ButtonMultiple', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$Menu              = null;
-            this.$Text              = null;
-            this.$TextImage         = null;
+            this.$Menu = null;
+            this.$Text = null;
+            this.$TextImage = null;
             this.$DropDownContainer = null;
 
-            this.$items    = [];
+            this.$items = [];
             this.$disabled = false;
 
             this.addEvents({
@@ -58,17 +58,17 @@ define('qui/controls/buttons/ButtonMultiple', [
                 'class'     : 'qui-button-multiple',
                 'data-quiid': this.getId(),
                 html        : '<button></button>' +
-                '<div class="qui-button-multiple-dd">' +
-                '    <div class="qui-button-multiple-dd-line"></div>' +
-                '    <span class="fa fa-angle-down"></span>' +
-                '</div>'
+                              '<div class="qui-button-multiple-dd">' +
+                              '    <div class="qui-button-multiple-dd-line"></div>' +
+                              '    <span class="fa fa-angle-down"></span>' +
+                              '</div>'
             });
 
             this.$Elm.style.outline = 0;
             this.$Elm.setAttribute('tabindex', "-1");
 
             // nodes
-            this.$Button            = this.$Elm.getElement('button');
+            this.$Button = this.$Elm.getElement('button');
             this.$DropDownContainer = this.$Elm.getElement('.qui-button-multiple-dd');
 
             this.$TextImage = new Element('div', {
@@ -125,9 +125,9 @@ define('qui/controls/buttons/ButtonMultiple', [
             // events
             this.$Elm.addEvents({
                 blur: function () {
-                    this.getMenu().then(function (Menu) {
+                    /*this.getMenu().then(function (Menu) {
                         Menu.hide();
-                    }.bind(this));
+                    }.bind(this));*/
                 }.bind(this)
             });
 
@@ -160,7 +160,10 @@ define('qui/controls/buttons/ButtonMultiple', [
             }
 
             this.getElm().addClass('qui-button--click');
-            this.fireEvent('click', [this, event]);
+            this.fireEvent('click', [
+                this,
+                event
+            ]);
 
             this.getElm().removeClass.delay(300, this.getElm(), 'qui-button--click');
         },
@@ -265,19 +268,22 @@ define('qui/controls/buttons/ButtonMultiple', [
                 return Promise.resolve(this.$Menu);
             }
 
-            return new Promise(function (resolve) {
-                require(['qui/controls/contextmenu/Menu'], function (Menu) {
+            return new Promise((resolve) => {
+                require(['qui/controls/contextmenu/Menu'], (Menu) => {
                     this.$Menu = new Menu({
                         name  : this.getAttribute('name') + '-menu',
                         corner: 'top'
                     });
 
+                    this.$Menu.addEvent('blur', () => {
+                        this.$Menu.hide();
+                    });
                     this.$Menu.inject(document.body);
                     this.$Menu.setParent(this);
 
                     resolve(this.$Menu);
-                }.bind(this));
-            }.bind(this));
+                });
+            });
 
             //
             //self.addEvents({
@@ -335,8 +341,7 @@ define('qui/controls/buttons/ButtonMultiple', [
                 );
 
                 Menu.show();
-
-                this.$Elm.focus();
+                Menu.focus();
             }.bind(this));
         },
 
