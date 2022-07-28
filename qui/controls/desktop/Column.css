@@ -33,7 +33,7 @@
 .qui-column-handle-enabled:hover {
     background: #C3C3C3 url('images/handle-icon.gif') center center no-repeat;
     border-color: #909090;
-    cursor : e-resize;
+    cursor: e-resize;
 }
 
 .qui-column-hor-handle,
@@ -121,3 +121,23 @@
     text-decoration: underline;
 }
 
+/** responsive display
+ * ============================================== */
+
+.qui-column-responsiveDisplay {
+    background: #526978;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.qui-column-responsiveDisplay-button {
+    display: block;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    width: 100%;
+}
