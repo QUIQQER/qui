@@ -147,7 +147,7 @@ define('qui/controls/desktop/Workspace', [
 
                 // if last panel, use rest size
                 if (i === len - 1 && availableWidth > width) {
-                    width = availableWidth;
+                    width = availableWidth - 4;
                 }
 
                 if (i !== 0) {
