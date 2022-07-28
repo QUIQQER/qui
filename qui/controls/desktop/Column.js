@@ -83,6 +83,7 @@ define('qui/controls/desktop/Column', [
             this.$Highlight = null;
             this.$Responsive = null;
 
+            this.$mode = '';
             this.$panels = {};
             this.$dragDrops = {};
 
@@ -844,7 +845,27 @@ define('qui/controls/desktop/Column', [
             const winWidth = QUI.getWindowSize().x;
 
             if (!this.isOpen()) {
-                if (this.$responsiveOpen === false && this.getAttribute('responsive') && winWidth >= RESPONSIVE_CUT) {                    // back to desktop
+                if (this.$responsiveOpen === false && this.getAttribute('responsive') && winWidth > RESPONSIVE_CUT) {                    // back to desktop
+                    this.$Elm.removeClass('qui-column--is-responsive');
+                    this.$Content.setStyle('display', null);
+                    this.$Responsive.setStyle('display', 'none');
+
+                    if (this.$mode === 'responsive') {
+                        let first = '';
+
+                        for (let i in this.$panels) {
+                            this.$panels[i].getElm().setStyle('height', null);
+                            this.$panels[i].minimize();
+
+                            if (first === '') {
+                                first = i;
+                            }
+                        }
+
+                        this.$panels[first].open();
+                    }
+
+                    this.$mode = 'desktop';
                 } else {
                     return this;
                 }
@@ -858,7 +879,9 @@ define('qui/controls/desktop/Column', [
             }
 
             if (this.$responsiveOpen === false && this.getAttribute('responsive')) {
-                if (winWidth < RESPONSIVE_CUT) {
+                this.$mode = 'responsive';
+
+                if (winWidth <= RESPONSIVE_CUT) {
                     if (this.getAttribute('originalWidth') !== RESPONSIVE_WIDTH) {
                         this.setAttribute('originalWidth', width);
                     }
@@ -869,9 +892,7 @@ define('qui/controls/desktop/Column', [
                     this.$Content.setStyle('display', 'none');
                     this.$Responsive.setStyle('display', null);
                 } else {
-                    this.$Elm.removeClass('qui-column--is-responsive');
-                    this.$Content.setStyle('display', null);
-                    this.$Responsive.setStyle('display', 'none');
+                    this.$mode = 'desktop';
 
                     if (width === RESPONSIVE_WIDTH) {
                         width = 350;
