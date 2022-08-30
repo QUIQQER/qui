@@ -215,6 +215,27 @@ define('qui/controls/desktop/Panel', [
         },
 
         /**
+         * @param Parent
+         * @param pos
+         */
+        inject: function (Parent, pos) {
+            this.parent(Parent, pos);
+
+            if (!QUI.getAttribute('quiqqer-panel-inject')) {
+                return;
+            }
+
+            this.Loader.show();
+            QUI.getAttribute('quiqqer-panel-inject')(this).then((categories) => {
+                categories.forEach((category) => {
+                    this.addCategory(category);
+                });
+
+                this.Loader.hide();
+            });
+        },
+
+        /**
          * Refresh the panel
          *
          * @method qui/controls/desktop/Panel#refresh
@@ -703,7 +724,7 @@ define('qui/controls/desktop/Panel', [
             Btn.addEvents({
 
                 onClick: function (Btn) {
-                    if (self.$ActiveCat && self.$ActiveCat == Btn) {
+                    if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
 
@@ -713,10 +734,14 @@ define('qui/controls/desktop/Panel', [
                     ]);
 
                     Btn.setActive();
+
+                    if (Btn.getAttribute('click') && typeof Btn.getAttribute('click') === 'function') {
+                        Btn.getAttribute('click')(self, Btn);
+                    }
                 },
 
                 onActive: function (Btn) {
-                    if (self.$ActiveCat && self.$ActiveCat == Btn) {
+                    if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
 
