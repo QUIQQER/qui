@@ -29,6 +29,10 @@ define('qui/controls/input/Range', [
         Extends: QUIControl,
         Type   : 'qui/controls/input/Range',
 
+        Binds: [
+            '$onImport'
+        ],
+
         options: {
             min      : 0,
             max      : 100,
@@ -51,6 +55,11 @@ define('qui/controls/input/Range', [
 
             this.$BarContainer = null;
             this.$Text = null;
+            this.$Input = null;
+
+            this.addEvents({
+                onImport: this.$onImport
+            });
 
             this.$value = {
                 from: '',
@@ -82,8 +91,8 @@ define('qui/controls/input/Range', [
                 to  : this.getAttribute('max')
             };
 
-            var range = this.getAttribute('range');
-            var start = this.getAttribute('start');
+            let range = this.getAttribute('range');
+            let start = this.getAttribute('start');
 
             if (!range) {
                 range = {
@@ -99,7 +108,7 @@ define('qui/controls/input/Range', [
                 ];
             }
 
-            var Pips = this.getAttribute('pips');
+            let Pips = this.getAttribute('pips');
 
             if (Object.keys(Pips).length === 0 && Pips.constructor === Object) {
                 Pips = null;
@@ -120,21 +129,27 @@ define('qui/controls/input/Range', [
                 return this.$Elm;
             }
 
-            var Formatter = this.getAttribute('Formatter');
+            const Formatter = this.getAttribute('Formatter');
 
-            var timerChangeEvent = null;
-            var fireChangeEvent = function () {
+            let timerChangeEvent = null;
+            const fireChangeEvent = function () {
                 this.fireEvent('change', [this]);
             }.bind(this);
 
-            this.$BarContainer.noUiSlider.on('update', function (values, handle) {
+            this.$BarContainer.noUiSlider.on('update', (values, handle) => {
+                const start = this.getAttribute('start');
+
                 if (handle) {
                     this.$value.to = values[handle];
                 } else {
                     this.$value.from = values[handle];
                 }
 
-                var message = 'From: ' + this.$value.from + ' to ' + this.$value.to;
+                let message = 'From: ' + this.$value.from + ' to ' + this.$value.to;
+
+                if (start.length === 1) {
+                    message = this.$value.from;
+                }
 
                 if (typeof Formatter === 'function') {
                     message = Formatter(this.$value);
@@ -147,11 +162,46 @@ define('qui/controls/input/Range', [
                 }
 
                 timerChangeEvent = fireChangeEvent.delay(200);
-            }.bind(this));
+
+                if (this.$Input.value) {
+                    if (start.length === 1) {
+                        this.$Input.value = this.$value.from;
+                    } else {
+                        this.$Input.value = JSON.stringify(this.getValue());
+                    }
+                }
+            });
 
             this.$BarContainer.getElements('.noUi-connect').setStyle('background', this.getAttribute('background'));
 
             return this.$Elm;
+        },
+
+        $onImport: function () {
+            this.$Input = this.getElm();
+            this.$Input.type = 'hidden';
+            const value = this.$Input.value;
+
+            this.$Elm = new Element('div').wraps(this.$Input);
+
+            if (this.$Input.hasClass('field-container-field')) {
+                this.$Elm.addClass('field-container-field');
+            }
+
+            if (this.$Input.getAttribute('data-qui-options-start')) {
+                this.setAttribute('start', JSON.decode(this.$Input.getAttribute('data-qui-options-start')));
+            }
+
+            this.create();
+            this.$Input.inject(this.$Elm);
+
+            const start = this.getAttribute('start');
+            
+            if (start.length) {
+                this.setTo(value);
+            } else {
+                this.setValue(value);
+            }
         },
 
         /**
