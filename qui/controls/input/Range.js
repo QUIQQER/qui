@@ -163,7 +163,7 @@ define('qui/controls/input/Range', [
 
                 timerChangeEvent = fireChangeEvent.delay(200);
 
-                if (this.$Input.value) {
+                if (this.$Input) {
                     if (start.length === 1) {
                         this.$Input.value = this.$value.from;
                     } else {
@@ -196,7 +196,7 @@ define('qui/controls/input/Range', [
             this.$Input.inject(this.$Elm);
 
             const start = this.getAttribute('start');
-            
+
             if (start.length) {
                 this.setTo(value);
             } else {
