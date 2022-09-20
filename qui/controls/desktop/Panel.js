@@ -222,10 +222,11 @@ define('qui/controls/desktop/Panel', [
             this.parent(Parent, pos);
 
             if (!QUI.getAttribute('quiqqer-panel-inject')) {
-                return;
+                return this;
             }
 
             this.Loader.show();
+            
             QUI.getAttribute('quiqqer-panel-inject')(this).then((categories) => {
                 categories.forEach((category) => {
                     this.addCategory(category);
@@ -233,6 +234,8 @@ define('qui/controls/desktop/Panel', [
 
                 this.Loader.hide();
             });
+
+            return this;
         },
 
         /**
