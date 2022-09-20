@@ -1,7 +1,7 @@
 {
     "name" : "qui",
     "description" : "QUI - MooTools AMD web components",
-    "version" : "dev-dev",
+    "version" : "1.5.0",
     "license" : "MIT",
 
     "authors" : [{
