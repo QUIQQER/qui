@@ -19,7 +19,7 @@ try {
         needle.push('qui/classes/storage/Polyfill');
     }
 } catch (e) {
-    console.error('Please allow cookies.');
+    console.info('Please allow cookies.');
 }
 
 define('qui/classes/storage/Storage', needle, function (QDOM) {

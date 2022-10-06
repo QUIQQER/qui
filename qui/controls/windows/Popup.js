@@ -89,23 +89,23 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             var self = this;
 
-            this.$Elm     = null;
+            this.$Elm = null;
             this.$Content = null;
             this.$Buttons = null;
-            this.$FX      = false;
-            this.$opened  = false;
-            this.$scroll  = false;
+            this.$FX = false;
+            this.$opened = false;
+            this.$scroll = false;
 
             this.Background = new Background();
-            this.Loader     = new Loader();
+            this.Loader = new Loader();
 
-            this.$draging            = false;
+            this.$draging = false;
             this.$dragStartMousePosX = false;
             this.$dragStartMousePosY = false;
-            this.$dragStartElmPosX   = false;
-            this.$dragStartElmPosY   = false;
-            this.$dragMaxX           = false;
-            this.$dragMaxY           = false;
+            this.$dragStartElmPosX = false;
+            this.$dragStartElmPosY = false;
+            this.$dragMaxX = false;
+            this.$dragMaxY = false;
 
             // button texts
             var closeText = QUI.getAttribute('control-windows-popup-closetext');
@@ -115,7 +115,6 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             this.setAttribute('closeButtonText', closeText);
-
 
             this.$__scrollDelay = FunctionsUtils.debounce(function () {
                 self.$scroll = false;
@@ -153,11 +152,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.$Elm = new Element('div', {
                 'class' : 'qui-window-popup box',
                 html    : '<div class="qui-window-popup-title box">' +
-                    '<div class="qui-window-popup-title-icon"></div>' +
-                    '<div class="qui-window-popup-title-text"></div>' +
-                    '</div>' +
-                    '<div class="qui-window-popup-content box"></div>' +
-                    '<div class="qui-window-popup-buttons box"></div>',
+                          '<div class="qui-window-popup-title-icon"></div>' +
+                          '<div class="qui-window-popup-title-text"></div>' +
+                          '</div>' +
+                          '<div class="qui-window-popup-content box"></div>' +
+                          '<div class="qui-window-popup-buttons box"></div>',
                 tabindex: -1,
                 styles  : {
                     opacity: 0
@@ -166,11 +165,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.$FX = moofx(this.$Elm);
 
-            this.$Title     = this.$Elm.getElement('.qui-window-popup-title');
-            this.$Icon      = this.$Elm.getElement('.qui-window-popup-title-icon');
+            this.$Title = this.$Elm.getElement('.qui-window-popup-title');
+            this.$Icon = this.$Elm.getElement('.qui-window-popup-title-icon');
             this.$TitleText = this.$Elm.getElement('.qui-window-popup-title-text');
-            this.$Content   = this.$Elm.getElement('.qui-window-popup-content');
-            this.$Buttons   = this.$Elm.getElement('.qui-window-popup-buttons');
+            this.$Content = this.$Elm.getElement('.qui-window-popup-content');
+            this.$Buttons = this.$Elm.getElement('.qui-window-popup-buttons');
 
             this.$Content.setStyle('opacity', 0);
 
@@ -247,6 +246,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.$Buttons.setStyle('display', 'none');
             }
 
+            if (QUI.getAttribute('control-windows-cancel-no-button')) {
+                this.$Buttons.getElement('[name="close"]').setStyle('display', 'none');
+            }
+
             if (this.getAttribute('content')) {
                 this.setContent(this.getAttribute('content'));
             }
@@ -258,8 +261,8 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.Loader.inject(this.$Elm);
 
             var isTouch = (('ontouchstart' in window)
-                || (navigator.maxTouchPoints > 0)
-                || (navigator.msMaxTouchPoints > 0));
+                           || (navigator.maxTouchPoints > 0)
+                           || (navigator.msMaxTouchPoints > 0));
 
             if (this.getAttribute('resizable') && !isTouch) {
                 new Element('div', {
@@ -271,7 +274,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                         height    : 20,
                         lineHeight: 20,
                         position  : 'absolute',
-                        right     : 0,
+                        right     : 2,
                         textAlign : 'center',
                         width     : 16,
                         zIndex    : 10
@@ -455,7 +458,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 }
             }
 
-            var top  = (doc_size.y - height) / 2;
+            var top = (doc_size.y - height) / 2;
             var left = (doc_size.x - width) / 2;
 
             if (top < 0) {
@@ -636,6 +639,46 @@ define('qui/controls/windows/Popup', needle, function (QUI,
         },
 
         /**
+         * Return the title DOMNode
+         *
+         * @method qui/controls/windows/Popup#getContent
+         * @return {HTMLElement} DIV
+         */
+        getTitle: function () {
+            return this.$Title;
+        },
+
+        /**
+         * set the title of the popup
+         *
+         * @method qui/controls/windows/Popup#setContent
+         * @return {String} html
+         */
+        setTitle: function (html) {
+            this.getTitle().set('html', html);
+        },
+
+        /**
+         * Return the title text DOMNode
+         *
+         * @method qui/controls/windows/Popup#getContent
+         * @return {HTMLElement} DIV
+         */
+        getTitleText: function () {
+            return this.$TitleText;
+        },
+
+        /**
+         * set the title text of the popup
+         *
+         * @method qui/controls/windows/Popup#setContent
+         * @return {String} html
+         */
+        setTitleText: function (html) {
+            this.getTitleText().set('html', html);
+        },
+
+        /**
          * Add a Element to the button bar
          *
          * @method qui/controls/windows/Popup#addButton
@@ -795,16 +838,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var Sheet = new Element('div', {
                 'class': 'qui-window-popup-sheet box',
                 html   : '<div class="qui-window-popup-sheet-content box"></div>' +
-                    '<div class="qui-window-popup-sheet-buttons box">' +
-                    '<div class="back button btn-white">' +
-                    '<span>' +
-                    Locale.get(
-                        'qui/controls/windows/Popup',
-                        'btn.back'
-                    ) +
-                    '</span>' +
-                    '</div>' +
-                    '</div>',
+                         '<div class="qui-window-popup-sheet-buttons box">' +
+                         '<div class="back button btn-white">' +
+                         '<span>' +
+                         Locale.get(
+                             'qui/controls/windows/Popup',
+                             'btn.back'
+                         ) +
+                         '</span>' +
+                         '</div>' +
+                         '</div>',
                 styles : {
                     left: '-110%'
                 }
@@ -854,11 +897,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
         $dragMouseDown: function (e) {
             e.stop();
 
-            var elmPos  = this.$Elm.getPosition();
+            var elmPos = this.$Elm.getPosition();
             var elmSize = this.$Elm.getSize();
             var winSize = QUI.getWindowSize();
 
-            this.$draging            = true;
+            this.$draging = true;
             this.$dragStartMousePosX = e.client.x;
             this.$dragStartMousePosY = e.client.y;
 
@@ -930,12 +973,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             var elmSize = this.$Elm.getSize();
 
-            this.$resizing           = true;
+            this.$resizing = true;
             this.$dragStartMousePosX = e.client.x;
             this.$dragStartMousePosY = e.client.y;
 
-            this.$resizeElmSizeX   = elmSize.x;
-            this.$resizeElmSizeY   = elmSize.y;
+            this.$resizeElmSizeX = elmSize.x;
+            this.$resizeElmSizeY = elmSize.y;
             this.$resizeOpeneningX = this.getOpeningWidth();
             this.$resizeOpeneningY = this.getOpeningHeight();
 
@@ -964,7 +1007,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var diffX = x - this.$dragStartMousePosX;
             var diffY = y - this.$dragStartMousePosY;
 
-            width  = parseInt(this.$resizeElmSizeX + diffX);
+            width = parseInt(this.$resizeElmSizeX + diffX);
             height = parseInt(this.$resizeElmSizeY + diffY);
 
             if (width < this.$resizeOpeneningX) {

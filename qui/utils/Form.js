@@ -168,16 +168,16 @@ define('qui/utils/Form', {
                             }
                         }
                     } else {
-                        if (elementValue !== false && elementValue !== true) {
-                            elementValue = !!parseInt(elementValue);
-                        }
-
-                        if (k.endsWith('[]')) {
-                            if (Elm.value == elementValue) {
-                                Elm.checked = elementValue;
+                        if (Elm.type === 'checkbox') {
+                            if (elementValue !== false && elementValue !== true) {
+                                elementValue = !!parseInt(elementValue);
                             }
-                        } else {
+
                             Elm.checked = elementValue;
+                        } else {
+                            if (Elm.value == elementValue) {
+                                Elm.checked = true;
+                            }
                         }
                     }
 
@@ -248,6 +248,23 @@ define('qui/utils/Form', {
             }
         };
 
+        var collections = {};
+
+        for (i = 0, len = NodeList.length; i < len; i++) {
+            Elm  = NodeList[i];
+            name = Elm.name;
+
+            if (Elm.type === 'radio') {
+                continue;
+            }
+
+            if (!(name in collections)) {
+                collections[name] = false;
+            } else {
+                collections[name] = true;
+            }
+        }
+
         for (i = 0, len = NodeList.length; i < len; i++) {
             Elm  = NodeList[i];
             name = Elm.name;
@@ -256,7 +273,7 @@ define('qui/utils/Form', {
                 continue;
             }
 
-            if (name.endsWith('[]')) {
+            if (name in collections && collections[name]) {
                 if (!(name in result)) {
                     result[name] = [];
                 }
