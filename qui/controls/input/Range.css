@@ -20,3 +20,8 @@
     top: 5px;
     width: 100%;
 }
+
+.qui-control-input-range .noUi-connects,
+.qui-control-input-range .noUi-touch-area {
+    cursor: pointer;
+}
