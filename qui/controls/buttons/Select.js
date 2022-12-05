@@ -805,6 +805,8 @@ define('qui/controls/buttons/Select', [
 
             if (this.getAttribute('menuTop')) {
                 y = this.getAttribute('menuTop');
+            } else {
+                this.setAttribute('menuTop', y);
             }
 
             MenuElm.setStyle('top', y);
@@ -1192,6 +1194,7 @@ define('qui/controls/buttons/Select', [
                         // if menu is hidden, we must recalculate and open it again
                         if (self.$Menu.isHidden()) {
                             self.$Menu.show();
+                            self.$Menu.getElm().setStyle('top', self.getAttribute('menuTop'));
                         }
 
                         if (event.key === 'down') {
