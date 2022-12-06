@@ -76,6 +76,8 @@ define('qui/controls/input/Range', [
             this.parent();
 
             this.$Elm.addClass('qui-control-input-range');
+            this.$Elm.set('data-qui', 'qui/controls/input/Range');
+            this.$Elm.set('data-quiid', this.getId());
 
             this.$Elm.set(
                 'html',
@@ -194,6 +196,7 @@ define('qui/controls/input/Range', [
 
             this.create();
             this.$Input.inject(this.$Elm);
+            this.$Input.set('data-quiid', this.getId());
 
             const start = this.getAttribute('start');
 
@@ -202,6 +205,16 @@ define('qui/controls/input/Range', [
             } else {
                 this.setValue(value);
             }
+
+            (() => {
+                try {
+                    this.$Input.fireEvent('load');
+                } catch (e) {
+                    if (this.$Input) {
+                        this.$Input.fireEvent('load');
+                    }
+                }
+            }).delay(50);
         },
 
         /**
