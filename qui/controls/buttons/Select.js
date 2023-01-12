@@ -806,7 +806,8 @@ define('qui/controls/buttons/Select', [
             if (this.getAttribute('menuTop')) {
                 y = this.getAttribute('menuTop');
             } else {
-                this.setAttribute('menuTop', y);
+                // auskommentiert wegegn quiqqer/qui#51
+                // this.setAttribute('menuTop', y);
             }
 
             MenuElm.setStyle('top', y);
