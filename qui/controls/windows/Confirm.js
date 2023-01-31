@@ -52,7 +52,8 @@ define('qui/controls/windows/Confirm', [
                 text     : false,
                 textimage: 'fa fa-remove'
             },
-            ok_button    : {
+
+            ok_button: {
                 text     : false,
                 textimage: 'fa fa-check'
             }
@@ -101,6 +102,9 @@ define('qui/controls/windows/Confirm', [
             this.setAttribute('cancel_button', cancelButton);
             this.setAttribute('ok_button', submitButton);
 
+            if (QUI.getAttribute('control-windows-cancel-no-button')) {
+                this.setAttribute('cancel_button', false);
+            }
 
             // on set attribute event
             // if attributes were set after creation
@@ -159,8 +163,8 @@ define('qui/controls/windows/Confirm', [
                 }
             });
 
-            this.$Body    = null;
-            this.$Win     = null;
+            this.$Body = null;
+            this.$Win = null;
             this.$Buttons = null;
         },
 
@@ -181,9 +185,9 @@ define('qui/controls/windows/Confirm', [
 
             this.$Body = new Element('div.submit-body', {
                 html  : '<div class="textbody">' +
-                    '<h2 class="text">&nbsp;</h2>' +
-                    '<div class="information">&nbsp;</div>' +
-                    '</div>',
+                        '<h2 class="text">&nbsp;</h2>' +
+                        '<div class="information">&nbsp;</div>' +
+                        '</div>',
                 styles: {
                     'float': 'left',
                     width  : '100%'

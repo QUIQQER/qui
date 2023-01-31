@@ -86,23 +86,23 @@ define('qui/controls/desktop/Panel', [
 
             this.Loader = new Loader();
 
-            this.$Elm     = null;
-            this.$Header  = null;
-            this.$Title   = null;
-            this.$Footer  = null;
+            this.$Elm = null;
+            this.$Header = null;
+            this.$Title = null;
+            this.$Footer = null;
             this.$Content = null;
 
-            this.$Buttons     = null;
-            this.$Categories  = null;
-            this.$Breadcrumb  = null;
+            this.$Buttons = null;
+            this.$Categories = null;
+            this.$Breadcrumb = null;
             this.$ContextMenu = null;
             this.$CloseButton = null;
 
-            this.$ButtonBar     = null;
-            this.$CategoryBar   = null;
+            this.$ButtonBar = null;
+            this.$CategoryBar = null;
             this.$BreadcrumbBar = null;
-            this.$ActiveCat     = null;
-            this.$Dropable      = null;
+            this.$ActiveCat = null;
+            this.$Dropable = null;
 
             this.addEvents({
                 onDestroy     : this.$onDestroy,
@@ -166,18 +166,18 @@ define('qui/controls/desktop/Panel', [
                 },
 
                 html: '<div class="qui-panel-header box"></div>' +
-                    '<div class="qui-panel-buttons box"></div>' +
-                    '<div class="qui-panel-categories box"></div>' +
-                    '<div class="qui-panel-content box"></div>' +
-                    '<div class="qui-panel-footer box"></div>'
+                      '<div class="qui-panel-buttons box"></div>' +
+                      '<div class="qui-panel-categories box"></div>' +
+                      '<div class="qui-panel-content box"></div>' +
+                      '<div class="qui-panel-footer box"></div>'
             });
 
             this.Loader.inject(this.$Elm);
 
-            this.$Header     = this.$Elm.getElement('.qui-panel-header');
-            this.$Footer     = this.$Elm.getElement('.qui-panel-footer');
-            this.$Content    = this.$Elm.getElement('.qui-panel-content');
-            this.$Buttons    = this.$Elm.getElement('.qui-panel-buttons');
+            this.$Header = this.$Elm.getElement('.qui-panel-header');
+            this.$Footer = this.$Elm.getElement('.qui-panel-footer');
+            this.$Content = this.$Elm.getElement('.qui-panel-content');
+            this.$Buttons = this.$Elm.getElement('.qui-panel-buttons');
             this.$Categories = this.$Elm.getElement('.qui-panel-categories');
 
             if (this.getAttribute('breadcrumb')) {
@@ -212,6 +212,30 @@ define('qui/controls/desktop/Panel', [
             this.fireEvent('create', [this]);
 
             return this.$Elm;
+        },
+
+        /**
+         * @param Parent
+         * @param pos
+         */
+        inject: function (Parent, pos) {
+            this.parent(Parent, pos);
+
+            if (!QUI.getAttribute('quiqqer-panel-inject')) {
+                return this;
+            }
+
+            this.Loader.show();
+            
+            QUI.getAttribute('quiqqer-panel-inject')(this).then((categories) => {
+                categories.forEach((category) => {
+                    this.addCategory(category);
+                });
+
+                this.Loader.hide();
+            });
+
+            return this;
         },
 
         /**
@@ -257,12 +281,12 @@ define('qui/controls/desktop/Panel', [
             }
 
             if (this.getAttribute('icon')) {
-                var path = this.getAttribute('icon');
+                const path = this.getAttribute('icon');
 
                 if (Utils.isFontAwesomeClass(path)) {
-                    var css     = this.$Icon.className;
-                    var FA_RX   = new RegExp('\\bfa-\\S+', 'g');
-                    var ICON_RX = new RegExp('\\bicon-\\S+', 'g');
+                    let css = this.$Icon.className;
+                    const FA_RX = new RegExp('\\bfa-\\S+', 'g');
+                    const ICON_RX = new RegExp('\\bicon-\\S+', 'g');
 
                     css = css.replace(ICON_RX, '');
                     css = css.replace(FA_RX, '');
@@ -287,7 +311,7 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         resize: function () {
-            var self = this;
+            const self = this;
 
             this.fireEvent('resizeBegin', [this]);
 
@@ -325,22 +349,22 @@ define('qui/controls/desktop/Panel', [
                 this.setAttribute('height', this.getAttribute('styles').height);
             }
 
-            var content_height = this.getAttribute('height'),
+            let content_height = this.getAttribute('height'),
                 overflow       = 'auto',
                 buttonsSize    = this.$Buttons.getSize();
 
             // height calc
             if (content_height.toString().match('%')) {
-                var Parent = this.$Elm.getParent() || document.body;
+                const Parent = this.$Elm.getParent() || document.body;
 
                 content_height = (content_height).toInt();
                 content_height = Parent.getSize().y * (content_height / 100);
             }
 
             content_height = content_height -
-                buttonsSize.y - 2 -
-                this.$Footer.getSize().y - 1 -
-                this.$Header.getSize().y;
+                             buttonsSize.y - 2 -
+                             this.$Footer.getSize().y - 1 -
+                             this.$Header.getSize().y;
 
             if (this.$Breadcrumb) {
                 content_height = content_height - this.$Breadcrumb.getSize().y;
@@ -403,7 +427,7 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         open: function (callback) {
-            var self = this;
+            const self = this;
 
             this.fireEvent('openBegin', [this]);
 
@@ -444,7 +468,7 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} this (qui/controls/desktop/Panel)
          */
         minimize: function (callback) {
-            var self = this;
+            const self = this;
 
             this.fireEvent('minimizeBegin', [this]);
 
@@ -698,22 +722,29 @@ define('qui/controls/desktop/Panel', [
                 Btn = new Button(Btn);
             }
 
-            var self = this;
+            const self = this;
 
             Btn.addEvents({
 
                 onClick: function (Btn) {
-                    if (self.$ActiveCat && self.$ActiveCat == Btn) {
+                    if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
 
-                    self.fireEvent('categoryLeave', [self, self.$ActiveCat]);
+                    self.fireEvent('categoryLeave', [
+                        self,
+                        self.$ActiveCat
+                    ]);
 
                     Btn.setActive();
+
+                    if (Btn.getAttribute('click') && typeof Btn.getAttribute('click') === 'function') {
+                        Btn.getAttribute('click')(self, Btn);
+                    }
                 },
 
                 onActive: function (Btn) {
-                    if (self.$ActiveCat && self.$ActiveCat == Btn) {
+                    if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
 
@@ -722,7 +753,10 @@ define('qui/controls/desktop/Panel', [
                     }
 
                     self.$ActiveCat = Btn;
-                    self.fireEvent('categoryEnter', [self, Btn]);
+                    self.fireEvent('categoryEnter', [
+                        self,
+                        Btn
+                    ]);
                 }
 
             });
@@ -784,7 +818,7 @@ define('qui/controls/desktop/Panel', [
          * @return Promise
          */
         minimizeCategory: function () {
-            var CategoryBar = this.getCategoryBar();
+            const CategoryBar = this.getCategoryBar();
 
             CategoryBar.setAttribute('width', 50);
             CategoryBar.resize();
@@ -826,7 +860,7 @@ define('qui/controls/desktop/Panel', [
 
                         this.$Categories.removeClass('qui-panel-categories-minimize');
 
-                        var CategoryBar = this.getCategoryBar();
+                        const CategoryBar = this.getCategoryBar();
 
                         CategoryBar.setAttribute('width', 190);
                         CategoryBar.resize();
@@ -905,10 +939,10 @@ define('qui/controls/desktop/Panel', [
          * @return {Object} qui/controls/panels/Sheet
          */
         createSheet: function (options) {
-            var self  = this,
-                Sheet = new PanelSheet(options);
+            const self  = this,
+                  Sheet = new PanelSheet(options);
 
-            var resize = function () {
+            const resize = function () {
                 Sheet.resize();
             };
 
@@ -933,7 +967,7 @@ define('qui/controls/desktop/Panel', [
                 return;
             }
 
-            var self = this;
+            const self = this;
 
             this.$Collaps = new Element('div', {
                 'class': 'qui-panel-collapse fa-chevron-down fa'
@@ -976,7 +1010,7 @@ define('qui/controls/desktop/Panel', [
                 return;
             }
 
-            var self = this;
+            const self = this;
 
             this.$getDragable(function () {
                 if (self.getAttribute('dragable')) {
@@ -1028,10 +1062,10 @@ define('qui/controls/desktop/Panel', [
 
             this.$_dragDropExec = true;
 
-            var self = this;
+            const self = this;
 
             require(['qui/classes/utils/DragDrop'], function (DragDrop) {
-                var DragDropParent = null;
+                let DragDropParent = null;
 
                 self.$Dropable = new DragDrop(self.$Header, {
                     dropables: '.qui-panel-drop',
@@ -1042,7 +1076,11 @@ define('qui/controls/desktop/Panel', [
                     },
                     events   : {
                         onStart: function (Dragable, Element, event) {
-                            self.fireEvent('dragDropStart', [self, Element, event]);
+                            self.fireEvent('dragDropStart', [
+                                self,
+                                Element,
+                                event
+                            ]);
                         },
 
                         onComplete: function () {
@@ -1050,15 +1088,21 @@ define('qui/controls/desktop/Panel', [
                         },
 
                         onDrag: function (Dragable, Element, event) {
-                            self.fireEvent('drag', [self, event]);
+                            self.fireEvent('drag', [
+                                self,
+                                event
+                            ]);
 
                             if (DragDropParent) {
-                                DragDropParent.fireEvent('dragDropDrag', [self, event]);
+                                DragDropParent.fireEvent('dragDropDrag', [
+                                    self,
+                                    event
+                                ]);
                             }
                         },
 
                         onEnter: function (Dragable, Element, Dropable) {
-                            var quiid = Dropable.get('data-quiid');
+                            let quiid = Dropable.get('data-quiid');
 
                             if (!quiid) {
                                 return;
@@ -1067,13 +1111,19 @@ define('qui/controls/desktop/Panel', [
                             DragDropParent = QUI.Controls.getById(quiid);
 
                             if (DragDropParent) {
-                                DragDropParent.fireEvent('dragDropEnter', [self, Element]);
+                                DragDropParent.fireEvent('dragDropEnter', [
+                                    self,
+                                    Element
+                                ]);
                             }
                         },
 
                         onLeave: function (Dragable, Element) {
                             if (DragDropParent) {
-                                DragDropParent.fireEvent('dragDropLeave', [self, Element]);
+                                DragDropParent.fireEvent('dragDropLeave', [
+                                    self,
+                                    Element
+                                ]);
                                 DragDropParent = null;
                             }
                         },
@@ -1084,7 +1134,12 @@ define('qui/controls/desktop/Panel', [
                             }
 
                             if (DragDropParent) {
-                                DragDropParent.fireEvent('dragDropDrop', [self, Element, Dropable, event]);
+                                DragDropParent.fireEvent('dragDropDrop', [
+                                    self,
+                                    Element,
+                                    Dropable,
+                                    event
+                                ]);
                             }
                         }
                     }
@@ -1100,7 +1155,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#$onDestroy
          */
         $onDestroy: function () {
-            var destroy = [
+            const destroy = [
                 this.$Header,
                 this.$Title,
                 this.$Footer,
@@ -1113,7 +1168,7 @@ define('qui/controls/desktop/Panel', [
                 this.$ContextMenu
             ];
 
-            for (var i = 0, len = destroy.length; i < len; i++) {
+            for (let i = 0, len = destroy.length; i < len; i++) {
                 if (destroy[i] && "destroy" in destroy[i]) {
                     destroy[i].destroy();
                 }
@@ -1126,8 +1181,8 @@ define('qui/controls/desktop/Panel', [
          * @return {Promise}
          */
         showSavedIconAnimation: function () {
-            var self    = this,
-                oldIcon = this.getAttribute('icon');
+            const self    = this,
+                  oldIcon = this.getAttribute('icon');
 
             this.setAttribute('icon', 'fa fa-spinner fa-spin');
             this.$refresh();
@@ -1152,8 +1207,8 @@ define('qui/controls/desktop/Panel', [
          * @return {Promise}
          */
         showErrorIconAnimation: function () {
-            var self    = this,
-                oldIcon = this.getAttribute('icon');
+            const self    = this,
+                  oldIcon = this.getAttribute('icon');
 
             this.setAttribute('icon', 'fa fa-spinner fa-spin');
             this.$refresh();

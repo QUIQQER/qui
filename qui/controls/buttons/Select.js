@@ -90,16 +90,16 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            this.$value        = null;
-            this.$disabled     = false;
-            this.$opened       = false;
-            this.$wasfocused   = false;
+            this.$value = null;
+            this.$disabled = false;
+            this.$opened = false;
+            this.$wasfocused = false;
             this.$mouseIsHover = false;
 
-            this.$Elm    = null;
+            this.$Elm = null;
             this.$Select = null;
-            this.$Text   = null;
-            this.$Icon   = null;
+            this.$Text = null;
+            this.$Icon = null;
             this.$Search = null;
 
             this.$children = [];
@@ -123,10 +123,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                    '<div class="text"></div>' +
-                    '<div class="drop-icon"></div>' +
-                    '<div class="qui-select-click-event"></div>' +
-                    '<select></select>',
+                          '<div class="text"></div>' +
+                          '<div class="drop-icon"></div>' +
+                          '<div class="qui-select-click-event"></div>' +
+                          '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -166,15 +166,15 @@ define('qui/controls/buttons/Select', [
                 },
 
                 touchstart: function (event) {
-                    touchStartY     = event.changedTouches[0].clientY;
+                    touchStartY = event.changedTouches[0].clientY;
                     touchStartYTime = Date.now();
                 },
 
                 touchend: function (event) {
-                    touchEndY     = event.changedTouches[0].clientY;
+                    touchEndY = event.changedTouches[0].clientY;
                     touchEndYTime = Date.now();
 
-                    let diff  = Math.abs(touchStartY - touchEndY);
+                    let diff = Math.abs(touchStartY - touchEndY);
                     let delay = (touchEndYTime - touchStartYTime) / 1000;
 
                     if (diff > 30 || delay > 0.5) {
@@ -350,7 +350,7 @@ define('qui/controls/buttons/Select', [
             }
 
             let localeStorageName = this.getAttribute('localeStorage');
-            let localeData        = QUI.Storage.get(localeStorageName);
+            let localeData = QUI.Storage.get(localeStorageName);
 
             try {
                 this.setValue(
@@ -469,7 +469,10 @@ define('qui/controls/buttons/Select', [
             this.selectPlaceholder();
 
             if (silently === false) {
-                this.fireEvent('change', [this.$value, this]);
+                this.fireEvent('change', [
+                    this.$value,
+                    this
+                ]);
             }
         },
 
@@ -802,6 +805,9 @@ define('qui/controls/buttons/Select', [
 
             if (this.getAttribute('menuTop')) {
                 y = this.getAttribute('menuTop');
+            } else {
+                // auskommentiert wegegn quiqqer/qui#51
+                // this.setAttribute('menuTop', y);
             }
 
             MenuElm.setStyle('top', y);
@@ -816,6 +822,12 @@ define('qui/controls/buttons/Select', [
             if (this.getAttribute('searchable')) {
                 document.body.addEvent('keydown', this.$showSearch);
             }
+
+            this.$Menu.resize();
+            this.$Menu.$Container.setStyle(
+                'height',
+                parseInt(this.$Menu.$Container.getStyle('height')) + 10
+            );
 
             return this;
         },
@@ -874,7 +886,10 @@ define('qui/controls/buttons/Select', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
         $set: function (Item) {
-            this.fireEvent('changeBegin', [this.$value, this]);
+            this.fireEvent('changeBegin', [
+                this.$value,
+                this
+            ]);
 
             if (this.$Text && !this.getAttribute('checkable')) {
                 this.$Text.set('html', Item.getAttribute('text'));
@@ -903,9 +918,12 @@ define('qui/controls/buttons/Select', [
             }
 
             if (!this.getAttribute('multiple')) {
-                this.$value        = Item.getAttribute('value');
+                this.$value = Item.getAttribute('value');
                 this.$Select.value = this.$value;
-                this.fireEvent('change', [this.$value, this]);
+                this.fireEvent('change', [
+                    this.$value,
+                    this
+                ]);
                 return;
             }
 
@@ -926,12 +944,18 @@ define('qui/controls/buttons/Select', [
                         }
                     }
 
-                    this.fireEvent('change', [this.$value, this]);
+                    this.fireEvent('change', [
+                        this.$value,
+                        this
+                    ]);
                     return;
                 }
 
                 this.$value.erase(Item.getAttribute('value'));
-                this.fireEvent('change', [this.$value, this]);
+                this.fireEvent('change', [
+                    this.$value,
+                    this
+                ]);
             }).delay(200, this, [Item]);
         },
 
@@ -1171,6 +1195,7 @@ define('qui/controls/buttons/Select', [
                         // if menu is hidden, we must recalculate and open it again
                         if (self.$Menu.isHidden()) {
                             self.$Menu.show();
+                            self.$Menu.getElm().setStyle('top', self.getAttribute('menuTop'));
                         }
 
                         if (event.key === 'down') {

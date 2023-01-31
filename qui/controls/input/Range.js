@@ -29,6 +29,10 @@ define('qui/controls/input/Range', [
         Extends: QUIControl,
         Type   : 'qui/controls/input/Range',
 
+        Binds: [
+            '$onImport'
+        ],
+
         options: {
             min      : 0,
             max      : 100,
@@ -41,15 +45,21 @@ define('qui/controls/input/Range', [
             snap     : false,  // When a non-linear slider has been configured,
                                // the snap option can be set to true
                                // to force the slider to jump between the specified values.
-            connect: true,   // Display a colored bar between the handles
-            pips   : {}      // Displays pipes and ranges for the slider
+            connect   : true,   // Display a colored bar between the handles
+            pips      : {},     // Displays pipes and ranges for the slider
+            background: '#d9232b'
         },
 
         initialize: function (options) {
             this.parent(options);
 
             this.$BarContainer = null;
-            this.$Text         = null;
+            this.$Text = null;
+            this.$Input = null;
+
+            this.addEvents({
+                onImport: this.$onImport
+            });
 
             this.$value = {
                 from: '',
@@ -66,6 +76,8 @@ define('qui/controls/input/Range', [
             this.parent();
 
             this.$Elm.addClass('qui-control-input-range');
+            this.$Elm.set('data-qui', 'qui/controls/input/Range');
+            this.$Elm.set('data-quiid', this.getId());
 
             this.$Elm.set(
                 'html',
@@ -74,15 +86,15 @@ define('qui/controls/input/Range', [
             );
 
             this.$BarContainer = this.$Elm.getElement('.qui-control-input-range-bar');
-            this.$Text         = this.$Elm.getElement('.qui-control-input-range-text');
+            this.$Text = this.$Elm.getElement('.qui-control-input-range-text');
 
             this.$value = {
                 from: this.getAttribute('min'),
                 to  : this.getAttribute('max')
             };
 
-            var range = this.getAttribute('range');
-            var start = this.getAttribute('start');
+            let range = this.getAttribute('range');
+            let start = this.getAttribute('start');
 
             if (!range) {
                 range = {
@@ -92,10 +104,13 @@ define('qui/controls/input/Range', [
             }
 
             if (!start) {
-                start = [this.getAttribute('min'), this.getAttribute('max')];
+                start = [
+                    this.getAttribute('min'),
+                    this.getAttribute('max')
+                ];
             }
 
-            var Pips = this.getAttribute('pips');
+            let Pips = this.getAttribute('pips');
 
             if (Object.keys(Pips).length === 0 && Pips.constructor === Object) {
                 Pips = null;
@@ -116,21 +131,27 @@ define('qui/controls/input/Range', [
                 return this.$Elm;
             }
 
-            var Formatter = this.getAttribute('Formatter');
+            const Formatter = this.getAttribute('Formatter');
 
-            var timerChangeEvent = null;
-            var fireChangeEvent  = function () {
+            let timerChangeEvent = null;
+            const fireChangeEvent = function () {
                 this.fireEvent('change', [this]);
             }.bind(this);
 
-            this.$BarContainer.noUiSlider.on('update', function (values, handle) {
+            this.$BarContainer.noUiSlider.on('update', (values, handle) => {
+                const start = this.getAttribute('start');
+
                 if (handle) {
                     this.$value.to = values[handle];
                 } else {
                     this.$value.from = values[handle];
                 }
 
-                var message = 'From: ' + this.$value.from + ' to ' + this.$value.to;
+                let message = 'From: ' + this.$value.from + ' to ' + this.$value.to;
+
+                if (start.length === 1) {
+                    message = this.$value.from;
+                }
 
                 if (typeof Formatter === 'function') {
                     message = Formatter(this.$value);
@@ -143,11 +164,57 @@ define('qui/controls/input/Range', [
                 }
 
                 timerChangeEvent = fireChangeEvent.delay(200);
-            }.bind(this));
 
-            this.$BarContainer.getElements('.noUi-connect').setStyle('background', '#d9232b');
+                if (this.$Input) {
+                    if (start.length === 1) {
+                        this.$Input.value = this.$value.from;
+                    } else {
+                        this.$Input.value = JSON.stringify(this.getValue());
+                    }
+                }
+            });
+
+            this.$BarContainer.getElements('.noUi-connect').setStyle('background', this.getAttribute('background'));
 
             return this.$Elm;
+        },
+
+        $onImport: function () {
+            this.$Input = this.getElm();
+            this.$Input.type = 'hidden';
+            const value = this.$Input.value;
+
+            this.$Elm = new Element('div').wraps(this.$Input);
+
+            if (this.$Input.hasClass('field-container-field')) {
+                this.$Elm.addClass('field-container-field');
+            }
+
+            if (this.$Input.getAttribute('data-qui-options-start')) {
+                this.setAttribute('start', JSON.decode(this.$Input.getAttribute('data-qui-options-start')));
+            }
+
+            this.create();
+            this.$Input.inject(this.$Elm);
+            this.$Input.set('data-quiid', this.getId());
+
+            const start = this.getAttribute('start');
+
+            if (start.length) {
+                this.setTo(value);
+            } else {
+                this.setValue(value);
+            }
+
+            (() => {
+                try {
+                    this.$Input.fireEvent('load');
+                } catch (e) {
+                    if (this.$Input) {
+                        this.$Input.fireEvent('load');
+                    }
+                }
+            }).delay(50);
         },
 
         /**
@@ -180,7 +247,10 @@ define('qui/controls/input/Range', [
          */
         setFrom: function (value) {
             if (this.$BarContainer.noUiSlider) {
-                this.$BarContainer.noUiSlider.set([null, value]);
+                this.$BarContainer.noUiSlider.set([
+                    null,
+                    value
+                ]);
                 this.fireEvent('change', [this]);
             }
         },
@@ -192,7 +262,10 @@ define('qui/controls/input/Range', [
          */
         setTo: function (value) {
             if (this.$BarContainer.noUiSlider) {
-                this.$BarContainer.noUiSlider.set([value, null]);
+                this.$BarContainer.noUiSlider.set([
+                    value,
+                    null
+                ]);
                 this.fireEvent('change', [this]);
             }
         },
