@@ -225,14 +225,10 @@ define('qui/controls/desktop/Panel', [
                 return this;
             }
 
-            this.Loader.show();
-            
             QUI.getAttribute('quiqqer-panel-inject')(this).then((categories) => {
                 categories.forEach((category) => {
                     this.addCategory(category);
                 });
-
-                this.Loader.hide();
             });
 
             return this;

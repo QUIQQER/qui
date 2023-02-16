@@ -148,7 +148,7 @@ define('qui/controls/elements/Select', [
                 'class'    : 'qui-elements-select-list-search',
                 placeholder: this.getAttribute('placeholder'),
                 events     : {
-                    keydown: (event) => event.stop(),
+                    // keydown: (event) => event.stop(), -> better not
                     keyup: function (event) {
                         if (event.key === 'down') {
                             this.down();
