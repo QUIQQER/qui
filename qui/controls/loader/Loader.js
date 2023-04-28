@@ -49,10 +49,10 @@ define('qui/controls/loader/Loader', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$Inner  = null;
-            this.$Close  = null;
-            this.$FX     = null;
-            this.$delay  = null;
+            this.$Inner = null;
+            this.$Close = null;
+            this.$FX = null;
+            this.$delay = null;
             this.$status = 0;
 
             this.addEvent('onDestroy', function () {
@@ -124,7 +124,7 @@ define('qui/controls/loader/Loader', [
             this.$Elm = new Element('div', {
                 'class': 'qui-loader',
                 html   : '<div class="qui-loader-message"></div>' +
-                    '<div class="qui-loader-inner"></div>',
+                         '<div class="qui-loader-inner"></div>',
                 styles : {
                     display: 'none',
                     opacity: 0.8
@@ -139,7 +139,7 @@ define('qui/controls/loader/Loader', [
                 this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
+            this.$Inner = this.$Elm.getElement('.qui-loader-inner');
             this.$Message = this.$Elm.getElement('.qui-loader-message');
 
             this.$FX = moofx(this.$Elm);
@@ -156,7 +156,7 @@ define('qui/controls/loader/Loader', [
         show: function (str) {
             this.fireEvent('show', [this]);
 
-            return new Promise(function (resolve) {
+            return new Promise((resolve) => {
                 this.$status = 1;
 
                 if (!this.$Elm) {
@@ -175,17 +175,17 @@ define('qui/controls/loader/Loader', [
 
                     this.$Elm.set({
                         html: '<div class="qui-loader-message"></div>' +
-                            '<div class="qui-loader-inner"></div>'
+                              '<div class="qui-loader-inner"></div>'
                     });
 
-                    this.$Inner   = this.$Elm.getElement('.qui-loader-inner');
+                    this.$Inner = this.$Elm.getElement('.qui-loader-inner');
                     this.$Message = this.$Elm.getElement('.qui-loader-message');
                 }
 
-                var self = this,
-                    size = this.$Elm.measure(function () {
-                        return this.getSize();
-                    });
+                const self = this,
+                      size = this.$Elm.measure(function () {
+                          return this.getSize();
+                      });
 
                 this.$Message.set('html', '');
 
@@ -212,7 +212,7 @@ define('qui/controls/loader/Loader', [
                 });
 
                 // load animation
-                var animationData = false,
+                let animationData = false,
                     animationType = false;
 
                 if (this.getAttribute('type') &&
@@ -233,7 +233,7 @@ define('qui/controls/loader/Loader', [
                     animationType = 'standard';
                 }
 
-                require(animationData.files, function () {
+                require(animationData.files, () => {
                     if (self.$status === 0) {
                         self.hide();
                         resolve();
@@ -242,13 +242,13 @@ define('qui/controls/loader/Loader', [
 
                     self.$Inner.set('html', '');
 
-                    var i, len, Child;
+                    let i, len, Child;
 
-                    var Parent = new Element('div', {
+                    const Parent = new Element('div', {
                         'class': 'qui-loader-inner-' + animationType
                     }).inject(self.$Inner);
 
-                    var color = self.getAttribute('color');
+                    let color = self.getAttribute('color');
 
                     if (!color) {
                         color = QUI.getAttribute('control-loader-color');
@@ -278,7 +278,7 @@ define('qui/controls/loader/Loader', [
                         }
                     }
 
-                    var ElmParent = self.$Elm.getParent();
+                    const ElmParent = self.$Elm.getParent();
 
                     if (ElmParent && !ElmParent.hasClass('qui-window-popup')) {
                         ElmParent.addClass('qui-loader-parent');
@@ -307,7 +307,7 @@ define('qui/controls/loader/Loader', [
                     resolve();
                 });
 
-            }.bind(this));
+            });
         },
 
         /**
@@ -320,7 +320,7 @@ define('qui/controls/loader/Loader', [
         hide: function (callback) {
             this.fireEvent('hide', [this]);
 
-            return new Promise(function (resolve) {
+            return new Promise((resolve) => {
                 this.$status = 0;
 
                 if (this.$delay) {
@@ -340,19 +340,19 @@ define('qui/controls/loader/Loader', [
                     }
 
                     resolve();
-
                     return;
                 }
-
-                var self = this;
 
                 this.$FX.animate({
                     opacity: 0
                 }, {
                     duration: 200,
-                    callback: function () {
-                        self.$Elm.setStyle('display', 'none');
-                        self.$status = 0;
+                    callback: () => {
+                        if (this.$Elm) {
+                            this.$Elm.setStyle('display', 'none');
+                        }
+
+                        this.$status = 0;
 
                         if (typeof callback === 'function') {
                             callback();
@@ -361,8 +361,7 @@ define('qui/controls/loader/Loader', [
                         resolve();
                     }
                 });
-
-            }.bind(this));
+            });
         },
 
         /**
@@ -384,11 +383,11 @@ define('qui/controls/loader/Loader', [
                 }
             });
 
-            var self    = this;
-            var message = this.getAttribute('loaderErrorText');
+            const self = this;
+            let message = this.getAttribute('loaderErrorText');
 
             if (QUI.getAttribute('control-loader-errorText')) {
-                message = QUI.getAttribute('control-loader-errorText')
+                message = QUI.getAttribute('control-loader-errorText');
             }
 
             this.$Close = new Element('div', {
