@@ -805,10 +805,30 @@ define('qui/controls/buttons/Select', [
 
             if (this.getAttribute('menuTop')) {
                 y = this.getAttribute('menuTop');
-            } else {
-                // auskommentiert wegegn quiqqer/qui#51
-                // this.setAttribute('menuTop', y);
             }
+
+            // begin quiqqer/qui#51
+            let isSticky  = false;
+            let Sticky    = null;
+            const parents = this.getElm().getParents();
+
+            for (let i = 0, len = parents.length; i < len; i++) {
+                if (window.getComputedStyle(parents[i]).getPropertyValue("position") === 'sticky') {
+                    Sticky   = parents[i];
+                    isSticky = true;
+                    break;
+                }
+            }
+
+            if (isSticky && Sticky) {
+                y = Sticky.getBoundingClientRect().top;
+                y = y + this.getElm().getPosition(Sticky).y;
+                y = y + this.getElm().getSize().y;
+
+                MenuElm.setStyle('position', 'fixed');
+            }
+            // end quiqqer/qui#51
+
 
             MenuElm.setStyle('top', y);
             MenuElm.setStyle('left', x);
@@ -830,7 +850,7 @@ define('qui/controls/buttons/Select', [
             );
 
             return this;
-        },
+        }
 
         /**
          * hide the dropdown menu
