@@ -850,7 +850,7 @@ define('qui/controls/buttons/Select', [
             );
 
             return this;
-        }
+        },
 
         /**
          * hide the dropdown menu
