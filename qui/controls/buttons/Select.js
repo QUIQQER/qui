@@ -90,16 +90,16 @@ define('qui/controls/buttons/Select', [
                 }
             });
 
-            this.$value = null;
-            this.$disabled = false;
-            this.$opened = false;
-            this.$wasfocused = false;
+            this.$value        = null;
+            this.$disabled     = false;
+            this.$opened       = false;
+            this.$wasfocused   = false;
             this.$mouseIsHover = false;
 
-            this.$Elm = null;
+            this.$Elm    = null;
             this.$Select = null;
-            this.$Text = null;
-            this.$Icon = null;
+            this.$Text   = null;
+            this.$Icon   = null;
             this.$Search = null;
 
             this.$children = [];
@@ -123,10 +123,10 @@ define('qui/controls/buttons/Select', [
 
             this.$Elm = new Element('div.qui-select', {
                 html    : '<div class="icon"></div>' +
-                          '<div class="text"></div>' +
-                          '<div class="drop-icon"></div>' +
-                          '<div class="qui-select-click-event"></div>' +
-                          '<select></select>',
+                    '<div class="text"></div>' +
+                    '<div class="drop-icon"></div>' +
+                    '<div class="qui-select-click-event"></div>' +
+                    '<select></select>',
                 tabindex: -1,
                 styles  : {
                     outline: 0,
@@ -166,15 +166,15 @@ define('qui/controls/buttons/Select', [
                 },
 
                 touchstart: function (event) {
-                    touchStartY = event.changedTouches[0].clientY;
+                    touchStartY     = event.changedTouches[0].clientY;
                     touchStartYTime = Date.now();
                 },
 
                 touchend: function (event) {
-                    touchEndY = event.changedTouches[0].clientY;
+                    touchEndY     = event.changedTouches[0].clientY;
                     touchEndYTime = Date.now();
 
-                    let diff = Math.abs(touchStartY - touchEndY);
+                    let diff  = Math.abs(touchStartY - touchEndY);
                     let delay = (touchEndYTime - touchStartYTime) / 1000;
 
                     if (diff > 30 || delay > 0.5) {
@@ -350,7 +350,7 @@ define('qui/controls/buttons/Select', [
             }
 
             let localeStorageName = this.getAttribute('localeStorage');
-            let localeData = QUI.Storage.get(localeStorageName);
+            let localeData        = QUI.Storage.get(localeStorageName);
 
             try {
                 this.setValue(
@@ -507,10 +507,12 @@ define('qui/controls/buttons/Select', [
                         'url("' + this.$placeholderIcon + '") center center no-repeat'
                     );
                 }
-            } else if (Icon) {
-                Icon.className = '';
-                Icon.addClass('icon');
-                Icon.setStyle('background', null);
+            } else {
+                if (Icon) {
+                    Icon.className = '';
+                    Icon.addClass('icon');
+                    Icon.setStyle('background', null);
+                }
             }
         },
 
@@ -713,7 +715,11 @@ define('qui/controls/buttons/Select', [
          * @method qui/controls/buttons/Select#open
          * @return {Object} this (qui/controls/buttons/Select)
          */
-        open: function () {
+        open: function (focus) {
+            if (typeof focus === 'undefined') {
+                focus = true;
+            }
+
             // touch events
             // is mobile?
             if (!!('ontouchstart' in window)) {
@@ -729,7 +735,7 @@ define('qui/controls/buttons/Select', [
                 return this;
             }
 
-            if (document.activeElement !== this.getElm()) {
+            if (focus && document.activeElement !== this.getElm()) {
                 // because onclick and mouseup events makes a focus at the body
                 (function () {
                     this.getElm().focus();
@@ -805,6 +811,9 @@ define('qui/controls/buttons/Select', [
 
             if (this.getAttribute('menuTop')) {
                 y = this.getAttribute('menuTop');
+            } else {
+                // auskommentiert wegegn quiqqer/qui#51
+                // this.setAttribute('menuTop', y);
             }
 
             // begin quiqqer/qui#51
@@ -828,8 +837,6 @@ define('qui/controls/buttons/Select', [
                 MenuElm.setStyle('position', 'fixed');
             }
             // end quiqqer/qui#51
-
-
             MenuElm.setStyle('top', y);
             MenuElm.setStyle('left', x);
             MenuElm.setStyle('width', width);
@@ -844,10 +851,10 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Menu.resize();
-            this.$Menu.$Container.setStyle(
-                'height',
-                parseInt(this.$Menu.$Container.getStyle('height')) + 10
-            );
+
+            if (MenuElm.getSize().y < MenuElm.getScrollSize().y) {
+                this.$Menu.$Container.setStyle('height', '100%');
+            }
 
             return this;
         },
@@ -938,7 +945,7 @@ define('qui/controls/buttons/Select', [
             }
 
             if (!this.getAttribute('multiple')) {
-                this.$value = Item.getAttribute('value');
+                this.$value        = Item.getAttribute('value');
                 this.$Select.value = this.$value;
                 this.fireEvent('change', [
                     this.$value,
@@ -1201,7 +1208,13 @@ define('qui/controls/buttons/Select', [
                             return !Child.isHidden();
                         });
 
+                        const MenuElm = self.$Menu.getElm();
+
                         self.$Menu.resize();
+
+                        if (MenuElm.getSize().y < MenuElm.getScrollSize().y) {
+                            self.$Menu.$Container.setStyle('height', '100%');
+                        }
 
                         if (!displayedOne) {
                             self.$Menu.hide();
@@ -1214,8 +1227,10 @@ define('qui/controls/buttons/Select', [
 
                         // if menu is hidden, we must recalculate and open it again
                         if (self.$Menu.isHidden()) {
+                            let menuTop = MenuElm.getStyle('top');
+
                             self.$Menu.show();
-                            self.$Menu.getElm().setStyle('top', self.getAttribute('menuTop'));
+                            MenuElm.setStyle('top', menuTop);
                         }
 
                         if (event.key === 'down') {
