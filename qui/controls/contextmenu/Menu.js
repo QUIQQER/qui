@@ -312,7 +312,7 @@ define('qui/controls/contextmenu/Menu', [
 
             if (Parent.nodeName === 'BODY') {
                 var elm_pos   = Elm.getPosition(),
-                    body_size = Parent.getSize();
+                    body_size = Parent.getScrollSize();
 
                 if (elm_pos.x + scrollSize.x + 50 > body_size.x) {
                     this.$Elm.setStyle('left', body_size.x - scrollSize.x - 50);
