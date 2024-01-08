@@ -1,6 +1,6 @@
 {
   "name": "quiqqer\/qui",
-  "type": "library",
+  "type": "component",
   "description": "QUIQQER-UI is a modular user interface component framework written in JavaScript",
   "license": "MIT",
   "authors": [
@@ -34,5 +34,6 @@
         }
       }
     }
-  }
+  },
+  "version": "1.6.0"
 }
