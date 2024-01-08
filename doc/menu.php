@@ -35,14 +35,14 @@ QUI kann über composer installiert werden
 ```javascript
 
 {
-    "require" : {
-        "quiqqer/qui" : "dev-dev"
-    },
+"require" : {
+"quiqqer/qui" : "dev-dev"
+},
 
-    "repositories": [{
-        "type": "composer",
-        "url": "http://update.quiqqer.com/"
-    }]
+"repositories": [{
+"type": "composer",
+"url": "http://update.quiqqer.com/"
+}]
 }
 
 ```
@@ -84,19 +84,17 @@ QUI und die QUI Komponenten können nun wie jedes AMD Modul genutzt werden.
 
 ```html
 <script>
-// now we can use QUI
-require(['qui/QUI'], function(QUI)
-{
-    "use strict";
+    // now we can use QUI
+    require(['qui/QUI'], function(QUI) {
+        'use strict';
 
-});
+    });
 
-// ein button control
-require(['qui/buttons/Button'], function(Button)
-{
-    "use strict";
+    // ein button control
+    require(['qui/buttons/Button'], function(Button) {
+        'use strict';
 
-});
+    });
 </script>
 ```
 
@@ -158,26 +156,25 @@ An der Integration solcher Bibliotheken für die Windows wird noch gearbeitet.
 
 <?php
 
-    // read subdirs
-    $dir = dirname( __FILE__ );
-    $src = explode( '/', $dir );
-    array_pop( $src );
-    $src = implode( '/', $src ) .'/qui/';
+// read subdirs
+$dir = dirname(__FILE__);
+$src = explode('/', $dir);
+array_pop($src);
+$src = implode('/', $src) . '/qui/';
 
-    chdir( $src );
-    exec('find -iname \'*.md\'', $result);
+chdir($src);
+exec('find -iname \'*.md\'', $result);
 
-    sort( $result );
+sort($result);
 
 
-    // echo '## qui'."\n";
+// echo '## qui'."\n";
 
-    foreach ( $result as $entry )
-    {
-        $entry   = str_replace( array('./', '.md'), '', $entry );
+foreach ($result as $entry) {
+    $entry = str_replace(['./', '.md'], '', $entry);
 
-        echo '### qui/'. $entry ."\n";
-        echo '[ qui/'. $entry .'](index.php?file='. $entry .')'."\n";
-    }
+    echo '### qui/' . $entry . "\n";
+    echo '[ qui/' . $entry . '](index.php?file=' . $entry . ')' . "\n";
+}
 
 ?>
