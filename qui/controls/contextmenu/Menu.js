@@ -311,8 +311,16 @@ define('qui/controls/contextmenu/Menu', [
             this.setAttribute('menuPosLeft', false);
 
             if (Parent.nodeName === 'BODY') {
-                var elm_pos   = Elm.getPosition(),
-                    body_size = Parent.getScrollSize();
+                let elm_pos = Elm.getPosition();
+
+                // Use 'display: none' so that the menu does not enlarge the body,
+                // while we measure the scroll size of the body.
+
+                // Verwende 'display: none', damit das Menü den Body nicht vergrößert,
+                // während wir die Scrollgröße des Body messen.
+                this.$Elm.setStyle('display', 'none');
+                let body_size = Parent.getScrollSize();
+                this.$Elm.setStyle('display', null);
 
                 if (elm_pos.x + scrollSize.x + 50 > body_size.x) {
                     this.$Elm.setStyle('left', body_size.x - scrollSize.x - 50);
