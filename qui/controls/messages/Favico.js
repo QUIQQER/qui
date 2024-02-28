@@ -52,7 +52,7 @@
         _browser.safari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
         _browser.supported = (_browser.chrome || _browser.ff || _browser.opera);
 
-        const _queue = [];
+        let _queue = [];
         _readyCb = function() {
         };
         _ready = _stop = false;
