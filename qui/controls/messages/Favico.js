@@ -2,7 +2,8 @@
  * @license MIT or GPL-2.0
  * @fileOverview Favico animations
  * @author Miroslav Magda, http://blog.ejci.net
- * @version 0.3.10
+ * @author Henning Leutz
+ * @version 0.4
  */
 
 /**
@@ -10,7 +11,7 @@
  * @param {Object} Options
  * @return {Object} Favico object
  * @example
- * var favico = new Favico({
+ * const favico = new Favico({
  *    bgColor : '#d00',
  *    textColor : '#fff',
  *    fontFamily : 'sans-serif',
@@ -22,12 +23,12 @@
  *    win: top
  * });
  */
-(function () {
+(function() {
 
-    var Favico = (function (opt) {
+    const Favico = (function(opt) {
         'use strict';
         opt = (opt) ? opt : {};
-        var _def = {
+        const _def = {
             bgColor: '#d00',
             textColor: '#fff',
             fontFamily: 'sans-serif', //Arial,Verdana,Times New Roman,serif,sans-serif,...
@@ -39,24 +40,26 @@
             dataUrl: false,
             win: window
         };
-        var _opt, _orig, _h, _w, _canvas, _context, _img, _ready, _lastBadge, _running, _readyCb, _stop, _browser, _animTimeout, _drawTimeout, _doc;
 
-        _browser = {};
-        _browser.ff = typeof InstallTrigger != 'undefined';
+        let _opt, _orig, _h, _w, _canvas, _context, _img, _ready, _lastBadge, _running, _readyCb, _stop,
+            _animTimeout, _drawTimeout, _doc;
+
+        let _browser = {};
+        _browser.ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
         _browser.chrome = !!window.chrome;
         _browser.opera = !!window.opera || navigator.userAgent.indexOf('Opera') >= 0;
         _browser.ie = /*@cc_on!@*/false;
         _browser.safari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
         _browser.supported = (_browser.chrome || _browser.ff || _browser.opera);
 
-        var _queue = [];
-        _readyCb = function () {
+        const _queue = [];
+        _readyCb = function() {
         };
         _ready = _stop = false;
         /**
          * Initialize favico
          */
-        var init = function () {
+        const init = function() {
             //merge initial options
             _opt = merge(_def, opt);
             _opt.bgColor = hexToRgb(_opt.bgColor);
@@ -66,14 +69,14 @@
 
             _doc = _opt.win.document;
 
-            var isUp = _opt.position.indexOf('up') > -1;
-            var isLeft = _opt.position.indexOf('left') > -1;
+            const isUp = _opt.position.indexOf('up') > -1;
+            const isLeft = _opt.position.indexOf('left') > -1;
 
             //transform the animations
             if (isUp || isLeft) {
-                for (var a in animation.types) {
-                    for (var i = 0; i < animation.types[a].length; i++) {
-                        var step = animation.types[a][i];
+                for (let a in animation.types) {
+                    for (let i = 0; i < animation.types[a].length; i++) {
+                        let step = animation.types[a][i];
 
                         if (isUp) {
                             if (step.y < 0.6) {
@@ -105,7 +108,7 @@
             if (_orig.hasAttribute('href')) {
                 _img.setAttribute('crossOrigin', 'anonymous');
                 //get width/height
-                _img.onload = function () {
+                _img.onload = function() {
                     _h = (_img.height > 0) ? _img.height : 32;
                     _w = (_img.width > 0) ? _img.width : 32;
                     _canvas.height = _h;
@@ -115,7 +118,7 @@
                 };
                 _img.setAttribute('src', _orig.getAttribute('href'));
             } else {
-                _img.onload = function () {
+                _img.onload = function() {
                     _h = 32;
                     _w = 32;
                     _img.height = _h;
@@ -132,11 +135,11 @@
         /**
          * Icon namespace
          */
-        var icon = {};
+        const icon = {};
         /**
          * Icon is ready (reset icon) and start animation (if ther is any)
          */
-        icon.ready = function () {
+        icon.ready = function() {
             _ready = true;
             icon.reset();
             _readyCb();
@@ -144,7 +147,7 @@
         /**
          * Reset icon to default state
          */
-        icon.reset = function () {
+        icon.reset = function() {
             //reset
             if (!_ready) {
                 return;
@@ -164,11 +167,11 @@
         /**
          * Start animation
          */
-        icon.start = function () {
+        icon.start = function() {
             if (!_ready || _running) {
                 return;
             }
-            var finished = function () {
+            const finished = function() {
                 _lastBadge = _queue[0];
                 _running = false;
                 if (_queue.length > 0) {
@@ -180,19 +183,19 @@
             };
             if (_queue.length > 0) {
                 _running = true;
-                var run = function () {
+                const run = function() {
                     // apply options for this animation
-                    ['type', 'animation', 'bgColor', 'textColor', 'fontFamily', 'fontStyle'].forEach(function (a) {
+                    ['type', 'animation', 'bgColor', 'textColor', 'fontFamily', 'fontStyle'].forEach(function(a) {
                         if (a in _queue[0].options) {
                             _opt[a] = _queue[0].options[a];
                         }
                     });
-                    animation.run(_queue[0].options, function () {
+                    animation.run(_queue[0].options, function() {
                         finished();
                     }, false);
                 };
                 if (_lastBadge) {
-                    animation.run(_lastBadge.options, function () {
+                    animation.run(_lastBadge.options, function() {
                         run();
                     }, true);
                 } else {
@@ -204,36 +207,38 @@
         /**
          * Badge types
          */
-        var type = {};
-        var options = function (opt) {
+        const type = {};
+        const options = function(opt) {
             opt.n = ((typeof opt.n) === 'number') ? Math.abs(opt.n | 0) : opt.n;
             opt.x = _w * opt.x;
             opt.y = _h * opt.y;
             opt.w = _w * opt.w;
             opt.h = _h * opt.h;
-            opt.len = ("" + opt.n).length;
+            opt.len = ('' + opt.n).length;
             return opt;
         };
         /**
          * Generate circle
          * @param {Object} opt Badge options
          */
-        type.circle = function (opt) {
+        type.circle = function(opt) {
             opt = options(opt);
-            var more = false;
+            let more = false;
             if (opt.len === 2) {
                 opt.x = opt.x - opt.w * 0.4;
                 opt.w = opt.w * 1.4;
                 more = true;
-            } else if (opt.len >= 3) {
-                opt.x = opt.x - opt.w * 0.65;
-                opt.w = opt.w * 1.65;
-                more = true;
+            } else {
+                if (opt.len >= 3) {
+                    opt.x = opt.x - opt.w * 0.65;
+                    opt.w = opt.w * 1.65;
+                    more = true;
+                }
             }
             _context.clearRect(0, 0, _w, _h);
             _context.drawImage(_img, 0, 0, _w, _h);
             _context.beginPath();
-            _context.font = _opt.fontStyle + " " + Math.floor(opt.h * (opt.n > 99 ? 0.85 : 1)) + "px " + _opt.fontFamily;
+            _context.font = _opt.fontStyle + ' ' + Math.floor(opt.h * (opt.n > 99 ? 0.85 : 1)) + 'px ' + _opt.fontFamily;
             _context.textAlign = 'center';
             if (more) {
                 _context.moveTo(opt.x + opt.w / 2, opt.y);
@@ -256,7 +261,11 @@
             _context.fillStyle = 'rgba(' + _opt.textColor.r + ',' + _opt.textColor.g + ',' + _opt.textColor.b + ',' + opt.o + ')';
             //_context.fillText((more) ? '9+' : opt.n, Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.15));
             if ((typeof opt.n) === 'number' && opt.n > 999) {
-                _context.fillText(((opt.n > 9999) ? 9 : Math.floor(opt.n / 1000)) + 'k+', Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.2));
+                _context.fillText(
+                    ((opt.n > 9999) ? 9 : Math.floor(opt.n / 1000)) + 'k+',
+                    Math.floor(opt.x + opt.w / 2),
+                    Math.floor(opt.y + opt.h - opt.h * 0.2)
+                );
             } else {
                 _context.fillText(opt.n, Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.15));
             }
@@ -266,29 +275,35 @@
          * Generate rectangle
          * @param {Object} opt Badge options
          */
-        type.rectangle = function (opt) {
+        type.rectangle = function(opt) {
             opt = options(opt);
-            var more = false;
+            let more = false;
             if (opt.len === 2) {
                 opt.x = opt.x - opt.w * 0.4;
                 opt.w = opt.w * 1.4;
                 more = true;
-            } else if (opt.len >= 3) {
-                opt.x = opt.x - opt.w * 0.65;
-                opt.w = opt.w * 1.65;
-                more = true;
+            } else {
+                if (opt.len >= 3) {
+                    opt.x = opt.x - opt.w * 0.65;
+                    opt.w = opt.w * 1.65;
+                    more = true;
+                }
             }
             _context.clearRect(0, 0, _w, _h);
             _context.drawImage(_img, 0, 0, _w, _h);
             _context.beginPath();
-            _context.font = _opt.fontStyle + " " + Math.floor(opt.h * (opt.n > 99 ? 0.9 : 1)) + "px " + _opt.fontFamily;
+            _context.font = _opt.fontStyle + ' ' + Math.floor(opt.h * (opt.n > 99 ? 0.9 : 1)) + 'px ' + _opt.fontFamily;
             _context.textAlign = 'center';
             _context.fillStyle = 'rgba(' + _opt.bgColor.r + ',' + _opt.bgColor.g + ',' + _opt.bgColor.b + ',' + opt.o + ')';
             _context.fillRect(opt.x, opt.y, opt.w, opt.h);
             _context.fillStyle = 'rgba(' + _opt.textColor.r + ',' + _opt.textColor.g + ',' + _opt.textColor.b + ',' + opt.o + ')';
             //_context.fillText((more) ? '9+' : opt.n, Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.15));
             if ((typeof opt.n) === 'number' && opt.n > 999) {
-                _context.fillText(((opt.n > 9999) ? 9 : Math.floor(opt.n / 1000)) + 'k+', Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.2));
+                _context.fillText(
+                    ((opt.n > 9999) ? 9 : Math.floor(opt.n / 1000)) + 'k+',
+                    Math.floor(opt.x + opt.w / 2),
+                    Math.floor(opt.y + opt.h - opt.h * 0.2)
+                );
             } else {
                 _context.fillText(opt.n, Math.floor(opt.x + opt.w / 2), Math.floor(opt.y + opt.h - opt.h * 0.15));
             }
@@ -298,14 +313,14 @@
         /**
          * Set badge
          */
-        var badge = function (number, opts) {
+        const badge = function(number, opts) {
             opts = ((typeof opts) === 'string' ? {
-                    animation: opts
-                } : opts) || {};
-            _readyCb = function () {
+                animation: opts
+            } : opts) || {};
+            _readyCb = function() {
                 try {
                     if (typeof (number) === 'number' ? (number > 0) : (number !== '')) {
-                        var q = {
+                        const q = {
                             type: 'badge',
                             options: {
                                 n: number
@@ -317,12 +332,12 @@
                         if ('type' in opts && type['' + opts.type]) {
                             q.options.type = '' + opts.type;
                         }
-                        ['bgColor', 'textColor'].forEach(function (o) {
+                        ['bgColor', 'textColor'].forEach(function(o) {
                             if (o in opts) {
                                 q.options[o] = hexToRgb(opts[o]);
                             }
                         });
-                        ['fontStyle', 'fontFamily'].forEach(function (o) {
+                        ['fontStyle', 'fontFamily'].forEach(function(o) {
                             if (o in opts) {
                                 q.options[o] = opts[o];
                             }
@@ -347,15 +362,15 @@
         /**
          * Set image as icon
          */
-        var image = function (imageElement) {
-            _readyCb = function () {
+        const image = function(imageElement) {
+            _readyCb = function() {
                 try {
-                    var w = imageElement.width;
-                    var h = imageElement.height;
-                    var newImg = document.createElement('img');
-                    var ratio = (w / _w < h / _h) ? (w / _w) : (h / _h);
+                    const w = imageElement.width;
+                    const h = imageElement.height;
+                    const newImg = document.createElement('img');
+                    const ratio = (w / _w < h / _h) ? (w / _w) : (h / _h);
                     newImg.setAttribute('crossOrigin', 'anonymous');
-                    newImg.onload=function(){
+                    newImg.onload = function() {
                         _context.clearRect(0, 0, _w, _h);
                         _context.drawImage(newImg, 0, 0, _w, _h);
                         link.setIcon(_canvas);
@@ -374,8 +389,8 @@
         /**
          * Set video as icon
          */
-        var video = function (videoElement) {
-            _readyCb = function () {
+        const video = function(videoElement) {
+            _readyCb = function() {
                 try {
                     if (videoElement === 'stop') {
                         _stop = true;
@@ -383,10 +398,10 @@
                         _stop = false;
                         return;
                     }
-                    //var w = videoElement.width;
-                    //var h = videoElement.height;
-                    //var ratio = (w / _w < h / _h) ? (w / _w) : (h / _h);
-                    videoElement.addEventListener('play', function () {
+                    //const w = videoElement.width;
+                    //const h = videoElement.height;
+                    //const ratio = (w / _w < h / _h) ? (w / _w) : (h / _h);
+                    videoElement.addEventListener('play', function() {
                         drawVideo(this);
                     }, false);
 
@@ -401,18 +416,18 @@
         /**
          * Set video as icon
          */
-        var webcam = function (action) {
+        const webcam = function(action) {
             //UR
             if (!window.URL || !window.URL.createObjectURL) {
                 window.URL = window.URL || {};
-                window.URL.createObjectURL = function (obj) {
+                window.URL.createObjectURL = function(obj) {
                     return obj;
                 };
             }
             if (_browser.supported) {
-                var newVideo = false;
+                let newVideo = false;
                 navigator.getUserMedia = navigator.getUserMedia || navigator.oGetUserMedia || navigator.msGetUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-                _readyCb = function () {
+                _readyCb = function() {
                     try {
                         if (action === 'stop') {
                             _stop = true;
@@ -426,11 +441,11 @@
                         navigator.getUserMedia({
                             video: true,
                             audio: false
-                        }, function (stream) {
+                        }, function(stream) {
                             newVideo.src = URL.createObjectURL(stream);
                             newVideo.play();
                             drawVideo(newVideo);
-                        }, function () {
+                        }, function() {
                         });
                     } catch (e) {
                         throw new Error('Error setting webcam. Message: ' + e.message);
@@ -446,7 +461,8 @@
         /**
          * Draw video to context and repeat :)
          */
-        function drawVideo(video) {
+        function drawVideo(video)
+        {
             if (video.paused || video.ended || _stop) {
                 return false;
             }
@@ -457,22 +473,22 @@
             } catch (e) {
 
             }
-            _drawTimeout = setTimeout(function () {
+            _drawTimeout = setTimeout(function() {
                 drawVideo(video);
             }, animation.duration);
             link.setIcon(_canvas);
         }
 
-        var link = {};
+        const link = {};
         /**
          * Get icon from HEAD tag or create a new <link> element
          */
-        link.getIcon = function () {
-            var elm = false;
+        link.getIcon = function() {
+            let elm = false;
             //get link element
-            var getLink = function () {
-                var link = _doc.getElementsByTagName('head')[0].getElementsByTagName('link');
-                for (var l = link.length, i = (l - 1); i >= 0; i--) {
+            const getLink = function() {
+                const link = _doc.getElementsByTagName('head')[0].getElementsByTagName('link');
+                for (let l = link.length, i = (l - 1); i >= 0; i--) {
                     if ((/(^|\s)icon(\s|$)/i).test(link[i].getAttribute('rel'))) {
                         return link[i];
                     }
@@ -481,24 +497,26 @@
             };
             if (_opt.element) {
                 elm = _opt.element;
-            } else if (_opt.elementId) {
-                //if img element identified by elementId
-                elm = _doc.getElementById(_opt.elementId);
-                elm.setAttribute('href', elm.getAttribute('src'));
             } else {
-                //if link element
-                elm = getLink();
-                if (elm === false) {
-                    elm = _doc.createElement('link');
-                    elm.setAttribute('rel', 'icon');
-                    _doc.getElementsByTagName('head')[0].appendChild(elm);
+                if (_opt.elementId) {
+                    //if img element identified by elementId
+                    elm = _doc.getElementById(_opt.elementId);
+                    elm.setAttribute('href', elm.getAttribute('src'));
+                } else {
+                    //if link element
+                    elm = getLink();
+                    if (elm === false) {
+                        elm = _doc.createElement('link');
+                        elm.setAttribute('rel', 'icon');
+                        _doc.getElementsByTagName('head')[0].appendChild(elm);
+                    }
                 }
             }
             elm.setAttribute('type', 'image/png');
             return elm;
         };
-        link.setIcon = function (canvas) {
-            var url = canvas.toDataURL('image/png');
+        link.setIcon = function(canvas) {
+            const url = canvas.toDataURL('image/png');
             if (_opt.dataUrl) {
                 //if using custom exporter
                 _opt.dataUrl(url);
@@ -506,43 +524,46 @@
             if (_opt.element) {
                 _opt.element.setAttribute('href', url);
                 _opt.element.setAttribute('src', url);
-            } else if (_opt.elementId) {
-                //if is attached to element (image)
-                var elm = _doc.getElementById(_opt.elementId);
-                elm.setAttribute('href', url);
-                elm.setAttribute('src', url);
             } else {
-                //if is attached to fav icon
-                if (_browser.ff || _browser.opera) {
-                    //for FF we need to "recreate" element, atach to dom and remove old <link>
-                    //var originalType = _orig.getAttribute('rel');
-                    var old = _orig;
-                    _orig = _doc.createElement('link');
-                    //_orig.setAttribute('rel', originalType);
-                    if (_browser.opera) {
-                        _orig.setAttribute('rel', 'icon');
-                    }
-                    _orig.setAttribute('rel', 'icon');
-                    _orig.setAttribute('type', 'image/png');
-                    _doc.getElementsByTagName('head')[0].appendChild(_orig);
-                    _orig.setAttribute('href', url);
-                    if (old.parentNode) {
-                        old.parentNode.removeChild(old);
-                    }
+                if (_opt.elementId) {
+                    //if is attached to element (image)
+                    const elm = _doc.getElementById(_opt.elementId);
+                    elm.setAttribute('href', url);
+                    elm.setAttribute('src', url);
                 } else {
-                    _orig.setAttribute('href', url);
+                    //if is attached to fav icon
+                    if (_browser.ff || _browser.opera) {
+                        //for FF we need to "recreate" element, atach to dom and remove old <link>
+                        //const originalType = _orig.getAttribute('rel');
+                        const old = _orig;
+                        _orig = _doc.createElement('link');
+                        //_orig.setAttribute('rel', originalType);
+                        if (_browser.opera) {
+                            _orig.setAttribute('rel', 'icon');
+                        }
+                        _orig.setAttribute('rel', 'icon');
+                        _orig.setAttribute('type', 'image/png');
+                        _doc.getElementsByTagName('head')[0].appendChild(_orig);
+                        _orig.setAttribute('href', url);
+                        if (old.parentNode) {
+                            old.parentNode.removeChild(old);
+                        }
+                    } else {
+                        _orig.setAttribute('href', url);
+                    }
                 }
             }
         };
 
         //http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb#answer-5624139
         //HEX to RGB convertor
-        function hexToRgb(hex) {
-            var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-            hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+        function hexToRgb(hex)
+        {
+            const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+            hex = hex.replace(shorthandRegex, function(m, r, g, b) {
                 return r + r + g + g + b + b;
             });
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
                 r: parseInt(result[1], 16),
                 g: parseInt(result[2], 16),
@@ -553,9 +574,10 @@
         /**
          * Merge options
          */
-        function merge(def, opt) {
-            var mergedOpt = {};
-            var attrname;
+        function merge(def, opt)
+        {
+            const mergedOpt = {};
+            let attrname;
             for (attrname in def) {
                 mergedOpt[attrname] = def[attrname];
             }
@@ -569,14 +591,15 @@
          * Cross-browser page visibility shim
          * http://stackoverflow.com/questions/12536562/detect-whether-a-window-is-visible
          */
-        function isPageHidden() {
+        function isPageHidden()
+        {
             return _doc.hidden || _doc.msHidden || _doc.webkitHidden || _doc.mozHidden;
         }
 
         /**
          * @namespace animation
          */
-        var animation = {};
+        const animation = {};
         /**
          * Animation "frame" duration
          */
@@ -585,215 +608,225 @@
          * Animation types (none,fade,pop,slide)
          */
         animation.types = {};
-        animation.types.fade = [{
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.0
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.1
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.2
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.3
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.4
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.5
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.6
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.7
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.8
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 0.9
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 1.0
-        }];
-        animation.types.none = [{
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }];
-        animation.types.pop = [{
-            x: 1,
-            y: 1,
-            w: 0,
-            h: 0,
-            o: 1
-        }, {
-            x: 0.9,
-            y: 0.9,
-            w: 0.1,
-            h: 0.1,
-            o: 1
-        }, {
-            x: 0.8,
-            y: 0.8,
-            w: 0.2,
-            h: 0.2,
-            o: 1
-        }, {
-            x: 0.7,
-            y: 0.7,
-            w: 0.3,
-            h: 0.3,
-            o: 1
-        }, {
-            x: 0.6,
-            y: 0.6,
-            w: 0.4,
-            h: 0.4,
-            o: 1
-        }, {
-            x: 0.5,
-            y: 0.5,
-            w: 0.5,
-            h: 0.5,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }];
-        animation.types.popFade = [{
-            x: 0.75,
-            y: 0.75,
-            w: 0,
-            h: 0,
-            o: 0
-        }, {
-            x: 0.65,
-            y: 0.65,
-            w: 0.1,
-            h: 0.1,
-            o: 0.2
-        }, {
-            x: 0.6,
-            y: 0.6,
-            w: 0.2,
-            h: 0.2,
-            o: 0.4
-        }, {
-            x: 0.55,
-            y: 0.55,
-            w: 0.3,
-            h: 0.3,
-            o: 0.6
-        }, {
-            x: 0.50,
-            y: 0.50,
-            w: 0.4,
-            h: 0.4,
-            o: 0.8
-        }, {
-            x: 0.45,
-            y: 0.45,
-            w: 0.5,
-            h: 0.5,
-            o: 0.9
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }];
-        animation.types.slide = [{
-            x: 0.4,
-            y: 1,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.9,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.9,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.8,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.7,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.6,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.5,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }, {
-            x: 0.4,
-            y: 0.4,
-            w: 0.6,
-            h: 0.6,
-            o: 1
-        }];
+        animation.types.fade = [
+            {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.0
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.1
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.2
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.3
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.4
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.5
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.6
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.7
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.8
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 0.9
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 1.0
+            }
+        ];
+        animation.types.none = [
+            {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }
+        ];
+        animation.types.pop = [
+            {
+                x: 1,
+                y: 1,
+                w: 0,
+                h: 0,
+                o: 1
+            }, {
+                x: 0.9,
+                y: 0.9,
+                w: 0.1,
+                h: 0.1,
+                o: 1
+            }, {
+                x: 0.8,
+                y: 0.8,
+                w: 0.2,
+                h: 0.2,
+                o: 1
+            }, {
+                x: 0.7,
+                y: 0.7,
+                w: 0.3,
+                h: 0.3,
+                o: 1
+            }, {
+                x: 0.6,
+                y: 0.6,
+                w: 0.4,
+                h: 0.4,
+                o: 1
+            }, {
+                x: 0.5,
+                y: 0.5,
+                w: 0.5,
+                h: 0.5,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }
+        ];
+        animation.types.popFade = [
+            {
+                x: 0.75,
+                y: 0.75,
+                w: 0,
+                h: 0,
+                o: 0
+            }, {
+                x: 0.65,
+                y: 0.65,
+                w: 0.1,
+                h: 0.1,
+                o: 0.2
+            }, {
+                x: 0.6,
+                y: 0.6,
+                w: 0.2,
+                h: 0.2,
+                o: 0.4
+            }, {
+                x: 0.55,
+                y: 0.55,
+                w: 0.3,
+                h: 0.3,
+                o: 0.6
+            }, {
+                x: 0.50,
+                y: 0.50,
+                w: 0.4,
+                h: 0.4,
+                o: 0.8
+            }, {
+                x: 0.45,
+                y: 0.45,
+                w: 0.5,
+                h: 0.5,
+                o: 0.9
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }
+        ];
+        animation.types.slide = [
+            {
+                x: 0.4,
+                y: 1,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.9,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.9,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.8,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.7,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.6,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.5,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }, {
+                x: 0.4,
+                y: 0.4,
+                w: 0.6,
+                h: 0.6,
+                o: 1
+            }
+        ];
         /**
          * Run animation
          * @param {Object} opt Animation options
@@ -801,18 +834,18 @@
          * @param {Object} revert Reverse order? true|false
          * @param {Object} step Optional step number (frame bumber)
          */
-        animation.run = function (opt, cb, revert, step) {
-            var animationType = animation.types[isPageHidden() ? 'none' : _opt.animation];
+        animation.run = function(opt, cb, revert, step) {
+            const animationType = animation.types[isPageHidden() ? 'none' : _opt.animation];
             if (revert === true) {
                 step = (typeof step !== 'undefined') ? step : animationType.length - 1;
             } else {
                 step = (typeof step !== 'undefined') ? step : 0;
             }
-            cb = (cb) ? cb : function () {
+            cb = (cb) ? cb : function() {
             };
             if ((step < animationType.length) && (step >= 0)) {
                 type[_opt.type](merge(opt, animationType[step]));
-                _animTimeout = setTimeout(function () {
+                _animTimeout = setTimeout(function() {
                     if (revert) {
                         step = step - 1;
                     } else {
@@ -824,7 +857,6 @@
                 link.setIcon(_canvas);
             } else {
                 cb();
-                return;
             }
         };
         //auto init
@@ -843,17 +875,19 @@
 
     // AMD / RequireJS
     if (typeof define !== 'undefined' && define.amd) {
-        define([], function () {
+        define([], function() {
             return Favico;
         });
     }
     // CommonJS
-    else if (typeof module !== 'undefined' && module.exports) {
-        module.exports = Favico;
-    }
-    // included directly via <script> tag
     else {
-        this.Favico = Favico;
+        if (typeof module !== 'undefined' && module.exports) {
+            module.exports = Favico;
+        }
+        // included directly via <script> tag
+        else {
+            this.Favico = Favico;
+        }
     }
 
 })();
