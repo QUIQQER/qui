@@ -4,3 +4,5 @@ jsdoc/
 tests/coverage/
 
 tools/
+
+phpstan.neon
