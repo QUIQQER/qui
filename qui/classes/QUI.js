@@ -246,6 +246,22 @@ define('qui/classes/QUI', [
                         });
                     });
                 }
+
+                body.addEventListener('click', (e) => {
+                    if (e.target.getParent('button')) {
+                        return;
+                    }
+
+                    if (e.target.getParent('.qui-contextmenu-baritem')) {
+                        return;
+                    }
+
+                    if (e.target.getParent('.qui-contextmenu')) {
+                        return;
+                    }
+
+                    this.hideContextMenus();
+                });
             }
 
             this.MessageHandler = null;
@@ -255,7 +271,6 @@ define('qui/classes/QUI', [
          * Return the current win size
          * Please use QUI.getWinSize() and make not 1000 document.getSize() calls
          *
-         * @method qui/classes/QUI#getWindowSize
          * @returns {{x: number, y: number}|*}
          */
         getWindowSize: function () {
@@ -266,7 +281,6 @@ define('qui/classes/QUI', [
          * Return the current body size
          * Please use QUI.getBodySize() and make not 1000 document.body.getSize() calls
          *
-         * @method qui/classes/QUI#getBodySize
          * @returns {{x: number, y: number}|*}
          */
         getBodySize: function () {
@@ -277,7 +291,6 @@ define('qui/classes/QUI', [
          * Return the current body scrll size
          * Please use QUI.getBodyScrollSize() and make not 1000 document.body.getSize() calls
          *
-         * @method qui/classes/QUI#getBodySize
          * @returns {{x: number, y: number}|*}
          */
         getBodyScrollSize: function () {
@@ -288,7 +301,6 @@ define('qui/classes/QUI', [
          * Return the current scroll position
          * Please use QUI.getScroll() and make not 1000 window.getScroll() calls
          *
-         * @method qui/classes/QUI#getScroll
          * @returns {{x: number, y: number}|*}
          */
         getScroll: function () {
@@ -308,7 +320,6 @@ define('qui/classes/QUI', [
          * Creates Namespaces
          * based on YAHOO code - nice solution!!
          *
-         * @method qui/classes/QUI#namespace
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
          * @deprecated
          */
@@ -451,8 +462,6 @@ define('qui/classes/QUI', [
         /**
          * Fire the Error Event
          *
-         * @method qui/classes/QUI#triggerError
-         *
          * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
          * @return {Object} this (qui/classes/QUI)
          */
@@ -480,7 +489,6 @@ define('qui/classes/QUI', [
         /**
          * Return the message handler
          *
-         * @method qui/classes/QUI#getMessageHandler
          * @param {Function} [callback] - optional, callback function
          * @return Promise
          */
@@ -522,13 +530,23 @@ define('qui/classes/QUI', [
         /**
          * Return the message handler
          *
-         * @method qui/classes/QUI#getControls
          * @param {Function} callback
          */
         getControls: function (callback) {
             if (this.Controls) {
                 callback(this.Controls);
             }
+        },
+
+        /**
+         * hide all context menus
+         */
+        hideContextMenus: function() {
+            this.Controls.getByType('qui/controls/contextmenu/Menu').map((Instance) => {
+                if (Instance.getElm().getStyle('display') !== 'none') {
+                    Instance.hide();
+                }
+            });
         },
 
         /**
