@@ -248,15 +248,14 @@ define('qui/classes/QUI', [
                 }
 
                 body.addEventListener('click', (e) => {
-                    if (e.target.getParent('button')) {
-                        return;
-                    }
-
-                    if (e.target.getParent('.qui-contextmenu-baritem')) {
-                        return;
-                    }
-
-                    if (e.target.getParent('.qui-contextmenu')) {
+                    if (
+                        e.target.nodeName === 'BUTTON'
+                        || e.target.hasClass('.qui-contextmenu-baritem')
+                        || e.target.hasClass('.qui-contextmenu')
+                        || e.target.getParent('button')
+                        || e.target.getParent('.qui-contextmenu-baritem')
+                        || e.target.getParent('.qui-contextmenu')
+                    ) {
                         return;
                     }
 
