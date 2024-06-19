@@ -34,8 +34,8 @@ define('qui/controls/desktop/Panel', [
 
     'css!qui/controls/desktop/Panel.css'
 
-], function (QUI, Control, Loader, Toolbar, Separator, Button, PanelSheet, BreadcrumbBar, QUIContextmenu, Utils) {
-    "use strict";
+], function(QUI, Control, Loader, Toolbar, Separator, Button, PanelSheet, BreadcrumbBar, QUIContextmenu, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/desktop/Panel
@@ -45,46 +45,67 @@ define('qui/controls/desktop/Panel', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/desktop/Panel',
+        Type: 'qui/controls/desktop/Panel',
 
         Binds: [
             '$onDestroy'
         ],
 
         options: {
-            '#id'  : false,
-            name   : 'qui-desktop-panel',
+            '#id': false,
+            name: 'qui-desktop-panel',
             content: false,
 
             // header
             header: true,      // true to create a panel header when panel is created
-            title : false,     // the title inserted into the panel's header
-            icon  : false,
+            title: false,     // the title inserted into the panel's header
+            icon: false,
 
             // footer
             footer: false,     // true to create a panel footer when panel is created
 
             // Style options:
-            height    : '100%',      // the desired height of the panel, if false, it use the parent height
-            'class'   : '',         // css class to add to the main panel div
+            height: '100%',      // the desired height of the panel, if false, it use the parent height
+            'class': '',         // css class to add to the main panel div
             scrollbars: true,       // true to allow scrollbars to be shown
 
             // Other:
-            collapsible   : true,   // can the panel be collapsed
+            collapsible: true,   // can the panel be collapsed
             collapseFooter: true,   // collapse footer when panel is collapsed
 
-            closeable  : true, // can be the panel destroyed?
+            closeable: true, // can be the panel destroyed?
             closeButton: false, // display a close button
-            dragable   : true,  // is the panel dragable to another column?
-            breadcrumb : false,
-            toWindow   : false
+            dragable: true,  // is the panel dragable to another column?
+            breadcrumb: false,
+            toWindow: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.$uid = String.uniqueID();
             this.parent(options);
 
             this.Loader = new Loader();
+            this.Loader.addEvents({
+                onShow: () => {
+                    if (!this.$Icon) {
+                        return;
+                    }
+
+                    let classes = this.getAttribute('icon').split(' ');
+
+                    this.$Icon.classList.remove(...classes);
+                    this.$Icon.classList.add('fa', 'fa-spin', 'fa-circle-o-notch');
+
+                },
+                onHide: () => {
+                    if (!this.$Icon) {
+                        return;
+                    }
+
+                    this.$Icon.classList.remove('fa-spin', 'fa-circle-o-notch');
+                    this.$refresh();
+                }
+            });
 
             this.$Elm = null;
             this.$Header = null;
@@ -105,18 +126,18 @@ define('qui/controls/desktop/Panel', [
             this.$Dropable = null;
 
             this.addEvents({
-                onDestroy     : this.$onDestroy,
-                onSetAttribute: function (key, value) {
+                onDestroy: this.$onDestroy,
+                onSetAttribute: function(key, value) {
                     if (this.$Header && key === 'closeButton') {
                         if (value === true && !this.$CloseButton) {
                             this.$CloseButton = new Button({
-                                icon  : 'fa fa-close',
-                                name  : 'close',
+                                icon: 'fa fa-close',
+                                name: 'close',
                                 styles: {
                                     'float': 'right'
                                 },
                                 events: {
-                                    onClick: function () {
+                                    onClick: function() {
                                         this.destroy();
                                     }.bind(this)
                                 }
@@ -139,8 +160,8 @@ define('qui/controls/desktop/Panel', [
          *
          * @return {Promise}
          */
-        getToolTipText: function () {
-            return new Promise(function (resolve) {
+        getToolTipText: function() {
+            return new Promise(function(resolve) {
                 resolve(this.getAttribute('description'));
             }.bind(this));
         },
@@ -151,25 +172,25 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 return this.$Elm;
             }
 
             this.$Elm = new Element('div', {
                 'data-quiid': this.getId(),
-                'class'     : 'qui-panel box',
-                tabindex    : -1,
+                'class': 'qui-panel box',
+                tabindex: -1,
 
                 styles: {
                     height: this.getAttribute('height')
                 },
 
                 html: '<div class="qui-panel-header box"></div>' +
-                      '<div class="qui-panel-buttons box"></div>' +
-                      '<div class="qui-panel-categories box"></div>' +
-                      '<div class="qui-panel-content box"></div>' +
-                      '<div class="qui-panel-footer box"></div>'
+                    '<div class="qui-panel-buttons box"></div>' +
+                    '<div class="qui-panel-categories box"></div>' +
+                    '<div class="qui-panel-content box"></div>' +
+                    '<div class="qui-panel-footer box"></div>'
             });
 
             this.Loader.inject(this.$Elm);
@@ -218,7 +239,7 @@ define('qui/controls/desktop/Panel', [
          * @param Parent
          * @param pos
          */
-        inject: function (Parent, pos) {
+        inject: function(Parent, pos) {
             this.parent(Parent, pos);
 
             if (!QUI.getAttribute('quiqqer-panel-inject')) {
@@ -240,12 +261,33 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#refresh
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        refresh: function () {
+        refresh: function() {
             this.resize();
             this.fireEvent('refresh', [this]);
             this.$refresh();
 
             return this;
+        },
+
+        /**
+         * The method displays a check animation.
+         * You can use this method to display the completion of a save process, for example.
+         * The icon in the panel is changed to a check mark for one second to indicate that the process was successful.
+         */
+        showSavedIconAnimation: function() {
+            if (!this.$Icon) {
+                return;
+            }
+
+            let classes = this.getAttribute('icon').split(' ');
+
+            this.$Icon.classList.remove(...classes);
+            this.$Icon.classList.remove('fa-spin', 'fa-circle-o-notch');
+            this.$Icon.classList.add('fa', 'fa-check');
+
+            (() => {
+                this.$refresh();
+            }).delay(1000);
         },
 
         /**
@@ -255,7 +297,7 @@ define('qui/controls/desktop/Panel', [
          * @ignore
          * @private
          */
-        $refresh: function () {
+        $refresh: function() {
             if (!this.$Title) {
                 this.$Icon = new Element('span.qui-panel-icon').inject(
                     this.$Header
@@ -306,7 +348,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#resize
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        resize: function () {
+        resize: function() {
             const self = this;
 
             this.fireEvent('resizeBegin', [this]);
@@ -346,8 +388,8 @@ define('qui/controls/desktop/Panel', [
             }
 
             let content_height = this.getAttribute('height'),
-                overflow       = 'auto',
-                buttonsSize    = this.$Buttons.getSize();
+                overflow = 'auto',
+                buttonsSize = this.$Buttons.getSize();
 
             // height calc
             if (content_height.toString().match('%')) {
@@ -358,9 +400,9 @@ define('qui/controls/desktop/Panel', [
             }
 
             content_height = content_height -
-                             buttonsSize.y - 2 -
-                             this.$Footer.getSize().y - 1 -
-                             this.$Header.getSize().y;
+                buttonsSize.y - 2 -
+                this.$Footer.getSize().y - 1 -
+                this.$Header.getSize().y;
 
             if (this.$Breadcrumb) {
                 content_height = content_height - this.$Breadcrumb.getSize().y;
@@ -385,11 +427,11 @@ define('qui/controls/desktop/Panel', [
             }, {
                 duration: 250,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     // set proportions
                     self.$Content.setStyles({
                         overflow: overflow,
-                        height  : content_height
+                        height: content_height
                     });
 
                     self.fireEvent('resize', [self]);
@@ -403,7 +445,7 @@ define('qui/controls/desktop/Panel', [
          * fix the panel
          * the panel are not more editable - the method can be overwritten, its a placeholder for child panels
          */
-        fix: function () {
+        fix: function() {
 
         },
 
@@ -411,7 +453,7 @@ define('qui/controls/desktop/Panel', [
          * unfix the panel
          * the panel is editable - the method can be overwritten, its a placeholder for child panels
          */
-        unfix: function () {
+        unfix: function() {
 
         },
 
@@ -422,7 +464,7 @@ define('qui/controls/desktop/Panel', [
          * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        open: function (callback) {
+        open: function(callback) {
             const self = this;
 
             this.fireEvent('openBegin', [this]);
@@ -443,7 +485,7 @@ define('qui/controls/desktop/Panel', [
             }, {
                 duration: 200,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     self.fireEvent('open', [self]);
                     self.resize();
 
@@ -463,7 +505,7 @@ define('qui/controls/desktop/Panel', [
          * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        minimize: function (callback) {
+        minimize: function(callback) {
             const self = this;
 
             this.fireEvent('minimizeBegin', [this]);
@@ -488,7 +530,7 @@ define('qui/controls/desktop/Panel', [
             }, {
                 duration: 200,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     self.fireEvent('minimize', [self]);
                     self.resize();
 
@@ -508,7 +550,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#toggle
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        toggle: function () {
+        toggle: function() {
             if (this.getAttribute('collapsible') === false) {
                 return this;
             }
@@ -528,7 +570,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#isOpen
          * @return {Boolean}
          */
-        isOpen: function () {
+        isOpen: function() {
             if (!this.$Content) {
                 return false;
             }
@@ -542,7 +584,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#highlight
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        highlight: function () {
+        highlight: function() {
             if (!this.getElm()) {
                 return this;
             }
@@ -560,7 +602,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#normalize
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        normalize: function () {
+        normalize: function() {
             if (!this.getElm()) {
                 return this;
             }
@@ -574,7 +616,7 @@ define('qui/controls/desktop/Panel', [
          * @deprecated
          * @method qui/controls/desktop/Panel#getBody
          */
-        getBody: function () {
+        getBody: function() {
             return this.getContent();
         },
 
@@ -584,7 +626,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getBody
          * @return {null|HTMLElement}
          */
-        getContent: function () {
+        getContent: function() {
             return this.$Content;
         },
 
@@ -595,7 +637,7 @@ define('qui/controls/desktop/Panel', [
          * @param {String} content - HTML String
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        setContent: function (content) {
+        setContent: function(content) {
             this.$Content.set('html', content);
 
             return this;
@@ -607,7 +649,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getFooter
          * @return {null|HTMLElement}
          */
-        getFooter: function () {
+        getFooter: function() {
             return this.$Footer;
         },
 
@@ -618,7 +660,7 @@ define('qui/controls/desktop/Panel', [
          * @param {String} content - HTML String
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        setFooter: function (content) {
+        setFooter: function(content) {
             this.$Footer.set('html', content);
 
             return this;
@@ -630,7 +672,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getHeader
          * @return {null|HTMLElement}
          */
-        getHeader: function () {
+        getHeader: function() {
             return this.$Header;
         },
 
@@ -642,7 +684,7 @@ define('qui/controls/desktop/Panel', [
          * @param {Object|HTMLElement} Btn - qui/controls/buttons/Buttons | qui/controls/buttons/Separator | Object params
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        addButton: function (Btn) {
+        addButton: function(Btn) {
             if (!QUI.Controls.isControl(Btn) && typeOf(Btn) !== 'element') {
                 if (Btn.type === 'separator' ||
                     Btn.type === 'QUI\\Controls\\Buttons\\Separator') {
@@ -670,7 +712,7 @@ define('qui/controls/desktop/Panel', [
          *                          if no name given, all children will be return
          * @return {Array}
          */
-        getButtons: function (name) {
+        getButtons: function(name) {
             if (!this.$ButtonBar) {
                 return [];
             }
@@ -684,7 +726,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getButtonBar
          * @return {Object} qui/controls/toolbar/Bar
          */
-        getButtonBar: function () {
+        getButtonBar: function() {
             if (this.$ButtonBar) {
                 return this.$ButtonBar;
             }
@@ -696,10 +738,10 @@ define('qui/controls/desktop/Panel', [
             this.$Buttons.setStyle('display', null);
 
             this.$ButtonBar = new Toolbar({
-                slide        : false,
-                type         : 'buttons',
+                slide: false,
+                type: 'buttons',
                 'menu-button': false,
-                mousewheel   : false
+                mousewheel: false
             }).inject(this.$Buttons);
 
             return this.$ButtonBar;
@@ -713,7 +755,7 @@ define('qui/controls/desktop/Panel', [
          * @param {Object} Btn - qui/controls/buttons/Buttons | button params
          * @return {Object} this (qui/controls/desktop/Panel)
          */
-        addCategory: function (Btn) {
+        addCategory: function(Btn) {
             if (typeof Btn.getType === 'undefined') {
                 Btn = new Button(Btn);
             }
@@ -722,7 +764,7 @@ define('qui/controls/desktop/Panel', [
 
             Btn.addEvents({
 
-                onClick: function (Btn) {
+                onClick: function(Btn) {
                     if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
@@ -739,7 +781,7 @@ define('qui/controls/desktop/Panel', [
                     }
                 },
 
-                onActive: function (Btn) {
+                onActive: function(Btn) {
                     if (self.$ActiveCat && self.$ActiveCat === Btn) {
                         return;
                     }
@@ -771,7 +813,7 @@ define('qui/controls/desktop/Panel', [
          *                          if no name given, all children will be return
          * @return {Array}
          */
-        getCategory: function (name) {
+        getCategory: function(name) {
             if (!this.$CategoryBar) {
                 return [];
             }
@@ -785,18 +827,18 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getCategoryBar
          * @return {Object} qui/controls/toolbar/Bar
          */
-        getCategoryBar: function () {
+        getCategoryBar: function() {
             if (!this.$CategoryBar) {
                 this.$Categories.setStyle('display', null);
 
                 this.$CategoryBar = new Toolbar({
-                    width        : 190,
-                    slide        : false,
-                    type         : 'buttons',
-                    vertical     : true,
+                    width: 190,
+                    slide: false,
+                    type: 'buttons',
+                    vertical: true,
                     'menu-button': false,
-                    events       : {
-                        onClear: function () {
+                    events: {
+                        onClear: function() {
                             this.$ActiveCat = null;
                         }.bind(this)
                     }
@@ -813,13 +855,13 @@ define('qui/controls/desktop/Panel', [
          *
          * @return Promise
          */
-        minimizeCategory: function () {
+        minimizeCategory: function() {
             const CategoryBar = this.getCategoryBar();
 
             CategoryBar.setAttribute('width', 50);
             CategoryBar.resize();
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
 
                 this.$Categories.addClass('qui-panel-categories-minimize');
 
@@ -828,7 +870,7 @@ define('qui/controls/desktop/Panel', [
                 }, {
                     duration: 250,
                     equation: 'cubic-bezier(.42,.4,.46,1.29)',
-                    callback: function () {
+                    callback: function() {
 
                         this.resize();
                         resolve();
@@ -844,15 +886,15 @@ define('qui/controls/desktop/Panel', [
          *
          * @return Promise
          */
-        maximizeCategory: function () {
-            return new Promise(function (resolve) {
+        maximizeCategory: function() {
+            return new Promise(function(resolve) {
 
                 moofx(this.$Categories).animate({
                     width: 190
                 }, {
                     duration: 250,
                     equation: 'cubic-bezier(.42,.4,.46,1.29)',
-                    callback: function () {
+                    callback: function() {
 
                         this.$Categories.removeClass('qui-panel-categories-minimize');
 
@@ -877,7 +919,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getActiveCategory
          * @return {Object} qui/controls/buttons/Buttons
          */
-        getActiveCategory: function () {
+        getActiveCategory: function() {
             return this.$ActiveCat;
         },
 
@@ -887,7 +929,7 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getBreadcrumb
          * @return {Object} qui/controls.breadcrumb.Bar
          */
-        getBreadcrumb: function () {
+        getBreadcrumb: function() {
             if (!this.$BreadcrumbBar) {
                 this.$BreadcrumbBar = new BreadcrumbBar({
                     name: 'panel-breadcrumb-' + this.getId()
@@ -907,16 +949,16 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#getContextMenu
          * @return {qui/controls/contextmenu/Menu}
          */
-        getContextMenu: function () {
+        getContextMenu: function() {
             if (this.$ContextMenu) {
                 return this.$ContextMenu;
             }
 
             // context menu
             this.$ContextMenu = new QUIContextmenu({
-                title : this.getAttribute('title'),
+                title: this.getAttribute('title'),
                 events: {
-                    blur: function (Menu) {
+                    blur: function(Menu) {
                         Menu.hide();
                     }
                 }
@@ -934,15 +976,15 @@ define('qui/controls/desktop/Panel', [
          * @param {Object} [options] - optional, Sheet options
          * @return {Object} qui/controls/panels/Sheet
          */
-        createSheet: function (options) {
-            const self  = this,
-                  Sheet = new PanelSheet(options);
+        createSheet: function(options) {
+            const self = this,
+                Sheet = new PanelSheet(options);
 
-            const resize = function () {
+            const resize = function() {
                 Sheet.resize();
             };
 
-            Sheet.addEvent('onDestroy', function () {
+            Sheet.addEvent('onDestroy', function() {
                 self.removeEvent('onResize', resize);
             });
 
@@ -956,7 +998,7 @@ define('qui/controls/desktop/Panel', [
         /**
          * Enable collapsible
          */
-        enableCollapsible: function () {
+        enableCollapsible: function() {
             this.setAttribute('collapsible', true);
 
             if (this.$Collaps) {
@@ -971,7 +1013,7 @@ define('qui/controls/desktop/Panel', [
 
             this.$Header.setStyle('cursor', 'pointer');
 
-            this.$Header.addEvent('click', function () {
+            this.$Header.addEvent('click', function() {
                 self.toggle();
             });
         },
@@ -979,7 +1021,7 @@ define('qui/controls/desktop/Panel', [
         /**
          * Disable collapsible
          */
-        disableCollapsible: function () {
+        disableCollapsible: function() {
             this.setAttribute('collapsible', false);
 
             if (!this.$Collaps) {
@@ -994,7 +1036,7 @@ define('qui/controls/desktop/Panel', [
         /**
          * Enable the dragdrop
          */
-        enableDragDrop: function () {
+        enableDragDrop: function() {
             this.setAttribute('dragable', true);
 
             if (this.$Header) {
@@ -1008,7 +1050,7 @@ define('qui/controls/desktop/Panel', [
 
             const self = this;
 
-            this.$getDragable(function () {
+            this.$getDragable(function() {
                 if (self.getAttribute('dragable')) {
                     self.$Dropable.enable();
                 } else {
@@ -1020,7 +1062,7 @@ define('qui/controls/desktop/Panel', [
         /**
          * Disable the dragdrop
          */
-        disableDragDrop: function () {
+        disableDragDrop: function() {
             this.setAttribute('dragable', false);
 
             if (this.$Header) {
@@ -1042,14 +1084,14 @@ define('qui/controls/desktop/Panel', [
          * @method qui/controls/desktop/Panel#$getDragable
          * @param {Function} callback - Callback function( {DragDrop} )
          */
-        $getDragable: function (callback) {
+        $getDragable: function(callback) {
             if (this.$Dropable) {
                 callback(this.$Dropable);
                 return;
             }
 
             if (typeof this.$_dragDropExec !== 'undefined') {
-                (function () {
+                (function() {
                     this.$getDragable(callback);
                 }).delay(20, this);
 
@@ -1060,18 +1102,18 @@ define('qui/controls/desktop/Panel', [
 
             const self = this;
 
-            require(['qui/classes/utils/DragDrop'], function (DragDrop) {
+            require(['qui/classes/utils/DragDrop'], function(DragDrop) {
                 let DragDropParent = null;
 
                 self.$Dropable = new DragDrop(self.$Header, {
                     dropables: '.qui-panel-drop',
-                    cssClass : 'radius5',
-                    styles   : {
-                        width : 100,
+                    cssClass: 'radius5',
+                    styles: {
+                        width: 100,
                         height: 150
                     },
-                    events   : {
-                        onStart: function (Dragable, Element, event) {
+                    events: {
+                        onStart: function(Dragable, Element, event) {
                             self.fireEvent('dragDropStart', [
                                 self,
                                 Element,
@@ -1079,11 +1121,11 @@ define('qui/controls/desktop/Panel', [
                             ]);
                         },
 
-                        onComplete: function () {
+                        onComplete: function() {
                             self.fireEvent('dragDropComplete', [self]);
                         },
 
-                        onDrag: function (Dragable, Element, event) {
+                        onDrag: function(Dragable, Element, event) {
                             self.fireEvent('drag', [
                                 self,
                                 event
@@ -1097,7 +1139,7 @@ define('qui/controls/desktop/Panel', [
                             }
                         },
 
-                        onEnter: function (Dragable, Element, Dropable) {
+                        onEnter: function(Dragable, Element, Dropable) {
                             let quiid = Dropable.get('data-quiid');
 
                             if (!quiid) {
@@ -1114,7 +1156,7 @@ define('qui/controls/desktop/Panel', [
                             }
                         },
 
-                        onLeave: function (Dragable, Element) {
+                        onLeave: function(Dragable, Element) {
                             if (DragDropParent) {
                                 DragDropParent.fireEvent('dragDropLeave', [
                                     self,
@@ -1124,7 +1166,7 @@ define('qui/controls/desktop/Panel', [
                             }
                         },
 
-                        onDrop: function (Dragable, Element, Dropable, event) {
+                        onDrop: function(Dragable, Element, Dropable, event) {
                             if (!Dropable) {
                                 return;
                             }
@@ -1150,7 +1192,7 @@ define('qui/controls/desktop/Panel', [
          *
          * @method qui/controls/desktop/Panel#$onDestroy
          */
-        $onDestroy: function () {
+        $onDestroy: function() {
             const destroy = [
                 this.$Header,
                 this.$Title,
@@ -1165,36 +1207,10 @@ define('qui/controls/desktop/Panel', [
             ];
 
             for (let i = 0, len = destroy.length; i < len; i++) {
-                if (destroy[i] && "destroy" in destroy[i]) {
+                if (destroy[i] && 'destroy' in destroy[i]) {
                     destroy[i].destroy();
                 }
             }
-        },
-
-        /**
-         * Shows a saved animation in the panel icon
-         *
-         * @return {Promise}
-         */
-        showSavedIconAnimation: function () {
-            const self    = this,
-                  oldIcon = this.getAttribute('icon');
-
-            this.setAttribute('icon', 'fa fa-spinner fa-spin');
-            this.$refresh();
-
-            return new Promise(function (resolve) {
-                (function () {
-                    self.setAttribute('icon', 'fa fa-check');
-                    self.$refresh();
-
-                    (function () {
-                        self.setAttribute('icon', oldIcon);
-                        self.$refresh();
-                        resolve();
-                    }).delay(800);
-                }).delay(200);
-            });
         },
 
         /**
@@ -1202,19 +1218,19 @@ define('qui/controls/desktop/Panel', [
          *
          * @return {Promise}
          */
-        showErrorIconAnimation: function () {
-            const self    = this,
-                  oldIcon = this.getAttribute('icon');
+        showErrorIconAnimation: function() {
+            const self = this,
+                oldIcon = this.getAttribute('icon');
 
             this.setAttribute('icon', 'fa fa-spinner fa-spin');
             this.$refresh();
 
-            return new Promise(function (resolve) {
-                (function () {
+            return new Promise(function(resolve) {
+                (function() {
                     self.setAttribute('icon', 'fa fa-bolt');
                     self.$refresh();
 
-                    (function () {
+                    (function() {
                         self.setAttribute('icon', oldIcon);
                         self.$refresh();
                         resolve();
