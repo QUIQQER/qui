@@ -91,7 +91,7 @@ define('qui/controls/desktop/Panel', [
                         return;
                     }
 
-                    let classes = this.getAttribute('icon').split(' ');
+                    let classes = this.getAttribute('icon') ? this.getAttribute('icon').split(' ') : [];
 
                     this.$Icon.classList.remove(...classes);
                     this.$Icon.classList.add('fa', 'fa-spin', 'fa-circle-o-notch');
@@ -279,7 +279,7 @@ define('qui/controls/desktop/Panel', [
                 return;
             }
 
-            let classes = this.getAttribute('icon').split(' ');
+            let classes = this.getAttribute('icon') ? this.getAttribute('icon').split(' ') : [];
 
             this.$Icon.classList.remove(...classes);
             this.$Icon.classList.remove('fa-spin', 'fa-circle-o-notch');
