@@ -259,6 +259,10 @@ define('qui/classes/QUI', [
                         return;
                     }
 
+                    if (e.target.getParent('.qui-button-multiple')) {
+                        return;
+                    }
+
                     this.hideContextMenus();
                 });
             }
