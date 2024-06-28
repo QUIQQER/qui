@@ -577,6 +577,16 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                             return;
                         }
 
+                        let triggerNode = event.target;
+
+                        if (triggerNode.nodeName === 'SPAN') {
+                            triggerNode = triggerNode.getParent('button');
+                        }
+
+                        if (triggerNode !== self.$Elm) {
+                            return;
+                        }
+
                         var pos   = self.$Elm.getPosition(),
                             size  = self.$Elm.getSize(),
 
