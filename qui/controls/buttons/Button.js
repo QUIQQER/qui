@@ -572,15 +572,19 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                 self.$Menu.inject(document.body);
 
                 self.addEvents({
-                    onClick: function () {
+                    onClick: function (Instance, event) {
                         if (self.isDisabled()) {
                             return;
                         }
 
                         let triggerNode = event.target;
 
-                        if (triggerNode.nodeName === 'SPAN') {
+                        if (triggerNode.nodeName !== 'BUTTON') {
                             triggerNode = triggerNode.getParent('button');
+                        }
+
+                        if (triggerNode.nodeName !== 'BUTTON') {
+                            return;
                         }
 
                         if (triggerNode !== self.$Elm) {
@@ -589,7 +593,6 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
 
                         var pos   = self.$Elm.getPosition(),
                             size  = self.$Elm.getSize(),
-
                             mpos  = self.getAttribute('menuCorner'),
                             msize = self.$Menu.getElm().getComputedSize();
 
