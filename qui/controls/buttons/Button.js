@@ -578,6 +578,8 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                         }
 
                         if (typeof event === 'object') {
+                            event.stop();
+
                             let triggerNode = event.target;
 
                             if (triggerNode.nodeName !== 'BUTTON') {
@@ -589,6 +591,10 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                             }
 
                             if (triggerNode !== self.$Elm) {
+                                return;
+                            }
+                        } else {
+                            if (typeof Instance.getElm === 'function' && self.$Elm !== Instance.getElm()) {
                                 return;
                             }
                         }
