@@ -577,18 +577,20 @@ define('qui/controls/buttons/Button', needle, function (Control, Utils, NoSelect
                             return;
                         }
 
-                        let triggerNode = event.target;
+                        if (typeof event === 'object') {
+                            let triggerNode = event.target;
 
-                        if (triggerNode.nodeName !== 'BUTTON') {
-                            triggerNode = triggerNode.getParent('button');
-                        }
+                            if (triggerNode.nodeName !== 'BUTTON') {
+                                triggerNode = triggerNode.getParent('button');
+                            }
 
-                        if (triggerNode.nodeName !== 'BUTTON') {
-                            return;
-                        }
+                            if (triggerNode.nodeName !== 'BUTTON') {
+                                return;
+                            }
 
-                        if (triggerNode !== self.$Elm) {
-                            return;
+                            if (triggerNode !== self.$Elm) {
+                                return;
+                            }
                         }
 
                         var pos   = self.$Elm.getPosition(),
