@@ -12,27 +12,27 @@ define('qui/controls/buttons/ButtonMultiple', [
 
     'css!qui/controls/buttons/ButtonMultiple.css'
 
-], function (QUI, QUIControl, NoSelect, ControlUtils, QUIContextMenuItem) {
-    "use strict";
+], function(QUI, QUIControl, NoSelect, ControlUtils, QUIContextMenuItem) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/buttons/ButtonMultiple',
+        Type: 'qui/controls/buttons/ButtonMultiple',
 
         Binds: [
             '$onSetAttribute'
         ],
 
         options: {
-            disabled : false,
+            disabled: false,
             textimage: false,   // Image left from text
-            text     : false,        // Button text
-            title    : false,
-            class    : false        // extra CSS Class
+            text: false,        // Button text
+            title: false,
+            class: false        // extra CSS Class
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$Menu = null;
@@ -53,19 +53,19 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @returns {HTMLDivElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
-                'class'     : 'qui-button-multiple',
+                'class': 'qui-button-multiple',
                 'data-quiid': this.getId(),
-                html        : '<button></button>' +
-                              '<div class="qui-button-multiple-dd">' +
-                              '    <div class="qui-button-multiple-dd-line"></div>' +
-                              '    <span class="fa fa-angle-down"></span>' +
-                              '</div>'
+                html: '<button></button>' +
+                    '<div class="qui-button-multiple-dd">' +
+                    '    <div class="qui-button-multiple-dd-line"></div>' +
+                    '    <span class="fa fa-angle-down"></span>' +
+                    '</div>'
             });
 
             this.$Elm.style.outline = 0;
-            this.$Elm.setAttribute('tabindex', "-1");
+            this.$Elm.setAttribute('tabindex', '-1');
 
             // nodes
             this.$Button = this.$Elm.getElement('button');
@@ -80,7 +80,7 @@ define('qui/controls/buttons/ButtonMultiple', [
             }).inject(this.$Button);
 
             this.$Button.style.outline = 0;
-            this.$Button.setAttribute('tabindex', "-1");
+            this.$Button.setAttribute('tabindex', '-1');
 
             // data
             if (this.getAttribute('styles')) {
@@ -108,12 +108,12 @@ define('qui/controls/buttons/ButtonMultiple', [
             }
 
             // menu
-            this.$DropDownContainer.addEvent('click', function () {
+            this.$DropDownContainer.addEvent('click', function() {
                 this.openMenu();
             }.bind(this));
 
             if (this.$items.length) {
-                this.getMenu().then(function (Menu) {
+                this.getMenu().then(function(Menu) {
                     var len = this.$items.length;
 
                     for (var i = 0; i < len; i++) {
@@ -124,7 +124,7 @@ define('qui/controls/buttons/ButtonMultiple', [
 
             // events
             this.$Elm.addEvents({
-                blur: function () {
+                blur: function() {
                     /*this.getMenu().then(function (Menu) {
                         Menu.hide();
                     }.bind(this));*/
@@ -132,7 +132,7 @@ define('qui/controls/buttons/ButtonMultiple', [
             });
 
             this.$Button.addEvents({
-                click: function (event) {
+                click: function(event) {
                     if (this.isDisabled()) {
                         return;
                     }
@@ -154,7 +154,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @param {DOMEvent} event
          */
-        click: function (event) {
+        click: function(event) {
             if (this.isDisabled()) {
                 return;
             }
@@ -173,7 +173,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          * Disable the Button
          * Most Events are no more triggered
          */
-        disable: function () {
+        disable: function() {
             if (!this.$Elm) {
                 return this;
             }
@@ -188,7 +188,7 @@ define('qui/controls/buttons/ButtonMultiple', [
         /**
          * Enable the Button
          */
-        enable: function () {
+        enable: function() {
             if (!this.$Elm) {
                 return this;
             }
@@ -205,7 +205,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @returns {Boolean}
          */
-        isDisabled: function () {
+        isDisabled: function() {
             return this.$disabled;
         },
 
@@ -217,8 +217,8 @@ define('qui/controls/buttons/ButtonMultiple', [
          * @param {Object} Itm - qui/controls/contextmenu/Item | object
          * @return {Promise}
          */
-        appendChild: function (Itm) {
-            if (typeOf(Itm) == 'object') {
+        appendChild: function(Itm) {
+            if (typeOf(Itm) === 'object') {
                 Itm = new QUIContextMenuItem(Itm);
             }
 
@@ -230,7 +230,7 @@ define('qui/controls/buttons/ButtonMultiple', [
                 return Promise.resolve();
             }
 
-            return this.getMenu().then(function (Menu) {
+            return this.getMenu().then(function(Menu) {
                 Menu.appendChild(Itm);
             });
         },
@@ -241,7 +241,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          * @method qui/controls/buttons/Button#getChildren
          * @return {Array}
          */
-        getChildren: function () {
+        getChildren: function() {
             return this.$items;
         },
 
@@ -250,10 +250,10 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @return {Promise}
          */
-        clear: function () {
+        clear: function() {
             this.$items = [];
 
-            return this.getMenu().then(function (Menu) {
+            return this.getMenu().then(function(Menu) {
                 Menu.clearChildren();
             });
         },
@@ -263,7 +263,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @return {Promise}
          */
-        getMenu: function () {
+        getMenu: function() {
             if (this.$Menu) {
                 return Promise.resolve(this.$Menu);
             }
@@ -271,15 +271,16 @@ define('qui/controls/buttons/ButtonMultiple', [
             return new Promise((resolve) => {
                 require(['qui/controls/contextmenu/Menu'], (Menu) => {
                     this.$Menu = new Menu({
-                        name  : this.getAttribute('name') + '-menu',
+                        name: this.getAttribute('name') + '-menu',
                         corner: 'top'
                     });
 
                     this.$Menu.addEvent('blur', () => {
                         this.$Menu.hide();
                     });
-                    this.$Menu.inject(document.body);
+
                     this.$Menu.setParent(this);
+                    this.$Menu.inject(document.body);
 
                     resolve(this.$Menu);
                 });
@@ -326,13 +327,13 @@ define('qui/controls/buttons/ButtonMultiple', [
          *
          * @return {Promise}
          */
-        openMenu: function () {
+        openMenu: function() {
             if (this.isDisabled()) {
                 return Promise.resolve();
             }
 
-            return this.getMenu().then(function (Menu) {
-                var pos  = this.$Elm.getPosition(),
+            return this.getMenu().then(function(Menu) {
+                var pos = this.$Elm.getPosition(),
                     size = this.$Elm.getSize();
 
                 Menu.setPosition(
@@ -350,7 +351,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          * @param attribute
          * @param value
          */
-        $onSetAttribute: function (attribute, value) {
+        $onSetAttribute: function(attribute, value) {
             if (!this.$Elm) {
                 return;
             }

@@ -1,4 +1,3 @@
-
 /**
  * QUIQQER Progress Bar
  *
@@ -20,9 +19,8 @@ define('qui/controls/utils/Progressbar', [
 
     'css!qui/controls/utils/Progressbar.css'
 
-], function(QUIControl)
-{
-    "use strict";
+], function(QUIControl) {
+    'use strict';
 
     /**
      * @class qui/controls/utils/Progressbar
@@ -31,23 +29,22 @@ define('qui/controls/utils/Progressbar', [
      */
     return new Class({
 
-        Extends : QUIControl,
-        Type    : 'qui/controls/utils/Progressbar',
+        Extends: QUIControl,
+        Type: 'qui/controls/utils/Progressbar',
 
-        options : {
-            displayText : false,
-            speed       : 10,
-            fx          : true,
+        options: {
+            displayText: false,
+            speed: 10,
+            fx: true,
 
-            boxClass        : 'progressbar',
-            percentageClass : 'percantage',
-            displayClass    : 'display',
-            startPercentage : 0
+            boxClass: 'progressbar',
+            percentageClass: 'percantage',
+            displayClass: 'display',
+            startPercentage: 0
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function(options) {
+            this.parent(options);
 
             this.$Elm = null;
             this.$Perc = null;
@@ -61,35 +58,33 @@ define('qui/controls/utils/Progressbar', [
          *
          * @method qui/controls/utils/Progressbar#create
          */
-        create : function()
-        {
+        create: function() {
             this.$Elm = new Element('div', {
-                styles : {
+                styles: {
                     position: 'relative'
                 }
             });
 
             this.$Box = new Element('div', {
-                'class' : this.options.boxClass
+                'class': this.options.boxClass
             });
 
             this.$Perc = new Element('div', {
-                'class' : this.options.percentageClass,
-                styles  : {
-                    width : this.calculate( this.options.startPercentage.toInt() )
+                'class': this.options.percentageClass,
+                styles: {
+                    width: this.calculate(this.options.startPercentage.toInt())
                 }
             });
 
-            this.$Perc.inject( this.$Box );
-            this.$Box.inject( this.$Elm );
+            this.$Perc.inject(this.$Box);
+            this.$Box.inject(this.$Elm);
 
-            if ( this.options.displayText )
-            {
-                  this.$Text = new Element('div', {
-                      id : this.options.displayClass
-                  });
+            if (this.options.displayText) {
+                this.$Text = new Element('div', {
+                    id: this.options.displayClass
+                });
 
-                  this.$Text.inject( this.$Elm );
+                this.$Text.inject(this.$Elm);
             }
 
             this.width = this.$Box.getSize().x;
@@ -103,9 +98,8 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#calculate
          * @param {Number} percentage - 0 - 100
          */
-        calculate : function(percentage)
-        {
-            if ( this.width === 0 ) {
+        calculate: function(percentage) {
+            if (this.width === 0) {
                 this.width = this.$Box.getSize().x;
             }
 
@@ -118,33 +112,29 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#animate
          * @param {Number} to - 0 - 100
          */
-        animate : function(to)
-        {
-            if ( to.toInt() > 100 ) {
+        animate: function(to) {
+            if (to.toInt() > 100) {
                 return;
             }
 
-            if ( to.toInt() === 100 )
-            {
-                this.$Box.addClass( 'complete' );
-                this.fireEvent( 'onComplete', [ this ] );
+            if (to.toInt() === 100) {
+                this.$Box.addClass('complete');
+                this.fireEvent('onComplete', [this]);
             }
 
-            if ( this.options.fx === false )
-            {
-                this.$Perc.setStyle( 'width', this.calculate( to.toInt() ) );
-            } else
-            {
+            if (this.options.fx === false) {
+                this.$Perc.setStyle('width', this.calculate(to.toInt()));
+            } else {
                 this.$Perc.set('morph', {
-                    duration : this.options.speed,
-                    link     : 'cancel'
+                    duration: this.options.speed,
+                    link: 'cancel'
                 }).morph({
-                    width : this.calculate( to.toInt() )
+                    width: this.calculate(to.toInt())
                 });
             }
 
-            if ( this.options.displayText ) {
-                this.Text.set( 'text', to.toInt() +'%' );
+            if (this.options.displayText) {
+                this.Text.set('text', to.toInt() + '%');
             }
         },
 
@@ -154,10 +144,9 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#set
          * @param {Number} to - 0 - 100
          */
-        set : function(to)
-        {
+        set: function(to) {
             this.to = to;
-            this.animate( this.to );
+            this.animate(this.to);
         },
 
         /**
@@ -165,8 +154,7 @@ define('qui/controls/utils/Progressbar', [
          *
          * @return {Number}
          */
-        get: function()
-        {
+        get: function() {
             return this.to;
         }
     });

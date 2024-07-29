@@ -1,4 +1,3 @@
-
 /**
  * Success Message
  *
@@ -8,9 +7,8 @@
  * @require qui/controls/messages/Message
  */
 
-define('qui/controls/messages/Success', ['qui/controls/messages/Message'], function(Message)
-{
-    "use strict";
+define('qui/controls/messages/Success', ['qui/controls/messages/Message'], function(Message) {
+    'use strict';
 
     /**
      * @class qui/controls/messages/Success
@@ -19,13 +17,12 @@ define('qui/controls/messages/Success', ['qui/controls/messages/Message'], funct
      */
     return new Class({
 
-        Extends : Message,
-        Type    : 'qui/controls/messages/Success',
+        Extends: Message,
+        Type: 'qui/controls/messages/Success',
 
-        initialize : function(options)
-        {
-            this.setAttribute( 'cssclass', 'message-success' );
-            this.parent( options );
+        initialize: function(options) {
+            this.setAttribute('cssclass', 'message-success');
+            this.parent(options);
         }
     });
 });

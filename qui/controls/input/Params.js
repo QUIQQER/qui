@@ -19,8 +19,8 @@ define('qui/controls/input/Params', [
 
     'css!qui/controls/input/Params.css'
 
-], function (QUI, QUIControl, QUIButton, QUIConfirm) {
-    "use strict";
+], function(QUI, QUIControl, QUIButton, QUIConfirm) {
+    'use strict';
 
     /**
      * @class qui/controls/input/Params
@@ -30,7 +30,7 @@ define('qui/controls/input/Params', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/input/Params',
+        Type: 'qui/controls/input/Params',
 
         Binds: [
             '$setValue',
@@ -38,18 +38,18 @@ define('qui/controls/input/Params', [
         ],
 
         options: {
-            name           : '',
-            styles         : false, // optional -> style parameter
-            allowedParams  : false, // optional {array} -> set which param names are allowed
-            allowDuplicate : false, // optional -> allow duplicate param entries
+            name: '',
+            styles: false, // optional -> style parameter
+            allowedParams: false, // optional {array} -> set which param names are allowed
+            allowDuplicate: false, // optional -> allow duplicate param entries
             windowMaxHeight: 360,   // optional -> the add window max height
-            windowMaxWidth : 540    // optional -> the add window max width
+            windowMaxWidth: 540    // optional -> the add window max width
         },
 
-        initialize: function (Input, options) {
+        initialize: function(Input, options) {
             this.parent(options);
 
-            this.$Input     = Input || null;
+            this.$Input = Input || null;
             this.$ParamList = null;
             this.$AddButton = null;
 
@@ -64,13 +64,13 @@ define('qui/controls/input/Params', [
          * @method qui/controls/input/Params#bindElement
          * @param {HTMLElement} Input - Input Element
          */
-        bindElement: function (Input) {
+        bindElement: function(Input) {
             var self = this;
 
-            this.$Input      = Input;
+            this.$Input = Input;
             this.$Input.type = 'hidden';
 
-            this.$Input.addEvent('change', function () {
+            this.$Input.addEvent('change', function() {
                 self.$setValue(this.value);
             });
 
@@ -82,7 +82,7 @@ define('qui/controls/input/Params', [
          *
          * @method qui/controls/input/Params#create
          */
-        create: function () {
+        create: function() {
             var self = this;
 
             this.$Elm = new Element('div', {
@@ -95,14 +95,14 @@ define('qui/controls/input/Params', [
 
             this.$AddButton = new QUIButton({
                 textimage: 'icon-plus fa fa-plus',
-                text     : 'Parameter hinzufügen',
-                events   : {
+                text: 'Parameter hinzufügen',
+                events: {
                     onClick: this.openAddParamWindow
                 },
-                styles   : {
-                    clear : 'both',
+                styles: {
+                    clear: 'both',
                     margin: 0,
-                    width : 230
+                    width: 230
                 }
             });
 
@@ -118,7 +118,7 @@ define('qui/controls/input/Params', [
             }
 
             this.$Input.type = 'hidden';
-            this.$Input.addEvent('change', function () {
+            this.$Input.addEvent('change', function() {
                 self.$setValue(this.value);
             });
 
@@ -142,7 +142,7 @@ define('qui/controls/input/Params', [
          * @method qui/controls/input/Params#$setValue
          * @param {String} value - JSON array string
          */
-        $setValue: function (value) {
+        $setValue: function(value) {
             var i, len;
 
             var jsonValue = JSON.decode(value);
@@ -173,7 +173,7 @@ define('qui/controls/input/Params', [
          * @method qui/controls/input/Params#getValue
          * @return {Array}
          */
-        getValue: function () {
+        getValue: function() {
             var i, len, Elm;
 
             var list = this.$ParamList.getElements('.qui-control-input-param-entry'),
@@ -183,7 +183,7 @@ define('qui/controls/input/Params', [
                 Elm = list[i];
 
                 data.push({
-                    name : Elm.get('data-name'),
+                    name: Elm.get('data-name'),
                     value: Elm.get('data-value')
                 });
             }
@@ -199,32 +199,32 @@ define('qui/controls/input/Params', [
          * @param {String} value - Value of the parameter
          * @return {self}
          */
-        addParam: function (name, value) {
+        addParam: function(name, value) {
             var self = this;
 
             var Elm = new Element('div', {
-                'class'     : 'qui-control-input-param-entry box',
-                html        : name + ' : ' + value,
-                "data-name" : name,
-                "data-value": value,
-                events      :
+                'class': 'qui-control-input-param-entry box',
+                html: name + ' : ' + value,
+                'data-name': name,
+                'data-value': value,
+                events:
                     {
-                        dblclick: function () {
+                        dblclick: function() {
                             self.openAddParamWindow(this);
                         }
                     }
             }).inject(this.$ParamList);
 
             new QUIButton({
-                icon  : 'icon-remove fa fa-remove',
+                icon: 'icon-remove fa fa-remove',
                 styles: {
-                    'float'   : 'right',
+                    'float': 'right',
                     lineHeight: 20,
-                    margin    : 0
+                    margin: 0
                 },
                 events:
                     {
-                        onClick: function () {
+                        onClick: function() {
                             Elm.destroy();
                         }
                     }
@@ -239,17 +239,17 @@ define('qui/controls/input/Params', [
          * @method qui/controls/input/Params#openAddParamWindow
          * @param {HTMLElement} [Param] - optional, edit a param (.qui-control-input-param-entry)
          */
-        openAddParamWindow: function (Param) {
+        openAddParamWindow: function(Param) {
             var self = this;
 
             new QUIConfirm({
-                title    : 'Parameter hinzufügen',
-                icon     : 'icon-plus fa fa-plus',
+                title: 'Parameter hinzufügen',
+                icon: 'icon-plus fa fa-plus',
                 maxHeight: this.getAttribute('windowMaxHeight'),
-                maxWidth : this.getAttribute('windowMaxWidth'),
+                maxWidth: this.getAttribute('windowMaxWidth'),
                 autoclose: false,
 
-                text       : 'Geben Sie bitte den Namen und den Wert des Parameters ein.',
+                text: 'Geben Sie bitte den Namen und den Wert des Parameters ein.',
                 information: '<div class="qui-control-input-param-window">' +
                     '<label>' +
                     '     <span class="qui-control-input-param-window-label">Name</span>' +
@@ -263,26 +263,26 @@ define('qui/controls/input/Params', [
 
                 events:
                     {
-                        onCreate: function (Confirm) {
+                        onCreate: function(Confirm) {
                             Confirm.getElm().addClass('qui-control-input-param-window');
                         },
 
-                        onOpen: function (Confirm) {
-                            var Content       = Confirm.getContent(),
-                                ParamName     = Content.getElement('[name="paramName"]'),
-                                ParamValue    = Content.getElement('[name="paramValue"]'),
+                        onOpen: function(Confirm) {
+                            var Content = Confirm.getContent(),
+                                ParamName = Content.getElement('[name="paramName"]'),
+                                ParamValue = Content.getElement('[name="paramValue"]'),
                                 allowedParams = self.getAttribute('allowedParams');
 
 
                             if (allowedParams.length) {
                                 var NameSelect = new Element('select', {
-                                    name: "paramName"
+                                    name: 'paramName'
                                 }).replaces(ParamName);
 
                                 for (var i = 0, len = allowedParams.length; i < len; i++) {
                                     new Element('option', {
                                         value: allowedParams[i],
-                                        html : allowedParams[i]
+                                        html: allowedParams[i]
                                     }).inject(NameSelect);
                                 }
 
@@ -290,7 +290,7 @@ define('qui/controls/input/Params', [
                             }
 
                             Content.getElements('input,select').addEvents({
-                                keyup: function (event) {
+                                keyup: function(event) {
                                     if (event.key === 'enter') {
                                         Confirm.submit();
                                     }
@@ -298,18 +298,18 @@ define('qui/controls/input/Params', [
                             });
 
                             if (typeOf(Param) === 'element') {
-                                ParamName.value  = Param.get('data-name');
+                                ParamName.value = Param.get('data-name');
                                 ParamValue.value = Param.get('data-value');
                             }
 
-                            (function () {
+                            (function() {
                                 ParamName.focus();
                             }).delay(800);
                         },
 
-                        onSubmit: function (Confirm) {
-                            var Content    = Confirm.getContent(),
-                                ParamName  = Content.getElement('[name="paramName"]'),
+                        onSubmit: function(Confirm) {
+                            var Content = Confirm.getContent(),
+                                ParamName = Content.getElement('[name="paramName"]'),
                                 ParamValue = Content.getElement('[name="paramValue"]');
 
                             if (ParamName.value === '') {
@@ -329,7 +329,7 @@ define('qui/controls/input/Params', [
                                 );
 
                                 if (result.length) {
-                                    QUI.getMessageHandler(function (MH) {
+                                    QUI.getMessageHandler(function(MH) {
                                         ParamName.focus();
 
                                         MH.addError(

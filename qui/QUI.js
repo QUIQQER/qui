@@ -6,8 +6,8 @@
  * @author www.pcsg.de (Henning Leutz)
  */
 
-define('qui/QUI', ['qui/classes/QUI'], function (QUIClass) {
-    "use strict";
+define('qui/QUI', ['qui/classes/QUI'], function(QUIClass) {
+    'use strict';
 
     if (typeof window.QUI === 'undefined') {
         window.QUI = new QUIClass();
@@ -15,7 +15,7 @@ define('qui/QUI', ['qui/classes/QUI'], function (QUIClass) {
 
     document.fireEvent('qui-loaded');
 
-    document.addEvent('domready', function () {
+    document.addEvent('domready', function() {
         window.QUI.parse(document.body);
     });
 

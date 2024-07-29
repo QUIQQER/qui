@@ -7,8 +7,8 @@
  * @require qui/classes/Locale
  */
 
-define('qui/Locale', ['qui/classes/Locale'], function (QUILocale) {
-    "use strict";
+define('qui/Locale', ['qui/classes/Locale'], function(QUILocale) {
+    'use strict';
 
     if (typeof window.QUILocale === 'undefined') {
         window.QUILocale = new QUILocale();

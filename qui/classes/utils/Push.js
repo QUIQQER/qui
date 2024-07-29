@@ -34,28 +34,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-define('qui/classes/utils/Push', function () {
-    "use strict";
+define('qui/classes/utils/Push', function() {
+    'use strict';
 
     var w = window;
 
-    return function () {
+    return function() {
 
         var self = this,
-            isUndefined = function (obj) {
+            isUndefined = function(obj) {
                 return obj === undefined;
             },
-            isString = function (obj) {
+            isString = function(obj) {
                 return obj && obj.constructor === String;
             },
-            isFunction = function (obj) {
+            isFunction = function(obj) {
                 return obj && obj.constructor === Function;
             },
 
-        /* Whether Push has permission to notify */
+            /* Whether Push has permission to notify */
             hasPermission = false,
 
-        /* List of active notifications */
+            /* List of active notifications */
             notifications = [],
 
             /**
@@ -63,18 +63,22 @@ define('qui/classes/utils/Push', function () {
              * @param {Notification} notification
              * @return {void}
              */
-            close_notification = function (notification) {
+            close_notification = function(notification) {
                 /* Safari 6+, Chrome 23+ */
                 if (typeof notification.close === 'function') {
                     notification.close();
 
                     /* Legacy webkit browsers */
-                } else if (notification.cancel) {
-                    notification.cancel();
+                } else {
+                    if (notification.cancel) {
+                        notification.cancel();
 
-                    /* IE9+ */
-                } else if (w.external && w.external.msIsSiteMode) {
-                    w.external.msSiteModeClearIconOverlay();
+                        /* IE9+ */
+                    } else {
+                        if (w.external && w.external.msIsSiteMode) {
+                            w.external.msSiteModeClearIconOverlay();
+                        }
+                    }
                 }
             },
 
@@ -82,7 +86,7 @@ define('qui/classes/utils/Push', function () {
              * Updates the notification count
              * @return {void}
              */
-            updateCount = function () {
+            updateCount = function() {
                 self.count = notifications.length;
             },
 
@@ -90,7 +94,7 @@ define('qui/classes/utils/Push', function () {
              * Callback function for the 'create' method
              * @return {void}
              */
-            create_callback = function (title, options) {
+            create_callback = function(title, options) {
                 var notification;
                 /* Set empty settings if none are specified */
                 options = options || {};
@@ -108,48 +112,57 @@ define('qui/classes/utils/Push', function () {
                     );
 
                     /* Legacy webkit browsers */
-                } else if (w.webkitNotifications) {
+                } else {
+                    if (w.webkitNotifications) {
 
-                    notification = w.webkitNotifications.createNotification(
-                        options.icon,
-                        title,
-                        options.body
-                    );
+                        notification = w.webkitNotifications.createNotification(
+                            options.icon,
+                            title,
+                            options.body
+                        );
 
-                    notification.show();
+                        notification.show();
 
-                    /* Firefox Mobile */
-                } else if (navigator.mozNotification) {
+                        /* Firefox Mobile */
+                    } else {
+                        if (navigator.mozNotification) {
 
-                    notification = navigator.mozNotification.createNotification(
-                        title,
-                        options.body,
-                        options.icon
-                    );
+                            notification = navigator.mozNotification.createNotification(
+                                title,
+                                options.body,
+                                options.icon
+                            );
 
-                    notification.show();
+                            notification.show();
 
-                    /* IE9+ */
-                } else if (w.external && w.external.msIsSiteMode()) {
+                            /* IE9+ */
+                        } else {
+                            if (w.external && w.external.msIsSiteMode()) {
 
-                    //Clear any previous notifications
-                    w.external.msSiteModeClearIconOverlay();
-                    w.external.msSiteModeSetIconOverlay(((isString(options.icon) || isUndefined(options.icon)) ? options.icon : options.icon.x16), title);
-                    w.external.msSiteModeActivate();
+                                //Clear any previous notifications
+                                w.external.msSiteModeClearIconOverlay();
+                                w.external.msSiteModeSetIconOverlay(
+                                    ((isString(options.icon) || isUndefined(options.icon)) ? options.icon : options.icon.x16),
+                                    title
+                                );
+                                w.external.msSiteModeActivate();
 
-                    notification = {};
+                                notification = {};
+                            }
+                        }
+                    }
                 }
 
                 /* Wrapper used to close notification later on */
                 var wrapper = {
-                    close: function () {
+                    close: function() {
                         close_notification(notification);
                     }
                 };
 
                 /* Autoclose timeout */
                 if (options.timeout && options.timeout !== false) {
-                    setTimeout(function () {
+                    setTimeout(function() {
                         wrapper.close();
                     }, options.timeout);
                 }
@@ -210,14 +223,14 @@ define('qui/classes/utils/Push', function () {
          * @param {Function} [onDenied] - Function to execute once permission is granted
          * @return {void}
          */
-        self.Permission.request = function (onGranted, onDenied) {
+        self.Permission.request = function(onGranted, onDenied) {
             /* Return if Push not supported */
             if (!self.isSupported) {
                 return;
             }
 
             /* Default callback */
-            var callback = function (result) {
+            var callback = function(result) {
                 switch (result) {
                     case self.Permission.GRANTED:
                         hasPermission = true;
@@ -240,8 +253,10 @@ define('qui/classes/utils/Push', function () {
                 w.webkitNotifications.requestPermission(callback);
 
                 /* Safari 6+, Chrome 23+ */
-            } else if (w.Notification && w.Notification.requestPermission) {
-                w.Notification.requestPermission(callback);
+            } else {
+                if (w.Notification && w.Notification.requestPermission) {
+                    w.Notification.requestPermission(callback);
+                }
             }
         };
 
@@ -249,7 +264,7 @@ define('qui/classes/utils/Push', function () {
          * Returns whether Push has been granted permission to run
          * @return {Boolean}
          */
-        self.Permission.has = function () {
+        self.Permission.has = function() {
             return hasPermission;
         };
 
@@ -257,7 +272,7 @@ define('qui/classes/utils/Push', function () {
          * Gets the permission level
          * @return {Permission} The permission level
          */
-        self.Permission.get = function () {
+        self.Permission.get = function() {
             var permission;
 
             /* Return if Push not supported */
@@ -270,20 +285,28 @@ define('qui/classes/utils/Push', function () {
                 permission = w.Notification.permissionLevel;
 
                 /* Legacy webkit browsers */
-            } else if (w.webkitNotifications && w.webkitNotifications.checkPermission) {
-                permission = Permissions[w.webkitNotifications.checkPermission()];
+            } else {
+                if (w.webkitNotifications && w.webkitNotifications.checkPermission) {
+                    permission = Permissions[w.webkitNotifications.checkPermission()];
 
-                /* Firefox 23+ */
-            } else if (w.Notification && w.Notification.permission) {
-                permission = w.Notification.permission;
+                    /* Firefox 23+ */
+                } else {
+                    if (w.Notification && w.Notification.permission) {
+                        permission = w.Notification.permission;
 
-                /* Firefox Mobile */
-            } else if (navigator.mozNotification) {
-                permission = Permissions.GRANTED;
+                        /* Firefox Mobile */
+                    } else {
+                        if (navigator.mozNotification) {
+                            permission = Permissions.GRANTED;
 
-                /* IE9+ */
-            } else if (w.external && w.external.msIsSiteMode() !== undefined) {
-                permission = w.external.msIsSiteMode() ? Permission.GRANTED : Permission.DEFAULT;
+                            /* IE9+ */
+                        } else {
+                            if (w.external && w.external.msIsSiteMode() !== undefined) {
+                                permission = w.external.msIsSiteMode() ? Permission.GRANTED : Permission.DEFAULT;
+                            }
+                        }
+                    }
+                }
             }
 
             return permission;
@@ -297,7 +320,7 @@ define('qui/classes/utils/Push', function () {
          * Detects whether the user's browser supports notifications
          * @return {Boolean}
          */
-        self.isSupported = (function () {
+        self.isSupported = (function() {
             var isSupported = false;
 
             try {
@@ -305,14 +328,14 @@ define('qui/classes/utils/Push', function () {
 
                     /* Safari, Chrome */ !!(w.Notification ||
 
-                /* Chrome & ff-html5notifications plugin */
-                w.webkitNotifications ||
+                    /* Chrome & ff-html5notifications plugin */
+                    w.webkitNotifications ||
 
-                /* Firefox Mobile */
-                navigator.mozNotification ||
+                    /* Firefox Mobile */
+                    navigator.mozNotification ||
 
-                /* IE9+ */
-                (w.external && w.external.msIsSiteMode() !== undefined));
+                    /* IE9+ */
+                    (w.external && w.external.msIsSiteMode() !== undefined));
 
             } catch (e) {
             }
@@ -326,7 +349,7 @@ define('qui/classes/utils/Push', function () {
          * @param {Array} options
          * @return {void}
          */
-        self.create = function (title, options) {
+        self.create = function(title, options) {
             /* Fail if the browser is not supported */
             if (!self.isSupported) {
                 console.error('PushError: push.js is incompatible with self browser.');
@@ -340,7 +363,7 @@ define('qui/classes/utils/Push', function () {
 
             /* Request permission if it isn't granted */
             if (!self.Permission.has()) {
-                self.Permission.request(function () {
+                self.Permission.request(function() {
                     return create_callback(title, options);
                 });
             } else {
@@ -353,7 +376,7 @@ define('qui/classes/utils/Push', function () {
          * @param {String} tag - Tag of the notification to close
          * @return {void}
          */
-        self.close = function (tag) {
+        self.close = function(tag) {
             var notification;
 
             for (var i = 0; i < notifications.length; i++) {
@@ -381,7 +404,7 @@ define('qui/classes/utils/Push', function () {
          * Clears all notifications
          * @return {void}
          */
-        self.clear = function () {
+        self.clear = function() {
             for (var i = 0; i < notifications.length; i++) {
                 close_notification(notifications[i]);
             }

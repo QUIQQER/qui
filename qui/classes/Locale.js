@@ -7,8 +7,8 @@
  * @event onError [ {String}, {this} ] - triggered if no_translation === false and no translation exist
  */
 
-define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
-    "use strict";
+define('qui/classes/Locale', ['qui/classes/DOM'], function(DOM) {
+    'use strict';
 
     /**
      * @class qui/classes/Locale
@@ -18,7 +18,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/classes/Locale',
+        Type: 'qui/classes/Locale',
 
         /**
          * Current lang, use getCurrent() to get the lang
@@ -42,7 +42,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          *
          * @param options - dom options
          */
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
         },
 
@@ -52,7 +52,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          * @method qui/classes/Locale#setCurrent
          * @param {String} lang
          */
-        setCurrent: function (lang) {
+        setCurrent: function(lang) {
             this.current = lang;
         },
 
@@ -62,7 +62,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          * @method qui/classes/Locale#getCurrent
          * @return {String}
          */
-        getCurrent: function () {
+        getCurrent: function() {
             return this.current;
         },
 
@@ -71,7 +71,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          *
          * @returns {Array}
          */
-        getGroups: function () {
+        getGroups: function() {
             if (!(this.current in this.langs)) {
                 return [];
             }
@@ -92,7 +92,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          * @example Locale.set("en", "my/group", "my.translation.variable", "Some text is translated")
          * @example Locale.set("de", "my/group", "my.translation.variable", "Ein Text der übersetzt wird")
          */
-        set: function (lang, group, values, value) {
+        set: function(lang, group, values, value) {
             if (!this.langs[lang]) {
                 this.langs[lang] = {};
             }
@@ -132,7 +132,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          *      placeholder : 'my replace'
          * })
          */
-        get: function (group, value, repl) {
+        get: function(group, value, repl) {
             if (typeof repl === 'undefined') {
                 return this.$get(group, value);
             }
@@ -142,7 +142,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
             for (group in repl) {
                 if (repl.hasOwnProperty(group)) {
                     result = result.replace(
-                        new RegExp('\\[' + group + '\\]', "g"),
+                        new RegExp('\\[' + group + '\\]', 'g'),
                         repl[group]
                     );
                 }
@@ -160,7 +160,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          * @param {String} value - Translation value / name
          * @return {String}
          */
-        $get: function (key, value) {
+        $get: function(key, value) {
             if (this.no_translation) {
                 return '[' + key + '] ' + value;
             }
@@ -193,7 +193,7 @@ define('qui/classes/Locale', ['qui/classes/DOM'], function (DOM) {
          *
          * @returns {Boolean}
          */
-        exists: function (group, value) {
+        exists: function(group, value) {
             if (this.langs[this.current] &&
                 this.langs[this.current][group] &&
                 this.langs[this.current][group][value]) {

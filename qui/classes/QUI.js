@@ -15,11 +15,11 @@
  */
 
 // workaround for typeof() function because of mootools 1.4 / 1.5 to 1.6
-window.typeOf = function (i) {
-    "use strict";
+window.typeOf = function(i) {
+    'use strict';
 
     if (i === null || i === undefined) {
-        return "null";
+        return 'null';
     }
 
     if (typeof i.getType === 'function') {
@@ -32,19 +32,19 @@ window.typeOf = function (i) {
 
     if (i.nodeName) {
         if (i.nodeType === 1) {
-            return "element";
+            return 'element';
         }
 
         if (i.nodeType === 3) {
-            return (/\S/).test(i.nodeValue) ? "textnode" : "whitespace";
+            return (/\S/).test(i.nodeValue) ? 'textnode' : 'whitespace';
         }
     } else {
-        if (typeof i.length == "number") {
+        if (typeof i.length == 'number') {
             if (i.callee) {
-                return "arguments";
+                return 'arguments';
             }
-            if ("item" in i) {
-                return "collection";
+            if ('item' in i) {
+                return 'collection';
             }
         }
     }
@@ -64,8 +64,8 @@ define('qui/classes/QUI', [
     'qui/lib/polyfills/Promise',
     'qui/lib/polyfills/AnimationFrame'
 
-], function (require, DOM, Controls, Windows, Storage, Animate, QUIFunctionUtils) {
-    "use strict";
+], function(require, DOM, Controls, Windows, Storage, Animate, QUIFunctionUtils) {
+    'use strict';
 
     /**
      * The QUIQQER main object
@@ -77,14 +77,14 @@ define('qui/classes/QUI', [
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/classes/QUI',
+        Type: 'qui/classes/QUI',
 
-        initialize: function (options) {
+        initialize: function(options) {
             /**
              * defaults
              */
             this.setAttributes({
-                'debug'      : false,
+                'debug': false,
                 'fetchErrors': true
             });
 
@@ -120,25 +120,25 @@ define('qui/classes/QUI', [
             }
 
             this.Controls = new Controls();
-            this.Windows  = new Windows();
-            this.Storage  = new Storage();
+            this.Windows = new Windows();
+            this.Storage = new Storage();
 
             const Ghost = new Element('div', {
                 styles: {
                     background: 'transparent',
-                    display   : 'none',
-                    height    : '100%',
-                    left      : 0,
-                    position  : 'fixed',
-                    top       : 0,
-                    width     : '100%',
-                    zIndex    : 1
+                    display: 'none',
+                    height: '100%',
+                    left: 0,
+                    position: 'fixed',
+                    top: 0,
+                    width: '100%',
+                    zIndex: 1
                 }
             });
 
             // global resize event
             if (typeof window !== 'undefined') {
-                let win  = document.id(window);
+                let win = document.id(window);
                 let body = document.id(document.body);
 
                 win.requestAnimationFrame(() => {
@@ -149,7 +149,7 @@ define('qui/classes/QUI', [
                     this.$winScroll = win.getScroll();
 
                     if (typeof body !== 'undefined' && body) {
-                        this.$bodySize   = body.getSize();
+                        this.$bodySize = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
                     }
 
@@ -159,7 +159,7 @@ define('qui/classes/QUI', [
                 });
 
                 win.addEvent('resize', QUIFunctionUtils.debounce(() => {
-                    win.requestAnimationFrame(function () {
+                    win.requestAnimationFrame(function() {
                         if (typeof body === 'undefined' || !body) {
                             body = document.id(document.body);
                         }
@@ -168,8 +168,8 @@ define('qui/classes/QUI', [
                         this.$winSize = Ghost.getSize();
                         Ghost.setStyle('display', 'none');
 
-                        this.$winScroll  = win.getScroll();
-                        this.$bodySize   = body.getSize();
+                        this.$winScroll = win.getScroll();
+                        this.$bodySize = body.getSize();
                         this.$bodyScroll = body.getScrollSize();
 
                         if (this.$winSize.x === 0 || this.$winSize.y === 0) {
@@ -192,7 +192,7 @@ define('qui/classes/QUI', [
                         body = document.id(document.body);
                     }
 
-                    this.$bodySize   = body.getSize();
+                    this.$bodySize = body.getSize();
                     this.$bodyScroll = body.getScrollSize();
 
                     if (this.$winSize.x === 0 || this.$winSize.y === 0) {
@@ -201,14 +201,14 @@ define('qui/classes/QUI', [
                 });
 
                 // scroll events
-                let scrollDelay        = 200;
+                let scrollDelay = 200;
                 let isScrollingTimeout = null;
 
-                if ("addEventListener" in win) {
+                if ('addEventListener' in win) {
                     win.addEventListener('scroll', () => {
                         win.requestAnimationFrame(() => {
                             this.$isScrolling = true;
-                            this.$winScroll   = win.getScroll();
+                            this.$winScroll = win.getScroll();
                             this.fireEvent('scroll');
 
                             // isScrolls Flag
@@ -225,26 +225,28 @@ define('qui/classes/QUI', [
                     }, {
                         passive: true,
                         capture: true,
-                        once   : false
+                        once: false
                     });
-                } else if ("attachEvent" in win) {
-                    win.attachEvent('scroll', () => {
-                        win.requestAnimationFrame(() => {
-                            this.$isScrolling = true;
-                            this.$winScroll   = win.getScroll();
-                            this.fireEvent('scroll');
+                } else {
+                    if ('attachEvent' in win) {
+                        win.attachEvent('scroll', () => {
+                            win.requestAnimationFrame(() => {
+                                this.$isScrolling = true;
+                                this.$winScroll = win.getScroll();
+                                this.fireEvent('scroll');
 
-                            // isScrolls Flag
-                            if (isScrollingTimeout) {
-                                clearTimeout(isScrollingTimeout);
-                            }
+                                // isScrolls Flag
+                                if (isScrollingTimeout) {
+                                    clearTimeout(isScrollingTimeout);
+                                }
 
-                            isScrollingTimeout = (() => {
-                                this.$isScrolling = false;
-                                this.fireEvent('scrollEnd');
-                            }).delay(scrollDelay, this);
+                                isScrollingTimeout = (() => {
+                                    this.$isScrolling = false;
+                                    this.fireEvent('scrollEnd');
+                                }).delay(scrollDelay, this);
+                            });
                         });
-                    });
+                    }
                 }
 
                 body.addEventListener('click', (e) => {
@@ -276,7 +278,7 @@ define('qui/classes/QUI', [
          *
          * @returns {{x: number, y: number}|*}
          */
-        getWindowSize: function () {
+        getWindowSize: function() {
             return this.$winSize;
         },
 
@@ -286,7 +288,7 @@ define('qui/classes/QUI', [
          *
          * @returns {{x: number, y: number}|*}
          */
-        getBodySize: function () {
+        getBodySize: function() {
             return this.$bodySize;
         },
 
@@ -296,7 +298,7 @@ define('qui/classes/QUI', [
          *
          * @returns {{x: number, y: number}|*}
          */
-        getBodyScrollSize: function () {
+        getBodyScrollSize: function() {
             return this.$bodyScroll;
         },
 
@@ -306,7 +308,7 @@ define('qui/classes/QUI', [
          *
          * @returns {{x: number, y: number}|*}
          */
-        getScroll: function () {
+        getScroll: function() {
             return this.$winScroll;
         },
 
@@ -315,7 +317,7 @@ define('qui/classes/QUI', [
          *
          * @returns {boolean}
          */
-        isScrolling: function () {
+        isScrolling: function() {
             return this.$isScrolling;
         },
 
@@ -326,28 +328,28 @@ define('qui/classes/QUI', [
          * @example QUI.namespace('my.name.space'); -> QUI.my.name.space
          * @deprecated
          */
-        namespace: function () {
+        namespace: function() {
             let tlen;
 
-            let a    = arguments,
-                o    = this,
-                i    = 0,
-                j    = 0,
+            let a = arguments,
+                o = this,
+                i = 0,
+                j = 0,
 
-                len  = a.length,
-                tok  = null,
+                len = a.length,
+                tok = null,
                 name = null;
 
             // iterate on the arguments
             for (; i < len; i = i + 1) {
-                tok  = a[i].split(".");
+                tok = a[i].split('.');
                 tlen = tok.length;
 
                 // iterate on the object tokens
                 for (j = 0; j < tlen; j = j + 1) {
-                    name    = tok[j];
+                    name = tok[j];
                     o[name] = o[name] || {};
-                    o       = o[name];
+                    o = o[name];
                 }
             }
 
@@ -361,7 +363,7 @@ define('qui/classes/QUI', [
          * @param {Function} [callback] - optional
          * @return Promise
          */
-        parse: function (Parent, callback) {
+        parse: function(Parent, callback) {
             this.fireEvent('parseBegin', [this, Parent]);
 
             return new Promise((resolve, reject) => {
@@ -385,8 +387,8 @@ define('qui/classes/QUI', [
                 let nodes = [];
 
                 if (typeOf(Parent) === 'elements') {
-                    Parent.getElements('[data-qui]').each(function (elements) {
-                        Array.combine(nodes, elements.filter(function (Node) {
+                    Parent.getElements('[data-qui]').each(function(elements) {
+                        Array.combine(nodes, elements.filter(function(Node) {
                             return Node;
                         }));
                     });
@@ -394,26 +396,26 @@ define('qui/classes/QUI', [
                     nodes = document.id(Parent).getElements('[data-qui]');
                 }
 
-                let list = nodes.map(function (Elm) {
+                let list = nodes.map(function(Elm) {
                     return Elm.get('data-qui');
                 });
 
                 // cleanup -> empty data-qui
-                list = list.filter(function (item) {
+                list = list.filter(function(item) {
                     return item !== '';
                 }).clean();
 
-                nodes = nodes.filter(function (Elm) {
+                nodes = nodes.filter(function(Elm) {
                     return Elm.get('data-qui') !== '';
                 }).clean();
 
-                require(list, function () {
+                require(list, function() {
                     let i, len, Cls, Elm;
 
                     let formNodes = {
                         'TEXTAREA': true,
-                        'INPUT'   : true,
-                        'SELECT'  : true
+                        'INPUT': true,
+                        'SELECT': true
                     };
 
                     for (i = 0, len = nodes.length; i < len; i++) {
@@ -456,7 +458,7 @@ define('qui/classes/QUI', [
                     if (typeof callback !== 'undefined') {
                         callback();
                     }
-                }.bind(this), function (err) {
+                }.bind(this), function(err) {
                     reject(err);
                 });
             });
@@ -468,7 +470,7 @@ define('qui/classes/QUI', [
          * @param {qui/classes/messages/Message|Exception} Exception - Exception Objekt
          * @return {Object} this (qui/classes/QUI)
          */
-        triggerError: function (Exception) {
+        triggerError: function(Exception) {
             return this.trigger(Exception.getMessage(), '', 0);
         },
 
@@ -483,7 +485,7 @@ define('qui/classes/QUI', [
          *
          * @return {Object} this (qui/classes/QUI)
          */
-        trigger: function (msg, url, lineNumber) {
+        trigger: function(msg, url, lineNumber) {
             this.fireEvent('error', [msg, url, lineNumber]);
 
             return this;
@@ -495,12 +497,12 @@ define('qui/classes/QUI', [
          * @param {Function} [callback] - optional, callback function
          * @return Promise
          */
-        getMessageHandler: function (callback) {
+        getMessageHandler: function(callback) {
             return new Promise((resolve, reject) => {
                 if (typeof this.$execGetMessageHandler !== 'undefined' && !this.MessageHandler) {
                     this.$execGetMessageHandler = true;
 
-                    (function () {
+                    (function() {
                         this.getMessageHandler(callback).then(resolve);
                     }).delay(20, this);
 
@@ -535,7 +537,7 @@ define('qui/classes/QUI', [
          *
          * @param {Function} callback
          */
-        getControls: function (callback) {
+        getControls: function(callback) {
             if (this.Controls) {
                 callback(this.Controls);
             }
@@ -546,6 +548,22 @@ define('qui/classes/QUI', [
          */
         hideContextMenus: function() {
             this.Controls.getByType('qui/controls/contextmenu/Menu').map((Instance) => {
+                if (!Instance.getParent()) {
+                    return
+                }
+
+                const Parent = Instance.getParent();
+
+                if (!Parent.getElm()) {
+                    Instance.destroy();
+                    return;
+                }
+
+                if (!Parent.getElm().getParent('body')) {
+                    Instance.destroy();
+                    return;
+                }
+
                 if (Instance.getElm().getStyle('display') !== 'none') {
                     Instance.hide();
                 }
@@ -558,7 +576,7 @@ define('qui/classes/QUI', [
          * @param {HTMLElement} Node
          * @return {Object}
          */
-        fx: function (Node) {
+        fx: function(Node) {
             return new Animate(Node);
         }
     });

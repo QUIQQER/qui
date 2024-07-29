@@ -20,8 +20,8 @@ define('qui/controls/desktop/Column', [
 
     'css!qui/controls/desktop/Column.css'
 
-], function (QUI, Control, Contextmenu, ContextmenuItem, Panel, Loader, QuiDragDrop, QUISheet) {
-    "use strict";
+], function(QUI, Control, Contextmenu, ContextmenuItem, Panel, Loader, QuiDragDrop, QUISheet) {
+    'use strict';
 
     const RESPONSIVE_WIDTH = 50;
     const RESPONSIVE_CUT = 1200;
@@ -34,7 +34,7 @@ define('qui/controls/desktop/Column', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/desktop/Column',
+        Type: 'qui/controls/desktop/Column',
 
         Binds: [
             '$onDestroy',
@@ -58,20 +58,20 @@ define('qui/controls/desktop/Column', [
         ],
 
         options: {
-            name       : 'column',
-            width      : false,
-            height     : false,
+            name: 'column',
+            width: false,
+            height: false,
             resizeLimit: [],
-            closable   : false,
-            placement  : 'left', // deprecated
+            closable: false,
+            placement: 'left', // deprecated
             contextmenu: false,
-            responsive : false,
+            responsive: false,
 
             // settings
             setting_toggle: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$responsiveOpen = false;
@@ -98,10 +98,10 @@ define('qui/controls/desktop/Column', [
             this.addEvents({
                 onDestroy: this.$onDestroy,
 
-                dragDropEnter   : this.$onDragDropEnter,
-                dragDropLeave   : this.$onDragDropLeave,
-                dragDropDrag    : this.$onDragDropDrag,
-                dragDropDrop    : this.$onDragDropDrop,
+                dragDropEnter: this.$onDragDropEnter,
+                dragDropLeave: this.$onDragDropLeave,
+                dragDropDrag: this.$onDragDropDrag,
+                dragDropDrop: this.$onDragDropDrop,
                 dragDropComplete: this.$onDragDropComplete
             });
         },
@@ -111,7 +111,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDestroy
          */
-        $onDestroy: function () {
+        $onDestroy: function() {
             if (this.$ContextMenu) {
                 this.$ContextMenu.destroy();
             }
@@ -131,13 +131,13 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             const self = this;
 
             this.$Elm = new Element('div', {
-                'class'     : 'qui-column qui-panel-drop',
+                'class': 'qui-column qui-panel-drop',
                 'data-quiid': this.getId(),
-                events      : {
+                events: {
                     mouseleave: () => {
                         if (this.$responsiveOpen) {
                             const contentWidth = this.$Content.getSize().x;
@@ -173,17 +173,17 @@ define('qui/controls/desktop/Column', [
 
             this.$Content = new Element('div', {
                 'class': 'qui-column-content',
-                styles : {
+                styles: {
                     width: '100%'
                 }
             }).inject(this.$Elm);
 
             this.$Responsive = new Element('div', {
                 'class': 'qui-column-responsiveDisplay',
-                styles : {
+                styles: {
                     display: 'none'
                 },
-                events : {
+                events: {
                     mouseenter: () => {
                         this.$responsiveOpen = true;
                         this.$Content.setStyle('display', null);
@@ -223,19 +223,19 @@ define('qui/controls/desktop/Column', [
 
             this.$SettingsButton = new Element('div', {
                 'class': 'qui-column-settingButton',
-                'html' : '<span class="icon-gear fa fa-gear"></span>',
-                styles : {
+                'html': '<span class="icon-gear fa fa-gear"></span>',
+                styles: {
                     display: 'none',
                     opacity: 0
                 },
-                events : {
-                    click     : function () {
+                events: {
+                    click: function() {
                         self.showSettings();
                     },
-                    mouseenter: function () {
+                    mouseenter: function() {
                         self.highlight();
                     },
-                    mouseleave: function () {
+                    mouseleave: function() {
                         self.normalize();
                     }
                 }
@@ -244,7 +244,7 @@ define('qui/controls/desktop/Column', [
 
             this.$Highlight = new Element('div', {
                 'class': 'qui-column-hightlight',
-                styles : {
+                styles: {
                     display: 'none'
                 }
             }).inject(this.$Elm);
@@ -254,12 +254,13 @@ define('qui/controls/desktop/Column', [
             this.$ContextMenu = new Contextmenu({
                 Column: this,
                 events: {
-                    onBlur: function (Menu) {
+                    onBlur: function(Menu) {
                         Menu.hide();
                     }
                 }
             }).inject(document.body);
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.hide();
 
             this.$Elm.addEvents({
@@ -268,9 +269,9 @@ define('qui/controls/desktop/Column', [
 
             // setting sheet
             this.$Settings = new QUISheet({
-                header     : false,
-                events     : {
-                    onOpen : this.$onSettingsOpen,
+                header: false,
+                events: {
+                    onOpen: this.$onSettingsOpen,
                     onClose: this.$onSettingsClose
                 },
                 closeButton: {
@@ -302,13 +303,13 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#serialize
          * @return {Object}
          */
-        serialize: function () {
+        serialize: function() {
             let Panel, ser;
 
-            const panels     = this.$Content.getChildren('.qui-panel'),
-                  children   = [],
-                  attributes = this.getAttributes(),
-                  size       = this.getElm().getSize();
+            const panels = this.$Content.getChildren('.qui-panel'),
+                children = [],
+                attributes = this.getAttributes(),
+                size = this.getElm().getSize();
 
             for (let i = 0, len = panels.length; i < len; i++) {
                 Panel = QUI.Controls.getById(panels[i].get('data-quiid'));
@@ -324,7 +325,7 @@ define('qui/controls/desktop/Column', [
 
             return {
                 attributes: attributes,
-                children  : children
+                children: children
             };
         },
 
@@ -334,7 +335,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#unserialize
          * @param {Object} data
          */
-        unserialize: function (data) {
+        unserialize: function(data) {
             this.setAttribute(data.attributes);
 
             if (!this.$Elm) {
@@ -346,7 +347,7 @@ define('qui/controls/desktop/Column', [
                 child_type, child_modul;
 
             const children = data.children,
-                  self     = this;
+                self = this;
 
             if (!children) {
                 return;
@@ -358,16 +359,15 @@ define('qui/controls/desktop/Column', [
 
             for (i = 0, len = children.length; i < len; i++) {
                 child_type = children[i].type;
-                child_modul = child_type.replace('QUI.', '')
-                                        .replace(/\./g, '/');
+                child_modul = child_type.replace('QUI.', '').replace(/\./g, '/');
 
                 req.push(child_modul);
             }
 
-            require(req, function () {
+            require(req, function() {
                 let regArgs = arguments;
 
-                QUI.getMessageHandler(function (MessageHandler) {
+                QUI.getMessageHandler(function(MessageHandler) {
                     let i, len, attr, height, Child, Control;
                     const opened = [];
 
@@ -395,15 +395,15 @@ define('qui/controls/desktop/Column', [
 
                     self.$__unserialize = false;
 
-                    Object.each(opened, function (Panel) {
+                    Object.each(opened, function(Panel) {
                         Panel.open();
                     });
 
-                    Object.each(self.$panels, function (Panel) {
+                    Object.each(self.$panels, function(Panel) {
                         Panel.resize();
                     });
                 });
-            }, function (err) {
+            }, function(err) {
                 console.error(err);
             });
         },
@@ -412,17 +412,17 @@ define('qui/controls/desktop/Column', [
          * fix the column
          * the panels are not more movable
          */
-        fix: function () {
+        fix: function() {
             this.$fixed = true;
 
-            Object.each(this.$panels, function (Panel) {
+            Object.each(this.$panels, function(Panel) {
                 Panel.disableDragDrop();
                 Panel.fix();
             });
 
             // set cursor from the column handlers to default
             const list = this.$Elm.getElements('.qui-column-hor-handle'),
-                  self = this;
+                self = this;
 
             for (let i = 0, len = list.length; i < len; i++) {
                 list[i].setStyle('cursor', 'default');
@@ -431,7 +431,7 @@ define('qui/controls/desktop/Column', [
 
 
             // disable drag drops
-            Object.each(this.$dragDrops, function (DragDrop) {
+            Object.each(this.$dragDrops, function(DragDrop) {
                 DragDrop.disable();
             });
 
@@ -448,7 +448,7 @@ define('qui/controls/desktop/Column', [
                 opacity: 0
             }, {
                 duration: 250,
-                callback: function () {
+                callback: function() {
                     self.$SettingsButton.setStyle('display', 'none');
 
                     moofx(self.$Content).animate({
@@ -456,10 +456,10 @@ define('qui/controls/desktop/Column', [
                     }, {
                         duration: 250,
                         equation: 'ease-out',
-                        callback: function () {
+                        callback: function() {
                             self.$Content.setStyles({
                                 boxShadow: null,
-                                width    : '100%'
+                                width: '100%'
                             });
 
                             self.resize();
@@ -473,7 +473,7 @@ define('qui/controls/desktop/Column', [
          * unfix the column
          * the panels are movable, again
          */
-        unfix: function () {
+        unfix: function() {
             let wasUnFixed = false;
 
             if (this.$fixed === false) {
@@ -482,14 +482,14 @@ define('qui/controls/desktop/Column', [
 
             this.$fixed = false;
 
-            Object.each(this.$panels, function (Panel) {
+            Object.each(this.$panels, function(Panel) {
                 Panel.enableDragDrop();
                 Panel.unfix();
             });
 
             // set cursor from the column handlers to default
             const self = this,
-                  list = this.$Elm.getElements('.qui-column-hor-handle');
+                list = this.$Elm.getElements('.qui-column-hor-handle');
 
             for (let i = 0, len = list.length; i < len; i++) {
                 list[i].setStyle('cursor', null);
@@ -497,15 +497,15 @@ define('qui/controls/desktop/Column', [
             }
 
             // enable drag drops
-            Object.each(this.$dragDrops, function (DragDrop) {
+            Object.each(this.$dragDrops, function(DragDrop) {
                 DragDrop.enable();
             });
 
             // show settings
-            const size     = this.$Elm.getSize(),
-                  settings = this.$SettingsButton.measure(function () {
-                      return this.getSize();
-                  });
+            const size = this.$Elm.getSize(),
+                settings = this.$SettingsButton.measure(function() {
+                    return this.getSize();
+                });
 
             this.$Highlight.setStyles({
                 width: size.x - 30
@@ -519,7 +519,7 @@ define('qui/controls/desktop/Column', [
             }, {
                 duration: 250,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     self.$SettingsButton.setStyle('display', 'inline');
                     self.resize();
 
@@ -544,7 +544,7 @@ define('qui/controls/desktop/Column', [
          * @param {Number} [pos] - optional, Position where to insert
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        appendChild: function (Panel, pos) {
+        appendChild: function(Panel, pos) {
             if (!this.isApandable(Panel)) {
                 return this;
             }
@@ -552,20 +552,20 @@ define('qui/controls/desktop/Column', [
             if (!this.$Content) {
                 this.$tmpList.push({
                     Panel: Panel,
-                    pos  : pos
+                    pos: pos
                 });
 
                 return this;
             }
 
-            let Handler      = false,
-                count        = this.count(),
+            let Handler = false,
+                count = this.count(),
 
                 columnHeight = 100,
-                panelIndex   = false,
-                parentIsMe   = false,
-                handleList   = this.$Content.getChildren('.qui-column-hor-handle'),
-                paneList     = this.$Content.getChildren('.qui-panel');
+                panelIndex = false,
+                parentIsMe = false,
+                handleList = this.$Content.getChildren('.qui-column-hor-handle'),
+                paneList = this.$Content.getChildren('.qui-panel');
 
             const ChildPanel = this.getElm().getElement(
                 '[data-quiid="' + Panel.getId() + '"]'
@@ -610,8 +610,10 @@ define('qui/controls/desktop/Column', [
                 if (Panel.getAttribute('_Handler')) {
                     Panel.getAttribute('_Handler').destroy();
 
-                } else if (panelIndex === 0) {
-                    handleList[0].destroy();
+                } else {
+                    if (panelIndex === 0) {
+                        handleList[0].destroy();
+                    }
                 }
 
                 if (typeof handleList[panelIndex - 1] !== 'undefined' &&
@@ -631,11 +633,11 @@ define('qui/controls/desktop/Column', [
 
             // new panel events
             Panel.addEvents({
-                onMinimize   : this.$onPanelMinimize,
-                onOpen       : this.$onPanelOpen,
-                onOpenBegin  : this.$onPanelOpenBegin,
+                onMinimize: this.$onPanelMinimize,
+                onOpen: this.$onPanelOpen,
+                onOpenBegin: this.$onPanelOpenBegin,
                 onResizeBegin: this.$onPanelOpenBegin,
-                onDestroy    : this.$onPanelDestroy
+                onDestroy: this.$onPanelDestroy
             });
 
             this.$panels[Panel.getId()] = Panel;
@@ -660,7 +662,7 @@ define('qui/controls/desktop/Column', [
 
             new Element('div', {
                 'class': 'qui-column-responsiveDisplay-button',
-                html   : '<span class="' + icon + '">' + text + '</span>'
+                html: '<span class="' + icon + '">' + text + '</span>'
             }).inject(this.$Responsive);
 
 
@@ -671,19 +673,23 @@ define('qui/controls/desktop/Column', [
 
                 Panel.inject(this.$Content);
 
-            } else if ((pos).toInt() === 0) {
-                if (Handler) {
-                    Handler.inject(this.$Content, 'top');
+            } else {
+                if ((pos).toInt() === 0) {
+                    if (Handler) {
+                        Handler.inject(this.$Content, 'top');
+                    }
+
+                    Panel.inject(this.$Content, 'top');
+
+                } else {
+                    if (typeof handleList[pos - 1] !== 'undefined') {
+                        if (Handler) {
+                            Handler.inject(handleList[pos - 1], 'after');
+                        }
+
+                        Panel.inject(handleList[pos - 1], 'after');
+                    }
                 }
-
-                Panel.inject(this.$Content, 'top');
-
-            } else if (typeof handleList[pos - 1] !== 'undefined') {
-                if (Handler) {
-                    Handler.inject(handleList[pos - 1], 'after');
-                }
-
-                Panel.inject(handleList[pos - 1], 'after');
             }
 
             if (Handler) {
@@ -723,7 +729,7 @@ define('qui/controls/desktop/Column', [
          *
          * @param {Object} Panel - qui/controls/desktop/Panel
          */
-        $recalcAppend: function (Panel) {
+        $recalcAppend: function(Panel) {
             let left = this.$getLeftSpace();
 
             if (left === 0) {
@@ -762,18 +768,18 @@ define('qui/controls/desktop/Column', [
          * @param {Object} Panel - qui/controls/desktop/Panel
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        dependChild: function (Panel) {
+        dependChild: function(Panel) {
             if (this.$panels[Panel.getId()]) {
                 delete this.$panels[Panel.getId()];
             }
 
             // destroy the panel events
             Panel.removeEvents({
-                onMinimize   : this.$onPanelMinimize,
-                onOpen       : this.$onPanelOpen,
-                onOpenBegin  : this.$onPanelOpenBegin,
+                onMinimize: this.$onPanelMinimize,
+                onOpen: this.$onPanelOpen,
+                onOpenBegin: this.$onPanelOpenBegin,
                 onResizebegin: this.$onPanelOpenBegin,
-                onDestroy    : this.$onPanelDestroy
+                onDestroy: this.$onPanelDestroy
             });
 
             // if the panel is from this column
@@ -797,7 +803,7 @@ define('qui/controls/desktop/Column', [
          * @param {String} [name] - [optional]
          * @return {Object|Boolean} Child | false
          */
-        getChildren: function (name) {
+        getChildren: function(name) {
             if (typeof name === 'undefined') {
                 return this.$panels;
             }
@@ -825,7 +831,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#count
          * @return {Number}
          */
-        count: function () {
+        count: function() {
             let c, i = 0;
 
             for (c in this.$panels) {
@@ -841,7 +847,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#resize
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        resize: function () {
+        resize: function() {
             const winWidth = QUI.getWindowSize().x;
 
             if (!this.isOpen()) {
@@ -871,7 +877,7 @@ define('qui/controls/desktop/Column', [
                 }
             }
 
-            let width  = this.getAttribute('width'),
+            let width = this.getAttribute('width'),
                 height = this.getAttribute('height');
 
             if (!width && !height) {
@@ -929,7 +935,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#open
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        open: function () {
+        open: function() {
             this.$Content.setStyle('display', null);
 
             // sibling resize
@@ -958,13 +964,13 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#close
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        close: function () {
+        close: function() {
             if (this.getAttribute('closable') === false) {
                 return this;
             }
 
             const content_width = this.$Content.getSize().x,
-                  Sibling       = this.getSibling();
+                Sibling = this.getSibling();
 
             this.$Content.setStyle('display', 'none');
 
@@ -987,7 +993,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#toggle
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        toggle: function () {
+        toggle: function() {
             if (this.isOpen()) {
                 this.close();
             } else {
@@ -1004,7 +1010,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#isOpen
          * @return {Boolean}
          */
-        isOpen: function () {
+        isOpen: function() {
             return this.$Content.getStyle('display') !== 'none';
         },
 
@@ -1014,7 +1020,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#highlight
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        highlight: function () {
+        highlight: function() {
             if (this.$Highlight) {
                 this.$Highlight.setStyle('display', null);
             }
@@ -1028,7 +1034,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#normalize
          * @return {Object} this (qui/controls/desktop/Column)
          */
-        normalize: function () {
+        normalize: function() {
             if (this.$Highlight) {
                 this.$Highlight.setStyle('display', 'none');
             }
@@ -1044,13 +1050,15 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getSibling
          * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
-        getSibling: function () {
+        getSibling: function() {
             let Column;
 
             if (this.getAttribute('placement') === 'left') {
                 Column = this.getElm().getNext('.qui-column');
-            } else if (this.getAttribute('placement') === 'right') {
-                Column = this.getElm().getPrevious('.qui-column');
+            } else {
+                if (this.getAttribute('placement') === 'right') {
+                    Column = this.getElm().getPrevious('.qui-column');
+                }
             }
 
             if (Column) {
@@ -1079,7 +1087,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getPrevious
          * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
-        getPrevious: function () {
+        getPrevious: function() {
             const Prev = this.getElm().getPrevious('.qui-column');
 
             if (!Prev) {
@@ -1095,7 +1103,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getNext
          * @return {Boolean|Object} false | qui/controls/desktop/Column
          */
-        getNext: function () {
+        getNext: function() {
             const Next = this.getElm().getNext('.qui-column');
 
             if (!Next) {
@@ -1111,7 +1119,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getNextPanel
          * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
-        getNextPanel: function (Panel) {
+        getNextPanel: function(Panel) {
             const NextElm = Panel.getElm().getNext('.qui-panel');
 
             if (!NextElm) {
@@ -1129,7 +1137,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getNextOpenedPanel
          * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
-        getNextOpenedPanel: function (Panel) {
+        getNextOpenedPanel: function(Panel) {
             const list = Panel.getElm().getAllNext('.qui-panel');
 
             if (!list.length) {
@@ -1157,7 +1165,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getPreviousPanel
          * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
-        getPreviousPanel: function (Panel) {
+        getPreviousPanel: function(Panel) {
             const PrevElm = Panel.getElm().getPrevious('.qui-panel');
 
             if (!PrevElm) {
@@ -1175,7 +1183,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#getPreviousOpenedPanel
          * @return {Boolean|Object} false | qui/controls/desktop/Panel | qui/controls/desktop/Tasks
          */
-        getPreviousOpenedPanel: function (Panel) {
+        getPreviousOpenedPanel: function(Panel) {
             const list = Panel.getElm().getAllPrevious('.qui-panel');
 
             if (!list.length) {
@@ -1201,15 +1209,15 @@ define('qui/controls/desktop/Column', [
         /**
          * Resize all panels with the same size
          */
-        adaptPanels: function () {
+        adaptPanels: function() {
             let i, Panel, panelHeight;
 
-            let list      = this.$Content.getChildren('.qui-panel'),
-                handler   = this.$Content.getChildren('.qui-column-hor-handle'),
+            let list = this.$Content.getChildren('.qui-panel'),
+                handler = this.$Content.getChildren('.qui-column-hor-handle'),
                 maxHeight = this.$Content.getComputedSize().totalHeight,
-                len       = list.length;
+                len = list.length;
 
-            const handlerSum = handler.getDimensions().map(function (obj) {
+            const handlerSum = handler.getDimensions().map(function(obj) {
                 return obj.y;
             }).sum();
 
@@ -1235,7 +1243,7 @@ define('qui/controls/desktop/Column', [
         /**
          * Recalc the panels, if space exist, the last panel would be resized
          */
-        recalcPanels: function () {
+        recalcPanels: function() {
             if (!this.count()) {
                 return;
             }
@@ -1247,7 +1255,7 @@ define('qui/controls/desktop/Column', [
             }
 
             // resize last panel
-            let LastElm   = this.$Content.getLast('.qui-panel'),
+            let LastElm = this.$Content.getLast('.qui-panel'),
                 LastPanel = QUI.Controls.getById(LastElm.get('data-quiid'));
 
             if (LastPanel.isOpen() === false) {
@@ -1275,7 +1283,7 @@ define('qui/controls/desktop/Column', [
          *
          * @param {Object} QO - QUI object
          */
-        isApandable: function (QO) {
+        isApandable: function(QO) {
             switch (typeOf(QO)) {
                 case 'qui/controls/desktop/Panel':
                 case 'qui/controls/desktop/Tasks':
@@ -1294,7 +1302,7 @@ define('qui/controls/desktop/Column', [
          * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
-        $onPanelMinimize: function (Panel) {
+        $onPanelMinimize: function(Panel) {
             if (this.$__eventPanelOpen) {
                 return;
             }
@@ -1314,7 +1322,7 @@ define('qui/controls/desktop/Column', [
             }
 
             const elmSize = Next.getElm().getSize().y,
-                  left    = this.$getLeftSpace();
+                left = this.$getLeftSpace();
 
             if (elmSize + left < 50) {
                 Next.minimize();
@@ -1332,7 +1340,7 @@ define('qui/controls/desktop/Column', [
          * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
-        $onPanelOpen: function (Panel) {
+        $onPanelOpen: function(Panel) {
             let leftSpace;
 
             if (this.getAttribute('setting_toggle')) {
@@ -1341,7 +1349,7 @@ define('qui/controls/desktop/Column', [
                 // close all panels
                 let i, len, Sibling;
 
-                let list   = this.$Content.getChildren('.qui-panel'),
+                let list = this.$Content.getChildren('.qui-panel'),
                     opened = 0;
 
                 for (i = 0, len = list.length; i < len; i++) {
@@ -1358,7 +1366,7 @@ define('qui/controls/desktop/Column', [
                     }
                 }
 
-                (function () {
+                (function() {
                     this.$__eventPanelOpen = false;
                 }).delay(200, this);
 
@@ -1383,10 +1391,10 @@ define('qui/controls/desktop/Column', [
 
 
             // find the sibling
-            let Prev        = false,
-                PanelElm    = Panel.getElm(),
+            let Prev = false,
+                PanelElm = Panel.getElm(),
 
-                direction   = Panel.getAttribute('columnCloseDirection'),
+                direction = Panel.getAttribute('columnCloseDirection'),
                 panelHeight = PanelElm.getSize().y;
 
 
@@ -1424,9 +1432,9 @@ define('qui/controls/desktop/Column', [
             // we have more panels opened, we must resized the panels
             leftSpace = this.$getLeftSpace();
 
-            let PrevElm    = Prev.getElm(),
+            let PrevElm = Prev.getElm(),
                 prevHeight = PrevElm.getComputedSize().totalHeight,
-                newHeight  = prevHeight + leftSpace;
+                newHeight = prevHeight + leftSpace;
 
             if (newHeight < 100) {
                 Panel.setAttribute('height', panelHeight - (100 - newHeight));
@@ -1445,7 +1453,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$onPanelOpen
          * @ignore
          */
-        $onPanelOpenBegin: function () {
+        $onPanelOpenBegin: function() {
             this.$Content.setStyle('overflow', 'hidden');
         },
 
@@ -1454,15 +1462,15 @@ define('qui/controls/desktop/Column', [
          *
          * @return {Number}
          */
-        $getLeftSpace: function () {
-            const childrens   = this.$Content.getChildren(),
-                  contentSize = this.$Content.getSize().y;
+        $getLeftSpace: function() {
+            const childrens = this.$Content.getChildren(),
+                contentSize = this.$Content.getSize().y;
 
             if (!contentSize) {
                 return 0;
             }
 
-            const sum = childrens.getSize().map(function (obj) {
+            const sum = childrens.getSize().map(function(obj) {
                 return obj.y;
             }).sum();
 
@@ -1476,11 +1484,11 @@ define('qui/controls/desktop/Column', [
          * @param {Object} Panel - qui/controls/desktop/Panel
          * @ignore
          */
-        $onPanelDestroy: function (Panel) {
+        $onPanelDestroy: function(Panel) {
             let height, Next, Prev, Sibling;
 
             const pid = Panel.getId(),
-                  Elm = Panel.getElm();
+                Elm = Panel.getElm();
 
             if (this.$panels[pid]) {
                 delete this.$panels[pid];
@@ -1501,8 +1509,8 @@ define('qui/controls/desktop/Column', [
                     );
 
                     height = Handler.getSize().y +
-                             Sibling.getAttribute('height') +
-                             Panel.getAttribute('height');
+                        Sibling.getAttribute('height') +
+                        Panel.getAttribute('height');
 
                     Sibling.setAttribute('height', height);
                     Sibling.setAttribute('_Handler', false);
@@ -1525,8 +1533,8 @@ define('qui/controls/desktop/Column', [
                     );
 
                     height = Handler.getSize().y +
-                             Sibling.getAttribute('height') +
-                             Panel.getAttribute('height');
+                        Sibling.getAttribute('height') +
+                        Panel.getAttribute('height');
 
                     Sibling.setAttribute('height', height);
                     Sibling.setAttribute('_Handler', false);
@@ -1550,8 +1558,8 @@ define('qui/controls/desktop/Column', [
                 );
 
                 height = Handler.getSize().y +
-                         Sibling.getAttribute('height') +
-                         Panel.getAttribute('height');
+                    Sibling.getAttribute('height') +
+                    Panel.getAttribute('height');
 
                 Sibling.setAttribute('height', height);
                 Sibling.resize();
@@ -1566,11 +1574,11 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$addHorResize
          * @param {HTMLElement} Handle
          */
-        $addHorResize: function (Handle) {
+        $addHorResize: function(Handle) {
             const pos = Handle.getPosition();
 
             const DragDrop = new QuiDragDrop(Handle, {
-                limit : {
+                limit: {
                     x: [
                         pos.x,
                         pos.x
@@ -1581,14 +1589,14 @@ define('qui/controls/desktop/Column', [
                     ]
                 },
                 events: {
-                    onStart: function (DragDrop, Dragable) {
+                    onStart: function(DragDrop, Dragable) {
                         if (!this.$Elm) {
                             return;
                         }
 
-                        const pos   = this.$Elm.getPosition(),
-                              hpos  = Handle.getPosition(),
-                              limit = DragDrop.getAttribute('limit');
+                        const pos = this.$Elm.getPosition(),
+                            hpos = Handle.getPosition(),
+                            limit = DragDrop.getAttribute('limit');
 
                         limit.y = [
                             pos.y,
@@ -1603,10 +1611,10 @@ define('qui/controls/desktop/Column', [
                         DragDrop.setAttribute('limit', limit);
 
                         Dragable.setStyles({
-                            height : 5,
+                            height: 5,
                             padding: 0,
-                            top    : hpos.y,
-                            left   : hpos.x
+                            top: hpos.y,
+                            left: hpos.x
                         });
 
                     }.bind(this),
@@ -1627,17 +1635,17 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$horResizeStop
          */
-        $horResizeStop: function (DragDrop, Dragable) {
+        $horResizeStop: function(DragDrop, Dragable) {
             let change, newHeight;
 
             const Handle = DragDrop.getAttribute('Handle'),
-                  pos    = Dragable.getPosition(),
-                  hpos   = Handle.getPosition();
+                pos = Dragable.getPosition(),
+                hpos = Handle.getPosition();
 
             change = pos.y - hpos.y;
 
-            let Next         = Handle.getNext(),
-                Prev         = Handle.getPrevious(),
+            let Next = Handle.getNext(),
+                Prev = Handle.getPrevious(),
 
                 PrevInstance = false,
                 NextInstance = false;
@@ -1726,7 +1734,7 @@ define('qui/controls/desktop/Column', [
          * @param {DOMEvent} event
          * @deprecated
          */
-        $onContextMenu: function (event) {
+        $onContextMenu: function(event) {
             if (this.$fixed) {
                 return;
             }
@@ -1750,7 +1758,7 @@ define('qui/controls/desktop/Column', [
             let i, len, Panel, AddPanels, RemovePanels;
 
             const Parent = this.getParent(),
-                  panels = Parent.getAvailablePanel();
+                panels = Parent.getAvailablePanel();
 
 
             this.$ContextMenu.clearChildren();
@@ -1767,9 +1775,9 @@ define('qui/controls/desktop/Column', [
             for (i = 0, len = panels.length; i < len; i++) {
                 AddPanels.appendChild(
                     new ContextmenuItem({
-                        text  : panels[i].text,
-                        icon  : panels[i].icon,
-                        name  : 'add_panels_to_column',
+                        text: panels[i].text,
+                        icon: panels[i].icon,
+                        name: 'add_panels_to_column',
                         params: panels[i],
                         events: {
                             onMouseDown: this.$clickAddPanelToColumn
@@ -1791,13 +1799,13 @@ define('qui/controls/desktop/Column', [
 
                 RemovePanels.appendChild(
                     new ContextmenuItem({
-                        text  : Panel.getAttribute('title'),
-                        icon  : Panel.getAttribute('icon'),
-                        name  : Panel.getAttribute('name'),
-                        Panel : Panel,
+                        text: Panel.getAttribute('title'),
+                        icon: Panel.getAttribute('icon'),
+                        name: Panel.getAttribute('name'),
+                        Panel: Panel,
                         events: {
-                            onActive   : this.$onEnterRemovePanel,
-                            onNormal   : this.$onLeaveRemovePanel,
+                            onActive: this.$onEnterRemovePanel,
+                            onNormal: this.$onLeaveRemovePanel,
                             onMouseDown: this.$onClickRemovePanel
                         }
                     })
@@ -1817,15 +1825,15 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$clickAddPanelToColumn
          * @param {Object} ContextMenuItem - qui/controls/contextmenu/Item
          */
-        $clickAddPanelToColumn: function (ContextMenuItem) {
+        $clickAddPanelToColumn: function(ContextMenuItem) {
             const Column = this,
-                  params = ContextMenuItem.getAttribute('params');
+                params = ContextMenuItem.getAttribute('params');
 
             if (!params.require) {
                 return;
             }
 
-            require([params.require], function (Panel) {
+            require([params.require], function(Panel) {
                 Column.appendChild(new Panel());
             });
         },
@@ -1836,7 +1844,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$onEnterRemovePanel
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $onEnterRemovePanel: function (Item) {
+        $onEnterRemovePanel: function(Item) {
             Item.getAttribute('Panel').highlight();
         },
 
@@ -1846,7 +1854,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$onLeaveRemovePanel
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $onLeaveRemovePanel: function (Item) {
+        $onLeaveRemovePanel: function(Item) {
             Item.getAttribute('Panel').normalize();
         },
 
@@ -1856,7 +1864,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$onClickRemovePanel
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $onClickRemovePanel: function (Item) {
+        $onClickRemovePanel: function(Item) {
             Item.getAttribute('Panel').destroy();
         },
 
@@ -1871,7 +1879,7 @@ define('qui/controls/desktop/Column', [
          * @param {Object} QO - (qui/controls/Control) QUI Control
          * @param {HTMLElement} Elm
          */
-        $onDragDropEnter: function (QO, Elm) {
+        $onDragDropEnter: function(QO, Elm) {
             if (!this.isApandable(QO)) {
                 return;
             }
@@ -1882,7 +1890,7 @@ define('qui/controls/desktop/Column', [
             // calc the nearest
             let distance;
 
-            let y       = Elm.getPosition().y,
+            let y = Elm.getPosition().y,
                 closest = null;
 
             for (let i in this.$ddArrowPositions) {
@@ -1912,7 +1920,7 @@ define('qui/controls/desktop/Column', [
          * @param {Object} QO - (qui/controls/Control) QUI Control
          * @param {DOMEvent} event
          */
-        $onDragDropDrag: function (QO, event) {
+        $onDragDropDrag: function(QO, event) {
             const y = event.page.y;
 
             if (typeof this.$ddArrowPositions[y] === 'undefined') {
@@ -1937,7 +1945,7 @@ define('qui/controls/desktop/Column', [
          * @method qui/controls/desktop/Column#$onDragDropDrop
          * @param {Object} QO - (qui/controls/Control) QUI Control
          */
-        $onDragDropDrop: function (QO) {
+        $onDragDropDrop: function(QO) {
             if (!this.isApandable(QO)) {
                 return;
             }
@@ -1966,7 +1974,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDragDropComplete
          */
-        $onDragDropComplete: function () {
+        $onDragDropComplete: function() {
             this.$clearDragDropArrows();
             this.normalize();
         },
@@ -1976,7 +1984,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDragDropLeave
          */
-        $onDragDropLeave: function () {
+        $onDragDropLeave: function() {
             this.$onDragDropComplete();
         },
 
@@ -1986,22 +1994,22 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDragDropStart
          */
-        $calcDragDropArrows: function () {
+        $calcDragDropArrows: function() {
             let i, y, len, Handler;
 
             this.$ddArrowPositions = {};
 
-            const Elm    = this.getElm(),
-                  elmPos = Elm.getPosition(),
-                  list   = Elm.getElements('.qui-column-hor-handle'),
-                  xPos   = elmPos.x;
+            const Elm = this.getElm(),
+                elmPos = Elm.getPosition(),
+                list = Elm.getElements('.qui-column-hor-handle'),
+                xPos = elmPos.x;
 
             // first arrow
             this.$ddArrowPositions[elmPos.y + 10] = new Element('div', {
-                'class'       : 'qui-column-drag-arrow icon-circle-arrow-left ',
-                styles        : {
-                    top    : elmPos.y,
-                    left   : xPos,
+                'class': 'qui-column-drag-arrow icon-circle-arrow-left ',
+                styles: {
+                    top: elmPos.y,
+                    left: xPos,
                     display: 'none'
                 },
                 'data-arrowno': 0
@@ -2015,10 +2023,10 @@ define('qui/controls/desktop/Column', [
                 y = Handler.getPosition().y;
 
                 this.$ddArrowPositions[y] = new Element('div', {
-                    'class'       : 'qui-column-drag-arrow icon-circle-arrow-left ',
-                    styles        : {
-                        top    : y - 20,
-                        left   : xPos,
+                    'class': 'qui-column-drag-arrow icon-circle-arrow-left ',
+                    styles: {
+                        top: y - 20,
+                        left: xPos,
                         display: 'none'
                     },
                     'data-arrowid': Handler.get('data-arrowid'),
@@ -2029,10 +2037,10 @@ define('qui/controls/desktop/Column', [
 
             // last arrow
             this.$ddArrowPositions[elmPos.y + Elm.getSize().y - 10] = new Element('div', {
-                'class'       : 'qui-column-drag-arrow icon-circle-arrow-left ',
-                styles        : {
-                    top    : elmPos.y + Elm.getSize().y - 20,
-                    left   : xPos,
+                'class': 'qui-column-drag-arrow icon-circle-arrow-left ',
+                styles: {
+                    top: elmPos.y + Elm.getSize().y - 20,
+                    left: xPos,
                     display: 'none'
                 },
                 'data-arrowno': i + 1
@@ -2045,7 +2053,7 @@ define('qui/controls/desktop/Column', [
          *
          * @method qui/controls/desktop/Column#$onDragDropStop
          */
-        $clearDragDropArrows: function () {
+        $clearDragDropArrows: function() {
             let i, len, list;
 
             for (i in this.$ddArrowPositions) {
@@ -2072,7 +2080,7 @@ define('qui/controls/desktop/Column', [
          * Show settings
          * only showable if column is unfix
          */
-        showSettings: function () {
+        showSettings: function() {
             if (this.$fixed) {
                 return;
             }
@@ -2087,7 +2095,7 @@ define('qui/controls/desktop/Column', [
         /**
          * Hide settings
          */
-        hideSettings: function () {
+        hideSettings: function() {
             if (!this.$Settings) {
                 return;
             }
@@ -2098,16 +2106,16 @@ define('qui/controls/desktop/Column', [
         /**
          * event : on setting open
          */
-        $onSettingsOpen: function (Sheet) {
+        $onSettingsOpen: function(Sheet) {
             const Content = Sheet.getContent();
 
             Content.set({
                 'class': 'qui-column-settings-content',
-                html   : '<h1>Einstellungen für die Panelspalte</h1>' +
-                         '<label>' +
-                         '<input type="checkbox" name="setting_toggle" />' +
-                         'Nur immer ein Panel offen halten' +
-                         '</label>'
+                html: '<h1>Einstellungen für die Panelspalte</h1>' +
+                    '<label>' +
+                    '<input type="checkbox" name="setting_toggle" />' +
+                    'Nur immer ein Panel offen halten' +
+                    '</label>'
             });
 
             if (this.getAttribute('setting_toggle')) {
@@ -2118,11 +2126,11 @@ define('qui/controls/desktop/Column', [
         /**
          * event : on setting close
          */
-        $onSettingsClose: function (Sheet) {
-            const self    = this,
-                  Content = Sheet.getContent();
+        $onSettingsClose: function(Sheet) {
+            const self = this,
+                Content = Sheet.getContent();
 
-            Content.getElements('input').each(function (Elm) {
+            Content.getElements('input').each(function(Elm) {
                 if (Elm.type === 'checkbox') {
                     self.setAttribute(Elm.get('name'), !!Elm.checked);
                     return;

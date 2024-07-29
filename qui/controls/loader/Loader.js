@@ -22,8 +22,8 @@ define('qui/controls/loader/Loader', [
 
     'css!qui/controls/loader/Loader.css'
 
-], function (QUI, QUIControl) {
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     /**
      * @class qui/controls/loader/Loader
@@ -33,20 +33,20 @@ define('qui/controls/loader/Loader', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/loader/Loader',
+        Type: 'qui/controls/loader/Loader',
 
         options: {
-            cssclass : '',     // extra CSS class
+            cssclass: '',     // extra CSS class
             closetime: 50000,  // seconds if the closing window showed
-            styles   : false,  // extra CSS styles,
-            type     : false,
-            color    : false,
-            opacity  : 0.8,
+            styles: false,  // extra CSS styles,
+            type: false,
+            color: false,
+            opacity: 0.8,
 
             loaderErrorText: 'Das Fenster reagiert nicht mehr. Um fortzufahren, klicken Sie bitte hier.'
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$Inner = null;
@@ -55,7 +55,7 @@ define('qui/controls/loader/Loader', [
             this.$delay = null;
             this.$status = 0;
 
-            this.addEvent('onDestroy', function () {
+            this.addEvent('onDestroy', function() {
                 if (this.$Elm && this.$Elm.getParent()) {
                     this.$Elm.getParent().removeClass('qui-loader-parent');
                 }
@@ -64,52 +64,52 @@ define('qui/controls/loader/Loader', [
             this.$animations = {
                 standard: {
                     children: 8,
-                    files   : ['css!qui/controls/loader/Loader.standard.css']
+                    files: ['css!qui/controls/loader/Loader.standard.css']
                 },
 
                 'line-scale': {
                     children: 5,
-                    files   : ['css!qui/controls/loader/Loader.line-scale.css']
+                    files: ['css!qui/controls/loader/Loader.line-scale.css']
                 },
 
                 'ball-clip-rotate': {
                     children: 1,
-                    files   : ['css!qui/controls/loader/Loader.ball-clip-rotate.css']
+                    files: ['css!qui/controls/loader/Loader.ball-clip-rotate.css']
                 },
 
                 'ball-pulse-rise': {
                     children: 5,
-                    files   : ['css!qui/controls/loader/Loader.ball-pulse-rise.css']
+                    files: ['css!qui/controls/loader/Loader.ball-pulse-rise.css']
                 },
 
                 'ball-triangle-path': {
                     children: 3,
-                    files   : ['css!qui/controls/loader/Loader.ball-triangle-path.css']
+                    files: ['css!qui/controls/loader/Loader.ball-triangle-path.css']
                 },
 
                 'pacman': {
                     children: 5,
-                    files   : ['css!qui/controls/loader/Loader.pacman.css']
+                    files: ['css!qui/controls/loader/Loader.pacman.css']
                 },
 
                 'fa-spinner': {
                     children: 1,
-                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
                 },
 
                 'fa-gear': {
                     children: 1,
-                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
                 },
 
                 'fa-refresh': {
                     children: 1,
-                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
                 },
 
                 'fa-circle-o-notch': {
                     children: 1,
-                    files   : ['css!qui/controls/loader/Loader.fa-spinner.css']
+                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
                 }
             };
         },
@@ -120,12 +120,12 @@ define('qui/controls/loader/Loader', [
          * @method controls/loader/Loader#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
                 'class': 'qui-loader',
-                html   : '<div class="qui-loader-message"></div>' +
-                         '<div class="qui-loader-inner"></div>',
-                styles : {
+                html: '<div class="qui-loader-message"></div>' +
+                    '<div class="qui-loader-inner"></div>',
+                styles: {
                     display: 'none',
                     opacity: 0.8
                 }
@@ -153,7 +153,7 @@ define('qui/controls/loader/Loader', [
          * @method controls/loader/Loader#show
          * @return {Promise}
          */
-        show: function (str) {
+        show: function(str) {
             this.fireEvent('show', [this]);
 
             return new Promise((resolve) => {
@@ -175,7 +175,7 @@ define('qui/controls/loader/Loader', [
 
                     this.$Elm.set({
                         html: '<div class="qui-loader-message"></div>' +
-                              '<div class="qui-loader-inner"></div>'
+                            '<div class="qui-loader-inner"></div>'
                     });
 
                     this.$Inner = this.$Elm.getElement('.qui-loader-inner');
@@ -183,15 +183,15 @@ define('qui/controls/loader/Loader', [
                 }
 
                 const self = this,
-                      size = this.$Elm.measure(function () {
-                          return this.getSize();
-                      });
+                    size = this.$Elm.measure(function() {
+                        return this.getSize();
+                    });
 
                 this.$Message.set('html', '');
 
                 if (typeof str !== 'undefined') {
                     this.$Message.set({
-                        html  : str,
+                        html: str,
                         styles: {
                             top: (size.y + 20) / 2
                         }
@@ -300,7 +300,7 @@ define('qui/controls/loader/Loader', [
                         clearTimeout(self.$delay);
                     }
 
-                    self.$delay = (function () {
+                    self.$delay = (function() {
                         self.showCloseButton();
                     }).delay(self.getAttribute('closetime'), self);
 
@@ -317,7 +317,7 @@ define('qui/controls/loader/Loader', [
          * @param {Function} [callback] - callback function, trigger at animation end
          * @return {Promise}
          */
-        hide: function (callback) {
+        hide: function(callback) {
             this.fireEvent('hide', [this]);
 
             return new Promise((resolve) => {
@@ -370,15 +370,15 @@ define('qui/controls/loader/Loader', [
          *
          * @method controls/loader/Loader#showCloseButton
          */
-        showCloseButton: function () {
+        showCloseButton: function() {
             if (!this.$Elm) {
                 return;
             }
 
             this.$Elm.set({
-                html  : '',
+                html: '',
                 styles: {
-                    cursor : 'pointer',
+                    cursor: 'pointer',
                     opacity: 0.9
                 }
             });
@@ -391,14 +391,14 @@ define('qui/controls/loader/Loader', [
             }
 
             this.$Close = new Element('div', {
-                text  : message,
+                text: message,
                 styles: {
                     'font-weight': 'bold',
-                    'text-align' : 'center',
-                    'margin-top' : (this.$Elm.getSize().y / 2) - 100
+                    'text-align': 'center',
+                    'margin-top': (this.$Elm.getSize().y / 2) - 100
                 },
                 events: {
-                    click: function () {
+                    click: function() {
                         self.hide();
                     }
                 }

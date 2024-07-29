@@ -17,8 +17,8 @@ define('qui/controls/windows/Confirm', [
 
     'css!qui/controls/windows/Confirm.css'
 
-], function (QUI, QUIPopup, QUIButton, Utils) {
-    "use strict";
+], function(QUI, QUIPopup, QUIButton, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/windows/Confirm
@@ -33,7 +33,7 @@ define('qui/controls/windows/Confirm', [
     return new Class({
 
         Extends: QUIPopup,
-        Type   : 'qui/controls/windows/Confirm',
+        Type: 'qui/controls/windows/Confirm',
 
         Binds: [
             '$onOpen'
@@ -44,22 +44,22 @@ define('qui/controls/windows/Confirm', [
             'autoclose': true,
 
             'information': false,
-            'title'      : '...',
-            'texticon'   : 'icon-remove fa fa-remove',
-            'icon'       : 'icon-remove fa fa-remove',
+            'title': '...',
+            'texticon': 'icon-remove fa fa-remove',
+            'icon': 'icon-remove fa fa-remove',
 
             cancel_button: {
-                text     : false,
+                text: false,
                 textimage: 'fa fa-remove'
             },
 
             ok_button: {
-                text     : false,
+                text: false,
                 textimage: 'fa fa-check'
             }
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             var self = this;
 
             this.parent(options);
@@ -78,8 +78,8 @@ define('qui/controls/windows/Confirm', [
             }
 
             // button texts
-            var cancelText   = 'Cancel',
-                submitText   = 'Ok',
+            var cancelText = 'Cancel',
+                submitText = 'Ok',
                 cancelButton = this.getAttribute('cancel_button'),
                 submitButton = this.getAttribute('ok_button');
 
@@ -108,7 +108,7 @@ define('qui/controls/windows/Confirm', [
 
             // on set attribute event
             // if attributes were set after creation
-            this.addEvent('onSetAttribute', function (attr, value) {
+            this.addEvent('onSetAttribute', function(attr, value) {
                 if (!self.$Body) {
                     return;
                 }
@@ -128,10 +128,10 @@ define('qui/controls/windows/Confirm', [
 
                     Textbody.set({
                         styles: {
-                            width   : null,
+                            width: null,
                             fontSize: null
                         },
-                        src   : null
+                        src: null
                     });
 
                     Texticon.className = 'texticon';
@@ -149,17 +149,13 @@ define('qui/controls/windows/Confirm', [
                 }
 
                 if (attr === 'information') {
-                    self.$Body
-                        .getElement('.information')
-                        .set('html', value);
+                    self.$Body.getElement('.information').set('html', value);
 
                     return;
                 }
 
                 if (attr === 'text') {
-                    self.$Body
-                        .getElement('.text')
-                        .set('html', value);
+                    self.$Body.getElement('.text').set('html', value);
                 }
             });
 
@@ -173,10 +169,10 @@ define('qui/controls/windows/Confirm', [
          *
          * @method qui/controls/windows/Confirm#open
          */
-        open: function () {
+        open: function() {
             this.create();
 
-            var self    = this,
+            var self = this,
                 Content = this.getContent();
 
             Content.setStyles({
@@ -184,13 +180,13 @@ define('qui/controls/windows/Confirm', [
             });
 
             this.$Body = new Element('div.submit-body', {
-                html  : '<div class="textbody">' +
-                        '<h2 class="text">&nbsp;</h2>' +
-                        '<div class="information">&nbsp;</div>' +
-                        '</div>',
+                html: '<div class="textbody">' +
+                    '<h2 class="text">&nbsp;</h2>' +
+                    '<div class="information">&nbsp;</div>' +
+                    '</div>',
                 styles: {
                     'float': 'left',
-                    width  : '100%'
+                    width: '100%'
                 }
             });
 
@@ -217,14 +213,14 @@ define('qui/controls/windows/Confirm', [
             if (this.getAttribute('cancel_button')) {
                 this.addButton(
                     new QUIButton({
-                        name     : 'cancel',
-                        text     : this.getAttribute('cancel_button').text,
+                        name: 'cancel',
+                        text: this.getAttribute('cancel_button').text,
                         textimage: this.getAttribute('cancel_button').textimage,
-                        'class'  : 'qui-button-cancel btn-light',
-                        styles   : {
+                        'class': 'qui-button-cancel btn-light',
+                        styles: {
                             'float': 'none'
                         },
-                        events   : {
+                        events: {
                             onClick: this.cancel
                         }
                     })
@@ -234,15 +230,15 @@ define('qui/controls/windows/Confirm', [
             if (this.getAttribute('ok_button')) {
                 this.addButton(
                     new QUIButton({
-                        name     : 'submit',
-                        text     : this.getAttribute('ok_button').text,
+                        name: 'submit',
+                        text: this.getAttribute('ok_button').text,
                         textimage: this.getAttribute('ok_button').textimage,
-                        'class'  : 'qui-button-success btn-success',
-                        styles   : {
+                        'class': 'qui-button-success btn-success',
+                        styles: {
                             'float': 'none'
                         },
-                        events   : {
-                            onClick: function () {
+                        events: {
+                            onClick: function() {
                                 self.submit();
                             }
                         }
@@ -257,7 +253,7 @@ define('qui/controls/windows/Confirm', [
             buttons.setStyle('outline', null);
 
             if (buttons.length) {
-                (function () {
+                (function() {
                     buttons[0].focus();
                 }).delay(200);
             }
@@ -270,7 +266,7 @@ define('qui/controls/windows/Confirm', [
          *
          * @method qui/controls/windows/Confirm#submit
          */
-        submit: function () {
+        submit: function() {
             this.fireEvent('submit', [this]);
 
             if (this.getAttribute('autoclose')) {

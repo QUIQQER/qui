@@ -20,13 +20,13 @@ define('qui/controls/input/Suggest', [
 
     'css!qui/controls/input/Suggest.css'
 
-], function (QUI, QUIControl) {
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/input/Suggest',
+        Type: 'qui/controls/input/Suggest',
 
         Binds: [
             '$onImport',
@@ -37,23 +37,23 @@ define('qui/controls/input/Suggest', [
         ],
 
         options: {
-            delay     : 200,
+            delay: 200,
             autosearch: true
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
-            this.$Input  = null;
-            this.$Delay  = null;
+            this.$Input = null;
+            this.$Delay = null;
             this.$Scroll = null;
             this.$Loader = null;
-            this.$data   = [];
+            this.$data = [];
 
             this.$SuggestFX = null;
-            this.$Suggests  = null;
-            this.$open      = false;
-            this.$Active    = null;
+            this.$Suggests = null;
+            this.$open = false;
+            this.$Active = null;
 
             this.addEvents({
                 onImport: this.$onImport,
@@ -66,12 +66,12 @@ define('qui/controls/input/Suggest', [
          *
          * @returns {HTMLInputElement}
          */
-        create: function () {
+        create: function() {
             var self = this;
 
             this.$Elm = new Element('div', {
                 styles: {
-                    display : 'inline-block',
+                    display: 'inline-block',
                     position: 'relative'
                 }
             });
@@ -93,12 +93,12 @@ define('qui/controls/input/Suggest', [
 
             this.$Suggests = new Element('div', {
                 'class': 'qui-suggests-container',
-                styles : {
+                styles: {
                     display: 'none'
                 }
             });
 
-            this.$Suggests.addEvent('mouseup', function (event) {
+            this.$Suggests.addEvent('mouseup', function(event) {
                 if (event.target.nodeName != 'LI') {
                     return;
                 }
@@ -118,7 +118,7 @@ define('qui/controls/input/Suggest', [
 
             this.$Suggests.inject(this.$Elm);
 
-            this.$Scroll    = new Fx.Scroll(this.$Suggests);
+            this.$Scroll = new Fx.Scroll(this.$Suggests);
             this.$SuggestFX = moofx(this.$Suggests);
 
             this.bindElementEvents();
@@ -131,14 +131,14 @@ define('qui/controls/input/Suggest', [
          *
          * @returns {HTMLInputElement}
          */
-        getInput: function () {
+        getInput: function() {
             return this.$Input;
         },
 
         /**
          * Show suggests
          */
-        showSuggest: function () {
+        showSuggest: function() {
             if (this.$open) {
                 return;
             }
@@ -154,8 +154,8 @@ define('qui/controls/input/Suggest', [
             this.$Suggests.setStyles({
                 display: null,
                 opacity: 0,
-                top    : inputSize.y,
-                width  : inputSize.x
+                top: inputSize.y,
+                width: inputSize.x
             });
 
 
@@ -165,7 +165,7 @@ define('qui/controls/input/Suggest', [
                 opacity: 1
             }, {
                 duration: 200,
-                callback: function () {
+                callback: function() {
                     this.fireEvent('show', [this]);
                 }.bind(this)
             });
@@ -174,7 +174,7 @@ define('qui/controls/input/Suggest', [
         /**
          * Hide suggests
          */
-        hideSuggest: function () {
+        hideSuggest: function() {
 
             this.$open = false;
 
@@ -182,7 +182,7 @@ define('qui/controls/input/Suggest', [
                 opacity: 0
             }, {
                 duration: 200,
-                callback: function () {
+                callback: function() {
                     this.$Suggests.setStyle('display', 'none');
 
                 }.bind(this)
@@ -192,7 +192,7 @@ define('qui/controls/input/Suggest', [
         /**
          * select the selected dropdown element
          */
-        select: function () {
+        select: function() {
             if (!this.$open) {
                 return;
             }
@@ -218,7 +218,7 @@ define('qui/controls/input/Suggest', [
         /**
          * Suggest go down
          */
-        goDown: function () {
+        goDown: function() {
             this.showSuggest();
 
             if (!this.$Active) {
@@ -254,7 +254,7 @@ define('qui/controls/input/Suggest', [
         /**
          * Suggest go up
          */
-        goUp: function () {
+        goUp: function() {
             this.showSuggest();
 
             if (!this.$Active) {
@@ -290,10 +290,10 @@ define('qui/controls/input/Suggest', [
         /**
          * refresh suggest list
          */
-        refreshSuggest: function () {
-            var html   = '<ul>',
+        refreshSuggest: function() {
+            var html = '<ul>',
                 search = this.getAttribute('autosearch'),
-                value  = this.$Input.value;
+                value = this.$Input.value;
 
             for (var i = 0, len = this.$data.length; i < len; i++) {
                 if (search) {
@@ -320,20 +320,20 @@ define('qui/controls/input/Suggest', [
         /**
          * Show an loader over the input element
          */
-        showLoader: function () {
+        showLoader: function() {
             if (!this.$Loader) {
                 var size = this.$Input.getSize();
 
                 this.$Loader = new Element('span', {
                     'class': 'icon-spinner icon-spin fa fa-spinner fa-spin',
-                    styles : {
-                        height    : size.y,
+                    styles: {
+                        height: size.y,
                         lineHeight: size.y,
-                        position  : 'absolute',
-                        right     : 0,
-                        textAlign : 'center',
-                        top       : 0,
-                        width     : size.y
+                        position: 'absolute',
+                        right: 0,
+                        textAlign: 'center',
+                        top: 0,
+                        width: size.y
                     }
                 }).inject(this.$Elm);
             }
@@ -344,7 +344,7 @@ define('qui/controls/input/Suggest', [
         /**
          * Hide the loader, if a loader exists
          */
-        hideLoader: function () {
+        hideLoader: function() {
             if (this.$Loader) {
                 this.$Loader.setStyle('display', 'none');
             }
@@ -357,7 +357,7 @@ define('qui/controls/input/Suggest', [
         /**
          * event on import
          */
-        $onImport: function () {
+        $onImport: function() {
             var Elm = this.getElm();
 
             if (Elm.nodeName == 'INPUT') {
@@ -372,11 +372,11 @@ define('qui/controls/input/Suggest', [
         /**
          * Bind all key events to the input element
          */
-        bindElementEvents: function () {
+        bindElementEvents: function() {
             this.$Input.addEvents({
                 keyup: this.$onKeyup,
                 focus: this.$onFocus,
-                blur : this.$onBlur
+                blur: this.$onBlur
             });
         },
 
@@ -384,7 +384,7 @@ define('qui/controls/input/Suggest', [
          * event : on key up
          * @param {Event} event
          */
-        $onKeyup: function (event) {
+        $onKeyup: function(event) {
             if (event.key == 'down') {
                 this.goDown();
                 return;
@@ -404,7 +404,7 @@ define('qui/controls/input/Suggest', [
                 clearTimeout(this.$Delay);
             }
 
-            this.$Delay = (function () {
+            this.$Delay = (function() {
                 this.showSuggest();
                 this.refreshSuggest();
                 this.fireEvent('change', this);
@@ -414,14 +414,14 @@ define('qui/controls/input/Suggest', [
         /**
          * on focus
          */
-        $onFocus: function () {
+        $onFocus: function() {
             this.showSuggest();
         },
 
         /**
          * on blur
          */
-        $onBlur: function () {
+        $onBlur: function() {
             this.hideSuggest();
         },
 
@@ -432,7 +432,7 @@ define('qui/controls/input/Suggest', [
         /**
          * Clear all options
          */
-        clearOptions: function () {
+        clearOptions: function() {
             this.$data = [];
             this.hideSuggest();
             this.$Suggests.set('html', '');
@@ -446,15 +446,15 @@ define('qui/controls/input/Suggest', [
          * @param {String} value - value
          * @param {String} icon - icon
          */
-        addOption: function (text, value, icon) {
-            text  = text || '';
+        addOption: function(text, value, icon) {
+            text = text || '';
             value = value || '';
-            icon  = icon || '';
+            icon = icon || '';
 
             this.$data.push({
-                text : text,
+                text: text,
                 value: value,
-                icon : icon
+                icon: icon
             });
         },
 
@@ -463,18 +463,18 @@ define('qui/controls/input/Suggest', [
          *
          * @param {array} data
          */
-        addOptions: function (data) {
+        addOptions: function(data) {
             var text, value, icon;
 
             for (var i = 0, len = data.length; i < len; i++) {
-                text  = data[i].text || '';
+                text = data[i].text || '';
                 value = data[i].value || '';
-                icon  = data[i].icon || '';
+                icon = data[i].icon || '';
 
                 this.$data.push({
-                    text : text,
+                    text: text,
                     value: value,
-                    icon : icon
+                    icon: icon
                 });
             }
 

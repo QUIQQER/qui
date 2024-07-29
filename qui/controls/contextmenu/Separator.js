@@ -14,8 +14,8 @@ define('qui/controls/contextmenu/Separator', [
 
     'css!qui/controls/contextmenu/Separator.css'
 
-], function (Control) {
-    "use strict";
+], function(Control) {
+    'use strict';
 
     /**
      * @class qui/controls/contextmenu/Separator
@@ -30,13 +30,13 @@ define('qui/controls/contextmenu/Separator', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/contextmenu/Separator',
+        Type: 'qui/controls/contextmenu/Separator',
 
         options: {
             styles: null
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$Elm = null;
@@ -48,7 +48,7 @@ define('qui/controls/contextmenu/Separator', [
          * @method qui/controls/contextmenu/Separator#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div.qui-context-separator', {
                 'data-quiid': this.getId()
             });
@@ -66,7 +66,7 @@ define('qui/controls/contextmenu/Separator', [
          * @method qui/controls/contextmenu/Separator#setNormal
          * @ignore
          */
-        setNormal: function () {
+        setNormal: function() {
         },
 
         /**
@@ -75,7 +75,7 @@ define('qui/controls/contextmenu/Separator', [
          * @method qui/controls/contextmenu/Separator#setActive
          * @ignore
          */
-        setActive: function () {
+        setActive: function() {
         }
     });
 });

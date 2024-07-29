@@ -11,8 +11,8 @@ define('qui/utils/System', {
      * return the IOS Version
      * @returns {Array|Boolean} - Versions with subversion
      */
-    iOSversion: function () {
-        "use strict";
+    iOSversion: function() {
+        'use strict';
 
         if (/iP(hone|od|ad)/.test(navigator.platform)) {
             var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);

@@ -1,4 +1,3 @@
-
 /**
  * A breadcrumb bar item
  *
@@ -19,9 +18,8 @@ define('qui/controls/breadcrumb/Item', [
 
     'css!qui/controls/breadcrumb/Item.css'
 
-], function(Control, Utils)
-{
-    "use strict";
+], function(Control, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/breadcrumb/Item
@@ -32,17 +30,16 @@ define('qui/controls/breadcrumb/Item', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/breadcrumb/Item',
+        Extends: Control,
+        Type: 'qui/controls/breadcrumb/Item',
 
-        options : {
-            text : '',
-            icon : false
+        options: {
+            text: '',
+            icon: false
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function(options) {
+            this.parent(options);
         },
 
         /**
@@ -51,49 +48,44 @@ define('qui/controls/breadcrumb/Item', [
          * @method qui/controls/breadcrumb/Item#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function() {
             var self = this,
-                icon = this.getAttribute( 'icon' );
+                icon = this.getAttribute('icon');
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-breadcrumb-item box smooth',
-                html         : '<span class="qui-breadcrumb-item-text">'+
-                                   this.getAttribute( 'text' ) +
-                               '</span>',
-                alt          : this.getAttribute( 'text' ),
-                title        : this.getAttribute( 'text' ),
-                'data-quiid' : this.getId(),
-                events :
-                {
-                    click : function(event) {
-                        self.fireEvent( 'click', [ self, event ] );
+                'class': 'qui-breadcrumb-item box smooth',
+                html: '<span class="qui-breadcrumb-item-text">' +
+                    this.getAttribute('text') +
+                    '</span>',
+                alt: this.getAttribute('text'),
+                title: this.getAttribute('text'),
+                'data-quiid': this.getId(),
+                events:
+                    {
+                        click: function(event) {
+                            self.fireEvent('click', [self, event]);
+                        }
                     }
-                }
             });
 
-            if ( icon )
-            {
-                var Icon = this.$Elm.getElement( '.qui-breadcrumb-item-icon' );
+            if (icon) {
+                var Icon = this.$Elm.getElement('.qui-breadcrumb-item-icon');
 
-                if ( !Icon )
-                {
+                if (!Icon) {
                     Icon = new Element('span', {
-                        'class' : 'qui-breadcrumb-item-icon'
+                        'class': 'qui-breadcrumb-item-icon'
                     }).inject(
                         this.$Elm, 'top'
                     );
                 }
 
                 // font awesome
-                if ( Utils.isFontAwesomeClass( icon ) )
-                {
-                    Icon.addClass( icon );
-                } else
-                {
+                if (Utils.isFontAwesomeClass(icon)) {
+                    Icon.addClass(icon);
+                } else {
                     Icon.setStyles({
-                        backgroundImage : 'url("'+ this.getAttribute( 'icon' ) +'")',
-                        paddingLeft     : 20
+                        backgroundImage: 'url("' + this.getAttribute('icon') + '")',
+                        paddingLeft: 20
                     });
                 }
             }
