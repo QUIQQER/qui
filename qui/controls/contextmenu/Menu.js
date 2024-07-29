@@ -15,8 +15,8 @@ define('qui/controls/contextmenu/Menu', [
 
     'css!qui/controls/contextmenu/Menu.css'
 
-], function (QUI, Control, QUIElementUtil) {
-    "use strict";
+], function(QUI, Control, QUIElementUtil) {
+    'use strict';
 
     /**
      * @class qui/controls/contextmenu/Menu
@@ -31,29 +31,29 @@ define('qui/controls/contextmenu/Menu', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/contextmenu/Menu',
+        Type: 'qui/controls/contextmenu/Menu',
 
         Binds: [
             '$keyup'
         ],
 
         options: {
-            styles         : null,   // mootools css styles
+            styles: null,   // mootools css styles
             stylesContainer: null,   // mootools css styles, for the menu container
-            width          : 200,    // menü width
-            title          : false,  // title of the menu (optional) : String
-            shadow         : true,   // menü with shadow (true) or not (false)
-            corner         : false,  // corner for the menü
-            maxHeight      : false, // max height of the menu
-            dragable       : false,
-            showIcons      : true
+            width: 200,    // menü width
+            title: false,  // title of the menu (optional) : String
+            shadow: true,   // menü with shadow (true) or not (false)
+            corner: false,  // corner for the menü
+            maxHeight: false, // max height of the menu
+            dragable: false,
+            showIcons: true
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
-            this.$items  = [];
-            this.$Title  = null;
+            this.$items = [];
+            this.$Title = null;
             this.$Active = null;
             this.$hidden = true;
 
@@ -66,32 +66,32 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#create
          * @return {HTMLElement} main DOM-Node Element
          */
-        create: function () {
+        create: function() {
             var self = this;
 
             this.$Elm = new Element('div.qui-contextmenu', {
-                html        : '<div class="qui-contextmenu-container"></div>',
-                tabindex    : -1,
-                styles      : {
-                    display       : 'none',
-                    outline       : 'none',
+                html: '<div class="qui-contextmenu-container"></div>',
+                tabindex: -1,
+                styles: {
+                    display: 'none',
+                    outline: 'none',
                     '-moz-outline': 'none'
                 },
-                events      : {
-                    blur: function () {
+                events: {
+                    blur: function() {
                         this.fireEvent('blur', [this]);
                     }.bind(this),
 
                     keyup: this.$keyup,
 
-                    mouseenter: function () {
+                    mouseenter: function() {
                         self.fireEvent('mouseEnter', [self]);
                     },
 
-                    mouseleave: function () {
+                    mouseleave: function() {
                         self.fireEvent('mouseLeave', [self]);
                     },
-                    mousedown : function (event) {
+                    mousedown: function(event) {
                         event.stop();
                     }
                 },
@@ -133,7 +133,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#show
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        show: function () {
+        show: function() {
             if (!this.$Elm) {
                 return this;
             }
@@ -197,7 +197,7 @@ define('qui/controls/contextmenu/Menu', [
 
             Elm.setStyles({
                 display: '',
-                height : 0
+                height: 0
             });
 
             this.refresh();
@@ -217,7 +217,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#hide
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        hide: function () {
+        hide: function() {
             // hide children menus
             var children = this.getChildren();
 
@@ -243,23 +243,23 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @return {boolean}
          */
-        isHidden: function () {
+        isHidden: function() {
             return this.$hidden;
         },
 
         /**
          * resize the menu
          */
-        resize: function () {
-            var Elm        = this.getElm(),
+        resize: function() {
+            var Elm = this.getElm(),
                 scrollSize = Elm.getScrollSize();
 
-            var height        = scrollSize.y + 5;
-            var childrenSizes = this.getElm().getElements('.qui-contextitem').map(function (Node) {
+            var height = scrollSize.y + 5;
+            var childrenSizes = this.getElm().getElements('.qui-contextitem').map(function(Node) {
                 return Node.getSize().y;
             });
 
-            var sum = childrenSizes.reduce(function (pv, cv) {
+            var sum = childrenSizes.reduce(function(pv, cv) {
                 return pv + cv;
             }, 0);
 
@@ -273,9 +273,9 @@ define('qui/controls/contextmenu/Menu', [
         /**
          * refresh the menu
          */
-        refresh: function () {
-            var Elm        = this.getElm(),
-                Parent     = Elm.getParent(),
+        refresh: function() {
+            var Elm = this.getElm(),
+                Parent = Elm.getParent(),
                 scrollSize = Elm.getScrollSize();
 
             this.$Container.setStyle('height', scrollSize.y + 5);
@@ -289,7 +289,7 @@ define('qui/controls/contextmenu/Menu', [
                     });
 
                     this.$Container.setStyles({
-                        height  : this.getAttribute('maxHeight'),
+                        height: this.getAttribute('maxHeight'),
                         overflow: 'auto'
                     });
 
@@ -338,7 +338,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#focus
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        focus: function () {
+        focus: function() {
             this.getElm().focus();
             this.fireEvent('focus', [this]);
 
@@ -356,11 +356,11 @@ define('qui/controls/contextmenu/Menu', [
          * @param {Number}y - from the left (y axis)
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        setPosition: function (x, y) {
+        setPosition: function(x, y) {
             if (this.$Elm) {
                 this.$Elm.setStyles({
                     left: x,
-                    top : y
+                    top: y
                 });
             }
 
@@ -374,7 +374,7 @@ define('qui/controls/contextmenu/Menu', [
          * @param {String} text - Title text
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        setTitle: function (text) {
+        setTitle: function(text) {
             if (this.$Container && !this.$Title) {
                 this.$Title = new Element('div.qui-contextmenu-title');
                 this.$Title.inject(this.$Container, 'top');
@@ -396,7 +396,7 @@ define('qui/controls/contextmenu/Menu', [
          * @param {String} [name] - Name of the Children, optional, if no name given, returns all Children
          * @return {Array|Boolean|Object} List of children | false | Child (qui/controls/contextmenu/Item)
          */
-        getChildren: function (name) {
+        getChildren: function(name) {
             if (typeof name !== 'undefined') {
                 var i, len;
                 var items = this.$items;
@@ -419,7 +419,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#firstChild
          * @return {Object|Boolean} Child (qui/controls/contextmenu/Item) | false
          */
-        firstChild: function () {
+        firstChild: function() {
             for (var i = 0, len = this.$items.length; i <= len; i++) {
                 if (!this.$items[i]) {
                     continue;
@@ -439,7 +439,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#firstChild
          * @return {Object|Boolean} Child (qui/controls/contextmenu/Item) | false
          */
-        lastChild: function () {
+        lastChild: function() {
             var i = this.$items.length;
 
             for (; i >= 0; i--) {
@@ -465,7 +465,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#count
          * @return {Number} count of children
          */
-        count: function () {
+        count: function() {
             return this.$items.length;
         },
 
@@ -476,7 +476,7 @@ define('qui/controls/contextmenu/Menu', [
          * @param {Object} Child - qui/controls/contextmenu/Item
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        appendChild: function (Child) {
+        appendChild: function(Child) {
             if (!Child || typeof Child === 'undefined') {
                 return this;
             }
@@ -504,7 +504,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#clearChildren
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        clearChildren: function () {
+        clearChildren: function() {
             for (var i = 0, len = this.$items.length; i < len; i++) {
                 if (this.$items[i]) {
                     this.$items[i].destroy();
@@ -522,7 +522,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#clear
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        clear: function () {
+        clear: function() {
             return this.clearChildren();
         },
 
@@ -532,7 +532,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#getActive
          * @return {Object|Boolean} Active Child (qui/controls/contextmenu/Item) | false
          */
-        getActive: function () {
+        getActive: function() {
             return this.$Active ? this.$Active : false;
         },
 
@@ -543,8 +543,8 @@ define('qui/controls/contextmenu/Menu', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
-        getNext: function (Item) {
-            var active = this.$items.filter(function (Child) {
+        getNext: function(Item) {
+            var active = this.$items.filter(function(Child) {
                 return !Child.isHidden();
             });
 
@@ -568,8 +568,8 @@ define('qui/controls/contextmenu/Menu', [
          * @param {Object} Item - qui/controls/contextmenu/Item
          * @return {Object|Boolean} qui/controls/contextmenu/Item | false
          */
-        getPrevious: function (Item) {
-            var active = this.$items.filter(function (Child) {
+        getPrevious: function(Item) {
+            var active = this.$items.filter(function(Child) {
                 return !Child.isHidden();
             });
 
@@ -594,7 +594,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#deselectItems
          * @return {Object} this (qui/controls/contextmenu/Menu)
          */
-        deselectItems: function () {
+        deselectItems: function() {
             if (this.$Active) {
                 this.$Active = null;
             }
@@ -608,7 +608,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#$keyup
          */
-        $keyup: function (event) {
+        $keyup: function(event) {
             if (event.key === 'down') {
                 this.down();
                 return;
@@ -629,7 +629,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#up
          */
-        up: function () {
+        up: function() {
             if (!this.$items.length) {
                 return;
             }
@@ -668,7 +668,7 @@ define('qui/controls/contextmenu/Menu', [
          *
          * @method qui/controls/contextmenu/Menu#down
          */
-        down: function () {
+        down: function() {
             if (!this.$items.length) {
                 return;
             }
@@ -708,7 +708,7 @@ define('qui/controls/contextmenu/Menu', [
          * @method qui/controls/contextmenu/Menu#select
          * @param {DOMEvent} [event] - optional
          */
-        select: function (event) {
+        select: function(event) {
             // Last Element
             if (this.$Active) {
                 this.$Active.fireEvent('mouseDown', [this.$Active, event]);

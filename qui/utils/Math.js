@@ -21,21 +21,21 @@ define('qui/utils/Math', {
      *     var2 : value
      * }
      */
-    resizeVar: function (var1, var2, max) {
-        "use strict";
+    resizeVar: function(var1, var2, max) {
+        'use strict';
 
         var resize_by_percent;
 
         if (var1 > max) {
             resize_by_percent = (max * 100) / var1;
-            var2              = Math.round((var2 * resize_by_percent) / 100);
-            var1              = max;
+            var2 = Math.round((var2 * resize_by_percent) / 100);
+            var1 = max;
         }
 
         if (var2 > max) {
             resize_by_percent = (max * 100) / var2;
-            var1              = Math.round((var1 * resize_by_percent) / 100);
-            var2              = max;
+            var1 = Math.round((var1 * resize_by_percent) / 100);
+            var2 = max;
         }
 
         return {
@@ -52,8 +52,8 @@ define('qui/utils/Math', {
      * @param {String} str - Value, String
      * @return {Number}
      */
-    parseAmountToFloat: function (str) {
-        "use strict";
+    parseAmountToFloat: function(str) {
+        'use strict';
 
         return parseFloat(
             str.toString().replace(',', '.')
@@ -70,8 +70,8 @@ define('qui/utils/Math', {
      *
      * @return {Number}
      */
-    percent: function (amount, total) {
-        "use strict";
+    percent: function(amount, total) {
+        'use strict';
 
         if (amount === 0 || total === 0) {
             return 0;
@@ -94,20 +94,22 @@ define('qui/utils/Math', {
      *     netto : netto
      * }
      */
-    calcMwst: function (brutto, netto, mwst) {
-        "use strict";
+    calcMwst: function(brutto, netto, mwst) {
+        'use strict';
 
         mwst = (parseInt(mwst, 10) / 100) + 1;
 
         if (brutto === false) {
             brutto = netto * mwst;
-        } else if (netto === false) {
-            netto = brutto / mwst;
+        } else {
+            if (netto === false) {
+                netto = brutto / mwst;
+            }
         }
 
         return {
             brutto: brutto,
-            netto : netto
+            netto: netto
         };
     },
 
@@ -126,8 +128,8 @@ define('qui/utils/Math', {
      * @note Based of Andrew V.'s code from StackOverflow (see link below)
      * @link https://stackoverflow.com/a/20732091
      */
-    convertBytesToHumanFileSize: function (bytes, useLongUnitNames) {
-        "use strict";
+    convertBytesToHumanFileSize: function(bytes, useLongUnitNames) {
+        'use strict';
 
         var units = ['B', 'kB', 'MB', 'GB', 'TB'];
 
@@ -144,6 +146,6 @@ define('qui/utils/Math', {
         var value = (bytes / Math.pow(1024, factor)).toFixed(2) * 1;
         var unit = units[factor];
 
-        return  {value: value, unit: unit};
+        return {value: value, unit: unit};
     }
 });

@@ -22,8 +22,8 @@ define('qui/controls/contextmenu/Item', [
 
     'css!qui/controls/contextmenu/Item.css'
 
-], function (QUI, Control, DragDrop, ContextMenu, Utils) {
-    "use strict";
+], function(QUI, Control, DragDrop, ContextMenu, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/contextmenu/Item
@@ -41,7 +41,7 @@ define('qui/controls/contextmenu/Item', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/contextmenu/Item',
+        Type: 'qui/controls/contextmenu/Item',
 
         Binds: [
             '$onSetAttribute',
@@ -56,34 +56,34 @@ define('qui/controls/contextmenu/Item', [
         ],
 
         options: {
-            text     : '',
-            icon     : '',
-            styles   : null,
-            showIcon : true,
-            dragable : false, // parent class .qui-contextitem-dropable
+            text: '',
+            icon: '',
+            styles: null,
+            showIcon: true,
+            dragable: false, // parent class .qui-contextitem-dropable
             checkable: false  // icon is a checkbox
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             options = options || {};
 
-            var self  = this,
+            var self = this,
                 items = options.items || [];
 
             delete options.items;
 
             this.parent(options);
 
-            this.$items    = [];
-            this.$path     = '';
+            this.$items = [];
+            this.$path = '';
             this.$disabled = false;
 
-            this.$Elm       = null;
+            this.$Elm = null;
             this.$Container = null;
-            this.$Menu      = null;
-            this.$Text      = null;
-            this.$Icon      = null;
-            this.$Checkbox  = null;
+            this.$Menu = null;
+            this.$Text = null;
+            this.$Icon = null;
+            this.$Checkbox = null;
 
             this.$__childOpend = false;
 
@@ -100,7 +100,7 @@ define('qui/controls/contextmenu/Item', [
 
             // string onClick
             if (this.getAttribute('onClick')) {
-                this.addEvent('onClick', function (event) {
+                this.addEvent('onClick', function(event) {
                     var func = self.getAttribute('onClick');
 
                     try {
@@ -123,18 +123,18 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             var i, len;
             var self = this;
 
             this.$Elm = new Element('div.qui-contextitem', {
                 html: '<div class="qui-contextitem-container">' +
-                '<span class="qui-contextitem-icon"></span>' +
-                '<span class="qui-contextitem-text"></span>' +
-                '</div>',
+                    '<span class="qui-contextitem-icon"></span>' +
+                    '<span class="qui-contextitem-text"></span>' +
+                    '</div>',
 
                 'data-quiid': this.getId(),
-                tabindex    : -1,
+                tabindex: -1,
 
                 events: {
                     mouseenter: this.$onMouseEnter,
@@ -143,15 +143,15 @@ define('qui/controls/contextmenu/Item', [
             });
 
             this.$Container = this.$Elm.getElement('.qui-contextitem-container');
-            this.$Text      = this.$Elm.getElement('.qui-contextitem-text');
-            this.$Icon      = this.$Elm.getElement('.qui-contextitem-icon');
+            this.$Text = this.$Elm.getElement('.qui-contextitem-text');
+            this.$Icon = this.$Elm.getElement('.qui-contextitem-icon');
 
             // click events on the text
             this.$Container.addEvents({
-                click     : this.$onClick,
-                mousedown : this.$onMouseDown,
-                mouseup   : this.$onMouseUp,
-                mouseenter: function () {
+                click: this.$onClick,
+                mousedown: this.$onMouseDown,
+                mouseup: this.$onMouseUp,
+                mouseenter: function() {
                     if (self.$Text.getSize().x < self.$Text.getScrollSize().x) {
                         self.$Text.set('title', self.getAttribute('text'));
                     } else {
@@ -200,8 +200,8 @@ define('qui/controls/contextmenu/Item', [
             if (this.getAttribute('dragable')) {
                 new DragDrop(this.$Elm, {
                     dropables: '.qui-contextitem-dropable',
-                    events   : {
-                        onEnter: function (Element, Dragable, Droppable) {
+                    events: {
+                        onEnter: function(Element, Dragable, Droppable) {
                             if (!Droppable) {
                                 return;
                             }
@@ -215,7 +215,7 @@ define('qui/controls/contextmenu/Item', [
                             QUI.Controls.getById(quiid).highlight();
                         },
 
-                        onLeave: function (Element, Dragable, Droppable) {
+                        onLeave: function(Element, Dragable, Droppable) {
                             if (!Droppable) {
                                 return;
                             }
@@ -229,7 +229,7 @@ define('qui/controls/contextmenu/Item', [
                             QUI.Controls.getById(quiid).normalize();
                         },
 
-                        onDrop: function (Element, Dragable, Droppable) {
+                        onDrop: function(Element, Dragable, Droppable) {
                             if (!Droppable) {
                                 return;
                             }
@@ -272,7 +272,7 @@ define('qui/controls/contextmenu/Item', [
         /**
          * event : on inject
          */
-        $onInject: function () {
+        $onInject: function() {
         },
 
         /**
@@ -283,13 +283,13 @@ define('qui/controls/contextmenu/Item', [
          * @param {Array} list
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        insert: function (list) {
+        insert: function(list) {
             var self = this;
 
             require([
                 'qui/controls/contextmenu/Item',
                 'qui/controls/contextmenu/Separator'
-            ], function (ContextMenuItem, ContextMenuSeparator) {
+            ], function(ContextMenuItem, ContextMenuSeparator) {
                 for (var i = 0, len = list.length; i < len; i++) {
                     if (self.getAttribute('dragable')) {
                         list[i].dragable = true;
@@ -317,7 +317,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#click
          */
-        click: function () {
+        click: function() {
             this.$onClick(false);
         },
 
@@ -328,7 +328,7 @@ define('qui/controls/contextmenu/Item', [
          * @param {Object} Child - qui/controls/contextmenu/Item
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        appendChild: function (Child) {
+        appendChild: function(Child) {
             this.$items.push(Child);
 
             Child.setParent(this);
@@ -350,7 +350,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#disable
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        disable: function () {
+        disable: function() {
             this.$disabled = true;
 
             if (!this.$Elm) {
@@ -367,7 +367,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#isDisable
          * @return {Boolean}
          */
-        isDisabled: function () {
+        isDisabled: function() {
             return this.$disabled;
         },
 
@@ -375,7 +375,7 @@ define('qui/controls/contextmenu/Item', [
          * check the child
          * if the child has a checkbox
          */
-        check: function () {
+        check: function() {
             this.setActive();
 
             if (this.$Checkbox) {
@@ -389,7 +389,7 @@ define('qui/controls/contextmenu/Item', [
          * uncheck the child
          * if the child has a checkbox
          */
-        uncheck: function () {
+        uncheck: function() {
             this.setNormal();
 
             if (this.$Checkbox) {
@@ -405,7 +405,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#enable
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        enable: function () {
+        enable: function() {
             this.$disabled = false;
 
             if (!this.$Elm) {
@@ -422,7 +422,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#setActive
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        setActive: function () {
+        setActive: function() {
             if (this.$Elm && this.$Elm.hasClass('qui-contextitem-active')) {
                 return this;
             }
@@ -446,7 +446,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#setNormal
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        setNormal: function () {
+        setNormal: function() {
             if (!this.$Elm) {
                 return this;
             }
@@ -469,7 +469,7 @@ define('qui/controls/contextmenu/Item', [
          * @param {String} name - [Name of the Children, optional, if no name given, returns all Children]
          * @return {Array|Object} List of children |  qui/controls/contextmenu/Menu
          */
-        getChildren: function (name) {
+        getChildren: function(name) {
             if (typeof name !== 'undefined') {
                 if (name === this.getAttribute('name') + '-menu') {
                     return this.getContextMenu();
@@ -486,7 +486,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @return {HTMLElement|null}
          */
-        getTextElm: function () {
+        getTextElm: function() {
             return this.$Text;
         },
 
@@ -496,7 +496,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#clear
          * @return {Object} this (qui/controls/contextmenu/Item)
          */
-        clear: function () {
+        clear: function() {
             this.getContextMenu().clear();
             this.$items = [];
 
@@ -509,7 +509,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#isChecked
          * @return {boolean}
          */
-        isChecked: function () {
+        isChecked: function() {
             if (!this.getAttribute('checkable')) {
                 return false;
             }
@@ -527,7 +527,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#getContextMenu
          * @return {qui/controls/contextmenu/Menu}
          */
-        getContextMenu: function () {
+        getContextMenu: function() {
             if (this.$Menu) {
                 return this.$Menu;
             }
@@ -535,10 +535,10 @@ define('qui/controls/contextmenu/Item', [
             var self = this;
 
             this.$Menu = new ContextMenu({
-                name  : this.getAttribute('name') + '-menu',
+                name: this.getAttribute('name') + '-menu',
                 corner: 'left',
                 events: {
-                    onShow: function (Menu) {
+                    onShow: function(Menu) {
                         var children = Menu.getChildren();
 
                         for (var i = 0, len = children.length; i < len; i++) {
@@ -555,7 +555,7 @@ define('qui/controls/contextmenu/Item', [
                         self.getParent().$__activeSubMenu = Menu;
                     },
 
-                    onMouseEnter: function () {
+                    onMouseEnter: function() {
                         self.$__childOpend = true;
                     }
                 }
@@ -579,7 +579,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @ignore
          */
-        $onSetAttribute: function (key, value) {
+        $onSetAttribute: function(key, value) {
             if (!this.$Elm) {
                 return;
             }
@@ -624,7 +624,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#$stringEvent
          * @param {String} event
          */
-        $stringEvent: function (event) {
+        $stringEvent: function(event) {
             eval('(' + event + '(this));');
         },
 
@@ -635,7 +635,7 @@ define('qui/controls/contextmenu/Item', [
          * @param {DOMEvent|Boolean} event
          * @ignore
          */
-        $onClick: function (event) {
+        $onClick: function(event) {
             if (this.$disabled) {
                 return;
             }
@@ -668,7 +668,7 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#$onMouseEnter
          */
-        $onMouseEnter: function () {
+        $onMouseEnter: function() {
             var ActiveMenu = this.getParent().$__activeSubMenu;
 
             if (ActiveMenu) {
@@ -681,8 +681,8 @@ define('qui/controls/contextmenu/Item', [
             }
 
             if (this.$Menu) {
-                var pos    = this.$Elm.getPosition(),
-                    size   = this.$Elm.getSize(),
+                var pos = this.$Elm.getPosition(),
+                    size = this.$Elm.getSize(),
                     Parent = this.$Menu.getParent();
 
                 this.$Menu.setPosition(pos.x + size.x, pos.y);
@@ -690,7 +690,7 @@ define('qui/controls/contextmenu/Item', [
                 this.$__childOpend = false;
 
                 if (Parent) {
-                    var MenuElm   = this.$Menu.getElm(),
+                    var MenuElm = this.$Menu.getElm(),
                         body_size = document.body.getSize();
 
                     MenuElm.setStyle('opacity', 0);
@@ -718,13 +718,13 @@ define('qui/controls/contextmenu/Item', [
          *
          * @method qui/controls/contextmenu/Item#$onMouseLeave
          */
-        $onMouseLeave: function () {
+        $onMouseLeave: function() {
             if (this.$disabled) {
                 return;
             }
 
             if (this.$Menu) {
-                (function () {
+                (function() {
                     if (this.$__childOpend === false) {
                         this.$Menu.hide();
                     }
@@ -742,7 +742,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#$onMouseUp
          * @param {DOMEvent} event - optional
          */
-        $onMouseUp: function (event) {
+        $onMouseUp: function(event) {
             this.fireEvent('mouseUp', [this, event]);
 
             if (this.getAttribute('dragable') === false) {
@@ -756,7 +756,7 @@ define('qui/controls/contextmenu/Item', [
          * @method qui/controls/contextmenu/Item#$onMouseDown
          * @param {DOMEvent} event - optional
          */
-        $onMouseDown: function (event) {
+        $onMouseDown: function(event) {
             this.fireEvent('mouseDown', [this, event]);
 
             if (this.getAttribute('dragable') === false) {

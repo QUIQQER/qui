@@ -19,16 +19,16 @@ define('qui/utils/Functions', {
      *
      * @returns {Function}
      */
-    debounce: function (func, wait, immediate) {
-        "use strict";
+    debounce: function(func, wait, immediate) {
+        'use strict';
 
         var timeout;
 
-        return function () {
+        return function() {
             var context = this,
-                args    = arguments;
+                args = arguments;
 
-            var later = function () {
+            var later = function() {
                 timeout = null;
                 if (!immediate) {
                     func.apply(context, args);
@@ -54,15 +54,15 @@ define('qui/utils/Functions', {
      *
      * @returns {Function}
      */
-    once: function (func, context) {
-        "use strict";
+    once: function(func, context) {
+        'use strict';
 
         var result;
 
-        return function () {
+        return function() {
             if (func) {
                 result = func.apply(context || this, arguments);
-                func   = null;
+                func = null;
             }
 
             return result;

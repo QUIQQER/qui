@@ -23,14 +23,14 @@ define('qui/controls/windows/MultiStep', [
 
     'css!qui/controls/windows/MultiStep.css'
 
-], function (QUI, QUIPopup, QUIButton, Locale) {
-    "use strict";
+], function(QUI, QUIPopup, QUIButton, Locale) {
+    'use strict';
 
     var lg = 'qui/controls/windows/MultiStep';
 
     return new Class({
         Extends: QUIPopup,
-        Type   : 'qui/controls/windows/MultiStep',
+        Type: 'qui/controls/windows/MultiStep',
 
         Binds: [
             'addStep',
@@ -69,13 +69,13 @@ define('qui/controls/windows/MultiStep', [
          *
          * @param options
          */
-        initialize: function (options) {
+        initialize: function(options) {
             this.setAttributes(this.options);
 
             this.parent(options);
 
             this.addEvents({
-                onOpen : this.onPopupOpen,
+                onOpen: this.onPopupOpen,
                 onClose: this.onClose
             });
         },
@@ -87,20 +87,20 @@ define('qui/controls/windows/MultiStep', [
          *
          * @param Win
          */
-        onPopupOpen: function (Win) {
+        onPopupOpen: function(Win) {
             var self = this;
             var Content = Win.getContent();
 
             var NextButton = new QUIButton({
-                name     : 'next',
+                name: 'next',
                 textimage: 'fa fa-chevron-right',
-                text     : Locale.get(lg, 'btn.next')
+                text: Locale.get(lg, 'btn.next')
             }).addEvent('click', self.showNextStep);
 
             var PreviousButton = new QUIButton({
-                name     : 'previous',
+                name: 'previous',
                 textimage: 'fa fa-chevron-left',
-                text     : Locale.get(lg, 'btn.prev')
+                text: Locale.get(lg, 'btn.prev')
             }).addEvent('click', self.showPreviousStep);
 
             self.addButton(NextButton);
@@ -110,9 +110,9 @@ define('qui/controls/windows/MultiStep', [
 
             Content.set({
                 html: '<div id="stepped-dialog">' +
-                      '<div id="steps"></div>' +
-                      '<div id="step-indicators"></div>' +
-                      '</div>'
+                    '<div id="steps"></div>' +
+                    '<div id="step-indicators"></div>' +
+                    '</div>'
             });
 
             if (this.getAttribute('hideStepIndicators')) {
@@ -125,7 +125,7 @@ define('qui/controls/windows/MultiStep', [
          * Fired when this dialog is closed.
          * Destroys this control to reset all variables and controls
          */
-        onClose: function () {
+        onClose: function() {
             // Destroy the form to reset all variables and controls
             this.destroy();
         },
@@ -135,7 +135,7 @@ define('qui/controls/windows/MultiStep', [
          * Disables this control.
          * Note that button states are discarded.
          */
-        disable: function () {
+        disable: function() {
             this.disableNextButton();
             this.disablePreviousButton();
             this.getElm().getElementById('stepped-dialog').addClass('disabled');
@@ -146,7 +146,7 @@ define('qui/controls/windows/MultiStep', [
          * Enables this control.
          * Note that button states are discarded.
          */
-        enable: function () {
+        enable: function() {
             this.showStep(this.activeStep);
             this.getElm().getElementById('stepped-dialog').removeClass('disabled');
         },
@@ -157,7 +157,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @param {Element} Step - Step-Element created via createStepElement()
          */
-        addStep: function (Step) {
+        addStep: function(Step) {
             this.getElm().getElementById('steps').appendChild(Step);
             this._addStepIndicator();
 
@@ -179,7 +179,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @param {number} index
          */
-        removeStep: function (index) {
+        removeStep: function(index) {
             var steps = this.getSteps();
             steps[index].destroy();
             this.getStepIndicators()[0].destroy();
@@ -198,10 +198,10 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return {Element}
          */
-        createStepElement: function (html, stepName) {
+        createStepElement: function(html, stepName) {
             var Step = new Element('div', {
                 'class': 'step',
-                'html' : html
+                'html': html
             });
 
             if (stepName) {
@@ -217,7 +217,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @param index
          */
-        showStep: function (index) {
+        showStep: function(index) {
             var steps = this.getSteps();
             var stepIndicators = this.getStepIndicators();
 
@@ -248,7 +248,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @returns {Boolean|Object} - qui/controls/buttons/Button
          */
-        getNextButton: function () {
+        getNextButton: function() {
             return this.getButton('next');
         },
 
@@ -258,7 +258,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @returns {Boolean|Object} - qui/controls/buttons/Button
          */
-        getPreviousButton: function () {
+        getPreviousButton: function() {
             return this.getButton('previous');
         },
 
@@ -268,7 +268,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return {Boolean|Object} - qui/controls/buttons/Button
          */
-        getCloseButton: function () {
+        getCloseButton: function() {
             return this.$Buttons.getElement('[name=close]');
         },
 
@@ -278,7 +278,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return boolean - Was the next step shown?
          */
-        showNextStep: function () {
+        showNextStep: function() {
             var steps = this.getSteps();
             if (this.activeStep < steps.length - 1) {
                 this.showStep(this.activeStep + 1);
@@ -295,7 +295,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return boolean - Was the previous step shown?
          */
-        showPreviousStep: function () {
+        showPreviousStep: function() {
             if (this.activeStep > 0) {
                 this.showStep(this.activeStep - 1);
                 this.fireEvent('showPreviousStep', [this.getSteps()[this.activeStep]]);
@@ -310,7 +310,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return {HTMLCollectionOf<Element>}
          */
-        getSteps: function () {
+        getSteps: function() {
             return this.getElm().getElementsByClassName('step');
         },
 
@@ -318,7 +318,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Adds a new step-indicator dot
          */
-        _addStepIndicator: function () {
+        _addStepIndicator: function() {
             var Indicator = new Element('i', {
                 'class': 'step-indicator fa fa-circle'
             });
@@ -331,7 +331,7 @@ define('qui/controls/windows/MultiStep', [
          *
          * @return {NodeListOf<Element> | HTMLCollectionOf<Element> | *}
          */
-        getStepIndicators: function () {
+        getStepIndicators: function() {
             return this.getElm().getElementsByClassName('step-indicator');
         },
 
@@ -339,7 +339,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Shows the step indicator dots
          */
-        showStepIndicators: function () {
+        showStepIndicators: function() {
             this.getElm().getElementById('step-indicators').show();
         },
 
@@ -347,7 +347,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Hides the step indicator dots
          */
-        hideStepIndicators: function () {
+        hideStepIndicators: function() {
             this.getElm().getElementById('step-indicators').hide();
         },
 
@@ -355,7 +355,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Enables the "next"-button
          */
-        enableNextButton: function () {
+        enableNextButton: function() {
             this.getNextButton().enable();
         },
 
@@ -363,7 +363,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Disables the "next"-button
          */
-        disableNextButton: function () {
+        disableNextButton: function() {
             this.getNextButton().disable();
         },
 
@@ -371,7 +371,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Enables the "previous"-button
          */
-        enablePreviousButton: function () {
+        enablePreviousButton: function() {
             this.getPreviousButton().enable();
         },
 
@@ -379,7 +379,7 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Disables the "previous"-button
          */
-        disablePreviousButton: function () {
+        disablePreviousButton: function() {
             this.getPreviousButton().disable();
         },
 
@@ -387,15 +387,15 @@ define('qui/controls/windows/MultiStep', [
         /**
          * Resets the buttons text and icon to their default properties.
          */
-        resetButtons: function () {
+        resetButtons: function() {
             this.getNextButton().setAttributes({
                 textimage: 'fa fa-chevron-right',
-                text     : Locale.get(lg, 'btn.next')
+                text: Locale.get(lg, 'btn.next')
             });
 
             this.getPreviousButton().setAttributes({
                 textimage: 'fa fa-chevron-left',
-                text     : Locale.get(lg, 'btn.prev')
+                text: Locale.get(lg, 'btn.prev')
             });
         }
     });

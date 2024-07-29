@@ -15,8 +15,8 @@ define('qui/utils/String', {
      * @param {String} str - index.php?param1=12&param2=test
      * @return {Object}
      */
-    getUrlParams: function (str) {
-        "use strict";
+    getUrlParams: function(str) {
+        'use strict';
 
         var params = str.split('?');
 
@@ -45,17 +45,17 @@ define('qui/utils/String', {
      * @param decimals
      * @returns {String}
      */
-    formatBytes: function (bytes, decimals) {
-        "use strict";
+    formatBytes: function(bytes, decimals) {
+        'use strict';
 
         if (bytes === 0) {
             return '0 Byte';
         }
 
-        var k     = 1000;
-        var dm    = decimals + 1 || 3;
+        var k = 1000;
+        var dm = decimals + 1 || 3;
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        var i     = Math.floor(Math.log(bytes) / Math.log(k));
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
 
         return (bytes / Math.pow(k, i)).toPrecision(dm) + ' ' + sizes[i];
     }

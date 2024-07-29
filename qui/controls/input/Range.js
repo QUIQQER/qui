@@ -16,8 +16,8 @@ define('qui/controls/input/Range', [
     'css!qui/controls/input/Range.css',
     'css!' + URL_OPT_DIR + 'bin/quiqqer-asset/nouislider/nouislider/dist/nouislider.css'
 
-], function (QUI, QUIControl, noUiSlider) {
-    "use strict";
+], function(QUI, QUIControl, noUiSlider) {
+    'use strict';
 
     /**
      * @class qui/controls/input/Params
@@ -27,30 +27,30 @@ define('qui/controls/input/Range', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/input/Range',
+        Type: 'qui/controls/input/Range',
 
         Binds: [
             '$onImport'
         ],
 
         options: {
-            min      : 0,
-            max      : 100,
-            name     : '',
-            step     : 1,
-            start    : false, // handle count, one handle = [0], two handles [0,0], three handles [0,0,0]
-            display  : true,
+            min: 0,
+            max: 100,
+            name: '',
+            step: 1,
+            start: false, // handle count, one handle = [0], two handles [0,0], three handles [0,0,0]
+            display: true,
             Formatter: false,  // callable function to format the display message
-            range    : false,  // ui slider range
-            snap     : false,  // When a non-linear slider has been configured,
-                               // the snap option can be set to true
-                               // to force the slider to jump between the specified values.
-            connect   : true,   // Display a colored bar between the handles
-            pips      : {},     // Displays pipes and ranges for the slider
+            range: false,  // ui slider range
+            snap: false,  // When a non-linear slider has been configured,
+                          // the snap option can be set to true
+                          // to force the slider to jump between the specified values.
+            connect: true,   // Display a colored bar between the handles
+            pips: {},     // Displays pipes and ranges for the slider
             background: '#d9232b'
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$BarContainer = null;
@@ -63,7 +63,7 @@ define('qui/controls/input/Range', [
 
             this.$value = {
                 from: '',
-                to  : ''
+                to: ''
             };
         },
 
@@ -72,7 +72,7 @@ define('qui/controls/input/Range', [
          *
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.parent();
 
             this.$Elm.addClass('qui-control-input-range');
@@ -90,7 +90,7 @@ define('qui/controls/input/Range', [
 
             this.$value = {
                 from: this.getAttribute('min'),
-                to  : this.getAttribute('max')
+                to: this.getAttribute('max')
             };
 
             let range = this.getAttribute('range');
@@ -118,13 +118,13 @@ define('qui/controls/input/Range', [
 
             try {
                 noUiSlider.create(this.$BarContainer, {
-                    start  : start,
-                    step   : this.getAttribute('step'),
-                    margin : 0, // Handles must be more than '20' apart
+                    start: start,
+                    step: this.getAttribute('step'),
+                    margin: 0, // Handles must be more than '20' apart
                     connect: this.getAttribute('connect'),
-                    range  : range,
-                    snap   : this.getAttribute('snap'),
-                    pips   : Pips,
+                    range: range,
+                    snap: this.getAttribute('snap'),
+                    pips: Pips
                 });
             } catch (e) {
                 console.error(e);
@@ -134,7 +134,7 @@ define('qui/controls/input/Range', [
             const Formatter = this.getAttribute('Formatter');
 
             let timerChangeEvent = null;
-            const fireChangeEvent = function () {
+            const fireChangeEvent = function() {
                 this.fireEvent('change', [this]);
             }.bind(this);
 
@@ -179,7 +179,7 @@ define('qui/controls/input/Range', [
             return this.$Elm;
         },
 
-        $onImport: function () {
+        $onImport: function() {
             this.$Input = this.getElm();
             this.$Input.type = 'hidden';
             const value = this.$Input.value;
@@ -221,7 +221,7 @@ define('qui/controls/input/Range', [
          *
          * @param {Object} range - noUiSlider range -> http://refreshless.com/nouislider/slider-values/
          */
-        setRange: function (range) {
+        setRange: function(range) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.updateOptions({
                     range: range
@@ -233,7 +233,7 @@ define('qui/controls/input/Range', [
          * set the value
          * @param {String|Number|Array} value
          */
-        setValue: function (value) {
+        setValue: function(value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set(value);
                 this.fireEvent('change', [this]);
@@ -245,7 +245,7 @@ define('qui/controls/input/Range', [
          *
          * @param {String|Number} value
          */
-        setFrom: function (value) {
+        setFrom: function(value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set([
                     null,
@@ -260,7 +260,7 @@ define('qui/controls/input/Range', [
          *
          * @param {String|Number} value
          */
-        setTo: function (value) {
+        setTo: function(value) {
             if (this.$BarContainer.noUiSlider) {
                 this.$BarContainer.noUiSlider.set([
                     value,
@@ -274,7 +274,7 @@ define('qui/controls/input/Range', [
          * Return the value
          * @returns {Object}
          */
-        getValue: function () {
+        getValue: function() {
             return this.$value;
         }
     });

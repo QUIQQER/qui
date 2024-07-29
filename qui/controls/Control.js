@@ -18,8 +18,8 @@ define('qui/controls/Control', [
 
     'css!qui/controls/Control.css'
 
-], function (QUI, Locale, DOM) {
-    "use strict";
+], function(QUI, Locale, DOM) {
+    'use strict';
 
     /**
      * @class qui/controls/Control
@@ -34,7 +34,7 @@ define('qui/controls/Control', [
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/controls/Control',
+        Type: 'qui/controls/Control',
 
         $Parent: false,
 
@@ -51,7 +51,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#init
          * @param {Object} options - option params
          */
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             QUI.Controls.add(this);
@@ -64,7 +64,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 return this.$Elm;
             }
@@ -81,7 +81,7 @@ define('qui/controls/Control', [
          *
          * @method qui/controls/Control#destroy
          */
-        destroy: function () {
+        destroy: function() {
             this.fireEvent('destroy', [this]);
 
             if (typeof this.$Elm !== 'undefined' && this.$Elm) {
@@ -89,12 +89,12 @@ define('qui/controls/Control', [
             }
 
             // destroy internal qui controls
-            var controls   = QUI.Controls.getControlsInElement(this.$Elm),
-                controlIds = controls.map(function (InnerControl) {
+            var controls = QUI.Controls.getControlsInElement(this.$Elm),
+                controlIds = controls.map(function(InnerControl) {
                     return InnerControl.getId();
                 });
 
-            controlIds.each(function (InnerControl) {
+            controlIds.each(function(InnerControl) {
                 QUI.Controls.destroy(InnerControl);
             });
 
@@ -119,7 +119,7 @@ define('qui/controls/Control', [
          * @param {String} [pos] - optional
          * @return {Object} qui/controls/Control
          */
-        inject: function (Parent, pos) {
+        inject: function(Parent, pos) {
             this.fireEvent('drawBegin', [this]);
 
             if (typeof this.$Elm === 'undefined' || !this.$Elm) {
@@ -149,7 +149,7 @@ define('qui/controls/Control', [
 
             this.fireEvent('inject', [this]);
 
-            (function () {
+            (function() {
                 try {
                     this.$Elm.fireEvent('load');
                 } catch (e) {
@@ -174,7 +174,7 @@ define('qui/controls/Control', [
          * @param {HTMLElement} Elm - Elm node
          * @return {Object} qui/controls/Control
          */
-        imports: function (Elm) {
+        imports: function(Elm) {
             this.$Elm = Elm;
 
             this.$readDataOptions(Elm);
@@ -200,7 +200,7 @@ define('qui/controls/Control', [
          * @param {HTMLElement} Elm - Elm node
          * @return {Object} qui/controls/Control
          */
-        replaces: function (Elm) {
+        replaces: function(Elm) {
             if (this.$Elm) {
                 return this.$Elm;
             }
@@ -240,7 +240,7 @@ define('qui/controls/Control', [
          *
          * @param {HTMLElement} [Elm]
          */
-        $readDataOptions: function (Elm) {
+        $readDataOptions: function(Elm) {
             var TempElm = Elm || this.getElm();
 
             var attribute, attrName, attrValue, numb;
@@ -248,14 +248,14 @@ define('qui/controls/Control', [
 
             for (var i = 0, len = attributes.length; i < len; i++) {
                 attribute = attributes[i];
-                attrName  = attribute.name;
+                attrName = attribute.name;
 
                 if (!attrName.match('data-qui-options-')) {
                     continue;
                 }
 
                 attrValue = attribute.value;
-                numb      = Number.from(attrValue);
+                numb = Number.from(attrValue);
 
                 if (typeOf(numb) === 'number' && numb == attrValue) {
                     attrValue = numb;
@@ -278,10 +278,10 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#serialize
          * @return {Object}
          */
-        serialize: function () {
+        serialize: function() {
             return {
                 attributes: this.getAttributes(),
-                type      : this.getType()
+                type: this.getType()
             };
         },
 
@@ -292,7 +292,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#unserialize
          * @param {Object} data
          */
-        unserialize: function (data) {
+        unserialize: function(data) {
             if (data.attributes) {
                 this.setAttributes(data.attributes);
             }
@@ -304,7 +304,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#getElm
          * @return {HTMLElement}
          */
-        getElm: function () {
+        getElm: function() {
             if (typeof this.$Elm === 'undefined' || !this.$Elm) {
                 this.create();
             }
@@ -318,7 +318,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#getParent
          * @return {Object|Boolean} qui/controls/Control | false
          */
-        getParent: function () {
+        getParent: function() {
             return this.$Parent || false;
         },
 
@@ -330,7 +330,7 @@ define('qui/controls/Control', [
          * @param {Object} Parent - qui/controls/Control
          * @return {Object} qui/controls/Control
          */
-        setParent: function (Parent) {
+        setParent: function(Parent) {
             this.$Parent = Parent;
             return this;
         },
@@ -341,8 +341,8 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#getPath
          * @return {String}
          */
-        getPath: function () {
-            var path   = '/' + this.getAttribute('name'),
+        getPath: function() {
+            var path = '/' + this.getAttribute('name'),
                 Parent = this.getParent();
 
             if (!Parent) {
@@ -358,7 +358,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#hide
          * @return {Object} qui/controls/Control
          */
-        hide: function () {
+        hide: function() {
             if (this.$Elm) {
                 this.$Elm.setStyle('display', 'none');
             }
@@ -372,7 +372,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#show
          * @return {Object} qui/controls/Control
          */
-        show: function () {
+        show: function() {
             if (this.$Elm) {
                 this.$Elm.setStyle('display', null);
             }
@@ -385,7 +385,7 @@ define('qui/controls/Control', [
          *
          * @return {Boolean}
          */
-        isHidden: function () {
+        isHidden: function() {
             if (!this.$Elm) {
                 return true;
             }
@@ -399,7 +399,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#highlight
          * @return {Object} qui/controls/Control
          */
-        highlight: function () {
+        highlight: function() {
             this.fireEvent('highlight', [this]);
             return this;
         },
@@ -410,7 +410,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#normalize
          * @return {Object} qui/controls/Control
          */
-        normalize: function () {
+        normalize: function() {
             this.fireEvent('normalize', [this]);
             return this;
         },
@@ -421,7 +421,7 @@ define('qui/controls/Control', [
          * @method qui/controls/Control#focus
          * @return {Object} qui/controls/Control
          */
-        focus: function () {
+        focus: function() {
             if (this.$Elm) {
                 // try catch for ie 8 fix
                 try {
@@ -438,7 +438,7 @@ define('qui/controls/Control', [
          *
          * @method qui/controls/Control#resize
          */
-        resize: function () {
+        resize: function() {
             this.fireEvent('resize', [this]);
         },
 
@@ -447,7 +447,7 @@ define('qui/controls/Control', [
          *
          * @param {Object} styles
          */
-        setStyles: function (styles) {
+        setStyles: function(styles) {
             this.getElm().setStyles(styles);
         },
 
@@ -457,7 +457,7 @@ define('qui/controls/Control', [
          * @param {String} key
          * @param {String|Number} value
          */
-        setStyle: function (key, value) {
+        setStyle: function(key, value) {
             this.getElm().setStyle(key, value);
         },
 
@@ -469,7 +469,7 @@ define('qui/controls/Control', [
          * @param {Function} onfinish - callback function
          * @param {Object} [options] - optional { nobuttons : true }
          */
-        openSheet: function (onfinish, options) {
+        openSheet: function(onfinish, options) {
             var self = this;
 
             options = options || {};
@@ -480,7 +480,7 @@ define('qui/controls/Control', [
 
             var Sheet = new Element('div', {
                 'class': 'qui-sheet qui-box',
-                html   : '<div class="qui-sheet-content box"></div>' +
+                html: '<div class="qui-sheet-content box"></div>' +
                     '<div class="qui-sheet-buttons box">' +
                     '<div class="qui-sheet-buttons-back qui-button btn-white">' +
                     '<span>' +
@@ -488,31 +488,31 @@ define('qui/controls/Control', [
                     '</span>' +
                     '</div>' +
                     '</div>',
-                styles : {
+                styles: {
                     display: 'none',
-                    left   : -20,
+                    left: -20,
                     opacity: 0
                 }
             }).inject(this.$Elm);
 
             Sheet.getElement('.qui-sheet-buttons-back').addEvent(
                 'click',
-                function () {
+                function() {
                     Sheet.fireEvent('close');
                 }
             );
 
             var oldOverflow = this.getElm().getStyle('overflow');
 
-            Sheet.addEvent('close', function () {
+            Sheet.addEvent('close', function() {
                 self.getElm().setStyle('overflow', oldOverflow);
 
                 moofx(Sheet).animate({
-                    left   : -20,
+                    left: -20,
                     opacity: 0
                 }, {
                     duration: 200,
-                    callback: function () {
+                    callback: function() {
                         Sheet.destroy();
                     }
                 });
@@ -540,11 +540,11 @@ define('qui/controls/Control', [
             Sheet.setStyle('display', null);
 
             moofx(Sheet).animate({
-                left   : 0,
+                left: 0,
                 opacity: 1
             }, {
                 duration: 200,
-                callback: function () {
+                callback: function() {
                     onfinish(Content, Sheet);
                 }
             });

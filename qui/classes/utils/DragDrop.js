@@ -14,8 +14,8 @@
  * @event onComplete [ this, event ]
  */
 
-define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
-    "use strict";
+define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function(DOM) {
+    'use strict';
 
     /**
      * @class qui/classes/utils/DragDrop
@@ -28,7 +28,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/classes/utils/DragDrop',
+        Type: 'qui/classes/utils/DragDrop',
 
         Binds: [
             '$complete',
@@ -40,9 +40,9 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
 
         options: {
             dropables: [document.body],
-            styles   : false,
-            cssClass : false,
-            delay    : 500,     // when trigger the dragdrop, after miliseconds
+            styles: false,
+            cssClass: false,
+            delay: 500,     // when trigger the dragdrop, after miliseconds
 
             limit: {
                 x: false, // [min, max]
@@ -50,21 +50,21 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
             }
         },
 
-        initialize: function (Elm, options) {
+        initialize: function(Elm, options) {
             var self = this;
 
             this.parent(options);
 
-            this.$Drag    = null;
+            this.$Drag = null;
             this.$Element = Elm;
-            this.$enable  = true;
+            this.$enable = true;
 
             if (typeof Elm === 'undefined') {
                 return;
             }
 
             Elm.addEvents({
-                mousedown: function (event) {
+                mousedown: function(event) {
                     if (!self.$enable) {
                         return;
                     }
@@ -80,7 +80,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
                     event.stop();
                 },
 
-                mouseup: function (event) {
+                mouseup: function(event) {
                     if (typeof self.$timer !== 'undefined') {
                         clearTimeout(self.$timer);
                     }
@@ -88,7 +88,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
                     self.$stop(event);
                 },
 
-                mouseleave: function (event) {
+                mouseleave: function(event) {
                     if (self.$Drag) {
                         return;
                     }
@@ -108,7 +108,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @method qui/classes/utils/DragDrop#getElm
          * @return {HTMLElement} Main Dom-Node Element
          */
-        getElm: function () {
+        getElm: function() {
             return this.$Elm;
         },
 
@@ -117,7 +117,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          *
          * @method qui/classes/utils/DragDrop#enable
          */
-        enable: function () {
+        enable: function() {
             this.$enable = true;
         },
 
@@ -126,7 +126,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          *
          * @method qui/classes/utils/DragDrop#disable
          */
-        disable: function () {
+        disable: function() {
             this.$enable = false;
         },
 
@@ -136,7 +136,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @method qui/classes/utils/DragDrop#$start
          * @param {DOMEvent} event
          */
-        $start: function (event) {
+        $start: function(event) {
             if (!this.$enable) {
                 return;
             }
@@ -159,30 +159,30 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
 
             this.setAttribute('_mousedown', true);
 
-            var mx      = event.page.x,
-                my      = event.page.y,
+            var mx = event.page.x,
+                my = event.page.y,
 
-                Elm     = this.$Element,
+                Elm = this.$Element,
                 ElmSize = Elm.getSize(),
-                limit   = this.getAttribute('limit'),
+                limit = this.getAttribute('limit'),
                 docsize = document.body.getSize();
 
             // create the shadow element
             this.$Drag = new Element('div', {
                 'class': 'box',
-                styles : {
-                    position  : 'absolute',
-                    top       : my - 20,
-                    left      : mx - 40,
-                    zIndex    : 1000,
+                styles: {
+                    position: 'absolute',
+                    top: my - 20,
+                    left: mx - 40,
+                    zIndex: 1000,
                     MozOutline: 'none',
-                    outline   : 0,
-                    color     : '#fff',
-                    padding   : 10,
-                    cursor    : 'pointer',
+                    outline: 0,
+                    color: '#fff',
+                    padding: 10,
+                    cursor: 'pointer',
 
-                    width     : ElmSize.x,
-                    height    : ElmSize.y,
+                    width: ElmSize.x,
+                    height: ElmSize.y,
                     background: 'rgba(0,0,0, 0.5)'
                 }
             }).inject(document.body);
@@ -224,16 +224,16 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
 
                 droppables: dropables,
                 onComplete: this.$complete,
-                onDrop    : this.$onDrop,
-                onEnter   : this.$onEnter,
-                onLeave   : this.$onLeave,
-                onDrag    : this.$onDrag,
+                onDrop: this.$onDrop,
+                onEnter: this.$onEnter,
+                onLeave: this.$onLeave,
+                onDrag: this.$onDrag,
 
                 limit: limit
 
             }).start({
                 target: Elm,
-                page  : {
+                page: {
                     x: mx,
                     y: my
                 }
@@ -245,7 +245,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          *
          * @method qui/classes/utils/DragDrop#$stop
          */
-        $stop: function () {
+        $stop: function() {
             if (Browser.ie8) {
                 return;
             }
@@ -273,7 +273,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @method qui/classes/utils/DragDrop#$complete
          * @param {DOMEvent} event
          */
-        $complete: function (event) {
+        $complete: function(event) {
             this.fireEvent('complete', [this, event]);
             this.$stop();
         },
@@ -285,7 +285,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @param {HTMLElement} Element
          * @param {DOMEvent} event
          */
-        $onDrag: function (Element, event) {
+        $onDrag: function(Element, event) {
             this.fireEvent('drag', [this, Element, event]);
         },
 
@@ -297,7 +297,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @param {HTMLElement} Dropable
          * @param {DOMEvent} event
          */
-        $onDrop: function (Element, Dropable, event) {
+        $onDrop: function(Element, Dropable, event) {
             this.fireEvent('drop', [this, Element, Dropable, event]);
         },
 
@@ -308,7 +308,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @param {HTMLElement} Element
          * @param {HTMLElement} Dropable
          */
-        $onEnter: function (Element, Dropable) {
+        $onEnter: function(Element, Dropable) {
             this.fireEvent('enter', [this, Element, Dropable]);
         },
 
@@ -319,7 +319,7 @@ define('qui/classes/utils/DragDrop', ['qui/classes/DOM'], function (DOM) {
          * @param {HTMLElement} Element
          * @param {HTMLElement} Dropable
          */
-        $onLeave: function (Element, Dropable) {
+        $onLeave: function(Element, Dropable) {
             this.fireEvent('leave', [this, Element, Dropable]);
         }
     });

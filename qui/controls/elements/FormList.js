@@ -14,13 +14,13 @@ define('qui/controls/elements/FormList', [
 
     'css!qui/controls/elements/FormList.css'
 
-], function (QUI, QUIControl, QUIButton) {
-    "use strict";
+], function(QUI, QUIControl, QUIButton) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/elements/FormList',
+        Type: 'qui/controls/elements/FormList',
 
         Binds: [
             '$onInject',
@@ -29,16 +29,16 @@ define('qui/controls/elements/FormList', [
         ],
 
         options: {
-            entry     : '',
+            entry: '',
             buttonText: 'Add entry'
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
-            this.$Buttons   = null;
+            this.$Buttons = null;
             this.$Container = null;
-            this.$Input     = null;
+            this.$Input = null;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -50,20 +50,20 @@ define('qui/controls/elements/FormList', [
          *
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
                 'class': 'qui-controls-formlist',
-                html   : '<div class="qui-controls-formlist-buttons"></div>' +
-                '<div class="qui-controls-formlist-container"></div>'
+                html: '<div class="qui-controls-formlist-buttons"></div>' +
+                    '<div class="qui-controls-formlist-container"></div>'
             });
 
             this.$Container = this.$Elm.getElement('.qui-controls-formlist-container');
-            this.$Buttons   = this.$Elm.getElement('.qui-controls-formlist-buttons');
+            this.$Buttons = this.$Elm.getElement('.qui-controls-formlist-buttons');
 
             new QUIButton({
-                text     : this.getAttribute('buttonText'),
+                text: this.getAttribute('buttonText'),
                 textimage: 'icon-plus fa fa-add',
-                events   : {
+                events: {
                     onClick: this.$createEntry
                 }
             }).inject(this.$Buttons);
@@ -75,7 +75,7 @@ define('qui/controls/elements/FormList', [
         /**
          * event : on import
          */
-        $onImport: function () {
+        $onImport: function() {
             this.$Input = this.getElm();
 
             var nodeName = this.$Input.nodeName;
@@ -118,14 +118,14 @@ define('qui/controls/elements/FormList', [
          *
          * @return {Array}
          */
-        getData: function () {
+        getData: function() {
             var c, i, len, clen, elements, elmResult;
 
-            var result  = [],
+            var result = [],
                 entries = this.$Container.getElements('.qui-controls-formlist-entry');
 
             for (i = 0, len = entries.length; i < len; i++) {
-                elements  = entries[i].getElements('input,select,textarea');
+                elements = entries[i].getElements('input,select,textarea');
                 elmResult = {};
 
                 for (c = 0, clen = elements.length; c < clen; c++) {
@@ -146,7 +146,7 @@ define('qui/controls/elements/FormList', [
         /**
          * search the date and set it to the input field
          */
-        $refreshData: function () {
+        $refreshData: function() {
             if (this.$Input) {
                 this.$Input.value = JSON.encode(this.getData());
             }
@@ -157,20 +157,20 @@ define('qui/controls/elements/FormList', [
          *
          * @return {HTMLElement}
          */
-        $createEntry: function () {
+        $createEntry: function() {
 
             var Child = new Element('div', {
                 'class': 'qui-controls-formlist-entry',
-                html   : '<div class="qui-controls-formlist-entry-delete"></div>' +
-                '<div class="qui-controls-formlist-entry-data">' +
-                this.getAttribute('entry') +
-                '</div>'
+                html: '<div class="qui-controls-formlist-entry-delete"></div>' +
+                    '<div class="qui-controls-formlist-entry-data">' +
+                    this.getAttribute('entry') +
+                    '</div>'
             }).inject(this.$Container);
 
             new QUIButton({
-                icon  : 'icon-trash fa fa-trash',
+                icon: 'icon-trash fa fa-trash',
                 events: {
-                    onClick: function () {
+                    onClick: function() {
                         Child.destroy();
                         this.$refreshData();
                     }.bind(this)
@@ -180,11 +180,11 @@ define('qui/controls/elements/FormList', [
             );
 
             Child.getElements('input,select,textarea').addEvents({
-                blur  : this.$refreshData,
+                blur: this.$refreshData,
                 change: this.$refreshData
             });
 
-            QUI.parse(Child).then(function () {
+            QUI.parse(Child).then(function() {
                 this.$refreshData();
                 this.fireEvent('parsed', [this, Child]);
             }.bind(this));

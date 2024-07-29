@@ -12,8 +12,8 @@
  * @event onSetAttribute [key, value]
  */
 
-define('qui/classes/DOM', function () {
-    "use strict";
+define('qui/classes/DOM', function() {
+    'use strict';
 
     window.$quistorage = {};
 
@@ -31,12 +31,12 @@ define('qui/classes/DOM', function () {
     return new Class({
 
         Implements: [Options, Events],
-        Type      : 'qui/classes/DOM',
+        Type: 'qui/classes/DOM',
 
         options: {},
-        $uid   : null,
+        $uid: null,
 
-        initialize: function (options) {
+        initialize: function(options) {
             options = options || {};
 
             if (options.events) {
@@ -59,7 +59,7 @@ define('qui/classes/DOM', function () {
          * @method qui/classes/DOM#getId
          * @return {String} Object ID
          */
-        getId: function () {
+        getId: function() {
             if (!this.$uid) {
                 this.$uid = String.uniqueID();
             }
@@ -73,7 +73,7 @@ define('qui/classes/DOM', function () {
          * @method qui/classes/DOM#getType
          * @return {String} The type of the object
          */
-        getType: function () {
+        getType: function() {
             if (typeof this.Type !== 'undefined') {
                 return this.Type;
             }
@@ -93,7 +93,7 @@ define('qui/classes/DOM', function () {
          *
          * @return {Object} this (qui/classes/DOM)
          */
-        setAttribute: function (k, v) {
+        setAttribute: function(k, v) {
             this.fireEvent('setAttribute', [k, v]);
 
             if (typeof this.options[k] !== 'undefined') {
@@ -121,7 +121,7 @@ define('qui/classes/DOM', function () {
          *
          * @method qui/classes/DOM#destroy
          */
-        destroy: function () {
+        destroy: function() {
             this.fireEvent('destroy', [this]);
 
             // storage clear
@@ -140,7 +140,7 @@ define('qui/classes/DOM', function () {
          * @see qui/classes/DOM#setAttributes()
          * @method qui/classes/DOM#setOptions
          */
-        setOptions: function (options) {
+        setOptions: function(options) {
             this.setAttributes(options);
         },
 
@@ -157,7 +157,7 @@ define('qui/classes/DOM', function () {
          *   attr2 : []
          * })
          */
-        setAttributes: function (attributes) {
+        setAttributes: function(attributes) {
             attributes = attributes || {};
 
             for (var k in attributes) {
@@ -177,7 +177,7 @@ define('qui/classes/DOM', function () {
          * @param {String} k - name of the attribute
          * @return {String|Boolean|Array|Object} attribute
          */
-        getAttribute: function (k) {
+        getAttribute: function(k) {
             if (k in this.options) {
                 return this.options[k];
             }
@@ -202,7 +202,7 @@ define('qui/classes/DOM', function () {
          * @see qui/classes/DOM#getAttributes()
          * @deprecated
          */
-        getAllAttributes: function () {
+        getAllAttributes: function() {
             return this.getAttributes();
         },
 
@@ -212,7 +212,7 @@ define('qui/classes/DOM', function () {
          * @method qui/classes/DOM#getAttributes
          * @return {Object} attributes
          */
-        getAttributes: function () {
+        getAttributes: function() {
             return this.options;
         },
 
@@ -221,7 +221,7 @@ define('qui/classes/DOM', function () {
          *
          * @return {Object}
          */
-        getStorageAttributes: function () {
+        getStorageAttributes: function() {
             var oid = Slick.uidOf(this);
 
             if (oid in window.$quistorage) {
@@ -238,7 +238,7 @@ define('qui/classes/DOM', function () {
          * @param {String} k - wanted attribute
          * @return {Boolean} true or false
          */
-        existAttribute: function (k) {
+        existAttribute: function(k) {
             if (typeof this.options[k] !== 'undefined') {
                 return true;
             }
@@ -255,7 +255,7 @@ define('qui/classes/DOM', function () {
          * @param {String} eventname - wanted event
          * @return {Array|Boolean} Event list
          */
-        getEvents: function (eventname) {
+        getEvents: function(eventname) {
             if (typeof this.$events === 'undefined') {
                 return false;
             }
