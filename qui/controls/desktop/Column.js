@@ -260,6 +260,7 @@ define('qui/controls/desktop/Column', [
                 }
             }).inject(document.body);
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.hide();
 
             this.$Elm.addEvents({

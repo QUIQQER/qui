@@ -167,6 +167,7 @@ define('qui/controls/taskbar/Group', [
                     }
             });
 
+            this.$Menu.setParent(this);
             this.$Menu.inject(document.body);
             this.$Menu.hide();
 
@@ -579,12 +580,11 @@ define('qui/controls/taskbar/Group', [
             this.$ContextMenu = new ContextmenuMenu({
                 name: this.getId() + '-menu',
                 type: 'bottom',
-                events:
-                    {
-                        onBlur: function(Menu) {
-                            Menu.hide();
-                        }
+                events: {
+                    onBlur: function(Menu) {
+                        Menu.hide();
                     }
+                }
             });
 
             this.$ContextMenu.appendChild(
@@ -603,6 +603,7 @@ define('qui/controls/taskbar/Group', [
                 })
             );
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.inject(document.body);
             this.$ContextMenu.hide();
 

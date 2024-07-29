@@ -218,7 +218,7 @@ define('qui/controls/buttons/ButtonMultiple', [
          * @return {Promise}
          */
         appendChild: function(Itm) {
-            if (typeOf(Itm) == 'object') {
+            if (typeOf(Itm) === 'object') {
                 Itm = new QUIContextMenuItem(Itm);
             }
 
@@ -278,8 +278,9 @@ define('qui/controls/buttons/ButtonMultiple', [
                     this.$Menu.addEvent('blur', () => {
                         this.$Menu.hide();
                     });
-                    this.$Menu.inject(document.body);
+
                     this.$Menu.setParent(this);
+                    this.$Menu.inject(document.body);
 
                     resolve(this.$Menu);
                 });

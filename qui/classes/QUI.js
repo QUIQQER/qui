@@ -548,6 +548,22 @@ define('qui/classes/QUI', [
          */
         hideContextMenus: function() {
             this.Controls.getByType('qui/controls/contextmenu/Menu').map((Instance) => {
+                if (!Instance.getParent()) {
+                    return
+                }
+
+                const Parent = Instance.getParent();
+
+                if (!Parent.getElm()) {
+                    Instance.destroy();
+                    return;
+                }
+
+                if (!Parent.getElm().getParent('body')) {
+                    Instance.destroy();
+                    return;
+                }
+
                 if (Instance.getElm().getStyle('display') !== 'none') {
                     Instance.hide();
                 }

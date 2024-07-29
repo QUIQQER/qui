@@ -794,6 +794,7 @@ define('qui/controls/sitemap/Item', [
                 }
             });
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.inject(document.body);
             this.$ContextMenu.hide();
 

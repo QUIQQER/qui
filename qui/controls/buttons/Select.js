@@ -84,11 +84,13 @@ define('qui/controls/buttons/Select', [
                 showIcons: this.getAttribute('showIcons'),
                 multiple: this.getAttribute('multiple'),
                 events: {
-                    onHide: function() {
+                    onHide: () => {
                         this.$opened = false;
-                    }.bind(this)
+                    }
                 }
             });
+
+            this.$Menu.setParent(this);
 
             this.$value = null;
             this.$disabled = false;

@@ -127,7 +127,10 @@ define('qui/controls/desktop/Panel', [
 
             this.addEvents({
                 onDestroy: this.$onDestroy,
-                onSetAttribute: function(key, value) {
+                onDestroyEnd: () => {
+                    QUI.hideContextMenus();
+                },
+                onSetAttribute: (key, value) => {
                     if (this.$Header && key === 'closeButton') {
                         if (value === true && !this.$CloseButton) {
                             this.$CloseButton = new Button({
@@ -137,9 +140,9 @@ define('qui/controls/desktop/Panel', [
                                     'float': 'right'
                                 },
                                 events: {
-                                    onClick: function() {
+                                    onClick: () => {
                                         this.destroy();
-                                    }.bind(this)
+                                    }
                                 }
                             }).inject(this.$Header);
 
@@ -150,7 +153,7 @@ define('qui/controls/desktop/Panel', [
                             this.$CloseButton.destroy();
                         }
                     }
-                }.bind(this)
+                }
             });
         },
 
@@ -964,6 +967,7 @@ define('qui/controls/desktop/Panel', [
                 }
             });
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.inject(document.body);
 
             return this.$ContextMenu;

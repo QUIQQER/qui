@@ -77,7 +77,7 @@ define('qui/controls/Control', [
         },
 
         /**
-         * Destroy the Object and all relationsships to some Object
+         * Destroy the Object and all relationships to some Object
          *
          * @method qui/controls/Control#destroy
          */
@@ -99,6 +99,7 @@ define('qui/controls/Control', [
             });
 
             this.$Elm = null;
+            this.fireEvent('destroyEnd', [this]); // don't move this, if the object no longer exists, the event is not triggered
 
             // storage clear
             var oid = Slick.uidOf(this);

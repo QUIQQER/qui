@@ -569,6 +569,7 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
                     corner: self.getAttribute('menuCorner')
                 });
 
+                self.$Menu.setParent(self);
                 self.$Menu.inject(document.body);
 
                 self.addEvents({

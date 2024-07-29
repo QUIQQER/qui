@@ -628,6 +628,8 @@ define('qui/controls/desktop/Workspace', [
                     }
                 });
 
+                Menu.setParent(self);
+
                 const Target = event.target,
                     Left = Target.getPrevious('.qui-column'),
                     Next = Target.getNext('.qui-column'),
