@@ -92,7 +92,8 @@ define('qui/controls/desktop/Panel', [
                     }
 
                     let classes = this.getAttribute('icon') ? this.getAttribute('icon').split(' ') : [];
-
+                    
+                    this.$Icon.innerHTML = '';
                     this.$Icon.classList.remove(...classes);
                     this.$Icon.classList.add('fa', 'fa-spin', 'fa-circle-o-notch');
 
@@ -322,6 +323,8 @@ define('qui/controls/desktop/Panel', [
             }
 
             if (this.getAttribute('icon')) {
+                this.$Icon.innerHTML = '';
+
                 const path = this.getAttribute('icon');
 
                 if (Utils.isFontAwesomeClass(path)) {
