@@ -8,8 +8,8 @@
  * @require qui/QUI
  */
 
-define('qui/utils/Controls', ['qui/QUI'], function (QUI) {
-    "use strict";
+define('qui/utils/Controls', ['qui/QUI'], function(QUI) {
+    'use strict';
 
     return {
 
@@ -20,7 +20,7 @@ define('qui/utils/Controls', ['qui/QUI'], function (QUI) {
          * @param {String} icon - FontAweomse icon-class or an image path
          * @returns {Boolean}
          */
-        isFontAwesomeClass: function (icon) {
+        isFontAwesomeClass: function(icon) {
             if (!icon) {
                 return false;
             }
@@ -34,7 +34,7 @@ define('qui/utils/Controls', ['qui/QUI'], function (QUI) {
          * @method qui/utils/Controls#highlight
          * @param {HTMLElement} Element
          */
-        highlight: function (Element) {
+        highlight: function(Element) {
             if (!Element) {
                 return;
             }
@@ -54,7 +54,7 @@ define('qui/utils/Controls', ['qui/QUI'], function (QUI) {
          * @method qui/utils/Controls#normalize
          * @param {HTMLElement} Element
          */
-        normalize: function (Element) {
+        normalize: function(Element) {
             if (!Element) {
                 return;
             }

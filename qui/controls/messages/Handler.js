@@ -26,8 +26,8 @@ define('qui/controls/messages/Handler', [
 
     'css!qui/controls/messages/Handler.css'
 
-], function (require, QUI, Control, Favico, Push, Locale) {
-    "use strict";
+], function(require, QUI, Control, Favico, Push, Locale) {
+    'use strict';
 
     /**
      * @class qui/controls/messages/Handler
@@ -37,27 +37,27 @@ define('qui/controls/messages/Handler', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/messages/Handler',
+        Type: 'qui/controls/messages/Handler',
 
-        $messages   : [],
+        $messages: [],
         $newMessages: 0,
 
         $filter: {
-            attention  : true,
-            error      : true,
+            attention: true,
+            error: true,
             information: true,
-            success    : true
+            success: true
         },
 
         options: {
-            autosave           : true,
-            autoload           : true,
-            useFavicon         : false,
+            autosave: true,
+            autoload: true,
+            useFavicon: false,
             displayTimeMessages: 2500,
-            showMessages       : true
+            showMessages: true
         },
 
-        initialize: function (params) {
+        initialize: function(params) {
             const self = this;
 
             this.parent(params);
@@ -76,7 +76,7 @@ define('qui/controls/messages/Handler', [
                     // nothing
                 }
 
-                window.addEvent('unload', function () {
+                window.addEvent('unload', function() {
                     if (self.getAttribute('useFavicon') && self.Favico) {
                         self.Favico.badge(0);
                     }
@@ -106,7 +106,7 @@ define('qui/controls/messages/Handler', [
             }
 
             if (data.messages) {
-                data.messages.sort(function (a, b) {
+                data.messages.sort(function(a, b) {
                     a = new Date(a.time);
                     b = new Date(b.time);
 
@@ -120,7 +120,7 @@ define('qui/controls/messages/Handler', [
                     'qui/controls/messages/Success',
                     'qui/controls/messages/Loading',
                     'qui/controls/messages/Message'
-                ], function (Attention, Error, Information, Success, Loading, StandardMessage) {
+                ], function(Attention, Error, Information, Success, Loading, StandardMessage) {
                     var i, len, type, Data, Message;
 
                     for (i = 0, len = data.messages.length; i < len; i++) {
@@ -179,14 +179,14 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#bindeParent
          * @param {HTMLElement} Parent
          */
-        bindParent: function (Parent) {
+        bindParent: function(Parent) {
             this.$Parent = Parent;
         },
 
         /**
          * @method qui/controls/messages/Handler#unbindParent
          */
-        unbindParent: function () {
+        unbindParent: function() {
             this.$Parent = null;
         },
 
@@ -196,7 +196,7 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#load
          * @deprecated
          */
-        load: function () {
+        load: function() {
             if (typeof window.User === 'undefined' || !window.User) {
                 return;
             }
@@ -210,8 +210,8 @@ define('qui/controls/messages/Handler', [
                 'qui/controls/messages/Information',
                 'qui/controls/messages/Success',
                 'qui/controls/messages/Loading'
-            ], function (QUIAjax, Attention, Error, Information, Success, Loading) {
-                QUIAjax.asyncPost('ajax_messages_get', function (result) {
+            ], function(QUIAjax, Attention, Error, Information, Success, Loading) {
+                QUIAjax.asyncPost('ajax_messages_get', function(result) {
                     let i, len, data, entry, Message;
 
                     for (i = 0, len = result.length; i < len; i++) {
@@ -219,7 +219,7 @@ define('qui/controls/messages/Handler', [
 
                         data = {
                             message: entry.message,
-                            time   : entry.time
+                            time: entry.time
                         };
 
                         switch (entry.mtype) {
@@ -264,13 +264,13 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
                 'class': 'message-handler-control',
-                html   : '<span class="icon-info"></span>' +
-                         '<span class="message-handler-count"></span>',
-                title  : Locale.get('qui/controls/messages', 'handler.open'),
-                events : {
+                html: '<span class="icon-info"></span>' +
+                    '<span class="message-handler-count"></span>',
+                title: Locale.get('qui/controls/messages', 'handler.open'),
+                events: {
                     click: this.open.bind(this)
                 }
             });
@@ -285,7 +285,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#open
          */
-        open: function () {
+        open: function() {
             if (document.getElement('.message-handler-container')) {
                 return;
             }
@@ -302,18 +302,18 @@ define('qui/controls/messages/Handler', [
 
             const Container = new Element('div', {
                 'class': 'message-handler-container',
-                html   : '<div class="message-handler-container-title">' +
-                         'Nachrichten' +
-                         '</div>' +
-                         '<div class="message-handler-container-buttons">' +
-                         '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
-                         '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
-                         '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
-                         '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
-                         '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
-                         '</div>' +
-                         '<div class="message-handler-container-messages"></div>' +
-                         '<div class="message-handler-container-close"></div>'
+                html: '<div class="message-handler-container-title">' +
+                    'Nachrichten' +
+                    '</div>' +
+                    '<div class="message-handler-container-buttons">' +
+                    '<div class="success message-handler-container-button grid-20 mobile-grid-20 icon-ok"></div>' +
+                    '<div class="information message-handler-container-button grid-20 mobile-grid-20 icon-info-sign"></div>' +
+                    '<div class="attention message-handler-container-button grid-20 mobile-grid-20 icon-warning-sign"></div>' +
+                    '<div class="error message-handler-container-button grid-20 mobile-grid-20 icon-bolt"></div>' +
+                    '<div class="trash message-handler-container-button grid-20 mobile-grid-20 icon-trash"></div>' +
+                    '</div>' +
+                    '<div class="message-handler-container-messages"></div>' +
+                    '<div class="message-handler-container-close"></div>'
             }).inject(Parent);
 
             // trash
@@ -324,15 +324,13 @@ define('qui/controls/messages/Handler', [
 
             if (Parent !== document.body) {
                 Container.setStyles({
-                    border  : 'none',
+                    border: 'none',
                     position: 'relative'
                 });
 
-                Container.getElement('.message-handler-container-title')
-                         .destroy();
+                Container.getElement('.message-handler-container-title').destroy();
 
-                Container.getElement('.message-handler-container-close')
-                         .setStyle('display', 'none');
+                Container.getElement('.message-handler-container-close').setStyle('display', 'none');
             }
 
             // filter
@@ -368,14 +366,14 @@ define('qui/controls/messages/Handler', [
 
             // sizes
             const Messages = Container.getElement('.message-handler-container-messages'),
-                  Close    = Container.getElement('.message-handler-container-close');
+                Close = Container.getElement('.message-handler-container-close');
 
 
             new Element('div', {
                 'class': 'button message-handler-container-close-btn',
-                html   : Locale.get('qui/controls/messages', 'handler.button.close'),
-                events : {
-                    click: function () {
+                html: Locale.get('qui/controls/messages', 'handler.button.close'),
+                events: {
+                    click: function() {
                         self.close();
                     }
                 }
@@ -389,10 +387,10 @@ define('qui/controls/messages/Handler', [
             moofx(Container).animate({
                 left: 0
             }, {
-                callback: function () {
+                callback: function() {
                     Messages.set('html', '');
 
-                    self.$messages.sort(function (a, b) {
+                    self.$messages.sort(function(a, b) {
                         a = new Date(a.getAttribute('time'));
                         b = new Date(b.getAttribute('time'));
 
@@ -433,7 +431,7 @@ define('qui/controls/messages/Handler', [
          * @param {Object} params
          * @param {Function} callback function
          */
-        parse: function (params, callback) {
+        parse: function(params, callback) {
             require([
                 'qui/controls/messages/Attention',
                 'qui/controls/messages/Error',
@@ -441,12 +439,12 @@ define('qui/controls/messages/Handler', [
                 'qui/controls/messages/Success',
                 'qui/controls/messages/Loading',
                 'qui/controls/messages/Message'
-            ], function (Attention, Error, Information, Success, Loading, StandardMessage) {
+            ], function(Attention, Error, Information, Success, Loading, StandardMessage) {
                 let data, Message;
 
                 data = {
                     message: params.message,
-                    time   : params.time
+                    time: params.time
                 };
 
                 switch (params.mtype) {
@@ -484,7 +482,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#close
          */
-        close: function () {
+        close: function() {
             const self = this;
 
             let Container = document.getElement('.message-handler-container');
@@ -493,7 +491,7 @@ define('qui/controls/messages/Handler', [
             moofx(Container).animate({
                 left: -500
             }, {
-                callback: function () {
+                callback: function() {
                     Container.destroy();
                     document.removeEvent('onResize', self.$onResize);
                 }
@@ -505,7 +503,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#clear
          */
-        clear: function () {
+        clear: function() {
             this.$messages = [];
 
             let Container = document.getElement('.message-handler-container-messages');
@@ -536,7 +534,7 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#count
          * @return {Boolean}
          */
-        count: function () {
+        count: function() {
             return this.$messages.length;
         },
 
@@ -545,13 +543,13 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#save
          */
-        save: function () {
+        save: function() {
             let i, len, attr;
 
             let messages = [],
-                params   = {
-                    config     : this.getAttributes(),
-                    filter     : this.$filter,
+                params = {
+                    config: this.getAttributes(),
+                    filter: this.$filter,
                     newMessages: this.$newMessages
                 };
 
@@ -565,7 +563,7 @@ define('qui/controls/messages/Handler', [
             params.messages = messages;
 
             try {
-                if ("localStorage" in window) {
+                if ('localStorage' in window) {
                     window.localStorage.setItem(
                         'messageHandler',
                         JSON.encode(params)
@@ -581,7 +579,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#filter
          */
-        filter: function () {
+        filter: function() {
             const Container = document.getElement('.message-handler-container');
 
             if (!Container) {
@@ -591,7 +589,7 @@ define('qui/controls/messages/Handler', [
             let i, len, Message;
 
             let messages = Container.getElements('.messages-message'),
-                filter   = this.$filter;
+                filter = this.$filter;
 
             for (i = 0, len = messages.length; i < len; i++) {
                 Message = messages[i];
@@ -625,7 +623,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#clearNewMessages
          */
-        clearNewMessages: function () {
+        clearNewMessages: function() {
             this.$newMessages = 0;
             this.refreshFavicon();
 
@@ -638,7 +636,7 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#getNewMessages
          * @return {Number}
          */
-        getNewMessages: function () {
+        getNewMessages: function() {
             return this.$newMessages;
         },
 
@@ -648,7 +646,7 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#getMessages
          * @return {Array}
          */
-        getMessages: function () {
+        getMessages: function() {
             return this.$messages;
         },
 
@@ -657,7 +655,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#refreshFavicon
          */
-        refreshFavicon: function () {
+        refreshFavicon: function() {
             if (this.Favico && this.getAttribute('useFavicon')) {
                 this.Favico.badge(this.$newMessages);
             }
@@ -673,7 +671,7 @@ define('qui/controls/messages/Handler', [
             }
 
             Count.set({
-                html  : this.$newMessages,
+                html: this.$newMessages,
                 styles: {
                     display: this.$newMessages ? 'inline' : 'none'
                 }
@@ -688,9 +686,9 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        add: function (Message, Parent) {
-            const self     = this,
-                  Messages = document.getElement('.message-handler-container-messages');
+        add: function(Message, Parent) {
+            const self = this,
+                Messages = document.getElement('.message-handler-container-messages');
 
             // spam detection - 1000 ms - same message - dont show it
             // mor wants: 1 second
@@ -701,7 +699,7 @@ define('qui/controls/messages/Handler', [
 
                 if (LastMessage.getAttribute('message') === Message.getAttribute('message')) {
                     const LastTime = LastMessage.getAttribute('time'),
-                          Now      = new Date();
+                        Now = new Date();
 
                     Now.setSeconds(Now.getSeconds() - 2);
 
@@ -721,7 +719,7 @@ define('qui/controls/messages/Handler', [
 
             Message.addEvents({
                 onDestroy: this.$onMessageDestroy.bind(this),
-                onFinish : function () {
+                onFinish: function() {
                     // for loading message
                     if (self.getAttribute('autosave')) {
                         self.save();
@@ -753,26 +751,26 @@ define('qui/controls/messages/Handler', [
                 size = Parent.getSize();
 
                 Node.setStyles({
-                    left    : pos.x,
+                    left: pos.x,
                     position: 'absolute',
-                    top     : pos.y + size.y,
-                    width   : 280,
-                    zIndex  : 10000
+                    top: pos.y + size.y,
+                    width: 280,
+                    zIndex: 10000
                 });
 
                 if (Parent === document.body) {
                     Node.setStyles({
-                        bottom  : 10,
-                        left    : 10,
+                        bottom: 10,
+                        left: 10,
                         position: 'fixed',
-                        top     : null
+                        top: null
                     });
 
                     // messages are shown?
                     const messages = document.body.getChildren('.messages-message');
 
                     if (messages.length) {
-                        const sum = messages.map(function (Elm) {
+                        const sum = messages.map(function(Elm) {
                             return Elm.getSize().y + 10;
                         }).sum();
 
@@ -781,7 +779,7 @@ define('qui/controls/messages/Handler', [
                 }
 
                 // fined the highest zIndex
-                const zIndexList = document.getElements('body > *').map(function (Elm) {
+                const zIndexList = document.getElements('body > *').map(function(Elm) {
                     return Elm.getStyle('zIndex').toInt() || 1;
                 });
 
@@ -800,11 +798,11 @@ define('qui/controls/messages/Handler', [
                 Node.inject(document.body);
                 Node.addClass('fadeInDown');
 
-                (function () {
+                (function() {
                     moofx(Node).animate({
                         opacity: 0
                     }, {
-                        callback: function () {
+                        callback: function() {
                             Node.destroy();
                         }
                     });
@@ -852,10 +850,10 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        addAttention: function (str, Parent) {
+        addAttention: function(str, Parent) {
             const self = this;
 
-            require(['qui/controls/messages/Attention'], function (Attention) {
+            require(['qui/controls/messages/Attention'], function(Attention) {
                 const Message = new Attention({
                     message: str
                 });
@@ -878,10 +876,10 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        addError: function (str, Parent) {
+        addError: function(str, Parent) {
             const self = this;
 
-            require(['qui/controls/messages/Error'], function (Error) {
+            require(['qui/controls/messages/Error'], function(Error) {
                 const Message = new Error({
                     message: str
                 });
@@ -904,13 +902,13 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        addException: function (Exception, Parent) {
+        addException: function(Exception, Parent) {
             const self = this;
 
-            require(['qui/controls/messages/Error'], function (Error) {
+            require(['qui/controls/messages/Error'], function(Error) {
                 const Message = new Error({
                     message: Exception.getMessage(),
-                    code   : Exception.getCode()
+                    code: Exception.getCode()
                 });
 
                 self.add(Message, Parent);
@@ -931,10 +929,10 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        addInformation: function (str, Parent) {
+        addInformation: function(str, Parent) {
             const self = this;
 
-            require(['qui/controls/messages/Information'], function (Information) {
+            require(['qui/controls/messages/Information'], function(Information) {
                 const Message = new Information({
                     message: str
                 });
@@ -958,11 +956,11 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Promise}
          */
-        addLoading: function (str, callback, Parent) {
+        addLoading: function(str, callback, Parent) {
             const self = this;
 
-            return new Promise(function (resolve, reject) {
-                require(['qui/controls/messages/Loading'], function (Loading) {
+            return new Promise(function(resolve, reject) {
+                require(['qui/controls/messages/Loading'], function(Loading) {
                     const Message = new Loading({
                         message: str
                     });
@@ -990,10 +988,10 @@ define('qui/controls/messages/Handler', [
          * @param {HTMLElement} [Parent] - optional, Parent Object, where to display the message
          * @return {Object} this (qui/controls/messages/Handler)
          */
-        addSuccess: function (str, Parent) {
+        addSuccess: function(str, Parent) {
             const self = this;
 
-            require(['qui/controls/messages/Success'], function (Success) {
+            require(['qui/controls/messages/Success'], function(Success) {
                 const Message = new Success({
                     message: str
                 });
@@ -1015,7 +1013,7 @@ define('qui/controls/messages/Handler', [
          * @param {String} message
          * @param {Number} [timeout]
          */
-        pushAttention: function (title, message, timeout) {
+        pushAttention: function(title, message, timeout) {
             title = title || '';
             message = message || '';
 
@@ -1026,8 +1024,8 @@ define('qui/controls/messages/Handler', [
             const path = window.requirejs.s.contexts._.config.paths.qui;
 
             this.Push.create(title, {
-                body   : message,
-                icon   : {
+                body: message,
+                icon: {
                     x16: path + '/controls/messages/images/attention_16.png',
                     x32: path + '/controls/messages/images/attention_32.png'
                 },
@@ -1042,7 +1040,7 @@ define('qui/controls/messages/Handler', [
          * @param {String} message
          * @param {Number|Boolean} [timeout]
          */
-        pushError: function (title, message, timeout) {
+        pushError: function(title, message, timeout) {
             title = title || '';
             message = message || '';
 
@@ -1054,8 +1052,8 @@ define('qui/controls/messages/Handler', [
 
 
             this.Push.create(title, {
-                body   : message,
-                icon   : {
+                body: message,
+                icon: {
                     x16: path + '/controls/messages/images/error_16.png',
                     x32: path + '/controls/messages/images/error_32.png'
                 },
@@ -1069,7 +1067,7 @@ define('qui/controls/messages/Handler', [
          * @param {DOMException|Object} Exception
          * @param {Number|Boolean} [timeout]
          */
-        pushException: function (Exception, timeout) {
+        pushException: function(Exception, timeout) {
             const title = Exception.getCode();
             const message = Exception.getMessage();
 
@@ -1080,8 +1078,8 @@ define('qui/controls/messages/Handler', [
             const path = window.requirejs.s.contexts._.config.paths.qui;
 
             this.Push.create(title, {
-                body   : message,
-                icon   : {
+                body: message,
+                icon: {
                     x16: path + '/controls/messages/images/error_16.png',
                     x32: path + '/controls/messages/images/error_32.png'
                 },
@@ -1096,7 +1094,7 @@ define('qui/controls/messages/Handler', [
          * @param {String} message
          * @param {Number|Boolean} [timeout]
          */
-        pushInformation: function (title, message, timeout) {
+        pushInformation: function(title, message, timeout) {
             title = title || '';
             message = message || '';
 
@@ -1107,8 +1105,8 @@ define('qui/controls/messages/Handler', [
             const path = window.requirejs.s.contexts._.config.paths.qui;
 
             this.Push.create(title, {
-                body   : message,
-                icon   : {
+                body: message,
+                icon: {
                     x16: path + '/controls/messages/images/information_16.png',
                     x32: path + '/controls/messages/images/information_32.png'
                 },
@@ -1123,7 +1121,7 @@ define('qui/controls/messages/Handler', [
          * @param {String} message
          * @param {Number|Boolean} [timeout]
          */
-        pushSuccess: function (title, message, timeout) {
+        pushSuccess: function(title, message, timeout) {
             title = title || '';
             message = message || '';
 
@@ -1134,8 +1132,8 @@ define('qui/controls/messages/Handler', [
             const path = window.requirejs.s.contexts._.config.paths.qui;
 
             this.Push.create(title, {
-                body   : message,
-                icon   : {
+                body: message,
+                icon: {
                     x16: path + '/controls/messages/images/success_16.png',
                     x32: path + '/controls/messages/images/success_32.png'
                 },
@@ -1149,21 +1147,27 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#$switchFilterStatus
          * @param {DOMEvent} event
          */
-        $switchFilterStatus: function (event) {
+        $switchFilterStatus: function(event) {
             let Target = event.target,
                 filter = false,
                 active = Target.hasClass('message-handler-container-buttons-active');
 
             if (Target.hasClass('success')) {
                 filter = 'success';
-            } else if (Target.hasClass('information')) {
-                filter = 'information';
-            } else if (Target.hasClass('attention')) {
-                filter = 'attention';
-            } else if (Target.hasClass('error')) {
-                filter = 'error';
             } else {
-                return;
+                if (Target.hasClass('information')) {
+                    filter = 'information';
+                } else {
+                    if (Target.hasClass('attention')) {
+                        filter = 'attention';
+                    } else {
+                        if (Target.hasClass('error')) {
+                            filter = 'error';
+                        } else {
+                            return;
+                        }
+                    }
+                }
             }
 
             if (active) {
@@ -1182,7 +1186,7 @@ define('qui/controls/messages/Handler', [
          * @method qui/controls/messages/Handler#$onMessageDestroy
          * @param {Object} Message - qui/controls/messages/Message
          */
-        $onMessageDestroy: function (Message) {
+        $onMessageDestroy: function(Message) {
             let i, len;
             const messages = [];
 
@@ -1201,7 +1205,7 @@ define('qui/controls/messages/Handler', [
          *
          * @method qui/controls/messages/Handler#$onResize
          */
-        $onResize: function () {
+        $onResize: function() {
             const Container = document.getElement('.message-handler-container');
 
             if (!Container) {
@@ -1215,15 +1219,15 @@ define('qui/controls/messages/Handler', [
                 Parent = document.body;
             }
 
-            let size     = Parent.getSize(),
-                Title    = Container.getElement('.message-handler-container-title'),
-                Buttons  = Container.getElement('.message-handler-container-buttons'),
+            let size = Parent.getSize(),
+                Title = Container.getElement('.message-handler-container-title'),
+                Buttons = Container.getElement('.message-handler-container-buttons'),
                 Messages = Container.getElement('.message-handler-container-messages'),
-                Close    = Container.getElement('.message-handler-container-close');
+                Close = Container.getElement('.message-handler-container-close');
 
             // calc
             height = size.y - Title.getSize().y -
-                     Buttons.getSize().y - Close.getSize().y;
+                Buttons.getSize().y - Close.getSize().y;
 
             Messages.setStyles({
                 height: height

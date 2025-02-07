@@ -1,4 +1,3 @@
-
 /**
  * A breadcrumb bar
  *
@@ -15,9 +14,8 @@ define('qui/controls/breadcrumb/Bar', [
 
     'css!qui/controls/breadcrumb/Bar.css'
 
-], function(Control)
-{
-    "use strict";
+], function(Control) {
+    'use strict';
 
     /**
      * @class qui/controls/breadcrumb/Bar
@@ -28,20 +26,19 @@ define('qui/controls/breadcrumb/Bar', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/breadcrumb/Bar',
+        Extends: Control,
+        Type: 'qui/controls/breadcrumb/Bar',
 
-        options : {
-            width       : false,  // with of the bar
-            itemClasses : false,  // if the items should get some extra css classes
-                                  // can be an array or string
-            cssclass    : false   // extra css classes for the bar
+        options: {
+            width: false,  // with of the bar
+            itemClasses: false,  // if the items should get some extra css classes
+                                 // can be an array or string
+            cssclass: false   // extra css classes for the bar
         },
 
-        initialize : function(options)
-        {
+        initialize: function(options) {
             this.$items = [];
-            this.parent( options );
+            this.parent(options);
         },
 
         /**
@@ -50,19 +47,18 @@ define('qui/controls/breadcrumb/Bar', [
          * @method qui/controls/breadcrumb/Bar#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function() {
             this.$Elm = new Element('div', {
-                'class'      : 'qui-breadcrumb box',
-                'data-quiid' : this.getId()
+                'class': 'qui-breadcrumb box',
+                'data-quiid': this.getId()
             });
 
-            if ( this.getAttribute( 'width' ) ) {
-                this.$Elm.setStyle( 'width', this.getAttribute( 'width' ) );
+            if (this.getAttribute('width')) {
+                this.$Elm.setStyle('width', this.getAttribute('width'));
             }
 
-            if ( this.getAttribute( 'cssclass' ) ) {
-                this.$Elm.addClass( this.getAttribute( 'cssclass' ) );
+            if (this.getAttribute('cssclass')) {
+                this.$Elm.addClass(this.getAttribute('cssclass'));
             }
 
             return this.$Elm;
@@ -75,25 +71,23 @@ define('qui/controls/breadcrumb/Bar', [
          * @param {Object} Item - qui/controls/breadcrumb/Item
          * @return {Object} this (qui/controls/breadcrumb/Bar)
          */
-        appendChild : function(Item)
-        {
-            if ( Item.getType() !== 'qui/controls/breadcrumb/Item' ) {
+        appendChild: function(Item) {
+            if (Item.getType() !== 'qui/controls/breadcrumb/Item') {
                 return this;
             }
 
-            this.$items.push( Item );
+            this.$items.push(Item);
 
-            Item.inject( this.getElm() );
+            Item.inject(this.getElm());
 
-            if ( this.getAttribute( 'itemClasses' ) )
-            {
-                var cssclass = this.getAttribute( 'itemClasses' );
+            if (this.getAttribute('itemClasses')) {
+                var cssclass = this.getAttribute('itemClasses');
 
-                if ( typeOf( cssclass ) == 'array' ) {
-                    cssclass = cssclass.join( ' ' );
+                if (typeOf(cssclass) == 'array') {
+                    cssclass = cssclass.join(' ');
                 }
 
-                Item.getElm().addClass( cssclass );
+                Item.getElm().addClass(cssclass);
             }
 
             return this;
@@ -105,10 +99,9 @@ define('qui/controls/breadcrumb/Bar', [
          * @method qui/controls/breadcrumb/Bar#firstChild
          * @return {Object|Boolean} qui/controls/breadcrumb/Item | false
          */
-        firstChild : function()
-        {
-            if ( typeof this.$items[ 0 ] !== 'undefined' ) {
-                return this.$items[ 0 ];
+        firstChild: function() {
+            if (typeof this.$items[0] !== 'undefined') {
+                return this.$items[0];
             }
 
             return false;
@@ -120,8 +113,7 @@ define('qui/controls/breadcrumb/Bar', [
          * @method qui/controls/breadcrumb/Bar#lastChild
          * @return {Object|Boolean} qui/controls/breadcrumb/Item | false
          */
-        lastChild : function()
-        {
+        lastChild: function() {
             return this.$items.getLast();
         },
 
@@ -131,8 +123,7 @@ define('qui/controls/breadcrumb/Bar', [
          * @method qui/controls/breadcrumb/Bar#getChildren
          * @return {Array}
          */
-        getChildren : function()
-        {
+        getChildren: function() {
             return this.$items;
         },
 
@@ -141,9 +132,8 @@ define('qui/controls/breadcrumb/Bar', [
          *
          * @method qui/controls/breadcrumb/Bar#clear
          */
-        clear : function()
-        {
-            for ( var i = 0, len = this.$items.length; i < len; i++ ) {
+        clear: function() {
+            for (var i = 0, len = this.$items.length; i < len; i++) {
                 this.$items[i].destroy();
             }
 
@@ -155,10 +145,9 @@ define('qui/controls/breadcrumb/Bar', [
          *
          * @method qui/controls/breadcrumb/Bar#resize
          */
-        resize : function()
-        {
-            if ( this.getAttribute( 'width' ) ) {
-                this.getElm().setStyle( 'width', this.getAttribute( 'width' ) );
+        resize: function() {
+            if (this.getAttribute('width')) {
+                this.getElm().setStyle('width', this.getAttribute('width'));
             }
         }
     });

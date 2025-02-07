@@ -16,10 +16,10 @@ define('qui/utils/Object', {
      * @param {Object} second - Second Object
      * @return {Object}
      */
-    combine: function (first, second) {
-        "use strict";
+    combine: function(first, second) {
+        'use strict';
 
-        first  = first || {};
+        first = first || {};
         second = second || {};
 
         return Object.append(first, second);
@@ -35,8 +35,8 @@ define('qui/utils/Object', {
      * @param {Object} obj
      * @returns {Boolean}
      */
-    existsValue: function (namespace, obj) {
-        "use strict";
+    existsValue: function(namespace, obj) {
+        'use strict';
 
         var parts = namespace.split('.');
 
@@ -61,8 +61,8 @@ define('qui/utils/Object', {
      * @param {Object} obj
      * @returns {String|Boolean|Number|Object}
      */
-    getValue: function (namespace, obj) {
-        "use strict";
+    getValue: function(namespace, obj) {
+        'use strict';
 
         var parts = namespace.split('.');
 
@@ -86,11 +86,11 @@ define('qui/utils/Object', {
      *
      * @return {Object}
      */
-    namespace: function extend (namespace, obj) {
-        "use strict";
+    namespace: function extend(namespace, obj) {
+        'use strict';
 
         var pl, i;
-        var parts  = namespace.split('.'),
+        var parts = namespace.split('.'),
             parent = obj;
 
         pl = parts.length;

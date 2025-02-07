@@ -20,8 +20,8 @@ define('qui/controls/loader/Progress', [
     'qui/controls/Control',
     'css!qui/controls/loader/Progress.css'
 
-], function (QUI, QUIControl) {
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     /**
      * @class qui/controls/loader/Progress
@@ -31,14 +31,14 @@ define('qui/controls/loader/Progress', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/loader/Progress',
+        Type: 'qui/controls/loader/Progress',
 
         options: {
-            color : '#d52349',
+            color: '#d52349',
             styles: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
 
             // default global color
             if (QUI.getAttribute('control-loader-color')) {
@@ -50,7 +50,7 @@ define('qui/controls/loader/Progress', [
 
             this.parent(options);
 
-            this.$Bar   = null;
+            this.$Bar = null;
             this.$BarFX = null;
         },
 
@@ -60,7 +60,7 @@ define('qui/controls/loader/Progress', [
          * @method controls/loader/Progress#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             var color = this.getAttribute('color');
 
             this.$Elm = this.parent();
@@ -68,9 +68,9 @@ define('qui/controls/loader/Progress', [
 
             this.$Bar = new Element('div', {
                 'class': 'qui-progress-bar',
-                styles : {
+                styles: {
                     background: color,
-                    boxShadow : '0 0 10px ' + color + ', 0 0 5px ' + color
+                    boxShadow: '0 0 10px ' + color + ', 0 0 5px ' + color
                 }
             }).inject(this.$Elm);
 
@@ -87,7 +87,7 @@ define('qui/controls/loader/Progress', [
         /**
          * reset the bar
          */
-        reset: function () {
+        reset: function() {
             this.stopIncrement();
             this.$BarFX.style('width', 0);
         },
@@ -97,15 +97,15 @@ define('qui/controls/loader/Progress', [
          *
          * @param {Number} step - percentage step (0 - 100)
          */
-        set: function (step) {
-            var self    = this,
-                width   = this.$Elm.getSize().x,
+        set: function(step) {
+            var self = this,
+                width = this.$Elm.getSize().x,
                 newSize = ((width / 100) * step).round();
 
             this.$BarFX.animate({
                 width: newSize
             }, {
-                callback: function () {
+                callback: function() {
                     self.fireEvent('progress', [self, step]);
                 }
             });
@@ -117,7 +117,7 @@ define('qui/controls/loader/Progress', [
          *
          * @param {Number} ms - miliseconds to finish
          */
-        increment: function (ms) {
+        increment: function(ms) {
             this.reset();
 
             this.$BarFX.animate({
@@ -131,7 +131,7 @@ define('qui/controls/loader/Progress', [
         /**
          * stop the increment
          */
-        stopIncrement: function () {
+        stopIncrement: function() {
             this.$BarFX.style('width', this.$BarFX.compute('width'));
         }
     });

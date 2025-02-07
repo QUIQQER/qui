@@ -23,8 +23,8 @@ define('qui/controls/toolbar/Bar', [
 
     'css!qui/controls/toolbar/Bar.css'
 
-], function (QUI, Control, ContextMenu, ContextMenuItem, Button) {
-    "use strict";
+], function(QUI, Control, ContextMenu, ContextMenuItem, Button) {
+    'use strict';
 
     /**
      * @class qui/controls/toolbar/Bar
@@ -36,7 +36,7 @@ define('qui/controls/toolbar/Bar', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/toolbar/Bar',
+        Type: 'qui/controls/toolbar/Bar',
 
         Binds: [
             'toLeft',
@@ -47,33 +47,33 @@ define('qui/controls/toolbar/Bar', [
         ],
 
         options: {
-            height       : false,
-            slide        : true,
+            height: false,
+            slide: true,
             'menu-button': true,
-            mousewheel   : true,
-            type         : 'tabbar',
-            width        : false,
-            vertical     : false
+            mousewheel: true,
+            type: 'tabbar',
+            width: false,
+            vertical: false
         },
 
-        initialize: function (options) {
-            this.Fx   = null;
+        initialize: function(options) {
+            this.Fx = null;
             this.$Elm = null;
             this.Tabs = null;
             this.Menu = null;
 
             this.Container = null;
-            this.Active    = null;
+            this.Active = null;
 
-            this.BtnLeft        = null;
-            this.BtnRight       = null;
-            this.$BtnScrollUp   = null;
+            this.BtnLeft = null;
+            this.BtnRight = null;
+            this.$BtnScrollUp = null;
             this.$BtnScrollDown = null;
 
             this.items = [];
-            this.btns  = [];
+            this.btns = [];
 
-            this.moveLeft  = null;
+            this.moveLeft = null;
             this.moveRight = null;
 
             this.parent(options);
@@ -84,7 +84,7 @@ define('qui/controls/toolbar/Bar', [
          *
          * @method qui/controls/toolbar/Bar#destroy
          */
-        destroy: function () {
+        destroy: function() {
             var i, len;
 
             for (i = 0, len = this.items.length; i < len; i++) {
@@ -100,7 +100,7 @@ define('qui/controls/toolbar/Bar', [
             }
 
             this.items = [];
-            this.btns  = [];
+            this.btns = [];
 
             if (this.$Elm) {
                 this.$Elm.destroy();
@@ -118,15 +118,15 @@ define('qui/controls/toolbar/Bar', [
                 this.Menu.destroy();
             }
 
-            this.Fx   = null;
+            this.Fx = null;
             this.$Elm = null;
             this.Tabs = null;
             this.Menu = null;
 
             this.Container = null;
-            this.Active    = null;
-            this.BtnLeft   = null;
-            this.BtnRight  = null;
+            this.Active = null;
+            this.BtnLeft = null;
+            this.BtnRight = null;
         },
 
         /**
@@ -135,7 +135,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#refresh
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        refresh: function () {
+        refresh: function() {
             if (!this.$Elm) {
                 return this;
             }
@@ -181,7 +181,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 this.refresh();
 
@@ -190,7 +190,7 @@ define('qui/controls/toolbar/Bar', [
 
 
             this.$Elm = new Element('div', {
-                'class'     : 'qui-toolbar',
+                'class': 'qui-toolbar',
                 'data-quiid': this.getId(),
 
                 'html': '<div class="qui-toolbar-container">' +
@@ -202,7 +202,7 @@ define('qui/controls/toolbar/Bar', [
                 this.$Elm.setStyles(this.getAttribute('styles'));
             }
 
-            this.Tabs      = this.$Elm.getElement('.qui-toolbar-tabs');
+            this.Tabs = this.$Elm.getElement('.qui-toolbar-tabs');
             this.Container = this.$Elm.getElement('.qui-toolbar-container');
 
             if (this.getAttribute('mousewheel')) {
@@ -213,17 +213,17 @@ define('qui/controls/toolbar/Bar', [
 
             // left / right
             this.BtnLeft = new Button({
-                name   : 'toLeft',
+                name: 'toLeft',
                 'class': 'qui-toolbar-button qui-toolbar-button-btnLeft fa fa-chevron-left',
-                events : {
+                events: {
                     onClick: this.toLeft
                 }
             });
 
             this.BtnRight = new Button({
-                name   : 'toRight',
+                name: 'toRight',
                 'class': 'qui-toolbar-button qui-toolbar-button-btnRight fa fa-chevron-right',
-                events : {
+                events: {
                     onClick: this.toRight
                 }
             });
@@ -231,22 +231,22 @@ define('qui/controls/toolbar/Bar', [
             // up down
             if (this.getAttribute('vertical')) {
                 this.$BtnScrollUp = new Button({
-                    name   : 'scrollUp',
+                    name: 'scrollUp',
                     'class': 'qui-toolbar-button qui-toolbar-button-scrollUp',
-                    text   : '<span class="fa fa-chevron-up"></span>',
-                    events : {
-                        onClick: function () {
+                    text: '<span class="fa fa-chevron-up"></span>',
+                    events: {
+                        onClick: function() {
                             this.scrollUp(300);
                         }.bind(this)
                     }
                 });
 
                 this.$BtnScrollDown = new Button({
-                    name   : 'scrollDown',
+                    name: 'scrollDown',
                     'class': 'qui-toolbar-button qui-toolbar-button-scrollDown',
-                    text   : '<span class="fa fa-chevron-down"></span>',
-                    events : {
-                        onClick: function () {
+                    text: '<span class="fa fa-chevron-down"></span>',
+                    events: {
+                        onClick: function() {
                             this.scrollDown(300);
                         }.bind(this)
                     }
@@ -271,10 +271,10 @@ define('qui/controls/toolbar/Bar', [
             this.BtnRight.inject(this.$Elm);
 
             this.Tabs.setStyles({
-                'float' : 'left',
-                left    : 0,
+                'float': 'left',
+                left: 0,
                 position: 'relative',
-                top     : 0
+                top: 0
             });
 
             this.refresh();
@@ -290,7 +290,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#clear
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        clear: function () {
+        clear: function() {
             if (!this.Tabs) {
                 this.fireEvent('clear', [this]);
 
@@ -316,8 +316,8 @@ define('qui/controls/toolbar/Bar', [
             delete this.items;
             delete this.Active;
 
-            this.items  = [];
-            this.btns   = [];
+            this.items = [];
+            this.btns = [];
             this.Active = null;
 
 
@@ -346,9 +346,9 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#hide
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        hide: function () {
+        hide: function() {
             this.$Elm.setStyles({
-                'height'  : 0,
+                'height': 0,
                 'overflow': 'hidden'
             });
 
@@ -361,7 +361,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#show
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        show: function () {
+        show: function() {
             this.$Elm.setStyle('height', null);
             this.$Elm.setStyle('overflow', null);
 
@@ -374,7 +374,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#toLeft
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toLeft: function () {
+        toLeft: function() {
             if (!this.Fx) {
                 return this;
             }
@@ -392,7 +392,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#toRight
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toRight: function () {
+        toRight: function() {
             var left = this.Tabs.offsetLeft - 150;
 
             if (left < ((this.Tabs.offsetWidth - 150) * -1)) {
@@ -412,7 +412,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {Number} move - pixel to move
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollUp: function (move) {
+        scrollUp: function(move) {
             if (!this.getAttribute('vertical')) {
                 return this;
             }
@@ -442,7 +442,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {Number} move - pixel to move
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        scrollDown: function (move) {
+        scrollDown: function(move) {
             if (!this.getAttribute('vertical')) {
                 return this;
             }
@@ -451,14 +451,14 @@ define('qui/controls/toolbar/Bar', [
 
 
             var tabsSize = this.Tabs.getSize(),
-                conSize  = this.Container.getSize();
+                conSize = this.Container.getSize();
 
             if (conSize.y >= tabsSize.y) {
                 return this;
             }
 
             var maxScroll = conSize.y - tabsSize.y,
-                top       = this.Tabs.getStyle('top').toInt() - move;
+                top = this.Tabs.getStyle('top').toInt() - move;
 
             if (maxScroll > top) {
                 top = maxScroll;
@@ -481,7 +481,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Tab - qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        toTab: function (Tab) {
+        toTab: function(Tab) {
             if (this.getAttribute('slide') === false) {
                 return this;
             }
@@ -502,12 +502,12 @@ define('qui/controls/toolbar/Bar', [
 
             var needle;
 
-            var TabElm    = Tab.getElm(),
+            var TabElm = Tab.getElm(),
                 Container = this.$Elm.getElement('.qui-toolbar-container'),
-                Tabs      = this.$Elm.getElement('.qui-toolbar-tabs'),
+                Tabs = this.$Elm.getElement('.qui-toolbar-tabs'),
 
-                left      = Tabs.getStyle('left').toInt() + TabElm.offsetLeft,
-                pos       = TabElm.offsetLeft + TabElm.offsetWidth;
+                left = Tabs.getStyle('left').toInt() + TabElm.offsetLeft,
+                pos = TabElm.offsetLeft + TabElm.offsetWidth;
 
             if (left < 0) {
                 this.Fx.animate({
@@ -537,7 +537,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#firstChild
          * @return {Object} qui/controls/Control
          */
-        firstChild: function () {
+        firstChild: function() {
             return this.items[0];
         },
 
@@ -547,7 +547,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#lastChild
          * @return {Object} qui/controls/Control
          */
-        lastChild: function () {
+        lastChild: function() {
             return this.items[this.items.length - 1];
         },
 
@@ -559,7 +559,7 @@ define('qui/controls/toolbar/Bar', [
          *                          if no name given, all children will be return
          * @return {Array}
          */
-        getChildren: function (name) {
+        getChildren: function(name) {
             if (typeof name !== 'undefined') {
                 return this.getElement(name);
             }
@@ -573,7 +573,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#count
          * @return {Number}
          */
-        count: function () {
+        count: function() {
             return this.items.length;
         },
 
@@ -584,11 +584,11 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Child - qui/controls/Control
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        removeChild: function (Child) {
+        removeChild: function(Child) {
             var i, len;
 
-            var nitms     = [],
-                itms      = this.items,
+            var nitms = [],
+                itms = this.items,
                 childname = Child.getAttribute('name');
 
             for (i = 0, len = itms.length; i < len; i++) {
@@ -614,7 +614,7 @@ define('qui/controls/toolbar/Bar', [
          *
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        moveChildToPos: function (Child, pos) {
+        moveChildToPos: function(Child, pos) {
 
             // for (var i = 0, len = itms.length; i < len; i++) {
             //     if (Child == itms[i]) {
@@ -645,7 +645,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {String} name - name of the wanted Element
          * @return {null|Object} null | qui/controls/Control
          */
-        getElement: function (name) {
+        getElement: function(name) {
             var i, len;
             var items = this.items;
 
@@ -665,7 +665,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Itm - qui/controls/buttons/Button | qui/controls/buttons/Separator | qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        appendChild: function (Itm) {
+        appendChild: function(Itm) {
             if (typeof Itm === 'undefined') {
                 return this;
             }
@@ -682,9 +682,9 @@ define('qui/controls/toolbar/Bar', [
                 return this;
             }
 
-            Itm.addEvent('onDestroy', function () {
+            Itm.addEvent('onDestroy', function() {
                 var newItems = [],
-                    items    = self.items;
+                    items = self.items;
 
                 for (var i = 0, len = items.length; i < len; i++) {
                     if (items[i] !== Itm) {
@@ -699,7 +699,7 @@ define('qui/controls/toolbar/Bar', [
             Itm.setParent(this);
 
             if (type === 'qui/controls/toolbar/Tab') {
-                Itm.addEvent('click', function (Item) {
+                Itm.addEvent('click', function(Item) {
                     self.toTab(Item);
                 });
             }
@@ -765,7 +765,7 @@ define('qui/controls/toolbar/Bar', [
          * @param {Object} Child - qui/controls/toolbar/Tab
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        setItemActive: function (Child) {
+        setItemActive: function(Child) {
             if (this.Active) {
                 this.Active.leave();
                 this.Active.setNormal();
@@ -791,7 +791,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#getActive
          * @return {null|Object} null | qui/controls/Control
          */
-        getActive: function () {
+        getActive: function() {
             if (this.Active) {
                 return this.Active;
             }
@@ -813,7 +813,7 @@ define('qui/controls/toolbar/Bar', [
          * @method qui/controls/toolbar/Bar#resize
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
-        resize: function () {
+        resize: function() {
             if (!this.getElm()) {
                 return this;
             }
@@ -834,7 +834,7 @@ define('qui/controls/toolbar/Bar', [
             } else {
                 // standard toolbar
                 var cwidth = 0,
-                    itms   = this.Tabs.getChildren();
+                    itms = this.Tabs.getChildren();
 
                 if (this.getAttribute('width') &&
                     this.getAttribute('width').toString().contains('%') === false) {
@@ -871,7 +871,7 @@ define('qui/controls/toolbar/Bar', [
                 this.Tabs.removeClass('qui-toolbar--mobile');
 
                 var containerSize = this.Tabs.getSize();
-                var elmSize       = this.getElm().getSize();
+                var elmSize = this.getElm().getSize();
 
                 if (width === '100%' &&
                     (containerSize.x > elmSize.x || containerSize.y > elmSize.y + 1) // +1 = because border
@@ -889,7 +889,7 @@ define('qui/controls/toolbar/Bar', [
             if (this.getAttribute('vertical')) {
                 this.$Elm.setStyle('height', this.getAttribute('height'));
 
-                var sizeY   = this.Container.getSize().y,
+                var sizeY = this.Container.getSize().y,
                     scrollY = this.Container.getScrollSize().y;
 
                 if (sizeY < scrollY) {
@@ -912,7 +912,7 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} qui/controls/contextmenu/Item
          * @ignore
          */
-        $addContextMenuItm: function (Itm) {
+        $addContextMenuItm: function(Itm) {
             var MenuItem = new ContextMenuItem(
                 Itm.getAttributes()
             );
@@ -922,8 +922,8 @@ define('qui/controls/toolbar/Bar', [
 
             Itm.setAttribute('ContextMenuItem', MenuItem);
 
-            MenuItem.addEvent('onMouseDown', function (Itm) {
-                var Tab     = Itm.getAttribute('TAB'),
+            MenuItem.addEvent('onMouseDown', function(Itm) {
+                var Tab = Itm.getAttribute('TAB'),
                     Toolbar = Itm.getAttribute('Toolbar');
 
                 Tab.click();
@@ -937,7 +937,7 @@ define('qui/controls/toolbar/Bar', [
          * on : mousewheel event
          * @param {DOMEvent} event - DOM Event
          */
-        $onMousewheel: function (event) {
+        $onMousewheel: function(event) {
             // Mousewheel UP
             if (event.wheel > 0) {
                 this.scrollUp();

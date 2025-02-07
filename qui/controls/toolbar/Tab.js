@@ -1,4 +1,3 @@
-
 /**
  * A Toolbar Tab
  *
@@ -19,9 +18,8 @@ define('qui/controls/toolbar/Tab', [
 
     'css!qui/controls/toolbar/Tab.css'
 
-], function(Control, Utils, NoSelect)
-{
-    "use strict";
+], function(Control, Utils, NoSelect) {
+    'use strict';
 
     /**
      * @class qui/controls/toolbar/Tab
@@ -37,27 +35,26 @@ define('qui/controls/toolbar/Tab', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/toolbar/Tab',
+        Extends: Control,
+        Type: 'qui/controls/toolbar/Tab',
 
-        options : {
-            text    : '',
-            'class' : false,
-            icon    : ''
+        options: {
+            text: '',
+            'class': false,
+            icon: ''
         },
 
-        initialize : function(options)
-        {
-            this.$items   = [];
-            this.$active  = false;
+        initialize: function(options) {
+            this.$items = [];
+            this.$active = false;
             this.disabled = false;
 
-            this.$Elm  = null;
+            this.$Elm = null;
             this.$Text = null;
             this.$Icon = null;
             this.$Menu = null;
 
-            this.parent( options );
+            this.parent(options);
         },
 
         /**
@@ -66,79 +63,75 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#create
          * @return {HTMLElement}
          */
-        create : function()
-        {
-            if ( this.$Elm ) {
+        create: function() {
+            if (this.$Elm) {
                 return this.$Elm;
             }
 
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class'      : 'qui-toolbar-tab',
-                'data-quiid' : this.getId(),
+                'class': 'qui-toolbar-tab',
+                'data-quiid': this.getId(),
 
-                events :
-                {
-                    click : function() {
-                        self.click();
-                    },
+                events:
+                    {
+                        click: function() {
+                            self.click();
+                        },
 
-                    mouseenter : function() {
-                        self.mouseenter();
-                    },
+                        mouseenter: function() {
+                            self.mouseenter();
+                        },
 
-                    mouseleave : function() {
-                        self.mouseleave();
+                        mouseleave: function() {
+                            self.mouseleave();
+                        }
                     }
-                }
             });
 
-            if ( this.getAttribute( 'class' ) ) {
-                this.$Elm.addClass( this.getAttribute( 'class' ) );
+            if (this.getAttribute('class')) {
+                this.$Elm.addClass(this.getAttribute('class'));
             }
 
 
-            if ( this.getAttribute( 'icon' ) )
-            {
-                var value = this.getAttribute( 'icon' );
+            if (this.getAttribute('icon')) {
+                var value = this.getAttribute('icon');
 
                 this.$Icon = new Element('span', {
-                    'class' : 'qui-toolbar-tab-icon'
-                }).inject( this.$Elm );
+                    'class': 'qui-toolbar-tab-icon'
+                }).inject(this.$Elm);
 
-                if ( Utils.isFontAwesomeClass( value ) )
-                {
-                    this.$Icon.addClass( value );
+                if (Utils.isFontAwesomeClass(value)) {
+                    this.$Icon.addClass(value);
 
-                } else
-                {
+                } else {
                     new Element('img.qui-button-image', {
-                        src    : value,
-                        styles : {
-                            'display' : 'block' // only image, fix
+                        src: value,
+                        styles: {
+                            'display': 'block' // only image, fix
                         }
-                    }).inject( this.$Icon );
+                    }).inject(this.$Icon);
                 }
             }
 
 
             this.$Text = new Element('span', {
-                'class' : 'qui-toolbar-tab-text',
-                text    : this.getAttribute('text')
+                'class': 'qui-toolbar-tab-text',
+                text: this.getAttribute('text')
             });
 
-            this.$Text.inject( this.$Elm );
+            this.$Text.inject(this.$Elm);
 
-            if ( this.$Icon ) {
-                this.$Text.setStyle( 'marginLeft', 0 );
+            if (this.$Icon) {
+                this.$Text.setStyle('marginLeft', 0);
             }
 
 
-            NoSelect.disable( this.$Elm );
+            NoSelect.disable(this.$Elm);
 
 
-            this.fireEvent( 'create', [ this ] );
+            this.fireEvent('create', [this]);
 
             return this.$Elm;
         },
@@ -149,8 +142,7 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#setNormal
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        setNormal : function()
-        {
+        setNormal: function() {
             this.$disabled = false;
             this.leave();
 
@@ -164,8 +156,7 @@ define('qui/controls/toolbar/Tab', [
          * @return {Object} this (qui/controls/toolbar/Tab)
          * @depricated
          */
-        setActive : function()
-        {
+        setActive: function() {
             return this.activate();
         },
 
@@ -175,8 +166,7 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#isActive
          * @return {Boolean}
          */
-        isActive : function()
-        {
+        isActive: function() {
             return this.$active ? true : false;
         },
 
@@ -186,8 +176,7 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#isDisabled
          * @return {Boolean}
          */
-        isDisabled : function()
-        {
+        isDisabled: function() {
             return this.$disabled ? true : false;
         },
 
@@ -197,9 +186,8 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#mouseenter
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        mouseenter : function()
-        {
-            if ( this.isDisabled() === true ) {
+        mouseenter: function() {
+            if (this.isDisabled() === true) {
                 return this;
             }
 
@@ -213,13 +201,12 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#mouseleave
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        mouseleave : function()
-        {
-            if ( this.isDisabled() === true ) {
+        mouseleave: function() {
+            if (this.isDisabled() === true) {
                 return this;
             }
 
-            this.getElm().removeClass( 'qui-toolbar-hover' );
+            this.getElm().removeClass('qui-toolbar-hover');
             return this;
         },
 
@@ -229,13 +216,12 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#enter
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        enter : function()
-        {
-            if ( this.isDisabled() === true ) {
+        enter: function() {
+            if (this.isDisabled() === true) {
                 return this;
             }
 
-            this.fireEvent( 'enter', [ this ] );
+            this.fireEvent('enter', [this]);
             return this;
         },
 
@@ -246,19 +232,18 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#leave
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        leave : function()
-        {
-            if ( this.isDisabled() === true ) {
+        leave: function() {
+            if (this.isDisabled() === true) {
                 return this;
             }
 
-            if ( !this.isActive() ) {
+            if (!this.isActive()) {
                 return this;
             }
 
             this.$active = false;
-            this.getElm().removeClass( 'qui-toolbar-active' );
-            this.fireEvent( 'leave', [ this ] );
+            this.getElm().removeClass('qui-toolbar-active');
+            this.fireEvent('leave', [this]);
 
             return this;
         },
@@ -269,22 +254,21 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#activate
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        activate : function()
-        {
-            if ( this.$disabled === true ) {
+        activate: function() {
+            if (this.$disabled === true) {
                 return this;
             }
 
-            if ( this.$active === true ) {
+            if (this.$active === true) {
                 return this;
             }
 
             this.$active = true;
 
-            this.getElm().addClass( 'qui-toolbar-active' );
+            this.getElm().addClass('qui-toolbar-active');
 
-            if ( this.getParent() ) {
-                this.getParent().setItemActive( this );
+            if (this.getParent()) {
+                this.getParent().setItemActive(this);
             }
 
             return this;
@@ -297,10 +281,9 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#disable
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        disable : function()
-        {
+        disable: function() {
             this.$disabled = true;
-            this.getElm().addClass( 'qui-toolbar-disable' );
+            this.getElm().addClass('qui-toolbar-disable');
 
             return this;
         },
@@ -312,10 +295,9 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#enable
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        enable : function()
-        {
+        enable: function() {
             this.$disabled = false;
-            this.getElm().removeClass( 'qui-toolbar-disable' );
+            this.getElm().removeClass('qui-toolbar-disable');
 
             return this;
         },
@@ -327,15 +309,14 @@ define('qui/controls/toolbar/Tab', [
          * @method qui/controls/toolbar/Tab#click
          * @return {Object} this (qui/controls/toolbar/Tab)
          */
-        click : function()
-        {
+        click: function() {
             this.activate();
 
-            if ( this.$Menu ) {
+            if (this.$Menu) {
                 this.$Menu.show();
             }
 
-            this.fireEvent( 'click', [ this ] );
+            this.fireEvent('click', [this]);
             this.enter();
 
             return this;

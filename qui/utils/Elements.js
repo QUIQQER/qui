@@ -10,9 +10,9 @@ define('qui/utils/Elements', [
 
     'qui/classes/utils/SimulateEvent'
 
-], function (SimulateEvent) {
+], function(SimulateEvent) {
 
-    "use strict";
+    'use strict';
 
     return {
 
@@ -23,14 +23,14 @@ define('qui/utils/Elements', [
          * @param {HTMLElement|Object} rect - HTML element or a getBoundingClientRect object
          * @param {Number} [offset] - optional
          */
-        isInViewport: function (rect, offset) {
+        isInViewport: function(rect, offset) {
             if (typeOf(rect) === 'element') {
                 rect = rect.getBoundingClientRect();
             }
 
             var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
-            var viewportWidth  = (window.innerWidth || document.documentElement.clientWidth);
-            
+            var viewportWidth = (window.innerWidth || document.documentElement.clientWidth);
+
             if (typeof offset === 'undefined') {
                 offset = 50;
             }
@@ -50,9 +50,9 @@ define('qui/utils/Elements', [
          * @method qui/utils/Elements#getComputedZIndex
          * @return {Number}
          */
-        getComputedZIndex: function (Elm) {
+        getComputedZIndex: function(Elm) {
             var i, z, len, max = 0;
-            var parents        = Elm.getParents();
+            var parents = Elm.getParents();
 
             for (i = 0, len = parents.length; i < len; i++) {
                 z = parents[i].getStyle('zIndex');
@@ -75,7 +75,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Elm
          * @return {Number}
          */
-        getChildIndex: function (Elm) {
+        getChildIndex: function(Elm) {
             return Array.prototype.indexOf.call(
                 Elm.getParent().children,
                 Elm
@@ -87,7 +87,7 @@ define('qui/utils/Elements', [
          *
          * @return {null|Number}
          */
-        getCursorPosition: function (Input) {
+        getCursorPosition: function(Input) {
             if (Input.nodeName !== 'INPUT') {
                 return null;
             }
@@ -100,7 +100,7 @@ define('qui/utils/Elements', [
                 // IE
                 Input.focus();
 
-                var range    = document.selection.createRange();
+                var range = document.selection.createRange();
                 var rangeLen = range.text.length;
 
                 range.moveStart('character', -Input.value.length);
@@ -117,7 +117,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Input - Input | Textarea Element
          * @param {Number} pos - Position of the cursor
          */
-        setCursorPosition: function (Input, pos) {
+        setCursorPosition: function(Input, pos) {
             if (Input.nodeName !== 'INPUT' && Input.nodeName !== 'TEXTAREA') {
                 return null;
             }
@@ -145,7 +145,7 @@ define('qui/utils/Elements', [
          * @param {HTMLElement} Target
          * @param {String} eventName
          */
-        simulateEvent: function (Target, eventName) {
+        simulateEvent: function(Target, eventName) {
             new SimulateEvent(Target).simulateEvent(eventName);
         },
 
@@ -154,15 +154,15 @@ define('qui/utils/Elements', [
          *
          * @returns {Object}
          */
-        getSupportedInputTypes: function () {
+        getSupportedInputTypes: function() {
             var supported = {
-                    date  : false,
+                    date: false,
                     number: false,
-                    time  : false,
-                    month : false,
-                    week  : false
+                    time: false,
+                    month: false,
+                    week: false
                 },
-                tester    = document.createElement('input');
+                tester = document.createElement('input');
 
             for (var i in supported) {
                 if (!supported.hasOwnProperty(i)) {
@@ -189,7 +189,7 @@ define('qui/utils/Elements', [
          * @param {String} type
          * @returns {boolean}
          */
-        isInputTypeSupported: function (type) {
+        isInputTypeSupported: function(type) {
             var supported = this.getSupportedInputTypes();
 
             return type in supported && supported[type];

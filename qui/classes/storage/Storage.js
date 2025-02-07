@@ -22,8 +22,8 @@ try {
     console.info('Please allow cookies.');
 }
 
-define('qui/classes/storage/Storage', needle, function (QDOM) {
-    "use strict";
+define('qui/classes/storage/Storage', needle, function(QDOM) {
+    'use strict';
 
     /**
      * Local storage
@@ -35,7 +35,7 @@ define('qui/classes/storage/Storage', needle, function (QDOM) {
     return new Class({
 
         Extends: QDOM,
-        Type   : 'qui/classes/storage/Storage',
+        Type: 'qui/classes/storage/Storage',
 
         $data: {},
 
@@ -46,7 +46,7 @@ define('qui/classes/storage/Storage', needle, function (QDOM) {
          * @param {String} key
          * @param {String|Number|Boolean} value
          */
-        set: function (key, value) {
+        set: function(key, value) {
             try {
                 window.localStorage.setItem(key, value);
 
@@ -62,7 +62,7 @@ define('qui/classes/storage/Storage', needle, function (QDOM) {
          * @param {String} key
          * @return {String|Number|Boolean} the wanted storage
          */
-        get: function (key) {
+        get: function(key) {
             try {
                 return window.localStorage.getItem(key);
 
@@ -83,7 +83,7 @@ define('qui/classes/storage/Storage', needle, function (QDOM) {
          * @method qui/classes/storage/Storage#remove
          * @param {String} key
          */
-        remove: function (key) {
+        remove: function(key) {
             try {
                 window.localStorage.removeItem(key);
 
@@ -101,7 +101,7 @@ define('qui/classes/storage/Storage', needle, function (QDOM) {
          *
          * @method qui/classes/storage/Storage#clear
          */
-        clear: function () {
+        clear: function() {
             this.$data = {};
 
             try {

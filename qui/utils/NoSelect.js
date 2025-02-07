@@ -12,8 +12,8 @@ define('qui/utils/NoSelect', {
      * @method qui/utils/NoSelect#enable
      * @param {HTMLElement} Elm - Element in which the mark / highlight is to be enabled
      */
-    enable: function (Elm) {
-        "use strict";
+    enable: function(Elm) {
+        'use strict';
 
         if (typeof Elm.setProperty === 'undefined') {
             Elm = document.id(Elm);
@@ -26,12 +26,12 @@ define('qui/utils/NoSelect', {
             return;
         }
 
-        Elm.removeProperty("unselectable", "on");
-        Elm.removeProperty("unSelectable", "on");
+        Elm.removeProperty('unselectable', 'on');
+        Elm.removeProperty('unSelectable', 'on');
 
         Elm.setStyles({
-            "MozUserSelect"  : "",
-            "KhtmlUserSelect": ""
+            'MozUserSelect': '',
+            'KhtmlUserSelect': ''
         });
     },
 
@@ -41,8 +41,8 @@ define('qui/utils/NoSelect', {
      * @method qui/utils/NoSelect#disable
      * @param {HTMLElement} Elm - Element in which the mark / highlight is to be prevented
      */
-    disable: function (Elm) {
-        "use strict";
+    disable: function(Elm) {
+        'use strict';
 
         if (typeof Elm.setProperty === 'undefined') {
             Elm = document.id(Elm);
@@ -55,12 +55,12 @@ define('qui/utils/NoSelect', {
             return;
         }
 
-        Elm.setProperty("unselectable", "on");
-        Elm.setProperty("unSelectable", "on");
+        Elm.setProperty('unselectable', 'on');
+        Elm.setProperty('unSelectable', 'on');
 
         Elm.setStyles({
-            "MozUserSelect"  : "none",
-            "KhtmlUserSelect": "none"
+            'MozUserSelect': 'none',
+            'KhtmlUserSelect': 'none'
         });
     },
 
@@ -70,8 +70,8 @@ define('qui/utils/NoSelect', {
      * @method qui/utils/NoSelect#stopSelection
      * @param {DOMEvent} event
      */
-    stopSelection: function (event) {
-        "use strict";
+    stopSelection: function(event) {
+        'use strict';
 
         event.stop();
         return false;

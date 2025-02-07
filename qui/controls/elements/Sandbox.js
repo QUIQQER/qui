@@ -10,19 +10,19 @@ define('qui/controls/elements/Sandbox', [
     'qui/QUI',
     'qui/controls/Control'
 
-], function (QUI, QUIControl) {
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/elements/Sandbox',
+        Type: 'qui/controls/elements/Sandbox',
 
         options: {
             content: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$FrameDocument = null;
@@ -33,13 +33,13 @@ define('qui/controls/elements/Sandbox', [
          *
          * @return {Element|null}
          */
-        create: function () {
+        create: function() {
             this.parent();
 
-            var moduleUrl = require.toUrl("qui/controls/elements/Sandbox.html");
+            var moduleUrl = require.toUrl('qui/controls/elements/Sandbox.html');
 
             this.$Elm = new Element('iframe', {
-                src         : moduleUrl + '&id=' + this.getId(),
+                src: moduleUrl + '&id=' + this.getId(),
                 'data-quiid': this.getId()
             });
 
@@ -54,7 +54,7 @@ define('qui/controls/elements/Sandbox', [
          *
          * @param frameDocument
          */
-        $loaded: function (frameDocument) {
+        $loaded: function(frameDocument) {
             this.$FrameDocument = frameDocument;
 
             if (this.getAttribute('content')) {
@@ -69,14 +69,14 @@ define('qui/controls/elements/Sandbox', [
          *
          * @return {boolean}
          */
-        isLoaded: function () {
+        isLoaded: function() {
             return !!this.$FrameDocument;
         },
 
         /**
          * Set the content to the frame
          */
-        setContent: function (content) {
+        setContent: function(content) {
             if (!this.isLoaded()) {
                 this.setAttribute('content', content);
                 return;
@@ -90,7 +90,7 @@ define('qui/controls/elements/Sandbox', [
          *
          * @return {null|HTMLBodyElement}
          */
-        getBody: function () {
+        getBody: function() {
             if (!this.isLoaded()) {
                 return null;
             }

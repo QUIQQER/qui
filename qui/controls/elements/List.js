@@ -18,24 +18,24 @@ define('qui/controls/elements/List', [
 
     'css!qui/controls/elements/List.css'
 
-], function (QUI, QUIControl) {
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/elements/List',
+        Type: 'qui/controls/elements/List',
 
         Binds: [
             '$itemClick'
         ],
 
         options: {
-            styles    : false,
+            styles: false,
             checkboxes: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.$items = [];
@@ -46,7 +46,7 @@ define('qui/controls/elements/List', [
          *
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
                 'class': 'qui-elements-list'
             });
@@ -63,7 +63,7 @@ define('qui/controls/elements/List', [
         /**
          * Refresh the list
          */
-        refresh: function () {
+        refresh: function() {
             if (!this.$Elm) {
                 return;
             }
@@ -73,7 +73,7 @@ define('qui/controls/elements/List', [
             var self = this;
             var i, len, icon, item, text, title, Section, CheckboxContainer;
 
-            var itemClick = function (event) {
+            var itemClick = function(event) {
                 var Target = event.target;
 
                 if (!Target.hasClass('qui-elements-list-item')) {
@@ -83,7 +83,7 @@ define('qui/controls/elements/List', [
                 // if the click is at the checkbox, do nothing
                 // if the click is at the node, toggle the checkbox status
                 if (event.target.nodeName != 'INPUT' && self.getAttribute('checkboxes')) {
-                    var Checkbox     = Target.getElement('[type="checkbox"]');
+                    var Checkbox = Target.getElement('[type="checkbox"]');
                     Checkbox.checked = !Checkbox.checked; // toggle
                 }
 
@@ -93,36 +93,36 @@ define('qui/controls/elements/List', [
             for (i = 0, len = this.$items.length; i < len; i++) {
                 item = this.$items[i];
 
-                icon  = '';
+                icon = '';
                 title = '';
-                text  = '';
+                text = '';
 
-                if ("icon" in item) {
+                if ('icon' in item) {
                     icon = item.icon;
                 }
 
-                if ("title" in item) {
+                if ('title' in item) {
                     title = item.title;
                 }
 
-                if ("text" in item) {
+                if ('text' in item) {
                     text = item.text;
                 }
 
                 Section = new Element('section', {
-                    'class'  : 'qui-elements-list-item smooth',
-                    'html'   : '<div class="qui-elements-list-item-icon">' +
-                               '<span class="' + icon + '"></span>' +
-                               '</div>' +
-                               '<div class="qui-elements-list-item-text">' +
-                               '<header>' +
-                               title +
-                               '</header>' +
-                               '<div class="qui-elements-list-item-description">' +
-                               text +
-                               '</div>' +
-                               '</div>',
-                    events   : {
+                    'class': 'qui-elements-list-item smooth',
+                    'html': '<div class="qui-elements-list-item-icon">' +
+                        '<span class="' + icon + '"></span>' +
+                        '</div>' +
+                        '<div class="qui-elements-list-item-text">' +
+                        '<header>' +
+                        title +
+                        '</header>' +
+                        '<div class="qui-elements-list-item-description">' +
+                        text +
+                        '</div>' +
+                        '</div>',
+                    events: {
                         click: itemClick
                     },
                     'data-id': i
@@ -133,7 +133,7 @@ define('qui/controls/elements/List', [
 
                     CheckboxContainer = new Element('div', {
                         'class': 'qui-elements-list-item-checkbox',
-                        html   : '<input type="checkbox" />'
+                        html: '<input type="checkbox" />'
                     }).inject(Section, 'top');
 
                     Section.getElement('.qui-elements-list-item-text').setStyles({
@@ -148,7 +148,7 @@ define('qui/controls/elements/List', [
          *
          * @param {Object} item - icon, title, text
          */
-        addItem: function (item) {
+        addItem: function(item) {
             this.$items.push(item);
             this.refresh();
 
@@ -160,7 +160,7 @@ define('qui/controls/elements/List', [
          *
          * @param {Array} arrList - list of items
          */
-        addItems: function (arrList) {
+        addItems: function(arrList) {
             for (var i = 0, len = arrList.length; i < len; i++) {
                 this.$items.push(arrList[i]);
             }
@@ -175,16 +175,15 @@ define('qui/controls/elements/List', [
          *
          * @returns {Array}
          */
-        getSelectedData: function () {
-            var result      = [];
+        getSelectedData: function() {
+            var result = [];
             var checkedList = this.$Elm.getElements('input:checked');
 
             var i, len, elmId;
 
             for (i = 0, len = checkedList.length; i < len; i++) {
 
-                elmId = checkedList[i].getParent('.qui-elements-list-item')
-                    .get('data-id');
+                elmId = checkedList[i].getParent('.qui-elements-list-item').get('data-id');
 
                 if (elmId in this.$items) {
                     result.push(this.$items[elmId]);
@@ -197,7 +196,7 @@ define('qui/controls/elements/List', [
         /**
          * Clear the list
          */
-        clear: function () {
+        clear: function() {
             this.$items = [];
             this.$Elm.set('html', '');
         },
@@ -207,7 +206,7 @@ define('qui/controls/elements/List', [
          *
          * @param {HTMLElement} Item
          */
-        $itemClick: function (Item) {
+        $itemClick: function(Item) {
             var id = Item.get('data-id');
 
             if (typeof this.$items[id] !== 'undefined') {

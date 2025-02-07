@@ -15,8 +15,8 @@ define('qui/controls/sitemap/Item', [
 
     'css!qui/controls/sitemap/Item.css'
 
-], function (QUI, QUIControl, Utils, QUIContextMenu, QUIContextMenuItem, QUIDragDrop) {
-    "use strict";
+], function(QUI, QUIControl, Utils, QUIContextMenu, QUIContextMenuItem, QUIDragDrop) {
+    'use strict';
 
     /**
      * @class qui/controls/sitemap/Item
@@ -35,7 +35,7 @@ define('qui/controls/sitemap/Item', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/sitemap/Item',
+        Type: 'qui/controls/sitemap/Item',
 
         Binds: [
             'toggle',
@@ -46,21 +46,21 @@ define('qui/controls/sitemap/Item', [
 
         options: {
             value: '',
-            text : '',
-            icon : '',
+            text: '',
+            icon: '',
 
-            alt  : '',
+            alt: '',
             title: '',
 
             contextmenu: true,
             hasChildren: false,
-            dragable   : false
+            dragable: false
         },
 
-        $Elm  : null,
+        $Elm: null,
         $items: [],
 
-        initialize: function (options) {
+        initialize: function(options) {
             const self = this;
 
             this.parent(options);
@@ -80,7 +80,7 @@ define('qui/controls/sitemap/Item', [
 
             this.addEvents({
                 onSetAttribute: this.$onSetAttribute,
-                onDestroy     : function (Item) {
+                onDestroy: function(Item) {
                     Item.clearChildren();
 
                     if (self.$Opener) {
@@ -103,7 +103,7 @@ define('qui/controls/sitemap/Item', [
                         self.$ContextMenu.destroy();
                     }
                 },
-                onInject      : function () {
+                onInject: function() {
                     self.refresh.delay(20, self);
                 }
             });
@@ -115,24 +115,24 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             let i, len;
             const self = this;
 
             this.$Elm = new Element('div', {
-                'class'     : 'qui-sitemap-entry box',
-                alt         : this.getAttribute('alt'),
-                title       : this.getAttribute('title'),
+                'class': 'qui-sitemap-entry box',
+                alt: this.getAttribute('alt'),
+                title: this.getAttribute('title'),
                 'data-value': this.getAttribute('value'),
                 'data-quiid': this.getId(),
-                html        : '<div class="qui-sitemap-entry-opener fa"></div>' +
-                              '<div class="qui-sitemap-entry-container">' +
-                              '<div class="qui-sitemap-entry-icon"></div>' +
-                              '<div class="qui-sitemap-entry-text">###</div>' +
-                              '</div>' +
-                              '<div class="qui-sitemap-entry-children"></div>',
-                events      : {
-                    contextmenu: function (event) {
+                html: '<div class="qui-sitemap-entry-opener fa"></div>' +
+                    '<div class="qui-sitemap-entry-container">' +
+                    '<div class="qui-sitemap-entry-icon"></div>' +
+                    '<div class="qui-sitemap-entry-text">###</div>' +
+                    '</div>' +
+                    '<div class="qui-sitemap-entry-children"></div>',
+                events: {
+                    contextmenu: function(event) {
                         if (self.getAttribute('contextmenu') === false) {
                             event.stop();
                             return;
@@ -200,23 +200,23 @@ define('qui/controls/sitemap/Item', [
          *
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        refresh: function () {
+        refresh: function() {
             let width = 0;
 
             if (this.$Opener) {
-                width = width + this.$Opener.measure(function () {
+                width = width + this.$Opener.measure(function() {
                     return this.getSize().x;
                 });
             }
 
             if (this.$Icons) {
-                width = width + this.$Icons.measure(function () {
+                width = width + this.$Icons.measure(function() {
                     return this.getSize().x;
                 });
             }
 
             if (this.$Text) {
-                width = width + this.$Text.measure(function () {
+                width = width + this.$Text.measure(function() {
                     return this.getComputedSize().totalWidth;
                 });
             }
@@ -248,7 +248,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#getTextElm
          * @return {HTMLElement|null}
          */
-        getTextElm: function () {
+        getTextElm: function() {
             return this.$Text;
         },
 
@@ -259,7 +259,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#getContainerElm
          * @return {HTMLElement|null}
          */
-        getContainerElm: function () {
+        getContainerElm: function() {
             return this.$Container;
         },
 
@@ -271,7 +271,7 @@ define('qui/controls/sitemap/Item', [
          * @param {String} icon_url - URL of the Image
          * @return {HTMLElement} Element
          */
-        addIcon: function (icon_url) {
+        addIcon: function(icon_url) {
             if (!this.$Icons) {
                 this.getElm();
             }
@@ -304,7 +304,7 @@ define('qui/controls/sitemap/Item', [
             }
 
             return new Element('img', {
-                src    : icon_url,
+                src: icon_url,
                 'class': 'qui-sitemap-entry-icon-itm'
             }).inject(this.$Icons);
         },
@@ -316,7 +316,7 @@ define('qui/controls/sitemap/Item', [
          * @param {String} icon_url - URL of the Image
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        removeIcon: function (icon_url) {
+        removeIcon: function(icon_url) {
             if (!this.$Icons) {
                 return this;
             }
@@ -343,7 +343,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#activate
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        activate: function () {
+        activate: function() {
             if (this.$disable) {
                 return this;
             }
@@ -359,7 +359,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#deactivate
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        deactivate: function () {
+        deactivate: function() {
             if (this.$disable) {
                 return this;
             }
@@ -381,7 +381,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        appendChild: function (Child, where) {
+        appendChild: function(Child, where) {
             if (typeof where === 'undefined') {
                 where = 'bottom';
             }
@@ -429,9 +429,9 @@ define('qui/controls/sitemap/Item', [
 
                 if (size.x) {
                     let child_size = 10 +
-                                     Child.$Opener.getSize().x +
-                                     Child.$Icons.getSize().x +
-                                     Child.$Text.getSize().x;
+                        Child.$Opener.getSize().x +
+                        Child.$Icons.getSize().x +
+                        Child.$Text.getSize().x;
 
                     if (child_size > size.x) {
                         this.$Children.setStyle('width', child_size);
@@ -462,7 +462,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#firstChild
          * @return {Object|Boolean} qui/controls/sitemap/Item | false
          */
-        firstChild: function () {
+        firstChild: function() {
             return this.$items[0] || false;
         },
 
@@ -473,7 +473,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#hasChildren
          * @return {Boolean}
          */
-        hasChildren: function () {
+        hasChildren: function() {
             if (this.getAttribute('hasChildren')) {
                 return true;
             }
@@ -487,7 +487,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#getChildren
          * @return {Array}
          */
-        getChildren: function () {
+        getChildren: function() {
             return this.$items;
         },
 
@@ -497,7 +497,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#clearChildren
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        clearChildren: function () {
+        clearChildren: function() {
             let i, len;
             let items = this.$items;
 
@@ -519,7 +519,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#countChildren
          * @return {Number}
          */
-        countChildren: function () {
+        countChildren: function() {
             return this.$items.length;
         },
 
@@ -531,7 +531,7 @@ define('qui/controls/sitemap/Item', [
          * @return {Object} this (qui/controls/sitemap/Item)
          * @ignore
          */
-        $removeChild: function (Child) {
+        $removeChild: function(Child) {
             let items = [];
 
             for (let i = 0, len = this.$items.length; i < len; i++) {
@@ -557,7 +557,7 @@ define('qui/controls/sitemap/Item', [
          * @param {DOMEvent} [event] - optional
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        select: function (event) {
+        select: function(event) {
             if (this.$disable) {
                 return this;
             }
@@ -580,7 +580,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#deselect
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        deselect: function () {
+        deselect: function() {
             this.fireEvent('deSelect', [this]);
 
             if (this.$Container) {
@@ -597,7 +597,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#normalize
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        normalize: function () {
+        normalize: function() {
             this.enable();
 
             if (this.$Container) {
@@ -619,7 +619,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#highlight
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        highlight: function () {
+        highlight: function() {
             this.$Container.addClass('qui-sitemap-entry-highlighted');
             return this;
         },
@@ -630,7 +630,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#deHighlight
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        deHighlight: function () {
+        deHighlight: function() {
             this.$Container.removeClass('qui-sitemap-entry-highlighted');
             return this;
         },
@@ -641,7 +641,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#disable
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        disable: function () {
+        disable: function() {
             this.$disable = true;
 
             if (this.$Container) {
@@ -657,7 +657,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#enable
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        enable: function () {
+        enable: function() {
             this.$disable = false;
 
             if (this.$Container) {
@@ -673,7 +673,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#holdBack
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        holdBack: function () {
+        holdBack: function() {
             if (this.$Container) {
                 this.$Container.addClass('qui-sitemap-entry-holdBack');
             }
@@ -689,7 +689,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#click
          * @param {DOMEvent} [event] - [optional -> event click]
          */
-        click: function (event) {
+        click: function(event) {
             this.select(event);
             this.fireEvent('click', [
                 this,
@@ -703,7 +703,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#open
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        open: function () {
+        open: function() {
             if (!this.$Children) {
                 return this;
             }
@@ -722,7 +722,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#close
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        close: function () {
+        close: function() {
             if (!this.$Children) {
                 return this;
             }
@@ -741,7 +741,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#toggle
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        toggle: function () {
+        toggle: function() {
             if (!this.hasChildren()) {
                 return this;
             }
@@ -761,7 +761,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#isOpen
          * @return {Boolean}
          */
-        isOpen: function () {
+        isOpen: function() {
             if (!this.$Children) {
                 return false;
             }
@@ -775,7 +775,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#getContextMenu
          * @return {Object} Menu - qui/controls/sitemap/Menu
          */
-        getContextMenu: function () {
+        getContextMenu: function() {
             if (this.$ContextMenu) {
                 return this.$ContextMenu;
             }
@@ -783,17 +783,18 @@ define('qui/controls/sitemap/Item', [
             let cm_name = this.getAttribute('name') || this.getId();
 
             this.$ContextMenu = new QUIContextMenu({
-                name  : cm_name + '-contextmenu',
+                name: cm_name + '-contextmenu',
                 events: {
-                    onShow: function (Menu) {
+                    onShow: function(Menu) {
                         Menu.focus();
                     },
-                    onBlur: function (Menu) {
+                    onBlur: function(Menu) {
                         Menu.hide();
                     }
                 }
             });
 
+            this.$ContextMenu.setParent(this);
             this.$ContextMenu.inject(document.body);
             this.$ContextMenu.hide();
 
@@ -806,7 +807,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#getMap
          * @return {Object|null} Map - qui/controls/sitemap/Map
          */
-        getMap: function () {
+        getMap: function() {
             return this.$Map;
         },
 
@@ -817,7 +818,7 @@ define('qui/controls/sitemap/Item', [
          * @param {Object} Map - qui/controls/sitemap/Map
          * @return {Object} this (qui/controls/sitemap/Item)
          */
-        setMap: function (Map) {
+        setMap: function(Map) {
             this.$Map = Map;
 
             return this;
@@ -826,7 +827,7 @@ define('qui/controls/sitemap/Item', [
         /**
          * @method qui/controls/sitemap/Item#$setOpener
          */
-        $setOpener: function () {
+        $setOpener: function() {
             if (!this.$Elm) {
                 return;
             }
@@ -854,7 +855,7 @@ define('qui/controls/sitemap/Item', [
          * @param {String} key - attribute name
          * @param {String} value - attribute value
          */
-        $onSetAttribute: function (key, value) {
+        $onSetAttribute: function(key, value) {
             if (!this.$Elm) {
                 return;
             }
@@ -887,7 +888,7 @@ define('qui/controls/sitemap/Item', [
          * @method qui/controls/sitemap/Item#$onChildDestroy
          * @param {Object} Item - qui/controls/sitemap/Item
          */
-        $onChildDestroy: function (Item) {
+        $onChildDestroy: function(Item) {
             this.$removeChild(Item);
         },
 
@@ -900,7 +901,7 @@ define('qui/controls/sitemap/Item', [
          *
          * @return DragDrop
          */
-        getDragDrop: function () {
+        getDragDrop: function() {
             if (this.$DragDrop) {
                 return this.$DragDrop;
             }
@@ -910,12 +911,12 @@ define('qui/controls/sitemap/Item', [
             // drag drop for the item
             this.$DragDrop = new QUIDragDrop(this.$Elm, {
                 dropables: '.qui-sitemap-entry-dropable',
-                styles   : {
+                styles: {
                     height: 30,
-                    width : 200
+                    width: 200
                 },
-                events   : {
-                    onEnter: function (Element, Dragable, Droppable) {
+                events: {
+                    onEnter: function(Element, Dragable, Droppable) {
                         if (!Droppable) {
                             return;
                         }
@@ -929,7 +930,7 @@ define('qui/controls/sitemap/Item', [
                         QUI.Controls.getById(quiid).highlight();
                     },
 
-                    onLeave: function (Element, Dragable, Droppable) {
+                    onLeave: function(Element, Dragable, Droppable) {
                         if (!Droppable) {
                             return;
                         }
@@ -943,7 +944,7 @@ define('qui/controls/sitemap/Item', [
                         QUI.Controls.getById(quiid).normalize();
                     },
 
-                    onDrop: function (Element, Dragable, Droppable) {
+                    onDrop: function(Element, Dragable, Droppable) {
                         if (!Droppable) {
                             return;
                         }

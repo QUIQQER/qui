@@ -1,4 +1,3 @@
-
 /**
  * Simulate Event to an Element
  * Help from: https://github.com/eduardolundgren/jquery-simulate/blob/master/jquery.simulate.js
@@ -12,17 +11,15 @@ define('qui/classes/utils/SimulateEvent', [
 
     'qui/classes/DOM'
 
-], function(QDOM)
-{
-    "use strict";
+], function(QDOM) {
+    'use strict';
 
     return new Class({
 
-        Extends : QDOM,
-        Type : 'qui/classes/utils/SimulateEvent',
+        Extends: QDOM,
+        Type: 'qui/classes/utils/SimulateEvent',
 
-        initialize : function(Elm)
-        {
+        initialize: function(Elm) {
             this.$Elm = Elm;
         },
 
@@ -33,8 +30,7 @@ define('qui/classes/utils/SimulateEvent', [
          * @param {Object} [options]
          * @returns {DOMEvent}
          */
-        simulateEvent : function(type, options)
-        {
+        simulateEvent: function(type, options) {
             var evt = this.createEvent(type, options);
             this.dispatchEvent(type, evt);
 
@@ -48,8 +44,7 @@ define('qui/classes/utils/SimulateEvent', [
          * @param {Object} [options]
          * @returns {DOMEvent}
          */
-        createEvent : function(type, options)
-        {
+        createEvent: function(type, options) {
             if (/^mouse(over|out|down|up|move)|(dbl)?click$/.test(type)) {
                 return this.mouseEvent(type, options);
             }
@@ -66,8 +61,7 @@ define('qui/classes/utils/SimulateEvent', [
          * @param {DOMEvent} evt
          * @returns {*}
          */
-        dispatchEvent : function(type, evt)
-        {
+        dispatchEvent: function(type, evt) {
             if (this.$Elm.dispatchEvent) {
                 this.$Elm.dispatchEvent(evt);
                 return evt;
@@ -87,13 +81,12 @@ define('qui/classes/utils/SimulateEvent', [
          * @param {String} type
          * @param {Object}  options
          */
-        mouseEvent: function(type, options)
-        {
+        mouseEvent: function(type, options) {
             var evt;
 
             var e = Object.merge({
                 bubbles: true,
-                cancelable: (type != "mousemove"),
+                cancelable: (type != 'mousemove'),
                 view: window,
                 detail: 0,
                 screenX: 0,
@@ -110,7 +103,7 @@ define('qui/classes/utils/SimulateEvent', [
 
             if (typeof document.createEvent === 'function') {
 
-                evt = document.createEvent("MouseEvents");
+                evt = document.createEvent('MouseEvents');
 
                 evt.initMouseEvent(type, e.bubbles, e.cancelable, e.view, e.detail,
                     e.screenX, e.screenY, e.clientX, e.clientY,
@@ -118,10 +111,9 @@ define('qui/classes/utils/SimulateEvent', [
                     e.button, this.$Elm
                 );
 
-            } else
-            {
+            } else {
                 evt = Object.merge(document.createEventObject(), e);
-                evt.button = { 0:1, 1:4, 2:2 }[evt.button] || evt.button;
+                evt.button = {0: 1, 1: 4, 2: 2}[evt.button] || evt.button;
             }
 
             return evt;
@@ -133,8 +125,7 @@ define('qui/classes/utils/SimulateEvent', [
          * @param {String} type
          * @param {Object} options
          */
-        keyboardEvent: function(type, options)
-        {
+        keyboardEvent: function(type, options) {
             var evt;
 
             var e = Object.merge({
@@ -149,11 +140,9 @@ define('qui/classes/utils/SimulateEvent', [
                 charCode: 0
             }, options || {});
 
-            if (typeof document.createEvent === 'function')
-            {
-                try
-                {
-                    evt = document.createEvent("KeyEvents");
+            if (typeof document.createEvent === 'function') {
+                try {
+                    evt = document.createEvent('KeyEvents');
 
                     evt.initKeyEvent(
                         type,
@@ -168,20 +157,21 @@ define('qui/classes/utils/SimulateEvent', [
                         e.charCode
                     );
 
-                } catch(err)
-                {
-                    evt = document.createEvent("Events");
+                } catch (err) {
+                    evt = document.createEvent('Events');
                     evt.initEvent(type, e.bubbles, e.cancelable);
 
-                    $.extend(evt, { view: e.view,
+                    $.extend(evt, {
+                        view: e.view,
                         ctrlKey: e.ctrlKey, altKey: e.altKey, shiftKey: e.shiftKey, metaKey: e.metaKey,
                         keyCode: e.keyCode, charCode: e.charCode
                     });
                 }
 
-            } else if (document.createEventObject)
-            {
-                evt = Object.merge(document.createEventObject(), e);
+            } else {
+                if (document.createEventObject) {
+                    evt = Object.merge(document.createEventObject(), e);
+                }
             }
 
             // ie || opera

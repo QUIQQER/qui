@@ -14,8 +14,8 @@ define('qui/controls/messages/Panel', [
 
     'css!qui/controls/messages/Panel.css'
 
-], function (QUI, QUIPanel, Locale) {
-    "use strict";
+], function(QUI, QUIPanel, Locale) {
+    'use strict';
 
     /**
      * @class qui/controls/messages/Panel
@@ -25,7 +25,7 @@ define('qui/controls/messages/Panel', [
     return new Class({
 
         Extends: QUIPanel,
-        Type   : 'qui/controls/messages/Panel',
+        Type: 'qui/controls/messages/Panel',
 
         Binds: [
             '$onCreate',
@@ -37,26 +37,26 @@ define('qui/controls/messages/Panel', [
 
         options: {
             title: Locale.get('quiqqer/qui', 'handler.panel.title'),
-            icon : 'fa fa-bullhorn',
+            icon: 'fa fa-bullhorn',
 
-            showSucces     : true,
+            showSucces: true,
             showInformation: true,
-            showAttention  : true,
-            showError      : true
+            showAttention: true,
+            showError: true
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             // defaults
             this.setAttributes({
                 title: this.getAttribute('title'),
-                icon : 'fa fa-bullhorn'
+                icon: 'fa fa-bullhorn'
             });
 
             this.addEvents({
                 onCreate: this.$onCreate,
-                onOpen  : this.$onOpen
+                onOpen: this.$onOpen
             });
         },
 
@@ -65,7 +65,7 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#$onCreate
          */
-        $onCreate: function () {
+        $onCreate: function() {
             var self = this;
 
             this.Loader.show();
@@ -73,53 +73,53 @@ define('qui/controls/messages/Panel', [
             this.getButtonBar().getElm().addClass('qui-controls-messages-panel-buttons');
 
             this.addButton({
-                name  : 'ok',
-                icon  : 'icon-ok fa fa-check',
-                title : Locale.get('quiqqer/qui', 'handler.button.success'),
-                alt   : Locale.get('quiqqer/qui', 'handler.button.success'),
+                name: 'ok',
+                icon: 'icon-ok fa fa-check',
+                title: Locale.get('quiqqer/qui', 'handler.button.success'),
+                alt: Locale.get('quiqqer/qui', 'handler.button.success'),
                 events: {
                     onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name  : 'information',
-                icon  : 'icon-info-sign fa fa-info',
-                title : Locale.get('quiqqer/qui', 'handler.button.information'),
-                alt   : Locale.get('quiqqer/qui', 'handler.button.information'),
+                name: 'information',
+                icon: 'icon-info-sign fa fa-info',
+                title: Locale.get('quiqqer/qui', 'handler.button.information'),
+                alt: Locale.get('quiqqer/qui', 'handler.button.information'),
                 events: {
                     onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name  : 'attention',
-                icon  : 'icon-warning-sign fa fa-warning',
-                title : Locale.get('quiqqer/qui', 'handler.button.attention'),
-                alt   : Locale.get('quiqqer/qui', 'handler.button.attention'),
+                name: 'attention',
+                icon: 'icon-warning-sign fa fa-warning',
+                title: Locale.get('quiqqer/qui', 'handler.button.attention'),
+                alt: Locale.get('quiqqer/qui', 'handler.button.attention'),
                 events: {
                     onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name  : 'error',
-                icon  : 'icon-bolt fa fa-bolt',
-                title : Locale.get('quiqqer/qui', 'handler.button.error'),
-                alt   : Locale.get('quiqqer/qui', 'handler.button.error'),
+                name: 'error',
+                icon: 'icon-bolt fa fa-bolt',
+                title: Locale.get('quiqqer/qui', 'handler.button.error'),
+                alt: Locale.get('quiqqer/qui', 'handler.button.error'),
                 events: {
                     onClick: self.$toggleButton
                 }
             });
 
             this.addButton({
-                name  : 'clear',
-                icon  : 'icon-trash fa fa-trash',
-                title : Locale.get('quiqqer/qui', 'handler.button.clear'),
-                alt   : Locale.get('quiqqer/qui', 'handler.button.clear'),
+                name: 'clear',
+                icon: 'icon-trash fa fa-trash',
+                title: Locale.get('quiqqer/qui', 'handler.button.clear'),
+                alt: Locale.get('quiqqer/qui', 'handler.button.clear'),
                 events: {
-                    onClick: function () {
-                        QUI.getMessageHandler(function (MessageHandler) {
+                    onClick: function() {
+                        QUI.getMessageHandler(function(MessageHandler) {
                             MessageHandler.clear();
                         });
                     }
@@ -144,13 +144,13 @@ define('qui/controls/messages/Panel', [
             }
 
 
-            QUI.getMessageHandler(function (MessageHandler) {
+            QUI.getMessageHandler(function(MessageHandler) {
                 MessageHandler.addEvents({
-                    onAdd  : self.$onMessageHandlerAdd,
+                    onAdd: self.$onMessageHandlerAdd,
                     onClear: self.$onMessageHandlerClear
                 });
 
-                (function () {
+                (function() {
                     self.refreshMessages();
                 }).delay(500);
             });
@@ -161,16 +161,16 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#refreshMessages
          */
-        refreshMessages: function () {
+        refreshMessages: function() {
             var self = this;
 
-            QUI.getMessageHandler(function (MessageHandler) {
-                var Content  = self.getContent(),
+            QUI.getMessageHandler(function(MessageHandler) {
+                var Content = self.getContent(),
                     messages = MessageHandler.getMessages();
 
                 Content.set('html', '');
 
-                messages.sort(function (a, b) {
+                messages.sort(function(a, b) {
                     return a.options.time - b.options.time;
                 });
 
@@ -194,7 +194,7 @@ define('qui/controls/messages/Panel', [
          * @param {Object} Message - qui/controls/messages/Message
          * @param {Boolean} [animate] - optional, animate the message or not; default = true
          */
-        $onMessageHandlerAdd: function (MessageHandler, Message, animate) {
+        $onMessageHandlerAdd: function(MessageHandler, Message, animate) {
             var type = Message.getType();
 
             if (typeof animate === 'undefined') {
@@ -213,7 +213,7 @@ define('qui/controls/messages/Panel', [
                     }).inject(this.$Title);
                 }
 
-                QUI.getMessageHandler(function (MessageHandler) {
+                QUI.getMessageHandler(function(MessageHandler) {
                     var count = MessageHandler.getNewMessages();
 
                     if (count) {
@@ -260,7 +260,7 @@ define('qui/controls/messages/Panel', [
          *
          * @method qui/controls/messages/Panel#$onMessageHandlerClear
          */
-        $onMessageHandlerClear: function () {
+        $onMessageHandlerClear: function() {
             this.getContent().set('html', '');
         },
 
@@ -270,7 +270,7 @@ define('qui/controls/messages/Panel', [
          * @method qui/controls/messages/Panel#$toggleButton
          * @param {Object} Btn - qui/controls/buttons/Button
          */
-        $toggleButton: function (Btn) {
+        $toggleButton: function(Btn) {
             if (Btn.isActive()) {
                 Btn.setNormal();
             } else {
@@ -304,8 +304,8 @@ define('qui/controls/messages/Panel', [
         /**
          * event : on open
          */
-        $onOpen: function () {
-            QUI.getMessageHandler(function (MessageHandler) {
+        $onOpen: function() {
+            QUI.getMessageHandler(function(MessageHandler) {
                 MessageHandler.clearNewMessages();
             });
 

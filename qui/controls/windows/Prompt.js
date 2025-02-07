@@ -18,8 +18,8 @@ define('qui/controls/windows/Prompt', [
 
     'css!qui/controls/windows/Prompt.css'
 
-], function (QUI, Popup, Button, Utils) {
-    "use strict";
+], function(QUI, Popup, Button, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/windows/Prompt
@@ -34,26 +34,26 @@ define('qui/controls/windows/Prompt', [
     return new Class({
 
         Extends: Popup,
-        Type   : 'qui/controls/windows/Prompt',
+        Type: 'qui/controls/windows/Prompt',
 
         options: {
             maxHeight: 300,
 
-            check    : false, // function to check the input
+            check: false, // function to check the input
             autoclose: true,
 
             information: false,
-            title      : '...',
-            titleicon  : 'icon-remove fa fa-remove',
-            icon       : 'icon-remove fa fa-remove',
-            value      : false,
+            title: '...',
+            titleicon: 'icon-remove fa fa-remove',
+            icon: 'icon-remove fa fa-remove',
+            value: false,
 
             cancel_button: {
-                text     : false,
+                text: false,
                 textimage: 'icon-remove fa fa-remove'
             },
-            ok_button    : {
-                text     : false,
+            ok_button: {
+                text: false,
                 textimage: 'icon-ok fa fa-check'
             }
         },
@@ -63,7 +63,7 @@ define('qui/controls/windows/Prompt', [
             '$onOpen'
         ],
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             // defaults
@@ -80,8 +80,8 @@ define('qui/controls/windows/Prompt', [
             }
 
             // button texts
-            var cancelText   = 'Cancel',
-                submitText   = 'Ok',
+            var cancelText = 'Cancel',
+                submitText = 'Ok',
                 cancelButton = this.getAttribute('cancel_button'),
                 submitButton = this.getAttribute('ok_button');
 
@@ -106,11 +106,11 @@ define('qui/controls/windows/Prompt', [
 
 
             this.$Input = null;
-            this.$Body  = null;
+            this.$Body = null;
 
             this.addEvents({
                 onCreate: this.$onCreate,
-                onOpen  : this.$onOpen
+                onOpen: this.$onOpen
             });
         },
 
@@ -119,8 +119,8 @@ define('qui/controls/windows/Prompt', [
          *
          * @method qui/controls/windows/Prompt#$onCreate
          */
-        $onCreate: function () {
-            var self    = this,
+        $onCreate: function() {
+            var self = this,
                 Content = this.getContent();
 
             Content.set(
@@ -141,7 +141,7 @@ define('qui/controls/windows/Prompt', [
             this.$Info = Content.getElement('.qui-windows-prompt-information');
 
             this.$Container = Content.getElement('.qui-windows-prompt');
-            this.$Input     = Content.getElement('input');
+            this.$Input = Content.getElement('input');
 
 
             if (this.getAttribute('titleicon')) {
@@ -153,7 +153,7 @@ define('qui/controls/windows/Prompt', [
                     }).inject(this.$Icon);
                 } else {
                     new Element('img.qui-windows-prompt-image', {
-                        src   : value,
+                        src: value,
                         styles: {
                             'display': 'block' // only image, fix
                         }
@@ -173,7 +173,7 @@ define('qui/controls/windows/Prompt', [
                 this.$Input.value = this.getAttribute('value');
             }
 
-            this.$Input.addEvent('keyup', function (event) {
+            this.$Input.addEvent('keyup', function(event) {
                 if (event.key === 'enter') {
                     self.fireEvent('enter', [self.getValue(), self]);
                     self.submit();
@@ -190,13 +190,13 @@ define('qui/controls/windows/Prompt', [
 
             this.addButton(
                 new Button({
-                    text     : this.getAttribute('cancel_button').text,
+                    text: this.getAttribute('cancel_button').text,
                     textimage: this.getAttribute('cancel_button').textimage,
-                    styles   : {
+                    styles: {
                         width: 150
                     },
-                    events   : {
-                        onClick: function () {
+                    events: {
+                        onClick: function() {
                             self.fireEvent('cancel', [self]);
                             self.close();
                         }
@@ -206,13 +206,13 @@ define('qui/controls/windows/Prompt', [
 
             this.addButton(
                 new Button({
-                    text     : this.getAttribute('ok_button').text,
+                    text: this.getAttribute('ok_button').text,
                     textimage: this.getAttribute('ok_button').textimage,
-                    styles   : {
+                    styles: {
                         width: 150
                     },
-                    events   : {
-                        onClick: function () {
+                    events: {
+                        onClick: function() {
                             self.submit();
                         }
                     }
@@ -225,9 +225,9 @@ define('qui/controls/windows/Prompt', [
          *
          * @method qui/controls/windows/Prompt#$onOpen
          */
-        $onOpen: function () {
+        $onOpen: function() {
             // focus after 500 miliseconds
-            (function () {
+            (function() {
                 this.$Input.focus();
             }).delay(700, this);
         },
@@ -238,7 +238,7 @@ define('qui/controls/windows/Prompt', [
          * @method qui/controls/windows/Prompt#getInput
          * @returns {HTMLElement}
          */
-        getInput: function () {
+        getInput: function() {
             return this.$Input;
         },
 
@@ -248,7 +248,7 @@ define('qui/controls/windows/Prompt', [
          * @method qui/controls/windows/Prompt#getValue
          * @return {String}
          */
-        getValue: function () {
+        getValue: function() {
             if (!this.getInput()) {
                 return '';
             }
@@ -263,7 +263,7 @@ define('qui/controls/windows/Prompt', [
          * @param value
          * @return {Object} qui/controls/windows/Prompt
          */
-        setValue: function (value) {
+        setValue: function(value) {
             if (!this.getInput()) {
                 return this;
             }
@@ -279,7 +279,7 @@ define('qui/controls/windows/Prompt', [
          * @method qui/controls/windows/Prompt#check
          * @return {Boolean}
          */
-        check: function () {
+        check: function() {
             if (this.getAttribute('check')) {
                 return this.getAttribute('check')(this);
             }
@@ -293,7 +293,7 @@ define('qui/controls/windows/Prompt', [
          * @method qui/controls/windows/Prompt#submit
          * @return {Boolean}
          */
-        submit: function () {
+        submit: function() {
             if (this.check() === false) {
                 return false;
             }

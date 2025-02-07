@@ -1,4 +1,3 @@
-
 /**
  * Display a help message
  *
@@ -15,31 +14,29 @@ define('qui/controls/elements/Help', [
 
     'css!qui/controls/elements/Help.css'
 
-], function(QUI, QUIControl)
-{
-    "use strict";
+], function(QUI, QUIControl) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
         Type: 'qui/controls/elements/Help',
 
-        Binds : [
+        Binds: [
             '$onInject'
         ],
 
         options: {
-            text   : '',
-            link   : false,
-            nowrap : true
+            text: '',
+            link: false,
+            nowrap: true
         },
 
-        initialize: function (options)
-        {
+        initialize: function(options) {
             this.parent(options);
 
             this.addEvents({
-                onInject : this.$onInject
+                onInject: this.$onInject
             });
         },
 
@@ -48,14 +45,13 @@ define('qui/controls/elements/Help', [
          *
          * @returns {HTMLDivElement}
          */
-        create : function()
-        {
+        create: function() {
             var text = this.getAttribute('text'),
                 icon = '<span class="fa fa-question-circle icon-question-sign"></span>';
 
             this.$Elm = new Element('div', {
-                'class' : 'qui-elements-help',
-                html : '<div class="qui-elements-help-cell">'+ icon+text +'</div>'
+                'class': 'qui-elements-help',
+                html: '<div class="qui-elements-help-cell">' + icon + text + '</div>'
             });
 
 
@@ -66,10 +62,10 @@ define('qui/controls/elements/Help', [
                 this.$Elm.addClass('qui-elements-help-nowrap');
 
                 this.$Elm.setStyles({
-                    cursor      : 'pointer',
-                    display     : 'table',
-                    tableLayout : 'fixed',
-                    width       : '100%'
+                    cursor: 'pointer',
+                    display: 'table',
+                    tableLayout: 'fixed',
+                    width: '100%'
                 });
 
                 this.$Elm.addEvent('click', function() {
@@ -82,7 +78,7 @@ define('qui/controls/elements/Help', [
 
                 this.$Elm.set(
                     'html',
-                    '<div class="qui-elements-help-cell">'+ icon+text +'</div>'
+                    '<div class="qui-elements-help-cell">' + icon + text + '</div>'
                 );
 
                 this.$Elm.getElements('br').destroy();
@@ -99,14 +95,11 @@ define('qui/controls/elements/Help', [
         /**
          * event on inject
          */
-        $onInject : function()
-        {
+        $onInject: function() {
             if (this.getAttribute('nowrap')) {
 
                 (function() {
                     var size = this.getElm().getSize();
-
-
 
 
                 }.delay(200, this));

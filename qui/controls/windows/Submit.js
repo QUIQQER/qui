@@ -16,8 +16,8 @@ define('qui/controls/windows/Submit', [
 
     'css!qui/controls/windows/Submit.css'
 
-], function (QUI, Popup, Button) {
-    "use strict";
+], function(QUI, Popup, Button) {
+    'use strict';
 
     /**
      * @class qui/controls/windows/Submit
@@ -32,28 +32,28 @@ define('qui/controls/windows/Submit', [
     return new Class({
 
         Extends: Popup,
-        Type   : 'qui/controls/windows/Submit',
+        Type: 'qui/controls/windows/Submit',
 
         options: {
             'maxHeight': 300,
             'autoclose': true,
 
             'information': false,
-            'title'      : '...',
-            'titleicon'  : 'icon-remove fa fa-remove',
-            'icon'       : 'icon-remove fa fa-remove',
+            'title': '...',
+            'titleicon': 'icon-remove fa fa-remove',
+            'icon': 'icon-remove fa fa-remove',
 
             cancel_button: {
-                text     : false,
+                text: false,
                 textimage: 'icon-remove fa fa-remove'
             },
-            ok_button    : {
-                text     : false,
+            ok_button: {
+                text: false,
                 textimage: 'icon-ok fa fa-check'
             }
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             // defaults
@@ -70,8 +70,8 @@ define('qui/controls/windows/Submit', [
             }
 
             // button texts
-            var cancelText   = 'Cancel',
-                submitText   = 'Ok',
+            var cancelText = 'Cancel',
+                submitText = 'Ok',
                 cancelButton = this.getAttribute('cancel_button'),
                 submitButton = this.getAttribute('ok_button');
 
@@ -96,14 +96,14 @@ define('qui/controls/windows/Submit', [
 
             // on set attribute event
             // if attributes were set after creation
-            this.addEvent('onSetAttribute', function (attr, value) {
+            this.addEvent('onSetAttribute', function(attr, value) {
                 if (!this.$Body.getElement('.textbody')) {
                     return;
                 }
 
                 if (attr === 'texticon') {
                     Asset.image(value, {
-                        onLoad: function (Node) {
+                        onLoad: function(Node) {
                             var Texticon = this.$Body.getElement('.texticon'),
                                 Textbody = this.$Body.getElement('.textbody');
 
@@ -126,23 +126,19 @@ define('qui/controls/windows/Submit', [
                 }
 
                 if (attr === 'information') {
-                    this.$Body
-                        .getElement('.information')
-                        .set('html', value);
+                    this.$Body.getElement('.information').set('html', value);
 
                     return;
                 }
 
                 if (attr === 'text') {
-                    this.$Body
-                        .getElement('.text')
-                        .set('html', value);
+                    this.$Body.getElement('.text').set('html', value);
                 }
 
             }.bind(this));
 
-            this.$Body    = null;
-            this.$Win     = null;
+            this.$Body = null;
+            this.$Win = null;
             this.$Buttons = null;
         },
 
@@ -152,23 +148,23 @@ define('qui/controls/windows/Submit', [
          * @method qui/controls/windows/Submit#onCreate
          * @ignore
          */
-        onCreate: function () {
-            var self    = this,
+        onCreate: function() {
+            var self = this,
                 Content = this.$Win.el.content,
-                Footer  = this.$Win.el.footer;
+                Footer = this.$Win.el.footer;
 
             Content.setStyles({
                 padding: 20
             });
 
             this.$Body = new Element('div.submit-body', {
-                html  : '<div class="textbody">' +
+                html: '<div class="textbody">' +
                     '<h2 class="text">&nbsp;</h2>' +
                     '<div class="information">&nbsp;</div>' +
                     '</div>',
                 styles: {
                     'float': 'left',
-                    width  : '100%'
+                    width: '100%'
                 }
             });
 
@@ -188,10 +184,10 @@ define('qui/controls/windows/Submit', [
 
 
             new Button({
-                text     : this.getAttribute('cancel_button').text,
+                text: this.getAttribute('cancel_button').text,
                 textimage: this.getAttribute('cancel_button').textimage,
-                events   : {
-                    onClick: function () {
+                events: {
+                    onClick: function() {
                         self.fireEvent('cancel', [self]);
                         self.close();
                     }
@@ -199,10 +195,10 @@ define('qui/controls/windows/Submit', [
             }).inject(Footer);
 
             new Button({
-                text     : this.getAttribute('ok_button').text,
+                text: this.getAttribute('ok_button').text,
                 textimage: this.getAttribute('ok_button').textimage,
-                events   : {
-                    onClick: function () {
+                events: {
+                    onClick: function() {
                         self.submit();
                     }
                 }
@@ -214,7 +210,7 @@ define('qui/controls/windows/Submit', [
          *
          * @method qui/controls/windows/Submit#submit
          */
-        submit: function () {
+        submit: function() {
             this.fireEvent('submit', [this]);
 
             if (this.getAttribute('autoclose')) {

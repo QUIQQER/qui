@@ -1,4 +1,3 @@
-
 /**
  * Polifill for the localStorage and sessionStorage
  * Based on Remy Sharp's  Storage polyfill - thanks
@@ -8,52 +7,46 @@
  */
 
 /* jshint ignore:start */
-define('qui/classes/storage/Polyfill', function()
-{
-    "use strict";
+define('qui/classes/storage/Polyfill', function() {
+    'use strict';
 
-    if ( typeof window.localStorage !== 'undefined' &&
-         typeof window.sessionStorage !== 'undefined')
-    {
+    if (typeof window.localStorage !== 'undefined' &&
+        typeof window.sessionStorage !== 'undefined') {
         return;
     }
 
-    var Storage = function (type)
-    {
+    var Storage = function(type) {
         function createCookie(name, value, days)
         {
             var date, expires;
 
-            if ( days )
-            {
+            if (days) {
                 date = new Date();
-                date.setTime(date.getTime()+(days*24*60*60*1000));
-                expires = "; expires="+date.toGMTString();
-            } else
-            {
-                expires = "";
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toGMTString();
+            } else {
+                expires = '';
             }
 
-            document.cookie = name+"="+value+expires+"; path=/";
+            document.cookie = name + '=' + value + expires + '; path=/';
         }
 
         function readCookie(name)
         {
             var i, c,
 
-                nameEQ = name + "=",
-                ca     = document.cookie.split(';');
+                nameEQ = name + '=',
+                ca = document.cookie.split(';');
 
-            for ( i = 0; i < ca.length; i++ )
-            {
+            for (i = 0; i < ca.length; i++) {
                 c = ca[i];
 
-                while ( c.charAt(0) == ' ' ) {
-                    c = c.substring( 1, c.length );
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1, c.length);
                 }
 
-                if ( c.indexOf(nameEQ) === 0 ) {
-                    return c.substring( nameEQ.length, c.length );
+                if (c.indexOf(nameEQ) === 0) {
+                    return c.substring(nameEQ.length, c.length);
                 }
             }
 
@@ -64,23 +57,19 @@ define('qui/classes/storage/Polyfill', function()
         {
             data = JSON.stringify(data);
 
-            if ( type == 'session' )
-            {
+            if (type == 'session') {
                 window.name = data;
-            } else
-            {
+            } else {
                 createCookie('localStorage', data, 365);
             }
         }
 
         function clearData()
         {
-            if ( type == 'session' )
-            {
+            if (type == 'session') {
                 window.name = '';
 
-            } else
-            {
+            } else {
                 createCookie('localStorage', '', 365);
             }
         }
@@ -97,51 +86,49 @@ define('qui/classes/storage/Polyfill', function()
         return {
             length: 0,
 
-            clear: function ()
-            {
+            clear: function() {
                 data = {};
                 this.length = 0;
                 clearData();
             },
 
-            getItem: function (key) {
+            getItem: function(key) {
                 return data[key] === undefined ? null : data[key];
             },
 
-            key: function (i)
-            {
+            key: function(i) {
                 // not perfect, but works
                 var ctr = 0;
-                for (var k in data)
-                {
-                    if (ctr == i) return k;
-                    else ctr++;
+                for (var k in data) {
+                    if (ctr == i) {
+                        return k;
+                    } else {
+                        ctr++;
+                    }
                 }
 
                 return null;
             },
 
-            removeItem: function (key)
-            {
+            removeItem: function(key) {
                 delete data[key];
                 this.length--;
                 setData(data);
             },
 
-            setItem: function (key, value)
-            {
-                data[key] = value+''; // forces the value to a string
+            setItem: function(key, value) {
+                data[key] = value + ''; // forces the value to a string
                 this.length++;
                 setData(data);
             }
         };
     };
 
-    if ( typeof window.localStorage === 'undefined' ) {
+    if (typeof window.localStorage === 'undefined') {
         window.localStorage = new Storage('local');
     }
 
-    if ( typeof window.sessionStorage === 'undefined' ) {
+    if (typeof window.sessionStorage === 'undefined') {
         window.sessionStorage = new Storage('session');
     }
 

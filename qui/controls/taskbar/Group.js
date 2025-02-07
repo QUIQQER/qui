@@ -1,4 +1,3 @@
-
 /**
  * A task for the taskbar
  *
@@ -38,9 +37,8 @@ define('qui/controls/taskbar/Group', [
 
     'css!qui/controls/taskbar/Group.css'
 
-], function(QUI, Control, ContextmenuMenu, ContextmenuItem, QUIDragDrop)
-{
-    "use strict";
+], function(QUI, Control, ContextmenuMenu, ContextmenuItem, QUIDragDrop) {
+    'use strict';
 
     /**
      * @class qui/controls/taskbar/Group
@@ -51,10 +49,10 @@ define('qui/controls/taskbar/Group', [
      */
     return new Class({
 
-        Extends : Control,
-        Type    : 'qui/controls/taskbar/Group',
+        Extends: Control,
+        Type: 'qui/controls/taskbar/Group',
 
-        Binds : [
+        Binds: [
             'dissolve',
             'close',
             'click',
@@ -62,39 +60,37 @@ define('qui/controls/taskbar/Group', [
             '$onMenuClick'
         ],
 
-        options : {
-            icon : false,
-            text : '...'
+        options: {
+            icon: false,
+            text: '...'
         },
 
-        initialize : function(options)
-        {
+        initialize: function(options) {
             options = options || {};
 
-            this.parent( options );
+            this.parent(options);
 
-            this.$tasks  = {};
-            this.$Elm    = null;
-            this.$Menu   = null;
+            this.$tasks = {};
+            this.$Elm = null;
+            this.$Menu = null;
             this.$Active = null;
             this.$ContextMenu = null;
 
             var self = this;
 
-            this.addEvent('onDestroy', function()
-            {
-                if ( self.$Menu ) {
+            this.addEvent('onDestroy', function() {
+                if (self.$Menu) {
                     self.$Menu.destroy();
                 }
 
-                if ( self.$ContextMenu ) {
+                if (self.$ContextMenu) {
                     self.$ContextMenu.destroy();
                 }
 
                 var tasks = self.getTasks();
 
-                for ( var i = 0, len = tasks.length; i < len; i++ ) {
-                    tasks[ i ].removeEvent( 'refresh', self.$onTaskRefresh );
+                for (var i = 0, len = tasks.length; i < len; i++) {
+                    tasks[i].removeEvent('refresh', self.$onTaskRefresh);
                 }
             });
         },
@@ -105,82 +101,79 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getElm
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function() {
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class' : 'qui-taskgroup radius5 box',
-                html    : '<div class="qui-taskgroup-container">' +
-                              '<span class="qui-taskgroup-icon"></span>' +
-                              '<span class="qui-taskgroup-text"></span>' +
-                          '</div>' +
-                          '<div class="qui-taskgroup-menu"></div>',
-                styles : {
+                'class': 'qui-taskgroup radius5 box',
+                html: '<div class="qui-taskgroup-container">' +
+                    '<span class="qui-taskgroup-icon"></span>' +
+                    '<span class="qui-taskgroup-text"></span>' +
+                    '</div>' +
+                    '<div class="qui-taskgroup-menu"></div>',
+                styles: {
                     outline: 'none'
                 },
-                tabindex : -1,
-                events   :
-                {
-                    focus : function() {
-                        self.fireEvent( 'focus', [ self ] );
-                    },
-
-                    blur : function() {
-                        self.fireEvent( 'blur', [ self ] );
-                    },
-
-                    contextmenu : function(event)
+                tabindex: -1,
+                events:
                     {
-                        self.$getContextMenu().setPosition(
-                            event.page.x,
-                            event.page.y
-                        ).show().focus();
+                        focus: function() {
+                            self.fireEvent('focus', [self]);
+                        },
 
-                        self.fireEvent( 'contextMenu', [ self, event ] );
+                        blur: function() {
+                            self.fireEvent('blur', [self]);
+                        },
 
-                        event.stop();
+                        contextmenu: function(event) {
+                            self.$getContextMenu().setPosition(
+                                event.page.x,
+                                event.page.y
+                            ).show().focus();
+
+                            self.fireEvent('contextMenu', [self, event]);
+
+                            event.stop();
+                        }
                     }
-                }
             });
 
             this.$Elm.getElement('.qui-taskgroup-container').addEvents({
-                click : this.click
+                click: this.click
             });
 
             // Create the menu
             var Menu = this.$Elm.getElement('.qui-taskgroup-menu');
 
             this.$Menu = new ContextmenuMenu({
-                name   : this.getId() +'-menu',
-                type   : 'bottom',
-                events :
-                {
-                    onBlur : function(Menu) {
-                        Menu.hide();
-                    },
-
-                    onShow : function(Menu)
+                name: this.getId() + '-menu',
+                type: 'bottom',
+                events:
                     {
-                        var MenuElm  = Menu.getElm(),
-                            menusize = MenuElm.getSize(),
-                            pos      = self.getElm().getPosition();
+                        onBlur: function(Menu) {
+                            Menu.hide();
+                        },
 
-                        var x = pos.x;
-                        var y = pos.y - menusize.y;
+                        onShow: function(Menu) {
+                            var MenuElm = Menu.getElm(),
+                                menusize = MenuElm.getSize(),
+                                pos = self.getElm().getPosition();
 
-                        Menu.setPosition( x, y ).focus();
+                            var x = pos.x;
+                            var y = pos.y - menusize.y;
+
+                            Menu.setPosition(x, y).focus();
+                        }
                     }
-                }
             });
 
-            this.$Menu.inject( document.body );
+            this.$Menu.setParent(this);
+            this.$Menu.inject(document.body);
             this.$Menu.hide();
 
             Menu.addEvents({
-                click : function()
-                {
-                    if ( self.$Menu.count() ) {
+                click: function() {
+                    if (self.$Menu.count()) {
                         self.$Menu.show();
                     }
                 }
@@ -191,58 +184,55 @@ define('qui/controls/taskbar/Group', [
 
             // drag drop to the desktop
             new QUIDragDrop(this.$Elm, {
-                dropables : [ '.qui-taskbar' ],
-                cssClass  : 'radius5',
-                events    :
-                {
-                    onEnter : function(Element, Droppable)
+                dropables: ['.qui-taskbar'],
+                cssClass: 'radius5',
+                events:
                     {
-                        if ( !Droppable ) {
-                            return;
-                        }
+                        onEnter: function(Element, Droppable) {
+                            if (!Droppable) {
+                                return;
+                            }
 
-                        var quiid = Droppable.get('data-quiid');
+                            var quiid = Droppable.get('data-quiid');
 
-                        if ( !quiid ) {
-                            return;
-                        }
+                            if (!quiid) {
+                                return;
+                            }
 
-                        QUI.Controls.getById( quiid ).highlight();
-                    }.bind( this ),
+                            QUI.Controls.getById(quiid).highlight();
+                        }.bind(this),
 
-                    onLeave : function(Element, Droppable)
-                    {
-                        if ( !Droppable ) {
-                            return;
-                        }
+                        onLeave: function(Element, Droppable) {
+                            if (!Droppable) {
+                                return;
+                            }
 
-                        var quiid = Droppable.get('data-quiid');
+                            var quiid = Droppable.get('data-quiid');
 
-                        if ( !quiid ) {
-                            return;
-                        }
+                            if (!quiid) {
+                                return;
+                            }
 
-                        QUI.Controls.getById( quiid ).normalize();
-                    },
+                            QUI.Controls.getById(quiid).normalize();
+                        },
 
-                    onDrop : function(Element, Droppable)
-                    {
-                        if ( !Droppable ) {
-                            return;
-                        }
+                        onDrop: function(Element, Droppable) {
+                            if (!Droppable) {
+                                return;
+                            }
 
-                        var quiid = Droppable.get('data-quiid');
+                            var quiid = Droppable.get('data-quiid');
 
-                        if ( !quiid ) {
-                            return;
-                        }
+                            if (!quiid) {
+                                return;
+                            }
 
-                        var Bar = QUI.Controls.getById( quiid );
+                            var Bar = QUI.Controls.getById(quiid);
 
-                        Bar.normalize();
-                        Bar.appendChild( this );
-                    }.bind( this )
-                }
+                            Bar.normalize();
+                            Bar.appendChild(this);
+                        }.bind(this)
+                    }
             });
 
             return this.$Elm;
@@ -254,9 +244,8 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getInstance
          * @return {Object|null} qui/controls/Control | null
          */
-        getInstance : function()
-        {
-            if ( !this.$Active ) {
+        getInstance: function() {
+            if (!this.$Active) {
                 return null;
             }
 
@@ -269,15 +258,14 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getIcon
          * @return {String|Boolean} Icon name | false
          */
-        getIcon : function()
-        {
+        getIcon: function() {
             var Instance = this.getInstance();
 
-            if ( !Instance ) {
+            if (!Instance) {
                 return false;
             }
 
-            return Instance.getAttribute( 'icon' );
+            return Instance.getAttribute('icon');
         },
 
         /**
@@ -286,15 +274,14 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getTitle
          * @return {String|Boolean} Instance | false
          */
-        getTitle : function()
-        {
+        getTitle: function() {
             var Instance = this.getInstance();
 
-            if ( !Instance ) {
+            if (!Instance) {
                 return false;
             }
 
-            return Instance.getAttribute( 'title' );
+            return Instance.getAttribute('title');
         },
 
         /**
@@ -303,8 +290,7 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getTaskbar
          * @return {Object} qui/controls/taskbar/Bar
          */
-        getTaskbar : function()
-        {
+        getTaskbar: function() {
             return this.getParent();
         },
 
@@ -314,25 +300,23 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#refresh
          * @param {Object} [Task] - optional, qui/controls/taskbar/Task
          */
-        refresh : function(Task)
-        {
-            var Icon = this.$Elm.getElement( '.qui-taskgroup-icon' ),
-                Text = this.$Elm.getElement( '.qui-taskgroup-text' );
+        refresh: function(Task) {
+            var Icon = this.$Elm.getElement('.qui-taskgroup-icon'),
+                Text = this.$Elm.getElement('.qui-taskgroup-text');
 
-            if ( typeof Task !== 'undefined' )
-            {
-                this.setAttribute( 'icon', Task.getIcon() );
-                this.setAttribute( 'text', Task.getTitle() );
+            if (typeof Task !== 'undefined') {
+                this.setAttribute('icon', Task.getIcon());
+                this.setAttribute('text', Task.getTitle());
 
                 this.$Active = Task;
             }
 
-            if ( this.getAttribute( 'text' ) ) {
-                Text.set( 'html', this.getAttribute( 'text' ) );
+            if (this.getAttribute('text')) {
+                Text.set('html', this.getAttribute('text'));
             }
 
-            if ( this.getAttribute( 'icon' ) ) {
-                Icon.setStyle( 'background-image', 'url("'+ this.getAttribute('icon') +'")' );
+            if (this.getAttribute('icon')) {
+                Icon.setStyle('background-image', 'url("' + this.getAttribute('icon') + '")');
             }
         },
 
@@ -342,19 +326,17 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#click
          * @return {Object} this (qui/controls/taskbar/Group)
          */
-        click : function()
-        {
-            if ( !this.$Active )
-            {
-                if ( this.count() && this.firstTask() ) {
-                    this.refresh( this.firstTask() );
+        click: function() {
+            if (!this.$Active) {
+                if (this.count() && this.firstTask()) {
+                    this.refresh(this.firstTask());
                 }
 
                 return this;
             }
 
             this.$Active.click();
-            this.fireEvent( 'click', [ this ] );
+            this.fireEvent('click', [this]);
 
             this.activate();
             this.focus();
@@ -368,9 +350,8 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#focus
          * @return {Object} this (qui/controls/taskbar/Group)
          */
-        focus : function()
-        {
-            if ( this.$Elm ) {
+        focus: function() {
+            if (this.$Elm) {
                 this.$Elm.focus();
             }
 
@@ -383,13 +364,12 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#highlight
          * @return {Object} this (qui/controls/taskbar/Group)
          */
-        highlight : function()
-        {
-            if ( this.$Elm ) {
-                this.$Elm.addClass( 'highlight' );
+        highlight: function() {
+            if (this.$Elm) {
+                this.$Elm.addClass('highlight');
             }
 
-            this.fireEvent( 'highlight', [ this ] );
+            this.fireEvent('highlight', [this]);
 
             return this;
         },
@@ -401,15 +381,13 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#normalize
          * @return {Object} this (qui/controls/taskbar/Group)
          */
-        normalize : function()
-        {
-            if ( this.$Elm )
-            {
-                this.$Elm.removeClass( 'highlight' );
-                this.$Elm.removeClass( 'active' );
+        normalize: function() {
+            if (this.$Elm) {
+                this.$Elm.removeClass('highlight');
+                this.$Elm.removeClass('active');
             }
 
-            this.fireEvent( 'normalize', [ this ] );
+            this.fireEvent('normalize', [this]);
 
             return this;
         },
@@ -420,23 +398,21 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#activate
          * @return {Object} this (qui/controls/taskbar/Group)
          */
-        activate : function()
-        {
-            if ( this.$Active ) {
+        activate: function() {
+            if (this.$Active) {
                 this.$Active.activate();
             }
 
-            if ( this.isActive() )
-            {
-                this.fireEvent( 'activate', [ this ] );
+            if (this.isActive()) {
+                this.fireEvent('activate', [this]);
                 return this;
             }
 
-            if ( this.$Elm ) {
-                this.$Elm.addClass( 'active' );
+            if (this.$Elm) {
+                this.$Elm.addClass('active');
             }
 
-            this.fireEvent( 'activate', [ this ] );
+            this.fireEvent('activate', [this]);
 
             return this;
         },
@@ -446,14 +422,12 @@ define('qui/controls/taskbar/Group', [
          *
          * @method qui/controls/taskbar/Group#close
          */
-        close : function()
-        {
+        close: function() {
             var Parent = this.getParent();
 
-            for ( var i in this.$tasks )
-            {
-                if ( this.$tasks.hasOwnProperty( i ) ) {
-                    this.$tasks[ i ].close();
+            for (var i in this.$tasks) {
+                if (this.$tasks.hasOwnProperty(i)) {
+                    this.$tasks[i].close();
                 }
             }
 
@@ -469,22 +443,20 @@ define('qui/controls/taskbar/Group', [
          *
          * @method qui/controls/taskbar/Group#dissolve
          */
-        dissolve : function()
-        {
+        dissolve: function() {
             var Parent = this.getTaskbar(),
-                tasks  = this.getTasks();
+                tasks = this.getTasks();
 
-            for ( var i = 0, len = tasks.length; i < len; i++ )
-            {
-                tasks[ i ].removeEvent( 'refresh', this.$onTaskRefresh );
+            for (var i = 0, len = tasks.length; i < len; i++) {
+                tasks[i].removeEvent('refresh', this.$onTaskRefresh);
 
-                Parent.appendChild( tasks[ i ] );
+                Parent.appendChild(tasks[i]);
             }
 
             this.$tasks = {};
             this.destroy();
 
-            if ( this.isActive() ) {
+            if (this.isActive()) {
                 Parent.firstChild().show();
             }
         },
@@ -495,13 +467,12 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#isActive
          * @return {Boolean}
          */
-        isActive : function()
-        {
-            if ( !this.$Elm ) {
+        isActive: function() {
+            if (!this.$Elm) {
                 return false;
             }
 
-            return this.$Elm.hasClass( 'active' );
+            return this.$Elm.hasClass('active');
         },
 
         /**
@@ -510,41 +481,38 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#appendChild
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        appendChild : function(Task)
-        {
-            this.$tasks[ Task.getId() ] = Task;
-            this.fireEvent( 'appendChildBegin', [ this, Task ] );
+        appendChild: function(Task) {
+            this.$tasks[Task.getId()] = Task;
+            this.fireEvent('appendChildBegin', [this, Task]);
 
             Task.hide();
 
             this.$Menu.appendChild(
                 new ContextmenuItem({
-                    name   : Task.getId(),
-                    text   : Task.getTitle(),
-                    icon   : Task.getIcon(),
-                    Task   : Task,
-                    events : {
-                        onClick : this.$onMenuClick
+                    name: Task.getId(),
+                    text: Task.getTitle(),
+                    icon: Task.getIcon(),
+                    Task: Task,
+                    events: {
+                        onClick: this.$onMenuClick
                     }
                 })
             );
 
-            Task.setParent( this );
-            Task.addEvent( 'onRefresh', this.$onTaskRefresh );
+            Task.setParent(this);
+            Task.addEvent('onRefresh', this.$onTaskRefresh);
 
-            if ( this.count() == 1 || Task.isActive() )
-            {
-                this.refresh( Task );
-            } else
-            {
+            if (this.count() == 1 || Task.isActive()) {
+                this.refresh(Task);
+            } else {
                 this.refresh();
             }
 
-            if ( Task.isActive() ) {
+            if (Task.isActive()) {
                 this.click();
             }
 
-            this.fireEvent( 'appendChild', [ this, Task ] );
+            this.fireEvent('appendChild', [this, Task]);
         },
 
         /**
@@ -553,14 +521,12 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#getTasks
          * @return {Array}
          */
-        getTasks : function()
-        {
+        getTasks: function() {
             var tasks = [];
 
-            for ( var i in this.$tasks )
-            {
-                if ( this.$tasks.hasOwnProperty( i ) ) {
-                    tasks.push( this.$tasks[ i ] );
+            for (var i in this.$tasks) {
+                if (this.$tasks.hasOwnProperty(i)) {
+                    tasks.push(this.$tasks[i]);
                 }
             }
 
@@ -573,11 +539,9 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#firstTask
          * @return {Object|null} qui/controls/taskbar/Task | null
          */
-        firstTask : function()
-        {
-            for ( var i in this.$tasks )
-            {
-                if ( this.$tasks.hasOwnProperty( i ) ) {
+        firstTask: function() {
+            for (var i in this.$tasks) {
+                if (this.$tasks.hasOwnProperty(i)) {
                     return this.$tasks[i];
                 }
             }
@@ -591,12 +555,11 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#count
          * @return {Number}
          */
-        count : function()
-        {
+        count: function() {
             var i;
             var c = 0;
 
-            for ( i in this.$tasks ) {
+            for (i in this.$tasks) {
                 c++;
             }
 
@@ -609,18 +572,16 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#$getContextMenu
          * @return {qui/controls/contextmenu/Menu}
          */
-        $getContextMenu : function()
-        {
-            if ( this.$ContextMenu ) {
+        $getContextMenu: function() {
+            if (this.$ContextMenu) {
                 return this.$ContextMenu;
             }
 
             this.$ContextMenu = new ContextmenuMenu({
-                name   : this.getId() +'-menu',
-                type   : 'bottom',
-                events :
-                {
-                    onBlur : function(Menu) {
+                name: this.getId() + '-menu',
+                type: 'bottom',
+                events: {
+                    onBlur: function(Menu) {
                         Menu.hide();
                     }
                 }
@@ -628,21 +589,22 @@ define('qui/controls/taskbar/Group', [
 
             this.$ContextMenu.appendChild(
                 new ContextmenuMenu({
-                    text   : 'Gruppe auflösen',
-                    events : {
-                        onClick : this.dissolve
+                    text: 'Gruppe auflösen',
+                    events: {
+                        onClick: this.dissolve
                     }
                 })
             ).appendChild(
                 new ContextmenuMenu({
-                    text   : 'Gruppe und Tasks schließen',
-                    events : {
-                        onClick : this.close
+                    text: 'Gruppe und Tasks schließen',
+                    events: {
+                        onClick: this.close
                     }
                 })
             );
 
-            this.$ContextMenu.inject( document.body );
+            this.$ContextMenu.setParent(this);
+            this.$ContextMenu.inject(document.body);
             this.$ContextMenu.hide();
 
             return this.$ContextMenu;
@@ -654,19 +616,18 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#$onTaskRefresh
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $onTaskRefresh : function(Task)
-        {
-            var MenuItem = this.$Menu.getChildren( Task.getId() );
+        $onTaskRefresh: function(Task) {
+            var MenuItem = this.$Menu.getChildren(Task.getId());
 
-            if ( !MenuItem ) {
+            if (!MenuItem) {
                 return;
             }
 
-            MenuItem.setAttribute( 'text', Task.getTitle() );
-            MenuItem.setAttribute( 'icon', Task.getIcon() );
+            MenuItem.setAttribute('text', Task.getTitle());
+            MenuItem.setAttribute('icon', Task.getIcon());
 
-            if ( this.$Active.getId() == Task.getId() ) {
-                this.refresh( this.$Active );
+            if (this.$Active.getId() == Task.getId()) {
+                this.refresh(this.$Active);
             }
         },
 
@@ -676,9 +637,8 @@ define('qui/controls/taskbar/Group', [
          * @method qui/controls/taskbar/Group#$onMenuClick
          * @param {Object} Item - qui/controls/contextmenu/Item
          */
-        $onMenuClick : function(Item)
-        {
-            this.refresh( Item.getAttribute( 'Task' ) );
+        $onMenuClick: function(Item) {
+            this.refresh(Item.getAttribute('Task'));
             this.click();
         }
     });

@@ -13,8 +13,8 @@ define('qui/controls/buttons/Separator', [
 
     'qui/controls/Control'
 
-], function (Control) {
-    "use strict";
+], function(Control) {
+    'use strict';
 
     /**
      * @class qui/controls/buttons/Separator
@@ -25,18 +25,18 @@ define('qui/controls/buttons/Separator', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/buttons/Separator',
+        Type: 'qui/controls/buttons/Separator',
 
         options: {
             height: false,
             styles: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             // Events
-            this.addEvent('resize', function () {
+            this.addEvent('resize', function() {
                 var Elm = this.getElm();
 
                 if (Elm && Elm.getParent()) {
@@ -51,7 +51,7 @@ define('qui/controls/buttons/Separator', [
          * @method qui/controls/buttons/Separator#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div.qui-buttons-separator', {
                 'data-quiid': this.getId()
             });

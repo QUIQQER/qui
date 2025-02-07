@@ -12,8 +12,8 @@ define('qui/classes/request/Ajax', [
     'qui/controls/messages/Error',
     'qui/Locale'
 
-], function (QUI, DOM, MessageError, Locale) {
-    "use strict";
+], function(QUI, DOM, MessageError, Locale) {
+    'use strict';
 
     /**
      * QUIQQER Ajax
@@ -34,23 +34,23 @@ define('qui/classes/request/Ajax', [
     return new Class({
 
         Extends: DOM,
-        Type   : 'qui/classes/request/Ajax',
+        Type: 'qui/classes/request/Ajax',
 
         Binds: [
             '$parseResult'
         ],
 
         $Request: null,
-        $result : null,
+        $result: null,
 
         options: {
-            method : 'post',
-            url    : '',
-            async  : true,
+            method: 'post',
+            url: '',
+            async: true,
             timeout: 10000
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
         },
 
@@ -62,7 +62,7 @@ define('qui/classes/request/Ajax', [
          * @param {Object} params - Parameters which to be sent
          * @return {Request} Request Object
          */
-        send: function (params) {
+        send: function(params) {
             var self = this;
 
             params = self.parseParams(params || {});
@@ -70,31 +70,31 @@ define('qui/classes/request/Ajax', [
             self.setAttribute('params', params);
 
             self.$Request = new Request({
-                url    : self.getAttribute('url'),
-                method : self.getAttribute('method'),
-                async  : self.getAttribute('async'),
+                url: self.getAttribute('url'),
+                method: self.getAttribute('method'),
+                async: self.getAttribute('async'),
                 timeout: self.getAttribute('timeout'),
 
-                onProgress: function () {
+                onProgress: function() {
                     self.fireEvent('progress', [self]);
                 },
 
-                onComplete: function () {
+                onComplete: function() {
                     self.fireEvent('complete', [self]);
                 },
 
                 onSuccess: self.$parseResult,
 
-                onCancel: function () {
+                onCancel: function() {
                     self.fireEvent('cancel', [self]);
                 },
 
-                onFailure: function (Xhr) {
-                    require(['qui/controls/messages/Error'], function (Exception) {
+                onFailure: function(Xhr) {
+                    require(['qui/controls/messages/Error'], function(Exception) {
                         self.fireEvent('error', [
                             new Exception({
                                 message: Xhr.statusText,
-                                code   : Xhr.status
+                                code: Xhr.status
                             }),
                             self
                         ]);
@@ -102,7 +102,7 @@ define('qui/classes/request/Ajax', [
                 }
             });
 
-            var query       = Object.toQueryString(params),
+            var query = Object.toQueryString(params),
                 strlenCheck = parseInt(query.length) +
                     parseInt(self.getAttribute('url').length);
 
@@ -120,7 +120,7 @@ define('qui/classes/request/Ajax', [
          *
          * @method qui/classes/request/Ajax#cancel
          */
-        cancel: function () {
+        cancel: function() {
             this.$Request.cancel();
         },
 
@@ -130,7 +130,7 @@ define('qui/classes/request/Ajax', [
          * @method qui/classes/request/Ajax#destroy
          * @fires onDestroy
          */
-        destroy: function () {
+        destroy: function() {
             this.fireEvent('destroy', [this]);
         },
 
@@ -145,7 +145,7 @@ define('qui/classes/request/Ajax', [
          * Ajax.send( myparams );
          * var result = Ajax.getResult();
          */
-        getResult: function () {
+        getResult: function() {
             return this.$result;
         },
 
@@ -158,7 +158,7 @@ define('qui/classes/request/Ajax', [
          * @param {Object} params - params that will be send
          * @return {Object} Param list
          */
-        parseParams: function (params) {
+        parseParams: function(params) {
             var k, type_of;
 
             var result = {};
@@ -214,7 +214,7 @@ define('qui/classes/request/Ajax', [
          *
          * @ignore
          */
-        $parseResult: function (responseText) {
+        $parseResult: function(responseText) {
             var i, len, res, func, result;
 
             var params = this.getAttribute('params');
@@ -224,7 +224,7 @@ define('qui/classes/request/Ajax', [
             }
 
             var event_params = [],
-                rfs          = JSON.decode(params._rf || []);
+                rfs = JSON.decode(params._rf || []);
 
             if (this.getAttribute('_rf')) {
                 rfs = this.getAttribute('_rf');
@@ -236,7 +236,7 @@ define('qui/classes/request/Ajax', [
 
             if (!this.$result) {
                 var end;
-                var str   = responseText || '',
+                var str = responseText || '',
                     start = 9;
 
                 len = str.length;
@@ -246,7 +246,7 @@ define('qui/classes/request/Ajax', [
                     return this.fireEvent('error', [
                         new MessageError({
                             message: 'No QUIQQER XML',
-                            code   : 500
+                            code: 500
                         }),
                         this
                     ]);
@@ -257,7 +257,7 @@ define('qui/classes/request/Ajax', [
                     return this.fireEvent('error', [
                         new MessageError({
                             message: 'No QUIQQER XML',
-                            code   : 500
+                            code: 500
                         }),
                         this
                     ]);
@@ -282,16 +282,16 @@ define('qui/classes/request/Ajax', [
                 result.message_handler.length) {
                 var messages = result.message_handler;
 
-                QUI.getMessageHandler(function (MH) {
+                QUI.getMessageHandler(function(MH) {
                     var i, len;
 
-                    var func_add_to_mh = function (Message) {
+                    var func_add_to_mh = function(Message) {
                         MH.add(Message);
                     };
 
                     for (i = 0, len = messages.length; i < len; i++) {
                         // parse time for javascript date
-                        if ("time" in messages[i]) {
+                        if ('time' in messages[i]) {
                             messages[i].time = messages[i] * 1000;
                         }
 
@@ -304,9 +304,9 @@ define('qui/classes/request/Ajax', [
             if (result.Exception) {
                 return this.fireEvent('error', [
                     new MessageError({
-                        message   : result.Exception.message || '',
-                        code      : result.Exception.code || 0,
-                        type      : result.Exception.type || 'Exception',
+                        message: result.Exception.message || '',
+                        code: result.Exception.code || 0,
+                        type: result.Exception.type || 'Exception',
                         attributes: result.Exception.attributes || false
                     }),
                     this
@@ -316,7 +316,7 @@ define('qui/classes/request/Ajax', [
             // check the single function
             for (i = 0, len = rfs.length; i < len; i++) {
                 func = rfs[i];
-                res  = result[func];
+                res = result[func];
 
                 if (!res) {
                     event_params.push(null);
@@ -326,9 +326,9 @@ define('qui/classes/request/Ajax', [
                 if (res.Exception) {
                     this.fireEvent('error', [
                         new MessageError({
-                            message   : res.Exception.message || '',
-                            code      : res.Exception.code || 0,
-                            type      : res.Exception.type || 'Exception',
+                            message: res.Exception.message || '',
+                            code: res.Exception.code || 0,
+                            type: res.Exception.type || 'Exception',
                             attributes: res.Exception.attributes || false
                         }),
                         this

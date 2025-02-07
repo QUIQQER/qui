@@ -17,13 +17,13 @@ define('qui/controls/buttons/Switch', [
 
     'css!qui/controls/buttons/Switch.css'
 
-], function (QUIControl) {
-    "use strict";
+], function(QUIControl) {
+    'use strict';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'qui/controls/buttons/Switch',
+        Type: 'qui/controls/buttons/Switch',
 
         Binds: [
             'toggle',
@@ -32,33 +32,33 @@ define('qui/controls/buttons/Switch', [
         ],
 
         options: {
-            name  : '',
-            title : '',
+            name: '',
+            title: '',
             styles: false,
             status: true,
 
-            switchTextOn     : '',
-            switchTextOnIcon : 'icon-ok fa fa-check',
-            switchTextOff    : '',
+            switchTextOn: '',
+            switchTextOnIcon: 'icon-ok fa fa-check',
+            switchTextOff: '',
             switchTextOffIcon: 'icon-remove fa fa-close'
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
-            this.$Button   = false;
-            this.$FxElm    = false;
+            this.$Button = false;
+            this.$FxElm = false;
             this.$FxButton = false;
 
-            this.$loaded        = false;
-            this.$status        = this.getAttribute('status');
+            this.$loaded = false;
+            this.$status = this.getAttribute('status');
             this.$triggerEvents = true;
-            this.$disabled      = false;
-            this.$activeColor   = '#0069b4';
+            this.$disabled = false;
+            this.$activeColor = '#0069b4';
 
 
             this.addEvents({
-                onInject      : this.$onInject,
+                onInject: this.$onInject,
                 onSetAttribute: this.$onSetAttribute
             });
         },
@@ -68,18 +68,18 @@ define('qui/controls/buttons/Switch', [
          *
          * @return {Promise}
          */
-        resize: function () {
-            return new Promise(function (resolve) {
+        resize: function() {
+            return new Promise(function(resolve) {
 
                 this.$Button.setStyle('width', this.$ButtonTextOff.getSize().x);
 
                 var Prom = this.getStatus() ? this.setSilentOn() : this.setSilentOff();
 
-                Prom.then(function () {
+                Prom.then(function() {
                     moofx(this.$Elm).animate({
                         opacity: 1
                     }, {
-                        callback: function () {
+                        callback: function() {
                             this.$Elm.setStyle('opacity', null);
                             resolve();
                         }.bind(this)
@@ -94,10 +94,10 @@ define('qui/controls/buttons/Switch', [
          * @method qui/controls/buttons/Button#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
-                'class'     : 'qui-switch',
-                html        : '<div class="qui-switch-off">' +
+                'class': 'qui-switch',
+                html: '<div class="qui-switch-off">' +
                     '<div class="qui-switch-icon-off"></div>' +
                     '<div class="qui-switch-text-off"></div>' +
                     '</div>' +
@@ -107,23 +107,23 @@ define('qui/controls/buttons/Switch', [
                     '</div>' +
                     '<div class="qui-switch-button"></div>' +
                     '<input type="hidden" />',
-                styles      : {
+                styles: {
                     background: this.$activeColor,
-                    opacity   : 0
+                    opacity: 0
                 },
                 'data-quiid': this.getId()
             });
 
             this.$InputStatus = this.$Elm.getElement('input');
-            this.$Button      = this.$Elm.getElement('.qui-switch-button');
+            this.$Button = this.$Elm.getElement('.qui-switch-button');
 
             this.$ButtonTextOn = this.$Elm.getElement('.qui-switch-on');
-            this.$TextOn       = this.$Elm.getElement('.qui-switch-text-on');
+            this.$TextOn = this.$Elm.getElement('.qui-switch-text-on');
 
             this.$ButtonTextOff = this.$Elm.getElement('.qui-switch-off');
-            this.$TextOff       = this.$Elm.getElement('.qui-switch-text-off');
+            this.$TextOff = this.$Elm.getElement('.qui-switch-text-off');
 
-            this.$IconOn  = this.$Elm.getElement('.qui-switch-icon-on');
+            this.$IconOn = this.$Elm.getElement('.qui-switch-icon-on');
             this.$IconOff = this.$Elm.getElement('.qui-switch-icon-off');
 
             this.$IconOn.addClass(this.getAttribute('switchTextOnIcon'));
@@ -141,14 +141,14 @@ define('qui/controls/buttons/Switch', [
             if (this.getAttribute('switchTextOn') === '') {
                 this.$TextOn.setStyles({
                     textAlign: 'center',
-                    width    : '100%'
+                    width: '100%'
                 });
             }
 
             if (this.getAttribute('switchTextOff') === '') {
                 this.$TextOff.setStyles({
                     textAlign: 'center',
-                    width    : '100%'
+                    width: '100%'
                 });
             }
 
@@ -156,7 +156,7 @@ define('qui/controls/buttons/Switch', [
                 this.$Elm.set('title', this.getAttribute('title'));
             }
 
-            this.$FxElm    = moofx(this.$Elm);
+            this.$FxElm = moofx(this.$Elm);
             this.$FxButton = moofx(this.$Button);
 
             this.$InputStatus.set('name', this.getAttribute('name'));
@@ -167,7 +167,7 @@ define('qui/controls/buttons/Switch', [
         /**
          * event : on inject
          */
-        $onInject: function () {
+        $onInject: function() {
             var size = this.$Elm.getSize();
 
             if (size.x === 0 && size.y === 0) {
@@ -180,7 +180,7 @@ define('qui/controls/buttons/Switch', [
             this.$Elm.setStyle('opacity', null);
 
             var wasDisabled = this.$disabled,
-                lastCall    = function () {
+                lastCall = function() {
                     if (wasDisabled) {
                         this.disable();
                     }
@@ -203,7 +203,7 @@ define('qui/controls/buttons/Switch', [
          *
          * @returns {Boolean}
          */
-        getStatus: function () {
+        getStatus: function() {
             return this.$status;
         },
 
@@ -212,7 +212,7 @@ define('qui/controls/buttons/Switch', [
          *
          * @return {Promise}
          */
-        toggle: function () {
+        toggle: function() {
             if (this.$status) {
                 return this.off();
             }
@@ -226,7 +226,7 @@ define('qui/controls/buttons/Switch', [
          * @param {Boolean} [noFX] - with or without effect - default = with effect
          * @return {Promise}
          */
-        on: function (noFX) {
+        on: function(noFX) {
             if (this.$disabled) {
                 return Promise.resolve();
             }
@@ -235,7 +235,7 @@ define('qui/controls/buttons/Switch', [
                 noFX = false;
             }
 
-            this.$status      = 1;
+            this.$status = 1;
             this.$activeColor = '#0069b4';
             this.$Elm.set('data-status', this.$status);
 
@@ -252,7 +252,7 @@ define('qui/controls/buttons/Switch', [
                 return Promise.resolve();
             }
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 // Send the "on" switch status
                 this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '1'));
 
@@ -262,7 +262,7 @@ define('qui/controls/buttons/Switch', [
                     });
 
                     this.$Button.setStyles({
-                        left : 0,
+                        left: 0,
                         width: this.$ButtonTextOff.getSize().x
                     });
 
@@ -278,7 +278,7 @@ define('qui/controls/buttons/Switch', [
                 });
 
                 this.$FxButton.animate({
-                    left : 0,
+                    left: 0,
                     width: this.$ButtonTextOff.getSize().x
                 }, {
                     duration: 350,
@@ -287,7 +287,7 @@ define('qui/controls/buttons/Switch', [
                 });
 
                 // just in case moofx does not call the callback
-                (function () {
+                (function() {
                     resolve();
                 }).delay(350);
             }.bind(this));
@@ -299,7 +299,7 @@ define('qui/controls/buttons/Switch', [
          * @param {Boolean} [noFX] - with or without effect - default = with effect
          * @return {Promise}
          */
-        off: function (noFX) {
+        off: function(noFX) {
             if (this.$disabled) {
                 return Promise.resolve();
             }
@@ -308,7 +308,7 @@ define('qui/controls/buttons/Switch', [
                 noFX = false;
             }
 
-            this.$status      = 0;
+            this.$status = 0;
             this.$activeColor = '#ffffff';
             this.$Elm.set('data-status', this.$status);
 
@@ -325,11 +325,11 @@ define('qui/controls/buttons/Switch', [
                 return Promise.resolve();
             }
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 // Send the "off" switch status
                 this.$InputStatus.addEvents('click', this.$InputStatus.set('value', '0'));
 
-                var onWidth  = this.$ButtonTextOn.getSize().x,
+                var onWidth = this.$ButtonTextOn.getSize().x,
                     offWidth = this.$ButtonTextOff.getSize().x;
 
                 if (noFX) {
@@ -338,7 +338,7 @@ define('qui/controls/buttons/Switch', [
                     });
 
                     this.$Button.setStyles({
-                        left : offWidth,
+                        left: offWidth,
                         width: onWidth
                     });
 
@@ -354,7 +354,7 @@ define('qui/controls/buttons/Switch', [
                 });
 
                 this.$FxButton.animate({
-                    left : offWidth,
+                    left: offWidth,
                     width: onWidth
                 }, {
                     duration: 350,
@@ -363,7 +363,7 @@ define('qui/controls/buttons/Switch', [
                 });
 
                 // just in case moofx does not call the callback
-                (function () {
+                (function() {
                     resolve();
                 }).delay(350);
             }.bind(this));
@@ -375,10 +375,10 @@ define('qui/controls/buttons/Switch', [
          * @param {Boolean} [noFX] - with or without effect - default = with effect
          * @return {Promise}
          */
-        setSilentOn: function (noFX) {
+        setSilentOn: function(noFX) {
             this.$triggerEvents = false;
 
-            return this.on(noFX).then(function () {
+            return this.on(noFX).then(function() {
                 this.$triggerEvents = true;
             }.bind(this));
         },
@@ -389,10 +389,10 @@ define('qui/controls/buttons/Switch', [
          * @param {Boolean} [noFX] - with or without effect - default = with effect
          * @return {Promise}
          */
-        setSilentOff: function (noFX) {
+        setSilentOff: function(noFX) {
             this.$triggerEvents = false;
 
-            return this.off(noFX).then(function () {
+            return this.off(noFX).then(function() {
                 this.$triggerEvents = true;
             }.bind(this));
         },
@@ -400,8 +400,8 @@ define('qui/controls/buttons/Switch', [
         /**
          * Enables the Switch so that the status can be switched
          */
-        enable: function () {
-            this.$disabled    = false;
+        enable: function() {
+            this.$disabled = false;
             this.$activeColor = '#0069b4';
             this.getElm().removeClass('qui-switch-button-disabled');
         },
@@ -409,8 +409,8 @@ define('qui/controls/buttons/Switch', [
         /**
          * Disables the Switch: No status change possible
          */
-        disable: function () {
-            this.$disabled    = true;
+        disable: function() {
+            this.$disabled = true;
             this.$activeColor = '#ddd';
             this.getElm().addClass('qui-switch-button-disabled');
         },
@@ -421,7 +421,7 @@ define('qui/controls/buttons/Switch', [
          * @param {String} key   - attribute name
          * @param {String|Number|Object} value - attribute value
          */
-        $onSetAttribute: function (key, value) {
+        $onSetAttribute: function(key, value) {
             if (!this.$Elm) {
                 return;
             }

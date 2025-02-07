@@ -17,8 +17,8 @@ define('qui/controls/elements/ColorPicker', [
 
     'css!qui/controls/elements/ColorPicker.css'
 
-], function (QUI, QUIControl, QUIButton) {
-    "use strict";
+], function(QUI, QUIControl, QUIButton) {
+    'use strict';
 
     return new Class({
 
@@ -35,7 +35,7 @@ define('qui/controls/elements/ColorPicker', [
             defaultcolor: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
 
             this.parent(options);
 
@@ -54,7 +54,7 @@ define('qui/controls/elements/ColorPicker', [
          * Create the DOMNode Element
          * @returns {HTMLDivElement}
          */
-        create: function () {
+        create: function() {
             var self = this;
 
             this.$Elm = new Element('div', {
@@ -99,7 +99,7 @@ define('qui/controls/elements/ColorPicker', [
                 '.qui-controls-colorpicker-colorContainer'
             );
 
-            this.$Color.addEvent('change', function () {
+            this.$Color.addEvent('change', function() {
                 self.setValue(self.$Color.value);
             });
 
@@ -107,7 +107,7 @@ define('qui/controls/elements/ColorPicker', [
                 display: 'none'
             });
 
-            this.$ColorContainer.addEvent('click', function () {
+            this.$ColorContainer.addEvent('click', function() {
                 self.$Color.click();
             });
 
@@ -117,7 +117,7 @@ define('qui/controls/elements/ColorPicker', [
         /**
          * event : on import
          */
-        $onImport: function () {
+        $onImport: function() {
             this.$Color = this.getElm();
 
             var Parent = this.create();
@@ -148,7 +148,7 @@ define('qui/controls/elements/ColorPicker', [
         /**
          * Clears the value
          */
-        clear: function () {
+        clear: function() {
             this.$Input.value = '';
             this.$Color.value = '';
 
@@ -160,7 +160,7 @@ define('qui/controls/elements/ColorPicker', [
          *
          * @param {String} color
          */
-        setValue: function (color) {
+        setValue: function(color) {
 
             if (color === '') {
                 this.clear();
@@ -196,14 +196,14 @@ define('qui/controls/elements/ColorPicker', [
          *
          * @returns {String}
          */
-        getValue: function () {
+        getValue: function() {
             return this.$Input.value;
         },
 
         /**
          * Set the default icon
          */
-        reset: function () {
+        reset: function() {
             this.setValue(this.getAttribute('defaultcolor'));
         }
     });

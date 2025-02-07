@@ -23,8 +23,8 @@ define('qui/controls/bookmarks/Panel', [
 
     'css!qui/controls/bookmarks/Panel.css'
 
-], function (QUI, QUIPanel, QUIButton, Utils) {
-    "use strict";
+], function(QUI, QUIPanel, QUIButton, Utils) {
+    'use strict';
 
     /**
      * @class qui/controls/bookmarks/Panel
@@ -34,7 +34,7 @@ define('qui/controls/bookmarks/Panel', [
     return new Class({
 
         Extends: QUIPanel,
-        Type   : 'qui/controls/bookmarks/Panel',
+        Type: 'qui/controls/bookmarks/Panel',
 
         Binds: [
             '$create',
@@ -43,12 +43,12 @@ define('qui/controls/bookmarks/Panel', [
             '$onItemMouseLeave'
         ],
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.$bookmarks = [];
 
             this.setAttributes({
-                title : 'Bookmarks',
-                icon  : 'icon-book fa fa-bookmark',
+                title: 'Bookmarks',
+                icon: 'icon-book fa fa-bookmark',
                 footer: false
             });
 
@@ -59,17 +59,17 @@ define('qui/controls/bookmarks/Panel', [
         /**
          * resize the bookmark panels
          */
-        resize: function () {
+        resize: function() {
             this.parent();
 
-            var size  = this.$Content.getSize(),
+            var size = this.$Content.getSize(),
                 width = size.x - 150;
 
             if (width <= 0) {
                 return;
             }
 
-            this.$Content.getElements('.qui-bookmark-text').each(function (Text) {
+            this.$Content.getElements('.qui-bookmark-text').each(function(Text) {
                 Text.setStyle('width', width);
             });
         },
@@ -80,14 +80,14 @@ define('qui/controls/bookmarks/Panel', [
          * @method qui/controls/bookmarks/Panel#serialize
          * @return {Object} data
          */
-        serialize: function () {
+        serialize: function() {
             var i, len, icon, clsName, Icon, Bookmark;
             var bookmarks = [];
 
             for (i = 0, len = this.$bookmarks.length; i < len; i++) {
                 Bookmark = this.$bookmarks[i];
-                Icon     = Bookmark.getElement('.qui-bookmark-icon');
-                icon     = '';
+                Icon = Bookmark.getElement('.qui-bookmark-icon');
+                icon = '';
 
                 if (Icon.getElement('img')) {
                     icon = Icon.getElement('img').src;
@@ -101,17 +101,17 @@ define('qui/controls/bookmarks/Panel', [
                 }
 
                 bookmarks.push({
-                    text : Bookmark.getElement('.qui-bookmark-text').get('text'),
-                    icon : icon,
+                    text: Bookmark.getElement('.qui-bookmark-text').get('text'),
+                    icon: icon,
                     click: Bookmark.get('data-click'),
-                    path : Bookmark.get('data-path')
+                    path: Bookmark.get('data-path')
                 });
             }
 
             return {
                 attributes: this.getAttributes(),
-                type      : this.getType(),
-                bookmarks : bookmarks
+                type: this.getType(),
+                bookmarks: bookmarks
             };
         },
 
@@ -122,7 +122,7 @@ define('qui/controls/bookmarks/Panel', [
          * @param {Object} data
          * @return {Object} this (qui/controls/bookmarks/Panel)
          */
-        unserialize: function (data) {
+        unserialize: function(data) {
             this.setAttributes(data.attributes);
 
             if (!this.$Container) {
@@ -142,10 +142,10 @@ define('qui/controls/bookmarks/Panel', [
 
                 this.$bookmarks.push(
                     this.$createEntry({
-                        text : Bookmark.text,
-                        icon : Bookmark.icon,
+                        text: Bookmark.text,
+                        icon: Bookmark.icon,
                         click: Bookmark.click,
-                        path : Bookmark.path
+                        path: Bookmark.path
                     }).inject(this.$Container)
                 );
             }
@@ -160,7 +160,7 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/bookmarks/Panel#$create
          */
-        $create: function () {
+        $create: function() {
             this.$Container = new Element('div').inject(
                 this.getBody()
             );
@@ -170,9 +170,7 @@ define('qui/controls/bookmarks/Panel', [
             }
 
             // qui-contextitem items can be droped
-            this.getElm()
-                .addClass('qui-contextitem-dropable')
-                .addClass('qui-sitemap-entry-dropable');
+            this.getElm().addClass('qui-contextitem-dropable').addClass('qui-sitemap-entry-dropable');
 
             this.fireEvent('load', [this]);
         },
@@ -184,7 +182,7 @@ define('qui/controls/bookmarks/Panel', [
          * @param {Object} Item - qui/controls/Control, A QUI control
          * @return {Object} this (qui/controls/bookmarks/Panel)
          */
-        appendChild: function (Item) {
+        appendChild: function(Item) {
             if (!this.$Container) {
                 return this;
             }
@@ -202,10 +200,10 @@ define('qui/controls/bookmarks/Panel', [
                 }).inject(this.$Container);
             } else {
                 Child = this.$createEntry({
-                    text : Item.getAttribute('text'),
-                    icon : Item.getAttribute('icon'),
+                    text: Item.getAttribute('text'),
+                    icon: Item.getAttribute('icon'),
                     click: Item.getAttribute('bookmark'),
-                    path : ''
+                    path: ''
                 }).inject(this.$Container);
             }
 
@@ -222,7 +220,7 @@ define('qui/controls/bookmarks/Panel', [
          *
          * @method qui/controls/desktop/panels/Bookmarks#remove
          */
-        remove: function () {
+        remove: function() {
 
         },
 
@@ -233,25 +231,25 @@ define('qui/controls/bookmarks/Panel', [
          * @param {Object} params - {text, icon, click}
          * @return {HTMLElement}
          */
-        $createEntry: function (params) {
+        $createEntry: function(params) {
             var BookmarkPanel = this;
 
-            params.text  = params.text || '';
-            params.icon  = params.icon || false;
+            params.text = params.text || '';
+            params.icon = params.icon || false;
             params.click = params.click || '';
-            params.path  = params.path || '';
+            params.path = params.path || '';
 
             var Bookmark = new Element('div', {
-                'class'     : 'qui-bookmark box smooth',
-                'html'      : '<span class="qui-bookmark-icon"></span>' +
-                '<span class="qui-bookmark-text">' + params.text + '</span>',
+                'class': 'qui-bookmark box smooth',
+                'html': '<span class="qui-bookmark-icon"></span>' +
+                    '<span class="qui-bookmark-text">' + params.text + '</span>',
                 'data-click': params.click,
-                'data-path' : params.path,
-                title       : params.text,
-                events      : {
-                    click: function () {
+                'data-path': params.path,
+                title: params.text,
+                events: {
+                    click: function() {
                         var click = this.get('data-click'),
-                            path  = this.get('data-path');
+                            path = this.get('data-path');
 
                         if (path) {
                             if (BookmarkPanel.$clickMenuItem(path)) {
@@ -276,13 +274,13 @@ define('qui/controls/bookmarks/Panel', [
             });
 
             var Remove = new QUIButton({
-                icon    : 'icon-remove fa fa-close',
-                'class' : 'qui-bookmark-button btn-red',
-                styles  : {
+                icon: 'icon-remove fa fa-close',
+                'class': 'qui-bookmark-button btn-red',
+                styles: {
                     'float': 'right',
                     display: 'none'
                 },
-                events  : {
+                events: {
                     onClick: this.$clickRemoveButton
                 },
                 Bookmark: Bookmark
@@ -297,7 +295,7 @@ define('qui/controls/bookmarks/Panel', [
                     Icon.addClass(params.icon);
                 } else {
                     new Element('img.qui-button-image', {
-                        src   : params.icon,
+                        src: params.icon,
                         styles: {
                             'display': 'block' // only image, fix
                         }
@@ -315,10 +313,10 @@ define('qui/controls/bookmarks/Panel', [
          * @param {String} path - Path to the menu item
          * @return {Boolean}
          */
-        $clickMenuItem: function (path) {
+        $clickMenuItem: function(path) {
             path = path.replace(/^\/|\/$/g, '');
 
-            var parts  = path.split('/'),
+            var parts = path.split('/'),
                 Parent = QUI.Controls.get(parts[0]);
 
             if (!Parent || !Parent.length) {
@@ -346,12 +344,12 @@ define('qui/controls/bookmarks/Panel', [
          * @method qui/controls/bookmarks/Panel#$clickRemoveButton
          * @param {Object} Btn - qui/controls/buttons/Button
          */
-        $clickRemoveButton: function (Btn) {
+        $clickRemoveButton: function(Btn) {
             var i, id, len, list, Bookmark;
 
-            list     = [];
+            list = [];
             Bookmark = Btn.getAttribute('Bookmark');
-            id       = Slick.uidOf(Bookmark);
+            id = Slick.uidOf(Bookmark);
 
             for (i = 0, len = this.$bookmarks.length; i < len; i++) {
                 if (Slick.uidOf(this.$bookmarks[i]) != id) {
@@ -373,7 +371,7 @@ define('qui/controls/bookmarks/Panel', [
          * @method qui/controls/bookmarks/Panel#$onItemMouseEnter
          * @param {DOMEvent} event
          */
-        $onItemMouseEnter: function (event) {
+        $onItemMouseEnter: function(event) {
             if (this.getAttribute('dragable') === false) {
                 return;
             }
@@ -387,7 +385,7 @@ define('qui/controls/bookmarks/Panel', [
          * @method qui/controls/bookmarks/Panel#$onItemMouseLeave
          * @param {DOMEvent} event
          */
-        $onItemMouseLeave: function (event) {
+        $onItemMouseLeave: function(event) {
             event.target.getElements('button').setStyle('display', 'none');
         }
     });

@@ -29,21 +29,23 @@ var needle = [
     'css!qui/controls/windows/Popup.css'
 ];
 
-if (!("QUI" in window) || !window.QUI.getAttribute('control-buttons-dont-load-css')) {
+if (!('QUI' in window) || !window.QUI.getAttribute('control-buttons-dont-load-css')) {
     needle.push('css!qui/controls/buttons/Button.css');
 }
 
 
-define('qui/controls/windows/Popup', needle, function (QUI,
-                                                       Control,
-                                                       Background,
-                                                       Loader,
-                                                       Locale,
-                                                       Utils,
-                                                       FunctionsUtils,
-                                                       SystemUtils) {
+define('qui/controls/windows/Popup', needle, function(
+    QUI,
+    Control,
+    Background,
+    Loader,
+    Locale,
+    Utils,
+    FunctionsUtils,
+    SystemUtils
+) {
 
-    "use strict";
+    'use strict';
 
     /**
      * @class qui/controls/windows/Popup
@@ -53,7 +55,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/windows/Popup',
+        Type: 'qui/controls/windows/Popup',
 
         Binds: [
             'resize',
@@ -67,24 +69,24 @@ define('qui/controls/windows/Popup', needle, function (QUI,
         ],
 
         options: {
-            maxWidth          : 900,	// {integer} [optional]max width of the window
-            maxHeight         : 600,	// {integer} [optional]max height of the window
-            content           : false,	// {string} [optional] content of the window
-            icon              : false,	// {false|string} [optional] icon of the window
-            title             : false,	// {false|string} [optional] title of the window
-            'class'           : false,
+            maxWidth: 900,	// {integer} [optional]max width of the window
+            maxHeight: 600,	// {integer} [optional]max height of the window
+            content: false,	// {string} [optional] content of the window
+            icon: false,	// {false|string} [optional] icon of the window
+            title: false,	// {false|string} [optional] title of the window
+            'class': false,
             backgroundClosable: true, // {bool} [optional] closes the window on click? standard = true
 
             // buttons
-            buttons         : true, // {bool} [optional] show the bottom button line
-            closeButton     : true, // {bool} show the close button
-            closeButtonText : Locale.get('qui/controls/windows/Popup', 'btn.close'),
+            buttons: true, // {bool} [optional] show the bottom button line
+            closeButton: true, // {bool} show the close button
+            closeButtonText: Locale.get('qui/controls/windows/Popup', 'btn.close'),
             titleCloseButton: true,  // {bool} show the title close button
-            draggable       : true,
-            resizable       : true   // works only with buttons: true
+            draggable: true,
+            resizable: true   // works only with buttons: true
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             var self = this;
@@ -116,11 +118,11 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.setAttribute('closeButtonText', closeText);
 
-            this.$__scrollDelay = FunctionsUtils.debounce(function () {
+            this.$__scrollDelay = FunctionsUtils.debounce(function() {
                 self.$scroll = false;
             }, 300);
 
-            this.$__scrollSpy = function () {
+            this.$__scrollSpy = function() {
                 if (this.$opened) {
                     self.$scroll = true;
                 }
@@ -129,7 +131,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             QUI.Windows.register(this);
 
             this.addEvents({
-                onDestroy: function () {
+                onDestroy: function() {
                     self.Loader.destroy();
                     self.Background.destroy();
                 }
@@ -142,7 +144,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 return this.$Elm;
             }
@@ -150,15 +152,15 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class' : 'qui-window-popup box',
-                html    : '<div class="qui-window-popup-title box">' +
-                          '<div class="qui-window-popup-title-icon"></div>' +
-                          '<div class="qui-window-popup-title-text"></div>' +
-                          '</div>' +
-                          '<div class="qui-window-popup-content box"></div>' +
-                          '<div class="qui-window-popup-buttons box"></div>',
+                'class': 'qui-window-popup box',
+                html: '<div class="qui-window-popup-title box">' +
+                    '<div class="qui-window-popup-title-icon"></div>' +
+                    '<div class="qui-window-popup-title-text"></div>' +
+                    '</div>' +
+                    '<div class="qui-window-popup-content box"></div>' +
+                    '<div class="qui-window-popup-buttons box"></div>',
                 tabindex: -1,
-                styles  : {
+                styles: {
                     opacity: 0
                 }
             });
@@ -182,10 +184,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (this.getAttribute('titleCloseButton')) {
                 new Element('button', {
-                    name   : 'close',
+                    name: 'close',
                     'class': 'fa fa-close qui-window-popup-title-close',
-                    events : {
-                        click: function () {
+                    events: {
+                        click: function() {
                             self.cancel();
                         }
                     }
@@ -198,10 +200,12 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             if (path && Utils.isFontAwesomeClass(path)) {
                 this.$Icon.addClass(path);
 
-            } else if (path) {
-                new Element('img', {
-                    src: path
-                }).inject(this.$Icon);
+            } else {
+                if (path) {
+                    new Element('img', {
+                        src: path
+                    }).inject(this.$Icon);
+                }
             }
 
             // title
@@ -216,26 +220,26 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             // bottom buttons
             if (this.getAttribute('buttons')) {
                 this.$Buttons.setStyles({
-                    'float'  : 'left',
-                    height   : 50,
-                    margin   : '0 auto',
-                    opacity  : 0,
+                    'float': 'left',
+                    height: 50,
+                    margin: '0 auto',
+                    opacity: 0,
                     textAlign: 'center',
-                    width    : '100%'
+                    width: '100%'
                 });
 
                 if (this.getAttribute('closeButton')) {
                     var Submit = new Element('button', {
-                        html   : '<span>' + this.getAttribute('closeButtonText') + '</span>',
-                        name   : 'close',
+                        html: '<span>' + this.getAttribute('closeButtonText') + '</span>',
+                        name: 'close',
                         'class': 'qui-button btn-red',
-                        events : {
+                        events: {
                             click: this.cancel
                         },
-                        styles : {
-                            display  : 'inline',
-                            'float'  : 'none',
-                            width    : 150,
+                        styles: {
+                            display: 'inline',
+                            'float': 'none',
+                            width: 150,
                             textAlign: 'center'
                         }
                     });
@@ -261,23 +265,23 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             this.Loader.inject(this.$Elm);
 
             var isTouch = (('ontouchstart' in window)
-                           || (navigator.maxTouchPoints > 0)
-                           || (navigator.msMaxTouchPoints > 0));
+                || (navigator.maxTouchPoints > 0)
+                || (navigator.msMaxTouchPoints > 0));
 
             if (this.getAttribute('resizable') && !isTouch) {
                 new Element('div', {
-                    html  : '◢',
+                    html: '◢',
                     styles: {
-                        bottom    : 0,
-                        color     : '#bcbcbc',
-                        cursor    : 'se-resize',
-                        height    : 20,
+                        bottom: 0,
+                        color: '#bcbcbc',
+                        cursor: 'se-resize',
+                        height: 20,
                         lineHeight: 20,
-                        position  : 'absolute',
-                        right     : 2,
-                        textAlign : 'center',
-                        width     : 16,
-                        zIndex    : 10
+                        position: 'absolute',
+                        right: 2,
+                        textAlign: 'center',
+                        width: 16,
+                        zIndex: 10
                     },
                     events: {
                         mousedown: this.$resizeMouseDown
@@ -295,19 +299,21 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          *
          * @method qui/controls/windows/Popup#refresh
          */
-        refresh: function () {
+        refresh: function() {
             // icon
             var path = this.getAttribute('icon');
 
             if (path && Utils.isFontAwesomeClass(path)) {
                 this.$Icon.addClass(path);
 
-            } else if (path) {
-                this.$Icon.set('html', '');
+            } else {
+                if (path) {
+                    this.$Icon.set('html', '');
 
-                new Element('img', {
-                    src: path
-                }).inject(this.$Icon);
+                    new Element('img', {
+                        src: path
+                    }).inject(this.$Icon);
+                }
             }
 
             // title
@@ -328,7 +334,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @param {Function} [callback] - callback function
          * @return {Promise}
          */
-        open: function (callback) {
+        open: function(callback) {
             this.Background.create();
 
             if (this.getAttribute('backgroundClosable')) {
@@ -351,7 +357,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             QUI.Windows.calcWindowSize();
 
             document.body.setStyles({
-                width   : document.body.getSize().x,
+                width: document.body.getSize().x,
                 minWidth: document.body.getSize().x
             });
 
@@ -365,9 +371,9 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (ios) {
                 document.body.setStyles({
-                    overflow           : 'hidden',
-                    position           : 'fixed',
-                    top                : document.body.getScroll().y * -1,
+                    overflow: 'hidden',
+                    position: 'fixed',
+                    top: document.body.getScroll().y * -1,
                     '-webkit-transform': 'translateZ(0)'
                 });
 
@@ -388,16 +394,16 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.getElm().setStyles({
                 position: 'fixed',
-                top     : 0,
-                width   : this.getOpeningWidth()
+                top: 0,
+                width: this.getOpeningWidth()
             });
 
             this.fireEvent('openBegin', [this]);
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
 
-                var execute = (function () {
-                    this.resize(true, function () {
+                var execute = (function() {
+                    this.resize(true, function() {
 
                         this.fireEvent('open', [this]);
 
@@ -430,7 +436,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @param {Function} [callback]
          * @return {Promise}
          */
-        resize: function (withfx, callback) {
+        resize: function(withfx, callback) {
             if (!this.$Elm) {
                 return Promise.resolve();
             }
@@ -445,10 +451,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             this.fireEvent('resizeBegin', [this]);
 
-            var self     = this,
+            var self = this,
                 doc_size = QUI.getWindowSize(),
-                height   = this.getOpeningHeight(),
-                width    = this.getOpeningWidth();
+                height = this.getOpeningHeight(),
+                width = this.getOpeningWidth();
 
             var ios = SystemUtils.iOSversion();
 
@@ -465,7 +471,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 top = 0;
             }
 
-            var pos  = this.$Elm.getPosition(),
+            var pos = this.$Elm.getPosition(),
                 size = this.$Elm.getSize();
 
             if (pos.x === 0) {
@@ -488,7 +494,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 var Background = this.Background.getElm();
 
                 Background.setStyles({
-                    top  : document.body.getStyle('top').toInt() * -1,
+                    top: document.body.getStyle('top').toInt() * -1,
                     width: doc_size.x
                 });
             }
@@ -500,18 +506,18 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             //     height: 'calc(100% - ' + containerHeight + 'px)'
             // });
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 var execute = false;
 
                 this.$FX.animate({
-                    height : height,
-                    left   : left,
+                    height: height,
+                    left: left,
                     opacity: 1,
-                    top    : top,
-                    width  : width
+                    top: top,
+                    width: width
                 }, {
                     duration: 200,
-                    callback: function () {
+                    callback: function() {
                         execute = true;
 
                         // content height
@@ -541,7 +547,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                  * Fallback for a bug with moofx that does not execute the callback
                  * if the style of the element already matches the target values.
                  */
-                setTimeout(function () {
+                setTimeout(function() {
                     if (!execute) {
                         if (typeof callback === 'function') {
                             callback();
@@ -560,13 +566,13 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#close
          * @return {Promise}
          */
-        close: function () {
+        close: function() {
             QUI.removeEvent('resize', this.resize);
 
             window.removeEvent('touchstart', this.$__scrollSpy);
             window.removeEvent('touchend', this.$__scrollDelay);
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 if (!this.$Elm) {
                     this.$opened = false;
                     resolve();
@@ -578,15 +584,15 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                 this.fireEvent('closeBegin', [self]);
 
                 this.$FX.animate({
-                    top    : this.$Elm.getPosition().y + 100,
+                    top: this.$Elm.getPosition().y + 100,
                     opacity: 0
                 }, {
                     duration: 200,
-                    callback: function () {
+                    callback: function() {
                         self.$Elm.destroy();
                         self.$Elm = null;
 
-                        self.Background.hide(function () {
+                        self.Background.hide(function() {
                             self.Background.destroy();
 
                             self.$opened = false;
@@ -605,7 +611,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          *
          * @method qui/controls/windows/Popup#cancel
          */
-        cancel: function () {
+        cancel: function() {
             this.fireEvent('cancel', [this]);
             this.close();
         },
@@ -614,7 +620,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * Is th window opened?
          * @returns {boolean}
          */
-        isOpened: function () {
+        isOpened: function() {
             return this.$opened;
         },
 
@@ -624,7 +630,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#getContent
          * @return {HTMLElement} DIV
          */
-        getContent: function () {
+        getContent: function() {
             return this.$Content;
         },
 
@@ -634,7 +640,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#setContent
          * @return {String} html
          */
-        setContent: function (html) {
+        setContent: function(html) {
             this.getContent().set('html', html);
         },
 
@@ -644,7 +650,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#getContent
          * @return {HTMLElement} DIV
          */
-        getTitle: function () {
+        getTitle: function() {
             return this.$Title;
         },
 
@@ -654,7 +660,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#setContent
          * @return {String} html
          */
-        setTitle: function (html) {
+        setTitle: function(html) {
             this.getTitle().set('html', html);
         },
 
@@ -664,7 +670,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#getContent
          * @return {HTMLElement} DIV
          */
-        getTitleText: function () {
+        getTitleText: function() {
             return this.$TitleText;
         },
 
@@ -674,7 +680,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#setContent
          * @return {String} html
          */
-        setTitleText: function (html) {
+        setTitleText: function(html) {
             this.getTitleText().set('html', html);
         },
 
@@ -685,7 +691,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @param {Object} Elm - {} or qui/controls/buttons/Button
          * @return {Object} qui/controls/windows/Popup
          */
-        addButton: function (Elm) {
+        addButton: function(Elm) {
             if (!this.$Buttons) {
                 return this;
             }
@@ -716,10 +722,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#hideButtons
          * @return {Promise}
          */
-        hideButtons: function () {
+        hideButtons: function() {
             var self = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 var buttonHeight = self.$Buttons.getSize().y;
 
                 self.$Buttons.setStyle('bottom', 0);
@@ -736,7 +742,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
                     bottom: buttonHeight * -1
                 }, {
                     duration: 200,
-                    callback: function () {
+                    callback: function() {
                         self.$Buttons.setStyle('display', 'none');
                         resolve();
                     }
@@ -750,10 +756,10 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#showButtons
          * @return {Promise}
          */
-        showButtons: function () {
+        showButtons: function() {
             var self = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function(resolve) {
                 self.$Buttons.setStyle('display', null);
                 self.$Buttons.setStyle('display', null);
                 resolve();
@@ -784,7 +790,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @param {String} name - name of the button
          * @returns {Boolean|Object} - qui/controls/buttons/Button
          */
-        getButton: function (name) {
+        getButton: function(name) {
             var list = this.$Buttons.getElements('[data-quiid]');
 
             for (var i = 0, len = list.length; i < len; i++) {
@@ -803,7 +809,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          *
          * @returns {number}
          */
-        getOpeningWidth: function () {
+        getOpeningWidth: function() {
             var width = QUI.getWindowSize().x;
 
             if (width > this.getAttribute('maxWidth')) {
@@ -818,7 +824,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          *
          * @returns {number}
          */
-        getOpeningHeight: function () {
+        getOpeningHeight: function() {
             var height = QUI.getWindowSize().y;
 
             if (height > this.getAttribute('maxHeight')) {
@@ -834,37 +840,37 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * @method qui/controls/windows/Popup#openSheet
          * @param {Function} onfinish - callback function
          */
-        openSheet: function (onfinish) {
+        openSheet: function(onfinish) {
             var Sheet = new Element('div', {
                 'class': 'qui-window-popup-sheet box',
-                html   : '<div class="qui-window-popup-sheet-content box"></div>' +
-                         '<div class="qui-window-popup-sheet-buttons box">' +
-                         '<div class="back button btn-white">' +
-                         '<span>' +
-                         Locale.get(
-                             'qui/controls/windows/Popup',
-                             'btn.back'
-                         ) +
-                         '</span>' +
-                         '</div>' +
-                         '</div>',
-                styles : {
+                html: '<div class="qui-window-popup-sheet-content box"></div>' +
+                    '<div class="qui-window-popup-sheet-buttons box">' +
+                    '<div class="back button btn-white">' +
+                    '<span>' +
+                    Locale.get(
+                        'qui/controls/windows/Popup',
+                        'btn.back'
+                    ) +
+                    '</span>' +
+                    '</div>' +
+                    '</div>',
+                styles: {
                     left: '-110%'
                 }
             }).inject(this.$Elm);
 
             Sheet.getElement('.back').addEvent(
                 'click',
-                function () {
+                function() {
                     Sheet.fireEvent('close');
                 }
             );
 
-            Sheet.addEvent('close', function () {
+            Sheet.addEvent('close', function() {
                 moofx(Sheet).animate({
                     left: '-100%'
                 }, {
-                    callback: function () {
+                    callback: function() {
                         Sheet.destroy();
                     }
                 });
@@ -882,7 +888,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             moofx(Sheet).animate({
                 left: 0
             }, {
-                callback: function () {
+                callback: function() {
                     onfinish(Content, Sheet);
                 }
             });
@@ -894,7 +900,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * event: mouse down - if window has draggable true
          * @param e
          */
-        $dragMouseDown: function (e) {
+        $dragMouseDown: function(e) {
             e.stop();
 
             var elmPos = this.$Elm.getPosition();
@@ -920,7 +926,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * event: mouse move - if window has draggable true
          * @param e
          */
-        $dragMouseMove: function (e) {
+        $dragMouseMove: function(e) {
             if (this.$draging === false) {
                 return;
             }
@@ -934,26 +940,30 @@ define('qui/controls/windows/Popup', needle, function (QUI,
 
             if (diffX < 0) {
                 diffX = 0;
-            } else if (diffX > this.$dragMaxX) {
-                diffX = this.$dragMaxX;
+            } else {
+                if (diffX > this.$dragMaxX) {
+                    diffX = this.$dragMaxX;
+                }
             }
 
             if (diffY < 0) {
                 diffY = 0;
-            } else if (diffY > this.$dragMaxY) {
-                diffY = this.$dragMaxY;
+            } else {
+                if (diffY > this.$dragMaxY) {
+                    diffY = this.$dragMaxY;
+                }
             }
 
             this.$Elm.setStyles({
                 left: diffX,
-                top : diffY
+                top: diffY
             });
         },
 
         /**
          * event: mouse move - if window has draggable true
          */
-        $dragMouseUp: function () {
+        $dragMouseUp: function() {
             this.$draging = false;
 
             document.removeEvent('mousemove', this.$dragMouseMove);
@@ -968,7 +978,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * event: mose down -> if window is resizable
          * @param e
          */
-        $resizeMouseDown: function (e) {
+        $resizeMouseDown: function(e) {
             e.stop();
 
             var elmSize = this.$Elm.getSize();
@@ -992,7 +1002,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * event: mose move -> if window is resizable
          * @param e
          */
-        $resizeMouseMove: function (e) {
+        $resizeMouseMove: function(e) {
             if (this.$resizing === false) {
                 return;
             }
@@ -1019,7 +1029,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
             }
 
             this.$Elm.setStyles({
-                width : width,
+                width: width,
                 height: height
             });
         },
@@ -1028,7 +1038,7 @@ define('qui/controls/windows/Popup', needle, function (QUI,
          * event: mose move -> if window is resizable
          * @param e
          */
-        $resizeMouseUp: function (e) {
+        $resizeMouseUp: function(e) {
             this.$resizing = false;
 
             document.removeEvent('mousemove', this.$dragMouseMove);

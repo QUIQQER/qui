@@ -17,12 +17,12 @@ define('qui/controls/buttons/ButtonSwitch', [
 
     'css!qui/controls/buttons/ButtonSwitch.css'
 
-], function (QUI, QUIControl, QUISwitch) {
-    "use strict";
+], function(QUI, QUIControl, QUISwitch) {
+    'use strict';
 
     return new Class({
         Extends: QUIControl,
-        Type   : 'qui/controls/buttons/ButtonSwitch',
+        Type: 'qui/controls/buttons/ButtonSwitch',
 
         Binds: [
             '$onInject',
@@ -31,23 +31,23 @@ define('qui/controls/buttons/ButtonSwitch', [
         ],
 
         options: {
-            status  : 0,
-            text    : false,   // Button text
-            title   : false,
-            styles  : false,
+            status: 0,
+            text: false,   // Button text
+            title: false,
+            styles: false,
             disabled: false
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
-            this.$Switch   = null;
+            this.$Switch = null;
             this.$disabled = this.getAttribute('disabled');
 
             this.addEvents({
-                onInject      : this.$onInject,
+                onInject: this.$onInject,
                 onSetAttribute: this.$onSetAttribute,
-                onDestroy     : function () {
+                onDestroy: function() {
                     if (this.$Switch) {
                         this.$Switch.destroy();
                     }
@@ -60,12 +60,12 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @returns {HTMLDivElement}
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('button', {
                 'class': 'qui-button-switch',
-                html   : '<div class="qui-button-switch-switch"></div>' +
-                         '<div class="qui-button-switch-text"></div>' +
-                         '<div class="qui-button-switch--click"></div>'
+                html: '<div class="qui-button-switch-switch"></div>' +
+                    '<div class="qui-button-switch-text"></div>' +
+                    '<div class="qui-button-switch--click"></div>'
             });
 
             this.$Text = this.$Elm.getElement('.qui-button-switch-text');
@@ -95,7 +95,7 @@ define('qui/controls/buttons/ButtonSwitch', [
         /**
          * Event : on inject
          */
-        $onInject: function () {
+        $onInject: function() {
             if (this.getAttribute('status')) {
                 this.$Switch.on();
             } else {
@@ -110,7 +110,7 @@ define('qui/controls/buttons/ButtonSwitch', [
         /**
          * Refresh the display / rendering - on / off button
          */
-        resize: function () {
+        resize: function() {
             if (this.$Switch) {
                 this.$Switch.resize();
             }
@@ -121,7 +121,7 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @param {Event} [event] - click event
          */
-        toggle: function (event) {
+        toggle: function(event) {
             if (this.$disabled) {
                 return;
             }
@@ -139,7 +139,7 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @return {Promise}
          */
-        on: function () {
+        on: function() {
             if (this.$disabled) {
                 return Promise.resolve();
             }
@@ -148,7 +148,7 @@ define('qui/controls/buttons/ButtonSwitch', [
                 return Promise.resolve();
             }
 
-            this.$Switch.on().then(function () {
+            this.$Switch.on().then(function() {
                 this.fireEvent('change', [this]);
             }.bind(this));
         },
@@ -158,7 +158,7 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @return {Promise}
          */
-        off: function () {
+        off: function() {
             if (this.$disabled) {
                 return Promise.resolve();
             }
@@ -167,7 +167,7 @@ define('qui/controls/buttons/ButtonSwitch', [
                 return Promise.resolve();
             }
 
-            return this.$Switch.off().then(function () {
+            return this.$Switch.off().then(function() {
                 this.fireEvent('change', [this]);
             }.bind(this));
         },
@@ -177,7 +177,7 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @returns {Promise}
          */
-        setSilentOn: function () {
+        setSilentOn: function() {
             return this.$Switch.setSilentOn();
         },
 
@@ -186,7 +186,7 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @returns {Promise}
          */
-        setSilentOff: function () {
+        setSilentOff: function() {
             return this.$Switch.setSilentOff();
         },
 
@@ -195,15 +195,15 @@ define('qui/controls/buttons/ButtonSwitch', [
          *
          * @return {Boolean}
          */
-        getStatus: function () {
+        getStatus: function() {
             return this.$Switch.getStatus();
         },
 
         /**
          * Enable the
          */
-        enable: function () {
-            this.$disabled     = false;
+        enable: function() {
+            this.$disabled = false;
             this.$Elm.disabled = false;
             this.$Switch.enable();
         },
@@ -212,8 +212,8 @@ define('qui/controls/buttons/ButtonSwitch', [
          * Disable the buttonswitch
          * The button switch cant be changed
          */
-        disable: function () {
-            this.$disabled     = true;
+        disable: function() {
+            this.$disabled = true;
             this.$Elm.disabled = true;
             this.$Switch.disable();
         },
@@ -224,18 +224,18 @@ define('qui/controls/buttons/ButtonSwitch', [
          * @param {String} name
          * @param value
          */
-        $onSetAttribute: function (name, value) {
-            if (name === "styles") {
+        $onSetAttribute: function(name, value) {
+            if (name === 'styles') {
                 this.$Elm.setStyles(value);
                 return;
             }
 
-            if (name === "title") {
+            if (name === 'title') {
                 this.$Elm.set('title', value);
                 return;
             }
 
-            if (name === "text") {
+            if (name === 'text') {
                 this.$Text.set('html', value);
             }
         }

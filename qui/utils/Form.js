@@ -16,8 +16,8 @@ define('qui/utils/Form', {
      * @param {Object} data
      * @param {HTMLElement} form - Formular
      */
-    setDataToForm: function (data, form) {
-        "use strict";
+    setDataToForm: function(data, form) {
+        'use strict';
 
         if (typeof form === 'undefined' || form.nodeName !== 'FORM') {
             return;
@@ -34,8 +34,8 @@ define('qui/utils/Form', {
      * @param {HTMLElement} form - DOMNode Formular
      * @return {Object}
      */
-    getFormData: function (form) {
-        "use strict";
+    getFormData: function(form) {
+        'use strict';
 
         if (typeof form === 'undefined' || !form) {
             return {};
@@ -51,12 +51,12 @@ define('qui/utils/Form', {
      * @param {HTMLElement} Node
      * @return {void}
      */
-    setDataToNode: function (Data, Node) {
-        "use strict";
+    setDataToNode: function(Data, Node) {
+        'use strict';
 
         var elements = [];
 
-        var addElements = function (list) {
+        var addElements = function(list) {
             for (var i = 0, len = list.length; i < len; i++) {
                 elements.push(list[i]);
             }
@@ -79,12 +79,12 @@ define('qui/utils/Form', {
      * @param {HTMLElement} Node
      * @return {{}}
      */
-    getDataFromNode: function (Node) {
-        "use strict";
+    getDataFromNode: function(Node) {
+        'use strict';
 
         var elements = [];
 
-        var addElements = function (list) {
+        var addElements = function(list) {
             for (var i = 0, len = list.length; i < len; i++) {
                 elements.push(list[i]);
             }
@@ -108,8 +108,8 @@ define('qui/utils/Form', {
      * @param {{}} Data
      * @return {{}}
      */
-    $setDataToNodeList: function (NodeList, Data) {
-        "use strict";
+    $setDataToNodeList: function(NodeList, Data) {
+        'use strict';
 
         var j, jlen, i, k, len, Elm, elements;
 
@@ -121,7 +121,7 @@ define('qui/utils/Form', {
          * @param {string} name
          * @return {boolean|HTMLElement} - Return DOM node or false if not found
          */
-        var getElements = function (name) {
+        var getElements = function(name) {
             return NodeList.filter('*[name="' + name + '"]');
         };
 
@@ -153,7 +153,7 @@ define('qui/utils/Form', {
                 continue;
             }
 
-            elements     = getElements(k);
+            elements = getElements(k);
             elementValue = Data[k];
 
             for (i = 0, len = elements.length; i < len; i++) {
@@ -214,14 +214,14 @@ define('qui/utils/Form', {
      * @param {Elements} NodeList
      * @return {{}}
      */
-    $getDataFromNodeList: function (NodeList) {
-        "use strict";
+    $getDataFromNodeList: function(NodeList) {
+        'use strict';
 
         var i, name, len, Elm, elementValue;
 
         var result = {};
 
-        var getValue = function (Elm, isCollection) {
+        var getValue = function(Elm, isCollection) {
             isCollection = isCollection || false;
 
             switch (Elm.type) {
@@ -251,7 +251,7 @@ define('qui/utils/Form', {
         var collections = {};
 
         for (i = 0, len = NodeList.length; i < len; i++) {
-            Elm  = NodeList[i];
+            Elm = NodeList[i];
             name = Elm.name;
 
             if (Elm.type === 'radio') {
@@ -266,7 +266,7 @@ define('qui/utils/Form', {
         }
 
         for (i = 0, len = NodeList.length; i < len; i++) {
-            Elm  = NodeList[i];
+            Elm = NodeList[i];
             name = Elm.name;
 
             if (name === '') {
@@ -309,27 +309,29 @@ define('qui/utils/Form', {
      * @param {HTMLElement} el
      * @param {String} text
      */
-    insertTextAtCursor: function (el, text) {
-        "use strict";
+    insertTextAtCursor: function(el, text) {
+        'use strict';
 
         var val = el.value, endIndex, range;
 
-        if (typeof el.selectionStart != "undefined" &&
-            typeof el.selectionEnd != "undefined") {
+        if (typeof el.selectionStart != 'undefined' &&
+            typeof el.selectionEnd != 'undefined') {
 
-            endIndex          = el.selectionEnd;
-            el.value          = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
+            endIndex = el.selectionEnd;
+            el.value = val.slice(0, el.selectionStart) + text + val.slice(endIndex);
             el.selectionStart = el.selectionEnd = endIndex + text.length;
 
-        } else if (typeof document.selection != "undefined" &&
-            typeof document.selection.createRange != "undefined") {
+        } else {
+            if (typeof document.selection != 'undefined' &&
+                typeof document.selection.createRange != 'undefined') {
 
-            el.focus();
+                el.focus();
 
-            range = document.selection.createRange();
-            range.collapse(false);
-            range.text = text;
-            range.select();
+                range = document.selection.createRange();
+                range.collapse(false);
+                range.text = text;
+                range.select();
+            }
         }
     }
 });

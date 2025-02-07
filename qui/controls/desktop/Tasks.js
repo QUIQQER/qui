@@ -20,8 +20,8 @@ define('qui/controls/desktop/Tasks', [
 
     'css!qui/controls/desktop/Tasks.css'
 
-], function (QUI, Control, Loader, Taskbar, TaskbarTask) {
-    "use strict";
+], function(QUI, Control, Loader, Taskbar, TaskbarTask) {
+    'use strict';
 
     /**
      * @class qui/controls/desktop/Tasks
@@ -31,7 +31,7 @@ define('qui/controls/desktop/Tasks', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/desktop/Tasks',
+        Type: 'qui/controls/desktop/Tasks',
 
         Binds: [
             '$activateTask',
@@ -47,14 +47,14 @@ define('qui/controls/desktop/Tasks', [
             icon: 'fa fa-tasks',
 
             // header
-            header                 : true,     // true to create a panel header when panel is created
-            title                  : 'Tasks',  // the title inserted into the panel's header
-            limit                  : false,
+            header: true,     // true to create a panel header when panel is created
+            title: 'Tasks',  // the title inserted into the panel's header
+            limit: false,
             'message.to.much.tasks': false
         },
 
-        initialize: function (options) {
-            var limit   = 50;
+        initialize: function(options) {
+            var limit = 50;
             var message = 'Unfortunately, too many tasks are open. Some tasks have been closed.';
 
             if (QUI.getAttribute('control-task-panel-limit')) {
@@ -65,7 +65,7 @@ define('qui/controls/desktop/Tasks', [
                 message = QUI.getAttribute('control-task-panel-limit-message');
             }
 
-            options       = options || {};
+            options = options || {};
             options.limit = options.limit || limit;
 
             options['message.to.much.tasks'] = options['message.to.much.tasks'] || message;
@@ -74,16 +74,16 @@ define('qui/controls/desktop/Tasks', [
 
             this.Loader = new Loader();
 
-            this.$Elm      = null;
-            this.$Taskbar  = null;
-            this.$Active   = null;
+            this.$Elm = null;
+            this.$Taskbar = null;
+            this.$Active = null;
             this.$LastTask = null;
 
             this.$__unserialize = false;
-            this.$__serialize   = null;
+            this.$__serialize = null;
 
             this.addEvents({
-                onInject: function () {
+                onInject: function() {
                     //(function () {
                     //    // exist serialize data
                     //    if (this.$__serialize) {
@@ -106,7 +106,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#isOpen
          * @return {Boolean}
          */
-        isOpen: function () {
+        isOpen: function() {
             return this.$Header.getStyle('display') === 'none';
         },
 
@@ -116,11 +116,11 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#serialize
          * @return {Object}
          */
-        serialize: function () {
+        serialize: function() {
             return {
                 attributes: this.getAttributes(),
-                type      : this.getType(),
-                bar       : this.$Taskbar.serialize()
+                type: this.getType(),
+                bar: this.$Taskbar.serialize()
             };
         },
 
@@ -131,27 +131,27 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} data
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        unserialize: function (data) {
+        unserialize: function(data) {
             var self = this;
 
             this.$__unserialize = true;
             this.setAttributes(data.attributes);
 
             if (!this.$Elm) {
-                this.$__serialize   = data;
+                this.$__serialize = data;
                 this.$__unserialize = false;
 
                 return this;
             }
 
             if (data.bar) {
-                this.$Taskbar.addEvent('onUnserializeFinish', function () {
+                this.$Taskbar.addEvent('onUnserializeFinish', function() {
                     if (data.bar.active) {
                         var children = self.$Taskbar.getChildren();
 
                         // Find last active child (findIndex() is better supported than find())
-                        var lastActiveChildIndex = children.findIndex(function (child) {
-                            return child.$Instance.getType() === data.bar.active
+                        var lastActiveChildIndex = children.findIndex(function(child) {
+                            return child.$Instance.getType() === data.bar.active;
                         });
 
                         // Open last active child
@@ -189,7 +189,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#refresh
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        refresh: function () {
+        refresh: function() {
             this.fireEvent('refresh', [this]);
 
             return this;
@@ -201,9 +201,9 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#resize
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        resize: function () {
+        resize: function() {
             var height = this.getAttribute('height'),
-                width  = this.getAttribute('width');
+                width = this.getAttribute('width');
 
             if (!height) {
                 height = '100%';
@@ -215,10 +215,10 @@ define('qui/controls/desktop/Tasks', [
 
             this.$Elm.setStyles({
                 height: height,
-                width : width
+                width: width
             });
 
-            var contentSize  = this.getContentSize(),
+            var contentSize = this.getContentSize(),
                 contentSizeY = contentSize.y;
 
             this.$Container.setStyles({
@@ -228,7 +228,7 @@ define('qui/controls/desktop/Tasks', [
             if (this.$Active && this.$Active.getInstance()) {
                 this.$Active.getInstance().setAttributes({
                     height: contentSizeY,
-                    width : width
+                    width: width
                 });
 
                 this.$Active.getInstance().resize();
@@ -247,14 +247,14 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 return this.$Elm;
             }
 
             this.$Elm = new Element('div', {
                 'data-quiid': this.getId(),
-                'class'     : 'qui-taskpanel qui-panel qui-panel-drop',
+                'class': 'qui-taskpanel qui-panel qui-panel-drop',
 
                 styles: {
                     height: '100%'
@@ -267,25 +267,25 @@ define('qui/controls/desktop/Tasks', [
 
             this.$Header = new Element('div', {
                 'class': 'qui-taskpanel-header',
-                html   : '<div class="qui-taskpanel-header-text"></div>' +
+                html: '<div class="qui-taskpanel-header-text"></div>' +
                     '<div class="qui-taskpanel-header-icon">' +
                     '<span class="icon-chevron-down fa fa-chevron-down"></span>' +
                     '</div>',
-                styles : {
+                styles: {
                     display: 'none'
                 },
-                events : {
+                events: {
                     click: this.open
                 }
             }).inject(this.$Elm);
 
 
             this.$Taskbar = new Taskbar({
-                name  : 'qui-taskbar-' + this.getId(),
-                type  : 'bottom',
+                name: 'qui-taskbar-' + this.getId(),
+                type: 'bottom',
                 styles: {
-                    bottom  : 0,
-                    left    : 0,
+                    bottom: 0,
+                    left: 0,
                     position: 'absolute'
                 },
                 events: {
@@ -316,7 +316,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#highlight
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        highlight: function () {
+        highlight: function() {
             if (this.getElm()) {
                 this.getElm().addClass('qui-panel-highlight');
             }
@@ -330,7 +330,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#normalize
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        normalize: function () {
+        normalize: function() {
             if (this.getElm()) {
                 this.getElm().removeClass('qui-panel-highlight');
             }
@@ -346,20 +346,20 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Instance - (qui/controls/Control) A QUI Control
          * @param {String} pos - Can be 'top', 'bottom', 'after', or 'before'
          */
-        appendChild: function (Instance, pos) {
+        appendChild: function(Instance, pos) {
             if (!this.$Taskbar) {
                 this.$tmpList.push(Instance);
                 return this;
             }
 
-            var self  = this,
-                Task  = this.instanceToTask(Instance),
+            var self = this,
+                Task = this.instanceToTask(Instance),
                 limit = this.getAttribute('limit');
 
             if (this.$Taskbar && limit && limit <= this.$Taskbar.length()) {
-                var First    = null,
+                var First = null,
                     children = this.$Taskbar.getChildren(),
-                    iType    = Instance.getType();
+                    iType = Instance.getType();
 
                 for (var i = 0, len = children.length; i < len; i++) {
                     if (children[i].getType() === iType) {
@@ -375,7 +375,7 @@ define('qui/controls/desktop/Tasks', [
                     First.destroy();
                 }
 
-                QUI.getMessageHandler().then(function (MH) {
+                QUI.getMessageHandler().then(function(MH) {
                     MH.addInformation(self.getAttribute('message.to.much.tasks'));
                 });
             }
@@ -392,7 +392,7 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Panel - qui/controls/desktop/Panel
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        dependChild: function (Panel) {
+        dependChild: function(Panel) {
             var Task = Panel.getAttribute('Task');
 
             if (!Task) {
@@ -400,15 +400,15 @@ define('qui/controls/desktop/Tasks', [
             }
 
             Panel.getElm().setStyles({
-                left    : null,
+                left: null,
                 position: null,
-                top     : null,
-                display : null
+                top: null,
+                display: null
             });
 
             Panel.setAttributes({
                 collapsible: true,
-                Task       : null
+                Task: null
             });
 
             // task events
@@ -433,7 +433,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#appendTask
          * @param {Object} Task - (qui/controls/taskbar/Task | qui/controls/taskbar/Group) A QUI task
          */
-        appendTask: function (Task) {
+        appendTask: function(Task) {
             this.$Taskbar.appendChild(Task);
             return this;
         },
@@ -447,23 +447,23 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#$activateTask
          * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
          */
-        $activateTask: function (Task) {
-            return new Promise(function (resolve) {
+        $activateTask: function(Task) {
+            return new Promise(function(resolve) {
                 if (typeof Task === 'undefined') {
                     return resolve();
                 }
 
                 var OldTask = false,
-                    Prom    = Promise.resolve();
+                    Prom = Promise.resolve();
 
                 if (this.$Active && this.$Active.getType() !== 'qui/controls/taskbar/Group') {
-                    OldTask      = this.$Active;
+                    OldTask = this.$Active;
                     this.$Active = Task;
 
                     Prom = this.$normalizeTask(OldTask);
                 }
 
-                Prom.then(function () {
+                Prom.then(function() {
                     this.$Active = Task;
 
                     if (!Task.getInstance()) {
@@ -471,24 +471,24 @@ define('qui/controls/desktop/Tasks', [
                     }
 
                     var Instance = Task.getInstance(),
-                        Elm      = Instance.getElm(),
-                        self     = this;
+                        Elm = Instance.getElm(),
+                        self = this;
 
                     Elm.setStyles({
                         display: null,
-                        left   : -20,
+                        left: -20,
                         opacity: 0
                     });
 
                     moofx(Elm).animate({
-                        left   : 0,
+                        left: 0,
                         opacity: 1
                     }, {
                         duration: 200,
-                        callback: function () {
+                        callback: function() {
                             self.resize();
 
-                            if ("focus" in Instance) {
+                            if ('focus' in Instance) {
                                 Instance.focus();
                             }
 
@@ -516,22 +516,22 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Task - qui/controls/taskbar/Task
          * @return {Promise}
          */
-        $destroyTask: function (Task) {
-            return new Promise(function (resolve) {
+        $destroyTask: function(Task) {
+            return new Promise(function(resolve) {
                 if (!Task.getInstance()) {
                     return resolve();
                 }
 
                 var Instance = Task.getInstance(),
-                    Elm      = Instance.getElm();
+                    Elm = Instance.getElm();
 
                 moofx(Elm).animate({
-                    left   : -50,
+                    left: -50,
                     opacity: 0
                 }, {
                     duration: 200,
-                    callback: function () {
-                        (function () {
+                    callback: function() {
+                        (function() {
                             Instance.destroy();
                             resolve();
                         }).delay(100);
@@ -545,7 +545,7 @@ define('qui/controls/desktop/Tasks', [
          *
          * @param {Object} Task - qui/controls/Control
          */
-        selectTask: function (Task) {
+        selectTask: function(Task) {
             var tid = false;
 
             if (typeof Task !== 'undefined') {
@@ -584,8 +584,8 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#$normalizeTask
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $normalizeTask: function (Task) {
-            return new Promise(function (resolve) {
+        $normalizeTask: function(Task) {
+            return new Promise(function(resolve) {
                 if (Task === this.$Active) {
                     return resolve();
                 }
@@ -595,16 +595,16 @@ define('qui/controls/desktop/Tasks', [
                 }
 
                 var Instance = Task.getInstance(),
-                    Elm      = Instance.getElm();
+                    Elm = Instance.getElm();
 
                 Task.normalize();
 
                 moofx(Elm).animate({
-                    left   : -50,
+                    left: -50,
                     opacity: 0
                 }, {
                     duration: 200,
-                    callback: function (Elm) {
+                    callback: function(Elm) {
                         Elm.setStyle('display', 'none');
                         resolve();
                     }.bind(this, Elm)
@@ -619,7 +619,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#firstChild
          * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
-        firstChild: function () {
+        firstChild: function() {
             return this.$Taskbar.firstChild();
         },
 
@@ -629,7 +629,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#lastChild
          * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
-        lastChild: function () {
+        lastChild: function() {
             return this.$Taskbar.lastChild();
         },
 
@@ -639,7 +639,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#getTaskbar
          * @return {Object|null} qui/controls/taskbar/Bar | null
          */
-        getTaskbar: function () {
+        getTaskbar: function() {
             return this.$Taskbar;
         },
 
@@ -649,7 +649,7 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#getContentSize
          * @return {Object} {x,y}
          */
-        getContentSize: function () {
+        getContentSize: function() {
             if (!this.getTaskbar()) {
                 return this.$Elm.getSize();
             }
@@ -666,42 +666,42 @@ define('qui/controls/desktop/Tasks', [
         /**
          * do nothing, panel compatibility
          */
-        fix: function () {
+        fix: function() {
 
         },
 
         /**
          * do nothing, panel compatibility
          */
-        unfix: function () {
+        unfix: function() {
 
         },
 
         /**
          * Enable the collapsible -> do nothing, panel compatibility
          */
-        enableCollapsible: function () {
+        enableCollapsible: function() {
 
         },
 
         /**
          * Disable the collapsible -> do nothing, panel compatibility
          */
-        disableCollapsible: function () {
+        disableCollapsible: function() {
 
         },
 
         /**
          * Enable the dragdrop -> do nothing, panel compatibility
          */
-        enableDragDrop: function () {
+        enableDragDrop: function() {
 
         },
 
         /**
          * Disable the dragdrop -> do nothing, panel compatibility
          */
-        disableDragDrop: function () {
+        disableDragDrop: function() {
 
         },
 
@@ -711,7 +711,7 @@ define('qui/controls/desktop/Tasks', [
          * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        open: function (callback) {
+        open: function(callback) {
             var self = this;
 
             this.$Container.setStyle('display', null);
@@ -724,7 +724,7 @@ define('qui/controls/desktop/Tasks', [
             }, {
                 duration: 200,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     self.fireEvent('open', [self]);
                     self.resize();
 
@@ -743,7 +743,7 @@ define('qui/controls/desktop/Tasks', [
          * @param {Function} [callback] - optional, callback function
          * @return {Object} this (qui/controls/desktop/Tasks)
          */
-        minimize: function (callback) {
+        minimize: function(callback) {
             var self = this;
 
             this.$Container.setStyle('display', 'none');
@@ -751,7 +751,7 @@ define('qui/controls/desktop/Tasks', [
             this.$Header.setStyle('display', null);
 
             var texts = [],
-                Text  = this.$Header.getElement('.qui-taskpanel-header-text'),
+                Text = this.$Header.getElement('.qui-taskpanel-header-text'),
                 tasks = this.getTaskbar().getChildren();
 
             for (var i = 0, len = tasks.length; i < len; i++) {
@@ -770,7 +770,7 @@ define('qui/controls/desktop/Tasks', [
             }, {
                 duration: 200,
                 equation: 'ease-out',
-                callback: function () {
+                callback: function() {
                     self.fireEvent('minimize', [self]);
                     self.resize();
 
@@ -790,10 +790,10 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Instance - (qui/controls/Control) Instance of a QUI control
          * @return {Object} qui/controls/tasksbar/Task
          */
-        instanceToTask: function (Instance) {
+        instanceToTask: function(Instance) {
             // create task
             var closeable = false,
-                dragable  = false;
+                dragable = false;
 
             if (Instance.existAttribute('closeable') === false ||
                 Instance.existAttribute('closeable') &&
@@ -817,7 +817,7 @@ define('qui/controls/desktop/Tasks', [
 
             Task.setAttributes({
                 closeable: closeable,
-                dragable : dragable
+                dragable: dragable
             });
 
 
@@ -831,7 +831,7 @@ define('qui/controls/desktop/Tasks', [
          * @param {Object} Bar - qui/controls/taskbar/Bar | qui/controls/taskbar/Group
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $onTaskbarAppendChild: function (Bar, Task) {
+        $onTaskbarAppendChild: function(Bar, Task) {
             if (Task.getType() === 'qui/controls/taskbar/Group') {
                 Task.addEvent('onAppendChild', this.$onTaskbarAppendChild);
 
@@ -844,10 +844,10 @@ define('qui/controls/desktop/Tasks', [
                 return;
             }
 
-            var Instance   = Task.getInstance(),
-                Taskbar    = Task.getTaskbar(),
+            var Instance = Task.getInstance(),
+                Taskbar = Task.getTaskbar(),
                 TaskParent = Task.getParent(),
-                IParent    = false;
+                IParent = false;
 
             if (!Instance) {
                 return;
@@ -870,13 +870,13 @@ define('qui/controls/desktop/Tasks', [
 
             Instance.getElm().setStyles({
                 position: 'absolute',
-                top     : 0,
-                left    : (this.$Container.getSize().x + 10) * -1
+                top: 0,
+                left: (this.$Container.getSize().x + 10) * -1
             });
 
             // not the best solution
             Instance.tasksPanelDestroy = Instance.destroy;
-            Instance.destroy           = this.$onInstanceDestroy.bind(this, Instance);
+            Instance.destroy = this.$onInstanceDestroy.bind(this, Instance);
 
             // delete the own task destroy event
             // so the tasks panel can destroy the instance
@@ -891,7 +891,7 @@ define('qui/controls/desktop/Tasks', [
             // add the new events of the panel to the task
             Task.addEvents({
                 onActivate: this.$activateTask,
-                onDestroy : this.$destroyTask
+                onDestroy: this.$destroyTask
             });
 
             if (this.$__unserialize === true) {
@@ -901,7 +901,7 @@ define('qui/controls/desktop/Tasks', [
 
             if (!TaskParent ||
                 TaskParent && TaskParent.getType() !== 'qui/controls/taskbar/Group') {
-                (function () {
+                (function() {
                     Task.click();
                 }).delay(100, [this]);
             }
@@ -913,10 +913,10 @@ define('qui/controls/desktop/Tasks', [
          * @method qui/controls/desktop/Tasks#$removeTask
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $removeTask: function (Task) {
+        $removeTask: function(Task) {
             Task.removeEvents({
                 onActivate: this.$activateTask,
-                onDestroy : this.$destroyTask
+                onDestroy: this.$destroyTask
             });
 
             this.getTaskbar().removeChild(Task);
@@ -927,7 +927,7 @@ define('qui/controls/desktop/Tasks', [
          *
          * @method qui/controls/desktop/Tasks#$onInstanceDestroy
          */
-        $onInstanceDestroy: function (Instance) {
+        $onInstanceDestroy: function(Instance) {
             Instance.tasksPanelDestroy();
 
             var Task = Instance.getAttribute('Task');

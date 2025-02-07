@@ -32,8 +32,8 @@ define('qui/controls/taskbar/Bar', [
 
     'css!qui/controls/taskbar/Bar.css'
 
-], function (QUILocale, Control, TaskbarTask, TaskbarGroup, Button, Contextmenu, ContextmenuItem) {
-    "use strict";
+], function(QUILocale, Control, TaskbarTask, TaskbarGroup, Button, Contextmenu, ContextmenuItem) {
+    'use strict';
 
     var lg = 'qui/controls/taskbar/Bar';
 
@@ -47,7 +47,7 @@ define('qui/controls/taskbar/Bar', [
     return new Class({
 
         Extends: Control,
-        Type   : 'qui/controls/taskbar/Bar',
+        Type: 'qui/controls/taskbar/Bar',
 
         Binds: [
             '$onTaskRefresh',
@@ -60,28 +60,28 @@ define('qui/controls/taskbar/Bar', [
         ],
 
         options: {
-            width   : false,
-            styles  : false,
+            width: false,
+            styles: false,
             position: 'bottom' // bottom or top
         },
 
-        initialize: function (options) {
-            this.$Elm   = null;
+        initialize: function(options) {
+            this.$Elm = null;
             this.$tasks = [];
 
-            this.$Active      = null;
-            this.$LastTask    = null;
+            this.$Active = null;
+            this.$LastTask = null;
             this.$ContextMenu = null;
 
-            this.$TaskButton    = null;
-            this.$Left          = null;
-            this.$Right         = null;
-            this.$Container     = null;
+            this.$TaskButton = null;
+            this.$Left = null;
+            this.$Right = null;
+            this.$Container = null;
             this.$TaskContainer = null;
 
 
             this.$unserializedTasks = 0;
-            this.$overflowed        = false;
+            this.$overflowed = false;
 
             this.parent(options);
         },
@@ -92,23 +92,23 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#serialize
          * @return {Object}
          */
-        serialize: function () {
+        serialize: function() {
             var tasks = [];
 
             for (var i = 0, len = this.$tasks.length; i < len; i++) {
                 tasks.push(this.$tasks[i].serialize());
             }
 
-            var activeType = "";
+            var activeType = '';
             if (this.$Active && this.$Active.$Instance && this.$Active.$Instance.getType()) {
                 activeType = this.$Active.$Instance.getType();
             }
 
             return {
                 attributes: this.getAttributes(),
-                type      : this.getType(),
-                tasks     : tasks,
-                active    : activeType
+                type: this.getType(),
+                tasks: tasks,
+                active: activeType
             };
         },
 
@@ -119,7 +119,7 @@ define('qui/controls/taskbar/Bar', [
          * @param {Object} data
          * @return {Object} this (qui/controls/taskbar/Bar)
          */
-        unserialize: function (data) {
+        unserialize: function(data) {
             this.setAttributes(data.attributes);
 
             if (!this.$Elm) {
@@ -144,7 +144,7 @@ define('qui/controls/taskbar/Bar', [
             var self = this;
             var i, len, Task;
 
-            var importInit = function (Task) {
+            var importInit = function(Task) {
                 self.appendChild(Task);
                 self.$unserializedTasks++;
 
@@ -171,19 +171,19 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#create
          * @return {HTMLElement}
          */
-        create: function () {
+        create: function() {
             if (this.$Elm) {
                 this.refresh();
                 return this.$Elm;
             }
 
             this.$Elm = new Element('div', {
-                'class'     : 'qui-taskbar qui-task-drop box',
+                'class': 'qui-taskbar qui-task-drop box',
                 'data-quiid': this.getId(),
-                html        : '<div class="qui-taskbar-container">' +
+                html: '<div class="qui-taskbar-container">' +
                     '<div class="qui-taskbar-container-tasks"></div>' +
                     '</div>',
-                events      : {
+                events: {
                     contextmenu: this.$openContextMenu
                 }
             });
@@ -200,48 +200,48 @@ define('qui/controls/taskbar/Bar', [
                 this.$Elm.addClass('qui-taskbar-top');
             }
 
-            this.$Container     = this.$Elm.getElement('.qui-taskbar-container');
+            this.$Container = this.$Elm.getElement('.qui-taskbar-container');
             this.$TaskContainer = this.$Elm.getElement('.qui-taskbar-container-tasks');
 
             this.$ContainerScroll = new Fx.Scroll(this.$Container);
 
             this.$TaskContainer.setStyles({
-                left    : 0,
+                left: 0,
                 position: 'relative',
-                top     : 0
+                top: 0
             });
 
             this.$Left = new Button({
-                name   : 'qui-taskbar-left',
+                name: 'qui-taskbar-left',
                 'class': 'icon-angle-left fa fa-angle-left',
-                events : {
+                events: {
                     onClick: this.scrollToLeft
                 },
-                styles : {
-                    width : 30,
+                styles: {
+                    width: 30,
                     height: 30
                 }
             }).inject(this.$Elm, 'top');
 
             this.$Right = new Button({
-                name   : 'qui-taskbar-left',
+                name: 'qui-taskbar-left',
                 'class': 'icon-angle-right fa fa-angle-right',
-                events : {
+                events: {
                     onClick: this.scrollToRight
                 },
-                styles : {
-                    width : 30,
+                styles: {
+                    width: 30,
                     height: 30
                 }
             }).inject(this.$Elm);
 
             this.$TaskButton = new Button({
-                name      : 'qui-taskbar-btn-' + this.getId(),
-                'class'   : 'qui-taskbar-button',
-                icon      : 'icon-chevron-up',
+                name: 'qui-taskbar-btn-' + this.getId(),
+                'class': 'qui-taskbar-button',
+                icon: 'icon-chevron-up',
                 menuCorner: this.getAttribute('position'),
-                styles    : {
-                    width : 30,
+                styles: {
+                    width: 30,
                     height: 30
                 }
             }).inject(this.$Elm);
@@ -259,11 +259,11 @@ define('qui/controls/taskbar/Bar', [
         /**
          * Resize the elements
          */
-        resize: function () {
-            var maxWidth     = this.$Elm.getComputedSize().totalWidth,
+        resize: function() {
+            var maxWidth = this.$Elm.getComputedSize().totalWidth,
                 buttonsWidth = 94,
 
-                tasksSize    = this.$Elm.getElements('.qui-task').map(function (Item) {
+                tasksSize = this.$Elm.getElements('.qui-task').map(function(Item) {
                     return Item.getComputedSize().totalWidth;
                 }).sum();
 
@@ -293,7 +293,7 @@ define('qui/controls/taskbar/Bar', [
          *
          * @method qui/controls/taskbar/Bar#refresh
          */
-        refresh: function () {
+        refresh: function() {
 
         },
 
@@ -304,7 +304,7 @@ define('qui/controls/taskbar/Bar', [
          * @param {Object} Task - qui/controls/taskbar/Task | qui/controls/taskbar/Group
          * @param {String} pos - Can be 'top', 'bottom', 'after', or 'before'
          */
-        appendChild: function (Task, pos) {
+        appendChild: function(Task, pos) {
             this.fireEvent('appendChildBegin', [this, Task]);
 
             var Parent = Task.getParent();
@@ -314,16 +314,16 @@ define('qui/controls/taskbar/Bar', [
                 Task.removeEvent('click', Parent.$onTaskClick);
             }
 
-            if (Parent && "dependChild" in Parent) {
+            if (Parent && 'dependChild' in Parent) {
                 Parent.dependChild(Task.getInstance());
             }
 
             Task.setParent(this);
 
             Task.addEvents({
-                onRefresh    : this.$onTaskRefresh,
-                onClick      : this.$onTaskClick,
-                onDestroy    : this.$onTaskDestroy,
+                onRefresh: this.$onTaskRefresh,
+                onClick: this.$onTaskClick,
+                onDestroy: this.$onTaskDestroy,
                 onContextMenu: this.$onTaskContextMenu
             });
 
@@ -341,12 +341,12 @@ define('qui/controls/taskbar/Bar', [
 
             this.$TaskButton.appendChild(
                 new ContextmenuItem({
-                    icon  : Task.getIcon(),
-                    text  : Task.getText(),
-                    name  : Task.getId(),
-                    Task  : Task,
+                    icon: Task.getIcon(),
+                    text: Task.getText(),
+                    name: Task.getId(),
+                    Task: Task,
                     events: {
-                        onMouseDown: function (Item) {
+                        onMouseDown: function(Item) {
                             Item.getAttribute('Task').click();
                         }
                     }
@@ -364,7 +364,7 @@ define('qui/controls/taskbar/Bar', [
          *
          * @return {Number}
          */
-        length: function () {
+        length: function() {
             return this.$tasks.length;
         },
 
@@ -374,7 +374,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#firstChild
          * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
-        firstChild: function () {
+        firstChild: function() {
             if (typeof this.$tasks[0] !== 'undefined') {
                 return this.$tasks[0];
             }
@@ -388,7 +388,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#lastChild
          * @return {Object|Boolean} qui/controls/taskbar/Task | qui/controls/taskbar/Group | false
          */
-        lastChild: function () {
+        lastChild: function() {
             if (this.$tasks.length) {
                 return this.$tasks[this.$tasks.length - 1];
             }
@@ -402,9 +402,9 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#removeChild
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        removeChild: function (Task) {
+        removeChild: function(Task) {
             if (this.$TaskButton) {
-                this.$TaskButton.getContextMenu(function (Menu) {
+                this.$TaskButton.getContextMenu(function(Menu) {
                     var Child = Menu.getChildren(Task.getId());
 
                     if (Child) {
@@ -421,7 +421,7 @@ define('qui/controls/taskbar/Bar', [
          *
          * @return {Array}
          */
-        getChildren: function () {
+        getChildren: function() {
             return this.$tasks;
         },
 
@@ -431,9 +431,9 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#closeAllTasks
          * @return {Object} qui/controls/taskbar/Bar
          */
-        closeAllTasks: function () {
+        closeAllTasks: function() {
             if (this.$TaskButton) {
-                this.$TaskButton.getContextMenu(function (Menu) {
+                this.$TaskButton.getContextMenu(function(Menu) {
                     Menu.clear();
                 });
             }
@@ -463,9 +463,9 @@ define('qui/controls/taskbar/Bar', [
          * @param {Object} Task - qui/controls/taskbar/Task
          * @return {Object} qui/controls/taskbar/Bar
          */
-        closeOtherTasks: function (Task) {
+        closeOtherTasks: function(Task) {
             var tasks = this.$tasks,
-                tid   = Task.getId();
+                tid = Task.getId();
 
             for (var i = 0, len = tasks.length; i < len; i++) {
                 if (tid !== tasks[i].getId() && tasks[i].getAttribute('notClosable') === false) {
@@ -483,7 +483,7 @@ define('qui/controls/taskbar/Bar', [
          * @param {Object} Task - qui/controls/taskbar/Task
          * @return {Object} qui/controls/taskbar/Bar
          */
-        closeTask: function (Task) {
+        closeTask: function(Task) {
             this.removeChild(Task);
 
             return this;
@@ -495,7 +495,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#highlight
          * @return {Object} this (qui/controls/taskbar/Bar)
          */
-        highlight: function () {
+        highlight: function() {
             this.$Elm.addClass('highlight');
 
             return this;
@@ -507,7 +507,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#normalize
          * @return {Object} this (qui/controls/taskbar/Bar)
          */
-        normalize: function () {
+        normalize: function() {
             this.$Elm.removeClass('highlight');
 
             return this;
@@ -516,14 +516,14 @@ define('qui/controls/taskbar/Bar', [
         /**
          * Scroll the taskbar to the left
          */
-        scrollToLeft: function () {
+        scrollToLeft: function() {
             if (!this.$ContainerScroll) {
                 return;
             }
 
             var scrollPos = this.$Container.getScroll(),
-                size      = this.$Container.getSize(),
-                pos       = scrollPos.x - (size.x * 0.8).round();
+                size = this.$Container.getSize(),
+                pos = scrollPos.x - (size.x * 0.8).round();
 
             this.$ContainerScroll.start(pos, 0);
         },
@@ -531,14 +531,14 @@ define('qui/controls/taskbar/Bar', [
         /**
          * Scroll the taskbar to the right
          */
-        scrollToRight: function () {
+        scrollToRight: function() {
             if (!this.$ContainerScroll) {
                 return;
             }
 
             var scrollPos = this.$Container.getScroll(),
-                size      = this.$Container.getSize(),
-                pos       = scrollPos.x + (size.x * 0.8).round();
+                size = this.$Container.getSize(),
+                pos = scrollPos.x + (size.x * 0.8).round();
 
             this.$ContainerScroll.start(pos, 0);
         },
@@ -548,7 +548,7 @@ define('qui/controls/taskbar/Bar', [
          *
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        scrollToTask: function (Task) {
+        scrollToTask: function(Task) {
             if (!this.$overflowed) {
                 return;
             }
@@ -564,12 +564,12 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#$onTaskRefresh
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $onTaskRefresh: function (Task) {
+        $onTaskRefresh: function(Task) {
             if (!this.$TaskButton) {
                 return;
             }
 
-            this.$TaskButton.getContextMenu(function (Menu) {
+            this.$TaskButton.getContextMenu(function(Menu) {
                 var Child = Menu.getChildren(Task.getId());
 
                 if (!Child) {
@@ -587,7 +587,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#$onTaskClick
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $onTaskClick: function (Task) {
+        $onTaskClick: function(Task) {
             if (this.$Active == Task) {
                 return;
             }
@@ -611,7 +611,7 @@ define('qui/controls/taskbar/Bar', [
          * @method qui/controls/taskbar/Bar#$onTaskDestroy
          * @param {Object} Task - qui/controls/taskbar/Task
          */
-        $onTaskDestroy: function (Task) {
+        $onTaskDestroy: function(Task) {
             // clear internal array
             var i, len, tasks = [];
             for (i = 0, len = this.$tasks.length; i < len; i++) {
@@ -624,7 +624,7 @@ define('qui/controls/taskbar/Bar', [
 
 
             // destroy entry in context menu
-            this.$TaskButton.getContextMenu(function (Menu) {
+            this.$TaskButton.getContextMenu(function(Menu) {
                 var Child = Menu.getChildren(Task.getId());
 
                 if (Child) {
@@ -633,9 +633,9 @@ define('qui/controls/taskbar/Bar', [
             });
 
             Task.removeEvents({
-                onRefresh    : this.$onTaskRefresh,
-                onClick      : this.$onTaskClick,
-                onDestroy    : this.$onTaskDestroy,
+                onRefresh: this.$onTaskRefresh,
+                onClick: this.$onTaskClick,
+                onDestroy: this.$onTaskDestroy,
                 onContextMenu: this.$onTaskContextMenu
             });
 
@@ -688,20 +688,20 @@ define('qui/controls/taskbar/Bar', [
          *
          * @param {DOMEvent} event
          */
-        $openContextMenu: function (event) {
+        $openContextMenu: function(event) {
             event.stop();
 
             var self = this;
 
             if (!this.$ContextMenu) {
                 this.$ContextMenu = new Contextmenu({
-                    name  : 'taskbar-contextmenu',
+                    name: 'taskbar-contextmenu',
                     corner: this.getAttribute('position'),
                     events: {
-                        onBlur: function (Menu) {
+                        onBlur: function(Menu) {
                             Menu.hide();
 
-                            self.$tasks.each(function (Task) {
+                            self.$tasks.each(function(Task) {
                                 Task.deHighlight();
                             });
                         }
@@ -713,11 +713,11 @@ define('qui/controls/taskbar/Bar', [
 
                 this.$ContextMenu.appendChild(
                     new ContextmenuItem({
-                        name  : 'close-task',
-                        text  : QUILocale.get(lg, 'task.close.this'),
-                        icon  : 'icon-remove',
+                        name: 'close-task',
+                        text: QUILocale.get(lg, 'task.close.this'),
+                        icon: 'icon-remove',
                         events: {
-                            onClick: function (Item) {
+                            onClick: function(Item) {
                                 var Task = Item.getAttribute('Task');
 
                                 if (Task) {
@@ -728,11 +728,11 @@ define('qui/controls/taskbar/Bar', [
                     })
                 ).appendChild(
                     new ContextmenuItem({
-                        name  : 'close-other-task',
-                        text  : QUILocale.get(lg, 'task.close.other'),
-                        icon  : 'icon-remove-sign',
+                        name: 'close-other-task',
+                        text: QUILocale.get(lg, 'task.close.other'),
+                        icon: 'icon-remove-sign',
                         events: {
-                            onClick: function (Item) {
+                            onClick: function(Item) {
                                 var Task = Item.getAttribute('Task');
 
                                 if (Task) {
@@ -744,11 +744,11 @@ define('qui/controls/taskbar/Bar', [
                     })
                 ).appendChild(
                     new ContextmenuItem({
-                        name  : 'close-all-task',
-                        text  : QUILocale.get(lg, 'task.close.all'),
-                        icon  : 'icon-remove-circle',
+                        name: 'close-all-task',
+                        text: QUILocale.get(lg, 'task.close.all'),
+                        icon: 'icon-remove-circle',
                         events: {
-                            onClick: function () {
+                            onClick: function() {
                                 self.closeAllTasks();
                             }
                         }
@@ -785,13 +785,13 @@ define('qui/controls/taskbar/Bar', [
          * @param {Object} Task - qui/controls/taskbar/Task
          * @param {DOMEvent} event - DOMEvent
          */
-        $onTaskContextMenu: function (Task, event) {
-            this.$tasks.each(function (Task) {
+        $onTaskContextMenu: function(Task, event) {
+            this.$tasks.each(function(Task) {
                 Task.deHighlight();
             });
 
-            var Menu       = this.$openContextMenu(event),
-                CloseTask  = Menu.getChildren('close-task'),
+            var Menu = this.$openContextMenu(event),
+                CloseTask = Menu.getChildren('close-task'),
                 CloseOther = Menu.getChildren('close-other-task');
 
             Menu.setTitle(Task.getText());
