@@ -19,7 +19,7 @@ define('qui/controls/utils/Progressbar', [
 
     'css!qui/controls/utils/Progressbar.css'
 
-], function(QUIControl) {
+], function (QUIControl) {
     'use strict';
 
     /**
@@ -43,12 +43,20 @@ define('qui/controls/utils/Progressbar', [
             startPercentage: 0
         },
 
-        initialize: function(options) {
+        initialize: function (options) {
             this.parent(options);
 
             this.$Elm = null;
             this.$Perc = null;
             this.$Text = null;
+
+            if (QUI.getAttribute('qui-progressbar-class')) {
+                this.setAttribute('boxClass', QUI.getAttribute('qui-progressbar-class'));
+            }
+
+            if (QUI.getAttribute('qui-progressbar-percentage-class')) {
+                this.setAttribute('percentageClass', QUI.getAttribute('qui-progressbar-percentage-class'));
+            }
 
             this.to = 0;
         },
@@ -58,7 +66,7 @@ define('qui/controls/utils/Progressbar', [
          *
          * @method qui/controls/utils/Progressbar#create
          */
-        create: function() {
+        create: function () {
             this.$Elm = new Element('div', {
                 styles: {
                     position: 'relative'
@@ -98,7 +106,7 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#calculate
          * @param {Number} percentage - 0 - 100
          */
-        calculate: function(percentage) {
+        calculate: function (percentage) {
             if (this.width === 0) {
                 this.width = this.$Box.getSize().x;
             }
@@ -112,7 +120,7 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#animate
          * @param {Number} to - 0 - 100
          */
-        animate: function(to) {
+        animate: function (to) {
             if (to.toInt() > 100) {
                 return;
             }
@@ -144,7 +152,7 @@ define('qui/controls/utils/Progressbar', [
          * @method qui/controls/utils/Progressbar#set
          * @param {Number} to - 0 - 100
          */
-        set: function(to) {
+        set: function (to) {
             this.to = to;
             this.animate(this.to);
         },
@@ -154,7 +162,7 @@ define('qui/controls/utils/Progressbar', [
          *
          * @return {Number}
          */
-        get: function() {
+        get: function () {
             return this.to;
         }
     });
