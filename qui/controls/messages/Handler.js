@@ -19,14 +19,12 @@ define('qui/controls/messages/Handler', [
     'require',
     'qui/QUI',
     'qui/controls/Control',
-    'qui/controls/messages/Favico',
-    'qui/classes/utils/Push',
     'qui/Locale',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function(require, QUI, Control, Favico, Push, Locale) {
+], function(require, QUI, Control, Locale) {
     'use strict';
 
     /**
@@ -52,7 +50,6 @@ define('qui/controls/messages/Handler', [
         options: {
             autosave: true,
             autoload: true,
-            useFavicon: false,
             displayTimeMessages: 2500,
             showMessages: true
         },
@@ -62,27 +59,7 @@ define('qui/controls/messages/Handler', [
 
             this.parent(params);
 
-            this.Favico = null;
             this.$Parent = null;
-            this.Push = new Push();
-
-            // ie 9 and lower can't change the favicon
-            if (!window.Browser.ie || (window.Browser.ie && window.Browser.version > 9)) {
-                try {
-                    this.Favico = new Favico({
-                        animation: 'fade'
-                    });
-                } catch (e) {
-                    // nothing
-                }
-
-                window.addEvent('unload', function() {
-                    if (self.getAttribute('useFavicon') && self.Favico) {
-                        self.Favico.badge(0);
-                    }
-                });
-            }
-
             let data = null;
 
             try {
@@ -167,7 +144,7 @@ define('qui/controls/messages/Handler', [
 
             if (data.newMessages && self.$messages.length) {
                 this.$newMessages = data.newMessages;
-                this.refreshFavicon();
+                this.refreshBadge();
             }
 
             if (this.getAttribute('autoload')) {
@@ -275,7 +252,7 @@ define('qui/controls/messages/Handler', [
                 }
             });
 
-            this.refreshFavicon();
+            this.refreshBadge();
 
             return this.$Elm;
         },
@@ -417,7 +394,7 @@ define('qui/controls/messages/Handler', [
                         Container.addClass('shadow');
                     }
 
-                    self.refreshFavicon();
+                    self.refreshBadge();
                     self.save();
                 }
             });
@@ -515,10 +492,6 @@ define('qui/controls/messages/Handler', [
                     Locale.get('qui/controls/messages', 'handler.no.messages') +
                     '</p>'
                 );
-            }
-
-            if (this.Favico) {
-                this.Favico.reset();
             }
 
             this.fireEvent('clear', [this]);
@@ -625,7 +598,7 @@ define('qui/controls/messages/Handler', [
          */
         clearNewMessages: function() {
             this.$newMessages = 0;
-            this.refreshFavicon();
+            this.refreshBadge();
 
             this.fireEvent('clearNewMessages');
         },
@@ -651,15 +624,11 @@ define('qui/controls/messages/Handler', [
         },
 
         /**
-         * refresh the favicon and the counter
+         * refresh the counter badge
          *
-         * @method qui/controls/messages/Handler#refreshFavicon
+         * @method qui/controls/messages/Handler#refreshBadge
          */
-        refreshFavicon: function() {
-            if (this.Favico && this.getAttribute('useFavicon')) {
-                this.Favico.badge(this.$newMessages);
-            }
-
+        refreshBadge: function() {
             if (!this.getElm()) {
                 return;
             }
@@ -734,7 +703,7 @@ define('qui/controls/messages/Handler', [
                 }
 
                 this.$newMessages++;
-                this.refreshFavicon();
+                this.refreshBadge();
 
                 if (this.getAttribute('autosave')) {
                     this.save();
@@ -1004,141 +973,6 @@ define('qui/controls/messages/Handler', [
             });
 
             return this;
-        },
-
-        /**
-         * Pushs a attention message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number} [timeout]
-         */
-        pushAttention: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/attention_16.png',
-                    x32: path + '/controls/messages/images/attention_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a attention message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushError: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/error_16.png',
-                    x32: path + '/controls/messages/images/error_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a exception
-         *
-         * @param {DOMException|Object} Exception
-         * @param {Number|Boolean} [timeout]
-         */
-        pushException: function(Exception, timeout) {
-            const title = Exception.getCode();
-            const message = Exception.getMessage();
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/error_16.png',
-                    x32: path + '/controls/messages/images/error_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a information message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushInformation: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/information_16.png',
-                    x32: path + '/controls/messages/images/information_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a success message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushSuccess: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/success_16.png',
-                    x32: path + '/controls/messages/images/success_32.png'
-                },
-                timeout: timeout
-            });
         },
 
         /**
