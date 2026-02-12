@@ -19,13 +19,12 @@ define('qui/controls/messages/Handler', [
     'require',
     'qui/QUI',
     'qui/controls/Control',
-    'qui/classes/utils/Push',
     'qui/Locale',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function(require, QUI, Control, Push, Locale) {
+], function(require, QUI, Control, Locale) {
     'use strict';
 
     /**
@@ -61,8 +60,6 @@ define('qui/controls/messages/Handler', [
             this.parent(params);
 
             this.$Parent = null;
-            this.Push = new Push();
-
             let data = null;
 
             try {
@@ -976,141 +973,6 @@ define('qui/controls/messages/Handler', [
             });
 
             return this;
-        },
-
-        /**
-         * Pushs a attention message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number} [timeout]
-         */
-        pushAttention: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/attention_16.png',
-                    x32: path + '/controls/messages/images/attention_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a attention message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushError: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/error_16.png',
-                    x32: path + '/controls/messages/images/error_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a exception
-         *
-         * @param {DOMException|Object} Exception
-         * @param {Number|Boolean} [timeout]
-         */
-        pushException: function(Exception, timeout) {
-            const title = Exception.getCode();
-            const message = Exception.getMessage();
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/error_16.png',
-                    x32: path + '/controls/messages/images/error_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a information message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushInformation: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/information_16.png',
-                    x32: path + '/controls/messages/images/information_32.png'
-                },
-                timeout: timeout
-            });
-        },
-
-        /**
-         * Pushs a success message
-         *
-         * @param {String} title
-         * @param {String} message
-         * @param {Number|Boolean} [timeout]
-         */
-        pushSuccess: function(title, message, timeout) {
-            title = title || '';
-            message = message || '';
-
-            if (typeof timeout === 'undefined') {
-                timeout = 5000;
-            }
-
-            const path = window.requirejs.s.contexts._.config.paths.qui;
-
-            this.Push.create(title, {
-                body: message,
-                icon: {
-                    x16: path + '/controls/messages/images/success_16.png',
-                    x32: path + '/controls/messages/images/success_32.png'
-                },
-                timeout: timeout
-            });
         },
 
         /**
