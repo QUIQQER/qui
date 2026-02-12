@@ -19,14 +19,13 @@ define('qui/controls/messages/Handler', [
     'require',
     'qui/QUI',
     'qui/controls/Control',
-    'qui/controls/messages/Favico',
     'qui/classes/utils/Push',
     'qui/Locale',
     'qui/classes/storage/Storage',
 
     'css!qui/controls/messages/Handler.css'
 
-], function(require, QUI, Control, Favico, Push, Locale) {
+], function(require, QUI, Control, Push, Locale) {
     'use strict';
 
     /**
@@ -52,7 +51,6 @@ define('qui/controls/messages/Handler', [
         options: {
             autosave: true,
             autoload: true,
-            useFavicon: false,
             displayTimeMessages: 2500,
             showMessages: true
         },
@@ -62,26 +60,8 @@ define('qui/controls/messages/Handler', [
 
             this.parent(params);
 
-            this.Favico = null;
             this.$Parent = null;
             this.Push = new Push();
-
-            // ie 9 and lower can't change the favicon
-            if (!window.Browser.ie || (window.Browser.ie && window.Browser.version > 9)) {
-                try {
-                    this.Favico = new Favico({
-                        animation: 'fade'
-                    });
-                } catch (e) {
-                    // nothing
-                }
-
-                window.addEvent('unload', function() {
-                    if (self.getAttribute('useFavicon') && self.Favico) {
-                        self.Favico.badge(0);
-                    }
-                });
-            }
 
             let data = null;
 
@@ -167,7 +147,7 @@ define('qui/controls/messages/Handler', [
 
             if (data.newMessages && self.$messages.length) {
                 this.$newMessages = data.newMessages;
-                this.refreshFavicon();
+                this.refreshBadge();
             }
 
             if (this.getAttribute('autoload')) {
@@ -275,7 +255,7 @@ define('qui/controls/messages/Handler', [
                 }
             });
 
-            this.refreshFavicon();
+            this.refreshBadge();
 
             return this.$Elm;
         },
@@ -417,7 +397,7 @@ define('qui/controls/messages/Handler', [
                         Container.addClass('shadow');
                     }
 
-                    self.refreshFavicon();
+                    self.refreshBadge();
                     self.save();
                 }
             });
@@ -515,10 +495,6 @@ define('qui/controls/messages/Handler', [
                     Locale.get('qui/controls/messages', 'handler.no.messages') +
                     '</p>'
                 );
-            }
-
-            if (this.Favico) {
-                this.Favico.reset();
             }
 
             this.fireEvent('clear', [this]);
@@ -625,7 +601,7 @@ define('qui/controls/messages/Handler', [
          */
         clearNewMessages: function() {
             this.$newMessages = 0;
-            this.refreshFavicon();
+            this.refreshBadge();
 
             this.fireEvent('clearNewMessages');
         },
@@ -651,15 +627,11 @@ define('qui/controls/messages/Handler', [
         },
 
         /**
-         * refresh the favicon and the counter
+         * refresh the counter badge
          *
-         * @method qui/controls/messages/Handler#refreshFavicon
+         * @method qui/controls/messages/Handler#refreshBadge
          */
-        refreshFavicon: function() {
-            if (this.Favico && this.getAttribute('useFavicon')) {
-                this.Favico.badge(this.$newMessages);
-            }
-
+        refreshBadge: function() {
             if (!this.getElm()) {
                 return;
             }
@@ -734,7 +706,7 @@ define('qui/controls/messages/Handler', [
                 }
 
                 this.$newMessages++;
-                this.refreshFavicon();
+                this.refreshBadge();
 
                 if (this.getAttribute('autosave')) {
                     this.save();

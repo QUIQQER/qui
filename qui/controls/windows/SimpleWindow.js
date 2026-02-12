@@ -9,12 +9,12 @@ define('qui/controls/windows/SimpleWindow', [
     'qui/controls/windows/Popup',
     'css!qui/controls/windows/SimpleWindow.css'
 
-], function (QUI, Popup) {
+], function (QUI, QUIPopup) {
     'use strict';
 
     return new Class({
 
-        Extends: Popup,
+        Extends: QUIPopup,
         Type: 'qui/controls/windows/SimpleWindow',
 
         Binds: [
@@ -28,8 +28,6 @@ define('qui/controls/windows/SimpleWindow', [
 
         initialize: function (options) {
             this.parent(options);
-
-            this.addEvents({});
         },
 
         create: function () {
