@@ -278,6 +278,10 @@ define('qui/controls/contextmenu/Menu', [
                 Parent = Elm.getParent(),
                 scrollSize = Elm.getScrollSize();
 
+            if (!Parent) {
+                return this;
+            }
+
             this.$Container.setStyle('height', scrollSize.y + 5);
 
             if (this.getAttribute('maxHeight')) {
