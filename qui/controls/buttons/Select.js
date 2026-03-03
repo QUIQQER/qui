@@ -806,6 +806,11 @@ define('qui/controls/buttons/Select', [
             }
 
             this.$Menu.setAttribute('width', width);
+
+            if (!this.$Menu.getElm().getParent()) {
+                this.$Menu.inject(document.body);
+            }
+
             this.$Menu.show();
 
             if (this.getAttribute('menuLeft')) {
