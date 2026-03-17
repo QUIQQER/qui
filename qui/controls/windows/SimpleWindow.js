@@ -42,7 +42,8 @@ define('qui/controls/windows/SimpleWindow', [
 
             new Element('button', {
                 name: 'close',
-                'class': 'fa fa-close qui-window-popup-title-close',
+                'class': 'btn btn-close qui-window-simpleWindow__closeBtn',
+                html: '<span class="fa fa-close"></span>',
                 styles: {
                     zIndex: 10
                 },

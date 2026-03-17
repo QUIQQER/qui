@@ -45,6 +45,7 @@ define('qui/controls/windows/SimpleConfirmWindow', [
             this.parent();
 
             this.$Buttons = document.createElement('div');
+            this.$Buttons.classList.add('qui-window-simpleWindow__buttons');
             //this.$Buttons.classList.add('qui-window-popup-buttons');
 
             const buttons = [];
