@@ -1,13 +1,9 @@
 /**
  * Submit windows
  *
- * @module qui/controls/windows/Submit
- * @author www.pcsg.de (Henning Leutz)
- *
  * @fires onSubmit
  * @fires onCancel
  */
-
 define('qui/controls/windows/Submit', [
 
     'qui/QUI',
