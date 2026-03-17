@@ -1,7 +1,9 @@
 @CHARSET "UTF-8";
 
 .qui-window-popup {
-    background: #FFFFFF;
+    background: var(--qui-colors-modal, #fff);
+    border-radius: var(--qui-radius-modal, 0);
+    box-shadow: var(--qui-shadow-modal, none);
     display: flex;
     flex-direction: column;
     overflow: hidden;

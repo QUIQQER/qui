@@ -13,8 +13,10 @@
 }
 
 .qui-window-simpleWindow__buttons {
+    background-color: var(--qui-colors-modal-actions, #fff);
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
 }
