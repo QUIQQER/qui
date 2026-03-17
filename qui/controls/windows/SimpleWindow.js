@@ -1,7 +1,5 @@
 /**
  * SimpleWindow
- *
- * @module qui/controls/windows/SimpleWindow
  */
 define('qui/controls/windows/SimpleWindow', [
 

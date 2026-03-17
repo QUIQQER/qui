@@ -3,13 +3,9 @@
  *
  * For documentation and examples see MultiStep.md
  *
- * @module qui/controls/windows/MultiStep
- * @author www.pcsg.de (Jan Wennrich)
- *
  * @event onShowStep
  * @event onShowNextStep
  * @event onShowPreviousStep
- *
  */
 define('qui/controls/windows/MultiStep', [
 

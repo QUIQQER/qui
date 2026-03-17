@@ -1,14 +1,10 @@
 /**
  * Submit Fenster
  *
- * @module qui/controls/windows/Prompt
- * @author www.pcsg.de (Henning Leutz)
- *
  * @event onSubmit [ value, this ]
  * @event onEnter [ value, this ]
  * @event onCancel [ this ]
  */
-
 define('qui/controls/windows/Prompt', [
 
     'qui/QUI',
