@@ -1,9 +1,6 @@
 /**
  * A popup window
  *
- * @module qui/controls/windows/Popup
- * @author www.pcsg.de (Henning Leutz)
- *
  * @event onOpen [ self ]
  * @event onOpenBegin [ self ]
  * @event onClose [ self ]
@@ -12,7 +9,6 @@
  * @event onResize [ self ]
  * @event onResizeBegin [ self ]
  */
-
 var needle = [
     'qui/QUI',
     'qui/controls/Control',

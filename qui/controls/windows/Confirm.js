@@ -1,13 +1,9 @@
 /**
  * Submit Window
  *
- * @module qui/controls/windows/Confirm
- * @author www.pcsg.de (Henning Leutz)
- *
  * @event onSubmit
  * @event onCancel
  */
-
 define('qui/controls/windows/Confirm', [
 
     'qui/QUI',

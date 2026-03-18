@@ -1,10 +1,6 @@
 /**
  * Alert Box
- *
- * @module qui/controls/windows/Alert
- * @author www.pcsg.de (Henning Leutz)
  */
-
 define('qui/controls/windows/Alert', [
 
     'qui/controls/windows/Popup',

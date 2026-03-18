@@ -1,3 +1,8 @@
+.qui-window-simpleWindow__closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 .qui-window-simpleWindow-content {
     clear: both;
     flex-grow: 1;
@@ -5,4 +10,13 @@
     outline: none;
     height: 100%;
     width: 100%;
+}
+
+.qui-window-simpleWindow__buttons {
+    background-color: var(--qui-colors-modal-actions, #fff);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
 }
