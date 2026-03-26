@@ -30,7 +30,7 @@ define('qui/controls/windows/SimpleConfirmWindow', [
                 'order': 2                  // int
             },
             buttonCancel: {
-                'class': 'btn btn-inline-body', // string
+                'class': 'btn btn-link-body', // string
                 'icon': 'fa fa-cancel',         // string | false
                 'text': 'Cancel',               // string
                 'order': 1                      // int
