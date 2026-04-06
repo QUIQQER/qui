@@ -21,7 +21,8 @@ define('qui/controls/windows/SimpleWindow', [
 
         options: {
             maxHeight: 600,
-            maxWidth: 800
+            maxWidth: 800,
+            contentPadding: false,
         },
 
         initialize: function (options) {
@@ -39,6 +40,10 @@ define('qui/controls/windows/SimpleWindow', [
             this.$Buttons = document.createElement('div');
             this.$Content.classList.remove('qui-window-popup-content');
             this.$Content.classList.add('qui-window-simpleWindow-content');
+
+            if (this.getAttribute('contentPadding')) {
+                this.$Content.classList.add('qui-window-simpleWindow-content--withPadding');
+            }
 
             new Element('button', {
                 name: 'close',

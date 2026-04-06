@@ -1,0 +1,9 @@
+.qui-window-simpleConfirmWindow__buttons > button {
+    order: var(--button-order, 0);
+}
+
+@media (max-width: 767px) {
+    .qui-window-simpleConfirmWindow__buttons > button {
+        order: var(--button-order-mobile, var(--button-order, 0));
+    }
+}

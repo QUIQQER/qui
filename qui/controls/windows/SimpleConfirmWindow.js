@@ -4,7 +4,8 @@
 define('qui/controls/windows/SimpleConfirmWindow', [
 
     'qui/QUI',
-    'qui/controls/windows/SimpleWindow'
+    'qui/controls/windows/SimpleWindow',
+    'css!qui/controls/windows/SimpleConfirmWindow.css'
 
 ], function (QUI, SimpleWindow) {
     'use strict';
@@ -27,13 +28,15 @@ define('qui/controls/windows/SimpleConfirmWindow', [
                 'class': 'btn btn-primary', // string
                 'icon': 'fa fa-check',      // string | false
                 'text': 'OK',               // string
-                'order': 2                  // int
+                'order': 2,                 // int
+                'orderMobile': 1            // int
             },
             buttonCancel: {
                 'class': 'btn btn-link-body', // string
-                'icon': 'fa fa-cancel',         // string | false
-                'text': 'Cancel',               // string
-                'order': 1                      // int
+                'icon': 'fa fa-cancel',       // string | false
+                'text': 'Cancel',             // string
+                'order': 1,                   // int
+                'orderMobile': 2              // int
             }
         },
 
@@ -46,9 +49,8 @@ define('qui/controls/windows/SimpleConfirmWindow', [
 
             this.$Buttons = document.createElement('div');
             this.$Buttons.classList.add('qui-window-simpleWindow__buttons');
-            //this.$Buttons.classList.add('qui-window-popup-buttons');
+            this.$Buttons.classList.add('qui-window-simpleConfirmWindow__buttons');
 
-            const buttons = [];
             const createButton = (name, options, onClick) => {
                 if (!options) {
                     return;
@@ -80,20 +82,17 @@ define('qui/controls/windows/SimpleConfirmWindow', [
 
                 button.addEventListener('click', onClick);
 
-                buttons.push({
-                    button: button,
-                    order: parseInt(options.order, 10) || 0
-                });
+                button.style.setProperty('--button-order', parseInt(options.order, 10) || 0);
+                button.style.setProperty(
+                    '--button-order-mobile',
+                    parseInt(options.orderMobile, 10) || parseInt(options.order, 10) || 0
+                );
+
+                this.$Buttons.appendChild(button);
             };
 
             createButton('submit', this.getAttribute('buttonSubmit'), this.submit);
             createButton('cancel', this.getAttribute('buttonCancel'), this.cancel.bind(this));
-
-            buttons
-                .sort((a, b) => a.order - b.order)
-                .forEach((entry) => {
-                    this.$Buttons.appendChild(entry.button);
-                });
 
             this.$Elm.appendChild(this.$Buttons);
 
