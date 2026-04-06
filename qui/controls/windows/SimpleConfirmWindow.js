@@ -102,9 +102,9 @@ define('qui/controls/windows/SimpleConfirmWindow', [
 
                 button.addEventListener('click', onClick);
 
-                button.style.setProperty('--button-order', parseInt(options.order, 10) || 0);
+                button.style.setProperty('--_button-order', parseInt(options.order, 10) || 0);
                 button.style.setProperty(
-                    '--button-order-mobile',
+                    '--_button-order-mobile',
                     parseInt(options.orderMobile, 10) || parseInt(options.order, 10) || 0
                 );
 
