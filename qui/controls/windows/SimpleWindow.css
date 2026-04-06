@@ -3,6 +3,12 @@
     top: 0;
     right: 0;
 }
+
+/* reset border radius for mobile full screen */
+.qui-window-popup.qui-window-simpleWindow--mobileFullScreen {
+    border-radius: 0;
+}
+
 .qui-window-simpleWindow-content {
     clear: both;
     flex-grow: 1;
@@ -10,6 +16,10 @@
     outline: none;
     height: 100%;
     width: 100%;
+}
+
+.qui-window-simpleWindow-content--withPadding {
+    padding: 2rem clamp(1rem, 3vw, 2rem) 2rem;
 }
 
 .qui-window-simpleWindow__buttons {
