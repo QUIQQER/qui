@@ -25,23 +25,43 @@ define('qui/controls/windows/SimpleConfirmWindow', [
             maxHeight: 600,
             maxWidth: 800,
             buttonSubmit: {
-                'class': 'btn btn-primary', // string
-                'icon': 'fa fa-check',      // string | false
-                'text': 'OK',               // string
-                'order': 2,                 // int
-                'orderMobile': 1            // int
+                'class': 'btn btn-primary',
+                'icon': 'fa fa-check',
+                'text': 'OK',
+                'order': 2,
+                'orderMobile': 1
             },
             buttonCancel: {
-                'class': 'btn btn-link-body', // string
-                'icon': 'fa fa-cancel',       // string | false
-                'text': 'Cancel',             // string
-                'order': 1,                   // int
-                'orderMobile': 2              // int
+                'class': 'btn btn-link-body',
+                'icon': 'fa fa-cancel',
+                'text': 'Cancel',
+                'order': 1,
+                'orderMobile': 2
             }
         },
 
         initialize: function (options) {
             this.parent(options);
+        },
+
+        getDefaultButtonSubmit: function () {
+            return {
+                'class': 'btn btn-primary',
+                'icon': 'fa fa-check',
+                'text': 'OK',
+                'order': 2,
+                'orderMobile': 1
+            };
+        },
+
+        getDefaultButtonCancel: function () {
+            return {
+                'class': 'btn btn-link-body',
+                'icon': 'fa fa-cancel',
+                'text': 'Cancel',
+                'order': 1,
+                'orderMobile': 2
+            };
         },
 
         create: function () {
@@ -91,8 +111,23 @@ define('qui/controls/windows/SimpleConfirmWindow', [
                 this.$Buttons.appendChild(button);
             };
 
-            createButton('submit', this.getAttribute('buttonSubmit'), this.submit);
-            createButton('cancel', this.getAttribute('buttonCancel'), this.cancel.bind(this));
+            const buttonSubmit = this.getAttribute('buttonSubmit');
+            const buttonCancel = this.getAttribute('buttonCancel');
+
+            createButton(
+                'submit',
+                buttonSubmit === false
+                    ? false
+                    : Object.merge({}, this.getDefaultButtonSubmit(), buttonSubmit || {}),
+                this.submit
+            );
+            createButton(
+                'cancel',
+                buttonCancel === false
+                    ? false
+                    : Object.merge({}, this.getDefaultButtonCancel(), buttonCancel || {}),
+                this.cancel.bind(this)
+            );
 
             this.$Elm.appendChild(this.$Buttons);
 
