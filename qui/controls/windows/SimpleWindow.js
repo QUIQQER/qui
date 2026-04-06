@@ -16,17 +16,23 @@ define('qui/controls/windows/SimpleWindow', [
         Type: 'qui/controls/windows/SimpleWindow',
 
         Binds: [
-            'create'
+            'create',
+            'refreshWindowModeClasses'
         ],
 
         options: {
             maxHeight: 600,
             maxWidth: 800,
             contentPadding: false,
+            mobileMode: 'popup', // popup | fullScreen
         },
 
         initialize: function (options) {
             this.parent(options);
+
+            this.addEvents({
+                resize: this.refreshWindowModeClasses
+            });
         },
 
         create: function () {
@@ -38,12 +44,15 @@ define('qui/controls/windows/SimpleWindow', [
             this.$Title = document.createElement('div');
             this.$TitleText = document.createElement('div');
             this.$Buttons = document.createElement('div');
+            this.$Elm.classList.add('qui-window-simpleWindow');
             this.$Content.classList.remove('qui-window-popup-content');
             this.$Content.classList.add('qui-window-simpleWindow-content');
 
             if (this.getAttribute('contentPadding')) {
                 this.$Content.classList.add('qui-window-simpleWindow-content--withPadding');
             }
+
+            this.refreshWindowModeClasses();
 
             new Element('button', {
                 name: 'close',
@@ -60,6 +69,46 @@ define('qui/controls/windows/SimpleWindow', [
             }).inject(this.$Elm);
 
             return this.$Elm;
+        },
+
+        refreshWindowModeClasses: function () {
+            if (!this.$Elm) {
+                return;
+            }
+
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+            const mobileMode = isMobile ? this.getAttribute('mobileMode') : false;
+
+            this.$Elm.classList.toggle('qui-window-simpleWindow--mobileFullScreen', mobileMode === 'fullScreen');
+            this.$Elm.classList.toggle('qui-window-simpleWindow--mobilePopup', mobileMode === 'popup');
+        },
+
+        getOpeningWidth: function () {
+            if (window.matchMedia('(max-width: 767px)').matches) {
+                if (this.getAttribute('mobileMode') === 'fullScreen') {
+                    return QUI.getWindowSize().x;
+                }
+
+                if (this.getAttribute('mobileMode') === 'popup') {
+                    return Math.max(QUI.getWindowSize().x - 24, 0);
+                }
+            }
+
+            return this.parent();
+        },
+
+        getOpeningHeight: function () {
+            if (window.matchMedia('(max-width: 767px)').matches) {
+                if (this.getAttribute('mobileMode') === 'fullScreen') {
+                    return QUI.getWindowSize().y;
+                }
+
+                if (this.getAttribute('mobileMode') === 'popup') {
+                    return Math.max(QUI.getWindowSize().y - 24, 0);
+                }
+            }
+
+            return this.parent();
         }
     });
 });
