@@ -10,7 +10,6 @@
 }
 
 .qui-window-simpleWindow-content {
-    clear: both;
     flex-grow: 1;
     overflow: auto;
     outline: none;
@@ -23,7 +22,7 @@
 }
 
 .qui-window-simpleWindow__buttons {
-    background-color: var(--qui-colors-modal-actions, #fff);
+    background-color: var(--_bg-actions);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
