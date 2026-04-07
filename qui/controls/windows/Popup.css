@@ -1,9 +1,17 @@
 @CHARSET "UTF-8";
 
 .qui-window-popup {
-    background: var(--qui-colors-modal, #fff);
-    border-radius: var(--qui-radius-modal, 0);
-    box-shadow: var(--qui-shadow-modal, none);
+    --_color: var(--qui-controls-windows-popup-color, inherit);
+    --_color-title: var(--qui-controls-windows-color-title, inherit);
+    --_bg: var(--qui-controls-windows-popup-bg, var(--qui-colors-modal, #fff));
+    --_bg-titel: var(--qui-controls-windows-popup-bg-title, var(--qui-colors-modal-title, #f0f0f0));
+    --_bg-actions: var(--qui-controls-windows-popup-bg-actions, var(--qui-colors-modal-actions, #f0f0f0));
+    --_shadow: var(--qui-controls-windows-popup-shadow, var(--qui-shadow-modal, none));
+    --_radius: var(--qui-controls-windows-popup-radius, var(--qui-radius-modal, 0));
+
+    background-color: var(--_bg);
+    border-radius: var(--_radius, 0);
+    box-shadow: var(--_shadow, none);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -19,7 +27,7 @@
 }
 
 .qui-window-popup-title {
-    background: #DDDDDD;
+    background-color: var(--_bg-titel);
     clear: both;
     float: left;
     padding: 10px;
@@ -75,27 +83,13 @@
 
 .qui-window-popup-buttons,
 .qui-window-popup-sheet-buttons {
-    background: #dddddd;
+    background-color: var(--_bg-actions);
     clear: both;
     padding: 10px 0;
-    position: relative;
     text-align: center;
     width: 100%;
     z-index: 1;
     -webkit-transform: translateZ(0);
-}
-
-.qui-window-popup-buttons:after,
-.qui-window-popup-sheet-buttons:after {
-    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0px, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0;
-    content: "";
-    height: 5px;
-    left: 0;
-    opacity: 0.3;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 10;
 }
 
 .qui-window-popup-buttons button {
