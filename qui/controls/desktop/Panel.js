@@ -197,6 +197,10 @@ define('qui/controls/desktop/Panel', [
                     '<div class="qui-panel-footer box"></div>'
             });
 
+            if (this.getAttribute('class')) {
+                this.$Elm.addClass(this.getAttribute('class'));
+            }
+
             this.Loader.inject(this.$Elm);
 
             this.$Header = this.$Elm.getElement('.qui-panel-header');
