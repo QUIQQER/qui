@@ -615,25 +615,45 @@ define('qui/controls/toolbar/Bar', [
          * @return {Object} this (qui/controls/toolbar/Bar)
          */
         moveChildToPos: function(Child, pos) {
+            var items = this.items,
+                oldIndex = items.indexOf(Child),
+                newIndex = parseInt(pos, 10) - 1,
+                NextItem;
 
-            // for (var i = 0, len = itms.length; i < len; i++) {
-            //     if (Child == itms[i]) {
-            //         //itms[i].destroy();
-            //         continue;
-            //     }
-            //
-            //     nitems.push(itms[i]);
-            // }
-
-            if (pos === 0) {
-                return;
+            if (oldIndex === -1) {
+                return this;
             }
 
-            var PosItem = this.items[pos - 1];
+            if (isNaN(newIndex)) {
+                return this;
+            }
 
-            this.items.splice(pos - 1, 0, Child);
+            if (newIndex < 0) {
+                newIndex = 0;
+            }
 
-            Child.getElm().inject(PosItem.getElm(), 'after');
+            if (newIndex >= items.length) {
+                newIndex = items.length - 1;
+            }
+
+            if (oldIndex === newIndex) {
+                return this;
+            }
+
+            items.splice(oldIndex, 1);
+            items.splice(newIndex, 0, Child);
+
+            if (!this.Tabs) {
+                return this;
+            }
+
+            NextItem = items[newIndex + 1];
+
+            if (NextItem) {
+                Child.getElm().inject(NextItem.getElm(), 'before');
+            } else {
+                Child.getElm().inject(this.Tabs);
+            }
 
             return this;
         },
