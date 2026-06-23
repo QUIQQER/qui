@@ -38,6 +38,8 @@ input[type="range"],
 input[type="checkbox"],
 input[type="radio"] {
     cursor: pointer;
+    padding: 0;
+    border: 0;
 }
 
 select:disabled,
