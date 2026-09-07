@@ -134,6 +134,32 @@ http://doc.quiqqer.com/qui/doc/
 
 
 
+## Content-sized popup windows
+
+`Popup` and derived windows such as `Confirm` support opt-in height adjustment:
+
+```javascript
+require(['qui/controls/windows/Popup'], function(Popup) {
+    new Popup({
+        title: 'Content-sized window',
+        autoresize: true,
+        maxHeight: false,
+        content: '<p>The window follows its content height.</p>'
+    }).open();
+});
+```
+
+`autoresize` defaults to `false`. Enable it when creating the window. Its width
+continues to follow `maxWidth`. A numeric `maxHeight` still caps the height;
+`maxHeight: false` with `autoresize: true` allows growth up to the viewport height.
+Overflowing content scrolls while the title and button bar remain visible.
+
+`ResizeObserver` detects changes to the content, including AJAX-loaded controls,
+images and removed elements. `setContent()`, `refresh()` and `resize()` also
+recalculate the height. Observers are disconnected when the window closes or is
+destroyed and are restored on reopening. `getContent()` continues to return the
+content element; auto-sized windows wrap it in a separate scroll container.
+
 ## Complete example
 
 ```html
