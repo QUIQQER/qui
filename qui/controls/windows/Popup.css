@@ -112,3 +112,24 @@
     float: right;
     text-align: center;
 }
+
+/* Opt-in content sizing: only the outer container scrolls. */
+.qui-window-popup-autoresize > .qui-window-popup-title,
+.qui-window-popup-autoresize > .qui-window-popup-buttons {
+    flex-shrink: 0;
+}
+
+.qui-window-popup-autoresize > .qui-window-popup-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    width: 100%;
+}
+
+.qui-window-popup-autoresize > .qui-window-popup-scroll > .qui-window-popup-content {
+    display: flow-root;
+    float: none;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+}

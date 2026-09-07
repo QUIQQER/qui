@@ -67,6 +67,7 @@ define('qui/controls/windows/Popup', needle, function(
         options: {
             maxWidth: 900,	// {integer} [optional]max width of the window
             maxHeight: 600,	// {integer} [optional]max height of the window
+            autoresize: false, // Fit the content height; maxHeight: false limits it only to the viewport
             content: false,	// {string} [optional] content of the window
             icon: false,	// {false|string} [optional] icon of the window
             title: false,	// {false|string} [optional] title of the window
@@ -93,6 +94,10 @@ define('qui/controls/windows/Popup', needle, function(
             this.$FX = false;
             this.$opened = false;
             this.$scroll = false;
+            this.$autoResizeObserver = null;
+            this.$autoResizeFrame = null;
+            this.$autoResizeActive = false;
+            this.$autoResizeAnimating = false;
 
             this.Background = new Background();
             this.Loader = new Loader();
@@ -128,6 +133,7 @@ define('qui/controls/windows/Popup', needle, function(
 
             this.addEvents({
                 onDestroy: function() {
+                    self.$stopAutoResize();
                     self.Loader.destroy();
                     self.Background.destroy();
                 }
@@ -168,6 +174,17 @@ define('qui/controls/windows/Popup', needle, function(
             this.$TitleText = this.$Elm.getElement('.qui-window-popup-title-text');
             this.$Content = this.$Elm.getElement('.qui-window-popup-content');
             this.$Buttons = this.$Elm.getElement('.qui-window-popup-buttons');
+
+            if (this.getAttribute('autoresize')) {
+                // Keep getContent() intact, but let its height follow the content independently
+                // of the scrollable area and the popup animation.
+                const Scroll = document.createElement('div');
+                Scroll.className = 'qui-window-popup-scroll';
+                Scroll.dataset.name = 'scroll';
+                this.$Content.before(Scroll);
+                Scroll.append(this.$Content);
+                this.$Elm.classList.add('qui-window-popup-autoresize');
+            }
 
             this.$Content.setStyle('opacity', 0);
 
@@ -320,6 +337,8 @@ define('qui/controls/windows/Popup', needle, function(
             if (!this.getAttribute('title') && !this.getAttribute('icon')) {
                 this.$Title.setStyle('display', 'none');
             }
+
+            this.$queueAutoResize();
         },
 
         /**
@@ -394,6 +413,7 @@ define('qui/controls/windows/Popup', needle, function(
                 width: this.getOpeningWidth()
             });
 
+            this.$startAutoResize();
             this.fireEvent('openBegin', [this]);
 
             return new Promise(function(resolve) {
@@ -445,6 +465,7 @@ define('qui/controls/windows/Popup', needle, function(
                 return this.open(callback);
             }
 
+            this.$autoResizeAnimating = this.getAttribute('autoresize');
             this.fireEvent('resizeBegin', [this]);
 
             var self = this,
@@ -553,7 +574,10 @@ define('qui/controls/windows/Popup', needle, function(
                     }
                 }, 300);
 
-            }.bind(this));
+            }.bind(this)).then(() => {
+                this.$autoResizeAnimating = false;
+                this.$queueAutoResize();
+            });
         },
 
         /**
@@ -563,6 +587,8 @@ define('qui/controls/windows/Popup', needle, function(
          * @return {Promise}
          */
         close: function() {
+            this.$stopAutoResize();
+
             QUI.removeEvent('resize', this.resize);
 
             window.removeEvent('touchstart', this.$__scrollSpy);
@@ -638,6 +664,7 @@ define('qui/controls/windows/Popup', needle, function(
          */
         setContent: function(html) {
             this.getContent().set('html', html);
+            this.$queueAutoResize();
         },
 
         /**
@@ -823,11 +850,90 @@ define('qui/controls/windows/Popup', needle, function(
         getOpeningHeight: function() {
             var height = QUI.getWindowSize().y;
 
+            if (this.getAttribute('autoresize') && this.$Content && this.$Elm) {
+                if (SystemUtils.iOSversion()) {
+                    height = Math.min(height, QUI.getBodySize().y);
+                }
+
+                const styles = window.getComputedStyle(this.$Elm);
+                const frameHeight = ['borderTopWidth', 'borderBottomWidth', 'paddingTop', 'paddingBottom']
+                    .reduce((sum, property) => sum + (parseFloat(styles[property]) || 0), 0);
+                const contentHeight = this.$Content.getBoundingClientRect().height +
+                    this.$Title.getBoundingClientRect().height + this.$Buttons.getBoundingClientRect().height;
+
+                height = Math.min(height, Math.ceil(contentHeight + frameHeight));
+
+                if (this.getAttribute('maxHeight') === false) {
+                    return height;
+                }
+            }
+
             if (height > this.getAttribute('maxHeight')) {
                 height = this.getAttribute('maxHeight');
             }
 
             return height;
+        },
+
+        /**
+         * Observe intrinsic content sizes, including asynchronously inserted controls and images.
+         */
+        $startAutoResize: function() {
+            this.$stopAutoResize();
+
+            if (!this.getAttribute('autoresize')) {
+                return;
+            }
+
+            this.$autoResizeActive = true;
+
+            if (typeof window.ResizeObserver === 'function') {
+                this.$autoResizeObserver = new window.ResizeObserver(() => this.$queueAutoResize());
+                [this.$Content, this.$Title, this.$Buttons].forEach(Element => {
+                    this.$autoResizeObserver.observe(Element);
+                });
+            }
+        },
+
+        /**
+         * Coalesce content changes and wait for an ongoing window animation to finish.
+         */
+        $queueAutoResize: function() {
+            if (!this.$autoResizeActive || !this.getAttribute('autoresize') ||
+                this.$autoResizeFrame !== null || this.$autoResizeAnimating) {
+                return;
+            }
+
+            this.$autoResizeFrame = window.requestAnimationFrame(() => {
+                this.$autoResizeFrame = null;
+
+                if (!this.$autoResizeActive || !this.$opened || !this.$Elm || this.$resizing) {
+                    return;
+                }
+
+                const height = this.getOpeningHeight();
+
+                if (Math.abs(this.$Elm.getBoundingClientRect().height - height) > 1) {
+                    this.resize();
+                }
+            });
+        },
+
+        /**
+         * Release observers and pending work before closing or destroying the window.
+         */
+        $stopAutoResize: function() {
+            this.$autoResizeActive = false;
+
+            if (this.$autoResizeObserver) {
+                this.$autoResizeObserver.disconnect();
+                this.$autoResizeObserver = null;
+            }
+
+            if (this.$autoResizeFrame !== null) {
+                window.cancelAnimationFrame(this.$autoResizeFrame);
+                this.$autoResizeFrame = null;
+            }
         },
 
         /**
