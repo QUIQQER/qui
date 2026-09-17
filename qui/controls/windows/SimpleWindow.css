@@ -1,7 +1,9 @@
 .qui-window-simpleWindow__closeBtn {
     position: absolute;
-    top: 0;
-    right: 0;
+    --_edge-gap: var(--qui-window-simpleWindow-closeButton-gap, 4px);
+    --_scrollbar-offset: 0px;
+    top: var(--_edge-gap);
+    right: calc(var(--_edge-gap) + var(--_scrollbar-offset));
 }
 
 /* reset border radius for mobile full screen */
