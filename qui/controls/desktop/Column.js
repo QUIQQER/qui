@@ -136,26 +136,24 @@ define('qui/controls/desktop/Column', [
 
             this.$Elm = new Element('div', {
                 'class': 'qui-column qui-panel-drop',
-                'data-quiid': this.getId(),
-                events: {
-                    mouseleave: () => {
-                        if (this.$responsiveOpen) {
-                            const contentWidth = this.$Content.getSize().x;
-                            const Sibling = this.getSibling();
+                'data-quiid': this.getId()
+            });
 
-                            this.$responsiveOpen = false;
-                            this.resize();
+            this.$Elm.addEventListener('pointerleave', (event) => {
+                // Lifting a finger is not leaving the sidebar with a mouse.
+                if (event.pointerType === 'touch' || !this.$responsiveOpen) {
+                    return;
+                }
 
-                            if (Sibling) {
-                                Sibling.setAttribute(
-                                    'width',
-                                    Sibling.getAttribute('width') + contentWidth - RESPONSIVE_WIDTH
-                                );
+                const columnWidth = this.$Elm.getBoundingClientRect().width;
+                const Sibling = this.getSibling();
 
-                                Sibling.resize();
-                            }
-                        }
-                    }
+                this.$responsiveOpen = false;
+                this.resize();
+
+                if (Sibling) {
+                    Sibling.setAttribute('width', Sibling.getAttribute('width') + columnWidth - RESPONSIVE_WIDTH);
+                    Sibling.resize();
                 }
             });
 
@@ -182,41 +180,6 @@ define('qui/controls/desktop/Column', [
                 'class': 'qui-column-responsiveDisplay',
                 styles: {
                     display: 'none'
-                },
-                events: {
-                    mouseenter: () => {
-                        this.$responsiveOpen = true;
-                        this.$Content.setStyle('display', null);
-                        this.$Responsive.setStyle('display', 'none');
-
-                        this.setAttribute('width', 300);
-                        this.resize();
-                        this.open();
-
-                        let first = '';
-
-                        for (let i in this.$panels) {
-                            this.$panels[i].getElm().setStyle('height', null);
-                            this.$panels[i].minimize();
-
-                            if (first === '') {
-                                first = i;
-                            }
-                        }
-
-                        this.$panels[first].open();
-
-                        // sibling resize
-                        const Sibling = this.getSibling();
-
-                        if (!Sibling) {
-                            return;
-                        }
-
-                        let width = Sibling.getAttribute('width') + RESPONSIVE_WIDTH - 6;
-                        Sibling.setAttribute('width', width);
-                        Sibling.resize();
-                    }
                 }
             }).inject(this.$Elm);
 
@@ -660,10 +623,29 @@ define('qui/controls/desktop/Column', [
                 text = text[0].toUpperCase();
             }
 
-            new Element('div', {
-                'class': 'qui-column-responsiveDisplay-button',
-                html: '<span class="' + icon + '">' + text + '</span>'
-            }).inject(this.$Responsive);
+            const ResponsiveButton = document.createElement('button');
+            ResponsiveButton.type = 'button';
+            ResponsiveButton.className = 'qui-column-responsiveDisplay-button';
+            ResponsiveButton.dataset.name = 'responsive-panel';
+            ResponsiveButton.dataset.panelId = Panel.getId();
+            ResponsiveButton.setAttribute('aria-expanded', 'false');
+            ResponsiveButton.setAttribute('aria-label', Panel.getAttribute('title'));
+
+            const Icon = document.createElement('span');
+            Icon.className = icon || '';
+            Icon.textContent = text;
+            Icon.setAttribute('aria-hidden', 'true');
+            ResponsiveButton.appendChild(Icon);
+
+            ResponsiveButton.addEventListener('mouseenter', () => {
+                this.$openResponsivePanel(Panel);
+            });
+
+            ResponsiveButton.addEventListener('click', () => {
+                this.$openResponsivePanel(Panel);
+            });
+
+            this.$Responsive.appendChild(ResponsiveButton);
 
 
             if (typeof pos === 'undefined' || handleList.length < (pos).toInt()) {
@@ -842,6 +824,52 @@ define('qui/controls/desktop/Column', [
         },
 
         /**
+         * Expand the responsive column with the panel belonging to the activated icon.
+         *
+         * @param {Object} Panel - qui/controls/desktop/Panel
+         */
+        $openResponsivePanel: function(Panel) {
+            if (!this.$panels[Panel.getId()] || (this.$responsiveOpen && Panel.isOpen())) {
+                return;
+            }
+
+            if (!this.$responsiveOpen) {
+                this.$responsiveOpen = true;
+                this.$Content.style.display = '';
+
+                // Keep the icons in place alongside the usual 300px panel content.
+                this.setAttribute('width', 300 + RESPONSIVE_WIDTH);
+                this.resize();
+                this.open();
+
+                const Sibling = this.getSibling();
+
+                if (Sibling) {
+                    Sibling.setAttribute('width', Sibling.getAttribute('width') + RESPONSIVE_WIDTH - 6);
+                    Sibling.resize();
+                }
+            }
+
+            for (const id in this.$panels) {
+                this.$panels[id].getElm().style.height = '';
+                this.$panels[id].minimize();
+            }
+
+            Panel.open();
+            this.$syncResponsiveButtons();
+        },
+
+        /**
+         * Keep the icon buttons' expanded state in sync with their panels.
+         */
+        $syncResponsiveButtons: function() {
+            this.$Responsive.querySelectorAll('[data-name="responsive-panel"]').forEach((Button) => {
+                const Panel = this.$panels[Button.dataset.panelId];
+                Button.setAttribute('aria-expanded', String(Boolean(this.$responsiveOpen && Panel && Panel.isOpen())));
+            });
+        },
+
+        /**
          * Resize the column and all panels in the column
          *
          * @method qui/controls/desktop/Column#resize
@@ -913,15 +941,22 @@ define('qui/controls/desktop/Column', [
                 width = width - 30;
             }
 
-            this.$Content.setStyle('width', width);
+            const iconWidth = this.$responsiveOpen ? RESPONSIVE_WIDTH : 0;
+            const contentWidth = width - iconWidth;
+
+            this.$Content.style.marginLeft = iconWidth + 'px';
+            this.$Responsive.style.width = RESPONSIVE_WIDTH + 'px';
+            this.$Content.setStyle('width', contentWidth);
             this.$Highlight.setStyle('width', width);
 
             for (let i in this.$panels) {
-                this.$panels[i].setAttribute('width', width);
+                this.$panels[i].setAttribute('width', contentWidth);
                 this.$panels[i].resize();
             }
 
             this.setAttribute('width', width);
+
+            this.$syncResponsiveButtons();
 
             // recalc the height
             this.recalcPanels();
@@ -1303,6 +1338,8 @@ define('qui/controls/desktop/Column', [
          * @ignore
          */
         $onPanelMinimize: function(Panel) {
+            this.$syncResponsiveButtons();
+
             if (this.$__eventPanelOpen) {
                 return;
             }
@@ -1341,6 +1378,8 @@ define('qui/controls/desktop/Column', [
          * @ignore
          */
         $onPanelOpen: function(Panel) {
+            this.$syncResponsiveButtons();
+
             let leftSpace;
 
             if (this.getAttribute('setting_toggle')) {
