@@ -1,6 +1,10 @@
 
 .qui-loader {
-    background: rgba(255, 255, 255, 0.7);
+    --_background-default: rgba(255, 255, 255, 0.7);
+    --_color-default: #222;
+    --_color: var(--quiqqer-loader-color, var(--_color-default));
+
+    background: var(--quiqqer-loader-background, var(--_background-default));
     cursor: wait;
     height: 100%;
     left: 0;
@@ -8,6 +12,16 @@
     top: 0;
     width: 100%;
     z-index: 10;
+}
+
+@supports (background: light-dark(white, black)) {
+    .qui-loader {
+        --_color-default: light-dark(#222, #fff);
+        --_background-default: light-dark(
+            rgba(255, 255, 255, 0.7),
+            rgba(0, 0, 0, 0.7)
+        );
+    }
 }
 
 .qui-loader-parent {
@@ -26,4 +40,18 @@
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+.qui-loader-inner-standard > div,
+.qui-loader-inner-line-scale > div,
+.qui-loader-inner-ball-pulse-rise > div,
+.qui-loader-inner-ball-triangle-path > div {
+    background: var(--_color);
+}
+
+.qui-loader-inner-fa-circle-o-notch,
+.qui-loader-inner-fa-gear,
+.qui-loader-inner-fa-refresh,
+.qui-loader-inner-fa-spinner {
+    color: var(--_color);
 }
