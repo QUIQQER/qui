@@ -17,12 +17,14 @@
 
 define('qui/controls/loader/Loader', [
 
+    'module',
     'qui/QUI',
     'qui/controls/Control',
+    'qui/controls/loader/Types',
 
     'css!qui/controls/loader/Loader.css'
 
-], function(QUI, QUIControl) {
+], function(module, QUI, QUIControl, LoaderTypes) {
     'use strict';
 
     /**
@@ -61,57 +63,7 @@ define('qui/controls/loader/Loader', [
                 }
             });
 
-            this.$animations = {
-                standard: {
-                    children: 8,
-                    files: ['css!qui/controls/loader/Loader.standard.css']
-                },
-
-                'line-scale': {
-                    children: 5,
-                    files: ['css!qui/controls/loader/Loader.line-scale.css']
-                },
-
-                'ball-clip-rotate': {
-                    children: 1,
-                    files: ['css!qui/controls/loader/Loader.ball-clip-rotate.css']
-                },
-
-                'ball-pulse-rise': {
-                    children: 5,
-                    files: ['css!qui/controls/loader/Loader.ball-pulse-rise.css']
-                },
-
-                'ball-triangle-path': {
-                    children: 3,
-                    files: ['css!qui/controls/loader/Loader.ball-triangle-path.css']
-                },
-
-                'pacman': {
-                    children: 5,
-                    files: ['css!qui/controls/loader/Loader.pacman.css']
-                },
-
-                'fa-spinner': {
-                    children: 1,
-                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
-                },
-
-                'fa-gear': {
-                    children: 1,
-                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
-                },
-
-                'fa-refresh': {
-                    children: 1,
-                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
-                },
-
-                'fa-circle-o-notch': {
-                    children: 1,
-                    files: ['css!qui/controls/loader/Loader.fa-spinner.css']
-                }
-            };
+            this.$animations = LoaderTypes.getTypes();
         },
 
         /**
@@ -216,16 +168,16 @@ define('qui/controls/loader/Loader', [
                     animationType = false;
 
                 if (this.getAttribute('type') &&
-                    this.getAttribute('type') in this.$animations) {
+                    Object.prototype.hasOwnProperty.call(this.$animations, this.getAttribute('type'))) {
                     animationData = this.$animations[this.getAttribute('type')];
                     animationType = this.getAttribute('type');
                 }
 
-                if (!animationType &&
-                    QUI.getAttribute('control-loader-type') &&
-                    QUI.getAttribute('control-loader-type') in this.$animations) {
-                    animationData = this.$animations[QUI.getAttribute('control-loader-type')];
-                    animationType = QUI.getAttribute('control-loader-type');
+                const defaultType = QUI.getAttribute('control-loader-type') || module.config().type;
+
+                if (!animationType && Object.prototype.hasOwnProperty.call(this.$animations, defaultType)) {
+                    animationData = this.$animations[defaultType];
+                    animationType = defaultType;
                 }
 
                 if (!animationType) {
@@ -254,18 +206,15 @@ define('qui/controls/loader/Loader', [
                         color = QUI.getAttribute('control-loader-color');
                     }
 
-                    if (animationType === 'fa-spinner' ||
-                        animationType === 'fa-gear' ||
-                        animationType === 'fa-refresh' ||
-                        animationType === 'fa-circle-o-notch'
-                    ) {
-                        // fa 5 fallback
-                        if (animationType === 'fa-circle-o-notch') {
-                            animationType = animationType + ' fa-circle-notch';
-                        }
+                    if (animationData.icon) {
+                        const Icon = document.createElement('span');
+                        Icon.className = 'fas fa ' + animationData.icon + ' fa-spin';
+                        Icon.setAttribute('aria-hidden', 'true');
+                        Parent.appendChild(Icon);
 
-                        Parent.set('html', '<span class="fas fa ' + animationType + ' fa-spin"></span>');
-                        Parent.setStyle('color', color);
+                        if (color) {
+                            Parent.style.color = color;
+                        }
                     }
 
                     for (i = 0, len = animationData.children; i < len; i++) {
