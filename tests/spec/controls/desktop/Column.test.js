@@ -160,4 +160,65 @@ describe('qui/controls/desktop/Column responsive panels', function() {
         expect(buttons()[0].getBoundingClientRect().width).toBe(0);
         expect(First.isOpen()).toBe(true);
     });
+
+    it('restores available panels when a saved panel module has been removed', async function() {
+        const Restored = new Column({responsive: true, width: 300, height: 850}).inject(Host);
+
+        try {
+            Restored.unserialize({
+                attributes: Restored.getAttributes(),
+                children: [
+                    {
+                        type: 'qui/controls/desktop/Panel',
+                        attributes: {name: 'retained-first', title: 'First', height: 400},
+                        isOpen: true
+                    },
+                    {type: 'qui/tests/removed-package-panel', attributes: {height: 200}},
+                    {
+                        type: 'qui/controls/desktop/Panel',
+                        attributes: {name: 'retained-last', title: 'Last', height: 200},
+                        isOpen: false
+                    }
+                ]
+            });
+            await settle();
+
+            const saved = Restored.serialize();
+            expect(Restored.$__unserialize).toBe(false);
+            expect(saved.children.map(function(child) {
+                return child.attributes.name;
+            })).toEqual(['retained-first', 'retained-last']);
+            expect(saved.children[0].isOpen).toBe(true);
+            expect(saved.children[1].isOpen).toBe(false);
+        } finally {
+            Object.values(Restored.getChildren()).forEach(function(Child) {
+                Child.destroy();
+            });
+            Restored.destroy();
+        }
+    });
+
+    it('can return to desktop when every saved panel module has been removed', async function() {
+        const Restored = new Column({responsive: true, width: 300, height: 850}).inject(Host);
+
+        try {
+            Restored.unserialize({
+                attributes: Restored.getAttributes(),
+                children: [{type: 'qui/tests/removed-package-panel', attributes: {height: 200}}]
+            });
+            await settle();
+
+            expect(Restored.$__unserialize).toBe(false);
+            expect(Restored.count()).toBe(0);
+            Restored.resize();
+            WindowSize.and.returnValue({x: 1400, y: 900});
+            expect(function() {
+                Restored.resize();
+            }).not.toThrow();
+            expect(Restored.$mode).toBe('desktop');
+            expect(Restored.isOpen()).toBe(true);
+        } finally {
+            Restored.destroy();
+        }
+    });
 });
