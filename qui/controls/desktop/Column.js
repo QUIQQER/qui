@@ -306,9 +306,6 @@ define('qui/controls/desktop/Column', [
                 return this;
             }
 
-            let i, len,
-                child_type, child_modul;
-
             const children = data.children,
                 self = this;
 
@@ -318,29 +315,31 @@ define('qui/controls/desktop/Column', [
 
             this.$__unserialize = true;
 
-            const req = [];
+            // A removed package must not prevent the other panels from loading.
+            const requests = children.map(function(Child) {
+                const childModule = Child.type.replace('QUI.', '').replace(/\./g, '/');
 
-            for (i = 0, len = children.length; i < len; i++) {
-                child_type = children[i].type;
-                child_modul = child_type.replace('QUI.', '').replace(/\./g, '/');
+                return new Promise(function(resolve) {
+                    require([childModule], resolve, function(err) {
+                        console.warn('Could not load workspace panel: ' + childModule, err);
+                        resolve(null);
+                    });
+                });
+            });
 
-                req.push(child_modul);
-            }
-
-            require(req, function() {
-                let regArgs = arguments;
-
+            Promise.all(requests).then(function(modules) {
                 QUI.getMessageHandler(function(MessageHandler) {
-                    let i, len, attr, height, Child, Control;
                     const opened = [];
 
-                    for (i = 0, len = children.length; i < len; i++) {
-                        Child = children[i];
-                        attr = Child.attributes;
-                        height = attr.height;
+                    for (let i = 0, len = children.length; i < len; i++) {
+                        if (!modules[i]) {
+                            continue;
+                        }
+
+                        const Child = children[i];
 
                         try {
-                            Control = new regArgs[i](attr);
+                            const Control = new modules[i](Child.attributes);
                             Control.unserialize(Child);
 
                             self.appendChild(Control);
@@ -358,16 +357,14 @@ define('qui/controls/desktop/Column', [
 
                     self.$__unserialize = false;
 
-                    Object.each(opened, function(Panel) {
+                    opened.forEach(function(Panel) {
                         Panel.open();
                     });
 
-                    Object.each(self.$panels, function(Panel) {
+                    Object.values(self.$panels).forEach(function(Panel) {
                         Panel.resize();
                     });
                 });
-            }, function(err) {
-                console.error(err);
             });
         },
 
@@ -896,7 +893,9 @@ define('qui/controls/desktop/Column', [
                             }
                         }
 
-                        this.$panels[first].open();
+                        if (first !== '') {
+                            this.$panels[first].open();
+                        }
                     }
 
                     this.$mode = 'desktop';
