@@ -77,3 +77,22 @@ require([
     });
 });
 ```
+
+## Dropdown an einem Button ausrichten
+
+Für ein an `document.body` eingefügtes Menü richtet `showAt()` das Menü an einem
+sichtbaren Auslöser aus:
+
+```javascript
+Menu.showAt(Button.getElm(), 'topRight');
+```
+
+`top` und `topRight` öffnen unterhalb des Auslösers, `bottom` und `bottomRight`
+oberhalb. `Right` richtet die rechte Menükante an der rechten Buttonkante aus.
+Wenn auf der bevorzugten Seite zu wenig Platz ist, verwendet das Menü die andere
+Seite, sofern diese mehr Platz bietet. Das Menü bleibt mit 8px Abstand innerhalb
+des sichtbaren Browserbereichs; lange Menüs werden scrollbar. Der Menüzeiger
+richtet sich nach dem Auslöser. Die Position wird bei jedem Aufruf neu berechnet.
+
+QUI-Dropdown-Buttons verwenden diese Methode automatisch. Frei positionierte
+Kontextmenüs können weiterhin `setPosition(x, y).show()` verwenden.

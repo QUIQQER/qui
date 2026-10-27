@@ -88,3 +88,17 @@
     top: 15px;
     left: 10px;
 }
+
+/* Dropdowns anchored to buttons use their full width for alignment. */
+.qui-contextmenu--anchored {
+    max-width: calc(100vw - 16px);
+}
+
+.qui-contextmenu--anchored > .qui-contextmenu-container {
+    margin-left: 0;
+}
+
+.qui-contextmenu--anchored.qui-contextmenu::after {
+    left: var(--_qui-menu-arrow-left, 30px);
+    right: auto;
+}

@@ -212,6 +212,77 @@ define('qui/controls/contextmenu/Menu', [
         },
 
         /**
+         * Open a dropdown aligned with its anchor and constrained to the viewport.
+         * Top corners open below the anchor; bottom corners open above it.
+         * The menu flips vertically when the other side offers more space.
+         *
+         * @param {HTMLElement} Anchor
+         * @param {String} [corner] - top, topRight, bottom or bottomRight
+         * @return {Object} this
+         */
+        showAt: function(Anchor, corner) {
+            const Elm = this.getElm();
+
+            if (!Elm || !Anchor || !Anchor.isConnected) {
+                return this;
+            }
+
+            const alignRight = corner === 'topRight' || corner === 'bottomRight';
+            let above = corner === 'bottom' || corner === 'bottomRight';
+            const margin = 8;
+            const gap = 10;
+            const viewportWidth = document.documentElement.clientWidth;
+            const viewportHeight = document.documentElement.clientHeight;
+
+            Elm.classList.add('qui-contextmenu--anchored');
+            this.$Container.style.maxHeight = '';
+            this.$Container.style.overflowY = '';
+            this.setAttribute('corner', corner || 'top');
+            this.show();
+
+            const anchor = Anchor.getBoundingClientRect();
+            const menu = Elm.getBoundingClientRect();
+            const belowSpace = Math.max(0, viewportHeight - anchor.bottom - gap - margin);
+            const aboveSpace = Math.max(0, anchor.top - gap - margin);
+            const preferredSpace = above ? aboveSpace : belowSpace;
+            const alternativeSpace = above ? belowSpace : aboveSpace;
+
+            if (menu.height > preferredSpace && alternativeSpace > preferredSpace) {
+                above = !above;
+            }
+
+            const availableHeight = above ? aboveSpace : belowSpace;
+            this.$Container.style.maxHeight = availableHeight + 'px';
+            this.$Container.style.overflowY = 'auto';
+            Elm.style.height = this.$Container.getBoundingClientRect().height + 'px';
+
+            const size = Elm.getBoundingClientRect();
+            const desiredLeft = alignRight ? anchor.right - size.width : anchor.left;
+            const left = Math.max(margin, Math.min(desiredLeft, viewportWidth - size.width - margin));
+            const desiredTop = above ? anchor.top - gap - size.height : anchor.bottom + gap;
+            const top = Math.max(margin, Math.min(desiredTop, viewportHeight - size.height - margin));
+            const arrowLeft = Math.max(10, Math.min(
+                anchor.left + anchor.width / 2 - left - 10,
+                size.width - 30
+            ));
+            const effectiveCorner = (above ? 'bottom' : 'top') + (alignRight ? 'Right' : '');
+
+            Elm.classList.remove(
+                'qui-context-corner-top',
+                'qui-context-corner-topRight',
+                'qui-context-corner-bottom',
+                'qui-context-corner-bottomRight',
+                'qui-context-corner-left',
+                'qui-context-corner-right'
+            );
+            Elm.classList.add('qui-context-corner-' + effectiveCorner);
+            Elm.style.setProperty('--_qui-menu-arrow-left', arrowLeft + 'px');
+            this.setPosition(left + window.scrollX, top + window.scrollY);
+
+            return this;
+        },
+
+        /**
          * Hide the Menu, set the display style to none
          *
          * @method qui/controls/contextmenu/Menu#hide
