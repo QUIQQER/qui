@@ -600,24 +600,7 @@ define('qui/controls/buttons/Button', needle, function(Control, Utils, NoSelect,
                             }
                         }
 
-                        var pos = self.$Elm.getPosition(),
-                            size = self.$Elm.getSize(),
-                            mpos = self.getAttribute('menuCorner'),
-                            msize = self.$Menu.getElm().getComputedSize();
-
-                        if (mpos.contains('bottom')) {
-                            self.$Menu.setPosition(
-                                pos.x - 20,
-                                pos.y - size.y - msize.totalHeight + 10
-                            );
-                        } else {
-                            self.$Menu.setPosition(
-                                pos.x - 20,
-                                pos.y + size.y + 10
-                            );
-                        }
-
-                        self.$Menu.show();
+                        self.$Menu.showAt(self.$Elm, self.getAttribute('menuCorner'));
                         self.$Elm.focus();
                     },
 

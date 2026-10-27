@@ -74,14 +74,18 @@
     margin: 0;
 }
 
+.qui-button:has(> .qui-button-drop) {
+    white-space: nowrap;
+}
+
 .qui-button-drop {
-    bottom: 0;
+    display: inline-block;
     font-size: 10px;
-    height: 20px;
-    left: 0;
-    line-height: 20px;
-    position: absolute;
-    width: 20px;
+    line-height: inherit;
+    margin-left: 5px;
+    position: static;
+    vertical-align: middle;
+    width: 1em;
 }
 
 .qui-button .image-container img {
