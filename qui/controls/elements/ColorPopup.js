@@ -234,7 +234,7 @@ define('qui/controls/elements/ColorPopup', [
             this.$mode = 'light';
             this.$editorState = null;
             this.$positionState = null;
-            this.$view = this.$provider && (this.$draft?.type === 'palette' ||
+            this.$view = (this.$provider || this.$loading) && (this.$draft?.type === 'palette' ||
                 (this.$draft === '' && this.getAttribute('startView') === 'palette')) ? 'palette' : 'editor';
             this.$Popup = this.getElm();
             this.$Popup.setAttribute('aria-label', this.getAttribute('label') || this.$labels.color);
@@ -452,7 +452,7 @@ define('qui/controls/elements/ColorPopup', [
             this.$Body = document.createElement('div');
             this.$Body.className = 'qui-colorField-body';
             this.$Body.id = this.$Popup.id + '-panel';
-            if (this.$provider) {
+            if (this.$provider || this.$loading) {
                 const navigation = document.createElement('div');
                 navigation.className = 'qui-colorField-tabs';
                 navigation.setAttribute('role', 'tablist');
@@ -490,6 +490,7 @@ define('qui/controls/elements/ColorPopup', [
                 if (this.$palette.colors[this.$draft.id]?.archived) {this.$text(this.$Body, this.$labels.archived);}
             }
             this.$Status = this.$text(this.$Body, this.$valid ? '' : this.$labels.invalid);
+            if (this.$loading && this.$view === 'palette') {this.$Status.textContent = this.$labels.loading;}
             this.$Status.setAttribute('role', 'status');
             this.$Status.className = 'qui-colorField-status';
             const actions = document.createElement('footer');
@@ -812,18 +813,21 @@ define('qui/controls/elements/ColorPopup', [
             this.$setProvider(null);
             if (typeof project?.getColorProvider !== 'function') {return Promise.resolve();}
 
+            this.$loading = Boolean(this.getAttribute('references'));
             const generation = this.$generation;
             return Promise.resolve().then(() => project.getColorProvider()).then((provider) => {
                 if (this.$disposed || generation !== this.$generation) {return;}
-                return this.$setProvider(this.getAttribute('references') ? provider : null, provider?.labels);
+                return this.$setProvider(this.getAttribute('references') ? provider : null, provider?.labels, true);
             }).catch(() => {
                 if (!this.$disposed && generation === this.$generation) {
+                    this.$loading = false;
                     this.fireEvent('error', [this, this.$labels.error]);
+                    if (this.$Popup && this.$Status) {this.$Status.textContent = this.$labels.error;}
                 }
             });
         },
 
-        $setProvider: function(provider, providerLabels = provider?.labels) {
+        $setProvider: function(provider, providerLabels = provider?.labels, preservePopup = false) {
             if (this.$disposed) {return Promise.resolve();}
             this.$unsubscribe?.();
             this.$unsubscribe = null;
@@ -831,12 +835,18 @@ define('qui/controls/elements/ColorPopup', [
             this.$generation++;
             this.setAttribute('provider', provider);
             this.$labels = Object.assign({}, labels, providerLabels || {}, this.getAttribute('labels'));
-            this.close(false);
+            // Resolving the current project's provider must not interrupt an editor opened while waiting.
+            if (!preservePopup) {this.close(false);}
+            this.$loading = Boolean(provider);
             this.$palette = {colors: {}};
             this.fireEvent('paletteLoad', [this]);
             if (provider) {
                 this.$unsubscribe = provider.subscribe?.(() => this.reload());
                 return this.reload();
+            }
+            if (this.$Popup && !this.$Editor && !this.$Choice) {
+                this.$view = 'editor';
+                this.$renderPopup();
             }
             return Promise.resolve();
         },
@@ -845,14 +855,17 @@ define('qui/controls/elements/ColorPopup', [
             const generation = ++this.$generation;
             const provider = this.$provider;
             if (!provider) {return Promise.resolve();}
+            this.$loading = true;
             return Promise.resolve().then(() => provider.load()).then((palette) => {
                 if (generation !== this.$generation || this.$disposed) {return;}
                 if (palette.damaged) {throw new Error('Damaged palette');}
+                this.$loading = false;
                 this.$palette = palette;
                 this.fireEvent('paletteLoad', [this]);
-                if (this.$Popup && this.$view === 'palette' && !this.$busy && !this.$Choice) {this.$renderPopup();}
+                if (this.$Popup && !this.$Editor && !this.$busy && !this.$Choice) {this.$renderPopup();}
             }).catch(() => {
                 if (generation === this.$generation && !this.$disposed) {
+                    this.$loading = false;
                     this.fireEvent('error', [this, this.$labels.error]);
                     if (this.$Status) {this.$Status.textContent = this.$labels.error;}
                 }

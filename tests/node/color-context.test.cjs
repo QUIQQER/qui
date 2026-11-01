@@ -103,6 +103,106 @@ const edit = (field, value) => {
     input.dispatchEvent({type: 'input'});
 };
 
+test('late project binding preserves an open editor, its input and focus', async () => {
+    for (const value of ['#ff0000', '#12']) {
+        const source = deferred();
+        const data = deferred();
+        const field = new Field({value: '#123456', references: true});
+        field.create();
+        const pending = field.setProject({getColorProvider: () => source.promise});
+        field.open();
+        const popup = field.$Picker.$Popup;
+        const input = popup.querySelector('[data-name="hex"]');
+        edit(field, value);
+        input.focus();
+        source.resolve({load: () => data.promise});
+        await new Promise(resolve => setImmediate(resolve));
+        assert.equal(field.$Picker.$Popup, popup);
+        data.resolve(palette('#abcdef'));
+        await pending;
+        assert.equal(field.$Picker.$Popup, popup);
+        assert.equal(popup.querySelector('[data-name="hex"]'), input);
+        assert.equal(input.value, value);
+        assert.equal(document.activeElement, input);
+        assert.equal(field.getValue(), '#123456');
+        assert.equal(field.$Picker.$Apply.disabled, value === '#12');
+        assert.equal(field.$Picker.$palette.colors.primary.value, '#abcdef');
+        assert.equal(popup.querySelectorAll('[data-name="view"]').length, 2);
+        if (value === '#12') {edit(field, '#ff0000');}
+        field.$Picker.$apply();
+        assert.equal(field.getValue(), '#ff0000');
+        field.destroy();
+    }
+});
+
+test('an empty field shows loading project colors and can select them once available', async () => {
+    const source = deferred();
+    const field = new Field({references: true});
+    field.create();
+    const pending = field.setProject({getColorProvider: () => source.promise});
+    field.open();
+    const popup = field.$Picker.$Popup;
+    assert.equal(field.$Picker.$view, 'palette');
+    assert.equal(field.$Picker.$Status.textContent, field.$Picker.$labels.loading);
+    source.resolve({load: () => palette('#abcdef')});
+    await pending;
+    assert.equal(field.$Picker.$Popup, popup);
+    assert.equal(field.$Picker.$Status.textContent, '');
+    popup.querySelector('[data-name="palette-color"]').dispatchEvent({type: 'click'});
+    field.$Picker.$apply();
+    assert.equal(field.getValue(), '{"type":"palette","id":"primary"}');
+    field.destroy();
+});
+
+test('failed project binding keeps individual editing available', async () => {
+    const source = deferred();
+    const field = new Field({value: '#123456', references: true});
+    field.create();
+    const pending = field.setProject({getColorProvider: () => source.promise});
+    field.open();
+    const popup = field.$Picker.$Popup;
+    edit(field, '#abcdef');
+    source.resolve({load: () => Promise.reject(new Error('unavailable'))});
+    await pending;
+    assert.equal(field.$Picker.$Popup, popup);
+    assert.equal(field.$Picker.$Status.textContent, field.$Picker.$labels.error);
+    field.$Picker.$apply();
+    assert.equal(field.getValue(), '#abcdef');
+    field.destroy();
+});
+
+test('late project binding does not reopen a cancelled popup', async () => {
+    const source = deferred();
+    const field = new Field({value: '#123456', references: true});
+    field.create();
+    const pending = field.setProject({getColorProvider: () => source.promise});
+    field.open();
+    edit(field, '#abcdef');
+    field.close();
+    source.resolve({load: () => palette('#ffffff')});
+    await pending;
+    assert.equal(field.$Picker.$Popup, null);
+    assert.equal(field.getValue(), '#123456');
+    field.destroy();
+});
+
+test('a project without a provider falls back from loading to individual editing', async () => {
+    const source = deferred();
+    const field = new Field({references: true});
+    field.create();
+    const pending = field.setProject({getColorProvider: () => source.promise});
+    field.open();
+    const popup = field.$Picker.$Popup;
+    source.resolve(null);
+    await pending;
+    assert.equal(field.$Picker.$Popup, popup);
+    assert.equal(field.$Picker.$view, 'editor');
+    edit(field, '#abcdef');
+    field.$Picker.$apply();
+    assert.equal(field.getValue(), '#abcdef');
+    field.destroy();
+});
+
 test('project context supplies labels but does not load a palette or enable capabilities by default', async () => {
     let loads = 0;
     const field = new Field({value: '#AbCdEf'});
