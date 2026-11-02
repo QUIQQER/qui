@@ -103,6 +103,106 @@ const edit = (field, value) => {
     input.dispatchEvent({type: 'input'});
 };
 
+// Model native color sanitization and the dirty value flag, which cloneNode preserves.
+class ColorInput extends Element {
+    constructor(value) {
+        super('input');
+        this.type = 'color';
+        this.currentValue = '#000000';
+        this.dirty = false;
+        if (value !== undefined) {this.setAttribute('value', value);}
+    }
+    sanitize(value) {
+        return this.type === 'color'
+            ? (/^#[a-f\d]{6}$/i.test(value) ? value.toLowerCase() : '#000000')
+            : value;
+    }
+    get value() {return this.currentValue;}
+    set value(value) {this.dirty = true; this.currentValue = this.sanitize(value);}
+    setAttribute(name, value) {
+        super.setAttribute(name, value);
+        if (name === 'value' && !this.dirty) {this.currentValue = this.sanitize(value);}
+        if (name === 'data-realvalue') {this.dataset.realvalue = value;}
+    }
+    removeAttribute(name) {
+        super.removeAttribute(name);
+        if (name === 'data-realvalue') {delete this.dataset.realvalue;}
+    }
+    cloneNode() {
+        const copy = new ColorInput();
+        copy.attributes = {...this.attributes};
+        copy.dataset = {...this.dataset};
+        copy.currentValue = this.currentValue;
+        copy.dirty = this.dirty;
+        return copy;
+    }
+}
+
+for (const value of ['', '#AbCdEf', '#123', '#1234', '#12345680', 'transparent',
+    '{"type":"palette","id":"primary"}',
+    '{"type":"color","light":"#123456","dark":"#abcdef80"}'
+]) {
+    for (const source of ['html', 'form']) {
+        test(`field import preserves ${source} value ${JSON.stringify(value)}`, () => {
+            const input = new ColorInput(source === 'html' ? value : '#ffffff');
+            if (source === 'form') {
+                input.setAttribute('data-realvalue', value);
+                input.value = value;
+            }
+            input.name = 'background';
+            input.id = 'original';
+            input.setAttribute('data-qui', 'qui/controls/elements/ColorField');
+            input.setAttribute('data-quiid', 'registered');
+            input.setAttribute('data-qui-options-dark', '1');
+            let changes = 0;
+            input.addEventListener('change', () => changes++);
+            const row = new Element('div'); row.appendChild(input);
+            const field = new Field({references: true, dark: true});
+            field.$Elm = input;
+            field.$onImport();
+            assert.equal(field.getValue(), value);
+            assert.equal(field.$Input, input);
+            assert.equal(input.value, value);
+            assert.equal(input.type, 'hidden');
+            assert.equal(input.name, 'background');
+            assert.equal(input.id, 'original');
+            assert.equal(input.getAttribute('data-qui-options-dark'), '1');
+            assert.equal(input.getAttribute('data-realvalue'), null);
+            assert.equal(input.getAttribute('data-qui'), null);
+            assert.equal(input.getAttribute('data-quiid'), null);
+            assert.equal(changes, 0);
+            field.clear();
+            assert.equal(changes, 1);
+            field.destroy();
+        });
+    }
+}
+
+for (const [initial, current] of [
+    ['#123456', '#abcdef'], ['transparent', '#000000'], ['#12345680', '#ffffff']
+]) {
+    test(`field import keeps later value ${current} instead of HTML default ${initial}`, () => {
+        const input = new ColorInput(initial);
+        input.value = current;
+        const row = new Element('div'); row.appendChild(input);
+        const field = new Field(); field.$Elm = input; field.$onImport();
+        assert.equal(field.getValue(), current);
+        assert.equal(input.value, current);
+        field.destroy();
+    });
+}
+
+test('direct creation and setValue preserve strings without a native color input', () => {
+    const field = new Field({value: 'transparent'});
+    field.create();
+    assert.equal(field.$Input.type, 'hidden');
+    assert.equal(field.$Input.value, 'transparent');
+    field.setValue('#12345680');
+    assert.equal(field.$Input.value, '#12345680');
+    assert.equal(field.getValue(), '#12345680');
+    field.destroy();
+});
+
 test('late project binding preserves an open editor, its input and focus', async () => {
     for (const value of ['#ff0000', '#12']) {
         const source = deferred();
