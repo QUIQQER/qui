@@ -44,7 +44,16 @@
 }
 .qui-colorField-swatch::before { content: ''; position: absolute; inset: 0; background: var(--sample-color); }
 .qui-colorField-swatch[data-empty="true"]::after {
-    content: '∅'; position: absolute; inset: 0; text-align: center; background: var(--_surface); line-height: 20px;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        var(--_surface) calc(50% - 0.5px),
+        var(--_border) calc(50% - 0.5px),
+        var(--_border) calc(50% + 0.5px),
+        var(--_surface) calc(50% + 0.5px)
+    );
 }
 .qui-colorField :focus-visible { outline: 2px solid var(--_accent); outline-offset: 2px; }
 .qui-colorField [hidden] { display: none; }

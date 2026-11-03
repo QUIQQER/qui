@@ -3,6 +3,8 @@
 select,
 input,
 textarea {
+    color: inherit;
+    font: inherit;
     border-radius: 2px;
     border: 1px solid #DEDEDE;
     cursor: text;
@@ -19,13 +21,6 @@ textarea {
 
 select {
     cursor: pointer;
-}
-
-select:focus,
-input:focus,
-textarea:focus {
-    box-shadow: 0 0 3px 1px #cd201f;
-    outline: 0;
 }
 
 select:hover,

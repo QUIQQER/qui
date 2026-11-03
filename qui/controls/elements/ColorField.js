@@ -4,8 +4,8 @@
  * Use this control when a color belongs to a form: it renders a preview button,
  * owns the popup and keeps the selected value in a hidden input. It can create a
  * new field or import an existing input. For a popup attached to an arbitrary
- * button without a form input, use ColorPopup directly. The legacy ColorPicker
- * for ordinary input[type=color] remains a separate control.
+ * button without a form input, use ColorPopup directly. Core automatically imports
+ * ordinary input[type=color]; legacy direct ColorPicker calls remain separate.
  *
  * Import preserves the original input node, name, ID, dependency attributes and
  * listeners. Only the current backend's direct field-container layout transfers
@@ -104,7 +104,21 @@ define('qui/controls/elements/ColorField', [
 
         $onImport: function() {
             const Input = this.getElm();
-            this.$value = Input.dataset.realvalue === '' ? '' : Input.value;
+            this.$value = Input.dataset.realvalue ?? Input.value;
+
+            if (Input.type === 'color' && Input.dataset.realvalue === undefined &&
+                Input.getAttribute('value') !== null) {
+                // A clone preserves the native dirty value flag. Only untouched inputs
+                // follow a changed HTML default; never restore a stale default after editing.
+                const Probe = Input.cloneNode(false);
+                const probeValue = Input.value === '#000000' ? '#ffffff' : '#000000';
+                Probe.setAttribute('value', probeValue);
+
+                if (Probe.value === probeValue) {
+                    this.$value = Input.getAttribute('value');
+                }
+            }
+
             this.setAttribute('name', Input.name);
             this.setAttribute('disabled', Input.disabled);
             const Label = Input.closest('label');
