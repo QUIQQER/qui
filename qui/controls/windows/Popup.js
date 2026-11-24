@@ -43,6 +43,33 @@ define('qui/controls/windows/Popup', needle, function(
 
     'use strict';
 
+    function getTabStops(dialog) {
+        const elements = Array.from(dialog.querySelectorAll(
+            'a[href], area[href], button, input, select, textarea, summary, iframe, [tabindex], [contenteditable]'
+        )).filter(element =>
+            (element.tabIndex >= 0 || (element.isContentEditable && !element.hasAttribute('tabindex')))
+            && !element.matches(':disabled')
+            && !element.closest('[inert]')
+            && element.getClientRects().length > 0
+            && getComputedStyle(element).visibility === 'visible'
+        );
+
+        // A named radio group contributes one stop to the browser's tab order.
+        const radios = elements.filter(element => element.type === 'radio' && element.name);
+        const stops = elements.filter(element => {
+            if (element.type !== 'radio' || !element.name) {
+                return true;
+            }
+
+            const group = radios.filter(radio => radio.name === element.name && radio.form === element.form);
+            return element === (group.find(radio => radio.checked) || group[0]);
+        });
+
+        // Native Tab visits positive indices first, preserving DOM order for ties.
+        const order = element => element.tabIndex > 0 ? element.tabIndex : Number.MAX_SAFE_INTEGER;
+        return stops.sort((a, b) => order(a) - order(b));
+    }
+
     /**
      * @class qui/controls/windows/Popup
      *
@@ -56,6 +83,7 @@ define('qui/controls/windows/Popup', needle, function(
         Binds: [
             'resize',
             'cancel',
+            '$keepDialogFocus',
             '$dragMouseDown',
             '$dragMouseMove',
             '$dragMouseUp',
@@ -133,6 +161,7 @@ define('qui/controls/windows/Popup', needle, function(
 
             this.addEvents({
                 onDestroy: function() {
+                    self.$releaseDialogFocus();
                     self.$stopAutoResize();
                     self.Loader.destroy();
                     self.Background.destroy();
@@ -161,6 +190,8 @@ define('qui/controls/windows/Popup', needle, function(
                     '</div>' +
                     '<div class="qui-window-popup-content box"></div>' +
                     '<div class="qui-window-popup-buttons box"></div>',
+                role: 'dialog',
+                'aria-modal': 'true',
                 tabindex: -1,
                 styles: {
                     opacity: 0
@@ -198,6 +229,7 @@ define('qui/controls/windows/Popup', needle, function(
             if (this.getAttribute('titleCloseButton')) {
                 new Element('button', {
                     name: 'close',
+                    'aria-label': this.getAttribute('closeButtonText'),
                     'class': 'fa fa-close qui-window-popup-title-close',
                     events: {
                         click: function() {
@@ -350,6 +382,8 @@ define('qui/controls/windows/Popup', needle, function(
          * @return {Promise}
          */
         open: function(callback) {
+            // Content windows may have captured their opener before asynchronous preparation.
+            this.$contentOpener = this.$contentOpener || document.activeElement;
             this.Background.create();
 
             if (this.getAttribute('backgroundClosable')) {
@@ -412,6 +446,22 @@ define('qui/controls/windows/Popup', needle, function(
                 top: 0,
                 width: this.getOpeningWidth()
             });
+
+            const dialog = this.getElm();
+            if (!dialog.hasAttribute('aria-label')
+                && !dialog.hasAttribute('aria-labelledby')
+                && dialog.contains(this.$TitleText)
+                && this.$TitleText.textContent.trim()
+            ) {
+                this.$TitleText.id = this.$TitleText.id || 'qui-popup-title-' + this.getId();
+                dialog.setAttribute('aria-labelledby', this.$TitleText.id);
+            }
+
+            // Handle Tab after controls inside the dialog have processed their own keyboard events.
+            document.addEventListener('keydown', this.$keepDialogFocus);
+            if (!dialog.contains(document.activeElement)) {
+                dialog.focus({preventScroll: true});
+            }
 
             this.$startAutoResize();
             this.fireEvent('openBegin', [this]);
@@ -549,7 +599,6 @@ define('qui/controls/windows/Popup', needle, function(
 
                         self.$Buttons.setStyle('opacity', null);
 
-                        //self.$Elm.focus();
                         self.fireEvent('resize', [self]);
 
                         if (typeof callback === 'function') {
@@ -580,6 +629,39 @@ define('qui/controls/windows/Popup', needle, function(
             });
         },
 
+        $keepDialogFocus: function(event) {
+            const dialog = this.$Elm;
+            if (event.key !== 'Tab' || event.defaultPrevented || !dialog.contains(event.target)) {
+                return;
+            }
+
+            const stops = getTabStops(dialog);
+            const first = stops[0];
+            const last = stops[stops.length - 1];
+            const active = document.activeElement;
+            const boundary = event.shiftKey ? first : last;
+
+            if (!first || active === dialog || active === boundary) {
+                event.preventDefault();
+                const target = (event.shiftKey ? last : first) || dialog;
+                target.focus({preventScroll: true});
+            } else if (first.tabIndex > 0 && stops.includes(active)) {
+                // Other popups or the page can have competing positive tab indices.
+                event.preventDefault();
+                const next = stops.indexOf(active) + (event.shiftKey ? -1 : 1);
+                stops[next].focus();
+            }
+        },
+
+        $releaseDialogFocus: function() {
+            document.removeEventListener('keydown', this.$keepDialogFocus);
+            const opener = this.$contentOpener;
+            this.$contentOpener = null;
+            if (opener?.isConnected && this.$Elm?.contains(document.activeElement)) {
+                opener.focus({preventScroll: true});
+            }
+        },
+
         /**
          * Close the popup
          *
@@ -587,6 +669,7 @@ define('qui/controls/windows/Popup', needle, function(
          * @return {Promise}
          */
         close: function() {
+            this.$releaseDialogFocus();
             this.$stopAutoResize();
 
             QUI.removeEvent('resize', this.resize);

@@ -190,3 +190,82 @@ describe('qui/controls/windows/Popup autoresize', function() {
         Win = null;
     });
 });
+
+describe('qui/controls/windows/Popup keyboard focus', function() {
+    'use strict';
+
+    let Popup;
+    let opener;
+    let win;
+
+    beforeEach(function(done) {
+        opener = document.createElement('button');
+        document.body.append(opener);
+        opener.focus();
+        require(['qui/controls/windows/Popup'], function(PopupClass) {
+            Popup = PopupClass;
+            done();
+        });
+    });
+
+    afterEach(async function() {
+        if (win) {
+            if (win.isOpened()) {
+                await win.close();
+            }
+            win.destroy();
+            win = null;
+        }
+        opener.remove();
+    });
+
+    function tab(backwards = false) {
+        document.activeElement.dispatchEvent(new KeyboardEvent('keydown', {
+            key: 'Tab', shiftKey: backwards, bubbles: true, cancelable: true
+        }));
+    }
+
+    it('wraps at both boundaries, includes new content and restores the opener', async function() {
+        win = new Popup({title: 'Test', titleCloseButton: false, buttons: false});
+        await win.open();
+        const dialog = win.getElm();
+        expect(dialog.getAttribute('role')).toBe('dialog');
+        expect(dialog.getAttribute('aria-modal')).toBe('true');
+        expect(document.activeElement).toBe(dialog);
+        tab();
+        expect(document.activeElement).toBe(dialog);
+
+        const first = document.createElement('input');
+        const last = document.createElement('button');
+        const hidden = document.createElement('button');
+        hidden.hidden = true;
+        win.getContent().append(first, last, hidden);
+        tab(true);
+        expect(document.activeElement).toBe(last);
+        tab();
+        expect(document.activeElement).toBe(first);
+        tab(true);
+        expect(document.activeElement).toBe(last);
+
+        await win.close();
+        expect(document.activeElement).toBe(opener);
+    });
+
+    it('respects a custom initial focus and restores it after destroying a nested popup', async function() {
+        const input = document.createElement('input');
+        win = new Popup({events: {onOpen: () => input.focus()}});
+        win.create();
+        win.getContent().append(input);
+        await win.open();
+        expect(document.activeElement).toBe(input);
+
+        const child = new Popup();
+        try {
+            await child.open();
+            expect(document.activeElement).toBe(child.getElm());
+        } finally {
+            child.destroy();
+        }
+        expect(document.activeElement).toBe(input);
+    });
+});
