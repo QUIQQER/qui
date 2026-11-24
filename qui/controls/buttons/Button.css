@@ -23,6 +23,12 @@
     -webkit-box-shadow: 0 0 2px #999;
 }
 
+.qui-button:has(> .qui-button-text-image) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .qui-button-active,
 .qui-button:active,
 .qui-button:hover {
