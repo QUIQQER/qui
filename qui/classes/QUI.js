@@ -482,11 +482,13 @@ define('qui/classes/QUI', [
          * @param {String} msg
          * @param {String} [url] - optional
          * @param {Number} [lineNumber] - optional
+         * @param {Number} [columnNumber] - optional
+         * @param {Error} [error] - original browser error, optional
          *
          * @return {Object} this (qui/classes/QUI)
          */
-        trigger: function(msg, url, lineNumber) {
-            this.fireEvent('error', [msg, url, lineNumber]);
+        trigger: function(msg, url, lineNumber, columnNumber, error) {
+            this.fireEvent('error', [msg, url, lineNumber, columnNumber, error]);
 
             return this;
         },
