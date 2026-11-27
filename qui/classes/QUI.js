@@ -249,7 +249,7 @@ define('qui/classes/QUI', [
                     }
                 }
 
-                body.addEventListener('click', (e) => {
+                const handleBodyClick = (e) => {
                     if (
                         e.target.nodeName === 'BUTTON'
                         || e.target.hasClass('.qui-contextmenu-baritem')
@@ -266,7 +266,15 @@ define('qui/classes/QUI', [
                     }
 
                     this.hideContextMenus();
-                });
+                };
+
+                if (body) {
+                    body.addEventListener('click', handleBodyClick);
+                } else {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        document.body?.addEventListener('click', handleBodyClick);
+                    }, {once: true});
+                }
             }
 
             this.MessageHandler = null;
